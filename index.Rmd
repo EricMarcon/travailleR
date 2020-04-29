@@ -68,7 +68,7 @@ InstallPackages <- function(Packages) {
 }
 
 # Basic packages
-InstallPackages(c("bookdown", "devtools", "kableExtra", "knitr", "rmarkdown"))
+InstallPackages(c("remotes", "bookdown", "kableExtra"))
 library("kableExtra", "formatR") # Mandatory to load css and more
 
 # Chunk font size hook: allows size='small' or any valid Latex font size in chunk options
@@ -86,10 +86,6 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 Packages <- c("tidyverse", "magrittr", "gridExtra")
 # Install them if necessary
 InstallPackages(Packages)
-# GitHub packages
-if (!"EcoFoG" %in% installed.packages()[, 1]) {
-  devtools::install_github("EcoFoG/EcoFoG")
-}
 
 # knitr options
 knitr::opts_chunk$set(
