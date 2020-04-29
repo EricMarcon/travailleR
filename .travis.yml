@@ -1,0 +1,27 @@
+language: r
+cache:
+  packages: true
+  directories: _bookdown_files
+
+branches:
+  only: master
+
+r_packages:
+  - bookdown
+  - kableExtra
+  - tidyverse
+  - magrittr
+  - gridExtra
+
+script:
+  - travis_wait 60 Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook', quiet = TRUE)"
+  - travis_wait 60 Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book', quiet = TRUE)"
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  local_dir: docs
+  on:
+    branch: master
