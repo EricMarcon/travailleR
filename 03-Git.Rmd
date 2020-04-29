@@ -1,0 +1,249 @@
+# Git et GitHub
+
+## Principes
+
+### Contrôle de source
+
+Le contrôle de source consiste à enregistrer l'ensemble des modificatiosn apportées sur les fichiers suivis.
+L'outil standard est aujourd'hui *git*.
+
+Les commandes de *git* peuvent être exécutées dans le terminal de RStudio.
+
+(ref:git-Status) Capture d'écran du terminal de RStudio. La commande `git status` supposée décrirer l'état du dépôt renvoie une erreur si le projet R n'est pas sous contrôle de source.
+```{r git-Status, fig.cap="(ref:git-Status)", echo=FALSE}
+knitr::include_graphics('images/git-Status.png')
+```
+
+La commande `git status` (figure \@ref(fig:git-Status)) retourne l'état du dépôt (*repository*), c'est-à-dire l'ensemble des données gérées par *git* pour suivre le projet en cours.
+
+RStudio intègre une interface graphique pour *git* suffisante pour se passer de la ligne de commande dans le cadre d'une utilisation standard, présentée ici.
+
+### git et GitHub
+
+*git* est le logiciel installé sur le poste de travail.
+
+*GitHub* est une plateforme, accessible par un [site web](https://github.com/), qui permet de partager le contenu des dépôts *git* (pour travailler à plusieurs) et de partager de la documentation sous la forme d'un site web (*GitHub Pages*).
+
+Comme *GitHub* permet au minimum la sauvegarde des dépôts *git*, les deux sont toujours utilisés ensemble.
+*GitHub* n'est pas la seule plateforme utilisable mais la principale. Les alternatives sont [Bitbucket](https://bitbucket.org/) et [GitLab](https://about.gitlab.com/) par exemple.
+
+
+## Créer un nouveau dépôt
+
+### A partir d'un projet existant
+
+Dans un projet R existant, activer le contrôle de source dans les options du projet (figure \@ref(fig:git-Project)).
+La commande exécutée est `git init`.
+Redémarrer RStudio à la demande.
+
+(ref:git-Project) Activation du contrôle de source dans le menu *Tools/Project Options...*.
+```{r git-Project, fig.cap="(ref:git-Project)", echo=FALSE}
+knitr::include_graphics('images/git-Project.png')
+```
+
+Une nouvelle fenêtre *git* apparaît dans le panneau supérieur droit.
+Elle contient la liste des fichiers du projet (figure \@ref(fig:git-Fichiers)).
+
+(ref:git-Fichiers) Fichiers du projet, pas encore pris en compte par *git*.
+```{r git-Fichiers, fig.cap="(ref:git-Fichiers)", echo=FALSE}
+knitr::include_graphics('images/git-Fichiers.png')
+```
+
+A ce stade, les fichiers ne sont pas pris en compte par *git*: leur statut est un double point d'interrogation jaune.
+Pour *git*, le répertoire de travail local est un *bac à sable* où toutes les modifications sont possibles sans conséquences.
+
+Le fichier `.gitignore` contient la liste des fichiers qui n'ont jamais vocation à être pris en compte, qu'il est donc inutile d'afficher dans la liste: les fichiers intermédiaires produits automatiquement par exemple.
+La syntaxe des fichiers `.gitignore` est détaillée dans la documentation de *git*[^1].
+En règle générale, utiliser un fichier existant: les modèles de documents notamment incluent leur fichier `.gitignore`.
+
+[^1]: https://git-scm.com/docs/gitignore
+
+
+### Prendre en compte des fichiers
+
+Dans la fenêtre *Git*, cocher la case "Staged" permet de prendre en compte (*Stage*) chaque fichier. 
+La commande exécutée est `git add <NomDeFichier>`.
+Les fichiers pris en compte une première fois ont le statut "A" pour "Added".
+
+Les fichiers pris en compte font partie de l'*index* de *git*.
+
+### Valider des modifications
+
+(ref:git-Commit) Fenêtre de validation des modifications prises en compte.
+```{r git-Commit, fig.cap="(ref:git-Commit)", echo=FALSE}
+knitr::include_graphics('images/git-Commit.png')
+```
+
+Les fichiers pris en compte peuvent être validés (*Commit*) en cliquant sur le bouton *Commit* dans la fenêtre *Git*.
+Une nouvelle fenêtre s'ouvre (figure \@ref(fig:git-Commit)), qui permet de visualiser toutes les modifications par fichier (ajouts en verts, suppressions en rouge).
+Le grain de modification traité par *git* est la ligne de texte, terminée par un retour à la ligne.
+Les fichiers binaires comme les images sont traités en bloc.
+
+Chaque validation (*Commit*) est accompagnée d'un texte de description.
+La première ligne est la description courte.
+Une description détaillée peut être ajoutée après un saut de ligne.
+Pour la lisibilité de l'historique du projet, chaque *Commit* correspond donc à une action, correspondant à la description courte: tous les fichiers modifiés ne sont pas forcément pris en compte et validés en une fois.
+La commande exécutée est `git commit -m "Message de validation"`.
+
+Dès la première validation, la branche principale du dépôt, appelée "master", est créée.
+Une branche est une version du dépôt, avec son propre historique et donc ses propres fichiers.
+Les branches permettent:
+* de développer de nouvelles fonctionnalités dans un projet, sans perturber la branche principale qui peut contenir une version stable. Si le développement est retenu, sa branche pourra être fusionnée avec la branche *master* pour constituer une nouvelle version stable.
+* de contenir des fichiers totalement différents de ceux de la branche principale, pour d'autres objectifs. Sur GitHub, les pages web de présentation du projet peuvent être placés dans une branche appelée "gh-pages" qui ne sera jamais fusionnée.
+
+Le dépôt *git* est complètement constitué.
+Dans le vocabulaire de *git*, il comprend trois *arbres* (figure \@ref(fig:git-Trees)):
+
+* le répertoire de travail, ou bac à sable, qui contient les fichiers non pris en compte: inconnus, modifiés, supprimés ou renommés (case *Staged* décochée);
+* l'index, qui contient les fichiers pris en compte (case *Staged* cochée);
+* la tête, qui contient les fichiers validés.
+
+(ref:git-Trees) Les trois arbres de *git*. Source: https://rogerdudler.github.io/git-guide/index.fr.html
+```{r git-Trees, fig.cap="(ref:git-Trees)", echo=FALSE}
+knitr::include_graphics('images/git-Trees.png')
+```
+
+
+
+### Créer un dépôt vide sur GitHub
+
+(ref:CreateRepo) Création d'un dépôt sur*GitHub*.
+```{r CreateRepo, fig.cap="(ref:CreateRepo)", echo=FALSE}
+knitr::include_graphics('images/CreateRepo.png')
+```
+
+Un dépôt vide sur *GitHub* doit être créé (figure \@ref(fig:CreateRepo)):
+
+* Sur *GitHub*, cliquer sur le bouton vert “New repository”.
+* Saisir le nom du dépôt, identique à celui du projet R local.
+* Ajouter une description, qui apparaîtra uniquement sur la page GitHub du dépôt.
+* Choisir le statut du dépôt:
+  * Public: visible par tout le monde
+  * Privé: visible seulement par les collaborateurs du projet, ce qui exclut de compléter par des pages web de présentation.
+* Ne pas ajouter de `README`, `.gitIgnore` ou licence: le projet doit être vide.
+* Cliquer sur "create Repository".
+* Copier l'adresse du dépôt (https://github.com/...)
+
+
+### Lier git et GitHub
+
+Dans RStudio, cliquer sur le bouton violet en haut à droite de la fenêtre *Git* (figure \@ref(fig:git-Fichiers)).
+Saisir le nom de la branche "master".
+Cocher la case "Sync with Remote".
+Cliquer sur "Add Remotes" et compléter:
+
+* Remote Name: `origin`
+* Remote URL: coller l'adresse du dépôt *GitHub*.
+
+Au message indiquant qu'une branche *master* existe déjà, cliquer sur "Overwrite".
+
+Le nom *origin* est une convention de *git*.
+Il peut être modifié mais l'organisation du projet sera plus lisible en respectant la convention.
+
+
+### Pousser les premières modifications
+
+La manipulation précédente a automatiquement poussé (*Push*) les modifications validées sur GitHub.
+Par la suite, il faudra cliquer sur le bouton "Push" de la fenêtre *Git* pour le faire.
+
+Sur *GitHub*, les fichiers résultant des modifications enregistrées par *git* sont maintenant visibles.
+
+Chaque *Commit* réalisé localement est compté par *git* et un message "Your branch is ahead of 'origin/master' by n commits" affiché dans en haut de la fenêtre *Git* indique qu'il est temps de mettre à jour *GitHub* en poussant l'ensemble de ces *Commit*.
+Cliquer sur le bouton *Push* pour le faire.
+
+```{exercise, git-README, name="Mettre à jour README"}
+Si un fichier README.md existe dans le projet, le mettre à jour.
+Sinon, créer un fichier un fichier texte et l\'enregister sous ce nom.
+
+Le fichier README.md décrit le contenu du dépôt sur son site GitHub.
+Il doit contenir au minimum le nom du projet, en titre de niveau 1, sur sa première ligne, suivi d'une ligne vide:
+`# Ouvrage`
+
+Attention à terminer tous les fichiers par une ligne vide.
+
+Sauvegarder le fichier, le prendre en compte (*Stage*), le valider (*Commit*), pousser les modifications sur *GitHub* et vérifier sur *GitHub* que le fichier est bien mis à jour.
+```
+
+
+### Cloner un dépôt de GitHub
+
+(ref:git-Clone) Clonage d'un dépôt à partir de *GitHub.*
+```{r git-Clone, fig.cap="(ref:CreateRepo)", echo=FALSE}
+knitr::include_graphics('images/git-Clone.png')
+```
+
+Tout dépôt sur GitHub peut être installé (on dit *cloné*) sur le poste de travail en copiant son adresse qui apparaît en cliquant sur le bouton vert (figure \@ref(fig:git-Clone)).
+
+Dans RStudio, créer un nouveau projet et, dans l'assistant, choisir "Version Control", "Git" et coller l'adresse dans le champ "Repository URL".
+Le nom répertoire à créer pour le projet est déduit automatiquement de l'adresse.
+Choisir le répertoire dans lequel celui du projet va être créé et cliquer sur "Create Project".
+Le projet créé est lié au dépôt distant sur *GitHub*.
+
+Pour travailler à plusieurs sur le même projet, le propriétaire du projet doit donner l'accès au projet à des collaborateurs (figure \@ref(fig:git-Access)), c'est-à-dire d'autres utilisateurs *GitHub* dans les réglages du dépôt (*Settings*).
+
+(ref:git-Access) Clonage d'un dépôt à partir de *GitHub.*
+```{r git-Access, fig.cap="(ref:CreateRepo)", echo=FALSE}
+knitr::include_graphics('images/git-Access.png')
+```
+
+Les collaborateurs sont invités par un message envoyé par *GitHub*.
+
+
+## Usage courant
+
+### Tirer, modifier, valider, pousser
+
+Toute séance de travail sur un projet commence en tirant (Bouton "Pull") de la fenêtre *Git* pour intégrer au dépôt local les mises à jour effectuées sur *GitHub* par d'autres collaborateurs.
+
+Les modifications apportées aux fichiers du projet sont ensuite prises en compte (cocher les cases *Staged*) et validées (*Commit*) avec un message explicatif.
+Une bonne pratique consiste à valider les modifications à chaque fois qu'une tâche élémentaire, qui peut être décrite dans le message explicatif, est terminée plutôt que d'effectuer des *Commits* regroupant de nombreux changements avec une description vague.
+
+Dès que possible, pousser (*Push*) les mises à jour pour qu'elles soient visibles par les collaborateurs.
+
+
+### Régler les conflits
+
+Il n'est pas possible de pousser les modifications validées si un collaborateur a modifié le dépôt distant sur *GitHub*.
+Il faut alors les tirer pour les intégrer au dépôt local avant de pousser les modifications fusionnées. 
+
+Un conflit a lieu si un *Pull* importe dans le fichier local une modification qui ne peut pas être fusionnée automatiquement parce qu'une modification contradictoire a eu lieu localement. 
+*Git* considère chaque ligne comme un élément indivisible: la modification de la même ligne sur le dépôt distant et le dépôt local génère donc un conflit.
+
+*Git* insère dans le fichier contenant un conflit les deux versions avec une présentation particulière:
+
+```
+<<<<<<<<< HEAD # Version importée du conflit
+Lignes en conflit, version importée
+========= # limite entre les deux versions
+Lignes en conflit, version locale
+>>>>>>>>> # Fin du conflit
+```
+
+Les lignes de formatage contenant les `<<<<`, les `====` et les `>>>>` doivent être supprimés et une seule version des lignes problématiques conservée, qui peut être différente des deux versions originales.
+La résolution du conflit doit être prise en compte et validée.
+
+Pour limiter les conflits dans un document contenant du texte (typiquement, un document *Markdown*), une bonne pratique consiste à traiter chaque phrase comme une ligne, terminée par un retour à la ligne qui ne sera pas visible dans le document mis en forme: un saut de ligne est nécessaire pour séparer les paragraphes.
+
+
+### Voir les différences
+
+### Revenir en arrière
+
+Revert
+
+### Voir l'historique
+
+## Commandes de *git*
+
+https://rogerdudler.github.io/git-guide/index.fr.html
+
+
+## Usage avancé
+
+### Taille d'un dépôt
+
+`git count-objects -v`
+
+### Supprimer un dossier
+
+[Source](https://stackoverflow.com/questions/10067848/remove-folder-and-its-contents-from-git-githubs-history)

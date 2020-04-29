@@ -1,0 +1,122 @@
+--- 
+title: "Travailler avec R"
+author: "Eric Marcon"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+always_allow_html: yes
+description: "Support du cours Travailler avec R."
+maintitlepage:
+  epigraph: |
+    Ce document est réalisé de façon dynamique et reproductible grâce à:
+
+    \begin{itemize}
+      \item \LaTeX, dans sa distribution Miktex (\url{http://miktex.org/}) et la classe memoir (\url{http://www.ctan.org/pkg/memoir}).
+      \item R (\url{http://www.r-project.org/}) et RStudio (\url{http://www.rstudio.com/})
+      \item bookdown (\url{http://bookdown.org/})
+    \end{itemize}
+documentclass: memoir
+classoption:
+  - extrafontsizes
+  - onecolumn
+  - openright
+papersize: A4
+fontsize: 11pt
+toc-depth: 3
+lang: fr
+otherlangs: [en-US, en-GB, fr]
+bibliography: [MyBook.bib, packages.bib]
+biblio-style: authoryear-ibid
+cite-style: verbose-inote
+biblatexoptions:
+  - backend=biber
+  - citestyle=verbose-inote
+  - pageref=true
+  - isbn=false
+  - backref=true
+  - giveninits=true
+  - uniquename=init
+  - maxcitenames=2
+  - maxbibnames=150
+  - sorting=nyt
+  - sortcites=false
+link-citations: yes
+colorlinks: yes
+graphics: yes
+fig_crop: yes
+resume: |
+  Résumé en Français, en quatrième de couverture.
+  
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
+  
+  Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.
+fourthpagefontsize: normalsize
+---
+
+<!-- Commande nécessaire pour la copie de l'icône "Essentiel" en HTML--> 
+<img src="images/Essentiel.png" alt="image" hidden/>
+
+```{r Parameters, echo=FALSE, message=FALSE}
+### Utilities. Do not modify.
+# Installation of packages if necessary and loading
+InstallPackages <- function(Packages) {
+  InstallPackage <- function(Package) {
+    if (!Package %in% installed.packages()[, 1]) {
+      install.packages(Package, repos="https://cran.rstudio.com/")
+    }
+  }
+  invisible(sapply(Packages, InstallPackage))
+}
+
+# Basic packages
+InstallPackages(c("bookdown", "devtools", "kableExtra", "knitr", "rmarkdown"))
+library("kableExtra", "formatR") # Mandatory to load css and more
+
+# Chunk font size hook: allows size='small' or any valid Latex font size in chunk options
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+```
+
+
+```{r Options, echo=FALSE, message=FALSE}
+### Customized options for this book
+# Add necessary packages here
+Packages <- c("tidyverse", "magrittr", "gridExtra")
+# Install them if necessary
+InstallPackages(Packages)
+# GitHub packages
+if (!"EcoFoG" %in% installed.packages()[, 1]) {
+  devtools::install_github("EcoFoG/EcoFoG")
+}
+
+# knitr options
+knitr::opts_chunk$set(
+  cache=TRUE, warning=FALSE, 
+  fig.env='SCfigure', fig.asp=.75, fig.align='center', out.width='80%', 
+  tidy=TRUE, tidy.opts=list(blank=FALSE, width.cutoff=60), size="scriptsize",
+  knitr.graphics.auto_pdf = TRUE)
+
+# ggplot style
+library("tidyverse")
+theme_set(theme_bw())
+theme_update(panel.background = element_rect(fill = "transparent", colour = NA),
+             plot.background = element_rect(fill = "transparent", colour = NA))
+knitr::opts_chunk$set(dev.args=list(bg="transparent"))
+
+# Random seed
+set.seed(973)
+
+# Create packages.bib file to reference them as @R-package
+knitr::write_bib(Packages, file="packages.bib")
+```
+
+# Objectifs {-}
+
+Ce document ...
+
+<!-- La commande \mainmatter marque le début du corps du document LaTeX--> 
+<!-- Elle ne doit pas être supprimée-->
+\mainmatter
+ 
