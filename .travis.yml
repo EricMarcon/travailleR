@@ -6,13 +6,6 @@ cache:
 branches:
   only: master
 
-r_packages:
-  - bookdown
-  - kableExtra
-  - tidyverse
-  - magrittr
-  - gridExtra
-
 script:
   - travis_wait 60 Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook', quiet = TRUE)"
   - travis_wait 60 Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book', quiet = TRUE)"
