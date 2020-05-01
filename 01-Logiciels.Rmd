@@ -4,13 +4,94 @@
 
 ### Installation
 
-sur cran
+R est inclus dans les distributions de Linux: le paquet est nommé `r-base`.
+Il ne contient pas des outils de développement souvent nécessaires, donc il est préférable d'installer aussi le paquet `r-base-dev`.
+La version de R est souvent un peu ancienne.
+Pour disposer de la dernière version, il faut utiliser un mirroir de CRAN comme source des paquets : voir la documentation complète pour Ubuntu [^102].
 
-#### Coexistence
+[^102]: https://doc.ubuntu-fr.org/r 
+
+Sous Windows ou Mac, installer R après l'avoir téléchargé depuis CRAN [^101].
+
+[^101]: https://cran.r-project.org/
+
+Sous Windows, l'installation doit être complétée par les "Rtools", qui contiennent les outils de développement dont ceux nécessaires à la compilation des packages contenant du code C++.
+
+Sur Mac, l'installation de R est suffisante à partir de la version 4.0.0.
+
+
+#### Mise à jour
+
+Il est conseillé d'utiliser la dernière version mineure de R: 4.0.x jusqu'à la sortie de la version 4.1.
+Il est obligatoire d'utiliser la toute dernière version pour préparer un package soumis à CRAN.
+
+Des changements importants ont lieu entre les versions majeures (la version 4 ne permet pas d'utiliser un package compilé pour la version 3) mais aussi parfois entre versions mineures (un fichier de données binaires `.rda` enregistré sous la version 3.3 ne peut pas être lu par la version 3.6).
+Il est donc utile de mettre R à jour régulièrement.
+
+L'installation d'une nouvelle version ne désinstalle par automatiquement les versions anciennes, ce qui permet d'en utiliser plusieurs en cas de besoin (par exemple, si un package ancien et indispensable n'est plus disponible).
+En usage courant, il est préférable de désinstaller manuellement les anciennes versions après l'installation d'une nouvelle.
+
 
 #### Librairies
 
+Les packages de R se trouvent dans deux dossiers:
+
+* la bibliothèque système (*System Library*) contient les packages fournis avec R : **base**, **utils**, **graphics** par exemple.
+Elle se trouve dans un sous-répoertoire du programme d'installation (`C:\Program Files\R\R-4.0.0\library` pour R version 4.0.0 sous Windows 10).
+* La bibliothèque utilisateur (*User Library*) contient ceux installés par l'utilisateur.
+Elle se trouve dans le dossier personnel de l'utilisateur, dans un sous-dossier `R\win-library\4.0\).
+
+Si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), il n'est pas optimal d'y placer les packages.
+Pour que les packages soient installés automatiquement dans la bibliothèque système, il suffit que l'utilisateur y ait le droit d'écrire.
+Sous Windows, donner le droit "Modifier" au groupe des utilisateurs de l'ordinateur sur le dossier de la biliothèque, en plus du droit de lecture par défaut \@ref(fig:R-library)).
+
+(ref:R-library) Activation du droit de modifier la bibliothèque système sous Windows.
+```{r R-library, fig.cap="(ref:R-library)", echo=FALSE}
+knitr::include_graphics('images/R-library.png')
+```
+
+Si la bibliothèque utilisateur est retenue, il faut penser à vider le dossier correspondant à l'ancienne version de R en cas changement de version mineure.
+
+L'emplacement des librairies est donné par la fonction `.libPaths()`:
+```{r libPaths}
+.libPaths()
+```
+
+
+## RStudio
+
+RStudio est une interface graphique pour R et bien plus: il est conçu pour simplifier la gestion des projets, faciliter la rédaction et la production de documents et intégrer le contrôle de source par exemple.
+
+### Installation
+
+Installer la dernière version de *RStudio Desktop* à partir du site de RStudio [^103].
+
+[^103]: https://rstudio.com/products/rstudio/download/
+
+Une commande est disponible dans le menu *Help* de RStudio pour vérifier l'existence d'une version plus récente, à installer.
+
 #### Dossier de travail
+
+Le dossier de travail par défaut est le dossier personnel de l'utilisateur, appelé `~` par RStudio:
+
+```{r R_USER}
+Sys.getenv("R_USER")
+```
+
+- `Mes Documents` sous Windows;
+
+- `Home` sous Mac ou Linux.
+
+Il faut systématiquement travailler dans des sous-dossier de `~`, par exemple : `~\Formation`. 
+
+Pour le bon fonctionnement des *RTools*, le nom complet du répertoire de travail ne doit pas contenir d'espace (utiliser les tirets bas `_`) ni de caractère spécial.
+Le dossier de travail en cours est obtenu par la commande `getwd()`.
+
+```{r getwd}
+getwd()
+```
+
+
 
 #### Solution retenue
 

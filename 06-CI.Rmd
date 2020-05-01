@@ -85,8 +85,11 @@ Le nom *GITHUB_TOKEN* est une convention.
 
 ### Scripter les actions de Travis
 
+#### Projet bookdown
+
 Le script de contrôle de Travis doit être nommé `.travis.yml`.
-Il est au format YAML:
+Il est au format YAML.
+Un script simple pour un projet `bookdown` ressemble à ceci:
 
 ```
 language: r
@@ -105,7 +108,8 @@ deploy:
     branch: master
 ```
 
-Ce script minimal indique que le langage est R.
+Ce script minimal indique que le *langage* est R.
+
 La partie *script* exécute des commandes sous R: `render_book` pour construire un livre, aux formats PDF et HTML.
 
 La partie *deploy* gère le déploiement du résultat, écrit dans le dossier `docs` de la branche *master* par  `render_book`.
@@ -123,17 +127,11 @@ Ce script peut être amélioré en ajoutant un cache:
 * pour éviter à Travis de recompiler les packages R à chaque exécution, et économiser plusieurs minutes;
 * pour éviter à knitR d'évaluer les calculs de tous les bouts de codes non modifiés, qui peuvent nécessiter de longs calculs.
 
-Le code correspondant, à placer avant `script` est le suivant:
+Le code correspondant de la partie `cache`, à placer avant `script` est le suivant:
 ```
 cache:
   packages: true
   directories: _bookdown_files
-```
-
-Travis n'a pas besoin de tirer la branche `gh-pages` avant d'éxécuter le script:
-```
-branches:
-  only: master
 ```
 
 Enfin, Travis interrompt son exécution en absence de retour pendant 10 minutes.
@@ -145,19 +143,11 @@ script:
   - travis_wait 60 Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book', quiet = TRUE)"
 ```
 
-Les packages R à installer depuis CRAN peuvent être déclarés avant le script par une entrée `r_packages`.
-Pour installer des packages depuis GitHub, l'entrée est `r_github_packages`.
-Exemple:
-```
-r_packages:
-  - bookdown
-  - kableExtra
-r_github_packages:
-  - EcoFoG/EcoFoG
-```
-L'alternative est d'utiliser un fichier `DESCRIPTION` pour déclarer ces packages, comme dans un package.
+Les packages R à installer depuis CRAN peuvent être déclarés avant le script par une entrée `r_packages` et une entrée `r_github_packages` pour les packages sur GitHub.
+Ce n'est pas une bonne pratique pour les packages du projet: la bonne méthode consiste à utiliser un fichier `DESCRIPTION`, comme si le projet était un package R.
+Les directives `Depends` et `Imports` de ce fichier `DESCRIPTION` sont prises en compte par Travis et installés.
 
-Certains packages nécessitent pour leur installation sous Linux (à partir de leur code source) de packages *apt*.
+Certains packages nécessitent pour leur installation sous Linux (à partir de leur code source) celle de packages *apt*.
 Par exemple, le package R *sf* nécessite l'ajout des entrées suivantes: 
 ```
 addons:
@@ -168,9 +158,123 @@ addons:
       - libgeos-dev
       - libproj-dev
 ```
-Pour savoir quels packages installer, il est nécessaire de se référer à la documentation du package R et prendre en compte les instructions pour l'installation sous Ubuntu.
+Pour savoir quels packages *apt* installer, il est nécessaire de se référer à la documentation du package R et prendre en compte les instructions pour l'installation sous Ubuntu.
 
-Des scripts standard pour les projets de package et de livre sont fournis ici.
+Finalement, les deux fichiers suivants sont ceux utilisés pour l'intégration continue de ce livre.
+
+* Fichier `.travis.yml`:
+```
+language: r
+
+cache:
+  packages: true
+  directories: _bookdown_files
+
+script:
+  - travis_wait 60 Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook', quiet = TRUE)"
+  - travis_wait 60 Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book', quiet = TRUE)"
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  local_dir: docs
+  on:
+    branch: master
+```
+* Fichier `DESCRIPTION`:
+```
+Package: travailleR
+Title: Travailler avec R
+Version: 1.0.0
+Authors@R: c(
+  person("Eric", "Marcon", , "e.marcon@free.fr", c("aut", "cre"))
+  )
+URL: https://github.com/ericmarcon/travailleR
+Depends:
+  R (>= 3.1.0)
+Imports:
+  bookdown,
+  kableExtra,
+  tidyverse,
+  magrittr,
+  gridExtra
+```
+
+
+#### Packages R
+
+Le script minimal est:
+
+```
+language: r
+```
+
+Travis s'appuie sur le fichier `DESCRIPTION` pour installer les packages nécessaires et lance la vérification du package avec l'option `--as-cran`.
+La vérification échoue si elle retourne une erreur, un avertissement ou une note.
+
+Les packages nécessaires aux actions de Travis en cas de succès sont déclarés dans `r_packages`:
+```
+r_packages:          # Packages à installer pour Travis
+  - covr             # Interfaçage de Covecov
+  - pkgdown          # Pour la création du site d'aide des packages R
+```
+
+La partie `after_success` du script permet d'effectuer des tâches seulement dans cette situation: typiquement appeler Codecov pour mesurer le taux de couverture du code et utiliser **pkgdown** pour créer le site web d'aide:
+```
+after_success:
+  - Rscript -e 'covr::codecov(type ="all")'            # Appel à Covecov
+  - mkdir docs                                         # Dossier du site d'aide
+  - git fetch origin gh-pages:gh-pages                 # Tirer...
+  - git --work-tree=docs checkout gh-pages -- .        # ...dans docs
+  - travis_wait 60 Rscript -e 'pkgdown::build_site()'  # Construction du site
+  - touch docs/.nojekyll                               # Fichier vide
+```
+
+La construction du site par **pkgdown** est plus compliqué que celle d'un livre produit par **bookdown** parce que deux versions coexistent si le package est hébergé sur CRAN: à la racine du dossier `docs`, la version de production correspondant à la version sur CRAN et, dans `docs/dev`, la version correspondant à la version en cours du package.
+Une seule est produite par Travis mais les deux doivent être conservées: il ne faut pas que la version de production, consultée par les utilisateurs du package, soit supprimée quand une version de développement est créée.
+
+La dernière ligne du script consiste à créer un fichier vide nommé `.nojekyll` pour indiquer à GitHub que les pages web produites ne doivent pas être traitées comme le code source d'un site Jekyll, ce qui est le comportement par défaut des pages Git.
+
+L'exemple suivant correspond au package entropart, déposé sur CRAN.
+
+Fichier `.travis.yml`:
+```
+language: r
+warnings_are_errors: true     # Comportement de CRAN
+cache: packages
+
+r_packages:          # Packages à installer pour Travis
+  - covr             # Interfaçage de Covecov
+  - pkgdown          # Pour la création du site d'aide
+
+after_success:
+  - Rscript -e 'covr::codecov(type ="all")'            # Appel à Covecov
+  - mkdir docs                                         # Dossier du site d'aide
+  - git fetch origin gh-pages:gh-pages                 # Tirer...
+  - git --work-tree=docs checkout gh-pages -- .        # ...dans docs
+  - travis_wait 60 Rscript -e 'pkgdown::build_site()'  # Construction du site
+  - touch docs/.nojekyll                               # Fichier vide
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  keep_history: true                                   
+  token: $GITHUB_TOKEN
+  on:
+    branch: master
+  local_dir: docs
+
+notifications:
+  email:
+    recipients:
+      - e.marcon@free.fr   # Notification par mail après exécution
+```
+
+Pour des paramétrages particuliers, la documentation complète de Travis peut être consultée [^604].
+
+[^604]: https://docs.travis-ci.com/user/languages/r/
 
 
 ### Ajouter un badge
