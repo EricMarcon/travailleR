@@ -32,7 +32,7 @@ L'installation d'une nouvelle version ne désinstalle par automatiquement les ve
 En usage courant, il est préférable de désinstaller manuellement les anciennes versions après l'installation d'une nouvelle.
 
 
-#### Librairies {#sec:libraires}
+#### Librairies {#sec:librairies}
 
 Les packages de R se trouvent dans deux dossiers:
 
@@ -70,7 +70,7 @@ Installer la dernière version de *RStudio Desktop* à partir du site de RStudio
 
 Une commande est disponible dans le menu *Help* de RStudio pour vérifier l'existence d'une version plus récente, à installer.
 
-#### Dossier de travail
+### Dossier de travail
 
 Le dossier de travail par défaut est le dossier personnel de l'utilisateur, appelé `~` par RStudio:
 
@@ -94,7 +94,7 @@ L'utilisation du contrôle de source (voir chapitre \@ref(chap:git)) crée de no
 Les projets sous contôle de source ne devraient pas se trouver dans un dossier déjà sauvegardé par un autre moyen, comme un lecteur OneDrive sous Windows, sous peine d'une utilisation excessive des ressources: chaque validation de modifications engendre la sauvegarde des fichiers modifiés, mais aussi des fichiers de contrôle qui peuvent être de grande taille.
 
 
-#### Solution retenue
+### Solution retenue
 
 L'organisation de l'environnement travail est une affaire personnelle, qui dépend des préférences de chacun.
 L'organisation proposée ici n'est qu'une possibilité, à adapter à ses propres choix, mais en respectant les contraintes mentionnées.
@@ -180,16 +180,16 @@ BiocManager::install(c("GenomicFeatures", "AnnotationDbi"))
 La fonction `install()` appelée sans arguments met à jour les packages.
 
 
-#### Solution retenue
+### Solution retenue
 
 A chaque mise à jour mineure de R, tous les packages doivent être réinstallés.
 La façon la plus efficace de le faire est de créer un script `Packages.R` à placer dans `~\R`.
 Il contient une fonction qui vérifie si chaque package est déjà installé pour ne pas le refaire inutilement.
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, tidy=FALSE}
 # Installation des packages de R ####
 
-# Install necessary packages ####
+# Installer les packages si nécessaire ####
 InstallPackages <- function(Packages) {
   sapply(Packages, function(Package) 
     if (!Package %in% installed.packages()[, 1]) 
@@ -249,9 +249,20 @@ Ce script est à exécuter à chaque mise à jour de R, après avoir éventuelle
 
 ## Git
 
-### Installation
+git est le logiciel de contrôle de source utilisé ici.
+Son utilisation est détaillée dans le chapitre \@ref(chap:git).
+
+Pour Windows et Mac, l'installation a lieu à partir du site [^104].
+
+[^104]: https://git-scm.com/
+
+git est intégré dans les distributions Linux.
+Pour Ubuntu, le package apt est `git-all`.
+
+git est installé sans interface graphique, fournie par RStudio.
 
 
 ## GitHub
 
-
+*GitHub* est la plateforme accessible par un [site web](https://github.com/) qui permet de partager le contenu des dépôts *git*.
+Pour l'utiliser, il suffit d'ouvrir un compte.
