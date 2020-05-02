@@ -89,14 +89,16 @@ Le nom *GITHUB_TOKEN* est une convention.
 
 Le script de contrôle de Travis doit être nommé `.travis.yml`.
 Il est au format YAML.
-Un script simple pour un projet `bookdown` ressemble à ceci:
+Un script simple pour un projet `bookdown` ressemble à ceci (le signe `|>` indique que la suite du code devrait se trouver sur la même ligne, mais est coupée pour le formatage de ce document):
 
 ```
 language: r
 
 script:
-- Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook', quiet = TRUE)"
-- Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book', quiet = TRUE)"
+- Rscript -e "bookdown::render_book('index.Rmd', |>
+    'bookdown::gitbook', quiet = TRUE)"
+- Rscript -e "bookdown::render_book('index.Rmd', |>
+    'bookdown::pdf_book', quiet = TRUE)"
 
 deploy:
   provider: pages
@@ -139,8 +141,12 @@ Si des bouts de code exécutent des calculs longs, il faut augmenter cette limit
 
 ```
 script:
-  - travis_wait 60 Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook', quiet = TRUE)"
-  - travis_wait 60 Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book', quiet = TRUE)"
+  - travis_wait 60 Rscript -e |>
+      "bookdown::render_book('index.Rmd', |>
+      'bookdown::gitbook', quiet = TRUE)"
+  - travis_wait 60 Rscript -e |>
+      "bookdown::render_book('index.Rmd', |>
+      'bookdown::pdf_book', quiet = TRUE)"
 ```
 
 Les packages R à installer depuis CRAN peuvent être déclarés avant le script par une entrée `r_packages` et une entrée `r_github_packages` pour les packages sur GitHub.
@@ -160,6 +166,15 @@ addons:
 ```
 Pour savoir quels packages *apt* installer, il est nécessaire de se référer à la documentation du package R et prendre en compte les instructions pour l'installation sous Ubuntu.
 
+A la fin de l'éxécution de son script, Travis peut envoyer systématiquement un message de compte-rendu:
+```
+notifications:
+  email:
+    recipients:
+      - adresse@domaine.com
+```
+Le comportement par défaut est d'envoyer un message au propriétaire du compte GitHub seulement quand le statut change: en cas d'échec d'un script qui fonctionnait ou inversement.
+
 Finalement, les deux fichiers suivants sont ceux utilisés pour l'intégration continue de ce livre.
 
 * Fichier `.travis.yml`:
@@ -171,8 +186,12 @@ cache:
   directories: _bookdown_files
 
 script:
-  - travis_wait 60 Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::gitbook', quiet = TRUE)"
-  - travis_wait 60 Rscript -e "bookdown::render_book('index.Rmd', 'bookdown::pdf_book', quiet = TRUE)"
+  - travis_wait 60 Rscript -e |>
+      "bookdown::render_book('index.Rmd', |>
+      'bookdown::gitbook', quiet = TRUE)"
+  - travis_wait 60 Rscript -e |>
+      "bookdown::render_book('index.Rmd', |>
+      'bookdown::pdf_book', quiet = TRUE)"
 
 deploy:
   provider: pages
@@ -182,6 +201,11 @@ deploy:
   local_dir: docs
   on:
     branch: master
+    
+notifications:
+  email:
+    recipients:
+      - e.marcon@free.fr
 ```
 * Fichier `DESCRIPTION`:
 ```
@@ -189,7 +213,8 @@ Package: travailleR
 Title: Travailler avec R
 Version: 1.0.0
 Authors@R: c(
-  person("Eric", "Marcon", , "e.marcon@free.fr", c("aut", "cre"))
+  person("Eric", "Marcon", , "e.marcon@free.fr", |>
+      c("aut", "cre"))
   )
 URL: https://github.com/ericmarcon/travailleR
 Depends:
@@ -216,20 +241,26 @@ La vérification échoue si elle retourne une erreur, un avertissement ou une no
 
 Les packages nécessaires aux actions de Travis en cas de succès sont déclarés dans `r_packages`:
 ```
-r_packages:          # Packages à installer pour Travis
-  - covr             # Interfaçage de Covecov
-  - pkgdown          # Pour la création du site d'aide des packages R
+r_packages: # Packages à installer pour Travis
+  - covr    # Interfaçage de Covecov
+  - pkgdown # Pour la création du site d'aide des packages R
 ```
 
 La partie `after_success` du script permet d'effectuer des tâches seulement dans cette situation: typiquement appeler Codecov pour mesurer le taux de couverture du code et utiliser **pkgdown** pour créer le site web d'aide:
 ```
 after_success:
-  - Rscript -e 'covr::codecov(type ="all")'            # Appel à Covecov
-  - mkdir docs                                         # Dossier du site d'aide
-  - git fetch origin gh-pages:gh-pages                 # Tirer...
-  - git --work-tree=docs checkout gh-pages -- .        # ...dans docs
-  - travis_wait 60 Rscript -e 'pkgdown::build_site()'  # Construction du site
-  - touch docs/.nojekyll                               # Fichier vide
+  # Appel à Covecov
+  - Rscript -e 'covr::codecov(type ="all")'
+  # Dossier du site d'aide
+  - mkdir docs
+  # Tirer...
+  - git fetch origin gh-pages:gh-pages
+  # ...dans docs
+  - git --work-tree=docs checkout gh-pages -- .
+  # Construction du site
+  - travis_wait 60 Rscript -e 'pkgdown::build_site()'
+  # Fichier vide
+  - touch docs/.nojekyll
 ```
 
 La construction du site par **pkgdown** est plus compliqué que celle d'un livre produit par **bookdown** parce que deux versions coexistent si le package est hébergé sur CRAN: à la racine du dossier `docs`, la version de production correspondant à la version sur CRAN et, dans `docs/dev`, la version correspondant à la version en cours du package.
@@ -250,12 +281,12 @@ r_packages:          # Packages à installer pour Travis
   - pkgdown          # Pour la création du site d'aide
 
 after_success:
-  - Rscript -e 'covr::codecov(type ="all")'            # Appel à Covecov
-  - mkdir docs                                         # Dossier du site d'aide
-  - git fetch origin gh-pages:gh-pages                 # Tirer...
-  - git --work-tree=docs checkout gh-pages -- .        # ...dans docs
-  - travis_wait 60 Rscript -e 'pkgdown::build_site()'  # Construction du site
-  - touch docs/.nojekyll                               # Fichier vide
+  - Rscript -e 'covr::codecov(type ="all")' 
+  - mkdir docs
+  - git fetch origin gh-pages:gh-pages
+  - git --work-tree=docs checkout gh-pages -- .
+  - travis_wait 60 Rscript -e 'pkgdown::build_site()'
+  - touch docs/.nojekyll
 
 deploy:
   provider: pages
@@ -269,7 +300,7 @@ deploy:
 notifications:
   email:
     recipients:
-      - e.marcon@free.fr   # Notification par mail après exécution
+      - e.marcon@free.fr
 ```
 
 Pour des paramétrages particuliers, la documentation complète de Travis peut être consultée [^604].
@@ -284,5 +315,7 @@ Le succès du script sur Travis est visible sur GitHub en ajoutant un badge dans
 ```
 # Nom du projet
 
-[![Travis-CI Build Status](https://travis-ci.org/<IdentidiantGitHub>/<Depot>.svg?branch=master)](https://travis-ci.org/<IdentidiantGitHub>/<Depot>)
+[![Travis-CI Build Status](https://travis-ci.org/ |>
+  <IdentidiantGitHub>/<Depot>.svg?branch=master)] |>
+  (https://travis-ci.org/<IdentidiantGitHub>/<Depot>)
 ```
