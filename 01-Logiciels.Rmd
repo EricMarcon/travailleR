@@ -79,7 +79,6 @@ Sys.getenv("R_USER")
 ```
 
 - `Mes Documents` sous Windows;
-
 - `Home` sous Mac ou Linux.
 
 Il faut systématiquement travailler dans des sous-dossier de `~`, par exemple : `~\Formation`. 
@@ -91,22 +90,95 @@ Le dossier de travail en cours est obtenu par la commande `getwd()`.
 getwd()
 ```
 
+L'utilisation du contrôle de source (voir chapitre \@ref(chap:git)) crée de nombreux fichiers de travail.
+Les projets sous contôle de source ne devraient pas se trouver dans un dossier déjà sauvegardé par un autre moyen, comme un lecteur OneDrive sous Windows, sous peine d'une utilisation excessive des ressources: chaque validation de modifications engendre la sauvegarde des fichiers modifiés, mais aussi des fichiers de contrôle qui peuvent être de grande taille.
 
 
 #### Solution retenue
 
+L'organisation de l'environnement travail est une affaire personnelle, qui dépend des préférences de chacun.
+L'organisation proposée ici n'est qu'une possibilité, à adapter à ses propres choix, mais en respectant les contraintes mentionnées.
+
+Sous Windows, une organisation optimale est la suivante:
+
+* Dans son dossier personnel (`Mes Documents`, `~` pour R), un dossier `R` est utilisé pour les projets simples, sans contrôle de source.
+La sauvegarde de ce dossier est gérée par ailleurs.
+* Un dossier hors du dossier personnel est utilisé pour les projets sous contrôle de source. 
+L'utilisateur doit y avoir le droit d'écrire.
+Dans l'organisation de Windows, le dossier correspondant à ces critères est `%LOCALAPPDATA%`, typiquement `C:\Users\NomUtilisateur\AppData\Local`.
+Le dossier sera donc `%LOCALAPPDATA%\ProjetsR` à créer: exécuter `md %LOCALAPPDATA%\ProjetsR` dans une invite de commande.
+Epingler ce dossier à l'accès rapide de l'explorateur de fichiers (figure  \@ref(fig:R-ProjetsR)): coller `%LOCALAPPDATA%\ProjetsR` dans la barre d'adresse de l'explorateur de fichiers, valider, puis faire un clic droit sur "Accès Rapide" et épingler le dossier.
+
+(ref:R-ProjetsR) Dossier pour les projets sous contrôle de source, sous Windows.
+```{r R-ProjetsR, fig.cap="(ref:R-ProjetsR)", echo=FALSE, out.width='100%'}
+knitr::include_graphics('images/R-ProjetsR.png')
+```
 
 ## Packages
 
 ### Installation depuis CRAN
 
+L'installation classique des packages fait appel à CRAN.
+Un bouton *Install* se trouve dans la fenête *Packages* de RStudio.
+
+Les packages sont déposés sur CRAN par leurs auteur sous forme de code source, compressé dans une fichier `.tar.gz`. 
+Ils sont disponibles pour le téléchargement dès leur validation.
+Ils doivent ensuite être mis au format binaire pour Windows (dans un fichier `.zip`), ce qui prend un peu de temps.
+
+A la demande de l'installation d'un package sous Windows, CRAN propose la version source plutôt que la version binaire si elle est plus récente \@ref(fig:R-BinaryPkg)).
+
+(ref:R-BinaryPkg) Choix de la version des packages à installer.
+```{r R-BinaryPkg, fig.cap="(ref:R-library)", echo=FALSE}
+knitr::include_graphics('images/R-BinaryPkg.png')
+```
+
+La liste des packages concernés est affichée dans la console, par exemple:
+```
+  There are binary versions available but the source versions are later:
+              binary   source needs_compilation
+boot          1.3-24   1.3-25             FALSE
+class         7.3-16   7.3-17              TRUE
+```
+Certains packages nécessitent une compilation (colonne `needs_compilation`), en général parce qu'ils contiennent du code C++.
+Ils ne pourront être installés que par les *Rtools*. 
+
+L'installation des packages en version source est beaucoup plus longue qu'en version binaire.
+Sauf si une version précise d'un package est nécessaire, il est donc préférable de refuser l'installation des versions source.
+
+Les packages peuvent être mis à jour un peu plus tard, après leur compilation par CRAN.
+
+Le bouton *Update* dans la fenête *Packages* de RStudio permet de mettre à jour tous les packages installés.
+
+
+### Installation depuis GitHub
+
+Certains packages ne sont pas disponibles sur CRAN mais seulement sur GitHub parce qu'ils sont encore en développement ou parce qu'ils ne sont pas destinés à un large usage par la communauté des utilisateurs de R.
+Il peut aussi être utile d'installer une version de développement d'un package publié sur CRAN pour un usage ponctuel comme le test de nouvelles fonctionnalités.
+
+L'installation est gérée par le package **remotes**.
+L'argument `build_vignettes` est nécessaire pour créer les vignettes du package.
+
+```{r install_github, eval=FALSE}
+remotes::install_github("EcoFoG/EcoFoG", build_vignettes = TRUE)
+```
+
+Le nom du package est entré sous la forme "UtilisateurGitHub/NomduPackage".
+L'installation est faite à partir du code source et nécessite donc les *Rtools* si une compilation est nécessaire.
+`install_github()` vérifie que la version sur GitHub est plus récente que l'éventuelle version installée sur le poste de travail et ne fait rien si elles sont identiques.
 
 
 ### Installation depuis Bioconductor
 
-### Installation depuis GitHub
+Bioconductor est une plateforme complémentaire de CRAN qui héberge des packages spécialisés dans la génomique.
+L'installaton des packages de Bioconductor nécessite le package **BiocManager** pour sa fonction `install()`.
+Le premier argument de la fonction est un vecteur de caractères contenant les noms des packages à installer, par exemple:
 
-`remotes::install_github("EcoFoG/EcoFoG", build_vignettes = TRUE)`
+```{r Bioconductor, eval=FALSE}
+BiocManager::install(c("GenomicFeatures", "AnnotationDbi"))
+```
+
+La fonction `install()` appelée sans arguments met à jour les packages.
+
 
 #### Solution retenue
 
