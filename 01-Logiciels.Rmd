@@ -32,7 +32,7 @@ L'installation d'une nouvelle version ne désinstalle par automatiquement les ve
 En usage courant, il est préférable de désinstaller manuellement les anciennes versions après l'installation d'une nouvelle.
 
 
-#### Librairies
+#### Librairies {#sec:libraires}
 
 Les packages de R se trouvent dans deux dossiers:
 
@@ -182,8 +182,70 @@ La fonction `install()` appelée sans arguments met à jour les packages.
 
 #### Solution retenue
 
-Fichier Packages
+A chaque mise à jour mineure de R, tous les packages doivent être réinstallés.
+La façon la plus efficace de le faire est de créer un script `Packages.R` à placer dans `~\R`.
+Il contient une fonction qui vérifie si chaque package est déjà installé pour ne pas le refaire inutilement.
 
+```{r, eval=FALSE}
+# Installation des packages de R ####
+
+# Install necessary packages ####
+InstallPackages <- function(Packages) {
+  sapply(Packages, function(Package) 
+    if (!Package %in% installed.packages()[, 1]) 
+      {install.packages(Package)})
+}
+
+
+# Outils de développement ####
+InstallPackages(c(
+  # Outils de développement. Importe remotes, etc.
+  "devtools",
+  # Exécution de Check par RStudio
+  "rcmdcheck",
+  # Fomatage du code R (utilisé par knitr)
+  "formatR",
+  # Documentation des packages dans /docs sur GitHub
+  "pkgdown",
+  # Biliographie avec roxygen
+  "Rdpack",
+  # Mesure des performances
+  "rbenchmark",
+  # Documentation automatique des packages
+  "roxygen2",
+  # Tests des packages
+  "testthat"
+  ))
+
+# Markdown ####
+InstallPackages(c(
+  # Tricot
+  "knitr",
+  # Documents markdown complexes
+  "bookdown",
+  # Sites web
+  "blogdown",
+  # Modèle de présentation
+  "xaringan",
+  # Modèles d'articles
+  "rticles"     
+  ))
+
+
+# Tidyverse ####
+InstallPackages("tidyverse")
+
+
+# Mes packages ####
+
+# EcoFoG
+remotes::install_github("EcoFoG/EcoFoG", 
+                        build_vignettes = TRUE)
+```
+
+La dernière partie du script est à compléter avec les packages utilisés régulièrement.
+
+Ce script est à exécuter à chaque mise à jour de R, après avoir éventuellement activé le droit d'écriture dans la librairie système (voir section \@ref(sec:librairies)).
 
 ## Git
 
