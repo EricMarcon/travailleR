@@ -1,8 +1,120 @@
 # Rédiger
 
-## Notes rapides : Markdown
+## Bloc-note Markdown (R Notebook)
 
-Du code R dans du texte
+Le code doit toujours être commenté pour faciliter sa lecture.
+Quand l'explication du code nécessite plusieurs lignes de commentaire par ligne ou bloc de code, il est temps d'inverser la logique et de placer le code dans un texte.
+
+L'outil le plus simple est le bloc-note Markdown (Menu "File/New File/R Notebook").
+Le modèle de document contient son mode d'emploi.
+
+Le langage qui permet de formater le texte est Markdown [^401], un langage de balisage simple à utiliser:
+
+* Les paragraphes sont séparés par des sauts de ligne;
+* Le document est structuré par des titres: leur ligne commence par un nombre de `#` correspondant à leur niveau;
+* Les formats de caractères sont limités à l'essentiel: italique ou gras (texte entouré par une ou deux `*`);
+* D'autres codes simples permettent tous les formatages utiles.
+
+[^401]: https://fr.wikipedia.org/wiki/Markdown
+
+Ce langage est le pivot du logiciel pandoc [^403], dédié à la conversion de documents de formats différents.
+
+[^403]: https://fr.wikipedia.org/wiki/Pandoc
+
+Le package **rmarkdown** [@xie2015] fait le lien entre R et Markdown, en s'appuyant sur l'interface de RStudio qui n'est pas indispensable mais simplifie énormément son utilisation.
+Le dialecte de Markdown utilisé par le package est appelé *R Markdown*.
+Sa syntaxe est résumée dans une antisèche [^402].
+Sa documentation complète est en ligne [@xie2018].
+
+[^402]: https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf
+
+L'organisation la plus simple d'un document *R Markdown* est visible dans le modèle de bloc-note.
+Il commence par un en-tête au format YAML [^404]:
+
+```
+---
+title: "R Notebook"
+output: html_notebook
+---
+```
+
+[^404]: https://fr.wikipedia.org/wiki/YAML
+
+La première entrée est le titre, la seconde le format de sortie: plus précisément le nom de la fonction chargée de traiter le document.
+
+Le document contient du texte formaté en Markkdown et des bouts de code (*code chunks*) entourés par trois accents graves (la syntaxe markdown d'un bloc de code) et une description du langage, ici `{r]`.
+Ces bouts de code sont traités par **knitr** qui transforme le résultat de l'exécution du code R en Markdown et l'intègre au texte du document.
+
+Traiter un document R Markdown s'appelle le *tricoter* (*knit*).
+La chaîne de production est la suivante :
+
+* **knitr** traite les bouts de code: calculs, production de figures; 
+* **rmarkdown** intègre la production des bouts de code et texte pour produire un fichier Markdown standard;
+* pandoc (installé avec RStudio) convertit ce fichier au format HTML, LaTeX ou Word;
+* LaTeX produit un fichier PDF quand ce format est demandé.
+
+RStudio permet de lander le tricot par des boutons plutôt que par des commandes: dans la fenêtre source (celle du haut à gauche), un bouton "Knit" accompagne les documents R Markdown.
+Pour les bloc-notes R Markdown, il est remplacé par un bouton "Preview" avec les mêmes fonctions.
+Il peut être déroulé pour choisir le format de sortie: HTML, Word, PDF (en passant par LaTeX) et, pour les bloc-notes, une commande "Preview" qui affiche le document en HTML sans exécuter les bouts de code pour gagner du temps.
+
+Au final, l'utilisation de R Markdown combine plusieurs avantages:
+
+* La simplicité de la rédaction: le texte brut est plus facile à lire et à formater qu'en LaTeX par exemple;
+* L'automatisation de la production: le formatage et la mise en page sont entièrement automatiques;
+* La reproductibilité: chaque document peut être autosuffisant accompagné de ses données.
+Relancer le tricotage régénère entièrement le document, y compris les calculs nécessaires et la production des figures.
+
+Elle a aussi quelques inconvénients: 
+
+* Le formatage dépend de modèles, et developper de nouveaux modèles n'est pas simple;
+* Les erreurs de tricot sont parfois difficiles à corriger, notamment quand elles interviennent à l'étape de la compilation LaTeX;
+* La reproductibilité consomme du temps de calcul.
+Pour limiter ce problème, un système de cache permet de ne pas réévaluer tous les bouts de code R à chaque modification du texte. La production de gros documents peut aussi être déléguée à un système d'intégration continue (chapitre \@ref(chap:ci))
+
+
+## Modèles R Markdown
+
+Des modèles de document plus élaborés que le bloc-note sont fournis par des packages, dont **rmarkdown**.
+Ils sont accessibles par le menu "File/New File/R Markdown..."  \@ref(fig:e-rmd1)).
+
+(ref:e-rmd1) Nouveau document Markdown à partir d'un modèle.
+```{r e-rmd1, fig.cap="(ref:e-rmd1)", echo=FALSE}
+knitr::include_graphics('images/e-rmd1.png')
+```
+
+Les modèles les plus simples sont *Document* et *Presentation*.
+Les informations à fournir sont le titre et le nom de l'auteur, et le format du document attendu (qui pourra être modifié plus tard).
+Ces modèles créent un seul fichier dont l'enregistrement ne sera obligatoire qu'au moment de tricoter.
+
+La syntaxe est la même que celle du bloc-note.
+Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
+
+```
+date: "`r Sys.Date()`"
+```
+
+Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
+Il commence par un guillemet inversé suivi de `r `et se termine par un autre guillement inversé.
+
+Les documents peuvent être tricotés au format HTML, PDF (via LaTeX) ou Word.
+L'entête du fichier R Markdown est réécrit quand le tricot est lancé par le bouton de RStudio qui place en premier le format de sortie utilisé et l'ajoute si nécessaire.
+
+Les présentations peuvent être tricotées dans deux formats HTML, ioslide [^407] ou Slidy [^408], au format Beamer (PDF) [^409] ou en Powerpoint [^410].
+
+[^407]: https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html
+
+[^408]: https://bookdown.org/yihui/rmarkdown/slidy-presentation.html
+
+[^409]: https://bookdown.org/yihui/rmarkdown/beamer-presentation.html
+
+[^410]: https://bookdown.org/yihui/rmarkdown/powerpoint-presentation.html
+
+Le niveau 2 de plan (`##`) marque le changement de diapositive.
+
+Du code supplémentaire, présenté dans les documentations des formats HTML, permet d'utiliser des fonctionnalités spécifiques.
+
+Ces modèles sont simples mais assez peu utiles: le bloc-note R est plus facile à utiliser que le modèle de document pour des documents très simples.
+Des modèles plus élaborés sont disponibles.
 
 ## Memo, article : RMarkdown
 
