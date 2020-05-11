@@ -53,9 +53,10 @@ La chaîne de production est la suivante :
 * pandoc (installé avec RStudio) convertit ce fichier au format HTML, LaTeX ou Word;
 * LaTeX produit un fichier PDF quand ce format est demandé.
 
-RStudio permet de lander le tricot par des boutons plutôt que par des commandes: dans la fenêtre source (celle du haut à gauche), un bouton "Knit" accompagne les documents R Markdown.
+RStudio permet de lancer le tricot par des boutons plutôt que par des commandes: dans la fenêtre source (celle du haut à gauche), un bouton "Knit" accompagne les documents R Markdown.
 Pour les bloc-notes R Markdown, il est remplacé par un bouton "Preview" avec les mêmes fonctions.
 Il peut être déroulé pour choisir le format de sortie: HTML, Word, PDF (en passant par LaTeX) et, pour les bloc-notes, une commande "Preview" qui affiche le document en HTML sans exécuter les bouts de code pour gagner du temps.
+Dès le premier tricot au format Word ou HTML, on remarquera que le bouton "Preview" disparaît.
 
 Au final, l'utilisation de R Markdown combine plusieurs avantages:
 
@@ -116,11 +117,32 @@ Du code supplémentaire, présenté dans les documentations des formats HTML, pe
 Ces modèles sont simples mais assez peu utiles: le bloc-note R est plus facile à utiliser que le modèle de document pour des documents très simples.
 Des modèles plus élaborés sont disponibles.
 
-## Memo, article : RMarkdown
 
-Support des légendes, de la bibliographie, des références croisées.
+## Memo, article : bookdown
+
+RMarkdown ne permet pas de rédiger un article scientifique.
+La bibliographie ne pose pas de problème parce qu'elle est gérée par pandoc pour les documents HTML ou Word et sous-traitée à LaTeX pour les documents PDF. 
+Les équations, figures et tableaux sont numérotés par LaTeX mais pas en HTML. 
+Les références croisées (les renvois à un numéro de figure par exemple) ne sont pas supportés.
+Enfin, les légendes de figures ou tableaux ne supportent que du texte brut, sans aucun formatage.
+
+**bookdown** comble ces manques.
+Le package a été conçu pour la rédaction d'ouvrages comportant plusieurs chapitres mais peut être utilisé pour des articles.
+Le package ne fournit pas directement de modèles.
+
+Le package **EcoFoG** disponible sur GitHub fournit les modèles présentés ici.
+Il doit être installé:
+```{r}
+remotes::install_github("EcoFoG/EcoFoG")
+```
+
 
 ### Modèle memo
+
+Le modèle mémo produit un document HTML simple avec une table des matières flottante ([exemple](https://ericmarcon.github.io/Krigeage/Krigeage.html)).
+Le format PDF est proche du modèle *article* de LaTeX ([exemple](https://ericmarcon.github.io/Krigeage/Krigeage.pdf)).
+
+Le modèle contient sa propre documentation.
 
 #### Créer
 
