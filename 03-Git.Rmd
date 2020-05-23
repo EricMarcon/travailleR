@@ -259,23 +259,155 @@ Pour limiter les conflits dans un document contenant du texte (typiquement, un d
 
 ### Voir les différences
 
+Dans la fenêtre *Git* de RStudio, le menu contextuel (affiché par un clic droit) "Diff" peut être utilisé pour afficher les modifications apportées à chaque fichier (figure \@ref(fig:git-diff)).
+
+(ref:git-diff) Différences entre le répertoire de travail et la tête.
+```{r git-diff, fig.cap="(ref:git-diff)", echo=FALSE}
+knitr::include_graphics('images/git-diff.png')
+```
+
 ### Revenir en arrière
 
-Revert
+Le menu contextuel "Revert" permet d'annuler toutes les modifications  apportées à un fichier (affichées par *Diff*) et de rétablir son contenu validé la dernière fois (son état dans la tête).
+
+Il n'est pas simple de revenir en arrière au-delà de la dernière validation parce que les modifications ont pu être prises en compte par des collaborateurs: leur suppression rendrait le projet incohérent.
+
 
 ### Voir l'historique
 
-## Commandes de *git*
+Le bouton en forme d'horloge de la fenêtre *Git* de RStudio affiche l'historique du projet (figure \@ref(fig:git-historique)).
 
-https://rogerdudler.github.io/git-guide/index.fr.html
+(ref:git-historique) Historique des validations dans le dépôt.
+```{r git-historique, fig.cap="(ref:git-historique)", echo=FALSE}
+knitr::include_graphics('images/git-historique.png')
+```
+
+En haut se trouve la tête, puis toutes les validations (*commits*) qui l'ont constituée.
+Pour chaque validation, les différences de chaque fichier peuvent être affichées en cliquant sur le nom du fichier dans la partie basse de la fenêtre.
+
 
 
 ## Usage avancé
 
+### Commandes de git
+
+Au-delà de l'usage courant permis par l'interface graphique de RStudio, des manipulations avancées des projets sont permises en utilisant git en ligne de commande.
+Quelques exemples utiles sont présentés ici.
+
+Un petit guide des commmandes est proposé par Roger Dudler [^301].
+Il résume les commandes essentielles, donc intégrées à l'interface graphique de RStudio.
+Des liens vers des références plus complètes sont donnés en bas de la page.
+
+[^301]: https://rogerdudler.github.io/git-guide/index.fr.html
+
+
 ### Taille d'un dépôt
 
-`git count-objects -v`
+Pour connaître l'espace disque occupé par un dépôt, utiliser la commande `git count-objects -vH` [^302].
+
+[^302]: https://git-scm.com/docs/git-count-objects
+
+Les données pour ce document au stade de la rédaction sont présentées à titre d'exemple.
+
+```
+$ git count-objects -v
+count: 200
+size: 2.66 MiB
+in-pack: 0
+packs: 0
+size-pack: 0
+prune-packable: 0
+garbage: 0
+size-garbage: 0
+```
+
+La taille totale est sur la ligne *size*.
+Les packs sont une méthode utilisée par git pour réduire la taille du dépôt: des fichiers similaires sont stockés sous la forme d'une partie commune et de différences.
+La ligne *prune-packable* donne la taille d'objets stockés à la fois sous forme individuelle et dans des packs.
+Si leur taille est importante, exécuter `git prune-packed` pour la ramener à zéro.
+
+La ligne *size-garbage* donne la taille des objets qui peuvent être supprimés.
+`git gc` les supprime, mais pas seulement: il optimise le stockage.
+
+```
+$ git gc
+Enumerating objects: 194, done.
+Counting objects: 100% (194/194), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (188/188), done.
+Writing objects: 100% (194/194), done.
+Total 194 (delta 83), reused 0 (delta 0)
+
+$ git count-objects -vH
+count: 1
+size: 5.72 KiB
+in-pack: 194
+packs: 1
+size-pack: 4.00 MiB
+prune-packable: 0
+garbage: 0
+size-garbage: 0 bytes
+```
+
+Ici, la majorité des objets du dépôt a été placée dans un pack (mais sa taille est supérieure à celle des objets individuels).
+
+Il est généralement inutile d'effectuer la collecte des déchets manuellement: git gère bien l'organisation de ses dépôts.
+
+GitHub limite la taille des dépôts.
+En mai 2020, la limite est de 100 Go.
+La taille de tous les dépôts d'un utilisateur authentifié peut être affichée dans les réglages de son compte ("Personnal Settings", "Repositories")[^303].
+
+[^303]: https://github.com/settings/repositories
+
 
 ### Supprimer un dossier
 
-[Source](https://stackoverflow.com/questions/10067848/remove-folder-and-its-contents-from-git-githubs-history)
+Toutes les modifications apportées à un dépôt sont stockées dans son historique.
+Il peut être utile d'en supprimer dans quelques cas particuliers:
+
+- si un fichier contenant des informations confidentielles a été validé par mégarde. 
+La validation de sa suppression ne le retire pas de l'historique, et les informations condidentielles restent visibles en consultant l'historique.
+- si des fichiers volumineux ne sont plus nécessaires, par exemple des fichiers PDF produits par RMarkdown (chapitre \@ref(chap:rediger)), binaires (donc inadaptés à git) et reproductibles à partir du code.
+
+Typiquement, le dossier `docs` est utilisé pour stocker les documents produits à partir de code RMarkdown.
+Les fichiers HTML et PDF doivent s'y trouver pour constituer les pages GitHub du projet.
+Chaque modification du dépôt génère une nouvelle version de ces fichiers dont le volume de l'historique devient rapidement considérable.
+Une solution efficace consiste à déléguer la création de ces fichiers à un système d'intégration continue (chapitre \@ref(chap:ci)) et à retirer le dossier `docs` de la branche principale (*master*) du dépôt.
+Il faut alors supprimer tout son historique pour récupérer la place qu'il occupe, qui peut être l'essentiel de la taille du dépôt.
+
+Les commandes de suppression complète d'un dossier d'un dépôt son présentées ici [^304].
+Le dépôt doit être propre, c'est-à-dire sans modifications non validées, et les versions distantes et locales synchronisées.
+
+[^304]: https://stackoverflow.com/questions/10067848/remove-folder-and-its-contents-from-git-githubs-history
+
+Les trois commandes suivantes suppriment complètement le dossier `docs` de l'historique du dépôt git:
+```
+git filter-branch --tree-filter "rm -rf docs" |>
+    --prune-empty HEAD
+git for-each-ref --format="%(refname)" refs/original/ |>
+    | xargs -n 1 git update-ref -d
+```
+
+Le dossier n'est pas supprimé du répertoire de travail.
+Il doit donc être ajouté au fichier `.gitignore` pour ne plus être suivi.
+La modification de `.gitignore` doit être validée.
+Ces opérations peuvent être réalisées avec l'interface de RStudio ou en ligne de commande:
+```
+echo docs/ >> .gitignore
+git add .gitignore
+git commit -m 'Removing docs folder from git history'
+```
+
+Le nettoyage du dépôt est nécessaire pour supprimer physiquement les données retirées:
+```
+git gc
+```
+
+Enfin, le dépôt doit être poussé.
+L'option `--force` implique le remplacement du contenu du dépôt distant par celui du dépôt local: toutes les modifications faites par des collaborateurs sont effacées, c'est pourquoi cette opération de nettoyage implique l'arrêt complet du projet pendant qu'elle a lieu.
+```
+git push origin master --force
+```
+
+Ce code peut être utilisé pour supprimer totalement n'importe quel fichier ou dossier d'un dépôt en remplaçant simplement `docs` dans la commande `git filter-branch` initiale.
+La réduction de la taille du dépôt peut être suivie en utilisant `git count-objects -vH` avant l'opération, avant `git gc` (la taille du dépôt reste stable mais a été déplacée vers *garbage*) et à la fin (la taille du dépôt est sensiblement réduite).
