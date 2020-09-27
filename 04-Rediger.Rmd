@@ -171,13 +171,251 @@ Le compilateur Latex change.
 
 #### Intégration continue
 
-## Site web : blogdown
+
+## Site web : blogdown {#sec:blogdown}
+
+Pour créer une page web personnelle, *Hugo* est un générateur de site statique capable de produire des pages HTML à partir de code Markdown.
+Les sites statiques ont l'avantage, en comparaison aux sites dynamiques gérés par un système de gestion de contenu (CMS, par exemple: Wordpress, Joomla, SPIP), d'être portables sur n'importe quel serveur web sans support de base de données ni de code à exécuter côté le serveur (comme PHP) et d'être très rapides puisque les pages sont créées une seule fois et non à chaque consultation.
+Un site Hugo peut être hébergé par exemple sur la page personnelle de tout utilisateur de GitHub.
+
+Hugo propose de nombreux thèmes, qui sont des modèles de structure de sites, donc le thème **Academic**, prévu pour des chercheurs.
+Dans RStudio, le package **blogdown** est prévu pour produire facilement des pages web avec Hugo.
+Nous utiliserons donc cette solution, pour un site comme celui proposé en exemple [^411].
+
+[^411]: https://ericmarcon.github.io/
+
+
+#### Installation des outils
+
+La première étape consiste à installer le package **blogdown** dans R.
+
+```{r blogdown, eval=FALSE}
+install.packages('blogdown') 
+```
+
+**blogdown** est capable d'installer Hugo sous Windows, macOS ou Linux.
+```{r Hugo, eval=FALSE}
+blogdown::install_hugo()
+```
+
+Par la suite, la mise à jour de Hugo pourra être faite par:
+```{r mqjHugo, eval=FALSE}
+blogdown::update_hugo()
+```
+La documentation complète de **blogdown** est disponible [^412].
+
+[^412]: https://bookdown.org/yihui/blogdown/
+
+Les versions récentes de Hugo utilisent Go (le langage de programmation) pour installer leur modules à la volée: ici le thème Academic est chargé depuis GitHub au moment de la création du site.
+Go doit donc être installé [^414].
+
+[^414]: https://golang.org/doc/install
+
 
 #### Créer
 
+La façon la plus simple consiste à créer un dépôt sur GitHub à partir du modèle.
+Sur la page du dépôt *starter-academic* [^413], cliquer sur le bouton "Use this template", s'authentifier éventuellement sur GitHub, puis saisir le nom du dépôt qui contiendra le projet, par exemple "MySite".
+Créer le dépôt.
+Copier l'adresse du dépôt en cliquant sur le bouton "Code" puis sur le bouton à droite de l'adresse (figure \@ref(fig:rediger-GitHub-Clone)).
+
+(ref:rediger-GitHub-Clone) Copie de l'adresse d'un dépôt à cloner sur GitHub.
+```{r rediger-GitHub-Clone, fig.cap="(ref:rediger-GitHub-Clone)", echo=FALSE}
+knitr::include_graphics('images/rediger-GitHub-Clone.png')
+```
+
+[^413]: https://github.com/wowchemy/starter-academic
+
+Dans RStudio, créer un nouveau projet à partir de GitHub: dans le menu des projets en haut à droite, cliquer sur *New Project...* puis *Version Control* puis *Git* puis coller l'adresse dans le champ "Repositry URL" (figure \@ref(fig:rediger-Projet-GitHub)).
+Sélectionner le dossier dans lequel le projet sera créé en cliquant sur "Browse" et enfin cliquer sur "Create Project".
+
+(ref:rediger-Projet-GitHub) Copie de l'adresse d'un dépôt à cloner sur GitHub.
+```{r rediger-rediger-Projet-GitHub, fig.cap="(ref:rediger-rediger-Projet-GitHub)", echo=FALSE}
+knitr::include_graphics('images/rediger-Projet-GitHub')
+```
+
+Le projet créé est une copie exacte du modèle, qui doit être personnalisée.
+
+RStudio ajoute automatiquement à la fin du fichier `.gitignore` une ligne pour ignorer ses fichiers de travail (dossier `.Rproj.user`).
+Ajouter une ligne de commentaire pour le signaler.
+Le contenu de `.gitignore` doit être le suivant:
+
+```
+# IDEs
+.idea/
+
+# Hugo
+/resources/
+public/
+
+# R
+.Rproj.user
+.RData
+.Rhistory
+```
+
+Un bug de **blogdown** nécessite de déplacer le fichier `config/_default/config.toml` à la racine du projet.
+
+Prendre en compte ces modification dans git en faisant un commit.
+
+Exécuter 
+```{r}
+blogdown:::serve_site()
+```
+
+pour construire le site web.
+Il apparaît dans la fenêtre Viewer de RStudio, dont le bouton d'agrandissement permet l'affichage dans le navigateur internet par défaut du système.
+
+Pour modifier le contenu du site, il est préférable d'arrêter le serveur web par la commande:
+```{r}
+blogdown:::stop_server()
+```
+
+Si le site est multilingue (Français et Anglais par exemple), son contenu  (dossier `content`) doit être copié dans un dossier correspondant à chaque langue. Par exemple, le fichier `content/authors/admin/_index.md` qui contient les informations sur le propriétaire du site est dupliqué dans `content/en/authors/admin/_index.md` et `content/fr/authors/admin/_index.md` si le site supporte l'Anglais et le Français.
+
+
 #### Ecrire
 
-#### Tricoter
+Utiliser la documentation en ligne [^415].
+L'exemple utilisé ici est le site personnel de l'auteur [^416].
+
+[^415]: https://wowchemy.com/docs/page-builder/
+
+[^415]: https://ericmarcon.github.io/
+
+La méthode de travail consiste à progresser pas à pas en testant puis validant chaque étape:
+
+* Effectuer les modifications;
+* Construire le site et vérifier le résultat: `blogdown:::serve_site()`;
+* Arrêter le site: `blogdown::stop_server()`;
+* Si le résultat n'est pas satisfaisant, recommencer;
+* Valider les modifications (*commit*).
+
+
+##### Page d'accueil
+
+La page d'accueil du site est constituée par une suite d'éléments (*widgets*) qui se trouvent dans `/contents/<langue>/home`.
+Chaque élément est décrit par un fichier markdown.
+Le premier est `index.md`.
+Il n'est normalement jamais modifié.
+Son contenu est le suivant:
+```
++++
+# Homepage
+type = "widget_page"
+headless = true  # Homepage is headless, other widget pages are not.
++++
+```
+
+Le fichier ne contient qu'un entête au format TOML, encadré par une ligne de `+++`.
+Le type de composant (`type`) indique qu'il s'agit d'une page de composants, dans laquelle les autres composants du dossier trouveront leur place.
+`headless = true` signifie que la page n'a pas d'entête.
+
+(ref:rediger-demo) Composant `demo` dans Academic.
+```{r rediger-demo, fig.cap="(ref:rediger-demo)", echo=FALSE}
+knitr::include_graphics('images/rediger-demo.png')
+```
+
+Le composant `demo.md` (figure \@ref(fig:rediger-demo)) est un composant de type "blank", c'est-à-dire une page de texte libre: il sert ici à présenter le modèle Academic Kickstart et doit donc être désactivé.
+L'entête contient ses informations de formatage (titre, nombre de colonnes, couleurs...) et le contenu de la page est écrit en markdown.
+Les composants apparaissent par ordre croissant de poids (`weight` dans l'entête): 15 marque le premier composant dans le modèle Academic.
+Le composant peut être désactivé en supprimant son fichier ou en modifiant sa propriété `active` dans l'entête:
+```
+active = false  # Activate this widget? true/false
+```
+
+(ref:rediger-about) Composant `about` dans Academic.
+```{r rediger-about, fig.cap="(ref:rediger-about)", echo=FALSE}
+knitr::include_graphics('images/rediger-about.png')
+```
+
+Le composant suivant est `about.md` (figure \@ref(fig:rediger-about)).
+Il présente le propriétaire du site.
+Son titre doit être localisé.
+Dans le dossier `/content/fr/home`, sa valeur sera:
+```
+title = "Biographie"
+```
+
+L'auteur (`author`) doir correspondre à un dossier de `/contents/<langue>/authors`.
+`admin` convient parfaitement pour un site personnel.
+Academic permet de créer des sites d'équipes: dans cette configuration, un dossier par personne serait nécessaire.
+L'image affichée par le composant est le fichier `avatar.jpg` placé dans ce dossier.
+Limiter la taille du fichier pour la performance du site (moins d'un mégaoctet est une taille raisonnable), tout en assurant une taille minimale de quelques centaines de pixels de côté pour la qualité de l'affichage.
+
+Le contenu du composant est lu dans le fichier `_index.md` du même dossier.
+Son organisation est assez claire: modifier son contenu à partir de l'exemple fourni.
+
+(ref:rediger-skills) Composant `skills` dans Academic.
+```{r rediger-skills, fig.cap="(ref:rediger-skills)", echo=FALSE}
+knitr::include_graphics('images/rediger-skills.png')
+```
+
+Le composant talents (`skills`, figure \@ref(fig:rediger-skills)) présente les compétences de l'auteur de façon graphique.
+Une collection d'icônes est disponible, et des icônes nouvelles peuvent être ajoutées.
+
+(ref:rediger-experience) Composant `experience` dans Academic.
+```{r rediger-experience, fig.cap="(ref:rediger-experience)", echo=FALSE}
+knitr::include_graphics('images/rediger-experience.png')
+```
+
+Le composant expérience (`experience`, figure \@ref(fig:rediger-experience)) liste les expériences professionnelles. 
+Toutes les informations sont saisies dans son entête.
+
+Le composant `accomplishments` présente les formations professionnelles et permet d'accéder à leurs certificats.
+
+Le composant `posts` va chercher son contenu dans le dossier `/contents/<langue>/post` qui contient les billets de blog (voir plus bas).
+Le fichier `posts.md` contient des options de mise en page dans son entête.
+
+Le composant `projects` fonctionne de la même façon.
+La différence entre les deux composants est leur mise en forme: `posts` est du type "pages", qui affiche les éléments les plus récents, alors que `projects` est de type "portfolio", qui affiche les éléments sélectionnés qui contiennent la description `featured: true` dans leur propre entête.
+Il est possible de créer des composants de ces types librement, en spécifiant le dossier contenant les éléments dans "page-type".
+Exemple: créer un composant nommé `software.md` en renommant `projects.md`, modifier sa ligne `page_type = "software"` et créer un dossier `/contents/<langue>/software` pour y placer du contenu.
+
+Les composants `publications` et `featured` sont respectivemet de type "pages" et "portfolio" et prennent leur contenu dans le dossier `publication`.
+
+Le composant `tags` présente un nuage de mots à partir des mots-clés déclarés dans tous les fichiers de contenu (billets de blog, pulications...) sous la forme suivante dans leur entête:
+```
+tags = ["Mot Clé 1", "Autre Mot Clé"]
+```
+
+Enfin, le composant `contact` permet d'afficher un formulaire de contact.
+Il utilise les informations du fichier `config/_default/params.toml` dans sa partie commençant par:
+```
+############################
+## Contact details
+##
+```
+Pour afficher une carte, entrer la latitude et la longitude de l'adresse dans la ligne `coordinates`.
+Pour afficher un formulaire de messagerie, choisir le service *formspree.io* (`email_form = 2` dans `contact.md`).
+Pour activer le service de messagerie, il faudra construire le site web, s'envoyer un premier message en utilisant le formulaire et suivre les instructions de Formspree.
+
+##### Menu de la page d'accueil
+
+##### Paramétrage fin
+
+##### Billets
+
 
 #### Intégration continue
 
+Un fichier `DESCRIPTION` est obligatoire pour Travis qui y cherche les packages R à installer.
+Les premières lignes (Package, Title,...) ne sont pas utilisées par Travis mais permettent de respecter le format standard des fichiers `DESCRIPTION`.
+
+```
+Package: Home-Page
+Title: Eric Marcon's Home Page
+Version: 1.0.0
+Authors@R: c(
+  person("Eric", "Marcon", , "e.marcon@free.fr", c("aut", "cre"))
+  )
+URL: https://github.com/ericmarcon/Home-Page
+Depends:
+  R (>= 3.1.0)
+Imports:
+  blogdown, 
+  GoFKernel,
+  igraph,
+  scholar,
+  tidyverse
+```
