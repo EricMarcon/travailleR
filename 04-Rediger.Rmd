@@ -2,7 +2,7 @@
 
 ## Bloc-note Markdown (R Notebook)
 
-Le code doit toujours être commenté pour faciliter sa lecture.
+Dans un fichier `.R`, le code doit toujours être commenté pour faciliter sa lecture.
 Quand l'explication du code nécessite plusieurs lignes de commentaire par ligne ou bloc de code, il est temps d'inverser la logique et de placer le code dans un texte.
 
 L'outil le plus simple est le bloc-note Markdown (Menu "File/New File/R Notebook").
@@ -180,6 +180,7 @@ Un site Hugo peut être hébergé par exemple sur la page personnelle de tout ut
 
 Hugo propose de nombreux thèmes, qui sont des modèles de structure de sites, donc le thème **Academic**, prévu pour des chercheurs.
 Dans RStudio, le package **blogdown** est prévu pour produire facilement des pages web avec Hugo.
+Ces pages peuvent contenir du code R.
 Nous utiliserons donc cette solution, pour un site comme celui proposé en exemple [^411].
 
 [^411]: https://ericmarcon.github.io/
@@ -206,7 +207,7 @@ La documentation complète de **blogdown** est disponible [^412].
 
 [^412]: https://bookdown.org/yihui/blogdown/
 
-Les versions récentes de Hugo utilisent Go (le langage de programmation) pour installer leur modules à la volée: ici le thème Academic est chargé depuis GitHub au moment de la création du site.
+Les versions récentes de Hugo utilisent Go (le langage de programmation) pour installer leurs modules à la volée: ici le thème Academic est chargé depuis GitHub au moment de la création du site.
 Go doit donc être installé [^414].
 
 [^414]: https://golang.org/doc/install
@@ -226,7 +227,7 @@ knitr::include_graphics('images/rediger-GitHub-Clone.png')
 
 [^413]: https://github.com/wowchemy/starter-academic
 
-Dans RStudio, créer un nouveau projet à partir de GitHub: dans le menu des projets en haut à droite, cliquer sur *New Project...* puis *Version Control* puis *Git* puis coller l'adresse dans le champ "Repositry URL" (figure \@ref(fig:rediger-Projet-GitHub)).
+Dans RStudio, créer un nouveau projet à partir de GitHub: dans le menu des projets en haut à droite, cliquer sur *New Project...* puis *Version Control* puis *Git* puis coller l'adresse dans le champ "Repository URL" (figure \@ref(fig:rediger-Projet-GitHub)).
 Sélectionner le dossier dans lequel le projet sera créé en cliquant sur "Browse" et enfin cliquer sur "Create Project".
 
 (ref:rediger-Projet-GitHub) Copie de l'adresse d'un dépôt à cloner sur GitHub.
@@ -241,17 +242,23 @@ Ajouter une ligne de commentaire pour le signaler.
 Le contenu de `.gitignore` doit être le suivant:
 
 ```
-# IDEs
-.idea/
+# R
+.Rbuildignore
+.RData
+.Rhistory
+.Rprofile
+.Rproj.user
 
 # Hugo
 /resources/
-public/
+/public/
 
-# R
-.Rproj.user
-.RData
-.Rhistory
+# blogdown
+/static/en/
+/static/fr/
+*.rmarkdown
+_index.html
+index.html
 ```
 
 Un bug de **blogdown** nécessite de déplacer le fichier `config/_default/config.toml` à la racine du projet.
@@ -271,7 +278,89 @@ Pour modifier le contenu du site, il est préférable d'arrêter le serveur web 
 blogdown:::stop_server()
 ```
 
-Si le site est multilingue (Français et Anglais par exemple), son contenu  (dossier `content`) doit être copié dans un dossier correspondant à chaque langue. Par exemple, le fichier `content/authors/admin/_index.md` qui contient les informations sur le propriétaire du site est dupliqué dans `content/en/authors/admin/_index.md` et `content/fr/authors/admin/_index.md` si le site supporte l'Anglais et le Français.
+Si le site est multilingue (Français et Anglais par exemple), son contenu (dossier `content`) doit être copié dans un dossier correspondant à chaque langue.
+Par exemple, le fichier `content/authors/admin/_index.md` qui contient les informations sur le propriétaire du site est dupliqué dans `content/en/authors/admin/_index.md` et `content/fr/authors/admin/_index.md` si le site supporte l'Anglais et le Français.
+En pratique, créer un dossier `en` et un dossier `fr` dans `content`.
+Copier tout le contenu de content (sauf les deux nouveaux dossiers) dans `en` puis déplacer ce même contenu dans `fr`.
+
+
+### Paramétrer
+
+Les fichiers de configuration du site sont bien documentés et offrent de nombreuses options.
+Les principales sont passées en revue ici pour une création rapide d'un site fonctionnel.
+
+Le fichier `config.toml` contient les paramètres généraux du site.
+Les lignes à mettre à jour sont celle du titre du site (le nom du propriétaire puisqu'il s'agit d'un site personnel) et son adresse publique. Pour le site exemple :
+```{r}
+title = "Eric Marcon"
+baseurl = "https://ericmarcon.github.io/"
+```
+
+Le dossier `config/_default/` contient les autres fichiers de configuration.
+
+`languages.toml` contient les paramètres linguistiques et les traductions de menus.
+Pour chaque langue, la version utilisée et le dossier de contenu sont précisés:
+```
+[en]
+  languageCode = "en-us"
+  contentDir = "content/en"
+[fr]
+  languageCode = "fr-fr"
+  contentDir = "content/fr"
+```
+
+Pour les langues additionnelles, le titre du site, les paramètres d'affichage des dates et la traduction des menus sont ajoutés.
+Dan la section `[fr]`:
+```
+[en]
+  languageCode = "en-us"
+  contentDir = "content/en"
+[fr]
+  languageCode = "fr-fr"
+  contentDir = "content/fr"
+```
+
+Ces lignes sont commentées dans le modèle et doivent dont être décommentées en retirant les `#` en têtes de lignes.
+
+Les menus sont décrits plus bas.
+
+`params.toml` décrit l'aspect du site.
+Les options sont regroupées par sujet, par exemple "Theme" pour l'apparence générale.
+Dans "Basic Info", la ligne 
+```
+site_type = "Person"
+```
+sélectionne un site personnel.
+Il est possible d'utiliser Academic pour un site de projet scientifique ou un site d'unité, non documentés en détail ici.
+Les principales différences sont, pour un site collectif:
+
+* la gestion des auteurs: dans le dossier `/contents/<langue>/authors`, un seul dossier `admin` est utilisé pour un site personnel alors qu'un dossier par personne est nécessaire pour un site collectif;
+* un composant décrit plus bas, qui permet de présenter les personnes, doit être activé.
+
+La description du site dans la langue par défaut est saisie, à destination des moteurs de recherche:
+```
+description = "Eric Marcon's Homepage"
+```
+
+Elle doit être traduite dans le fichier `languages.toml`, dans chaque langue.
+
+Dans "Site Features", nous sélectionnons la coloration du code R, l'activation du formatage des équations et l'avertissement légal pour l'utilisation des cookies.
+```
+highlight_languages = ["r"] 
+math = true
+privacy_pack = true
+```
+
+La ligne `edit_page` doit être mise à jour: remplacer le dépôt par défaut "https://github.com/gcushen/hugo-academic" par celui du site.
+
+"Contact details" contient les informations pour contacter le propriétaire du site.
+Elles doivent être saisies.
+
+"Regional Settings" contient les paramètres d'affichage de date pour la langue par défaut (ceux des autres langues sont dans `languages.toml`).
+Ils n'ont normalement pas à être modifiés.
+
+"Comments" permet d'activer les commentaires des visiteurs en bas de pages, avec Disqus ou Comment.io (un compte est nécessaire chez le fournisseur). "Marketing" permet d'activer le suivi de fréquentation du site en saisissant simplement son identifiant Google Analytics (à créer avec un compte Google).
+"Content Management System" contient la ligne `netlify_cms` dont la valeur doit être `false` si le site n'est pas hébergé par Netlify. Enfin "Icon Pack Extensions" permet d'activer les icônes Academicons si nécessaire.
 
 
 ### Ecrire
@@ -309,7 +398,7 @@ headless = true  # Homepage is headless, other widget pages are not.
 
 Le fichier ne contient qu'un entête au format TOML, encadré par une ligne de `+++`.
 Le type de composant (`type`) indique qu'il s'agit d'une page de composants, dans laquelle les autres composants du dossier trouveront leur place.
-`headless = true` signifie que la page n'a pas d'entête.
+`headless = true` signifie que la page n'a pas d'en-tête.
 
 (ref:rediger-demo) Composant `demo` dans Academic.
 ```{r rediger-demo, fig.cap="(ref:rediger-demo)", echo=FALSE}
@@ -343,8 +432,9 @@ Academic permet de créer des sites d'équipes: dans cette configuration, un dos
 L'image affichée par le composant est le fichier `avatar.jpg` placé dans ce dossier.
 Limiter la taille du fichier pour la performance du site (moins d'un mégaoctet est une taille raisonnable), tout en assurant une taille minimale de quelques centaines de pixels de côté pour la qualité de l'affichage.
 
-Le contenu du composant est lu dans le fichier `_index.md` du même dossier.
+Le contenu du composant est lu dans le fichier `_index.md` du même dossier, qui contient toutes les informations sur l'auteur.
 Son organisation est assez claire: modifier son contenu à partir de l'exemple fourni.
+Si des icônes de type `ai` sont utilisées, activer le pack d'icône Academicons dans `config/_default/params.toml`.
 
 (ref:rediger-skills) Composant `skills` dans Academic.
 ```{r rediger-skills, fig.cap="(ref:rediger-skills)", echo=FALSE}
@@ -372,9 +462,9 @@ La différence entre les deux composants est leur mise en forme: `posts` est du 
 Il est possible de créer des composants de ces types librement, en spécifiant le dossier contenant les éléments dans "page-type".
 Exemple: créer un composant nommé `software.md` en renommant `projects.md`, modifier sa ligne `page_type = "software"` et créer un dossier `/contents/<langue>/software` pour y placer du contenu.
 
-Les composants `publications` et `featured` sont respectivemet de type "pages" et "portfolio" et prennent leur contenu dans le dossier `publication`.
+Les composants `publications` et `featured` sont respectivement de type "pages" et "portfolio" et prennent leur contenu dans le dossier `publication`.
 
-Le composant `tags` présente un nuage de mots à partir des mots-clés déclarés dans tous les fichiers de contenu (billets de blog, pulications...) sous la forme suivante dans leur entête:
+Le composant `tags` présente un nuage de mots à partir des mots-clés déclarés dans tous les fichiers de contenu (billets de blog, publications...) sous la forme suivante dans leur entête:
 ```
 tags = ["Mot Clé 1", "Autre Mot Clé"]
 ```
@@ -390,11 +480,224 @@ Pour afficher une carte, entrer la latitude et la longitude de l'adresse dans la
 Pour afficher un formulaire de messagerie, choisir le service *formspree.io* (`email_form = 2` dans `contact.md`).
 Pour activer le service de messagerie, il faudra construire le site web, s'envoyer un premier message en utilisant le formulaire et suivre les instructions de Formspree.
 
+Le composant `people` est utilisé dans les sites collectifs pour présenter les membres.
+Le composant `slider` permet d'afficher un carrousel (des éléments défilants) en haut de page.
+Pour comprendre son fonctionnement, le plus simple consiste à l'activer.
+
+
 #### Menu de la page d'accueil
 
-#### Paramétrage fin
+La page d'accueil comporte un menu qui permet de naviguer rapidement vers ses composants ou vers d'autres pages.
+Il est paramétré dans `config/_default/menus.toml`.
+Les éléments du menu ont un nom affiché, un lien (commençant par `#` pour pointer vers un composant ou un chemin relatif dans le site comme `publication/`), et un poids qui définit leur ordre d'affichage, de la même façon que celui des composants de la page d'accueil.
+
+Un menu à deux éléments pour pointer vers l'accueil du site et les billets de blogs est donc le suivant:
+```
+[[main]]
+  name = "Home"
+  url = "#about"
+  weight = 10
+
+[[main]]
+  name = "Posts"
+  url = "#posts"
+  weight = 20
+```
+
+Le menu doit être traduit dans chaque langue dans le fichier `config/_default/languages.toml`:
+```
+[fr]
+  [[fr.menu.main]]
+    name = "Accueil"
+    url = "#about"
+    weight = 10
+  [[fr.menu.main]]
+    name = "Articles"
+    url = "#posts"
+    weight = 20
+```
 
 #### Billets
+
+Le site est alimenté par des billets de blog placés dans le dossier `/contents/<langue>/post`.
+Il doivent être traduits et placés dans le dossier `post` de chaque langue pour être disponibles dans la langue correspondante.
+L'exemple utilisé ici est un guide pour estimer correctement la densité d'une variable bornée [^417].
+
+[^417]: https://ericmarcon.github.io/post/densite/
+
+Son code est sur GitHub [^418].
+
+[^418]: https://github.com/EricMarcon/Home-Page/tree/master/content/fr/post/densite
+
+Un billet est placé dans un dossier (`/content/fr/post/densite`) qui contient son code Rmarkdown et éventuellement des images, des données pour alimenter le code et d'autres éléments appelés par le code.
+Hugo supporte des fichiers markdown natifs.
+L'apport de **blogdown** relativement à un site Hugo natif est le support de Rmarkdown, donc la possibilité d'exécuter tout code R comme dans un bloc-note (dont le contenu peut être réutilisé sans modification).
+
+Le fichier principal d'un billet est `index.Rmd`.
+**blogdown** crée un fichier `index.html` pendant la construction du site: il peut être ignoré (dans `.gitgnore`) et supprimé à tout moment.
+Si une image `featured.png` (optimale pour un schéma) ou `featured.jpg` (optimale pour un photo) est placée dans le dossier, elle sera utilisée comme vignette du billet.
+
+`index.Rmd` comprend un entête au format yaml (entourée par des `---`) ou toml (entourée par des `+++`) qui décrit son affichage:
+```
+---
+title: "Titre du billet"
+subtitle: "Sous-titre"
+summary: "Résumé"
+authors: []
+tags: ["Mot Clé 1", "Autre Mot Clé"]
+categories: []
+date: 2020-04-17
+featured: false
+draft: false
+
+# Featured image
+# To use, add an image named `featured.jpg/png` to your page's folder.
+# Focal points: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight.
+image:
+  caption: ""
+  focal_point: ""
+  preview_only: false
+  
+bibliography: references.bib
+---
+```
+
+Les auteurs sont utilisés dans les sites collectifs. 
+Les tags permettent d'alimenter le composant nuage de mots s'il est activé dans la page d'accueil.
+Les catégories permettent de rechercher des pages au contenu similaire (recherche par mot-clé sur le site).
+L'option `featured: true` fait apparaître le billet dans les composants de type `featured` sur la page d'accueil.
+L'option `draft: true` cache le billet.
+
+Les éléments suivants précisent l'affichage de la vignette: légende et position.
+L'option `preview_only: true` limite l'affichage aux miniatures (sur la page d'accueil), retirant donc l'image du billet lui-même.
+
+Les éléments d'entête nécessaires au corps de texte RMarkdown, comme le nom du fichier contenant les références bibliographiques, placé dans le même dossier, sont ajoutés.
+
+Le corps du texte est celui d'un document RMarkdown standard, avec du code R inclus.
+Un bout de code initial permet de fixer les options de R et charger les packages nécessaires.
+
+En pratique, la façon la plus efficace de créer un nouveau billet est de copier le dossier complet d'un billet précédent, de le renmmer et de modifier son contenu.
+La commande `blogdown::new_post()` peut aussi être utilisée mais ne gère pas les langues multiples (et crée donc le billet dans le dossier `/contents/post` à moins de préciser l'argument `subdir`).
+
+#### Publications
+
+Les publications sont organisées comme les billets, mais placées dans le dossier `/contents/<langue>/publications`.
+
+L'exemple utilisé est un article de revue [^419] avec son code [^420] 
+
+[^419]: https://ericmarcon.github.io/publication/marcon-2003-a/
+
+[^420]: https://github.com/EricMarcon/Home-Page/tree/master/content/fr/publication/marcon-2003-a
+
+Un fichier `cite.bib` contenant la référence au format BibTex est placé dans le dossier.
+Le nom du dossier est de préférence celui de l'identifiant de la publication.
+L'entête du fichier `index.md` (ici au format Markdown, mais `.Rmd` est possible si du code R est nécessaire) contient les mêmes informations que le fichier BibTex, mais au format approprié (yaml), et les éléments propres à Academic (`featured`):
+```
+---
+title: "Evaluating the geographic concentration of industries using distance-based methods"
+authors: ["Eric Marcon", "Florence Puech"]
+publication_types: ["2"]
+abstract: "We propose (...)"
+publication: "*Journal of Economic Geography*"
+doi: "10.1093/jeg/lbg016"
+
+date: 2003-10-01
+featured: false
+---
+```
+
+Les types de publication sont:
+
+* 0 = Uncategorized;
+* 1 = Conference paper;
+* 2 = Journal article;
+* 3 = Preprint / Working Paper;
+* 4 = Report;
+* 5 = Book;
+* 6 = Book section;
+* 7 = Thesis;
+* 8 = Patent.
+
+Des boutons sont affichés en haut de la page de la publication en fonction des informations trouvées :
+
+* PDF: si la ligne `url` est présente dans l'en-tête;
+* Citation: si le fichier `cite.bib` est orésent dans le dossier;
+* DOI: si la ligne `doi` est présente dans l'en-tête.
+
+
+Le corps de la publication contient un lien (au format HTML) vers le site Dimension qui fournit des informations bibliométriques.
+Ce lien peut être réutilisé très simplement, en remplaçant simplement le DOI du document:
+```
+<span class="__dimensions_badge_embed__" data-doi="10.1093/jeg/lbg016"></span>
+<script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
+```
+
+Enfin, un fichier `/contents/<langue>/publications/_index.Rmd` permet de présenter la bibliographie complète.
+Il est accessible à partir du composant `publications` de la page d'accueil qui affiche un lien "Plus de Publications".
+
+Le fichier exemple [^421] avec son code [^422] permet d'interroger Google Scholar pour obtenir le réseau de coauteurs, l'indice h et le nombre de citations annuelles de l'auteur.
+Il est réutilisable en modifiant simplement l'identifiant Google Scholar à la ligne 30.
+
+[^421]: https://ericmarcon.github.io/publication/
+
+[^422]: https://github.com/EricMarcon/Home-Page/tree/master/content/fr/publication/marcon-2003-a
+
+En faisant exécuter le code régulièrement, par exemple par Travis-CI (voir ci-dessous), les statistiques affichées sont maintenues à jour sans intervention humaine.
+
+
+#### Communications
+
+Les communications sont organisées comme les publications, dans le dossier `/contents/<langue>/talk`.
+
+L'exemple utilisé est une communication en Français, donc dans `/contents/fr/talk` [^423] avec son code [^424] 
+[^423]: https://ericmarcon.github.io/talk/chao1/
+
+[^424]: https://github.com/EricMarcon/Home-Page/tree/master/content/fr/talk/chao1
+
+Une image peut être utilisée plus facilement que pour une publication.
+
+L'entête contient des lignes particulières adaptées aux communications:
+```
+---
+title: "Construction de l'estimateur de biodiversité Chao1"
+event: "Semaine des mathématiques 2020"
+event_url: https://eduscol.education.fr/cid59178/semaine-des-mathematiques.html
+
+location: Université de Guyane
+
+summary: []
+abstract: |
+  Pour estimer le nombre d’espèces (richesse spécifique) d’une communauté 
+  à partir d’un échantillon, l’estimateur Chao1 est l’outil le plus utilisé.
+
+  Sa construction est expliquée et son efficacité est testée sur des données simulées.
+
+# Talk start and end times.
+#   End time can optionally be hidden by prefixing the line with `#`.
+date: "2020-03-11T11:00:00Z"
+date_end: "2020-03-11T12:00:00Z"
+all_day: false
+
+# Schedule page publish date (NOT talk date).
+publishDate: "2020-04-14"
+
+# Is this a featured talk? (true/false)
+featured: false
+
+image:
+  caption: 'Produit scalaire des vecteurs $v_0$ et $v_2$'
+  focal_point: Smart
+
+url_code: "https://github.com/EricMarcon/Chao1"
+url_pdf: "https://ericmarcon.github.io/Chao1/Chao1.pdf"
+url_slides: "https://ericmarcon.github.io/Chao1/Chao1.html"
+
+
+# Enable math on this page?
+math: true
+---
+```
+Les liens (`url_code` par exemple) font apparaître des boutons qui permettent d'afficher respectivement le code source de la présentation, un fichier pdf et les diapositives en ligne.
 
 
 ### Intégration continue
