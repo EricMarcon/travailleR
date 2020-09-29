@@ -583,7 +583,7 @@ La commande `blogdown::new_post()` peut aussi être utilisée mais ne gère pas 
 
 Les publications sont organisées comme les billets, mais placées dans le dossier `/contents/<langue>/publications`.
 
-L'exemple utilisé est un article de revue [^419] avec son code [^420] 
+L'exemple utilisé est un article de revue [^419] avec son code [^420].
 
 [^419]: https://ericmarcon.github.io/publication/marcon-2003-a/
 
@@ -649,7 +649,8 @@ En faisant exécuter le code régulièrement, par exemple par Travis-CI (voir ci
 
 Les communications sont organisées comme les publications, dans le dossier `/contents/<langue>/talk`.
 
-L'exemple utilisé est une communication en Français, donc dans `/contents/fr/talk` [^423] avec son code [^424] 
+L'exemple utilisé est une communication en Français, donc dans `/contents/fr/talk` [^423] avec son code [^424].
+
 [^423]: https://ericmarcon.github.io/talk/chao1/
 
 [^424]: https://github.com/EricMarcon/Home-Page/tree/master/content/fr/talk/chao1
@@ -700,25 +701,24 @@ math: true
 Les liens (`url_code` par exemple) font apparaître des boutons qui permettent d'afficher respectivement le code source de la présentation, un fichier pdf et les diapositives en ligne.
 
 
+#### Autres éléments
+
+Il est possible d'ajouter librement des éléments supplémentaires sur le site:
+
+* dans `/contents/<langue>/`, créer un dossier dont le nom est le type d'éléments (exemple: `recette`);
+* ajouter des éléments dans ce dossier, chacun dans son propre dossier;
+* le fichier obligatoire est `index.md` ou `index.Rmd` avec un en-tête contenant possiblement tous les champs rencontrés dans les éléments `post`, `publication` et `talk`;
+* le fichier de vignette,  `featured.png` ou `featured.jpg`, est facultatif;
+* tous les fichiers nécessaires au tricot (images, données) peuvent être ajoutés dans le même dossier;
+* dans `/contents/<langue>/home`, ajouter un composant de la page d'accueil en copiant-collant un élément existant de type "pages" (comme `publications`) ou "portfolio" (comme `featured`) et le paramétrer pour qu'il pointe sur le bon dossier (dans l'exemple: `page-type=recette`) et ajuster son apparence (nombre d'éléments par exemple) et sa position (poids);
+* ajouter éventuellement une entrée de menu pour pointer sur le composant, avec le même poids que le composant.
+
+Les fichiers d'index peuvent porter l'extension `.Rmd` ou `.md`.
+Dans le premier cas, ils seront traités par **blogdown**, qui supporte l'intégration de code R.
+Dans l'autre cas, ils seront traités par Hugo, qui ne gère que le format markdown standard.
+Les fichiers `.md` nécessitent moins de ressource et sont donc préférés quand ils suffisent.
+
 ### Intégration continue
 
-Un fichier `DESCRIPTION` est obligatoire pour Travis qui y cherche les packages R à installer.
-Les premières lignes (Package, Title,...) ne sont pas utilisées par Travis mais permettent de respecter le format standard des fichiers `DESCRIPTION`.
+La construction du site web en production peut être confiée à Travis-CI (chapitre \@ref(chap:ci)).
 
-```
-Package: Home-Page
-Title: Eric Marcon's Home Page
-Version: 1.0.0
-Authors@R: c(
-  person("Eric", "Marcon", , "e.marcon@free.fr", c("aut", "cre"))
-  )
-URL: https://github.com/ericmarcon/Home-Page
-Depends:
-  R (>= 3.1.0)
-Imports:
-  blogdown, 
-  GoFKernel,
-  igraph,
-  scholar,
-  tidyverse
-```

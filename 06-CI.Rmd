@@ -221,6 +221,77 @@ Imports:
   gridExtra
 ```
 
+#### Site web blogdown
+
+Le fichier `.travis.yml` est très similaire:
+
+```
+language: r
+latex: false
+
+branches:
+  only:
+    - master
+
+cache:
+  packages: yes
+  directories:
+    - $HOME/bin
+
+script:
+  - Rscript -e 'blogdown::install_hugo(force=TRUE)'
+  - Rscript -e 'blogdown::build_site()'
+  - touch public/.nojekyll
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  token: $GITHUB_TOKEN
+  on:
+    branch: master
+  local_dir: public
+  repo: GitHubID/GitHubID.github.io
+  target_branch: master
+
+```
+
+L'instruction `latex: false` ajoutée en début de fichier permet d'économiser le temps de l'installation d'une distribution LaTeX puisqu'un site web n'en a normalement pas besoin.
+
+La mise en cache de `$HOME/bin` évite d'installer à chaque fois le générateur de site web Hugo.
+
+Le script consiste à installer Hugo avec le package **blogdown** puis à construire le site (la commande `build_site()` est similaire à la commande `serve_site()` utilisée pendant le développement mais ne lance pas de serveur web pour afficher le résultat).
+Le site est créé dans le dossier `public`.
+La commande `touch` crée un fichier vide appelé `.nojekyll` qui servira après publication à indiquer à GitHub que le site web créé ne doit pas être traité par son propre générateur de sites appelé Jekyll.
+
+Tout utilisateur de GitHub (dont l'identifiant est ici *GitHubID*) dispose d'un dépôt par défaut dont le nom est `GitHubID.github.io`.
+Il n'a normalement qu'une seule branche `master`.
+Le contenu de la branche est un site web (pas sa source, qui doit être placée dans un dépôt différent) accessible à l'adresse <https://GitHubID.github.io>.
+Le déploiement copie le dossier `public` dans ce dépôt.
+Il ne garde pas de trace de l'historique (`skip_cleanup: true`) puisque le contrôle de source est déjà activé dans le dépôt contenant le code source du site.
+
+Un fichier `DESCRIPTION` est obligatoire pour Travis qui y cherche les packages R à installer.
+Les premières lignes (Package, Title,...) ne sont pas utilisées par Travis mais permettent de respecter le format standard des fichiers `DESCRIPTION`.
+
+```
+Package: Home-Page
+Title: Eric Marcon's Home Page
+Version: 1.0.0
+Authors@R: c(
+  person("Eric", "Marcon", , "e.marcon@free.fr", c("aut", "cre"))
+  )
+URL: https://github.com/ericmarcon/Home-Page
+Depends:
+  R (>= 3.1.0)
+Imports:
+  blogdown, 
+  GoFKernel,
+  igraph,
+  scholar,
+  tidyverse
+```
+
+Tous les packages utilisés dans les fichiers RMarkdown du site doivent être déclarés dans le fichier `DESCRIPTION`.
+
 
 #### Packages R
 
@@ -233,7 +304,7 @@ language: r
 Travis s'appuie sur le fichier `DESCRIPTION` pour installer les packages nécessaires et lance la vérification du package avec l'option `--as-cran`.
 La vérification échoue si elle retourne une erreur, un avertissement ou une note.
 
-Les packages nécessaires aux actions de Travis en cas de succès sont déclarés dans `r_packages`:
+Les packages supplémentaires, nécessaires aux actions de Travis en cas de succès, sont déclarés dans `r_packages`:
 ```
 r_packages: # Packages à installer pour Travis
   - covr    # Interfaçage de Covecov
@@ -262,7 +333,7 @@ Une seule est produite par Travis mais les deux doivent être conservées: il ne
 
 La dernière ligne du script consiste à créer un fichier vide nommé `.nojekyll` pour indiquer à GitHub que les pages web produites ne doivent pas être traitées comme le code source d'un site Jekyll, ce qui est le comportement par défaut des pages Git.
 
-L'exemple suivant correspond au package entropart, déposé sur CRAN.
+L'exemple suivant correspond au package **entropart**, déposé sur CRAN.
 
 Fichier `.travis.yml`:
 ```
