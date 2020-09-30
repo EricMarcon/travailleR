@@ -175,15 +175,20 @@ Le compilateur Latex change.
 ## Site web : blogdown {#sec:blogdown}
 
 Pour créer une page web personnelle, *Hugo* est un générateur de site statique capable de produire des pages HTML à partir de code Markdown.
-Les sites statiques ont l'avantage, en comparaison aux sites dynamiques gérés par un système de gestion de contenu (CMS, par exemple: Wordpress, Joomla, SPIP), d'être portables sur n'importe quel serveur web sans support de base de données ni de code à exécuter côté le serveur (comme PHP) et d'être très rapides puisque les pages sont créées une seule fois et non à chaque consultation.
-Un site Hugo peut être hébergé par exemple sur la page personnelle de tout utilisateur de GitHub.
+Les sites statiques ont l'avantage, en comparaison aux sites dynamiques gérés par un système de gestion de contenu (CMS, par exemple: Wordpress, Joomla, SPIP), d'être portables sur n'importe quel serveur web sans support de base de données ni de code à exécuter côté le serveur (tel que PHP) et d'être très rapides puisque les pages sont créées une seule fois et non à chaque consultation.
+Un site Hugo peut être hébergé par exemple sur la page personnelle de tout utilisateur de GitHub dont l'adresse est de la forme "NomUtilisateur.github.io".
 
-Hugo propose de nombreux thèmes, qui sont des modèles de structure de sites, donc le thème **Academic**, prévu pour des chercheurs.
+Hugo propose de nombreux thèmes, qui sont des modèles de structure de sites, donc le thème **Academic**, destiné aux chercheurs.
 Dans RStudio, le package **blogdown** est prévu pour produire facilement des pages web avec Hugo.
-Ces pages peuvent contenir du code R.
+Ces pages peuvent contenir du code R: elles sont très proches d'un mémo RMarkdown dont le contenu peut être facilement copié et collé.
 Nous utiliserons donc cette solution, pour un site comme celui proposé en exemple [^411].
 
 [^411]: https://ericmarcon.github.io/
+
+La structure du site web est simple:
+
+* une page d'accueil, contenant divers composants paramétrables comme la biographie de l'auteur, une sélection de publications, de billets de blogs ou d'autres éléments et un formulaire de contact;
+* des pages détaillant les divers éléments (publications, billets, etc.) écrites en RMarkdown.
 
 
 ### Installation des outils
@@ -207,7 +212,7 @@ La documentation complète de **blogdown** est disponible [^412].
 
 [^412]: https://bookdown.org/yihui/blogdown/
 
-Les versions récentes de Hugo utilisent Go (le langage de programmation) pour installer leurs modules à la volée: ici le thème Academic est chargé depuis GitHub au moment de la création du site.
+Les versions récentes de Hugo utilisent *Go* (le langage de programmation) pour installer leurs modules à la volée: ici le thème Academic est chargé depuis GitHub au moment de la création du site.
 Go doit donc être installé [^414].
 
 [^414]: https://golang.org/doc/install
@@ -269,7 +274,6 @@ Exécuter
 ```{r, eval=FALSE}
 blogdown:::serve_site()
 ```
-
 pour construire le site web.
 Il apparaît dans la fenêtre Viewer de RStudio, dont le bouton d'agrandissement permet l'affichage dans le navigateur internet par défaut du système.
 
@@ -279,10 +283,9 @@ blogdown:::stop_server()
 ```
 
 Si le site est multilingue (Français et Anglais par exemple), son contenu (dossier `content`) doit être copié dans un dossier correspondant à chaque langue.
-Par exemple, le fichier `content/authors/admin/_index.md` qui contient les informations sur le propriétaire du site est dupliqué dans `content/en/authors/admin/_index.md` et `content/fr/authors/admin/_index.md` si le site supporte l'Anglais et le Français.
+Par exemple, le fichier `content/authors/admin/_index.md` qui contient les informations sur le propriétaire du site est remplacé par `content/en/authors/admin/_index.md` et `content/fr/authors/admin/_index.md` si le site supporte l'Anglais et le Français.
 En pratique, créer un dossier `en` et un dossier `fr` dans `content`.
 Copier tout le contenu de content (sauf les deux nouveaux dossiers) dans `en` puis déplacer ce même contenu dans `fr`.
-
 
 ### Paramétrer
 
@@ -294,6 +297,12 @@ Les lignes à mettre à jour sont celle du titre du site (le nom du propriétair
 ```{r}
 title = "Eric Marcon"
 baseurl = "https://ericmarcon.github.io/"
+```
+
+Il contient aussi la ligne de sélection de la langue par défaut ("en" ou "fr" au choix) et celle qui permet de placer les fichiers produits par Hugo dans chaque dossier de langue ("true" obligatoirement pour un site multilingue):
+```
+defaultContentLanguage = "fr"
+defaultContentLanguageInSubdir = true
 ```
 
 Le dossier `config/_default/` contient les autres fichiers de configuration.
@@ -365,7 +374,7 @@ Ils n'ont normalement pas à être modifiés.
 
 ### Ecrire
 
-Utiliser la documentation en ligne [^415].
+Utiliser la documentation en ligne [^415] en complément des informations principales détaillées ici.
 L'exemple utilisé ici est le site personnel de l'auteur [^416].
 
 [^415]: https://wowchemy.com/docs/page-builder/
@@ -717,6 +726,14 @@ Les fichiers d'index peuvent porter l'extension `.Rmd` ou `.md`.
 Dans le premier cas, ils seront traités par **blogdown**, qui supporte l'intégration de code R.
 Dans l'autre cas, ils seront traités par Hugo, qui ne gère que le format markdown standard.
 Les fichiers `.md` nécessitent moins de ressource et sont donc préférés quand ils suffisent.
+
+
+#### Finitions
+
+L'icone du site, qui apparaît dans la barre d'adresse des navigateurs web, se trouve dans `assets/images`.
+Le fichier `icon.png` peut être remplacé.
+
+
 
 ### Intégration continue
 
