@@ -76,7 +76,7 @@ Pour limiter ce problème, un système de cache permet de ne pas réévaluer tou
 ## Modèles R Markdown
 
 Des modèles de document plus élaborés que le bloc-note sont fournis par des packages, dont **rmarkdown**.
-Ils sont accessibles par le menu "File/New File/R Markdown..."  \@ref(fig:e-rmd1)).
+Ils sont accessibles par le menu "File/New File/R Markdown..." (figure \@ref(fig:e-rmd1))).
 
 (ref:e-rmd1) Nouveau document Markdown à partir d'un modèle.
 ```{r e-rmd1, fig.cap="(ref:e-rmd1)", echo=FALSE}
@@ -137,26 +137,79 @@ remotes::install_github("EcoFoG/EcoFoG")
 ```
 
 
-### Modèle memo
+### Modèle memo {#sec:memo}
 
-Le modèle mémo produit un document HTML simple avec une table des matières flottante ([exemple](https://ericmarcon.github.io/Krigeage/Krigeage.html)).
-Le format PDF est proche du modèle *article* de LaTeX ([exemple](https://ericmarcon.github.io/Krigeage/Krigeage.pdf)).
+Le modèle mémo produit un document HTML simple avec une table des matières flottante (voir l'exemple [^430]).
+Le format PDF est proche du modèle *article* de LaTeX (exemple[^431]).
+
+[^430]: https://ericmarcon.github.io/Krigeage/Krigeage.html
+
+[^431]: https://ericmarcon.github.io/Krigeage/Krigeage.pdf
 
 Le modèle contient sa propre documentation.
 
 #### Créer
 
+Utiliser  le menu "File/New File/R Markdown..."  puis sélectionner "From template" (figure \@ref(fig:e-rmd1))).
+La liste des modèles disponible et le package qui les propose est alors affichée.
+
+Sélectionner le modèle Mémo du package **EcoFoG**.
+
 #### Ecrire
+
+Les instructions pour utiliser le modèle sont contenues dans le texte fourni par défaut.
 
 #### Tricoter
 
+Le document peut être tricoté en plusieurs formats :
+
+* html_document2 est le format HTML pour lequel le modèle a été conçu: un bloc-note avec une table des matières flottante;
+* gitbook est un format HTML alternatif, utilisé normalement pour les ouvrages;
+* pdf_book produit un document PDF suivant le modèle LaTeX *article*, couramment utilisé directement en LaTeX;
+* word_document2 crée un ficher Word.
+
+
 #### Mettre en ligne
 
-GitHub Pages, production locale
+Le script `GithubPages.R` fourni avec le modèle place tous les documents tricotés (HTML et PDF) dans le dossier `docs`, avec une copie du fichier `README.md`.
+De cette façon, il est possible d'activer les pages GitHub du projet (sur le dossier `docs` de la branche `master`).
+Le fichier `README.md` sera la page d'accueil du site web produit.
+
+Le script retourne de nombreux avertissements, sans conséquence, quand un fichier doit être écrasé par exemple.
+
+Pour le projet présenté en exemple, le fichier `README.md` est le suivant:
+```
+# Krigeage avec R
+
+Techniques pour interpoler les valeurs d'une variable continue.
+
+[Voir le support](https://EricMarcon.github.io/Krigeage/Krigeage.html) ou le [télécharger](https://EricMarcon.github.io/Krigeage/Krigeage.pdf)
+
+```
+La première ligne contient le titre, la seconde une description.
+Les liens pointent vers le fichier HMTL et le fichier PDF produits, tous les deux dans le dossier `docs`.
+Les liens sont absolus, avec l'adresse complète des fichiers, et non relatifs, parce que le fichier `README.md` est le même à la racine du projet (affiché par GitHub en dessous du code) et dans le dossier `docs` (utilisé par les pages GitHuB comme page d'accueil du site).
+
+En pratique, on tricote au format HTML pendant toute la phase de rédaction du mémo, parce que la production est très rapide.
+Quand le document est stabilisé, il faut le tricoter au format HTML et au format PDF.
+Enfin, l'exécution du script `GithubPages.R` (l'ouvrir et cliquer sur le bouton "Source") place tous les fichiers produits dans `docs`.
+Il reste à pousser le dépôt sur GitHub et activer les pages GitHub.
+
+La production des documents a lieu sur le poste de travail, elle n'est pas sous-traitée à un service en ligne (intégration continue, voir plus bas) contrairement à celle des ouvrages, qui nécessitent plus de ressources.
+
 
 ### Autres modèles
 
-rticles,...
+Le modèle *Article* d'**EcoFoG** est destiné à la production d'articles PDF pour l'autoarchivage (typiquement, le dépôt sur HAL) bien formatés, au format A4 en double colonne [^440].
+
+[^440]: Exemple: https://ericmarcon.github.io/Rochebrune2018/Entropie.pdf
+
+Le format HTML est le même que celui du modèle de mémo.
+
+Le package **rticles** a pour ambition de fournir des modèles pour toutes les revues scientifiques qui acceptent une soumission d'articles en LaTeX.
+Il propose donc des modèles Markdown qui produisent des fichiers PDF conformes aux exigences des revues et la possibilité de récupérer le fichier `.tex` intermédiaire (pandoc produit un fichier `.tex` transmis au compilateur LaTeX).
+Le package ne permet pas de tricot HTML parce qu'il utilise la syntaxe LaTeX dans le document RMarkdown au lieu d'utliser **bookdown** pour gérer les références bibliographique et les réferences croisées.
+Il n'est pas possible d'échanger directement du contenu RMarkdown standard avec des documents écrits pour **rticles**, ce qui limite beaucoup l'intérêt du package.
 
 ## Ouvrage : bookdown
 
@@ -170,6 +223,10 @@ Le compilateur Latex change.
 #### Tricoter
 
 #### Intégration continue
+
+La construction d'un ouvrage prend du temps, surtout s'il contient des calculs.
+Elle doit être lancée au format gitbook et au format PDF.
+En production, elle peut être confiée à Travis-CI (chapitre \@ref(sec:bookdown-ci)).
 
 
 ## Site web : blogdown {#sec:blogdown}
@@ -319,7 +376,7 @@ Pour chaque langue, la version utilisée et le dossier de contenu sont précisé
 ```
 
 Pour les langues additionnelles, le titre du site, les paramètres d'affichage des dates et la traduction des menus sont ajoutés.
-Dan la section `[fr]`:
+Dans la section `[fr]`:
 ```
 [en]
   languageCode = "en-us"
@@ -536,7 +593,7 @@ L'exemple utilisé ici est un guide pour estimer correctement la densité d'une 
 
 Son code est sur GitHub [^418].
 
-[^418]: https://github.com/EricMarcon/Home-Page/tree/master/content/fr/post/densite
+[^418]: https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/post/densite
 
 Un billet est placé dans un dossier (`/content/fr/post/densite`) qui contient son code Rmarkdown et éventuellement des images, des données pour alimenter le code et d'autres éléments appelés par le code.
 Hugo supporte des fichiers markdown natifs.
@@ -596,7 +653,7 @@ L'exemple utilisé est un article de revue [^419] avec son code [^420].
 
 [^419]: https://ericmarcon.github.io/publication/marcon-2003-a/
 
-[^420]: https://github.com/EricMarcon/Home-Page/tree/master/content/fr/publication/marcon-2003-a
+[^420]: https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a
 
 Un fichier `cite.bib` contenant la référence au format BibTex est placé dans le dossier.
 Le nom du dossier est de préférence celui de l'identifiant de la publication.
@@ -649,7 +706,7 @@ Il est réutilisable en modifiant simplement l'identifiant Google Scholar à la 
 
 [^421]: https://ericmarcon.github.io/publication/
 
-[^422]: https://github.com/EricMarcon/Home-Page/tree/master/content/fr/publication/marcon-2003-a
+[^422]: https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a
 
 En faisant exécuter le code régulièrement, par exemple par Travis-CI (voir ci-dessous), les statistiques affichées sont maintenues à jour sans intervention humaine.
 
@@ -662,7 +719,7 @@ L'exemple utilisé est une communication en Français, donc dans `/contents/fr/t
 
 [^423]: https://ericmarcon.github.io/talk/chao1/
 
-[^424]: https://github.com/EricMarcon/Home-Page/tree/master/content/fr/talk/chao1
+[^424]: https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/talk/chao1
 
 Une image peut être utilisée plus facilement que pour une publication.
 
@@ -737,5 +794,5 @@ Le fichier `icon.png` peut être remplacé.
 
 ### Intégration continue
 
-La construction du site web en production peut être confiée à Travis-CI (chapitre \@ref(chap:ci)).
+La construction du site web en production peut être confiée à Travis-CI (chapitre \@ref(sec:blogdown-ci)).
 

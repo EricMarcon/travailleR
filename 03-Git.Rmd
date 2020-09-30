@@ -53,10 +53,10 @@ A ce stade, les fichiers ne sont pas pris en compte par *git*: leur statut est u
 Pour *git*, le répertoire de travail local est un *bac à sable* où toutes les modifications sont possibles sans conséquences.
 
 Le fichier `.gitignore` contient la liste des fichiers qui n'ont jamais vocation à être pris en compte, qu'il est donc inutile d'afficher dans la liste: les fichiers intermédiaires produits automatiquement par exemple.
-La syntaxe des fichiers `.gitignore` est détaillée dans la documentation de *git*[^1].
+La syntaxe des fichiers `.gitignore` est détaillée dans la documentation de *git*[^305].
 En règle générale, utiliser un fichier existant: les modèles de documents notamment incluent leur fichier `.gitignore`.
 
-[^1]: https://git-scm.com/docs/gitignore
+[^305]: https://git-scm.com/docs/gitignore
 
 
 ### Prendre en compte des fichiers
@@ -411,3 +411,34 @@ git push origin master --force
 
 Ce code peut être utilisé pour supprimer totalement n'importe quel fichier ou dossier d'un dépôt en remplaçant simplement `docs` dans la commande `git filter-branch` initiale.
 La réduction de la taille du dépôt peut être suivie en utilisant `git count-objects -vH` avant l'opération, avant `git gc` (la taille du dépôt reste stable mais a été déplacée vers *garbage*) et à la fin (la taille du dépôt est sensiblement réduite).
+
+
+## Activer les pages GitHub
+
+Tout projet sur GitHub doit avoir contenir un fichier `README.md` pour le présenter.
+Ce fichier est écrit au format Markdown.
+
+Le fichier peut être dupliqué dans le dossier `docs` pour fournir la page d'accueil du site web du dépôt.
+Un dépôt contenant un mémo écrit en RMarkdown (voir section \@ref(sec:memo)) est utilisé comme exemple [^306].
+
+[^306]: https://github.com/EricMarcon/Krigeage
+
+Son fichier `README.md` existe aux deux emplacements.
+
+Pour activer les pages GitHub, il faut ouvrir les propriétés du dépôt (*Settings*) et modifier la rubrique "GitHub Pages" (dans "Options").
+Sélectionner la branche du projet et le dossier contenant les pages web, ici: `master` et `/docs`.
+En option, le choix d'un thème personnalise l'apparence des pages.
+
+Le site web est accessible à une adresse du domaine *github.io* [^307].
+
+[^307]: https://ericmarcon.github.io/Krigeage/
+
+Le fichier `README.md` affiché en page d'accueil a un aspect très différent mais le même contenu que celui affiché avec le code sur la page du dépôt dans GitHub.
+
+L'intérêt des pages GitHub est de permettre un accès simple aux documents formatés quand le dépôt contient une production écrite et ou à la documentation des packages R.
+Ces contenus seront présentés dans le chapitre suivant.
+
+Un site web principal est proposé avec chaque compte GitHub, à l'adresse https://<CompteGitHub>.github.io [^307].
+Il sera utilisé pour héberger un site web personnel produit par **blogdown**.
+
+[^307]: Exemple: https://ericmarcon.github.io/Krigeage/

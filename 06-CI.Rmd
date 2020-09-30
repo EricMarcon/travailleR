@@ -1,9 +1,9 @@
 # Intégration continue {#chap:ci}
 
 
-## Principes {#sec:principes-rediger}
+## Principes {#sec:principes-ci}
 
-### Objectifs {#sec:objectifs-rediger}
+### Objectifs {#sec:objectifs-ci}
 
 L'intégration continue consiste à confier à un service externe la tâche de vérifier un package, produire des documents Markdown pour les pages web d'un dépôt GitHub ou tricoter entièrement un site web à partir du code.
 
@@ -41,7 +41,7 @@ Si elles sont produites par Travis, elle le seront obligatoirement dans une bran
 ## Intégration continue d'un projet de document
 
 L'objectif est de faire tricoter par Travis un projet Markdown, comme ce document.
-Dans ce type de projet, le code est tricoté par knitr pour produire plusieurs documents, typiquement aux formats HTML et PDF, accessibles sur les pages Git.
+Dans ce type de projet, le code est tricoté par knitr pour produire plusieurs documents, typiquement aux formats HTML et PDF, accessibles sur les pages GitHub.
 Quand les documents sont produits localement, ils sont placés dans le dossier `docs` et poussés sur GitHub.
 
 Pour que Travis s'en charge, quelques réglages sont nécessaires. 
@@ -59,7 +59,7 @@ Générer un nouveau jeton, le décrire en tant que "Travis" et lui donner l'aut
 Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard: elle doit être sauvegardée comme un mot de passe.
 
 
-### Activation du dépôt
+### Activation du dépôt {#sec:activation-ci}
 
 Sur le site de Travis, afficher les paramètres de son compte d'utilisateur.
 La liste des dépôts GitHub est présentée.
@@ -80,12 +80,12 @@ Cliquer sur "Add".
 Le jeton ne pourra plus être lu sur Travis, pas plus que sur GitHub.
 Il sera utilisé comme une variable, à partir de son nom, pour n'apparaître dans aucun fichier.
 
-Le nom *GITHUB_TOKEN* est une convention.
+Le nom *GITHUB_TOKEN* est une convention: on pourrait le modifier, mais on ne le fait pas.
 
 
 ### Scripter les actions de Travis
 
-#### Projet bookdown
+#### Projet bookdown {#sec:bookdown-ci}
 
 Le script de contrôle de Travis doit être nommé `.travis.yml`.
 Il est au format YAML.
@@ -114,7 +114,7 @@ Ce script minimal indique que le *langage* est R.
 
 La partie *script* exécute des commandes sous R: `render_book` pour construire un livre, aux formats PDF et HTML.
 
-La partie *deploy* gère le déploiement du résultat, écrit dans le dossier `docs` de la branche *master* par  `render_book`.
+La partie *deploy* gère le déploiement du résultat, écrit dans le dossier `docs` de la branche *master* par `render_book`.
 La commande `skip_cleanup` permet d'éviter que le contenu de `docs` soit effacé entre les phases `script` et `deploy`. 
 La version 2 de l'outil de déploiement de Travis CI supprimera cette commande.
 
@@ -166,7 +166,7 @@ addons:
 ```
 Pour savoir quels packages *apt* installer, il est nécessaire de se référer à la documentation du package R et prendre en compte les instructions pour l'installation sous Ubuntu.
 
-A la fin de l'éxécution de son script, Travis peut envoyer systématiquement un message de compte-rendu:
+A la fin de l'exécution de son script, Travis peut envoyer systématiquement un message de compte-rendu:
 ```
 notifications:
   email:
@@ -221,7 +221,7 @@ Imports:
   gridExtra
 ```
 
-#### Site web blogdown
+#### Site web blogdown {#sec:blogdown-ci}
 
 Le fichier `.travis.yml` est très similaire:
 
@@ -292,8 +292,20 @@ Imports:
 
 Tous les packages utilisés dans les fichiers RMarkdown du site doivent être déclarés dans le fichier `DESCRIPTION`.
 
+Si le site web utilise des données en ligne qui justifient de le mettre à jour périodiquement, Travis peut être lancé tous les jours, toutes les semaines ou tous les mois en plus des reconstruction déclenchées par une modification du dépôt sur GitHub.
+Pour cela, afficher les propriétés du dépôt sur Travis-CI (voir la saisie du jeton GitHub en section \@ref(sec:activation-ci)) et ajouter une tâche programmée (*cron job*).
+Compléter puis cliquer sur "Add":
 
-#### Packages R
+* Branch: master;
+* Interval: selon les besoins;
+* Options: au choix, exécuter systématiquement ou ne pas le faire si le site a déjà été reconstruit dans les dernières 24 heures.
+
+Exemple: la page qui affiche la bibliométrie du site web [^605] de l'auteur interroge Google Scholar pour afficher les citations des publications.
+Le site est mis à jour tous les mois pour que les statistiques soient à jour.
+
+[^606]: https://ericmarcon.github.io/fr/publication/
+
+#### Packages R {#sec:package-ci}
 
 Le script minimal est:
 
@@ -331,7 +343,7 @@ after_success:
 La construction du site par **pkgdown** est plus compliqué que celle d'un livre produit par **bookdown** parce que deux versions coexistent si le package est hébergé sur CRAN: à la racine du dossier `docs`, la version de production correspondant à la version sur CRAN et, dans `docs/dev`, la version correspondant à la version en cours du package.
 Une seule est produite par Travis mais les deux doivent être conservées: il ne faut pas que la version de production, consultée par les utilisateurs du package, soit supprimée quand une version de développement est créée.
 
-La dernière ligne du script consiste à créer un fichier vide nommé `.nojekyll` pour indiquer à GitHub que les pages web produites ne doivent pas être traitées comme le code source d'un site Jekyll, ce qui est le comportement par défaut des pages Git.
+La dernière ligne du script consiste à créer un fichier vide nommé `.nojekyll` pour indiquer à GitHub que les pages web produites ne doivent pas être traitées comme le code source d'un site Jekyll, ce qui est le comportement par défaut des pages GitHub.
 
 L'exemple suivant correspond au package **entropart**, déposé sur CRAN.
 
