@@ -251,11 +251,33 @@ Ce document a été écrit avec ce modèle.
 
 #### Créer
 
+La création d'un projet d'ouvrage est identique à celle présentée plus haut: le modèle est: Ouvrage EcoFoG.
+Le dossier créé doit être transformé en chapitre, comme pour un Memo EcoFoG.
+
+Chaque chapitre de l'ouvrage  est un fichier Rmd, dont le nom commence normalement par son numéro (ex.: `01-intro.Rmd`).
+Tous les fichiers Rmd présents dans le dossier du projet sont en réalité traités comme des chapitres, triés par ordre de nom de fichier, dont ceux fournis par le modèle (démarrage et syntaxe) qui doivent être supprimés à l'exception de `99-references.Rmd` qui contient la bilibiographie, placée à la fin.
+Le fichier `index.Rmd` est particulier: il contient l'entête du document et le premier chapitre.
 
 
 #### Ecrire
 
+Ce premier chapitre est placé dans l'avant-propos de l'ouvrage imprimé: il ne doit pas être numéroté (d'où le code `{-}` à côté du titre) dans la version HTML. Il se termine obligatoirement par la commande LaTeX `\mainmatter` qui marque le début du corps de l'ouvrage.
+
+Les niveaux de plan commencent sont `#` pour les chapitres (un seul par fichier), `##` pour les sections, etc.
+
+
 #### Tricoter
+
+La compilation au format PDF est faite par XeLaTeX, qui doit être installé.
+
+Pendant la rédaction, il est fortement conseillé de ne créer que le fichier HTML, ce qui est beaucoup plus rapide qu'une compilation LaTeX.
+Chaque chapitre peut être visualisé très rapidement en cliquant sur le bouton _Knit_ au-dessus de la fenêtre de source.
+Le livre entier est créé en cliquant sur le bouton _Build Book_ de la fenêtre _Build_ de RStudio.
+La liste déroulante du bouton permet de créer tous les documents ou de se limiter à un format.
+
+Les fichiers produits sont placés directement dans le dossier `docs`, qui sera utilisé par les pages GitHub pour permettre la lecture en ligne et le téléchargement du PDF.
+La page d'accueil du site web est créée par bookdown à partir du fichier `index.Rmd`: le fichier `README.md` n'est pas dupliqué dans `docs` le script `GithubPages.R` ne doit pas être utilisé (il n'est pas fourni dans le modèle).
+
 
 #### Intégration continue
 
