@@ -1,14 +1,136 @@
 # Package
 
-* Chapitre en cours d'écriture*
+
+Les packages de R permettent d'étendre les fonctionnalités du logiciel par du code fourni par la communauté des développeurs.
+Ils sont la clé du succès de R parce qu'ils permettent de diffuser rapidement de nouvelles méthodes issues de la recherche ou d'ajouter de nouveaux outils qui peuvent devenir des standards, comme le **tidyyverse**.
+
+Il est utile de produire un package quand on a écrit des nouvelles fonctions qui forment un ensemble cohérent.
+Un package à usage personnel ou limité à une équipe de travail est simple à mettre en place et le temps gagné en utilisant facilement la version à jour de chaque fonction amortit très rapidement le temps consacré à la fabrication du package.
+Ce type de package a vocation à être hébergé sur GitHub.
+
+Des packages à usage plus large, qui fournissent par exemple le code correspondant à une méthode publiée, sont placés dans le dépôt CRAN, d'où ils pourront être installés par la commande standard `install.packages()`.
+CRAN effectue des vérifications poussées du code et n'accepte que les packages passant sans aucun avertissement sa batterie de tests.
+Ils doivent respecter la politique [^501] du dépôt.
+
+[^501]: https://cran.r-project.org/web/packages/policies.html
+
+La documentation pour la création de packages est abondante. 
+L'ouvrage de référence est celui de @Wickham2015, à consulter en tant que référence.
+
+L'approche utilisée ici consiste à créer un premier package très rapidement pour comprendre que la démarche est assez simple.
+Il sera ensuite enrichie des éléments nécessaires à un package diffusé à d'autres utilisateurs que son concepteur: une documentation complète et des tests de bon fonctionnement notamment.
 
 ## Premier package
 
-Créer un package en quelques minutes [^501].
+Cette introduction reprend les recommandations du blog *Créer un package en quelques minutes* [^501] de ThinkR.
 
 [^501]: https://thinkr.fr/creer-package-r-quelques-minutes/
 
-## Compléments
+
+### Création
+
+Les packages ont une organisation stricte dans une structure de fichiers et de répertoires figée.
+Il est possible de créer cette structure manuellement mais des packages spécialisés peuvent s'en charger:
+
+* **usethis** automatise la création des dossiers;
+* **roxygen2** permet d'automatiser la documentation obligatoire des packages;
+* **devtools** est la boîte à outils du développeur, permettant notamment de construire et tester les packages;
+
+
+Les trois sont à installer en premier lieu:
+```{r, eval=FALSE}
+install.packages(c("usethis", "roxygen2", "devtools"))
+```
+
+Le package à créer sera un projet RStudio.
+Dans le menu des projets, sélectionner "New Project > New Directory > R package using devtools...", choisir le nom du projet et son dossier parent.
+Le package s'appellera **multiple**, dans le dossier `%LOCALAPPDATA%\ProjetsR` en suivant les recommandations de la section \@ref(sec:solution-dossiers).
+
+Le nom du package doit respecter les contraintes des noms de projets: pas de caractères spéciaux, pas d'espaces...
+Il doit aussi être évocateur de l'objet du package.
+Si le package doit être diffusé, toute sa documentation sera rédigée en Anglais, y compris son nom.
+
+La structure minimale est crée:
+
+* un fichier `DESCRIPTION` qui indique que le dossier contient un package et précise au minimum son nom;
+* un fichier `NAMESPACE` qui déclare comment le package intervient dans la gestion des noms des objets de R (son contenu sera mis à jour par **roxygen2**);
+* un dossier `R` qui contient le code des fonctions offertes par le package (vide à ce stade).
+
+Le package peut être testé tout de suite: dans la fenêtre "Build" de RStudio, cliquer sur "Install and Restart" construit le package et le charge dans R, après avoir redémarré le programme pour éviter tout conflit.
+
+Dans la fenêtre "Packages", **multiple** est maintenant visible.
+Il est chargé, mais ne contient rien.
+
+
+## Fichier DESCRIPTION
+
+Le fichier doit être complété:
+```
+Package: multiple
+Title: Calculate multiples of numbers
+Version: 0.0.0.9000
+Authors@R: 
+  person(given = "Eric",
+           family = "Marcon",
+           role = c("aut", "cre"),
+           email = "e.marcon@free.fr",
+           comment = c(ORCID = "0000-0002-5249-321X"))
+Description: This package allows simple computation of multiples of numbers, 
+  including fast algorithms for integers.
+License: `use_gpl3_license()`
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+```
+Le nom du package est figé et ne doit pas être modifié.
+
+Son titre doit décrire en une ligne à quoi il sert. 
+Le titre est affiché dans la fenêtre Packages à côté des noms des packages.
+
+La version doit respecter les conventions:
+
+* Le premier nombre est la verson majeure, 0 tant que le package n'est pas stable puis 1.
+La version majeure ne change que si le package n'est plus compatible avec ses versions précédentes, ce qui oblige les utilisateurs à modifier leur code.
+* Le deuxième est la version mineure, incrémentée quand des fonctionnalités nouvelles sont ajoutées.
+* Le troisième est la version de correction: 0 à l'origine, incrémentée à chaque correction de code sans nouvelle fonctionnalité.
+* Le quatrième est réservé au développement, et commence à 9000.
+Il est incrémenté à chaque version instable et disparaît quand une nouvelle version stable (*release*) est produite.
+
+Exemple: une correction de bug sur la version 1.3.0 produit la version 1.3.1.
+Les versions de développement suivantes (instables, non destinées à l'usage en production) sont 1.3.1.9000 puis 1.3.1.9001, etc. 
+Le numéro de version doit être mis à jour à chaque fois que le package est poussé sur GitHub.
+Quand le développement est stabilisé, la nouvelle version, destinée à être utilisée en production, est 1.3.2 si elle n'apporte pas de nouvelle fonctionnalité ou 1.4.0 dans le cas contraire.
+
+La description des auteurs est assez lourde mais simple à comprendre.
+Les identifiants Orcid des auteurs académiques peuvent être utilisés.
+Si le package a plusieurs auteurs, ils sont placés dans une fonction `c()`: `c(person(...), person())` pour deux auteurs.
+Dans ce cas, il faut préciser le rôle de chacun :
+
+* "cre" pour le créateur du package
+* "aut" pour un auteur parmi les autres
+* "ctb" pour un contributeur, qui peut avoir signalé un bug ou fourni un peu de code.
+
+La description du package en un paragraphe permet de donner plus d'informations.
+
+La licence précise la façon dont le package peut être utilisé et modifié.
+GPL-3 est une bonne valeur par défaut, mais d'autres choix sont possibles [^502].
+
+[^502]: https://r-pkgs.org/description.html#description-license
+
+L'option `LazyData` signifie que les données d'exemples fournies avec le package peuvent être utilisées sans les appeler au préalable par la fonction `data()`: c'est le standard actuel.
+
+Enfin, les deux dernières lignes sont gérées par ****roxygen2**.
+
+
+### Première fonction
+
+Les fonctions sont placées dans un ou plusieurs fichier `.R` dans le dossier `R`.
+L'organisation de ces fichiers est libre.
+Pour cet exemple, un fichier du nom de chaque fonction sera créé.
+Des fichiers regroupant les fonctions similaires ou un seul fichier contenant tout le code sont des choix possibles.
+
+
 
 ### Vignette pkgdown
 
