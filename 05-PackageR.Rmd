@@ -1,8 +1,7 @@
 # Package
 
-
 Les packages de R permettent d'étendre les fonctionnalités du logiciel par du code fourni par la communauté des développeurs.
-Ils sont la clé du succès de R parce qu'ils permettent de diffuser rapidement de nouvelles méthodes issues de la recherche ou d'ajouter de nouveaux outils qui peuvent devenir des standards, comme le **tidyyverse**.
+Ils sont la clé du succès de R parce qu'ils permettent de diffuser rapidement de nouvelles méthodes issues de la recherche ou d'ajouter de nouveaux outils qui peuvent devenir des standards, comme le **tidyverse**.
 
 Il est utile de produire un package quand on a écrit des nouvelles fonctions qui forment un ensemble cohérent.
 Un package à usage personnel ou limité à une équipe de travail est simple à mettre en place et le temps gagné en utilisant facilement la version à jour de chaque fonction amortit très rapidement le temps consacré à la fabrication du package.
@@ -18,13 +17,14 @@ La documentation pour la création de packages est abondante.
 L'ouvrage de référence est celui de @Wickham2015, à consulter en tant que référence.
 
 L'approche utilisée ici consiste à créer un premier package très rapidement pour comprendre que la démarche est assez simple.
-Il sera ensuite enrichie des éléments nécessaires à un package diffusé à d'autres utilisateurs que son concepteur: une documentation complète et des tests de bon fonctionnement notamment.
+Il sera ensuite enrichi des éléments nécessaires à un package diffusé à d'autres utilisateurs que son concepteur: une documentation complète et des tests de bon fonctionnement notamment.
+
 
 ## Premier package
 
-Cette introduction reprend les recommandations du blog *Créer un package en quelques minutes* [^501] de ThinkR.
+Cette introduction reprend les recommandations du blog *Créer un package en quelques minutes* [^502] de ThinkR.
 
-[^501]: https://thinkr.fr/creer-package-r-quelques-minutes/
+[^502]: https://thinkr.fr/creer-package-r-quelques-minutes/
 
 
 ### Création
@@ -62,7 +62,157 @@ Dans la fenêtre "Packages", **multiple** est maintenant visible.
 Il est chargé, mais ne contient rien.
 
 
-## Fichier DESCRIPTION
+
+### Première fonction
+
+#### Fichiers
+
+Les fonctions sont placées dans un ou plusieurs fichier `.R` dans le dossier `R`.
+L'organisation de ces fichiers est libre.
+Pour cet exemple, un fichier du nom de chaque fonction sera créé.
+Des fichiers regroupant les fonctions similaires ou un seul fichier contenant tout le code sont des choix possibles.
+
+Le choix fait ici est le suivant:
+
+* un fichier qui contiendra le code commun à tout le package: `project.R`;
+* un fichier commun à toutes les fonctions: `fonctions.R`.
+
+
+#### Création
+
+La première fonction, `double()`, est créée et enregistrée dans le fichier `fonctions.R`:
+```{r}
+double <- function(number) {
+  return(2*number)
+}
+```
+
+A ce stade, la fonction est interne au package et n'est pas accessible depuis l'environnement de travail. 
+Pour s'en persuader, contruire le package (*Install and Restart*) et vérifier le bon fonctionnement de la fonction:
+```{r, eval=FALSE}
+double(2)
+```
+
+Le résultat est un vecteur composé de deux 0 parce que la fonction appelée est un homonyme du package **base** (voir sa documentation en tapant `?double`):
+```{r}
+base::double(2)
+```
+
+Pour que la fonction de notre package soit visible, elle doit être *exportée* en la déclarant dans le fichier `NAMESPACE`.
+C'est le travail de **roxygen2** qui gère en même temps la documentation de chaque fonction.
+Pour l'activer, placer le curseur dans la fonction et appeler le menu "Code > Insert Roxygen Skeleton".
+Des commentaires sont ajoutés avant la fonction:
+```{r, eval=FALSE}
+#' Title
+#'
+#' @param number 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+double <- function(number) {
+  return(2*number)
+}
+```
+
+Les commentaires à destination de **roxygen2** commencent par `#'`:
+
+* la première ligne contient le titre de la fonction, c'est-à-dire un descriptif très court: son nom en général;
+* la ligne suivante (séparée par un saut de ligne) peut contenir sa description (rubrique *Description* dans l'aide);
+* la suivante (après un autre saut de ligne) peut contenir plus d'informations (rubrique *Details* dans l'aide);
+* les arguments de la fonction sont décrits par les lignes `@param`;
+* `@return` décrit le résultat de la fonction;
+* `@export` déclare que la fonction est exportée: elle sera donc utilisable dans l'environnement de travail;
+* des exemples peuvent être ajoutés.
+
+La documentation doit être complétée:
+```{r, eval=FALSE}
+#' Double
+#' 
+#' Double value of numbers.
+#'
+#' Calculate the double values of numbers.
+#' 
+#' @param number a numeric vector.
+#'
+#' @return A vector of the same length as `number` containing the transformed values.
+#' @export
+#'
+#' @examples
+#' double(2)
+#' double(1:4)
+double <- function(number) {
+  return(2*number)
+}
+```
+
+Ne pas hésiter à s'inspirer de l'aide de fonctions existantes pour respecter les standards de R (ici: `?log`):
+
+* penser que les fonctions sont normalement vectorielles: `number` est par défaut un vecteur, pas un scalaire;
+* certains éléments commencent par une majuscule et se terminent par un point parce que ce sont des paragraphes dans le fichier d'aide;
+* le titre n'a pas de point final;
+* la description des paramètres ne commence pas par une majuscule.
+
+La prise en compte des changements dans la documentation nécessitent d'appeler la fonction `roxygenize()`.
+Dans la fenêtre *Build*, le menu "More > Document" permet de le faire.
+Ensuite, contruire le package (*Install and Restart*) et vérifier le résultat en exécutant la fonction et en affichant son aide:
+```{r, eval=FALSE}
+double(2)
+?double
+```
+
+Il est possible d'automatiser la mise à jour de la documentation à chaque construction du package par le menu "Build > Configure Build Tools...": cliquer sur "Configure" et cocher la case "Automatically reoxygenize when running Install and Restart".
+C'est un choix efficace pour un petit package mais pénalisant quand le temps de mise à jour de la documentation s'allonge avec la complexité du package. La reconstruction du package est le plus souvent utilisée pour tester des modifications du code: sa rapidité est essentielle.
+
+A ce stade, le package est fonctionnel: il contient une fonction et un début de documentation.
+Il est temps de lancer une vérification de son code: dans la fenêtre "Build", cliquer sur "Check".
+L'opération réoxygène le package (met à jour sa documentation), effectue un grand nombre de tests et renvoie la liste des erreurs, avertissements et notes détectées.
+L'objectif est toujours de n'avoir aucune alerte: elles doivent être traitées immédiatement.
+Par exemple, le retour suivant est un avertissement sur la non-conformité de la licence déclarée:
+```
+> checking DESCRIPTION meta-information ... WARNING
+  Non-standard license specification:
+    `use_gpl3_license()`
+  Standardizable: FALSE
+
+0 errors v | 1 warning x | 0 notes v
+Erreur : R CMD check found WARNINGs
+```
+Pour la corriger, mettre à jour la ligne suivante dans `DESCRIPTION`:
+```
+License: GPL-3
+```
+La liste des licences valides est fournie par R [^503] (La valeur à saisir est `Abbrev`).
+
+[^503]: https://svn.r-project.org/R/trunk/share/licenses/license.db
+
+Après correction, relancer les tests jusqu'à la disparition des alertes.
+
+
+
+### Contrôle de source
+
+Il est temps de placer le code sous contrôle de source.
+
+Activer le contrôle de source dans les options du projet (figure \@ref(fig:git-Project)).
+Redémarrer RStudio à la demande.
+
+Créer un dépôt sur GitHub et y pousser le dépôt local, comme expliqué dans le chapitre \@ref(#chap:git).
+
+Créer le fichier `README.md`:
+```
+# multiple
+
+An R package to compute mutiple of numbers.
+```
+
+Le développement du package est ponctué par de nombreux commits à chaque modification et une publication (push) à chaque étape, validée par une incrémentation du numéro de version.
+
+
+## Organisation du package
+
+### Fichier DESCRIPTION
 
 Le fichier doit être complété:
 ```
@@ -77,7 +227,7 @@ Authors@R:
            comment = c(ORCID = "0000-0002-5249-321X"))
 Description: This package allows simple computation of multiples of numbers, 
   including fast algorithms for integers.
-License: `use_gpl3_license()`
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -123,18 +273,9 @@ L'option `LazyData` signifie que les données d'exemples fournies avec le packag
 Enfin, les deux dernières lignes sont gérées par ****roxygen2**.
 
 
-### Première fonction
+## Vignette pkgdown
 
-Les fonctions sont placées dans un ou plusieurs fichier `.R` dans le dossier `R`.
-L'organisation de ces fichiers est libre.
-Pour cet exemple, un fichier du nom de chaque fonction sera créé.
-Des fichiers regroupant les fonctions similaires ou un seul fichier contenant tout le code sont des choix possibles.
-
-
-
-### Vignette pkgdown
-
-### Bibliographie
+## Bibliographie
 
 
 ## Intégration continue
