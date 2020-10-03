@@ -74,7 +74,7 @@ Des fichiers regroupant les fonctions similaires ou un seul fichier contenant to
 
 Le choix fait ici est le suivant:
 
-* un fichier qui contiendra le code commun à tout le package: `project.R`;
+* un fichier qui contiendra le code commun à tout le package: `package.R`;
 * un fichier commun à toutes les fonctions: `fonctions.R`.
 
 
@@ -128,7 +128,7 @@ Les commentaires à destination de **roxygen2** commencent par `#'`:
 
 La documentation doit être complétée:
 ```{r, eval=FALSE}
-#' Double
+#' double
 #' 
 #' Double value of numbers.
 #'
@@ -190,7 +190,6 @@ La liste des licences valides est fournie par R [^503] (La valeur à saisir est 
 Après correction, relancer les tests jusqu'à la disparition des alertes.
 
 
-
 ### Contrôle de source
 
 Il est temps de placer le code sous contrôle de source.
@@ -208,6 +207,36 @@ An R package to compute mutiple of numbers.
 ```
 
 Le développement du package est ponctué par de nombreux commits à chaque modification et une publication (push) à chaque étape, validée par une incrémentation du numéro de version.
+
+
+### package.R
+
+Le fichier `package.R` est destiné à recevoit le code R et surtout les commentaires pour **roxygen2** qui concernent l'ensemble du package.
+
+Le premier bloc de commentaire produira l'aide du package (`?multiple`).
+
+```
+#' multiple-package
+#'
+#' Multiples of numbers
+#' 
+#' This package allows simple computation of multiples of numbers, including fast algorithms for integers.
+#'
+#' @name multiple
+#' @docType package
+NULL
+```
+
+Son organisation est identique à celle des documentations de fonctions, avec deux déclarations particulières pour le nom du package et le type de documentation.
+Le code `NULL` après les commentaires indique à **roxygen2** qu'il n'y a pas de code R lié.
+
+Après reconstuction du package, vérifier que l'aide est est apparue: `?multiple`.
+
+
+### Vignette
+
+Les vignettes sont la documentation complète du package.
+
 
 
 ## Organisation du package
@@ -264,9 +293,9 @@ Dans ce cas, il faut préciser le rôle de chacun :
 La description du package en un paragraphe permet de donner plus d'informations.
 
 La licence précise la façon dont le package peut être utilisé et modifié.
-GPL-3 est une bonne valeur par défaut, mais d'autres choix sont possibles [^502].
+GPL-3 est une bonne valeur par défaut, mais d'autres choix sont possibles [^504].
 
-[^502]: https://r-pkgs.org/description.html#description-license
+[^504]: https://r-pkgs.org/description.html#description-license
 
 L'option `LazyData` signifie que les données d'exemples fournies avec le package peuvent être utilisées sans les appeler au préalable par la fonction `data()`: c'est le standard actuel.
 
