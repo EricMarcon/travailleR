@@ -190,7 +190,7 @@ La liste des licences valides est fournie par R [^503] (La valeur à saisir est 
 Après correction, relancer les tests jusqu'à la disparition des alertes.
 
 
-### Contrôle de source
+### Contrôle de source {#sec:package-cds}
 
 Il est temps de placer le code sous contrôle de source.
 
@@ -299,15 +299,100 @@ GPL-3 est une bonne valeur par défaut, mais d'autres choix sont possibles [^504
 
 L'option `LazyData` signifie que les données d'exemples fournies avec le package peuvent être utilisées sans les appeler au préalable par la fonction `data()`: c'est le standard actuel.
 
-Enfin, les deux dernières lignes sont gérées par ****roxygen2**.
+Enfin, les deux dernières lignes sont gérées par **roxygen2**.
 
 
-## Vignette pkgdown
+### Fichier NEWS.md
+
+Le fichier `NEWS.md` contient l'historique du package. 
+Les nouvelles versions sont ajoutées en haut du fichier.
+
+Créer une première version du fichier:
+```
+# multiple 0.0.0.9000
+
+## New features
+
+* Initial version of the package
+```
+
+Les titres de premier niveau doivent contenir le nom du package et sa version.
+Les titres de niveau 2 sont libres, mais contiennent en général des rubriques comme "New features" et "Bug Fixes".
+
+Pour ne pas multiplier les versions décrites, il est conseillé de modifier la version en cours et de compléter la documentation jusqu'au changement de version de correction (troisième nombre).
+Ensuite, l'entrée correspondant à cette version reste figée et une nouvelle entrée est ajoutée.
+
+
+## Vignette et pkgdown
+
+Une vignette est indispensable pour documenter correctement le package:
+```{r, eval=FALSE}
+usethis::use_vignette("multiple")
+```
+
+Le fichier `multiple.Rmd` est créé dans le dossier `vignettes`.
+Ajouter un sous-titre dans son entête: la description courte du package:
+```
+title: "multiple"
+subtitle: "Multiples of numbers"
+```
+
+Le reste de l'entête permet à R de construire la vignette à partir de code RMarkdown.
+
+Le corps de la vignette contient par défaut du code R pour déclarer les options de présentation des bouts de code et le chargement du package.
+Une introduction à l'utilisation du package doit être écrite dans ce documents, en RMarkdown.
+
+Le package **pkgdown** permet de créer un site d'accompagnement du package [^505], qui reprend le fichier `README.md` comme page d'accueil, la vignette dans une rubrique "Get Started", l'ensemble des fichiers d'aide avec leurs exemples exécutés (section "Reference"), le fichier `NEWS.md` pour un historique du package (section "Changelog") et des informations du fichier `DESCRIPTION`.
+
+[^505] Exemple : https://ericmarcon.github.io/entropart/
+
+Créer le site avec **usethis**
+```{r, eval=FALSE}
+usethis::use_pkgdown()
+```
+
+Construire ensuite le site.
+Cette commande sera exécutée à nouveau à chaque changement de version du package:
+```{r, eval=FALSE}
+pkgdown::build_site()
+```
+
+Le site est placé dans le dossier `docs`.
+Ouvrir le fichier `index.htm` avec un navigateur web pour le visualiser.
+Dès que le projet sera poussé sur GitHub, activer les pages du dépôt pour que le site soit visible en ligne (voir section \@ref(sec:github-pages)).
+
+**pkgdown** place le site dans le dossier `docs/dev` si le site d'une version stable (à trois nombres) du package existe dans `docs` et que la version en cours est une version de développement (à quatre nombres). 
+De cette façon, les utilisateurs d'une version de production du package ont accès au site sans qu'il soit perturbé par les versions de développement.
+
+Ajouter l'adresse des pages GitHub dans une nouvelle ligne du fichier `DESCRIPTION`:
+```
+URL: https://<GitHubID>.github.io/multiple
+```
+
+Le site peut être enrichi de plusieurs façons:
+* En ajoutant des articles au format RMarkdown dans le dossier `vignettes/articles`;
+* En améliorant la présentation du site de nombreuses façons (regroupement des fonctions par thèmes, ajout de badges...): se référer à la vignette de **pkgdown**.
+
 
 ## Bibliographie
 
 
-## Intégration continue
+## Code spécifique aux packages
+
+### Importation de fonctions
+
+### Méthodes S3
+
+### Package bien rangé
+
+
+## Données
+
+
+## Tests unitaires
+
+
+## Intégration continue {#sec:package-ci}
 
 La vérification (*Check*) du package doit être effectuée à chaque étape du développement, ce qui consomme un temps considérable. 
 Elle peut être automatisée très simplement avec le service Travis-CI, déclenché à chaque modification du dépôt sur GitHub.
