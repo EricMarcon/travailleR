@@ -3,3 +3,460 @@
 Les packages de R permettent d'étendre les fonctionnalités du logiciel par du code fourni par la communauté des développeurs.
 Ils sont la clé du succès de R parce qu'ils permettent de diffuser rapidement de nouvelles méthodes issues de la recherche ou d'ajouter de nouveaux outils qui peuvent devenir des standards, comme le **tidyverse**.
 
+Il est utile de produire un package quand on a écrit des nouvelles fonctions qui forment un ensemble cohérent.
+Un package à usage personnel ou limité à une équipe de travail est simple à mettre en place et le temps gagné en utilisant facilement la version à jour de chaque fonction amortit très rapidement le temps consacré à la fabrication du package.
+Ce type de package a vocation à être hébergé sur GitHub.
+
+Des packages à usage plus large, qui fournissent par exemple le code correspondant à une méthode publiée, sont placés dans le dépôt CRAN, d'où ils pourront être installés par la commande standard `install.packages()`.
+CRAN effectue des vérifications poussées du code et n'accepte que les packages passant sans aucun avertissement sa batterie de tests.
+Ils doivent respecter la politique [^501] du dépôt.
+
+[^501]: https://cran.r-project.org/web/packages/policies.html
+
+La documentation pour la création de packages est abondante. 
+L'ouvrage de référence est celui de @Wickham2015, à consulter en tant que référence.
+
+L'approche utilisée ici consiste à créer un premier package très rapidement pour comprendre que la démarche est assez simple.
+Il sera ensuite enrichi des éléments nécessaires à un package diffusé à d'autres utilisateurs que son concepteur: une documentation complète et des tests de bon fonctionnement notamment.
+
+
+## Premier package
+
+Cette introduction reprend les recommandations du blog *Créer un package en quelques minutes* [^502] de ThinkR.
+
+[^502]: https://thinkr.fr/creer-package-r-quelques-minutes/
+
+
+### Création
+
+Les packages ont une organisation stricte dans une structure de fichiers et de répertoires figée.
+Il est possible de créer cette structure manuellement mais des packages spécialisés peuvent s'en charger:
+
+* **usethis** automatise la création des dossiers;
+* **roxygen2** permet d'automatiser la documentation obligatoire des packages;
+* **devtools** est la boîte à outils du développeur, permettant notamment de construire et tester les packages;
+
+
+Les trois sont à installer en premier lieu:
+```{r, eval=FALSE}
+install.packages(c("usethis", "roxygen2", "devtools"))
+```
+
+Le package à créer sera un projet RStudio.
+Dans le menu des projets, sélectionner "New Project > New Directory > R package using devtools...", choisir le nom du projet et son dossier parent.
+Le package s'appellera **multiple**, dans le dossier `%LOCALAPPDATA%\ProjetsR` en suivant les recommandations de la section \@ref(sec:solution-dossiers).
+
+Le nom du package doit respecter les contraintes des noms de projets: pas de caractères spéciaux, pas d'espaces...
+Il doit aussi être évocateur de l'objet du package.
+Si le package doit être diffusé, toute sa documentation sera rédigée en Anglais, y compris son nom.
+
+La structure minimale est crée:
+
+* un fichier `DESCRIPTION` qui indique que le dossier contient un package et précise au minimum son nom;
+* un fichier `NAMESPACE` qui déclare comment le package intervient dans la gestion des noms des objets de R (son contenu sera mis à jour par **roxygen2**);
+* un dossier `R` qui contient le code des fonctions offertes par le package (vide à ce stade).
+
+Le package peut être testé tout de suite: dans la fenêtre "Build" de RStudio, cliquer sur "Install and Restart" construit le package et le charge dans R, après avoir redémarré le programme pour éviter tout conflit.
+
+Dans la fenêtre "Packages", **multiple** est maintenant visible.
+Il est chargé, mais ne contient rien.
+
+
+
+### Première fonction
+
+#### Fichiers
+
+Les fonctions sont placées dans un ou plusieurs fichier `.R` dans le dossier `R`.
+L'organisation de ces fichiers est libre.
+Pour cet exemple, un fichier du nom de chaque fonction sera créé.
+Des fichiers regroupant les fonctions similaires ou un seul fichier contenant tout le code sont des choix possibles.
+
+Le choix fait ici est le suivant:
+
+* un fichier qui contiendra le code commun à tout le package: `package.R`;
+* un fichier commun à toutes les fonctions: `fonctions.R`.
+
+
+#### Création
+
+La première fonction, `double()`, est créée et enregistrée dans le fichier `fonctions.R`:
+```{r}
+double <- function(number) {
+  return(2*number)
+}
+```
+
+A ce stade, la fonction est interne au package et n'est pas accessible depuis l'environnement de travail. 
+Pour s'en persuader, contruire le package (*Install and Restart*) et vérifier le bon fonctionnement de la fonction:
+```{r, eval=FALSE}
+double(2)
+```
+
+Le résultat est un vecteur composé de deux 0 parce que la fonction appelée est un homonyme du package **base** (voir sa documentation en tapant `?double`):
+```{r}
+base::double(2)
+```
+
+Pour que la fonction de notre package soit visible, elle doit être *exportée* en la déclarant dans le fichier `NAMESPACE`.
+C'est le travail de **roxygen2** qui gère en même temps la documentation de chaque fonction.
+Pour l'activer, placer le curseur dans la fonction et appeler le menu "Code > Insert Roxygen Skeleton".
+Des commentaires sont ajoutés avant la fonction:
+```{r, eval=FALSE}
+#' Title
+#'
+#' @param number 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+double <- function(number) {
+  return(2*number)
+}
+```
+
+Les commentaires à destination de **roxygen2** commencent par `#'`:
+
+* la première ligne contient le titre de la fonction, c'est-à-dire un descriptif très court: son nom en général;
+* la ligne suivante (séparée par un saut de ligne) peut contenir sa description (rubrique *Description* dans l'aide);
+* la suivante (après un autre saut de ligne) peut contenir plus d'informations (rubrique *Details* dans l'aide);
+* les arguments de la fonction sont décrits par les lignes `@param`;
+* `@return` décrit le résultat de la fonction;
+* `@export` déclare que la fonction est exportée: elle sera donc utilisable dans l'environnement de travail;
+* des exemples peuvent être ajoutés.
+
+La documentation doit être complétée:
+```{r, eval=FALSE}
+#' double
+#' 
+#' Double value of numbers.
+#'
+#' Calculate the double values of numbers.
+#' 
+#' @param number a numeric vector.
+#'
+#' @return A vector of the same length as `number` containing the transformed values.
+#' @export
+#'
+#' @examples
+#' double(2)
+#' double(1:4)
+double <- function(number) {
+  return(2*number)
+}
+```
+
+Ne pas hésiter à s'inspirer de l'aide de fonctions existantes pour respecter les standards de R (ici: `?log`):
+
+* penser que les fonctions sont normalement vectorielles: `number` est par défaut un vecteur, pas un scalaire;
+* certains éléments commencent par une majuscule et se terminent par un point parce que ce sont des paragraphes dans le fichier d'aide;
+* le titre n'a pas de point final;
+* la description des paramètres ne commence pas par une majuscule.
+
+La prise en compte des changements dans la documentation nécessitent d'appeler la fonction `roxygenize()`.
+Dans la fenêtre *Build*, le menu "More > Document" permet de le faire.
+Ensuite, contruire le package (*Install and Restart*) et vérifier le résultat en exécutant la fonction et en affichant son aide:
+```{r, eval=FALSE}
+double(2)
+?double
+```
+
+Il est possible d'automatiser la mise à jour de la documentation à chaque construction du package par le menu "Build > Configure Build Tools...": cliquer sur "Configure" et cocher la case "Automatically reoxygenize when running Install and Restart".
+C'est un choix efficace pour un petit package mais pénalisant quand le temps de mise à jour de la documentation s'allonge avec la complexité du package. La reconstruction du package est le plus souvent utilisée pour tester des modifications du code: sa rapidité est essentielle.
+
+A ce stade, le package est fonctionnel: il contient une fonction et un début de documentation.
+Il est temps de lancer une vérification de son code: dans la fenêtre "Build", cliquer sur "Check".
+L'opération réoxygène le package (met à jour sa documentation), effectue un grand nombre de tests et renvoie la liste des erreurs, avertissements et notes détectées.
+L'objectif est toujours de n'avoir aucune alerte: elles doivent être traitées immédiatement.
+Par exemple, le retour suivant est un avertissement sur la non-conformité de la licence déclarée:
+```
+> checking DESCRIPTION meta-information ... WARNING
+  Non-standard license specification:
+    `use_gpl3_license()`
+  Standardizable: FALSE
+
+0 errors v | 1 warning x | 0 notes v
+Erreur : R CMD check found WARNINGs
+```
+Pour la corriger, mettre à jour la ligne suivante dans `DESCRIPTION`:
+```
+License: GPL-3
+```
+La liste des licences valides est fournie par R [^503] (La valeur à saisir est `Abbrev`).
+
+[^503]: https://svn.r-project.org/R/trunk/share/licenses/license.db
+
+Après correction, relancer les tests jusqu'à la disparition des alertes.
+
+
+### Contrôle de source {#sec:package-cds}
+
+Il est temps de placer le code sous contrôle de source.
+
+Activer le contrôle de source dans les options du projet (figure \@ref(fig:git-Project)).
+Redémarrer RStudio à la demande.
+
+Créer un dépôt sur GitHub et y pousser le dépôt local, comme expliqué dans le chapitre \@ref(chap:git).
+
+Créer le fichier `README.md`:
+```
+# multiple
+
+An R package to compute mutiple of numbers.
+```
+
+Le développement du package est ponctué par de nombreux commits à chaque modification et une publication (push) à chaque étape, validée par une incrémentation du numéro de version.
+
+
+### package.R
+
+Le fichier `package.R` est destiné à recevoit le code R et surtout les commentaires pour **roxygen2** qui concernent l'ensemble du package.
+
+Le premier bloc de commentaire produira l'aide du package (`?multiple`).
+
+```
+#' multiple-package
+#'
+#' Multiples of numbers
+#' 
+#' This package allows simple computation of multiples of numbers, including fast algorithms for integers.
+#'
+#' @name multiple
+#' @docType package
+NULL
+```
+
+Son organisation est identique à celle des documentations de fonctions, avec deux déclarations particulières pour le nom du package et le type de documentation.
+Le code `NULL` après les commentaires indique à **roxygen2** qu'il n'y a pas de code R lié.
+
+Après reconstuction du package, vérifier que l'aide est est apparue: `?multiple`.
+
+
+### Vignette
+
+Les vignettes sont la documentation complète du package.
+
+
+
+## Organisation du package
+
+### Fichier DESCRIPTION
+
+Le fichier doit être complété:
+```
+Package: multiple
+Title: Calculate multiples of numbers
+Version: 0.0.0.9000
+Authors@R: 
+  person(given = "Eric",
+           family = "Marcon",
+           role = c("aut", "cre"),
+           email = "e.marcon@free.fr",
+           comment = c(ORCID = "0000-0002-5249-321X"))
+Description: This package allows simple computation of multiples of numbers, 
+  including fast algorithms for integers.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+```
+Le nom du package est figé et ne doit pas être modifié.
+
+Son titre doit décrire en une ligne à quoi il sert. 
+Le titre est affiché dans la fenêtre Packages à côté des noms des packages.
+
+La version doit respecter les conventions:
+
+* Le premier nombre est la verson majeure, 0 tant que le package n'est pas stable puis 1.
+La version majeure ne change que si le package n'est plus compatible avec ses versions précédentes, ce qui oblige les utilisateurs à modifier leur code.
+* Le deuxième est la version mineure, incrémentée quand des fonctionnalités nouvelles sont ajoutées.
+* Le troisième est la version de correction: 0 à l'origine, incrémentée à chaque correction de code sans nouvelle fonctionnalité.
+* Le quatrième est réservé au développement, et commence à 9000.
+Il est incrémenté à chaque version instable et disparaît quand une nouvelle version stable (*release*) est produite.
+
+Exemple: une correction de bug sur la version 1.3.0 produit la version 1.3.1.
+Les versions de développement suivantes (instables, non destinées à l'usage en production) sont 1.3.1.9000 puis 1.3.1.9001, etc. 
+Le numéro de version doit être mis à jour à chaque fois que le package est poussé sur GitHub.
+Quand le développement est stabilisé, la nouvelle version, destinée à être utilisée en production, est 1.3.2 si elle n'apporte pas de nouvelle fonctionnalité ou 1.4.0 dans le cas contraire.
+
+La description des auteurs est assez lourde mais simple à comprendre.
+Les identifiants Orcid des auteurs académiques peuvent être utilisés.
+Si le package a plusieurs auteurs, ils sont placés dans une fonction `c()`: `c(person(...), person())` pour deux auteurs.
+Dans ce cas, il faut préciser le rôle de chacun :
+
+* "cre" pour le créateur du package
+* "aut" pour un auteur parmi les autres
+* "ctb" pour un contributeur, qui peut avoir signalé un bug ou fourni un peu de code.
+
+La description du package en un paragraphe permet de donner plus d'informations.
+
+La licence précise la façon dont le package peut être utilisé et modifié.
+GPL-3 est une bonne valeur par défaut, mais d'autres choix sont possibles [^504].
+
+[^504]: https://r-pkgs.org/description.html#description-license
+
+L'option `LazyData` signifie que les données d'exemples fournies avec le package peuvent être utilisées sans les appeler au préalable par la fonction `data()`: c'est le standard actuel.
+
+Enfin, les deux dernières lignes sont gérées par **roxygen2**.
+
+
+### Fichier NEWS.md
+
+Le fichier `NEWS.md` contient l'historique du package. 
+Les nouvelles versions sont ajoutées en haut du fichier.
+
+Créer une première version du fichier:
+```
+# multiple 0.0.0.9000
+
+## New features
+
+* Initial version of the package
+```
+
+Les titres de premier niveau doivent contenir le nom du package et sa version.
+Les titres de niveau 2 sont libres, mais contiennent en général des rubriques comme "New features" et "Bug Fixes".
+
+Pour ne pas multiplier les versions décrites, il est conseillé de modifier la version en cours et de compléter la documentation jusqu'au changement de version de correction (troisième nombre).
+Ensuite, l'entrée correspondant à cette version reste figée et une nouvelle entrée est ajoutée.
+
+
+## Vignette et pkgdown
+
+Une vignette est indispensable pour documenter correctement le package:
+```{r, eval=FALSE}
+usethis::use_vignette("multiple")
+```
+
+Le fichier `multiple.Rmd` est créé dans le dossier `vignettes`.
+Ajouter un sous-titre dans son entête: la description courte du package:
+```
+title: "multiple"
+subtitle: "Multiples of numbers"
+```
+
+Le reste de l'entête permet à R de construire la vignette à partir de code RMarkdown.
+
+Le corps de la vignette contient par défaut du code R pour déclarer les options de présentation des bouts de code et le chargement du package.
+Une introduction à l'utilisation du package doit être écrite dans ce documents, en RMarkdown.
+
+Le package **pkgdown** permet de créer un site d'accompagnement du package [^505], qui reprend le fichier `README.md` comme page d'accueil, la vignette dans une rubrique "Get Started", l'ensemble des fichiers d'aide avec leurs exemples exécutés (section "Reference"), le fichier `NEWS.md` pour un historique du package (section "Changelog") et des informations du fichier `DESCRIPTION`.
+
+[^505] Exemple : https://ericmarcon.github.io/entropart/
+
+Créer le site avec **usethis**
+```{r, eval=FALSE}
+usethis::use_pkgdown()
+```
+
+Construire ensuite le site.
+Cette commande sera exécutée à nouveau à chaque changement de version du package:
+```{r, eval=FALSE}
+pkgdown::build_site()
+```
+
+Le site est placé dans le dossier `docs`.
+Ouvrir le fichier `index.htm` avec un navigateur web pour le visualiser.
+Dès que le projet sera poussé sur GitHub, activer les pages du dépôt pour que le site soit visible en ligne (voir section \@ref(sec:github-pages)).
+
+**pkgdown** place le site dans le dossier `docs/dev` si le site d'une version stable (à trois nombres) du package existe dans `docs` et que la version en cours est une version de développement (à quatre nombres). 
+De cette façon, les utilisateurs d'une version de production du package ont accès au site sans qu'il soit perturbé par les versions de développement.
+
+Ajouter l'adresse des pages GitHub dans une nouvelle ligne du fichier `DESCRIPTION`:
+```
+URL: https://GitHubID.github.io/multiple
+```
+
+Le site peut être enrichi de plusieurs façons:
+* En ajoutant des articles au format RMarkdown dans le dossier `vignettes/articles`;
+* En améliorant la présentation du site de nombreuses façons (regroupement des fonctions par thèmes, ajout de badges...): se référer à la vignette de **pkgdown**.
+
+
+## Bibliographie
+
+
+## Code spécifique aux packages
+
+### Importation de fonctions
+
+Créons une nouvelle fonction dans `fonctions.R` qui ajoute un bruit aléatoire à la valeur double:
+```{r}
+fuzzydouble <- function(number, sd=1) {
+  return(2*number + rnorm(length(number), 0, sd))
+}
+```
+
+Le bruit est tiré dans une loi normale centrée d'écart-type `sd` et ajouté à la valeur calculée.
+
+`rnorm()` est une fonction du package **stats**. 
+Même si le package est systématiquement chargé par R, le package d'appartenance de la fonction doit obligatoirement être déclaré: les seules exceptions sont les fonctions du package **base**.
+
+D'autre part, le package **stats** doit être importé (au sens de la directive `Imports` dans `DESCRIPTION`) par le package **multiple** pour que ses fonctions puissent être trouvées.
+
+Il y a pluisieurs façons de remplir ces deux obligations.
+D'abord, le commentaire suivant doit être fourni pour **roxygen2**:
+```{r}
+#' @import stats
+```
+
+Il peut être placé au choix dans la documentation du package, c'est-à-dire dans le fichier `package.R`, après `#' @docType package` ou bien dans la documentation de la fonction.
+Dans le premier cas, les importations sont déclarées une seule fois pour chaque package.
+Dans le second, chaque fonction déclare ses propres importations de package.
+Les deux solutions sont défendables, mais la déclaration locale rend chaque fonction autonome du point de vue de sa documentation.
+
+Il est possible d'importer aussi la fonction `rnorm()` en le déclarant dans la documentation de la fonction:
+```{r}
+#' @importFrom stats rnorm
+```
+
+L'alternative est de qualifier systématiquement les fonctions d'autres packages dans le code avec la syntaxe `package::fonction()`.
+C'est la solution retenue ici parce que la directive `@importFrom` importerait la fonction dans tout le package **multiple**, pas seulement dans la fonction `fuzzydouble()`, au risque de créer des effets de bord (modifier le comportement d'une autre fonction du package qui n'assumerait pas l'importation de `rnorm()`).
+Finalement, le code de la fonction est le suivant:
+```{r, eval=FALSE}
+#' fuzzydouble
+#' 
+#' Double value of numbers with an error
+#' 
+#' Calculate the double values of numbers 
+#' and add a random error to the result.
+#'
+#' @param number a numeric vector.
+#' @param sd the standard deviation of the Gaussian error added.
+#'
+#' @return A vector of the same length as `number`
+#'  containing the transformed values.
+#' @import stats
+#' @export
+#'
+#' @examples
+#  fuzzydouble(2)
+#' fuzzydouble(1:4)
+
+fuzzydouble <- function(number, sd=1) {
+  return(2*number + stats::rnorm(length(number), 0, sd))
+}
+```
+
+
+### Méthodes S3
+
+### Package bien rangé
+
+
+## Données
+
+
+## Tests unitaires
+
+
+## Intégration continue {#sec:package-ci}
+
+La vérification (*Check*) du package doit être effectuée à chaque étape du développement, ce qui consomme un temps considérable. 
+Elle peut être automatisée très simplement avec le service Travis-CI, déclenché à chaque modification du dépôt sur GitHub.
+L'analyse de la couverture du code par les tests (quelles parties du codes sont testées ou non) sera ajoutée.
+
+Travis est également capable de reconstruire la documentation du package avec **pkgdown**, autre opération consommatrice de ressources, après la réussite des tests.
+
+La section \@ref(sec:package-ci) détaille le moyen de le faire.
