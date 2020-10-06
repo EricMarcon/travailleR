@@ -457,17 +457,17 @@ Des données peuvent être intégrées à un package, notamment pour la clarté 
 
 La méthode la plus simple consiste à utiliser **use_this**.
 Créer des variables contenant les données à sauvegarder puis les sauvegarder:
-```{r}
+```{r, eval=FALSE}
 seq1_10 <- 1:10
 seq1_100 <- 1:100
-use_this::use_data(seq1_10, seq1_100)
+usethis::use_data(seq1_10, seq1_100)
 ```
 
 Un fichier `.rda` est créé dans le dossier `data` pour chaque variable créée.
 Avec l'option `LazyData` activée dans `DESCRIPTION`, les variables seront disponibles dès le chargement du package, mais ne seront effectivement chargées en mémoire qu'après leur première utilisation.
 
 Chaque variable doit être documentée dans le fichier `package.R`:
-```{r}
+```{r, eval=FALSE}
 #' seq1_10
 #'
 #' A sequence of numbers from 1 to 10
