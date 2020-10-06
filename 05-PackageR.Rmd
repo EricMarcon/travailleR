@@ -442,6 +442,239 @@ fuzzydouble <- function(number, sd=1) {
 
 ### Méthodes S3
 
+Le langage *S3* est le plus utilisé (mais pas le seul [^506]) dans R.
+
+[^506]: adv-r.had.co.nz/OO-essentials.html
+
+
+#### Classes
+
+Les objets appartiennent à des classes:
+```{r}
+# Classe d'un nombre
+class(2)
+# Classe d'une fonction
+class(sum)
+```
+
+En plus des classes de base, les développeurs peuvent en créer d'autres.
+
+
+#### Méthodes
+
+L'intérêt de créer de nouvelles classes est de leur adapter des méthodes existantes, le cas le plus courant étant `plot()`.
+Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans code, à décliner selon la classe d'objet à traiter.
+```{r}
+plot
+```
+
+Il existe dans R de nombreuses déclinaisons de `plot` qui sont des fonctions dont le nom est de la forme `plot.class()`, par exemple, pour créer une figure à partir d'un modèle linéaire, `plot.lm()`.
+La classe "lm" est définie dans le package **stats** pour recevoir le résultat de l'estimation de modèles linéaires.
+Comme la majorité des classes, "lm" est une liste dont les éléments les éléments sont les résultats d'un traitement.
+Exemple :
+```{r}
+# Valeurs de y de 1 à 10 avec une erreur normale d'écart-type 1
+y <- 1:10 + rnorm(10)
+# Valeurs de x de 1 à 10 
+x <- 1:10
+# Modèle linéaire
+my_lm <- lm(y~x)
+# Classe
+class(my_lm)
+# Affichage de la structure (longue liste)
+# str(my_lm)
+# Quelques éléments de la liste:
+my_lm$coefficients
+my_lm$call
+```
+**stats** fournit une fonction `plot.lm()` qui permet d'afficher des graphiques adaptés aux données.
+De nombreux packages créent des classes adaptées à leurs objets et proposent une méthode `plot` pour chaque classe.
+Les fonctions peuvent être listées:
+
+```{r}
+# Quelques fonctions plot()
+head(methods(print))
+# Nombre total
+length(methods(print))
+```
+Inversement, les méthodes disponibles pour une classe peuvent être affichées:
+```{r}
+methods(class = "lm")
+```
+La méthode `print` est utilisée pour afficher tout objet (elle est implicite quand on saisit seulement le nom d'un objet):
+```{r}
+# Equivalent de "> my_lm"
+print(my_lm)
+```
+Le méthode `summary` affiche un résumé lisible de l'objet:
+```{r}
+summary(my_lm)
+```
+
+Les autres méthodes ont été créées spécifiquement pour les besoins du package **stats**.
+
+
+#### Attribution d'un objet à une classe
+
+Pour qu'un objet appartient à une classe, il suffit de le déclarer:
+```{r}
+x <- 1
+class(x) <- "MyClass"
+class(x)
+```
+Une façon plus élégante de le faire est d'ajouter la nouvelle classe à l'ensemble des classes auquel l'objet appartient déjà:
+```{r}
+y <- 1
+class(y) <- c("MyClass", class(y))
+class(y)
+```
+
+Il n'y a aucune vérification de cohérence entre la structure réelle de l'objet et une structure de la classe qui serait déclarée ailleurs: le développeur doit s'assurer que les méthodes trouveront bien les bonnes données dans les objets qui déclarent lui appartenir.
+Dans le cas contraire, des erreurs se produisent:
+```{r}
+class(y) <- "lm"
+tryCatch(print(y), error= function(e) print(e))
+```
+
+
+#### En pratique
+
+##### Création d'une méthode générique
+
+De nouvelles méthodes génériques peuvent être créées et déclinées selon les classes.
+
+A titre d'exemple, créons une méthode générique `triple` qui calculera le triple des valeurs dans le package **multiple**, déclinée en deux fonctions distinctes: une pour les entiers et une pour les réels.
+Les calculs sur les nombres entiers sont bien plus rapides que ceux sur les réels, ce qui justifie l'effort d'écrire deux versions du code.
+
+```{r}
+# Méthode générique
+triple <- function (x, ...) {
+  UseMethod("triple")
+}
+```
+
+La méthode générique ne contient pas de code au-delà de sa déclaration.
+Sa signature (c'est-à-dire l'ensemble de ses arguments) est importante parce que les fonctions dérivées de cette méthode devront obligatoirement avoir les mêmes arguments dans le même ordre et pourront seulement ajouter des arguments supplémentaires avant `...` (qui sont obligatoires).
+Comme la nature du premier argument dépendra de la classe de chaque objet, l'usage est de l'appeler `x`.
+
+La méthode est déclinée en deux fonctions:
+```{r}
+triple.integer<- function (x, ...){
+  return(x * 3L)
+}
+triple.numeric<- function (x, ...){
+  return(x * 3.0)
+}
+
+```
+
+Dans sa version entière, `x` est multiplié par `3L`, le suffixe `L` signifiant que 3 doit être compris comme un entier.
+Dans sa version réelle, 3 est noté `3.0` pour montrer clairement qu'il s'agit d'un réel.
+
+Le choix de la fonction dépend de la classe de l'objet passé en argument.
+```{r}
+# Argument entier
+class(2L)
+# Résultat entier par la fonction triple.integer
+class(triple(2L))
+# Argument réel
+class(2)
+# Résultat réel par la fonction triple.numeric
+class(triple(2))
+# Performance
+microbenchmark::microbenchmark(triple.integer(2L), triple.numeric(2), triple(2L))
+```
+La mesure des performances par le package **microbenchmark** montre que la fonction `triple.integer()` est légèrement plus rapide que `triple.numeric` comme attendu mais que la méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
+R teste en effet l'existence de fonctions correspondant à la classe de l'objet passé en argument aux méthodes génériques.
+Comme un objet peut appartenir à plusieurs classe, il recherche une fonction adaptée à la première classe, puis aux classes suivantes successivement.
+Cette recherche prend beaucoup de temps et justifie de réserver l'usage de méthodes génériques à la clarification du code plutôt qu'à une recherche de performance.
+
+
+##### Création d'une classe
+
+Dans un package, on créera des classes si les résultats des fonctions le justifient: structure de liste et identification de la classe à un objet ("lm" est la classe des modèles linéaires).
+Pour toute classe créée, les méthodes `print`, `summary` et `plot` (si une représentation graphique est possible) doivent être écrites.
+
+Ecrivons une fonction `multiple()` dont le résultat sera un objet d'une nouvelle classe, "multiple", qui sera une liste mémorisant les valeurs à multiplier, le multiplicateur et le résultat.
+
+```{r}
+multiple <- function(number, times=1) {
+  # Calculate the multiples
+  y <- number * times
+  # Save in a list
+  result <- list(x=number, y=y, times=times)
+  # Set the class
+  class(result) <- c("multiple", class(result))
+  return(result)
+}
+# Classe du résultat
+my_multiple <- multiple(1:3, 2)
+class(my_multiple)
+```
+L'appel à la fonction `multiple()` renvoie un objet de classe "multiple", qui est aussi de classe "list".
+En absence de fonction `print.multiple()`, R cherche la fonction `print.list()` qui n'existe pas et se rabat sur la fonction `print.default()`:
+```{r}
+my_multiple
+```
+La fonction `print.multiple` doit donc être écrite pour un affichage lisible, limité au résultat:
+```{r}
+print.multiple <- function(x, ...) {
+  print.default(x$y)
+}
+
+# Nouvel affichage
+my_multiple
+```
+Les détails peuvent être présentés dans la fonction `summary`:
+```{r}
+summary.multiple <- function(x, ...) {
+  print.default(x$x)
+  cat("multiplied by", x$times, "is:\n")
+  print.default(x$y)
+}
+
+# Nouvel affichage
+summary(my_multiple)
+```
+Enfin, une fonction `plot` et une fonction `autoplot` complètent l'ensemble:
+
+```{r}
+plot.multiple <- function(x, y, ...) {
+  plot.default(y=x$y, x=x$x, type="p", main = paste("Multiplication by", x$times), ...)
+}
+
+autoplot.multiple <- function(object, ...) {
+  data.frame(x=object$x, y=object$y) %>% 
+    ggplot2::ggplot() +
+    ggplot2::geom_point(ggplot2::aes(x=x, y=y)) +
+    ggplot2::labs(title =paste("Multiplication by", object$times))
+}
+
+plot(my_multiple)
+autoplot(my_multiple)
+```
+
+
+##### Documentation
+
+Les méthodes génériques et les fonctions qui les déclinent doivent être documentées comme n'importe quelle autre fonction.
+
+La gestion de l'espace des noms est un peu plus complexe:
+
+* Les méthodes génériques doivent être exportées:
+```
+#' @export
+```
+* Les fonctions dérivées de méthodes génériques ne doivent pas l'être mais être déclarées comme méthode, avec le nom de la méthode générique et la classe traitée. Etrangement, **roxygen2** demande qu'une directive d'exportation soit ajoutée:
+```
+#' @method plot multiple
+#' @export
+```
+* Enfin, les fonctions dérivées de méthodes génériques venant d'un autre package nécessitent d'importer la méthode générique:
+```
+#' @importFrom graphics plot
+```
+
 ### Package bien rangé
 
 Tout package moderne doit être compatible avec le tidyverse, ce qui nécessite peu d'efforts:
