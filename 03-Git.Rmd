@@ -7,25 +7,29 @@
 Le contrôle de source consiste à enregistrer l'ensemble des modifications apportées sur les fichiers suivis.
 L'outil standard est aujourd'hui *git*.
 
-Les commandes de *git* peuvent être exécutées dans le terminal de RStudio.
+Les commandes de git peuvent être exécutées dans le terminal de RStudio.
 
 (ref:git-Status) Capture d'écran du terminal de RStudio. La commande `git status` supposée décrire l'état du dépôt renvoie une erreur si le projet R n'est pas sous contrôle de source.
 ```{r git-Status, fig.cap="(ref:git-Status)", echo=FALSE}
 knitr::include_graphics('images/git-Status.png')
 ```
 
-La commande `git status` (figure \@ref(fig:git-Status)) retourne l'état du dépôt (*repository*), c'est-à-dire l'ensemble des données gérées par *git* pour suivre le projet en cours.
+La commande `git status` (figure \@ref(fig:git-Status)) retourne l'état du dépôt (*repository*), c'est-à-dire l'ensemble des données gérées par git pour suivre le projet en cours.
 
-RStudio intègre une interface graphique pour *git* suffisante pour se passer de la ligne de commande dans le cadre d'une utilisation standard, présentée ici.
+RStudio intègre une interface graphique pour git suffisante pour se passer de la ligne de commande dans le cadre d'une utilisation standard, présentée ici.
 
 ### git et GitHub
 
 *git* est le logiciel installé sur le poste de travail.
 
-*GitHub* est une plateforme, accessible par un [site web](https://github.com/), qui permet de partager le contenu des dépôts *git* (pour travailler à plusieurs) et de partager de la documentation sous la forme d'un site web (*GitHub Pages*).
+*GitHub* est une plateforme, accessible par un [site web](https://github.com/), qui permet de partager le contenu des dépôts git (pour travailler à plusieurs) et de partager de la documentation sous la forme d'un site web (*GitHub Pages*).
 
-Comme *GitHub* permet au minimum la sauvegarde des dépôts *git*, les deux sont toujours utilisés ensemble.
-*GitHub* n'est pas la seule plateforme utilisable mais la principale. Les alternatives sont [Bitbucket](https://bitbucket.org/) et [GitLab](https://about.gitlab.com/) par exemple.
+Comme GitHub permet au minimum la sauvegarde des dépôts git, les deux sont toujours utilisés ensemble.
+GitHub n'est pas la seule plateforme utilisable mais la principale. Les alternatives sont Bitbucket [^309] et GitLab [^310] par exemple.
+
+[^309]: https://bitbucket.org/
+
+[^310]: https://about.gitlab.com/
 
 
 ## Créer un nouveau dépôt
@@ -41,19 +45,19 @@ Redémarrer RStudio à la demande.
 knitr::include_graphics('images/git-Project.png')
 ```
 
-Une nouvelle fenêtre *git* apparaît dans le panneau supérieur droit.
+Une nouvelle fenêtre *Git* apparaît dans le panneau supérieur droit.
 Elle contient la liste des fichiers du projet (figure \@ref(fig:git-Fichiers)).
 
-(ref:git-Fichiers) Fichiers du projet, pas encore pris en compte par *git*.
+(ref:git-Fichiers) Fichiers du projet, pas encore pris en compte par git.
 ```{r git-Fichiers, fig.cap="(ref:git-Fichiers)", echo=FALSE}
 knitr::include_graphics('images/git-Fichiers.png')
 ```
 
-A ce stade, les fichiers ne sont pas pris en compte par *git*: leur statut est un double point d'interrogation jaune.
-Pour *git*, le répertoire de travail local est un *bac à sable* où toutes les modifications sont possibles sans conséquences.
+A ce stade, les fichiers ne sont pas pris en compte par git: leur statut est un double point d'interrogation jaune.
+Pour git, le répertoire de travail local est un *bac à sable* où toutes les modifications sont possibles sans conséquences.
 
 Le fichier `.gitignore` contient la liste des fichiers qui n'ont jamais vocation à être pris en compte, qu'il est donc inutile d'afficher dans la liste: les fichiers intermédiaires produits automatiquement par exemple.
-La syntaxe des fichiers `.gitignore` est détaillée dans la documentation de *git*[^305].
+La syntaxe des fichiers `.gitignore` est détaillée dans la documentation de git[^305].
 En règle générale, utiliser un fichier existant: les modèles de documents notamment incluent leur fichier `.gitignore`.
 
 [^305]: https://git-scm.com/docs/gitignore
@@ -61,11 +65,11 @@ En règle générale, utiliser un fichier existant: les modèles de documents no
 
 ### Prendre en compte des fichiers
 
-Dans la fenêtre *Git*, cocher la case "Staged" permet de prendre en compte (*Stage*) chaque fichier. 
+Dans la fenêtre git, cocher la case "Staged" permet de prendre en compte (*Stage*) chaque fichier. 
 La commande exécutée est `git add <NomDeFichier>`.
 Les fichiers pris en compte une première fois ont le statut "A" pour "Added".
 
-Les fichiers pris en compte font partie de l'*index* de *git*.
+Les fichiers pris en compte font partie de l'*index* de git.
 
 
 ### Valider des modifications
@@ -77,7 +81,7 @@ knitr::include_graphics('images/git-Commit.png')
 
 Les fichiers pris en compte peuvent être validés (*Commit*) en cliquant sur le bouton *Commit* dans la fenêtre *Git*.
 Une nouvelle fenêtre s'ouvre (figure \@ref(fig:git-Commit)), qui permet de visualiser toutes les modifications par fichier (ajouts en verts, suppressions en rouge).
-Le grain de modification traité par *git* est la ligne de texte, terminée par un retour à la ligne.
+Le grain de modification traité par git est la ligne de texte, terminée par un retour à la ligne.
 Les fichiers binaires comme les images sont traités en bloc.
 
 Chaque validation (*Commit*) est accompagnée d'un texte de description.
@@ -107,19 +111,19 @@ Les branches permettent:
 * de développer de nouvelles fonctionnalités dans un projet, sans perturber la branche principale qui peut contenir une version stable. Si le développement est retenu, sa branche pourra être fusionnée avec la branche *master* pour constituer une nouvelle version stable.
 * de contenir des fichiers totalement différents de ceux de la branche principale, pour d'autres objectifs. Sur GitHub, les pages web de présentation du projet peuvent être placés dans une branche appelée "gh-pages" qui ne sera jamais fusionnée.
 
-Le dépôt *git* est complètement constitué.
-Dans le vocabulaire de *git*, il comprend trois *arbres* (figure \@ref(fig:git-Trees)):
+Le dépôt git est complètement constitué.
+Dans le vocabulaire de git, il comprend trois *arbres* (figure \@ref(fig:git-Trees)):
 
 * le répertoire de travail, ou bac à sable, qui contient les fichiers non pris en compte: inconnus, modifiés, supprimés ou renommés (case *Staged* décochée);
 * l'index, qui contient les fichiers pris en compte (case *Staged* cochée);
 * la tête, qui contient les fichiers validés.
 
-(ref:git-Trees) Les trois arbres de *git*. Source: https://rogerdudler.github.io/git-guide/index.fr.html
+(ref:git-Trees) Les trois arbres de git. Source: https://rogerdudler.github.io/git-guide/index.fr.html
 ```{r git-Trees, fig.cap="(ref:git-Trees)", echo=FALSE}
 knitr::include_graphics('images/git-Trees.png')
 ```
 
-Le statut des fichiers est représenté par deux icônes dans la fenêtre *Git* de RStudio: deux points d'interrogation quand ils n'ont pas été pris en compte par *git*. 
+Le statut des fichiers est représenté par deux icônes dans la fenêtre *Git* de RStudio: deux points d'interrogation quand ils n'ont pas été pris en compte par git. 
 Ensuite, l'icône de droite décrit la différence entre le le répertoire de travail et l'index.
 Celle de gauche décrit la différence entre l'index et la tête.
 Un fichier modifié aura donc l'icône `M` affichée à droite avant d'être pris en compte, puis à gauche après prise en compte.
@@ -158,7 +162,7 @@ Cliquer sur "Add Remotes" et compléter:
 
 Au message indiquant qu'une branche *master* existe déjà, cliquer sur "Overwrite".
 
-Le nom *origin* est une convention de *git*.
+Le nom *origin* est une convention de git.
 Il peut être modifié mais l'organisation du projet sera plus lisible en respectant la convention.
 
 
@@ -178,9 +182,9 @@ Un message électronique est envoyé au titulaire du compte GitHub pour l'en ave
 La manipulation précédente a automatiquement poussé (*Push*) les modifications validées sur GitHub.
 Par la suite, il faudra cliquer sur le bouton "Push" de la fenêtre *Git* pour le faire.
 
-Sur *GitHub*, les fichiers résultant des modifications enregistrées par *git* sont maintenant visibles.
+Sur GitHub, les fichiers résultant des modifications enregistrées par git sont maintenant visibles.
 
-Chaque *Commit* réalisé localement est compté par *git* et un message "Your branch is ahead of 'origin/master' by *n* commits" affiché dans en haut de la fenêtre *Git* indique qu'il est temps de mettre à jour *GitHub* en poussant l'ensemble de ces *Commit*.
+Chaque *Commit* réalisé localement est compté par git et un message "Your branch is ahead of 'origin/master' by *n* commits" affiché dans en haut de la fenêtre *Git* indique qu'il est temps de mettre à jour *GitHub* en poussant l'ensemble de ces *Commit*.
 Cliquer sur le bouton *Push* pour le faire.
 
 ```{exercise, git-README, name="Mettre à jour README"}
@@ -239,9 +243,9 @@ Il n'est pas possible de pousser les modifications validées si un collaborateur
 Il faut alors les tirer pour les intégrer au dépôt local avant de pousser les modifications fusionnées. 
 
 Un conflit a lieu si un *Pull* importe dans le fichier local une modification qui ne peut pas être fusionnée automatiquement parce qu'une modification contradictoire a eu lieu localement. 
-*Git* considère chaque ligne comme un élément indivisible: la modification de la même ligne sur le dépôt distant et le dépôt local génère donc un conflit.
+Git considère chaque ligne comme un élément indivisible: la modification de la même ligne sur le dépôt distant et le dépôt local génère donc un conflit.
 
-*Git* insère dans le fichier contenant un conflit les deux versions avec une présentation particulière:
+Git insère dans le fichier contenant un conflit les deux versions avec une présentation particulière:
 
 ```
 <<<<<<<<< HEAD # Version importée du conflit
