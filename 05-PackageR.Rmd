@@ -156,7 +156,7 @@ Ne pas hésiter à s'inspirer de l'aide de fonctions existantes pour respecter l
 
 La prise en compte des changements dans la documentation nécessitent d'appeler la fonction `roxygenize()`.
 Dans la fenêtre *Build*, le menu "More > Document" permet de le faire.
-Ensuite, contruire le package (*Install and Restart*) et vérifier le résultat en exécutant la fonction et en affichant son aide:
+Ensuite, construire le package (*Install and Restart*) et vérifier le résultat en exécutant la fonction et en affichant son aide:
 ```{r, eval=FALSE}
 double(2)
 ?double
@@ -164,6 +164,10 @@ double(2)
 
 Il est possible d'automatiser la mise à jour de la documentation à chaque construction du package par le menu "Build > Configure Build Tools...": cliquer sur "Configure" et cocher la case "Automatically reoxygenize when running Install and Restart".
 C'est un choix efficace pour un petit package mais pénalisant quand le temps de mise à jour de la documentation s'allonge avec la complexité du package. La reconstruction du package est le plus souvent utilisée pour tester des modifications du code: sa rapidité est essentielle.
+
+La documentation pour **roxygen2** supporte le format Markdown [^508].
+
+[^508]: https://roxygen2.r-lib.org/articles/markdown.html
 
 A ce stade, le package est fonctionnel: il contient une fonction et un début de documentation.
 Il est temps de lancer une vérification de son code: dans la fenêtre *Build*, cliquer sur "Check" ou utiliser la commande `devtools::check()`.
@@ -230,12 +234,8 @@ NULL
 Son organisation est identique à celle des documentations de fonctions, avec deux déclarations particulières pour le nom du package et le type de documentation.
 Le code `NULL` après les commentaires indique à **roxygen2** qu'il n'y a pas de code R lié.
 
+La documentation est mise à jour par la commande `roxygen2::roxygenise()`.
 Après reconstruction du package, vérifier que l'aide est est apparue: `?multiple`.
-
-
-### Vignette
-
-Les vignettes sont la documentation complète du package.
 
 
 
@@ -707,17 +707,17 @@ Enfin, importer **Rdpack** et spécifiquement sa fonction `reprompt` en ajoutant
 Les références sont citées en utilisant la commande `\insertCite{key}{package}` dans la documentation destinée à **roxygen2**.
 `package` est le nom du package dans lequel le fichier `REFERENCES.bib` doit être cherché: ce sera normalement le package en cours, mais les références d'autres packages sont accessibles, à la seule condition qu'ils utilisent **Rdpack**.
 `key` est la l'identifiant de la référence dans le fichier.
-Exemple [^506]: documentation du package **SpatDiv** hébergé sur GitHub, fichier `.R` du package:
+Exemple [^507]: documentation du package **SpatDiv** hébergé sur GitHub, fichier `.R` du package:
 ```{r}
 #' SpatDiv
 #'
 #' Spatially Explicit Measures of Diversity
 #' 
-#' This package extends the *entropart* package \insertCite{Marcon2014c}{SpatDiv}.
+#' This package extends the **entropart** package \insertCite{Marcon2014c}{SpatDiv}.
 #' It provides spatially explicit measures of diversity such as the mixing index.
 ```
 
-[^506]: Package **SpatDiv** sur GitHub: https://github.com/EricMarcon/SpatDiv/blob/master/R/Project.R
+[^507]: Package **SpatDiv** sur GitHub: https://github.com/EricMarcon/SpatDiv/blob/master/R/package.R
 
 La référence citée se trouve dans `inst/REFERENCES.bib`:
 ```
