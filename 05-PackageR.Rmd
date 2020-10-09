@@ -166,8 +166,8 @@ Il est possible d'automatiser la mise à jour de la documentation à chaque cons
 C'est un choix efficace pour un petit package mais pénalisant quand le temps de mise à jour de la documentation s'allonge avec la complexité du package. La reconstruction du package est le plus souvent utilisée pour tester des modifications du code: sa rapidité est essentielle.
 
 A ce stade, le package est fonctionnel: il contient une fonction et un début de documentation.
-Il est temps de lancer une vérification de son code: dans la fenêtre *Build*, cliquer sur "Check".
-L'opération réoxygène le package (met à jour sa documentation), effectue un grand nombre de tests et renvoie la liste des erreurs, avertissements et notes détectées.
+Il est temps de lancer une vérification de son code: dans la fenêtre *Build*, cliquer sur "Check" ou utiliser la commande `devtools::check()`.
+L'opération *réoxygène* le package (met à jour sa documentation), effectue un grand nombre de tests et renvoie la liste des erreurs, avertissements et notes détectées.
 L'objectif est toujours de n'avoir aucune alerte: elles doivent être traitées immédiatement.
 Par exemple, le retour suivant est un avertissement sur la non-conformité de la licence déclarée:
 ```
@@ -211,7 +211,7 @@ Le développement du package est ponctué par de nombreux commits à chaque modi
 
 ### package.R
 
-Le fichier `package.R` est destiné à recevoit le code R et surtout les commentaires pour **roxygen2** qui concernent l'ensemble du package.
+Le fichier `package.R` est destiné à recevoir le code R et surtout les commentaires pour **roxygen2** qui concernent l'ensemble du package.
 
 Le premier bloc de commentaire produira l'aide du package (`?multiple`).
 
@@ -230,7 +230,7 @@ NULL
 Son organisation est identique à celle des documentations de fonctions, avec deux déclarations particulières pour le nom du package et le type de documentation.
 Le code `NULL` après les commentaires indique à **roxygen2** qu'il n'y a pas de code R lié.
 
-Après reconstuction du package, vérifier que l'aide est est apparue: `?multiple`.
+Après reconstruction du package, vérifier que l'aide est est apparue: `?multiple`.
 
 
 ### Vignette
@@ -372,9 +372,6 @@ URL: https://GitHubID.github.io/multiple
 Le site peut être enrichi de plusieurs façons:
 * En ajoutant des articles au format RMarkdown dans le dossier `vignettes/articles`;
 * En améliorant la présentation du site de nombreuses façons (regroupement des fonctions par thèmes, ajout de badges...): se référer à la vignette de **pkgdown**.
-
-
-## Bibliographie
 
 
 ## Code spécifique aux packages
@@ -537,9 +534,9 @@ tryCatch(print(y), error= function(e) print(e))
 ```
 
 
-#### En pratique
+### En pratique
 
-##### Création d'une méthode générique
+#### Création d'une méthode générique
 
 De nouvelles méthodes génériques peuvent être créées et déclinées selon les classes.
 
@@ -586,11 +583,11 @@ microbenchmark::microbenchmark(triple.integer(2L), triple.numeric(2), triple(2L)
 ```
 La mesure des performances par le package **microbenchmark** montre que la fonction `triple.integer()` est légèrement plus rapide que `triple.numeric` comme attendu mais que la méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
 R teste en effet l'existence de fonctions correspondant à la classe de l'objet passé en argument aux méthodes génériques.
-Comme un objet peut appartenir à plusieurs classe, il recherche une fonction adaptée à la première classe, puis aux classes suivantes successivement.
-Cette recherche prend beaucoup de temps et justifie de réserver l'usage de méthodes génériques à la clarification du code plutôt qu'à une recherche de performance.
+Comme un objet peut appartenir à plusieurs classes, il recherche une fonction adaptée à la première classe, puis aux classes suivantes successivement.
+Cette recherche prend beaucoup de temps et justifie de réserver l'usage de méthodes génériques à la lisibilité du code plutôt qu'à une recherche de performance: l'intérêt des méthodes génériques est de fournir à l'utilisateur du code une seule fonction pour un objectif donné (`plot` pour réaliser une figure) quelles que soient les données à traiter.
 
 
-##### Création d'une classe
+#### Création d'une classe
 
 Dans un package, on créera des classes si les résultats des fonctions le justifient: structure de liste et identification de la classe à un objet ("lm" est la classe des modèles linéaires).
 Pour toute classe créée, les méthodes `print`, `summary` et `plot` (si une représentation graphique est possible) doivent être écrites.
@@ -655,7 +652,7 @@ autoplot(my_multiple)
 ```
 
 
-##### Documentation
+#### Documentation
 
 Les méthodes génériques et les fonctions qui les déclinent doivent être documentées comme n'importe quelle autre fonction.
 
@@ -682,6 +679,71 @@ Tout package moderne doit être compatible avec le tidyverse, ce qui nécessite 
 * pour permettre l'utilisation de pipelines, l'argument principal des fonctions doit être le premier;
 * les fonctions qui transforment des données doivent accepter un dataframe ou un tibble comme premier argument et retourner un objet du même format;
 * les méthodes `plot()` doivent être doublées de méthodes `autoplot()` avec les mêmes arguments qui produisent le même graphique avec **ggplot2**.
+
+
+## Bibliographie
+
+La documentation d'un package fait appel à des références bibliographiques. 
+Elles peuvent être gérées automatiquement avec **Rdpack** et **roxygen2**.
+Les références utilisées dans les fichiers RMarkdown (vignette, site produit par **pkgdown**) ne sont pas concernées.
+
+### Préparation
+
+Les références bibliographiques doivent être placées dans un fichier bibtex `REFERENCES.bib` placé dans le dossier `inst`.
+Ce dossier contient des fichiers qui seront placés à la racine du dossier du package quand il sera installé.
+
+Ajouter la ligne suivante à `DESCRIPTION`:
+```
+RdMacros: Rdpack
+```
+
+Enfin, importer **Rdpack** et spécifiquement sa fonction `reprompt` en ajoutant les lignes suivantes à la documentation pour  **roxygen2** dans `package.R`:
+```{r}
+#' @importFrom Rdpack reprompt
+```
+
+### Citations
+
+Les références sont citées en utilisant la commande `\insertCite{key}{package}` dans la documentation destinée à **roxygen2**.
+`package` est le nom du package dans lequel le fichier `REFERENCES.bib` doit être cherché: ce sera normalement le package en cours, mais les références d'autres packages sont accessibles, à la seule condition qu'ils utilisent **Rdpack**.
+`key` est la l'identifiant de la référence dans le fichier.
+Exemple [^506]: documentation du package **SpatDiv** hébergé sur GitHub, fichier `.R` du package:
+```{r}
+#' SpatDiv
+#'
+#' Spatially Explicit Measures of Diversity
+#' 
+#' This package extends the *entropart* package \insertCite{Marcon2014c}{SpatDiv}.
+#' It provides spatially explicit measures of diversity such as the mixing index.
+```
+
+[^506]: Package **SpatDiv** sur GitHub: https://github.com/EricMarcon/SpatDiv/blob/master/R/Project.R
+
+La référence citée se trouve dans `inst/REFERENCES.bib`:
+```
+@Article{Marcon2014c,
+  author  = {Marcon, Eric and Herault, Bruno},
+  title   = {entropart, an R Package to Partition Diversity},
+  journal = {Journal of Statistical Software},
+  year    = {2015},
+  volume  = {67},
+  number  = {8},
+  pages   = {1--26},
+}
+```
+
+Les citations sont entre parenthèses.
+Pour placer le nom de l'auteur hors de la parenthèse, ajouter la déclaration `;textual`:
+```
+\insertCite{Marcon2014c;textual}{SpatDiv}
+```
+Pour citer plusieurs références (forcément du même package), les séparer par des virgules.
+
+A la fin de la documentation d'un objet utilisant des citations, ajouter systématiquement une liste des références:
+```{r}
+#' @references
+#' \insertAllCited{}
+```
 
 
 ## Données
@@ -716,8 +778,53 @@ Le nom de la variable est donné entre guillemets après le bloc de commentaires
 
 ## Tests unitaires
 
+Dans l'idéal, tout le code inclus dans un package devrait être testé de multiples façons:
 
-## Intégration continue {#sec:package-ci}
+* contre les erreurs de syntaxe: les procédures de vérification de R s'en chargent assez bien;
+* pour vérifier la conformité des résultats de calculs aux valeurs attendues;
+* contre la survenue d'erreurs si les utilisateurs n'utilisent pas le code comme le développeur l'a prévu (arguments incorrects passés aux fonctions, données inadéquates...).
+
+Les tests unitaires sont utilisés dans les deux derniers objectifs.
+Ils s'appuient sur **testthat** à intégrer au package:
+```{r}
+usethis::use_testthat()
+```
+
+Les tests doivent être ajoutés sous la forme de fichiers `.R` dont le nom commence obligatoirement par `test` dans le dossier `tests/testthat`.
+
+Chaque test (donc le contenu de chaque fichier) commence par son contexte, c'est-à-dire ce un ensemble de tests. Exemple, dans un fichier `test_double.R`:
+```{r}
+context("function double")
+```
+
+Les tests suivent, chacun passé comme arguments de la fonction `test_that())`:
+```{r}
+test_that("Double values are correct", {
+  skip_on_cran()
+
+  x <- 1:2
+
+  # 2 x 2 should be 4
+  expect_equal(double(x), c(2,4))
+  # The result should be a number (type = "double")
+  expect_type(double(x), "double")
+  # Error management
+  expect_error(double("a"))
+})
+```
+
+Toutes les fonctions commençant par `expect` permettent de comparer leur premier argument à un résultat: dans l'exemple ci-dessus, le résultat de `double(1:2)` doit être `2 4` et le type de ce vecteur doit être réel à double précision.
+Le dernier test vérifie qu'une chaîne de caractère passée comme argument génère une erreur, ce qui n'est pas optimal: si le package traitait l'erreur, le message retourné pourrait être testé.
+
+La commande `skip_on_cran()`, à utiliser systématiquement, évite de lancer les tests sur CRAN quand le package y sera déposé: CRAN dispose de ressources limitées et restreint strictement le temps de vérification des packages sur sa plateforme.
+Les tests devront donc être réalisés sur GitHub, grâce à l'intégration continue, voir section \@ref(sec:package-ci5).
+
+Les tests peuvent être lancés par le menu "More > Test package" de la fenêtre *Build* ou par la commande `devtools::test()`.
+
+Il est conseillé d'écrire les tests dès qu'une fonction du package est stabilisée.
+
+
+## Intégration continue {#sec:package-ci5}
 
 La vérification (*Check*) du package doit être effectuée à chaque étape du développement, ce qui consomme un temps considérable. 
 Elle peut être automatisée très simplement avec le service Travis-CI, déclenché à chaque modification du dépôt sur GitHub.
@@ -725,4 +832,4 @@ L'analyse de la couverture du code par les tests (quelles parties du codes sont 
 
 Travis est également capable de reconstruire la documentation du package avec **pkgdown**, autre opération consommatrice de ressources, après la réussite des tests.
 
-La section \@ref(sec:package-ci) détaille le moyen de le faire.
+La section \@ref(sec:package-ci6) détaille le moyen de le faire.
