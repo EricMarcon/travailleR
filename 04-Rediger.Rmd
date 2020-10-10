@@ -286,7 +286,96 @@ Elle doit être lancée au format gitbook et au format PDF.
 En production, elle peut être confiée à Travis-CI (chapitre \@ref(sec:bookdown-ci)).
 
 
-## Site web : blogdown {#sec:blogdown}
+## Site web R Markdown
+
+Un site web constitué de pages écrites avec R Markdown (sans les fonctionnalités de **bookdown**) et un menu peut être créé très simplement, avec un résultat de bonne facture [^425].
+
+[^425]: Exemple : https://rstudio.github.io/learnr/
+
+
+### Modèle
+
+Dans RStudio, dans le menu des projets en haut à droite, cliquer sur *New Project...* puis "New Directory" puis "Simple R Markdown website".
+Saisir le nom du projet, sélectionner le dossier dans lequel le projet sera créé en cliquant sur "Browse" et enfin cliquer sur "Create Project".
+
+Le site par défaut contient deux pages: `index`, la page d'accueil, et `about`, la page "A propos". 
+Le fichier `_site.yml` contient le nom du site et le contenu de sa barre de navigation: un titre et le fichier correspondant. 
+D'autres pages seront ajoutées en créant de nouveaux fichiers `.Rmd` et en les ajoutant au fichier `_site.yml`.
+
+
+### Améliorations
+
+Le modèle de site peut facilement être amélioré en complétant `_site.yml`:
+
+* en ajoutant une icône GitHub dans la barre de navigation pour renvoyer vers le code source du site:
+* en choisissant la méthode de tricot des pages, pour utiliser **bookdown** au lieu de **rmarkdown**;
+* en plaçant les fichiers du site dans le dossier `docs` et ainsi séparer le code et la production.
+
+Le fichier `_site.yml` complété est le suivant:
+```
+name: "my-website"
+navbar:
+  title: "My Website"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+  right:
+    - icon: fa-github
+      href: https://github.com/rstudio/rmarkdown
+output_dir: "docs"
+output:
+  bookdown::html_document2:
+    theme: sandstone
+    highlight: tango
+    toc: true
+    toc_float: yes
+```
+
+L'icône de GitHub fait partie de la collection Font Awesome dont toutes les icônes gratuites [^426] sont utilisables avec la même syntaxe: "fa-nom".
+
+[^426]: https://fontawesome.com/icons?d=gallery&m=free
+
+Le lien correspondant à l'icône doit être celui du dépôt GitHub du site web.
+
+La syntaxe de la section `output` est la même que celle des documents vus plus haut, comme le mémo EcoFoG.
+Elle s'applique à toutes les pages (dont l'entête YAML est réduite au minimum).
+Les thèmes disponibles sont ceux de rmarkdown [^427].
+
+[^427]: https://bookdown.org/yihui/rmarkdown/html-document.html#appearance-and-style
+
+L'option `highlight` indique la façon dont le code R éventuellement affiché sera formaté.
+Enfin, la table des matières est flottante, ce qui signifie que sa position s'ajuste quand la fenêtre défile.
+
+
+### Contôle de source
+
+Le projet doit être placé sous contrôle de source et poussé sur GitHub (chapitre \@ref(chap:git)).
+Le fichier `.gitignore` est le suivant :
+```
+# R
+.Rbuildignore
+.RData
+.Rhistory
+.Rprofile
+.Rproj.user
+
+# Web Site
+/_site/
+/*_cache/
+/*_files/
+
+```
+Activer les pages GitHub (section \@ref(sec:github-pages)) sur le dossier `docs` pour héberger le site.
+Ajouter un fichier vide nommé `.nojekyll` dans `docs` pour que les pages GitHub ne tentent pas de reformater le site.
+On peut uliser le terminal de RStudio pour exécuter:
+```
+touch docs/.nojekyll
+```
+
+
+## Site web personnel : blogdown {#sec:blogdown}
 
 Pour créer une page web personnelle, *Hugo* est un générateur de site statique capable de produire des pages HTML à partir de code Markdown.
 Les sites statiques ont l'avantage, en comparaison aux sites dynamiques gérés par un système de gestion de contenu (CMS, par exemple: Wordpress, Joomla, SPIP), d'être portables sur n'importe quel serveur web sans support de base de données ni de code à exécuter côté le serveur (tel que PHP) et d'être très rapides puisque les pages sont créées une seule fois et non à chaque consultation.
