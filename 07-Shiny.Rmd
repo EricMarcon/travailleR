@@ -6,14 +6,61 @@
 ## Objectifs {#sec:objectifs-shiny}
 
 Shiny permet de publier sous la forme d'un site web une application interactive utilisant du code R.
-Le site peut fonctionner localement, sur le poste de travail d'un utilisateur qui le lance à partir de RStudio, ou en ligne, sur un serveur dédié exécutant Shiny Server [701].
+Le site peut fonctionner localement, sur le poste de travail d'un utilisateur qui le lance à partir de RStudio, ou en ligne, sur un serveur dédié exécutant Shiny Server [^701].
 
 [^701]: https://rstudio.com/products/shiny/download-server/
 
-De façon basique, un formulaire permet de saisir les arguments d'un fonction, un bouton d'exécuter cette fonction, et une fenêtre de visualisation d'afficher les résultats du calcul.
+De façon basique, un formulaire permet de saisir les arguments d'un fonction et une fenêtre de visualisation d'afficher les résultats du calcul.
 
 L'utilisation d'une application Shiny rend très simple l'exécution du code, y compris pour des utilisateurs étrangers à R, mais limite évidemment les possibilités.
 
 
+## Première application
 
-## GitHub Classrooms
+Dans RStudio, créer une application avec le menu "File > New File > Shiny Web App...", saisir le nom de l'application "MonAppShiny" et sélectionner le dossier où la placer.
+
+Le nom de l'application a servi à créer un dossier qu'il faut maintenant transformer en projet (menu des projets en haut à droite de RStudio, "New Project > Existing Directory", sélectionner le dossier de l'application).
+
+Le fichier de l'application nommé `app.R` contient deux fonctions: `ui()` qui définit l'interface graphique et `server()` qui contient le code R à exécuter.
+L'application peut être lancée en cliquant sur "Run App" dans la fenêtre du code.
+
+(ref:shiny-geiser) Application Shiny *Old Faithful Geyser Data*.
+```{r shiny-geiser, fig.cap="(ref:shiny-geiser)", echo=FALSE}
+knitr::include_graphics('images/shiny-geiser.png')
+```
+
+La correspondance entre la fenêtre affichée (figure \@ref(fig:shiny-geiser)) et le code de la fonction `ui()` est simple à voir:
+
+* le titre de l'application est affiché par la fonction `titlePanel()`;
+* le curseur qui fixe le nombre de barres de l'histogramme est créé par `sliderInput()`;
+* la fonction `sidebarLayout()` fixe la disposition des éléments de la page, `sidebarPanel` pour les contrôles de saisie et `mainPanel()` pour l'affichage du résultat.
+
+Le résultat est affiché par la fonction `plotOutput()` dont l'argument est le nom d'un élément de `output`, la variable remplie par la fonction `server()`.
+
+Toute modification d'un élément de l'interface, précisément d'un élément affiché par une fonction `*Input()` (il en existe pour tous les types d'entrées, par exemple `textInput()`) de **Shiny** provoque l'exécution de `server()` et la mise à jour des éléments de `output`.
+
+
+## Application plus élaborée
+
+Une application est créée en choisissant:
+
+* une disposition de la fenêtre (*layout*);
+* les contrôles de saisie des paramètres (*intput*);
+* les contrôles d'affichage des résultats (*output*).
+
+Le code pour traiter les entrées et produire les sorties est ensuite écrit dans `server()`.
+
+Le tutoriel de RStudio [^702] est très détaillé et doit être utilisé pour aller plus loin.
+
+[^702]: https://shiny.rstudio.com/tutorial/
+
+
+## Hébergement
+
+Une application Shiny n'est pas forcément hébergée par un serveur web: elle peut être exécutée sur les postes de travail des utilisateurs s'ils disposent de R.
+
+Pour un usage plus large, un serveur dédié est nécessaire.
+Shinyapps.io [^703] est un service de RStudio qui permet d'héberger gratuitement 5 applications Shiny avec un temps de fonctionnement maximal de 5 heures par mois.
+
+[^703]: https://www.shinyapps.io/
+
