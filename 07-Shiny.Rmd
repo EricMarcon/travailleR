@@ -64,3 +64,23 @@ Shinyapps.io [^703] est un service de RStudio qui permet d'héberger gratuitemen
 
 [^703]: https://www.shinyapps.io/
 
+Il faut tout d'abord ouvrir un compte sur le site, de préférence avec ses identifiants GitHub.
+Pour permettre la gestion des applications en ligne directement depuis RStudio, il faut installer ensuite le package **rsconnect** et le paramétrer:
+```{r, eval=FALSE}
+rsconnect::setAccountInfo(name='prenom.nom',
+			  token='xxx',
+			  secret='<SECRET>')
+```
+
+Le code exact, avec le nom d'uilisateur et le jeton à utiliser, sont affichés sur la page d'accueil de Shinyapps.io: cliquer sur "Show Secret", copier le code et le coller dans la console de RStudio pour l'exécuter.
+Un bouton "Publish" est disponible juste à droite du bouton "Run App".
+Cliquer dessus et valider la publication (figure \@ref(fig:shiny-publish)).
+
+(ref:shiny-publish) Publication de l'application Shiny sur Shinyapps.io.
+```{r shiny-publish, fig.cap="(ref:shiny-geiser)", echo=FALSE}
+knitr::include_graphics('images/shiny-publish.png')
+```
+
+L'application est maintenant accessible à l'adresse https://prenom-nom.shinyapps.io/MonAppShiny/
+
+
