@@ -42,6 +42,9 @@ Toute modification d'un élément de l'interface, précisément d'un élément a
 
 ## Application plus élaborée
 
+
+### Méthode de travail
+
 Une application est créée en choisissant:
 
 * une disposition de la fenêtre (*layout*);
@@ -55,14 +58,197 @@ Le tutoriel de RStudio [^702] est très détaillé et doit être utilisé pour a
 [^702]: https://shiny.rstudio.com/tutorial/
 
 
+### Exemple
+
+Cette application simple utilise le package **scholar** pour interroger Google Scholar et obtenir les données bibliométriques d'un auteur à partir de son identifiant.
+
+Le fichier `app.R` contient tout le code et est construit progressivement ici.
+L'application complète, avec des sorties graphiques en plus de sa version simplifiée présentée ici est disponible sur GitHub [^703].
+
+[^703]: https://github.com/EricMarcon/bibliometrics
+
+Le début du code consiste à préparer l'exécution de l'application en chargeant les packages nécessaires:
+```{r, eval=FALSE}
+# Prepare the application ####
+
+# Load packages
+library("shiny")
+library("tidyverse")
+```
+
+Le code de l'application complète intègre une foncion pour installer les packages manquants, à n'exécuter que quand l'application est exécutée sur un poste de travail (sur un serveur, la gestion des packages n'est pas du ressort de l'application).
+
+L'interface utilisateur est la suivante:
+```{r, eval=FALSE}
+# UI ####
+ui <- fluidPage(
+  # Application title
+  titlePanel("Bibliometrics"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      helpText("Enter the Google Scholar ID of an author."),
+      textInput("AuthorID", "Google Scholar ID", "4iLBmbUAAAAJ"),
+      # End of input
+      br(),
+      # Display author's name and h
+      uiOutput("name"),
+      uiOutput("h")
+    ),
+    # Show plots in the main panel
+    mainPanel(
+      plotOutput("network"),
+      plotOutput("citations")
+    )
+  )
+)
+```
+
+La fenêtre de l'application est fluide, c'est-à-dire qu'elle se réorganise seule quand sa taille varie, et est composée d'un panneau latéral (pour la saisie et l'affichage de texte) et d'un panneau principal, pour l'affichage de graphiques.
+
+Les éléments du panneau latéral sont:
+
+* un texte d'aide: `helpText()`;
+* un champ de texte à saisir, `textInput()`, dont les arguments sont le nom, le texte affiché, et la valeur par défaut (l'identifiant d'un auteur);
+* un saut de ligne: `br()`;
+* des contrôles de sortie au format HTML: `uiOutput()`, dont l'argument unique est le nom.
+
+Le panneau principal contient deux contrôles de sortie graphiques, `plotOutput()` dont l'argument est aussi le nom.
+
+Le code à exécuter pour traiter les entrées et produire les sorties est dans la fonction `server()`.
+
+```{r, eval=FALSE}
+# Server logic ####
+server <- function(input, output) {
+  # Run the get_profile function only once ####
+  # Store the author profile
+  AuthorProfile <- reactiveVal()
+  # Update it when input$AuthorID is changed
+  observeEvent(input$AuthorID, AuthorProfile(get_profile(input$AuthorID)))
+  
+  # Output ####
+  output$name <- renderUI({
+    h2(AuthorProfile()$name)
+  })
+  
+  output$h <-
+    renderUI({
+      a(href = paste0("https://scholar.google.com/citations?user=", input$AuthorID),
+        paste("h index:", AuthorProfile()$h_index),
+        target = "_blank"
+      )
+    })
+  
+  output$citations <- renderPlot({
+    get_citation_history(input$AuthorID)  %>%
+      ggplot(aes(year, cites)) +
+      geom_segment(aes(xend = year, yend = 0),
+                   size = 1,
+                   color =
+                     'darkgrey') +
+      geom_point(size = 3, color = 'firebrick') +
+      labs(title = "Citations per year",
+           caption = "Source: Google Scholar")
+  })
+  
+  output$network <- renderPlot({
+    ggplot() + geom_blank()
+  })
+}
+```
+
+Les informations nécessaires aux champs de sortie `$name` et `$h` (nom de l'auteur et indice h) sont obtenus par la fonction `get_profile()` du package **scholar**.
+Cette fonction effectue interroge la page web Google Scholar de l'auteur et extrait les valeurs du résultat: c'est une traitement lourd, qu'il vaut mieux n'exécuter qu'une seule fois plutôt que deux, dans les fonctions `renderUI()` chargées de calculer les valeurs de `output$h` et `output$name`.
+
+Le code le plus simple pour le faire serait le suivant:
+```{r, eval=FALSE}
+  # Run the get_profile function only once ####
+  # Store the author profile
+  AuthorProfile <- get_profile(input$AuthorID)
+```
+
+La difficulté de la programmation d'une application Shiny est que tout calcul se référant à un élément de l'interface d'entrée doit être *réactif*.
+Si ce dernier code était exécuté, le message d'erreur suivant apparaît:
+"Operation not allowed without an active reactive context. (You tried to do something that can only be done from inside a reactive expression or observer.)".
+
+En pratique, l'exécution du code est lancée par la modification d'un contrôle d'entrée (ici: `intput$AuthorID`).
+Le code faisant référence à un de ces contrôles doit être en permanence en attente d'une modification: il doit donc placé dans des fonctions particulières comme `renderPlot` dans l'application  *Old Faithful Geyser Data* ou `renderUI()` ici.
+Le code suivant s'exécuterait sans erreur:
+```{r, eval=FALSE}
+  # Output ####
+  output$name <- renderUI({
+    AuthorProfile <- get_profile(input$AuthorID)
+    h2(AuthorProfile$name)
+  })
+```
+
+L'appel à la valeur du contrôle `input$AuthorID` a bien lieu dans une fonction réactive (mais `get_profile()` devrait être utilisé une deuxième fois dans le calcul de `output$h`, ce que nous voulons éviter).
+La fonction `h2(AuthorProfile$name)` produit du code HTML, un paragraphe de titre de niveau 2 dont la valeur est passée en argument.
+
+Toutes les fonctions dont le nom commence par `render` dans le package **shiny** sont réactives, et chacune est destinée à produire un type de sortie différent, par exemple du texte (`renderText()`) ou du code HTML (`renderUI()`).
+
+Si du code est nécessaire pour calculer des variables communes à plusieurs contrôles de sortie (`output$name` et `output$h`), il doit lui-même être réactif.
+Deux fonctions sont très utiles: 
+
+* `observeEvent()` surveille les changements d'un contrôle d'entrée et exécute du code quand ils se produisent;
+* `reactiveVal()` permet de définir une variable réactive, qui sera modifiée par le code de `observeEvent()` et entraînera à son tour l'exécution d'autres fonctions réactives qui utilisent sa valeur.
+
+Le code optimal crée donc une variable réactive pour y stocker le résultat de l'interrogation de Google Scholar 
+```{r, eval=FALSE}
+  # Store the author profile
+  AuthorProfile <- reactiveVal()
+```
+
+La variable réactive est vide à ce stade.
+Son utilisation est ensuite celle d'une fonction: `AuthorProfile(x)` lui attribue la valeur `x` et `AuthorProfile()`, sans argument, renvoie sa valeur.
+La fonction `observeEvent()` est déclenchée quand `input$AuthorID` est modifié et exécute le code passé en deuxième argument, ici la mise à jour de `AuthorProfile`.
+
+```{r, eval=FALSE}
+  # Update it when input$AuthorID is changed
+  observeEvent(input$AuthorID, AuthorProfile(get_profile(input$AuthorID)))
+```
+
+Enfin, les fonctions `renderUI()` qui fournissent les valeurs des contrôles de sortie utilisent la valeur de `AuthorProfile`:
+```{r, eval=FALSE}
+  # Output ####
+  output$name <- renderUI({
+     h2(AuthorProfile()$name)
+  })
+```
+
+Remarquer les parenthèses de `AuthorProfile()`, variable réactive, par opposition à la syntaxe `AuthorProfile$name` pour une variable classique.
+
+La valeur de `output$h` est un lien internet, `<a href=...` en HTML, écrit par la fonction `a()` du package **htmltools** utilisé par `renderUI()`.
+```{r, eval=FALSE}
+  output$h <-
+    renderUI({
+      a(href = paste0("https://scholar.google.com/citations?user=", input$AuthorID),
+        paste("h index:", AuthorProfile()$h_index),
+        target = "_blank"
+      )
+    })
+```
+
+Le lien est vers la page Google Scholar de l'auteur.
+La valeur affichée est son indice h.
+L'argument `target = "_blank"` indique que le lien doit être ouvert dans une nouvelle fenêtre du navigateur.
+
+Le graphique `output$citations` est créé par la fonction réactive `renderPlot()`.
+Les données fournies par la fonction `get_citation_history()` de **scholar** (qui interroge l'API de Google Scholar) sont traitées par `ggplot()`.
+
+Enfin, le graphique `output$network` est un graphique vide dans cette version simplifiée de l'application.
+
+L'application complète reprend ce code en y ajoutant le traitement des erreurs dans le cas où le code de l'auteur n'existe par sur Google Scholar et le graphique du réseau des co-auteurs.
+
+
 ## Hébergement
 
 Une application Shiny n'est pas forcément hébergée par un serveur web: elle peut être exécutée sur les postes de travail des utilisateurs s'ils disposent de R.
 
 Pour un usage plus large, un serveur dédié est nécessaire.
-Shinyapps.io [^703] est un service de RStudio qui permet d'héberger gratuitement 5 applications Shiny avec un temps de fonctionnement maximal de 5 heures par mois.
+Shinyapps.io [^704] est un service de RStudio qui permet d'héberger gratuitement 5 applications Shiny avec un temps de fonctionnement maximal de 5 heures par mois.
 
-[^703]: https://www.shinyapps.io/
+[^704]: https://www.shinyapps.io/
 
 Il faut tout d'abord ouvrir un compte sur le site, de préférence avec ses identifiants GitHub.
 Pour permettre la gestion des applications en ligne directement depuis RStudio, il faut installer ensuite le package **rsconnect** et le paramétrer:
@@ -83,4 +269,5 @@ knitr::include_graphics('images/shiny-publish.png')
 
 L'application est maintenant accessible à l'adresse https://prenom-nom.shinyapps.io/MonAppShiny/
 
-
+L'application "Bibliometrics" ne fonctionne pas sur Shinyapps.io parce que la façon dont le package **Scholar** interroge Google Scholar n'est pas supportée.
+La plupart des applications Shiny fonctionnent sans difficulté, tant qu'elles ne nécessitent pas de fonctionnalités réseau complexes.
