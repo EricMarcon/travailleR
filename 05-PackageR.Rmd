@@ -136,7 +136,8 @@ La documentation doit être complétée:
 #' 
 #' @param number a numeric vector.
 #'
-#' @return A vector of the same length as `number` containing the transformed values.
+#' @return A vector of the same length as `number` containing the 
+#'   transformed values.
 #' @export
 #'
 #' @examples
@@ -224,7 +225,8 @@ Le premier bloc de commentaire produira l'aide du package (`?multiple`).
 #'
 #' Multiples of numbers
 #' 
-#' This package allows simple computation of multiples of numbers, including fast algorithms for integers.
+#' This package allows simple computation of multiples 
+#' of numbers, including fast algorithms for integers.
 #'
 #' @name multiple
 #' @docType package
@@ -254,8 +256,9 @@ Authors@R:
            role = c("aut", "cre"),
            email = "e.marcon@free.fr",
            comment = c(ORCID = "0000-0002-5249-321X"))
-Description: This package allows simple computation of multiples of numbers, 
-  including fast algorithms for integers.
+Description: This package allows simple computation
+  of multiples of numbers, including fast algorithms
+  for integers.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -344,7 +347,7 @@ Une introduction à l'utilisation du package doit être écrite dans ce document
 
 Le package **pkgdown** permet de créer un site d'accompagnement du package[^505], qui reprend le fichier `README.md` comme page d'accueil, la vignette dans une rubrique "Get Started", l'ensemble des fichiers d'aide avec leurs exemples exécutés (section "Reference"), le fichier `NEWS.md` pour un historique du package (section "Changelog") et des informations du fichier `DESCRIPTION`.
 
-[^505] Exemple : https://ericmarcon.github.io/entropart/
+[^505]: Exemple: https://ericmarcon.github.io/entropart/
 
 Créer le site avec **usethis**
 ```{r, eval=FALSE}
@@ -370,6 +373,7 @@ URL: https://GitHubID.github.io/multiple
 ```
 
 Le site peut être enrichi de plusieurs façons:
+
 * En ajoutant des articles au format RMarkdown dans le dossier `vignettes/articles`;
 * En améliorant la présentation du site de nombreuses façons (regroupement des fonctions par thèmes, ajout de badges...): se référer à la vignette de **pkgdown**.
 
@@ -635,16 +639,18 @@ summary(my_multiple)
 ```
 Enfin, une fonction `plot` et une fonction `autoplot` complètent l'ensemble:
 
-```{r}
+```{r, tidy=FALSE}
 plot.multiple <- function(x, y, ...) {
-  plot.default(y=x$y, x=x$x, type="p", main = paste("Multiplication by", x$times), ...)
+  plot.default(y=x$y, x=x$x, type = "p", 
+    main = paste("Multiplication by", x$times), ...)
 }
 
 autoplot.multiple <- function(object, ...) {
-  data.frame(x=object$x, y=object$y) %>% 
+  data.frame(x = object$x, y = object$y) %>% 
     ggplot2::ggplot() +
-    ggplot2::geom_point(ggplot2::aes(x=x, y=y)) +
-    ggplot2::labs(title =paste("Multiplication by", object$times))
+    ggplot2::geom_point(ggplot2::aes(x = x, y = y)) +
+    ggplot2::labs(title = paste("Multiplication by", 
+                                object$times))
 }
 
 plot(my_multiple)
@@ -706,7 +712,8 @@ Enfin, importer **Rdpack** et spécifiquement sa fonction `reprompt` en ajoutant
 
 Les références sont citées en utilisant la commande `\insertCite{key}{package}` dans la documentation destinée à **roxygen2**.
 `package` est le nom du package dans lequel le fichier `REFERENCES.bib` doit être cherché: ce sera normalement le package en cours, mais les références d'autres packages sont accessibles, à la seule condition qu'ils utilisent **Rdpack**.
-`key` est la l'identifiant de la référence dans le fichier.
+
+`key` est l'identifiant de la référence dans le fichier.
 Exemple[^507]: documentation du package **SpatDiv** hébergé sur GitHub, fichier `.R` du package:
 ```{r}
 #' SpatDiv
@@ -723,7 +730,8 @@ La référence citée se trouve dans `inst/REFERENCES.bib`:
 ```
 @Article{Marcon2014c,
   author  = {Marcon, Eric and Herault, Bruno},
-  title   = {entropart, an R Package to Partition Diversity},
+  title   = {entropart, an R Package to Partition 
+             Diversity},
   journal = {Journal of Statistical Software},
   year    = {2015},
   volume  = {67},

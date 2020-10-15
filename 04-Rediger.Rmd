@@ -42,7 +42,7 @@ output: html_notebook
 
 La première entrée est le titre, la seconde le format de sortie: plus précisément le nom de la fonction chargée de traiter le document.
 
-Le document contient du texte formaté en Markkdown et des bouts de code (*code chunks*) entourés par trois accents graves (la syntaxe markdown d'un bloc de code) et une description du langage, ici `{r]`.
+Le document contient du texte formaté en Markkdown et des bouts de code (*code chunks*) entourés par trois accents graves (la syntaxe markdown d'un bloc de code) et une description du langage, ici `r`.
 Ces bouts de code sont traités par **knitr** qui transforme le résultat de l'exécution du code R en Markdown et l'intègre au texte du document.
 
 Traiter un document R Markdown s'appelle le *tricoter* (*knit*).
@@ -150,7 +150,7 @@ Le modèle contient sa propre documentation.
 
 #### Créer
 
-Utiliser  le menu "File > New File > R Markdown..."  puis sélectionner "From template" (figure \@ref(fig:e-rmd1))).
+Utiliser  le menu "File > New File > R Markdown..."  puis sélectionner "From template" (figure \@ref(fig:e-rmd1)).
 La liste des modèles disponible et le package qui les propose est alors affichée.
 
 Sélectionner le modèle Memo EcoFoG du package **EcoFoG**, choisir le nom du projet ("Name:", qui sera le nom du dossier dans lequel il sera créé, et son dossier parent ("Location:").
@@ -188,9 +188,12 @@ Pour le projet présenté en exemple, le fichier `README.md` est le suivant:
 ```
 # Krigeage avec R
 
-Techniques pour interpoler les valeurs d'une variable continue.
+Techniques pour interpoler les valeurs d'une variable
+continue.
 
-[Voir le support](https://EricMarcon.github.io/Krigeage/Krigeage.html) ou le [télécharger](https://EricMarcon.github.io/Krigeage/Krigeage.pdf)
+[Voir le support](https://EricMarcon.github.io/
+Krigeage/Krigeage.html) ou le [télécharger]
+(https://EricMarcon.github.io/Krigeage/Krigeage.pdf)
 
 ```
 La première ligne contient le titre, la seconde une description.
@@ -290,7 +293,7 @@ En production, elle peut être confiée à Travis-CI (chapitre \@ref(sec:bookdow
 
 Un site web constitué de pages écrites avec R Markdown (sans les fonctionnalités de **bookdown**) et un menu peut être créé très simplement, avec un résultat de bonne facture[^425].
 
-[^425]: Exemple : https://rstudio.github.io/learnr/
+[^425]: Exemple: https://rstudio.github.io/learnr/
 
 
 ### Modèle
@@ -546,7 +549,7 @@ sélectionne un site personnel.
 Il est possible d'utiliser Academic pour un site de projet scientifique ou un site d'unité, non documentés en détail ici.
 Les principales différences sont, pour un site collectif:
 
-* la gestion des auteurs: dans le dossier `/contents/<langue>/authors`, un seul dossier `admin` est utilisé pour un site personnel alors qu'un dossier par personne est nécessaire pour un site collectif;
+* la gestion des auteurs: dans le dossier `/contents/<langue>/`\break`authors`, un seul dossier `admin` est utilisé pour un site personnel alors qu'un dossier par personne est nécessaire pour un site collectif;
 * un composant décrit plus bas, qui permet de présenter les personnes, doit être activé.
 
 La description du site dans la langue par défaut est saisie, à destination des moteurs de recherche:
@@ -587,7 +590,7 @@ L'exemple utilisé ici est le site personnel de l'auteur[^416].
 La méthode de travail consiste à progresser pas à pas en testant puis validant chaque étape:
 
 * Effectuer les modifications;
-* Construire le site et vérifier le résultat: `blogdown:::serve_site()`;
+* Construire le site et vérifier le résultat: \break`blogdown:::serve_site()`;
 * Arrêter le site: `blogdown::stop_server()`;
 * Si le résultat n'est pas satisfaisant, recommencer;
 * Valider les modifications (*commit*).
@@ -604,7 +607,8 @@ Son contenu est le suivant:
 +++
 # Homepage
 type = "widget_page"
-headless = true  # Homepage is headless, other widget pages are not.
+headless = true  # Homepage is headless, other widget 
+pages are not.
 +++
 ```
 
@@ -741,7 +745,7 @@ Son code est sur GitHub[^418].
 
 [^418]: https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/post/densite
 
-Un billet est placé dans un dossier (`/content/fr/post/densite`) qui contient son code Rmarkdown et éventuellement des images, des données pour alimenter le code et d'autres éléments appelés par le code.
+Un billet est placé dans un dossier (`/content/fr/post/`\break`densite`) qui contient son code Rmarkdown et éventuellement des images, des données pour alimenter le code et d'autres éléments appelés par le code.
 Hugo supporte des fichiers markdown natifs.
 L'apport de **blogdown** relativement à un site Hugo natif est le support de Rmarkdown, donc la possibilité d'exécuter tout code R comme dans un bloc-note (dont le contenu peut être réutilisé sans modification).
 
@@ -763,8 +767,10 @@ featured: false
 draft: false
 
 # Featured image
-# To use, add an image named `featured.jpg/png` to your page's folder.
-# Focal points: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight.
+# To use, add an image named `featured.jpg/png` to 
+# your page's folder.
+# Focal points: Smart, Center, TopLeft, Top, TopRight,
+# Left, Right, BottomLeft, Bottom, BottomRight.
 image:
   caption: ""
   focal_point: ""
@@ -806,7 +812,8 @@ Le nom du dossier est de préférence celui de l'identifiant de la publication.
 L'entête du fichier `index.md` (ici au format Markdown, mais `.Rmd` est possible si du code R est nécessaire) contient les mêmes informations que le fichier BibTex, mais au format approprié (yaml), et les éléments propres à Academic (`featured`):
 ```
 ---
-title: "Evaluating the geographic concentration of industries using distance-based methods"
+title: "Evaluating the geographic concentration of |>
+industries using distance-based methods"
 authors: ["Eric Marcon", "Florence Puech"]
 publication_types: ["2"]
 abstract: "We propose (...)"
@@ -840,11 +847,13 @@ Des boutons sont affichés en haut de la page de la publication en fonction des 
 Le corps de la publication contient un lien (au format HTML) vers le site Dimension qui fournit des informations bibliométriques.
 Ce lien peut être réutilisé très simplement, en remplaçant simplement le DOI du document:
 ```
-<span class="__dimensions_badge_embed__" data-doi="10.1093/jeg/lbg016"></span>
-<script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
+<span class="__dimensions_badge_embed__" 
+  data-doi="10.1093/jeg/lbg016"></span>
+<script async src="https://badge.dimensions.ai/
+  badge.js" charset="utf-8"></script>
 ```
 
-Enfin, un fichier `/contents/<langue>/publications/_index.Rmd` permet de présenter la bibliographie complète.
+Enfin, un fichier `/contents/<langue>/publications/`\break`_index.Rmd` permet de présenter la bibliographie complète.
 Il est accessible à partir du composant `publications` de la page d'accueil qui affiche un lien "Plus de Publications".
 
 Le fichier exemple[^421] avec son code[^422] permet d'interroger Google Scholar pour obtenir le réseau de coauteurs, l'indice h et le nombre de citations annuelles de l'auteur.
@@ -872,21 +881,27 @@ Une image peut être utilisée plus facilement que pour une publication.
 L'entête contient des lignes particulières adaptées aux communications:
 ```
 ---
-title: "Construction de l'estimateur de biodiversité Chao1"
+title: "Construction de l'estimateur de biodiversité |>
+Chao1"
 event: "Semaine des mathématiques 2020"
-event_url: https://eduscol.education.fr/cid59178/semaine-des-mathematiques.html
+event_url: https://eduscol.education.fr/cid59178/|>
+semaine-des-mathematiques.html
 
 location: Université de Guyane
 
 summary: []
 abstract: |
-  Pour estimer le nombre d’espèces (richesse spécifique) d’une communauté 
-  à partir d’un échantillon, l’estimateur Chao1 est l’outil le plus utilisé.
+  Pour estimer le nombre d’espèces (richesse 
+  spécifique) d’une communauté à partir d’un 
+  échantillon, l’estimateur Chao1 est l’outil 
+  le plus utilisé.
 
-  Sa construction est expliquée et son efficacité est testée sur des données simulées.
+  Sa construction est expliquée et son efficacité
+  est testée sur des données simulées.
 
 # Talk start and end times.
-#   End time can optionally be hidden by prefixing the line with `#`.
+#   End time can optionally be hidden by 
+# prefixing the line with `#`.
 date: "2020-03-11T11:00:00Z"
 date_end: "2020-03-11T12:00:00Z"
 all_day: false
@@ -898,13 +913,15 @@ publishDate: "2020-04-14"
 featured: false
 
 image:
-  caption: 'Produit scalaire des vecteurs $v_0$ et $v_2$'
+  caption: 'Produit scalaire des vecteurs $v_0$ |>
+et $v_2$'
   focal_point: Smart
 
 url_code: "https://github.com/EricMarcon/Chao1"
-url_pdf: "https://ericmarcon.github.io/Chao1/Chao1.pdf"
-url_slides: "https://ericmarcon.github.io/Chao1/Chao1.html"
-
+url_pdf: "https://ericmarcon.github.io/Chao1/|>
+Chao1.pdf"
+url_slides: "https://ericmarcon.github.io/Chao1/|>
+Chao1.html"
 
 # Enable math on this page?
 math: true
