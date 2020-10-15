@@ -1,22 +1,48 @@
 # Enseigner avec R {#chap:enseigner}
 
-*Chapitre en cours d'écriture*
-
 
 ## Objectifs {#sec:objectifs-enseigner}
 
 R, RStudio et GitHub fournissent des outils pour enseigner.
 
-Le package **learnr** permet de réaliser des tutoriels interactifs [^701].
+Le package **learnr** permet de réaliser des tutoriels interactifs .
 
-[^701]: https://rstudio.github.io/learnr/
-
-On verra ici comment utiliser les salles de classe GitHub (*GitHub Classrooms*) qui permettent de diffuser à une classe (une liste d'étudiants disposant d'un compte GitHub) un modèle de dépôt (un début de projet R) que chaque étudiant devra développer et publier.
+On verra aussi comment utiliser les salles de classe GitHub (*GitHub Classrooms*) qui permettent de diffuser à une classe (une liste d'étudiants disposant d'un compte GitHub) un modèle de dépôt (un début de projet R) que chaque étudiant devra développer et publier.
 Les outils de la salle de classe permettent d'évaluer le travail fourni assez simplement.
 
 
 ## learnr
 
+**learnr** permet de rendre interactifs les bouts de code de n'importe quel document produit par R Markdown en HTML, en les transformant en applications Shiny.
+La documentation sur le site de RStudio [^801] est très claire et ne sera pas reprise ici: nous verrons seulement comment commencer et comment inclure des tutoriels **rlearnr** dans un package.
+
+[^801]: https://rstudio.github.io/learnr/
+
+### Premier tutoriel
+
+Utiliser comme pour tous les documents le menu "File > New File > RMarkdown..." et créer un nouveau document à partir d'un modèle "Interactive Tutorial".
+L'assistant crée un dossier du nom choisi, à transformer en projet R et passer sous contrôle de source, comme pour tous les documents vus précédemment (voir section \@ref(sec:memo)).
+
+Pour exécuter le tutoriel, cliquer sur le bouton "Run Document" qui se trouve à place habituelle du bouton "Tricoter".
+
+Les tutoriels peuvent inclure des exercices, qui sont des bouts de code avec l'option `exercise=TRUE`.
+Ces exercices sont affichés sous la forme d'une fenêtre de code modifiable et exécutable par l'utilisateur.
+Des indices peuvent être donnés [^802], un bouton ajouté pour afficher la solution, une limite de temps peut être fixée [^803], et le code comme son résultat peuvent être comparés à une valeur attendue [^804].
+
+[^802]: https://rstudio.github.io/learnr/exercises.html#Hints_and_Solutions
+
+[^803]: https://rstudio.github.io/learnr/exercises.html#Time_Limits
+
+[^804]: https://rstudio.github.io/learnr/exercises.html#Exercise_Checking
+
+Des quizz [^805] peuvent être ajoutés, sous la forme de questionnaires à choix multiples ou uniques.
+
+[^805]: https://rstudio.github.io/learnr/questions.html
+
+La progression de l'utilisateur dans le tutoriel (code saisi, réponses aux questions...) est sauvegardée par **learnr** sur le poste de travail.
+Un tutoriel peut être arrêté puis repris sans perte de données.
+En revanche, il n'y a pas de moyen simple de récupérer ces données pour une évaluation par le formateur par exemple.
 
 
 ## GitHub Classrooms
+
