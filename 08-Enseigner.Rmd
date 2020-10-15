@@ -14,7 +14,7 @@ Les outils de la salle de classe permettent d'évaluer le travail fourni assez s
 ## learnr
 
 **learnr** permet de rendre interactifs les bouts de code de n'importe quel document produit par R Markdown en HTML, en les transformant en applications Shiny.
-La documentation sur le site de RStudio [^801] est très claire et ne sera pas reprise ici: nous verrons seulement comment commencer et comment inclure des tutoriels **rlearnr** dans un package.
+La documentation sur le site de RStudio [^801] est très claire et ne sera pas reprise ici: nous verrons seulement comment commencer et comment diffuser des tutoriels **rlearnr**.
 
 [^801]: https://rstudio.github.io/learnr/
 
@@ -23,7 +23,7 @@ La documentation sur le site de RStudio [^801] est très claire et ne sera pas r
 Utiliser comme pour tous les documents le menu "File > New File > RMarkdown..." et créer un nouveau document à partir d'un modèle "Interactive Tutorial".
 L'assistant crée un dossier du nom choisi, à transformer en projet R et passer sous contrôle de source, comme pour tous les documents vus précédemment (voir section \@ref(sec:memo)).
 
-Pour exécuter le tutoriel, cliquer sur le bouton "Run Document" qui se trouve à place habituelle du bouton "Tricoter".
+Pour exécuter le tutoriel, cliquer sur le bouton *Run Document* qui se trouve à place habituelle du bouton "Tricoter".
 
 Les tutoriels peuvent inclure des exercices, qui sont des bouts de code avec l'option `exercise=TRUE`.
 Ces exercices sont affichés sous la forme d'une fenêtre de code modifiable et exécutable par l'utilisateur.
@@ -44,5 +44,108 @@ Un tutoriel peut être arrêté puis repris sans perte de données.
 En revanche, il n'y a pas de moyen simple de récupérer ces données pour une évaluation par le formateur par exemple.
 
 
+### Diffusion
+
+Les tutoriels peuvent être diffusés en copiant les fichiers ou en indiquant aux utilisateurs de cloner les projets GitHub qui les contiennent.
+
+Ils peuvent aussi être hébergés sur Shinyapps.io (voir section \@ref(sec:hebergement-shiny)).
+
+Enfin, ils peuvent être inclus dans un package 
+
+[^806]: https://rstudio.github.io/learnr/publishing.html#R_Package
+
+
 ## GitHub Classrooms
 
+GitHub Classrooms permet de diffuser à un public étudiant des dépôts GitHub à modifier et de contrôler le résultat.
+Les applications sont aussi bien l'apprentissage de R que la production de documents, pour un travail personnel ou un examen par exemple.
+
+### Inscription
+
+Pour commencer à utiliser l'outil, il faut ouvrir un compte.
+Sur le site de GitHub Classrooms [^807], cliquer sur "Sign in" et utiliser son compte GitHub pour s'authentifier.
+
+[^807]: https://classroom.github.com/
+
+
+### Organisations
+
+L'étape suivant consiste à créer une organisation GitHub.
+Une organisation GitHub contient essentiellement des membres (titulaires d'un compte GitHub) et des dépôts accessibles à l'adresse <https://github.com/Organisation/Depot>.
+
+La façon la plus simple de travailler consiste à créer une organisation par cours mais d'autres approches sont possibles dans des structures utilisant intensivement l'outil.
+L'organisation crée pour l'exemple est ici "Cours-R" [^808].
+
+[^808]: https://github.com/Cours-R
+
+Une adresse de messagerie est nécessaire (utiliser la même que celle de son compte GitHub) et l'organisation doit être déclarée comme appartenant à son compte personnel.
+
+Si l'organisation n'est pas visible sur la page de GitHub Classrooms, cliquer sur "Grant us access".
+
+
+### Nouvelle salle de classe
+
+Une salle de classe (*classroom*) est peuplée d'étudiants qui recevront des tâches(*assignments*) à exécuter.
+
+Cliquer sur *New Classroom*.
+Sélectionner l'organisation en charge de l'administration de la salle de classe.
+
+Saisir le nom de la salle de classe: une bonne pratique est de la préfixer par le nom du cours et d'ajouter le nom de la session, par exemple  "Cours-R-2020-EdGuyane".
+
+Ne pas ajouter de collaborateurs (ce sera possible plus tard), et saisir éventuellement la liste des étudiants (un nom par ligne, possible plus tard aussi).
+La classe est créée.
+
+Toutes les salles de classe sont visibles depuis la page d'accueil de GitHub Classrooms [^809].
+Cliquer sur un nom pour en ouvrir une.
+Le bouton *Settings* permet de changer son nom ou de la supprimer.
+Le bouton *TAs and Admins* permet d'ajouter des collaborateurs, c'est-à-dire d'autres utilisateurs GitHub qui pourront administrer la salle de classe.
+
+[^809]: https://classroom.github.com/classrooms
+
+Le bouton *Students* permet d'ajouter des étudiants.
+La liste de nom est libre, sans format obligatoire.
+Cliquer sur *Create Roster* pour l'activer.
+Les noms doivent ensuite être liés à des comptes GitHub: ce travail peut être fait par l'administrateur ou par les étudiants eux-mêmes quand ils recevront la première tâche à effectuer.
+Chaque étudiant doit avoir un compte sur GitHub.
+
+
+### Préparer un modèle de dépôt
+
+Une tâche est un dépôt GitHub à modifier.
+Par exemple [^810], créer un dépôt contenant un projet R avec un fichier Markdown décrivant le travail à faire et éventuellement une partie du code nécessaire pour y parvenir, les autres fichiers du modèle R Markdown utilisé et un fichier de données.
+Si le modèle est par exemple Memo (section \@(sec:memo)), le script `GitHubPages.R` est fourni.
+
+[^810]: https://github.com/EricMarcon/Cours-R-Memo/settings
+
+Ouvrir les propriétés du dépôt sur GitHub et cocher la case *Template Repository* pour en faire un modèle.
+
+
+#### Assigner une tâche
+
+Ouvrir une salle de classe et cliquer sur *New Assignment*.
+
+Saisir un titre explicite pour les étudiants, une date limite optionnelle et choisir *Individual Assignment".
+
+Par défaut, le nom de la tâche sert de préfixe pour le nom des dépôts des étudiants mais il peut être remplacé par un préfixe choisi.
+Quand les étudiants rendront leur travail, tous les dépôts de toutes les tâches seront stockés dans l'organisation: le préfixage de leur nom est le meilleur moyen de les retrouver.
+
+Le dépôt crée sur le compte de chaque étudiant peut être privé ou public, selon que l'on souhaite que les étudiants puissent voir le travail des autres ou non.
+Ne pas donner de droit d'administration.
+Cliquer sur *Continue*.
+
+Sélectionner le dépôt modèle (*starter code*) puis cliquer sur *Continue* puis *Create Assignment*.
+
+La nouvelle tâche est créée.
+Elle est associée à un lien d'invitation qu'il faut copier et envoyer aux étudiants.
+Quand ils cliqueront sur le lien, ils atteindront une page GitHub qui leur permettra d'associer leur compte à un nom de la liste (aucun contrôle n'est possible: le premier connecté peut s'associer à n'importe quel nom).
+Ils pourront ensuite créer un nouveau projet RStudio à partir du dépôt GitHub créé sur leur compte automatiquement par GitHub Classrooms, modifier ce projet selon les consignes de travail et le pousser sur GitHub.
+
+
+#### Contrôler le travail des étudiants
+
+Il est possible d'afficher chaque dépôt crée par les étudiants à partir de la page de la tâche sur GitHub Classrooms.
+Si le travail à produire est un document rédigé, demander aux étudiants de le placer dans les pages GitHub du dépôt pour le lire directement en ligne.
+
+L'assistant GitHub Classrooms [^811] permet de télécharger en une fois tous les dépôts des étudiants pour les corriger sur son poste de travail.
+
+[^811]: https://classroom.github.com/assistant
