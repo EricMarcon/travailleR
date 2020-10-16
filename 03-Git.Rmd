@@ -68,7 +68,7 @@ En règle générale, utiliser un fichier existant: les modèles de documents no
 
 ### Prendre en compte des fichiers
 
-Dans la fenêtre git, cocher la case "Staged" permet de prendre en compte (*Stage*) chaque fichier. 
+Dans la fenêtre git, cocher la case *Staged* permet de prendre en compte (*Stage*) chaque fichier. 
 La commande exécutée est `git add <NomDeFichier>`.
 Les fichiers pris en compte une première fois ont le statut "A" pour "Added".
 
@@ -90,7 +90,7 @@ Les fichiers binaires comme les images sont traités en bloc.
 Chaque validation (*Commit*) est accompagnée d'un texte de description.
 La première ligne est la description courte.
 Une description détaillée peut être ajoutée après un saut de ligne.
-Pour la lisibilité de l'historique du projet, chaque *Commit* correspond donc à une action, correspondant à la description courte: tous les fichiers modifiés ne sont pas forcément pris en compte et validés en une fois.
+Pour la lisibilité de l'historique du projet, chaque *commit* correspond donc à une action, correspondant à la description courte: tous les fichiers modifiés ne sont pas forcément pris en compte et validés en une fois.
 La commande exécutée est `git commit -m "Message de validation"`.
 
 (ref:git-id) Fenêtre de demande d'indentification.
@@ -100,7 +100,7 @@ knitr::include_graphics('images/git-id.png')
 
 Les validations sont liées à leur auteur, qui doit être identifié par git.
 En règle générale, git utilise les informations du système.
-S'il n'y parvient pas, une fenêtre demande à l'utilisateur de s'identifier avant d'effectuer son premier *Commit* (figure \@ref(fig:git-id)).
+S'il n'y parvient pas, une fenêtre demande à l'utilisateur de s'identifier avant d'effectuer son premier *commit* (figure \@ref(fig:git-id)).
 Les commandes indiquées sont à exécuter dans le terminal de RStudio.
 Elles peuvent aussi être utilisées pour vérifier les valeurs connues par git:
 ```
@@ -187,8 +187,25 @@ Par la suite, il faudra cliquer sur le bouton *Push* de la fenêtre *Git* pour l
 
 Sur GitHub, les fichiers résultant des modifications enregistrées par git sont maintenant visibles.
 
-Chaque *Commit* réalisé localement est compté par git et un message "Your branch is ahead of 'origin/master' by *n* commits" affiché dans en haut de la fenêtre *Git* indique qu'il est temps de mettre à jour GitHub en poussant l'ensemble de ces *Commit*.
+Chaque *commit* réalisé localement est compté par git et un message "Your branch is ahead of 'origin/master' by *n* commits" affiché dans en haut de la fenêtre *Git* indique qu'il est temps de mettre à jour GitHub en poussant l'ensemble de ces *commits*.
 Cliquer sur le bouton *Push* pour le faire.
+
+A ce stade, le projet doit disposer d'un fichier `README.md` qui présente son contenu sur GitHub.
+Son contenu minimal est un titre et quelques lignes de description:
+```
+# Nom du Projet
+
+Description en quelques lignes.
+
+```
+
+Il est conseillé d'utiliser des badges [^311], à placer juste après le titre, pour déclarer l'état de maturité du projet, par exemple:
+```
+![stability-wip](https://img.shields.io/badge/|>
+stability-work_in_progress-lightgrey.svg)
+```
+
+[^311]: https://github.com/orangemug/stability-badges
 
 
 ### Cloner un dépôt de GitHub
@@ -219,17 +236,17 @@ Les collaborateurs sont invités par un message envoyé par *GitHub*.
 
 ### Tirer, modifier, valider, pousser
 
-Toute séance de travail sur un projet commence en tirant (Bouton *Pull*) de la fenêtre *Git* pour intégrer au dépôt local les mises à jour effectuées sur *GitHub* par d'autres collaborateurs.
+Toute séance de travail sur un projet commence en tirant (Bouton *Pull*) de la fenêtre *Git* pour intégrer au dépôt local les mises à jour effectuées sur GitHub par d'autres collaborateurs.
 
 Les modifications apportées aux fichiers du projet sont ensuite prises en compte (cocher les cases *Staged*) et validées (*Commit*) avec un message explicatif.
-Une bonne pratique consiste à valider les modifications à chaque fois qu'une tâche élémentaire, qui peut être décrite dans le message explicatif, est terminée plutôt que d'effectuer des *Commits* regroupant de nombreux changements avec une description vague.
+Une bonne pratique consiste à valider les modifications à chaque fois qu'une tâche élémentaire, qui peut être décrite dans le message explicatif, est terminée plutôt que d'effectuer des *commits* regroupant de nombreux changements avec une description vague.
 
 Dès que possible, pousser (*Push*) les mises à jour pour qu'elles soient visibles par les collaborateurs.
 
 
 ### Régler les conflits
 
-Il n'est pas possible de pousser les modifications validées si un collaborateur a modifié le dépôt distant sur *GitHub*.
+Il n'est pas possible de pousser les modifications validées si un collaborateur a modifié le dépôt distant sur GitHub.
 Il faut alors les tirer pour les intégrer au dépôt local avant de pousser les modifications fusionnées. 
 
 Un conflit a lieu si un *Pull* importe dans le fichier local une modification qui ne peut pas être fusionnée automatiquement parce qu'une modification contradictoire a eu lieu localement. 
@@ -248,7 +265,7 @@ Lignes en conflit, version locale
 Les lignes de formatage contenant les `<<<<`, les `====` et les `>>>>` doivent être supprimés et une seule version des lignes problématiques conservée, qui peut être différente des deux versions originales.
 La résolution du conflit doit être prise en compte et validée.
 
-Pour limiter les conflits dans un document contenant du texte (typiquement, un document *Markdown*), une bonne pratique consiste à traiter chaque phrase comme une ligne, terminée par un retour à la ligne qui ne sera pas visible dans le document mis en forme: un saut de ligne est nécessaire pour séparer les paragraphes.
+Pour limiter les conflits dans un document contenant du texte (typiquement, un document R Markdown), une bonne pratique consiste à traiter chaque phrase comme une ligne, terminée par un retour à la ligne qui ne sera pas visible dans le document mis en forme: un saut de ligne est nécessaire pour séparer les paragraphes.
 
 
 ### Voir les différences
