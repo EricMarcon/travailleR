@@ -23,9 +23,32 @@ Sous Windows ou Mac, installer R après l'avoir téléchargé depuis CRAN[^101].
 
 [^101]: https://cran.r-project.org/
 
-Sous Windows, l'installation doit être complétée par les "Rtools", qui contiennent les outils de développement dont ceux nécessaires à la compilation des packages contenant du code C++.
+
+### Rtools
 
 Sur Mac, l'installation de R est suffisante à partir de la version 4.0.0.
+
+Sous Windows, l'installation doit être complétée par les "Rtools", qui contiennent les outils de développement dont ceux nécessaires à la compilation des packages contenant du code C++.
+
+Le chemin des Rtools doit être déclaré à R, en exécutant dans la console de RStudio la commande suivante (adaptée à la version 4.0 des Rtools):
+```{r, tidy=FALSE}
+# Rtools : déclaration du chemin, 
+# nécessite de redémarrer RStudio
+writeLines('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"',
+           con = "~/.Renviron")
+```
+
+Les Rtools doivent être complétés par quelques utilitaires manquants, à installer quand le besoin apparaît (en général, un avertissement de R indiquant que le logiciel n'est pas installé).
+
+La vérification des packages renvoie un avertissement si *qpdf*[^110] n'est pas installé.
+Télécharger le fichier zip et coller tout le contenu du dossier `bin` dans le dossier `bin` de `Rtools` (`C:\Rtools40\usr\bin` pour la version 4.0).
+
+[^110]: https://sourceforge.net/projects/qpdf/
+
+Un autre avertissement est renvoyé en absence de *Ghostscript*[^111] à télécharger et installer.
+Copier ensuite le contenu du dossier `bin` dans le dossier `bin` de `Rtools`.
+
+[^111]: https://www.ghostscript.com/
 
 
 ### Mise à jour
