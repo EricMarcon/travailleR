@@ -1,10 +1,5 @@
 # Shiny {#chap:shiny}
 
-*Chapitre en cours d'écriture*
-
-
-## Objectifs {#sec:objectifs-shiny}
-
 Shiny permet de publier sous la forme d'un site web une application interactive utilisant du code R.
 Le site peut fonctionner localement, sur le poste de travail d'un utilisateur qui le lance à partir de RStudio, ou en ligne, sur un serveur dédié exécutant Shiny Server[^701].
 
@@ -117,14 +112,15 @@ Le panneau principal contient deux contrôles de sortie graphiques, `plotOutput(
 
 Le code à exécuter pour traiter les entrées et produire les sorties est dans la fonction `server()`.
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, tidy=FALSE}
 # Server logic ####
 server <- function(input, output) {
   # Run the get_profile function only once ####
   # Store the author profile
   AuthorProfile <- reactiveVal()
   # Update it when input$AuthorID is changed
-  observeEvent(input$AuthorID, AuthorProfile(get_profile(input$AuthorID)))
+  observeEvent(input$AuthorID, 
+               AuthorProfile(get_profile(input$AuthorID)))
   
   # Output ####
   output$name <- renderUI({
@@ -133,7 +129,9 @@ server <- function(input, output) {
   
   output$h <-
     renderUI({
-      a(href = paste0("https://scholar.google.com/citations?user=", input$AuthorID),
+      a(href = paste0(
+        "https://scholar.google.com/citations?user=", 
+        input$AuthorID),
         paste("h index:", AuthorProfile()$h_index),
         target = "_blank"
       )

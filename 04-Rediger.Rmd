@@ -1,5 +1,8 @@
 # Rédiger {#chap:rediger}
 
+R et RStudio permettent de rédiger efficacement des documents de tous formats, du simple bloc-note à la thèse, en passant par des diaporamas.
+Les outils pour le faire sont l'objet de ce chapitre, complété par la production de sites web (y compris un site personnel). 
+
 ## Bloc-note Markdown (R Notebook)
 
 Dans un fichier `.R`, le code doit toujours être commenté pour faciliter sa lecture.
@@ -280,6 +283,41 @@ La liste déroulante du bouton permet de créer tous les documents ou de se limi
 
 Les fichiers produits sont placés directement dans le dossier `docs`, qui sera utilisé par les pages GitHub pour permettre la lecture en ligne et le téléchargement du PDF.
 La page d'accueil du site web est créée par bookdown à partir du fichier `index.Rmd`: le fichier `README.md` n'est pas dupliqué dans `docs` le script `GithubPages.R` ne doit pas être utilisé (il n'est pas fourni dans le modèle).
+
+
+#### Finitions
+
+La mise en page est assurée de façon totalement automatique par pandoc (en HTML) et LaTeX (en PDF).
+
+Il est souvent utile d'aider LaTeX à résoudre quelques dépassements de marge dûs à de trop grandes contraintes de mise en page: pour la lisibilité optimale, les colonnes sont étroites, mais le code (texte formaté entre deux apostrophes inversées) n'autorise pas la césure.
+
+Si une ligne de texte dépasse dans la marge de droite dans le document PDF, la solution consiste à ajouter manuellement le code `\break` à l'emplacement désiré pour le retour à la ligne dans le document R Markdown.
+La commande n'a aucun effet sur le document HTML mais force la césure en LaTeX.
+Pour couper du texte formaté (entre astérisques pour l'italique ou plus fréquemment entre appostrophes inversées pour du code), il faut terminer le formatage avant `\break` et le recommencer après.
+Exemple, pour forcer le retour à la ligne avant `fichier.Rmd`:
+```
+Le fichier `/chemin/`\break`fichier.Rmd`
+```
+
+Les bouts de code R sont formatés automatiquement par **knitr** quand l'option `tidy=TRUE` leur est appliquée.
+Le comportement par défaut est indiqué dans les options de **knitr**, dans un bout de code au début de chaque document:
+```{r}
+# knitr options
+knitr::opts_chunk$set(
+  cache=TRUE, warning=FALSE, echo = TRUE,
+  fig.env='SCfigure', fig.asp=.75, 
+  fig.align='center', out.width='80%', 
+  tidy=TRUE, 
+  tidy.opts=list(blank=FALSE, width.cutoff=55), 
+    size="scriptsize",
+  knitr.graphics.auto_pdf = TRUE)
+```
+
+La largeur maximale d'une ligne de code formaté est ici de 55 caractères, optimal pour le modèle "Ouvrage EcoFoG".
+Il arrive que le formatage automatique ne fonctionne pas parce que **knitr** ne parvient pas à trouver une coupure de ligne respectant toutes les contraintes, ce qui provoque un dépassement de marge dans le code.
+Dans ce cas, formater manuellement le bout de code en lui ajoutant l'option `tidy=FALSE`.
+
+Les blocs de code littéral, délimités par trois apostrophes inversées, doivent être formatés manuellement, en évitant toute ligne de plus de 55 caractères.
 
 
 ### Intégration continue {#sec:rediger-ouvrage-ci}
