@@ -8,7 +8,7 @@ Les outils pour le faire sont l'objet de ce chapitre, complété par la producti
 Dans un fichier `.R`, le code doit toujours être commenté pour faciliter sa lecture.
 Quand l'explication du code nécessite plusieurs lignes de commentaire par ligne ou bloc de code, il est temps d'inverser la logique et de placer le code dans un texte.
 
-L'outil le plus simple est le bloc-note Markdown (Menu "File/New File/R Notebook").
+L'outil le plus simple est le bloc-note Markdown (Menu "File > New File > R Notebook").
 Le modèle de document contient son mode d'emploi.
 
 Le langage qui permet de formater le texte est Markdown[^401], un langage de balisage simple à utiliser:
@@ -123,7 +123,7 @@ Des modèles plus élaborés sont disponibles.
 
 ## Memo, article : bookdown
 
-RMarkdown ne permet pas de rédiger un article scientifique.
+R Markdown ne permet pas de rédiger un article scientifique.
 La bibliographie ne pose pas de problème parce qu'elle est gérée par pandoc pour les documents HTML ou Word et sous-traitée à LaTeX pour les documents PDF. 
 Les équations, figures et tableaux sont numérotés par LaTeX mais pas en HTML. 
 Les références croisées (les renvois à un numéro de figure par exemple) ne sont pas supportés.
@@ -221,8 +221,8 @@ Le format HTML est le même que celui du modèle de mémo.
 
 Le package **rticles** a pour ambition de fournir des modèles pour toutes les revues scientifiques qui acceptent une soumission d'articles en LaTeX.
 Il propose donc des modèles Markdown qui produisent des fichiers PDF conformes aux exigences des revues et la possibilité de récupérer le fichier `.tex` intermédiaire (pandoc produit un fichier `.tex` transmis au compilateur LaTeX).
-Le package ne permet pas de tricot HTML parce qu'il utilise la syntaxe LaTeX dans le document RMarkdown au lieu d'utiliser **bookdown** pour gérer les références bibliographique et les références croisées.
-Il n'est pas possible d'échanger directement du contenu RMarkdown standard avec des documents écrits pour **rticles**, ce qui limite beaucoup l'intérêt du package.
+Le package ne permet pas de tricot HTML parce qu'il utilise la syntaxe LaTeX dans le document R Markdown au lieu d'utiliser **bookdown** pour gérer les références bibliographique et les références croisées.
+Il n'est pas possible d'échanger directement du contenu R Markdown standard avec des documents écrits pour **rticles**, ce qui limite beaucoup l'intérêt du package.
 
 
 
@@ -432,7 +432,7 @@ Nous utiliserons donc cette solution, pour un site comme celui proposé en exemp
 La structure du site web est simple:
 
 * une page d'accueil, contenant divers composants paramétrables comme la biographie de l'auteur, une sélection de publications, de billets de blogs ou d'autres éléments et un formulaire de contact;
-* des pages détaillant les divers éléments (publications, billets, etc.) écrites en RMarkdown.
+* des pages détaillant les divers éléments (publications, billets, etc.) écrites en R Markdown.
 
 
 ### Installation des outils
@@ -783,9 +783,9 @@ Son code est sur GitHub[^418].
 
 [^418]: https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/post/densite
 
-Un billet est placé dans un dossier (`/content/fr/post/`\break`densite`) qui contient son code Rmarkdown et éventuellement des images, des données pour alimenter le code et d'autres éléments appelés par le code.
+Un billet est placé dans un dossier (`/content/fr/post/`\break`densite`) qui contient son code R Markdown et éventuellement des images, des données pour alimenter le code et d'autres éléments appelés par le code.
 Hugo supporte des fichiers markdown natifs.
-L'apport de **blogdown** relativement à un site Hugo natif est le support de Rmarkdown, donc la possibilité d'exécuter tout code R comme dans un bloc-note (dont le contenu peut être réutilisé sans modification).
+L'apport de **blogdown** relativement à un site Hugo natif est le support de R Markdown, donc la possibilité d'exécuter tout code R comme dans un bloc-note (dont le contenu peut être réutilisé sans modification).
 
 Le fichier principal d'un billet est `index.Rmd`.
 **blogdown** crée un fichier `index.html` pendant la construction du site: il peut être ignoré (dans `.gitgnore`) et supprimé à tout moment.
@@ -827,9 +827,9 @@ L'option `draft: true` cache le billet.
 Les éléments suivants précisent l'affichage de la vignette: légende et position.
 L'option `preview_only: true` limite l'affichage aux miniatures (sur la page d'accueil), retirant donc l'image du billet lui-même.
 
-Les éléments d'entête nécessaires au corps de texte RMarkdown, comme le nom du fichier contenant les références bibliographiques, placé dans le même dossier, sont ajoutés.
+Les éléments d'entête nécessaires au corps de texte R Markdown, comme le nom du fichier contenant les références bibliographiques, placé dans le même dossier, sont ajoutés.
 
-Le corps du texte est celui d'un document RMarkdown standard, avec du code R inclus.
+Le corps du texte est celui d'un document R Markdown standard, avec du code R inclus.
 Un bout de code initial permet de fixer les options de R et charger les packages nécessaires.
 
 En pratique, la façon la plus efficace de créer un nouveau billet est de copier le dossier complet d'un billet précédent, de le renmmer et de modifier son contenu.
