@@ -448,10 +448,6 @@ install.packages('blogdown')
 blogdown::install_hugo()
 ```
 
-Par la suite, la mise à jour de Hugo pourra être faite par:
-```{r mqjHugo, eval=FALSE}
-blogdown::update_hugo()
-```
 La documentation complète de **blogdown** est disponible[^412].
 
 [^412]: https://bookdown.org/yihui/blogdown/
@@ -996,3 +992,23 @@ Le fichier `icon.png` peut être remplacé.
 
 La construction du site web en production peut être confiée à Travis-CI (section \@ref(sec:blogdown-ci)), y compris sa mise à jour périodique si des pages du site traitent des données qui évoluent dans le temps.
 
+
+### Mises à jour
+
+Le thème Academic est régulièrement mis à jour.
+La version utilisée est indiquée dans le fichier `go.mod`.
+Pour utiliser la dernière version officielle, exécuter dans la console R la commande suivante:
+```{r}
+blogdown::hugo_cmd("mod get -u")
+```
+
+Les fichiers `go.mod` et `go.sum`, qui contient les codes de hachage des fichiers du module, sont mis à jour.
+
+Chaque changement de version peut nécessiter des adaptations du contenu du site, référencées dans la documentation en ligne du thème[^428].
+
+[^428]: https://wowchemy.com/updates/
+
+Mettre Hugo à jour en même temps:
+```{r mqjHugo, eval=FALSE}
+blogdown::update_hugo()
+```
