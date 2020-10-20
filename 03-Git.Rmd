@@ -325,8 +325,6 @@ git branch new_branch
 git checkout new_branch
 ```
 
-
-
 ### Changer de branche
 
 Sélectionner la branche à activer dans la liste des branches locales de la la fenêtre *git*.
@@ -337,9 +335,8 @@ Chaque branche se comporte comme une version différente du projet.
 Attention: pour éviter la confusion, sauvegarder les modifications, prendre en compte et valider les changements avant de changer de branche.
 
 
-### Fusionner
+### Fusionner avec `merge`
 
-Quand la branche de développement est stabilisée, il est temps d'intégrer ses changements à la branche principale par une fusion.
 
 L'interface graphique de RStudio ne prévoit pas les fusions, il faut donc utiliser le terminal: tout d'abord, se placer dans la branche cible (possible avec l'interface graphique):
 ```
@@ -354,10 +351,38 @@ git merge new_branch
 Dans la majorité des situations, la fusion sera automatique ("Fast Forward").
 Il est possible que des conflits apparaissent: utiliser la commande `git status` pour afficher la liste des fichiers concernés, les ouvrir, régler le confit et effectuer un *commit*.
 
-La branchea fusionnée n'est pas supprimée: elles peut être utilisée à nouveau pour d'autres développements ou supprimée manuellement avec la commande suivante: 
+La branche fusionnée n'est pas supprimée: elles peut être utilisée à nouveau pour d'autres développements ou supprimée manuellement avec la commande suivante: 
 ```
 git branch -d new_branch
 ```
+
+### Fusionner avec une requête de tirage
+
+L'autre façon de fusionner est plus formelle mais aussi plus générale: elle permet de fusionner une branche dans un dépôt d'un autre utilisateur pour y contribuer, ou de faire valider sa branche par un autre membre de l'équipe dans un projet collaboratif.
+
+Pour contribuer au projet d'un autre utilisateur de GitHub[^312], il faut commencer par en créer un *fork*, c'est-à-dire une copie sous la forme d'un dépôt lié à l'original.
+Il sera possible de tirer les modifications de l'original pour rester à jour[^313] (par opposition à une simple copie instantanée possible en téléchargeant un Zip du projet) et, à la fin du développement, de fusionner le *fork* au dépôt original (par opposition à un clone qui ne permettrait pas de contribuer par la suite).
+
+Ensuite, il faut créer une branche de développement comme précédemment, la modifier et finalement demander au propriétaire du dépôt de la fusionner.
+Ce processus est décrit en détail dans la documentation de git .
+
+[^312]: https://git-scm.com/book/fr/v2/GitHub-Contribution-%C3%A0-un-projet
+
+[^313]: https://ardalis.com/syncing-a-fork-of-a-github-repository-with-upstream/
+
+Dans le cadre plus simple d'une branche de son propre projet comme dans le cas d'un *fork*, la branche de développement est prête à être fusionnée. 
+Elle doit avoir être poussée sur GitHub.
+Sur la page GitHub du projet, un bouton *Create Pull Request* permet de demander la fusion.
+Un message décrivant les modifications proposées avec leur argumentaire doit être ajouté.
+
+Le propriétaire du projet (les membres de l'équipe dans le cadre d'un projet collaboratif, ou soi-même si l'équipe se réduit à une personne) est averti de la requête de tirage.
+Sur la page du projet original, il est possible de voir le message, la liste des modifications (chronologie des *commits* ou comparaison des fichiers), d'engager un discussion avec l'auteur de la requête...
+Si la requête n'est pas retenue, elle peut être fermée.
+Si elle est validée, le bouton *Merge Pull Request* permet de fusionner la branche de développement avec la branche "master" (ou une autre) du projet source.
+
+Les requêtes de tirage sont le seul moyen de contribuer à un dépôt sur lequel on ne dispose pas de droits d'écriture. 
+C'est aussi le moyen de fusionner une branche de développement dans sont propre projet en en gardant une trace explicite (dans la rubrique *Pull requests* de la page GitHub du projet).
+Dans le cadre d'un projet collaboratif, les propositions d'un membre (auteur de la requête) peuvent être validées par un autre (qui accepte la fusion).
 
 
 ## Usage avancé
