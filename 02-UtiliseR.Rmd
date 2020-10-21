@@ -134,7 +134,7 @@ x1+x2
 ```
 
 Il faut aussi écrire des fonctions vectorielles sur leur premier argument.
-La fonction `lnq` du package _entropart_ retourne le logarithme déformé d'ordre $q$ d'un nombre $x$.
+La fonction `lnq` du package **entropart** retourne le logarithme déformé d'ordre $q$ d'un nombre $x$.
 
 ```{r}
 # Code de la fonction
@@ -421,6 +421,7 @@ mclapply <- switch( Sys.info()[['sysname']],
 ```
 
 Le code suivant teste la parallélisation d'une fonction qui renvoie son argument inchangé après une pause d'un quart de seconde.
+Ce document est tricoté avec ```r  parallel::detectCores()``` coeurs, qui sont tous utilisés.
 
 ```{r}
 f <- function(x, time=.25) {
@@ -428,30 +429,29 @@ f <- function(x, time=.25) {
   return(x)
 }
 
-# Série : temps théorique = 1"
-(tserie <- system.time(lapply(1:4, f)))
-# Parallèle : temps théorique = 1/4"
-(tparallele <- system.time(mclapply(1:4, f)))
+nbCoeurs <- detectCores()
+# Série : temps théorique = nbCoeurs/4 secondes
+(tserie <- system.time(lapply(1:nbCoeurs, f)))
+# Parallèle : temps théorique = 1/4 secondes
+(tparallele <- system.time(mclapply(1:nbCoeurs, f)))
 ```
 
 La mise en place de la parallélisation a un coût de l'ordre du temps de calcul au-delà du quart de seconde attendu: environ ```r format(tparallele[3]-1/4, digits=2)``` secondes ici.
-Le temps d'exécution est plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
+Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
 ```{r}
 # Série
-system.time(lapply(1:4, f, time=1))
+system.time(lapply(1:nbCoeurs, f, time=1))
 # Parallèle
-system.time(mclapply(1:4, f, time=1))
+system.time(mclapply(1:nbCoeurs, f, time=1))
 ```
 
 Le temps additionnel nécessaire pour l'exécution parallèle du nouveau code est relativement plus faible: les coûts deviennent inférieurs à l'économie quand le temps de chaque tâche s'allonge.
 
-Ce document est tricoté avec ```r  parallel::detectCores()``` coeurs.
 Si le nombre de tâches parallèles dépasse le nombre de coeurs, les performances s'effondrent parce que la tâche supplémentaire doit être exécutée après les premières.
 
 ```{r}
-nbCoeurs <- parallel::detectCores()
 system.time(mclapply(1:nbCoeurs, f, time=1))
 system.time(mclapply(1:(nbCoeurs+1), f, time=1))
 ```
@@ -459,7 +459,7 @@ system.time(mclapply(1:(nbCoeurs+1), f, time=1))
 Le temps reste ensuite stable jusqu'au double du nombre de coeurs.
 La figure \@ref(fig:r-parallele) montre l'évolution du temps de calcul en fonction du nombre de tâches.
 
-(ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant un quart de secondes (chaque tâche est une pause d'un quart de seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs (```r  parallel::detectCores()```) plus une. 
+(ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant un quart de secondes (chaque tâche est une pause d'un quart de seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs (égal à ```r  parallel::detectCores()```) plus une. 
 ```{r r-parallele, fig.cap="(ref:r-parallele)", echo=FALSE}
 Taches <- 1:(2*nbCoeurs+1)
 Temps <- sapply(Taches, function(nbTaches) system.time(mclapply(1:nbTaches, f)))
@@ -483,7 +483,7 @@ Pour un usage courant, `mclapply` est plus rapide, sauf sous Windows, et plus si
 
 #### Fonctionnement
 
-Le package _foreach_ permet un usage avancé de la parallélisation.
+Le package **foreach** permet un usage avancé de la parallélisation.
 Lire ses vignettes.
 ```{r, eval=FALSE}
 # Manuel
@@ -492,7 +492,7 @@ vignette("foreach", "foreach")
 vignette("nested", "foreach")
 ```
 
-Indépendamment de la parallélisation, _foreach_ redéfinit les boucles _for_.
+Indépendamment de la parallélisation, **foreach** redéfinit les boucles *for*.
 
 ```{r}
 for (i in 1:3) {
@@ -534,14 +534,14 @@ Remplacer l'opérateur `%do%` par `%dopar%` parallélise les boucles, à conditi
 
 ```{r}
 library(doParallel)
-registerDoParallel(cores = detectCores())
+registerDoParallel(cores = nbCoeurs)
 # Série
-system.time(foreach (i=icount(4), .combine="c") %do% {f(i)})
+system.time(foreach (i=icount(nbCoeurs), .combine="c") %do% {f(i)})
 # Parallèle
-system.time(foreach (i=icount(4), .combine="c") %dopar% {f(i)})
+system.time(foreach (i=icount(nbCoeurs), .combine="c") %dopar% {f(i)})
 ```
 
-Le coût fixe de la parallélisation est très faible.
+Le coût fixe de la parallélisation est faible.
 
 
 ## Etude de cas {#sec:cas}
@@ -671,7 +671,7 @@ d
 
 ### boucle foreach
 
-La boucle foreach est extrêmement lente en comparaison.
+Deux boucles foreach imbriquées sont nécessaires ici: elles sont extrêmement lente en comparaison d'une boucle simple.
 Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de distances à calculer.
 
 ```{r}
@@ -692,31 +692,9 @@ system.time(d <- fforeach1(Y))
 d
 ```
 
-Les boucles foreach imbriquées sont lentes, à réserver à des taches très longues (plusieurs secondes au moins) pour amortir les coûts fixes.
-La parallélisation ralentit encore le calcul sous Windows, mais pas sous Linux.
-
-```{r}
-registerDoParallel(cores = detectCores())
-fforeach2 <- function(Y) {
-  distances <- foreach(i=1:NbPointsReduit, .combine='cbind') %:%
-    foreach(j=1:NbPointsReduit, .combine='c') %dopar% {
-      if (j>i) {
-        (Y$x[i]-Y$x[j])^2 + (Y$y[i]-Y$y[j])^2
-      } else {
-        0
-      }
-    }
-  return(sum(sqrt(distances))/NbPointsReduit/(NbPointsReduit-1)*2)
-}
-system.time(d <- fforeach2(Y))
-Sys.info()[['sysname']]
-d
-```
-
-En supprimant l'imbrication, les performances sont bien meilleures mais restent très inférieures à celles d'une boucle for en série.
-La boucle for interne ne peut pas utiliser la valeur de $i$ donc les distances sont calculées deux fois, mais le calcul est de l'ordre de 10 fois plus long. 
-_foreach_ est à utiliser seulement avec les adaptateurs optimisés, pas avec le package _parallel_.
-
+Les boucles foreach imbriquées sont à réserver à des tâches très longues (plusieurs secondes au moins) pour amortir les coûts fixes de leur mise en place.
+La parallélisation ralentit encore le calcul ici parce que les tâches élémentaires sont courtes.
+ 
 ```{r}
 registerDoParallel(cores = detectCores())
 fforeach3 <- function(Y) {
@@ -732,6 +710,10 @@ fforeach3 <- function(Y) {
 system.time(d <- fforeach3(Y))
 d
 ```
+
+**foreach** dispose d'adaptateurs optimisés permettant d'utiliser des clusters physiques par exemple. 
+Son intérêt est limité avec le package **parallel**.
+
 
 ### RCpp
 
@@ -772,7 +754,7 @@ d
 
 ### RcppParallel
 
-_RcppParallel_ permet d'interfacer du code C++ parallélisé, au prix d'une syntaxe plus complexe qu'avec _RCpp_.
+**RcppParallel** permet d'interfacer du code C++ parallélisé, au prix d'une syntaxe plus complexe qu'avec **RCpp**.
 Une documentation est disponible[^204].
 
 [^204]: <http://rcppcore.github.io/RcppParallel/>
@@ -846,7 +828,7 @@ double TotalDistance(NumericVector x, NumericVector y) {
 
 ```
 
-L'usage dans R est identique à celui des fonctions C++ interfacées par _RCpp_. 
+L'usage dans R est identique à celui des fonctions C++ interfacées par **RCpp**. 
 
 ```{r}
 (mb <- microbenchmark(d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints-1)*2))
@@ -862,14 +844,12 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 NbPoints <- 50000
 X <- runifpoint(NbPoints)
 system.time(d <- MeanDistance(X$x, X$y))
-d
 ```
 
 En parallèle, le temps augmente peu.
 
 ```{r}
 system.time(d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints-1)*2)
-d
 ```
 
 ### Conclusions sur l'optimisation de la vitesse du code
@@ -885,4 +865,4 @@ Le code C est assez facile à intégrer grâce à **RCpp** et sa parallélisatio
 Le choix de paralléliser le code doit être évalué selon le temps d'exécution de chaque tâche parallélisable.
 S'il dépasse quelques secondes, la parallélisation se justifie.
 `mclapply()` remplace `lapply()` sans aucun effort, mais nécessite un hack (fourni ici) sous Windows.
-`foreach()` ne remplace pas `for()` aussi simplement et ne se justifie que pour des tâches très lourdes en termes de mémoire et de temps de calcul.
+`foreach()` ne remplace pas `for()` aussi simplement et ne se justifie que pour des tâches très lourdes en termes de mémoire et de temps de calcul, en particulier sur des clusters de calcul.
