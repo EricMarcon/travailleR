@@ -76,7 +76,7 @@ Le temps de calcul est à peu près identique entre $x \times x$ et $x^2$.
 Le calcul de puissance est nettement plus long, surtout si la puissance n'est pas entière, parce qu'il nécessite un calcul de logarithme.
 Le calcul de la puissance 2 est donc optimisé par R pour éviter l'usage du log.
 
-Deux représentations graphiques sont disponibles: les violons représentent la densité de probabilité du temps d'exécution ; les boîtes à moustache sont classiques.
+Deux représentations graphiques sont disponibles: les violons représentent la densité de probabilité du temps d'exécution; les boîtes à moustache sont classiques.
 
 ```{r, message=FALSE}
 library("ggplot2")
@@ -103,7 +103,7 @@ p <- profvis({
 htmlwidgets::saveWidget(p, "docs/profile.html")
 ```
 
-Le résultat est un fichier HTML contenant le rapport de profilage [^201].
+Le résultat est un fichier HTML contenant le rapport de profilage[^201].
 On peut observer que le temps de tirage des nombres aléatoires est similaire à celui du calcul des cosinus.
 
 [^201]: https://ericmarcon.github.io/travailleR/profile.html
@@ -115,18 +115,21 @@ Lire la documentation complète[^202] sur le site de RStudio.
 
 ## Boucles
 
-Le cas le plus fréquent de code long à exécuter est celui des boucles : le même code est répété un grand nombre de fois.
+Le cas le plus fréquent de code long à exécuter est celui des boucles: le même code est répété un grand nombre de fois.
 
 
 ### Fonctions vectorielles
 
-La plupart des fonctions de R sont vectorielles : les boucles sont traitées de façon interne, extrêmement rapide.
+La plupart des fonctions de R sont vectorielles: les boucles sont traitées de façon interne, extrêmement rapide.
 Il faut donc raisonner en termes de vecteurs plutôt que de scalaires.
 
 ```{r}
+# Tirage de deux vecteurs de trois nombres aléatoires entre 0 et 1
 x1 <- runif(3)
 x2 <- runif(3)
+# Racine carrée des trois nombres de x1
 sqrt(x1)
+# Sommes respective des trois nombres de x1 et x2
 x1+x2
 ```
 
@@ -134,11 +137,12 @@ Il faut aussi écrire des fonctions vectorielles sur leur premier argument.
 La fonction `lnq` du package _entropart_ retourne le logarithme déformé d'ordre $q$ d'un nombre $x$.
 
 ```{r}
+# Code de la fonction
 entropart::lnq
 ```
 
 Pour qu'une fonction soit vectorielle, chaque ligne de son code doit permetre que le premier argument soit traité comme un vecteur.
-Ici : `log(x)` et `x^` sont une fonction et un opérateur vectoriels et la condition `[x < 0]` retourne aussi un vecteur.
+Ici: `log(x)` et `x^` sont une fonction et un opérateur vectoriels et la condition `[x < 0]` retourne aussi un vecteur.
 
 
 ### lapply
@@ -146,10 +150,10 @@ Ici : `log(x)` et `x^` sont une fonction et un opérateur vectoriels et la condi
 Les codes qui ne peuvent pas être écrits comme une fonction vectorielle nécessitent des boucles.
 
 `lapply()` applique une fonction à chaque élément d'une liste.
-Elle est déclinée sous plusieurs versions :
+Elle est déclinée sous plusieurs versions:
 
-- `lapply()` renvoie une liste (économise le temps de `simplify2array()`) ;
-- `sapply()` renvoie un dataframe en rassemblant les listes par `simplify2array()` ;
+- `lapply()` renvoie une liste (économise le temps de leur réorganisation dans un tableau);
+- `sapply()` renvoie un dataframe en rassemblant les listes par `simplify2array()`;
 - `vapply()` est presque identique mais demande que le type de données du résultat soit fourni.
 
 ```{r}
@@ -169,9 +173,9 @@ Enfin, `vapply()` économise le temps de détermination du type de données du r
 
 Les boucles sont gérées par la fonction `for`.
 Elles ont la réputation d'être lentes dans R parce que le code à l'intérieur de la boucle doit être interprété à chaque exécution.
-Ce n'est plus le cas depuis la version 3.5 de R : les boucles sont compilées systématiquement avant leur exécution.
+Ce n'est plus le cas depuis la version 3.5 de R: les boucles sont compilées systématiquement avant leur exécution.
 Le comportement du compilateur "juste à temps" est défini par la fonction `enableJIT`.
-Le niveau par défaut est 3 : les fonctions sont toutes compilées, et les boucles dans le code aussi.
+Le niveau par défaut est 3: les fonctions sont toutes compilées, et les boucles dans le code aussi.
 
 Pour évaluer le gain de performance, le code suivant supprime toute compilation automatique, et compare la même boucle compilée ou non.
 
@@ -195,7 +199,7 @@ mb <- microbenchmark(Boucle(x1), Boucle2(x1))
 # Compilation automatique par défaut depuis la version 3.5
 enableJIT(level=3)
 ```
-Le gain est considérable : de 1 à ```r format(mbs[1,2]/mbs[2,2], digits=0)```.
+Le gain est considérable: de 1 à ```r format(mbs[1,2]/mbs[2,2], digits=0)```.
 
 Les boucles for sont maintenant nettement plus rapides que `lapply`.
 
@@ -205,7 +209,7 @@ mb <- microbenchmark(vapply(x1, FUN=sqrt, 0), Boucle(x1))
 summary(mb)[, c("expr", "median")]
 ```
 
-Attention : le test de performance peut être trompeur.
+Attention, le test de performance peut être trompeur:
 
 ```{r}
 # Préparation du vecteur de résultat
@@ -282,10 +286,10 @@ summary(mb)[, c("expr", "median")]
 L'intégration de code C++ dans R est largement simplifiée par le package **Rcpp** mais reste difficile à déboguer et donc à réserver à du code très simple (pour éviter toute erreur) et répété un grand nombre de fois (pour mériter l'effort).
 La préparation des données et leur vérification doivent être exécutées sous R, de même que le traitement et la présentation des résultats.
 
-L'utilisation habituelle est l'inclusion de code C++ dans un package, mais l'utilisation hors package est possible :
+L'utilisation habituelle est l'inclusion de code C++ dans un package, mais l'utilisation hors package est possible:
 
-- Le code C++ peut être inclus dans un document C++ (fichier avec l'extension `.cpp`) : il est compilé par la commande `sourceCpp()` qui crée les fonctions R permettant d'appeler le code C++.
-- Dans un document RMarkdown, des bouts de code Rcpp peuvent être créés pour y insérer le code C++ : ils sont compilés et interfacés pour R au moment du tricotage.
+- Le code C++ peut être inclus dans un document C++ (fichier avec l'extension `.cpp`): il est compilé par la commande `sourceCpp()` qui crée les fonctions R permettant d'appeler le code C++.
+- Dans un document RMarkdown, des bouts de code Rcpp peuvent être créés pour y insérer le code C++: ils sont compilés et interfacés pour R au moment du tricotage.
 
 L'exemple suivant montre comment créer une fonction C++ pour calculer le double d'un vecteur numérique.
 
@@ -312,15 +316,15 @@ Les performances sont deux ordres de grandeur plus rapides que le code R (voir l
 
 Lorsque des calculs longs peuvent être découpés en tâches indépendantes, l'exécution simultanée (*parallèle*) de ces tâches permet de réduire le temps de calcul total à celui de la tâche la plus longue, auquel s'ajoute le coût de la mise en place de la parallélisation (création des tâches, récupération des résultats...).
 
-Lire l'excellente introduction de Josh Errickson[^3] détaille les enjeux et les contraintes de la parallélisation.
+Lire l'excellente introduction de Josh Errickson[^203] détaille les enjeux et les contraintes de la parallélisation.
 
-[^3]: <http://dept.stat.lsa.umich.edu/~jerrick/courses/stat701/notes/parallel.html>
+[^203]: <http://dept.stat.lsa.umich.edu/~jerrick/courses/stat701/notes/parallel.html>
 
 Deux mécanismes sont disponibles pour l'exécution de code en parallèle:
 
-- _fork_ : le processus en cours d'exécution est dupliqué sur plusieurs coeurs du processeur de l'ordinateur de calcul.
+- _fork_: le processus en cours d'exécution est dupliqué sur plusieurs coeurs du processeur de l'ordinateur de calcul.
 C'est la méthode la plus simple mais elle ne fonctionne pas sous Windows (limite du système d'exploitation).
-- _socket_ : un cluster est constitué, soit physiquement (un ensemble d'ordinateurs exécutant R est nécessaire) soit logiquement (une instance de R sur chaque coeur de l'ordinateur utilisé). 
+- _socket_: un cluster est constitué, soit physiquement (un ensemble d'ordinateurs exécutant R est nécessaire) soit logiquement (une instance de R sur chaque coeur de l'ordinateur utilisé). 
 Les membres du cluster communiquent par le réseau (le réseau interne de l'ordinateur utilisé pour un cluster logique).
 
 Différents packages de R permettent de mettre en oeuvre ces mécanismes.
@@ -424,13 +428,14 @@ f <- function(x, time=.25) {
   return(x)
 }
 
-# Série
+# Série : temps théorique = 1"
 (tserie <- system.time(lapply(1:4, f)))
-# Parallèle
+# Parallèle : temps théorique = 1/4"
 (tparallele <- system.time(mclapply(1:4, f)))
 ```
 
-Le temps d'éxécution est plus long en parallèle sous Windows parce que la mise en place du cluster (coût fixe d'environ ```r format(tparallele[3]-1/4, digits=2)``` secondes ici, bien supérieur à celui d'un fork) prend plus de temps que la parallélisation n'en fait gagner.
+La mise en place de la parallélisation a un coût de l'ordre du temps de calcul au-delà du quart de seconde attendu: environ ```r format(tparallele[3]-1/4, digits=2)``` secondes ici.
+Le temps d'exécution est plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
 ```{r}
@@ -440,20 +445,28 @@ system.time(lapply(1:4, f, time=1))
 system.time(mclapply(1:4, f, time=1))
 ```
 
-Le temps additionnel nécessaire pour l'exécution parallèle du nouveau code est environ trois quarts de seconde : les coûts fixes deviennent inférieurs à l'économie quand le temps de chaque tâche s'allonge.
+Le temps additionnel nécessaire pour l'exécution parallèle du nouveau code est relativement plus faible: les coûts deviennent inférieurs à l'économie quand le temps de chaque tâche s'allonge.
 
-Ce document est tricoté sous Windows avec un processeur à 4 coeurs.
-Si le nombre de tâches parallèles est 5, les performances s'effondrent parce que la cinquième tâche doit être exécutée après les 4 premières.
+Ce document est tricoté avec ```r  parallel::detectCores()``` coeurs.
+Si le nombre de tâches parallèles dépasse le nombre de coeurs, les performances s'effondrent parce que la tâche supplémentaire doit être exécutée après les premières.
 
 ```{r}
-system.time(mclapply(1:5, f, time=1))
+nbCoeurs <- parallel::detectCores()
+system.time(mclapply(1:nbCoeurs, f, time=1))
+system.time(mclapply(1:(nbCoeurs+1), f, time=1))
 ```
 
-Une seconde supplémentaire a été nécessaire.
-Le temps reste stable jusqu'à 8 tâches, en mobilisant les autres coeurs.
+Le temps reste ensuite stable jusqu'au double du nombre de coeurs.
+La figure \@ref(fig:r-parallele) montre l'évolution du temps de calcul en fonction du nombre de tâches.
 
-```{r}
-system.time(mclapply(1:8, f, time=1))
+(ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant un quart de secondes (chaque tâche est une pause d'un quart de seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs (```r  parallel::detectCores()```) plus une. 
+```{r, fig.cap="(ref:r-parallele)", echo=FALSE}
+Taches <- 1:(2*nbCoeurs+1)
+Temps <- sapply(Taches, function(nbTaches) system.time(mclapply(1:nbTaches, f)))
+library("tidyverse")
+tibble(Taches, Temps=Temps["elapsed",]) %>% 
+  ggplot +
+  geom_line(aes(x=Taches, y=Temps))
 ```
 
 Si le nombre de tâches est petit, il faut donc l'adapter au nombre de coeurs sous peine de perte de performance.
@@ -510,6 +523,9 @@ foreach (i=icount(3), .combine="c") %do% {
   f(i)
 }
 ```
+
+Elle est donc très utile quand chaque objet de la boucle utilise une grande quantité de mémoire.
+
 
 #### Parallélisation
 
@@ -568,7 +584,7 @@ system.time(d <- fsapply1())
 d
 ```
 
-Un peu de temps peut être gagnée en remplaçant sapply par vapply : le format des résultats n'a pas à être déterminé par la fonction.
+Un peu de temps peut être gagnée en remplaçant sapply par vapply: le format des résultats n'a pas à être déterminé par la fonction.
 Le gain est négligeable sur un long calcul comme celui-ci mais important pour des calculs courts.
 
 ```{r}
@@ -579,10 +595,10 @@ fsapply2 <- function() {
 system.time(d <- fsapply2())
 d
 ```
-Le format de sortie n'est pas toujours évident à écrire : 
+Le format de sortie n'est pas toujours évident à écrire: 
 
-- il doit respecter la taille des données : un vecteur de taille 1000 pour la boucle externe, un scalaire pour la boucle interne.
-- il doit respecter leur type : `0` pour un entier, `0.0` pour un réel. Dans la boucle externe, l'ajout de `0.0` au vecteur d'entiers le transforme en vecteur de réels.
+- il doit respecter la taille des données: un vecteur de taille 1000 pour la boucle externe, un scalaire pour la boucle interne.
+- il doit respecter leur type: `0` pour un entier, `0.0` pour un réel. Dans la boucle externe, l'ajout de `0.0` au vecteur d'entiers le transforme en vecteur de réels.
 
 Une amélioration plus significative consiste à ne calculer les racines carrées qu'à la fin de la boucle, pour profiter de la vectorisation de la fonction.
 
@@ -595,7 +611,7 @@ system.time(d <- fsapply3())
 d
 ```
 
-Les calculs sont effectués deux fois (distance entre les points $i$ et $j$, mais aussi entre les points $j$ et $i$) : un test sur les indices permet de diviser presque le temps par 2 (pas tout à fait parce que les boucles sans calcul, qui retournent $0$, prennent du temps).
+Les calculs sont effectués deux fois (distance entre les points $i$ et $j$, mais aussi entre les points $j$ et $i$): un test sur les indices permet de diviser presque le temps par 2 (pas tout à fait parce que les boucles sans calcul, qui retournent $0$, prennent du temps).
 
 ```{r}
 fsapply4 <- function() {
@@ -677,7 +693,7 @@ d
 ```
 
 Les boucles foreach imbriquées sont lentes, à réserver à des taches très longues (plusieurs secondes au moins) pour amortir les coûts fixes.
-La parallélisation ralentit encore le calcul.
+La parallélisation ralentit encore le calcul sous Windows, mais pas sous Linux.
 
 ```{r}
 registerDoParallel(cores = detectCores())
@@ -693,6 +709,7 @@ fforeach2 <- function(Y) {
   return(sum(sqrt(distances))/NbPointsReduit/(NbPointsReduit-1)*2)
 }
 system.time(d <- fforeach2(Y))
+Sys.info()[['sysname']]
 d
 ```
 
@@ -756,18 +773,18 @@ d
 ### RcppParallel
 
 _RcppParallel_ permet d'interfacer du code C++ parallélisé, au prix d'une syntaxe plus complexe qu'avec _RCpp_.
-Une documentation est disponible [^4].
+Une documentation est disponible[^204].
 
-[^4]: <http://rcppcore.github.io/RcppParallel/>
+[^204]: <http://rcppcore.github.io/RcppParallel/>
 
 La fonction C++ exportée dans R ne réalise pas les calculs mais organise seulement l'exécution en parallèle d'une autre fonction, non exportée, de type `Worker`.
 
-Deux fonctions (C++) de parallélisation sont disponibles pour deux types de tâches :
+Deux fonctions (C++) de parallélisation sont disponibles pour deux types de tâches:
 
 - `parallelReduce` pour l'accumulation d'une valeur, utilisée ici pour additionner les distances.
 - `parallelFor` pour remplir une matrice de résultats.
 
-La syntaxe du `Worker` est un peu laborieuse mais assez simple à adapter : les constructeurs initialisent les variables C à partir des valeurs transmises par R et déclarent la parallélisation.
+La syntaxe du `Worker` est un peu laborieuse mais assez simple à adapter: les constructeurs initialisent les variables C à partir des valeurs transmises par R et déclarent la parallélisation.
 
 
 ```{Rcpp}
@@ -868,4 +885,4 @@ Le code C est assez facile à intégrer grâce à **RCpp** et sa parallélisatio
 Le choix de paralléliser le code doit être évalué selon le temps d'exécution de chaque tâche parallélisable.
 S'il dépasse quelques secondes, la parallélisation se justifie.
 `mclapply()` remplace `lapply()` sans aucun effort, mais nécessite un hack (fourni ici) sous Windows.
-`foreach()` ne remplace pas `for()` aussi simplement.
+`foreach()` ne remplace pas `for()` aussi simplement et ne se justifie que pour des tâches très lourdes en termes de mémoire et de temps de calcul.
