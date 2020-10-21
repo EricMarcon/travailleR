@@ -89,9 +89,9 @@ Un script simple pour un projet `bookdown` ressemble à ceci (le signe `|>` indi
 
     script:
     - Rscript -e "bookdown::render_book('index.Rmd', |>
-        'bookdown::gitbook', quiet = TRUE)"
-    - Rscript -e "bookdown::render_book('index.Rmd', |>
         'bookdown::pdf_book', quiet = TRUE)"
+    - Rscript -e "bookdown::render_book('index.Rmd', |>
+        'bookdown::gitbook', quiet = TRUE)"
 
     deploy:
       provider: pages
@@ -105,6 +105,7 @@ Un script simple pour un projet `bookdown` ressemble à ceci (le signe `|>` indi
 Ce script minimal indique que le *langage* est R.
 
 La partie *script* exécute des commandes sous R: `render_book` pour construire un livre, aux formats PDF et HTML.
+Le fichier PDF doit exister pour que le lien vers son téléchargement soit affiché dans la barre de commandes du format HTML, qui doit donc être créé en dernier.
 
 La partie *deploy* gère le déploiement du résultat, écrit dans le dossier `docs` de la branche *master* par `render_book`.
 La commande `skip_cleanup` permet d'éviter que le contenu de `docs` soit effacé entre les phases `script` et `deploy`.
@@ -133,10 +134,10 @@ Si des bouts de code exécutent des calculs longs, il faut augmenter cette limit
     script:
       - travis_wait 60 Rscript -e |>
           "bookdown::render_book('index.Rmd', |>
-          'bookdown::gitbook', quiet = TRUE)"
+          'bookdown::pdf_book', quiet = TRUE)"
       - travis_wait 60 Rscript -e |>
           "bookdown::render_book('index.Rmd', |>
-          'bookdown::pdf_book', quiet = TRUE)"
+          'bookdown::gitbook', quiet = TRUE)"
 
 Les packages R à installer depuis CRAN peuvent être déclarés avant le script par une entrée `r_packages` et une entrée `r_github_packages` pour les packages sur GitHub.
 Ce n'est pas une bonne pratique pour les packages du projet: la bonne méthode consiste à utiliser un fichier `DESCRIPTION`, comme si le projet était un package R.
