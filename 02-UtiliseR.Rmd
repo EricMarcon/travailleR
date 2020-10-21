@@ -335,7 +335,7 @@ La fonction `mclapply` du package **parallel** a la même syntaxe que `lapply` m
 Sous Windows, elle n'a aucun effet puisque le système ne permet pas les _fork_: elle appelle simplement `lapply`.
 Cependant, un contournement existe pour émuler `mclapply` sous Windows en appelant `parLapply`, qui utilise un cluster.
 
-```{r}
+```{r, tidy=FALSE}
 ##
 ## mclapply.hack.R
 ##
@@ -405,7 +405,8 @@ if( Sys.info()[['sysname']] == 'Windows' ){
     "   \n\n",
     "   As a quick hack, we replace this serial version of mclapply()\n",
     "   with a wrapper to parLapply() for this R session. Please see\n\n",
-    "     http://www.stat.cmu.edu/~nmv/2014/07/14/implementing-mclapply-on-windows \n\n",
+    "     http://www.stat.cmu.edu/~nmv/2014/07/14/
+    implementing-mclapply-on-windows \n\n",
     "   for details.\n\n"))
 }
 
@@ -529,7 +530,7 @@ Elle est donc très utile quand chaque objet de la boucle utilise une grande qua
 
 #### Parallélisation
 
-Remplacer l'opérateur `%do%` par `%dopar%` parallélise les boucles, à condition qu'un adaptateur, c'est-à-dire un package intermédiaire entre `foreach` et un package chargé de l'implémentation de la parallisation, soit chargé.
+Remplacer l'opérateur `%do%` par `%dopar%` parallélise les boucles, à condition qu'un adaptateur, c'est-à-dire un package intermédiaire entre `foreach` et un package chargé de l'implémentation de la parallélisation, soit chargé.
 **doParallel** est un adaptateur pour utiliser le package **parallel** livré avec R.
 
 ```{r}
@@ -565,7 +566,8 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 
 ```{r, message=FALSE}
 mb <- microbenchmark(d <- sum(pairdist(X))/NbPoints/(NbPoints-1))
-autoplot(mb)
+# suppressmessages pour éliminer les messages superflus
+suppressMessages(autoplot(mb))
 d
 ```
 
@@ -695,16 +697,19 @@ d
 Les boucles foreach imbriquées sont à réserver à des tâches très longues (plusieurs secondes au moins) pour amortir les coûts fixes de leur mise en place.
 La parallélisation ralentit encore le calcul ici parce que les tâches élémentaires sont courtes.
  
-```{r}
+```{r, tidy=FALSE}
 registerDoParallel(cores = detectCores())
 fforeach3 <- function(Y) {
-  distances <- foreach(i=icount(NbPointsReduit), .combine='+') %dopar% {
-    distance <- 0
-    for (j in 1:Y$n) {
-      distance <- distance + sqrt((Y$x[i]-Y$x[j])^2 + (Y$y[i]-Y$y[j])^2)
+  distances <- 
+    foreach(i=icount(NbPointsReduit), 
+            .combine='+') %dopar% {
+      distance <- 0
+      for (j in 1:Y$n) {
+        distance <- distance + 
+          sqrt((Y$x[i]-Y$x[j])^2 + (Y$y[i]-Y$y[j])^2)
+      }
+      distance
     }
-    distance
-  }
   return(distances/NbPointsReduit/(NbPointsReduit-1))
 }
 system.time(d <- fforeach3(Y))
@@ -747,7 +752,8 @@ Le temps d'exécution est très court.
 
 ```{r}
 mb <- microbenchmark(d <- MeanDistance(X$x, X$y))
-autoplot(mb)
+# suppressmessages pour éliminer les messages superflus
+suppressMessages(autoplot(mb))
 d
 ```
 
@@ -787,7 +793,8 @@ struct TotalDistanceWrkr : public Worker
   double distance;
    
   // constructors
-  TotalDistanceWrkr(const NumericVector x, const NumericVector y) : Rx(x), Ry(y), distance(0) {}
+  TotalDistanceWrkr(const NumericVector x, const NumericVector y) :
+    Rx(x), Ry(y), distance(0) {}
   TotalDistanceWrkr(const TotalDistanceWrkr& TotalDistanceWrkr, Split) : Rx(TotalDistanceWrkr.Rx), Ry(TotalDistanceWrkr.Ry),  distance(0) {}
   
   // count neighbors
@@ -832,7 +839,8 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par **RCpp*
 
 ```{r}
 (mb <- microbenchmark(d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints-1)*2))
-autoplot(mb)
+# suppressmessages pour éliminer les messages superflus
+suppressMessages(autoplot(mb))
 d
 ```
 
