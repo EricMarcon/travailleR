@@ -243,7 +243,7 @@ Après reconstruction du package, vérifier que l'aide est est apparue: `?multip
 
 ## Organisation du package
 
-### Fichier DESCRIPTION
+### Fichier DESCRIPTION {#sec:package-description}
 
 Le fichier doit être complété:
 ```
@@ -847,3 +847,40 @@ L'analyse de la couverture du code par les tests (quelles parties du codes sont 
 Travis est également capable de reconstruire la documentation du package avec **pkgdown**, autre opération consommatrice de ressources, après la réussite des tests.
 
 La section \@ref(sec:package-ci6) détaille le moyen de le faire.
+
+
+## CRAN
+
+Les packages dont l'audience dépasse l'entourage de l'auteur peuvent être déposés sur CRAN.
+Les règles à respecter sur CRAN sont nombreuses[^509]. Elles sont vérifiées par la commande de vérification `R CMD check` avec l'option `-- as.cran`.
+La vérification ne doit renvoyer aucune erreur, aucun avertissement, ni aucune note avant de soumettre le package.
+
+### Test du package
+
+La vérification du package par Travis dans le cadre de l'intégration continue n'est pas suffisante.
+Le package doit être testé sur la version de développement de R.
+Le site *R-hub builder*[^510] permet de le faire simplement.
+
+[^509]: https://cran.r-project.org/web/packages/policies.html
+[^510]: https://builder.r-hub.io/
+
+Le package, dont la version ne doit pas être de développement (limitée à trois nombres, voir section \@ref(sec:package-description)), doit être construit au format source: dans la fenêtre *Build* de RStudio, cliquer sur "More > Build Source Package".
+Sur le site *R-hub builder*, cliquer sur *Advanced*, sélectionner le fichier source du package et la plateforme de test: *Debian Linux, R-devel, GCC*.
+
+
+### Soumission
+
+Quand le package est au point, la soumission à CRAN se fait par le site web dédié[^511].
+
+[^511]: https://xmpalantir.wu.ac.at/cransubmit/
+
+En cas de rejet, traiter les demandes et soumettre à nouveau en incrémentant le numéro de version.
+
+
+### Maintenance
+
+Des demandes de corrections sont envoyées par CRAN de temps à autre, notamment lors des changements de version de R.
+L'adresse de messagerie du responsable du package (*maintainer*) doit rester valide et les demandes doivent être traitées rapidement. 
+Dans le cas contraire, le package est archivé.
+
+Les nouvelles versions du package sont soumises de la même façon que la première.
