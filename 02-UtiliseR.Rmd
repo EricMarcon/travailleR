@@ -19,7 +19,7 @@ R comprend plusieurs langages de programmation.
 Le plus courant est S3, mais ce n'est pas le seul.
 
 
-### R-Core
+### Base
 
 Le coeur de R est constitué des fonctions primitives et structures de données de base comme la fonction `sum` et les données de type `matrix`:
 
@@ -136,11 +136,12 @@ S4 est une évolution de S3 qui structure les classes pour se rapprocher d'un la
 
 En reprenant l'exemple précédent, la syntaxe S4 est la suivante:
 
-```{r S4-Class}
+```{r S4-Class, tidy=FALSE}
 # Définition de la classe Personne, avec ses slots
-setClass("Personne",  slots = list(Nom = "character", Prenom = "character"))
-# Construction d'une instance, i.e. 
-Moi <- new("Personne", Nom="Marcon", Prenom="Eric")
+setClass("Personne",  
+         slots = list(Nom = "character", Prenom = "character"))
+# Construction d'une instance
+Moi <- new("Personne", Nom = "Marcon", Prenom = "Eric")
 # Langage
 pryr::otype(Moi)
 ```
@@ -168,7 +169,7 @@ Quelques packages sur CRAN : **Matrix**, **sp**, **odbc**... et beaucoup sur Bio
 
 RC a été introduit dans R 2.12 (2010) avec le package **methods**.
 
-Les méthodes appartiennent aux classes, comme en C++: elles sont déclarées dans la classe et appelées à partir des obkets.
+Les méthodes appartiennent aux classes, comme en C++: elles sont déclarées dans la classe et appelées à partir des objets.
 
 ```{r RC-Class, tidy=FALSE}
 library("methods")
@@ -285,7 +286,7 @@ L'appel de la fonction retourne la valeur locale de la fonction parce qu'elle se
 
 La fonction `qGlobalEnv` retourne la variable `q` qu'elle ne définit pas localement.
 Elle la recherche donc dans son environnement parent et trouve la variable définie dans l'environnement global.
-En supprimant la variable de l'environnement global par `rm(q)`, la fonction `qConsole()` parcourt la pile des environnements jusqu'à trouver un objet nommé `q` dans le package **base**, qui est la fonction permettant de quitter R.
+En supprimant la variable de l'environnement global par `rm(q)`, la fonction `qGlobalEnv()` parcourt la pile des environnements jusqu'à trouver un objet nommé `q` dans le package **base**, qui est la fonction permettant de quitter R.
 Elle aurait pu trouver un autre objet si un package contenant un objet `q`avait été chargé.
 
 Pour éviter ce comportement erratique, une fonction ne doit *jamais* appeler un objet non défini dans son propre environnement.
@@ -324,7 +325,7 @@ tryCatch(Diversity(1), error = function(e) print(e))
 entropart::Diversity(1, CheckArguments=FALSE)
 ```
 
-L'appel de `devtools::dr_devtools()` charge le package (c'est-à-dire, exécute implicitement `loadNamespace("devtools")`) mais ne l'attache pas.
+L'appel de `entropart::Diversity()` charge le package (c'est-à-dire, exécute implicitement `loadNamespace("entropart")`) mais ne l'attache pas.
 
 En pratique, il faut limiter le nombre de package attachés pour limiter le risque d'appeler une fonction non désirée homonyme de la fonction recherchée.
 Dans les cas critiques, il faut utiliser le nom complet de la fonction: `package::fonction()`.
@@ -333,7 +334,7 @@ Un problème fréquent concerne la `filter()` de **dplyr** homonyme de celle de 
 Le package **stats** est habituellement chargé avant **dplyr**, un package du tidyverse.
 `stats::filter()` doit donc être appelée explicitement.
 
-Cependant, le package **dplyr** ou **tidyverse** (qui attache tous les packages du tidyverse) peut être chargé systématiquement en créant un fichier `.RProfile` à la racine du projet:
+Cependant, le package **dplyr** ou **tidyverse** (qui attache tous les packages du tidyverse) peut être chargé systématiquement en créant un fichier `.RProfile` à la racine du projet contenant la commande:
 ```{r, eval=FALSE}
 library("tidyverse")
 ```
@@ -541,11 +542,13 @@ summary(mb)[, c("expr", "median")]
 
 Attention, le test de performance peut être trompeur:
 
-```{r}
+```{r, tidy=FALSE}
 # Préparation du vecteur de résultat
-Racine <- vector("numeric", length=length(x1))
+Racine <- vector("numeric", length = length(x1))
 # Test
-mb <- microbenchmark(vapply(x1, FUN=sqrt, 0), for(i in 1:length(x1)) Racine[i] <- sqrt(x1[i]))
+mb <- microbenchmark(vapply(x1, FUN = sqrt, 0), 
+                     for(i in 1:length(x1)) 
+                       Racine[i] <- sqrt(x1[i]))
 summary(mb)[, c("expr", "median")]
 ```
 
@@ -599,15 +602,17 @@ Ecrire plutôt les boucles.
 
 `colSums` et ses semblables (`rowSums`, `colMeans`, `rowMeans`) sont optimisées.
 
-```{r}
+```{r, tidy=FALSE}
 # Somme des colonnes numériques du jeu de données diamonds de ggplot()
 # Boucle identique à l'action de apply(, 2, )
 BoucleSomme <- function(Table) {
-  Somme <- vector("numeric", length=ncol(Table))
+  Somme <- vector("numeric", length = ncol(Table))
   for (i in 1:ncol(Table)) Somme[i] <- sum(Table[, i])
   return(Somme)
 }
-mb <- microbenchmark(BoucleSomme(diamonds[-(2:4)]), apply(diamonds[-(2:4)], 2, sum), colSums(diamonds[-(2:4)]))
+mb <- microbenchmark(BoucleSomme(diamonds[-(2:4)]), 
+                     apply(diamonds[-(2:4)], 2, sum), 
+                     colSums(diamonds[-(2:4)]))
 summary(mb)[, c("expr", "median")]
 ```
 
@@ -1128,7 +1133,8 @@ struct TotalDistanceWrkr : public Worker
   // constructors
   TotalDistanceWrkr(const NumericVector x, const NumericVector y) :
     Rx(x), Ry(y), distance(0) {}
-  TotalDistanceWrkr(const TotalDistanceWrkr& TotalDistanceWrkr, Split) : Rx(TotalDistanceWrkr.Rx), Ry(TotalDistanceWrkr.Ry),  distance(0) {}
+  TotalDistanceWrkr(const TotalDistanceWrkr& TotalDistanceWrkr, Split) :
+    Rx(TotalDistanceWrkr.Rx), Ry(TotalDistanceWrkr.Ry),  distance(0) {}
   
   // count neighbors
   void operator()(std::size_t begin, std::size_t end) {

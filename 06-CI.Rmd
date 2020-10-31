@@ -66,16 +66,17 @@ knitr::include_graphics('images/travis-Depots.png')
 ```
 
 Cliquer ensuite sur "Settings" pour enregistrer le jeton d'accès.
-Dans la zone \*Environment variables", compléter:
+Dans la zone *Environment variables*, compléter:
 
--   Name : GITHUB\_TOKEN
--   Value : <coller le jeton>
+-   Name : GITHUB_TOKEN
+-   Value : \<coller le jeton\>
 
 Cliquer sur "Add".
 Le jeton ne pourra plus être lu sur Travis, pas plus que sur GitHub.
 Il sera utilisé comme une variable, à partir de son nom, pour n'apparaître dans aucun fichier.
 
-Le nom *GITHUB\_TOKEN* est une convention: on pourrait le modifier, mais on ne le fait pas.
+Le nom *GITHUB_TOKEN* est une convention: on pourrait le modifier, mais on ne le fait pas.
+
 
 ### Scripter les actions de Travis
 
@@ -234,7 +235,8 @@ Le fichier `.travis.yml` est très similaire:
 
     script:
       - Rscript -e 'blogdown::install_hugo(force=TRUE)'
-      - Rscript -e 'blogdown::build_site(local = TRUE, build_rmd = TRUE)'
+      - Rscript -e 'blogdown::build_site(local = TRUE, |>
+          build_rmd = TRUE)'
       - touch public/.nojekyll
 
     deploy:
@@ -392,6 +394,6 @@ Le succès du script sur Travis est visible sur GitHub en ajoutant un badge dans
 
 Le taux de couverture mesuré par Codecov peut aussi être affiché par un badge:
 
-    ![codecov](https://codecov.io/github/<GitHubID>/<Depot>/
-      branch/master/graphs/badge.svg)]
+    ![codecov](https://codecov.io/github/<GitHubID>/
+      <Depot>/branch/master/graphs/badge.svg)]
       (https://codecov.io/github/<GitHubID>/<Depot>)
