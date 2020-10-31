@@ -12,6 +12,336 @@ Quelques aspects avancés du codage sont vus ici, concernant l'optimisation des 
 La première étape consiste à disposer des outils permettant de mesurer le temps d'exécution du code.
 
 
+
+## Les langages de R
+
+R comprend plusieurs langages de programmation.
+Le plus courant est S3, mais ce n'est pas le seul.
+
+
+### R-Core
+
+Le coeur de R est constitué des fonctions primitives et structures de données de base comme la fonction `sum` et les données de type `matrix`:
+
+```{r Core}
+pryr::otype(sum)
+typeof(sum)
+pryr::otype(matrix(1))
+typeof(matrix(1))
+```
+
+Le package **pryr** permet d'afficher le langage dans lequel des objets sont définis.
+La fonction `typeof()` affiche le type de stockage interne des objets: 
+
+- la fonction `sum()` appartient au langage de base de R et est une fonction primitive (*builtin*); 
+- les éléments de la matrice numérique contenant un seul 1 des réels à double précision, et la matrice elle-même est définie dans le langage de base. 
+
+Les fonctions primitives sont codées en C et sont très rapides.
+Elles sont toujours disponibles, quels que soient les packages chargés.
+Leur usage est donc à privilégier.
+
+
+### S3
+
+S3 est le langage le plus utilisé, souvent le seul connu par les utilisateurs de R.
+
+C'est un langage orienté objet dans lequel les classes, c'est-è-dire le type des objets, sont déclaratives.
+
+```{r S3-1}
+MonPrenom <- "Eric"
+class(MonPrenom) <- "Prenom"
+```
+
+La variable `MonPrenom` est ici de classe "Prenom" par une simple déclaration.
+
+Contrairement au fonctionnement d'un langage orienté objet classique[^210], les méthodes S3 sont liées aux fonctions, pas aux objets.
+
+[^210]: https://www.troispointzero.fr/le-blog/introduction-a-la-programmation-orientee-objet-poo/
+
+```{r S3-2, echo=TRUE}
+# Affichage par défaut
+MonPrenom
+print.Prenom <- function(x) cat("Le prénom est", x) 
+# Affichage modifié
+MonPrenom
+```
+
+Dans cet exemple, la méthode `print()` appliquée à la classe "Prenom" est modifiée.
+Dans un langage orienté objet classique, la méthode serait définie dans la classe `Prenom`.
+Dans R, les méthodes sont définies à partir de méthodes génériques.
+
+`print` est une méthode générique ("un générique") déclaré dans **base**.
+
+```{r print-otype}
+pryr::otype(print)
+```
+
+Son code se résume à une déclaration `UseMethod("print")`:
+```{r print-code}
+print
+```
+
+Il existe beaucoup de méthodes S3 pour `print`:
+```{r printS3}
+head(methods("print"))
+```
+
+Chacune s'applique à une classe. `print.default` est utilisée en dernier ressort et s'appuie sur le type de l'objet, pas sur sa classe S3.
+
+```{r print.defaut, echo=TRUE}
+typeof(MonPrenom)
+pryr::otype(MonPrenom)
+```
+
+Un objet peut appartenir à plusieurs classes, ce qui permet une forme d'héritage des méthodes.
+Dans un langage orienté objet classique, l'héritage permet de définir des classes plus précises ("PrenomFrancais") qui héritent de classes plus générales ("Prenom") et bénéficient de cette façon de leurs méthodes sans avoir à les redéfinir.
+Dans R, l'héritage consiste simplement à déclarer un vecteur de classes de plus en plus larges pour un objet:
+
+```{r S3-3, echo=TRUE}
+# Définition des classes par un vecteur
+class(MonPrenom) <- c("PrenomFrancais", "Prenom")
+# Ecriture alternative, avec inherits()
+inherits(MonPrenom, what = "PrenomFrancais")
+inherits(MonPrenom, what = "Prenom")
+```
+
+Le générique cherche une méthode pour chaque classe, dans l'ordre de leur déclaration.
+
+```{r S3-4, echo=TRUE}
+print.PrenomFrancais <- function(x) cat("Prénom français:", x) 
+MonPrenom
+```
+
+En résumé, S3 est le langage courant de R.
+Presque tous les packages sont écrits en S3.
+Les génériques sont partout mais passent inaperçus, par exemple dans des packages:
+
+```{r S3-5, echo=TRUE}
+library("entropart")
+.S3methods(class="SpeciesDistribution")
+```
+La fonction `.S3methods()` permet d'afficher toutes les méthodes disponibles pour une classe, par opposition à `methods()` qui affiche toutes les classes pour lesquelles la méthode passée en argument est définie.
+
+De nombreuses fonctions primitives de R sont des méthodes génériques.
+Utiliser l'aide `help(InternalMethods)` pour les découvrir.
+
+
+### S4
+
+S4 est une évolution de S3 qui structure les classes pour se rapprocher d'un langage orienté objet classique:
+
+- les classes doivent être définies explicitement, pas simplement déclarées;
+- les attributs (c'est-à-dire les variables décrivant les objets), appelés *slots*, sont déclarés explicitement; 
+- le constructeur, c'est-à-dire la méthode qui crée un nouvelle instance d'une classe (c'est-à-dire une variable contenant un objet de la classe), est explicite.
+
+En reprenant l'exemple précédent, la syntaxe S4 est la suivante:
+
+```{r S4-Class}
+# Définition de la classe Personne, avec ses slots
+setClass("Personne",  slots = list(Nom = "character", Prenom = "character"))
+# Construction d'une instance, i.e. 
+Moi <- new("Personne", Nom="Marcon", Prenom="Eric")
+# Langage
+pryr::otype(Moi)
+```
+
+Les méthodes appartiennent toujours aux fonctions.
+Elles sont déclarées par la fonction `setMethod()`:
+```{r S4-print}
+setMethod("print",
+  signature="Personne",
+  function(x, ...) {
+    cat("La personne est:", x@Prenom, x@Nom) 
+  }
+)
+print(Moi)
+```
+
+Les attributs sont appelés par la syntaxe `variable@slot`.
+
+
+En résumé, S4 est plus rigoureux que S3.
+Quelques packages sur CRAN : **Matrix**, **sp**, **odbc**... et beaucoup sur Bioconductor sont écrits en S4 mais le langage est maintenant clairement délaissé au profit de S3, notamment à cause du succès du **tidyverse**.
+
+
+### RC
+
+RC a été introduit dans R 2.12 (2010) avec le package **methods**.
+
+Les méthodes appartiennent aux classes, comme en C++: elles sont déclarées dans la classe et appelées à partir des obkets.
+
+```{r RC-Class, tidy=FALSE}
+library("methods")
+# Déclaration de la classe
+PersonneRC <- setRefClass("PersonneRC", 
+    fields = list(Nom = "character", Prenom = "character"),
+    methods = list(print = function() cat(Prenom, Nom)))
+# Constructeur
+MoiRC <- new("PersonneRC", Nom = "Marcon", Prenom ="Eric")
+# Langage
+pryr::otype(MoiRC)
+# Appel de la méthode print
+MoiRC$print()
+```
+
+RC est un langage confidentiel, bien que ce soit le premier "vrai" langage orienté objet de R.
+
+
+### S6
+
+S6[^211] perfectionne RC mais n'est pas inclus dans R: il nécessite d'installer son package. 
+
+[^211]: https://r6.r-lib.org/
+
+Les attributs et les méthodes peuvent être publics ou privés.
+Une méthode `initialize()` est utilisée comme constructeur.
+
+
+```{r S6-Class}
+library(R6)
+PersonneR6 <- R6Class("PersonneR6", 
+                      public = list(Nom="character", Prenom="character",
+                                    initialize = function(Nom=NA, Prenom=NA) {
+                                      self$Nom <- Nom ; self$Prenom <- Prenom},
+                                    print = function() cat(self$Prenom, self$Nom)))
+MoiR6 <- PersonneR6$new(Nom = "Marcon", Prenom ="Eric")
+MoiR6$print()
+```
+
+S6 permet de programmer rigoureusement en objet mais est très peu utilisé.
+Les performances de S6 sont bien supérieures à celles de RC mais sont inférieures à celles de S3[^212].
+
+[^212]: https://r6.r-lib.org/articles/Performance.html
+
+La non-inclusion de R6 à R est montrée par **pryr**:
+```{r}
+pryr::otype(MoiR6)
+```
+
+
+
+## Environnements
+
+Les objets de R, données et fonctions, sont nommés.
+Comme R est modulaire, avec la possibilité de lui ajouter un nombre indéterminé de packages, il est très probable que des conflits de nom apparaissent.
+Pour les régler, R dispose d'un système rigoureux de précédence des noms: le code s'exécute dans un environnement défini, héritant d'environnements parents.
+
+
+### Organisation
+
+R démarre dans un environnement vide.
+Chaque package chargé crée un environnement fils pour former une pile des environnements, dont chaque nouvel élément est appelé "fils" du précédent, qui est son "parent".
+
+La console se trouve dans l'environnement global, fils du dernier package chargé.
+
+```{r}
+search()
+```
+
+Le code d'une fonction appelée de la console s'exécute dans un environnement fils de l'environnement global:
+```{r}
+# Environnement actuel
+environment()
+# La fonction f affiche son environnement
+f <- function() environment()
+# Affichage de l'environnement de la fonction
+f()
+# Environnement parent de celui de la fonction
+parent.env(f())
+```
+
+
+### Recherche
+
+La recherche des objets commence dans l'environnement local. 
+S'il n'est pas trouvé, il est cherché dans l'environnement parent, puis dans le parent du parent, jusqu'à l'épuisement des environnements qui génère une erreur indiquant que l'objet n'a pas été trouvé.
+
+Exemple:
+```{r}
+# Variable q définie dans l'environnement global
+q <- "GlobalEnv"
+# Fonction définissant q dans son environnement
+qLocalFonction <- function() {
+  q <- "Fonction"
+  return(q)
+}
+# La variable locale est retournée
+qLocalFonction()
+# Fonction (mal écrite) utilisant une variable qu'elle ne définit pas
+qGlobalEnv <- function() {
+   return(q)
+}
+# La variable de l'environnement global est retournée
+qGlobalEnv()
+# Suppression de cette variable
+rm(q)
+# La fonction base::q est retournée
+qGlobalEnv()
+```
+
+La variable `q` est définie dans l'environnement global.
+La fonction `qLocalFonction` définit sa propre variable `q`.
+L'appel de la fonction retourne la valeur locale de la fonction parce qu'elle se trouve dans l'environnement de la fonction.
+
+La fonction `qGlobalEnv` retourne la variable `q` qu'elle ne définit pas localement.
+Elle la recherche donc dans son environnement parent et trouve la variable définie dans l'environnement global.
+En supprimant la variable de l'environnement global par `rm(q)`, la fonction `qConsole()` parcourt la pile des environnements jusqu'à trouver un objet nommé `q` dans le package **base**, qui est la fonction permettant de quitter R.
+Elle aurait pu trouver un autre objet si un package contenant un objet `q`avait été chargé.
+
+Pour éviter ce comportement erratique, une fonction ne doit *jamais* appeler un objet non défini dans son propre environnement.
+
+
+### Espaces de nom des packages
+
+Il est temps de définir précisément ce que les packages rendent visible.
+Les packages contiennent des objets (fonctions et données) qu'ils *exportent* ou non.
+Ils sont habituellement appelés par la fonction `library()` qui effectue deux opérations: 
+
+- elle *charge* le package en mémoire, ce qui permet d'accéder à tous ses objets avec la syntaxe `package::objet` pour les objets exportés et `package:::objet` pour ceux qui ne le sont pas;
+- elle *attache* ensuite le package, ce qui place son environnement en haut de la pile.
+
+Il est possible de détacher un package avec la fonction `unloadNamespace()` pour le retirer de la pile des environnements.
+Exemple:
+```{r}
+# entropart chargé et attaché
+library("entropart")
+# Est-il attaché ?
+isNamespaceLoaded("entropart")
+# Pile des environnements
+search()
+# Diversity(), une fonction exportée par entropart est trouvée
+Diversity(1, CheckArguments=FALSE)
+# Détacher et décharger entropart
+unloadNamespace("entropart")
+# Est-il attaché ?
+isNamespaceLoaded("entropart")
+# Pile des environnements, sans entropart
+search()
+# Diversity() est introuvable
+tryCatch(Diversity(1), error = function(e) print(e))
+# mais peut être appelée avec son nom complet.
+# L'appel exécute implicitement
+entropart::Diversity(1, CheckArguments=FALSE)
+```
+
+L'appel de `devtools::dr_devtools()` charge le package (c'est-à-dire, exécute implicitement `loadNamespace("devtools")`) mais ne l'attache pas.
+
+En pratique, il faut limiter le nombre de package attachés pour limiter le risque d'appeler une fonction non désirée homonyme de la fonction recherchée.
+Dans les cas critiques, il faut utiliser le nom complet de la fonction: `package::fonction()`.
+
+Un problème fréquent concerne la `filter()` de **dplyr** homonyme de celle de **stats**. 
+Le package **stats** est habituellement chargé avant **dplyr**, un package du tidyverse.
+`stats::filter()` doit donc être appelée explicitement.
+
+Cependant, le package **dplyr** ou **tidyverse** (qui attache tous les packages du tidyverse) peut être chargé systématiquement en créant un fichier `.RProfile` à la racine du projet:
+```{r, eval=FALSE}
+library("tidyverse")
+```
+
+Dans ce cas, **dplyr** est chargé *avant* **stats** et c'est sa fonction qui est inaccessible.
+
+
+
 ## Mesure du temps d'exécution
 
 Le temps d'exécution d'un code long peut être mesuré très simplement par la commande `system.time`.
