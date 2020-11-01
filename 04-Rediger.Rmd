@@ -1017,3 +1017,87 @@ Mettre Hugo à jour en même temps:
 ```{r majHugo, eval=FALSE}
 blogdown::update_hugo()
 ```
+
+
+## Exportation de figures
+
+Quand la production de documents avec R Markdown n'est pas possible, les figures issues de R doivent être exportées sous forme de fichiers pour être intégrés dans un autre processus d'écriture.
+Il est préférable de créer des scripts pour créer les figures de façon reproductible et au format optimal.
+
+
+### Formats vectoriels et raster
+
+Les figures doivent en général être produites dans un format vectoriel:
+
+- SVG pour la publication d'affiches ou de posters;
+- EMF (Extended Meta-File) pour Word ou la suite Microsoft Office qui ne supporte pas d'autres formats;
+- EPS (Encapsulated PostScript) ou PDF (Portable Document Format) pour LaTeX.
+
+Les figures raster (composées d'un ensemble de points, comme les photographies) sont rares dans R.
+La fonction `image()` utilisée pour afficher des cartes utilise par défaut des polygones plutôt que des points.
+La figure \@ref(fig:volcano) montre le résultat du code suivant:
+
+(ref:volcano) Courbes de niveau du volcan Maunga Whau, code fourni en exemple de l'aide de la foncion `image()`.
+```{r volcano, fig.cap="(ref:volcano)", echo=TRUE}
+x <- 10*(1:nrow(volcano))
+y <- 10*(1:ncol(volcano))
+image(x, y, volcano, col = hcl.colors(100, "terrain"), axes = FALSE)
+contour(x, y, volcano, levels = seq(90, 200, by = 5),
+        add = TRUE, col = "brown")
+axis(1, at = seq(100, 800, by = 100))
+axis(2, at = seq(100, 600, by = 100))
+box()
+```
+
+Elle est composée d'un ensemble de rectangles colorés: il s'agit bien d'une image vectorielle.
+
+Si nécessaire, des images peuvent être produites aux formats BMP (bitmap, sans compression), JPEG (compressées avec perte de qualité), PNG (compressées sans perte de qualité, avec transparence possible) ou Tiff (compressées ou non).
+
+
+### Fonctions
+
+La fonction `postscript()` produit un fichier EPS.
+Le code R doit appeler la fonction pour créer le fichier, produire la figure, puis fermer le fichier, par exemple:
+```{r}
+# Ouverture du fichier
+postscript("Fig1.eps", width = 6, height = 4, horizontal = FALSE)
+# Création de la figure
+plot(cars)
+# Fermeture du fichier
+dev.off()
+```
+
+La largeur et la hauteur (en pouces) d'un fichier vectoriel n'ont pas d'importance, mais leur rapport fixe l'aspect de la figure.
+La taille des textes est fixe: augmenter la taille de la figure revient donc à diminuer la taille relative des textes: procéder par essais successifs, en veillant à ce que les légendes restent lisibles à la taille finale de la figure.
+
+L'argument `horizontal` fixe l'orientation de la figure de façon assez imprévisible: procéder par essais.
+
+Les fonction `eps()`, `pdf()`, `bmp()`, `jpeg()`, `png()` et `tiff()` fonctionnent de la même manière.
+Se référer à l'aide des fonctions pour le choix des options (résolution, niveau de compression, etc.).
+La fonction `emf()` est fournie par le package **devEMF**.
+
+Les polices de caractères ne sont pas incluses dans les fichiers EPS ou PDF.
+Si nécessaire, la fonction `embedFonts()` permet d'y remédier, à condition que GhostScript soit installé.
+
+
+### Package ragg
+
+Le package **ragg**[^460] améliore la qualité des fichiers PNG, JPEG et TIFF.
+Les fonctions optimisées sont `agg_png()`, `agg_jpeg()`et `agg_tiff()`.
+Leur usage est le même que celui des fonctions de **grDevices**.
+
+[^460]: https://ragg.r-lib.org/
+
+Les documents R Markdown produisent des images au format PNG pour leur version HTML.
+**rag** améliore leur qualité: le package doit être installé et `dev = "ragg_png"` doit être ajoutée aux options de **knitr**.
+Pour ce document, les options déclarées dans `index.Rmd` sont les suivantes:
+```{r, eval=FALSE}
+knitr::opts_chunk$set(
+  cache=TRUE, warning=FALSE,
+  echo = TRUE,
+  fig.env='SCfigure', fig.asp=.75, fig.align='center', out.width='80%', 
+  dev = "ragg_png",
+  tidy=TRUE, tidy.opts=list(blank=FALSE, width.cutoff=55), size="scriptsize",
+  knitr.graphics.auto_pdf = TRUE)
+```
+
