@@ -220,6 +220,91 @@ pryr::otype(MoiR6)
 ```
 
 
+### Tidyverse
+
+Le tidyverse est un ensemble de packages cohérents qui ont fait évoluer la façon de programmer R.
+L'ensemble des packages indispensables peut être chargé par le package **tidyverse** qui n'a pas d'autre utilité:
+```{r}
+library("tidyverse")
+```
+
+Il ne s'agit pas d'un nouveau langage à proprement parler mais plutôt d'une extension de S3, avec de profondes modifications techniques, notamment l'évaluation non conventionnelle des expressions[^220], qu'il n'est pas essentiel de maîtriser en détail.
+
+[^220]: https://dplyr.tidyverse.org/articles/programming.html
+
+Ses principes sont inscrits dans un manifeste[^221].
+Son apport le plus visible pour l'utilisateur sont l'enchaînement des commandes dans un flux (pipeline de code).
+
+[^221]: https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html
+
+En programmation standard, l'enchaînement des fonctions s'écrit par emboîtements successifs, ce qui en rend la lecture difficile, surtout quand des arguments sont nécessaires:
+```{r}
+# Logarithme de base 2 de la moyenne de 100 tirages aléatoires dans une loi uniforme
+log(mean(runif(100)), base=2)
+```
+
+Dans le tidyverse, les fonctions s'enchaînent, ce qui correspond souvent mieux à la réflexion du programmeur sur le traitement des données:
+```{r, tidy=FALSE}
+# 100 tirages aléatoires dans une loi uniforme
+runif(100) %>% 
+  # Moyenne
+  mean %>% 
+  # Logarithme
+  log(base=2)
+```
+
+Le tuyau `%>%` est un opérateur qui appelle la fonction suivante en lui passant comme premier argument le résultat de la fonction précédente.
+Les arguments supplémentaires sont passés normalement: pour la lisibilité du code, il est indispensable de les nommer.
+La plupart des fonctions de R sont utilisables sans difficultés dans le tidyverse bien qu'elles n'aient pas été prévues pour cela: il suffit que leur premier argument soit les données à traiter.
+
+Le pipeline ne permet de passer qu'une seule valeur à la fonction suivante, ce qui interdit les fonctions multidimensionnelles, de type `f(x,y)`. 
+La structure de données préférée est le *tibble*, qui est un dataframe amélioré: sa méthode `print()` est plus lisible, et il corrige quelques comportements non-intuitifs des dataframes, comme la conversion automatique en vecteurs des dataframes à une seule colonne.
+Les colonnes du dataframe ou du tibble permettent de passer autant de données que nécessaire.
+
+Enfin, la visualisation des données est prise en charge par **ggplot2** qui s'appuie sur une grammaire des graphiques [@Wickham2010] solide sur le plan théorique.
+Schématiquement, un graphique est construit selon le modèle suivant:
+```
+ggplot(data = <DATA>) + 
+  <GEOM_FUNCTION>(
+     mapping = aes(<MAPPINGS>),
+     stat = <STAT>, 
+     position = <POSITION>
+  ) +
+  <COORDINATE_FUNCTION> +
+  <FACET_FUNCTION>
+```
+
+- les données sont obligatoirement un dataframe;
+- la géométrie est le type de graphique choisi (points, lignes, histogrammes...);
+- l'esthétique (fonction `aes()`) désigne ce qui est représenté: c'est la correspondance entre les colonnes du dataframe et les éléments nécessaires à la géométrie;
+- la statistique est le traitement appliqué aux données avant de les transmettre à la géométrie (souvent "identity", c'est-à-dire aucune transformation mais "boxplot" pour une boîte à moustache).
+Les données peuvent être transformées par une fonction d'échelle, comme `scale_y_log10()`;
+- la position est l'emplacement des objets sur le graphique (souvent "identity"; "stack" pour un histogramme empilé, "jitter" pour déplacer légèrement les points superposés dans un `geom_point`);
+- les coordonnées définissent l'affichage du graphique (`coord_fixed()` pour ne pas déformer une carte par exemple) ;
+- enfin, les facettes offrent la possibilité d'afficher plusieurs aspects des mêmes données en produidant un graphique par modalité d'une variable.
+
+L'ensemble formé par le pipeline et **ggplot2** permet des traitements complexes dans un code lisible.
+La figure \@ref(fig:diamonds) montre le résultat du code suivant:
+
+(ref:diamonds) Prix des diamants en fonction de leur poids. Démonstration du code de **ggplot2** combiné au traitement de données du tidyverse.
+```{r diamonds, fig.cap="(ref:diamonds)", echo=TRUE, tidy=FALSE}
+# Données sur les diamants fournies par ggplot2
+diamonds %>% 
+  # Ne conserver que les diamants de plus d'un demi-carat
+  filter(carat > 0.5) %>% 
+  # Graphique : prix en fonction du poids
+  ggplot(aes(x = carat, y = price)) +
+    # Nuage de points
+    geom_point() + 
+    # Echelle logarithmique
+    scale_x_log10() + 
+    scale_y_log10() + 
+    # Régression linéaire
+    geom_smooth(method = "lm")
+```
+
+Le tidyverse est documenté en détail dans @Wickham2016 et **ggplot2** dans @Wickham2017.
+
 
 ## Environnements
 
