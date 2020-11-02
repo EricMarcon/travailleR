@@ -137,7 +137,7 @@ Il est possible, même s'il vaut mieux l'éviter,  de modifier à nouveau un fic
 
 ### Créer un dépôt vide sur GitHub
 
-(ref:CreateRepo) Création d'un dépôt sur*GitHub*.
+(ref:CreateRepo) Création d'un dépôt sur GitHub.
 ```{r CreateRepo, fig.cap="(ref:CreateRepo)", echo=FALSE}
 knitr::include_graphics('images/CreateRepo.png')
 ```
@@ -157,9 +157,13 @@ Un dépôt vide sur GitHub doit être créé (figure \@ref(fig:CreateRepo)):
 
 ### Lier git et GitHub
 
-Dans RStudio, cliquer sur le bouton violet en haut à droite de la fenêtre *Git* (figure \@ref(fig:git-Fichiers)).
-Saisir le nom de la branche "master".
-Cliquer sur "Add Remotes" et compléter:
+Dans RStudio, un premier *commit* doit au moins avoir eu lieu pour que la branche principale du projet, nommée "master", existe.
+En haut à droite de la fenêtre *Git* (figure \@ref(fig:git-Fichiers)), il est affiché "(no branch)" avant cela.
+Ensuite, il est affiché "master", le nom par défaut de la branche principale du projet.
+Le projet peut alors être lié au dépôt GitHub.
+
+Cliquer sur le bouton violet à côté de "master": une fenêtre (habituellement utilisée pour la création d'une nouvelle branche, voir section \@ref(sec:branches)).
+Saisir le nom de la branche "master", cliquer sur "Add Remotes" et compléter:
 
 * Remote Name: `origin`;
 * Remote URL: coller l'adresse du dépôt GitHub;
@@ -171,7 +175,6 @@ Au message indiquant qu'une branche *master* existe déjà, cliquer sur "Overwri
 
 Le nom *origin* est une convention de git.
 Il peut être modifié mais l'organisation du projet sera plus lisible en respectant la convention.
-
 
 A la première connexion de RStudio à GitHub, une fenêtre d'authentification permet de saisir ses identifiants GitHub (figure \@ref(fig:git-PAT)).
 
@@ -302,7 +305,7 @@ Pour chaque validation, les différences de chaque fichier peuvent être affich�
 
 
 
-## Branches
+## Branches {#sec:branches}
 
 Les branches d'un projet sont des versions différentes mais simultanées.
 Un usage typique est le développement d'une nouvelle fonctionnalité.
@@ -310,14 +313,17 @@ Si son écriture prend du temps, le projet est perturbé par le chantier en cour
 Si le développement s'avère impossible ou inutile, il faut pouvoir l'abandonner sans dommage.
 Pour l'isoler pendant sa réalisation et se permettre de le valider ou de l'abandonner à la fin, il faut le placer dans une branche.
 
-La branche principale du projet s'appelle "master" ou "main" (à partir de fin 2020[^315]).
+La branche principale du projet s'appelle "master" ou "main" à partir de novembre 2020[^315]).
 Elle doit toujours être dans un état stable: c'est elle qui est clonée à partir de GitHub par d'autres utilisateurs éventuels.
 
 [^315]: https://github.com/github/renaming
 
+Le changement de convention pour le nom de la branche "master" fait qu'à partir de novembre 2020, les projets créés sur GitHub clonés dans RStudio ont pour branche principale "main" alors que les projets créés sur RStudio puis liés à GitHub conservent le nom "master".
+
+
 ### Créer une nouvelle branche
 
-Cliquer sur le bouton *New Branch* dans la fenêtre *git* de RStudio.
+Cliquer sur le bouton violet *New Branch* dans la fenêtre *git* de RStudio.
 Saisir son nom et cliquer sur *Create*.
 
 La nouvelle branche est maintenant active.
