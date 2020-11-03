@@ -382,6 +382,41 @@ Un outil de vérification en ligne[^ci-6] permet de valider au moins la syntaxe 
 
 [^ci-6]: <https://config.travis-ci.com/explore>
 
+
+#### Problèmes transitoires
+
+Les changements de version de R, de LaTeX, de pandoc... peuvent générer des erreurs dans l'intégration continue. 
+Une bonne pratique consiste à adapter son fichier `.travis.yml` en s'inspirant de projets qui fonctionnent: il suffit de regarder leur code sur GitHub.
+
+Parmi les problèmes les plus courants:
+
+- pour les projets d'ouvrage, une version plus ancienne de pandoc sur Travis que sur le poste de travail empêche le bon tricot du document alors qu'il fonctionne parfaitement en local.
+La solution consiste à forcer la version de pandoc (elle devra être mise à jour régulièrement). 
+Le début de fichier suivant force les versions de Linux et de pandoc:
+```
+language: r
+os: linux
+dist: xenial
+pandoc_version: 2.7.3
+```
+
+- pour tous les projets, la défaillance d'un package importé qui ne s'installe pas correctement peut être contournée en utilisant les versions binaires des packages fournies par RStudio.
+Les commandes suivantes, ajoutées avant les scripts, permettent de le faire:
+```
+# Packages binaires à partir de RStudio
+before_install:
+  - echo "options(repos = 
+     c(CRAN = 'https://packagemanager.rstudio.com/all/|>
+     __linux__/xenial/latest'))" >> ~/.Rprofile.site
+  - echo "options(HTTPUserAgent = paste0('R/',  |>
+    getRversion(), ' R (', paste(getRversion(), |> 
+    R.version['platform'], R.version['arch'],   |> 
+    R.version['os']), ')'))" >> ~/.Rprofile.site
+```
+
+Ces contournements devront être réévalués régulièrement et supprimés quand ils ne seront plus utiles.
+
+
 ### Ajouter des badges
 
 Le succès du script sur Travis est visible sur GitHub en ajoutant un badge dans le fichier README.md, juste après le titre du fichier:
