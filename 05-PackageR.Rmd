@@ -184,11 +184,13 @@ Par exemple, le retour suivant est un avertissement sur la non-conformité de la
 0 errors v | 1 warning x | 0 notes v
 Erreur : R CMD check found WARNINGs
 ```
-Pour la corriger, mettre à jour la ligne suivante dans `DESCRIPTION`:
+Pour la corriger, mettre à jour, exécuter la commande de  mise à jour de la licence, en commençant par votre nom:
+```{r}
+options(usethis.full_name = "Eric Marcon")
+usethis::use_gpl3_license()
 ```
-License: GPL-3
-```
-La liste des licences valides est fournie par R[^503] (La valeur à saisir est `Abbrev`).
+
+La liste des licences valides est fournie par R[^503].
 
 [^503]: https://svn.r-project.org/R/trunk/share/licenses/license.db
 
@@ -364,18 +366,28 @@ Le site est placé dans le dossier `docs`.
 Ouvrir le fichier `index.htm` avec un navigateur web pour le visualiser.
 Dès que le projet sera poussé sur GitHub, activer les pages du dépôt pour que le site soit visible en ligne (voir section \@ref(sec:github-pages)).
 
-**pkgdown** place le site dans le dossier `docs/dev` si le site d'une version stable (à trois nombres) du package existe dans `docs` et que la version en cours est une version de développement (à quatre nombres). 
-De cette façon, les utilisateurs d'une version de production du package ont accès au site sans qu'il soit perturbé par les versions de développement.
+**pkgdown** place le site dans le dossier `docs`.
 
 Ajouter l'adresse des pages GitHub dans une nouvelle ligne du fichier `DESCRIPTION`:
 ```
 URL: https://GitHubID.github.io/multiple
 ```
 
+L'ajouter aussi dans le fichier `_pkgdown.yml` qui a été créé vide, ainsi que l'option suivante:
+```
+url: https://GitHubID.github.io/multiple
+
+development:
+  mode: auto
+```
+
+**pkgdown** place le site dans le dossier `docs/dev` si le site d'une version stable (à trois nombres) du package existe dans `docs` et que la version en cours est une version de développement (à quatre nombres). 
+De cette façon, les utilisateurs d'une version de production du package ont accès au site sans qu'il soit perturbé par les versions de développement.
+
 Le site peut être enrichi de plusieurs façons:
 
 * En ajoutant des articles au format R Markdown dans le dossier `vignettes/articles`;
-* En améliorant la présentation du site de nombreuses façons (regroupement des fonctions par thèmes, ajout de badges...): se référer à la vignette de **pkgdown**.
+* En améliorant sa présentation (regroupement des fonctions par thèmes, ajout de badges, d'un sticker...): se référer à la vignette de **pkgdown**.
 
 
 ## Code spécifique aux packages
@@ -394,25 +406,34 @@ Le bruit est tiré dans une loi normale centrée d'écart-type `sd` et ajouté �
 `rnorm()` est une fonction du package **stats**. 
 Même si le package est systématiquement chargé par R, le package d'appartenance de la fonction doit obligatoirement être déclaré: les seules exceptions sont les fonctions du package **base**.
 
-D'autre part, le package **stats** doit être importé (au sens de la directive `Imports` dans `DESCRIPTION`) par le package **multiple** pour que ses fonctions puissent être trouvées.
+Le package **stats** doit d'abord être déclaré dans la directive `Imports` dans `DESCRIPTION` qui contient une instruction `Imports:`.
+Tous les packages utilisés par le code de **multiple** seront listés, séparés par des virgules.
+```
+Imports: stats
+```
 
-Il y a pluisieurs façons de remplir ces deux obligations.
-D'abord, le commentaire suivant doit être fourni pour **roxygen2**:
+Cette "importation" signifie simplement que le package **stats** doit être chargé, mais pas nécessairement attaché (voir section \@ref(sec:environnements)), pour que **multiple** fonctionne.
+
+
+Ensuite, la fonction `rnorm()` doit être trouvable dans l'environnement du package **multiple**.
+Il y a plusieurs façons de remplir cette obligation.
+D'abord, le commentaire suivant pourrait être fourni pour **roxygen2**:
 ```{r}
 #' @import stats
 ```
 
-Il peut être placé au choix dans la documentation du package, c'est-à-dire dans le fichier `package.R`, après `#' @docType package` ou bien dans la documentation de la fonction.
-Dans le premier cas, les importations sont déclarées une seule fois pour chaque package.
-Dans le second, chaque fonction déclare ses propres importations de package.
-Les deux solutions sont défendables, mais la déclaration locale rend chaque fonction autonome du point de vue de sa documentation.
-
-Il est possible d'importer aussi la fonction `rnorm()` en le déclarant dans la documentation de la fonction:
+Tout l'espace de nom du package **stats** serait attaché et accessible au package **multiple**. 
+Ce n'est pas une bonne pratique parce qu'elle multiplie les risques de conflits de noms (voir section \@ref(sec:environnements)).
+Notons que la notion d'importation utilisée ici est différente de celle de `DESCRIPTION`, bien qu'elles aient le même nom.
+ 
+Il est préférable d'importer uniquement la fonction `rnorm()` en la déclarant dans la documentation de la fonction:
 ```{r}
 #' @importFrom stats rnorm
 ```
 
-L'alternative est de qualifier systématiquement les fonctions d'autres packages dans le code avec la syntaxe `package::fonction()`.
+Ce n'est pas une pratique idéale non plus parce que l'origine de la fonction n'apparaîtrait pas clairement dans le code du package.
+
+La bonne pratique est de ne rien importer (au sens de **roxygen2**) et de qualifier systématiquement les fonctions d'autres packages dans le code avec la syntaxe `package::fonction()`.
 C'est la solution retenue ici parce que la directive `@importFrom` importerait la fonction dans tout le package **multiple**, pas seulement dans la fonction `fuzzydouble()`, au risque de créer des effets de bord (modifier le comportement d'une autre fonction du package qui n'assumerait pas l'importation de `rnorm()`).
 Finalement, le code de la fonction est le suivant:
 ```{r, eval=FALSE}
@@ -428,11 +449,10 @@ Finalement, le code de la fonction est le suivant:
 #'
 #' @return A vector of the same length as `number`
 #'  containing the transformed values.
-#' @import stats
 #' @export
 #'
 #' @examples
-#  fuzzydouble(2)
+#' fuzzydouble(2)
 #' fuzzydouble(1:4)
 
 fuzzydouble <- function(number, sd=1) {
@@ -536,7 +556,7 @@ triple <- function (x, ...) {
 ```
 
 La méthode générique ne contient pas de code au-delà de sa déclaration.
-Sa signature (c'est-à-dire l'ensemble de ses arguments) est importante parce que les fonctions dérivées de cette méthode devront obligatoirement avoir les mêmes arguments dans le même ordre et pourront seulement ajouter des arguments supplémentaires avant `...` (qui sont obligatoires).
+Sa signature (c'est-à-dire l'ensemble de ses arguments) est importante parce que les fonctions dérivées de cette méthode devront obligatoirement avoir les mêmes arguments dans le même ordre et pourront seulement ajouter des arguments supplémentaires avant `...` (qui est obligatoire).
 Comme la nature du premier argument dépendra de la classe de chaque objet, l'usage est de l'appeler `x`.
 
 La méthode est déclinée en deux fonctions:
@@ -613,10 +633,10 @@ my_multiple
 
 Les détails peuvent être présentés dans la fonction `summary`:
 ```{r}
-summary.multiple <- function(x, ...) {
-  print.default(x$x)
-  cat("multiplied by", x$times, "is:\n")
-  print.default(x$y)
+summary.multiple <- function(object, ...) {
+  print.default(object$x)
+  cat("multiplied by", object$times, "is:\n")
+  print.default(object$y)
 }
 
 # Nouvel affichage
@@ -634,7 +654,7 @@ plot.multiple <- function(x, y, ...) {
 autoplot.multiple <- function(object, ...) {
   data.frame(x = object$x, y = object$y) %>% 
     ggplot2::ggplot() +
-    ggplot2::geom_point(ggplot2::aes(x = x, y = y)) +
+    ggplot2::geom_point(ggplot2::aes_(x = ~x, y = ~y)) +
     ggplot2::labs(title = paste("Multiplication by", 
                                 object$times))
 }
@@ -643,6 +663,8 @@ plot(my_multiple)
 autoplot(my_multiple)
 ```
 
+Pour des raisons techniques liées à l'évaluation non conventionnelle dans le tidyverse, les fonctions `aes()` doivent être remplacées par `aes_()` dans les packages et ajouter un `~` devant les noms des variables.
+Dans le cas contraire, la vérification du package renvoie une note indiquant que les variables `x` et `y`, utilisées par les arguments de `aes()` n'ont pas été déclarées et n'existent peut-être pas dans l'environnement local (voir section \@ref(sec:environnements)).
 
 #### Documentation
 
@@ -650,19 +672,134 @@ Les méthodes génériques et les fonctions qui les déclinent doivent être doc
 
 La gestion de l'espace des noms est un peu plus complexe:
 
-* Les méthodes génériques doivent être exportées:
+- Les méthodes génériques doivent être exportées:
 ```
 #' @export
 ```
-* Les fonctions dérivées de méthodes génériques ne doivent pas l'être mais être déclarées comme méthode, avec le nom de la méthode générique et la classe traitée. Etrangement, **roxygen2** demande qu'une directive d'exportation soit ajoutée:
+
+- Les fonctions dérivées de méthodes génériques ne doivent pas l'être mais être déclarées comme méthode, avec le nom de la méthode générique et la classe traitée. Etrangement, **roxygen2** demande qu'une directive d'exportation soit ajoutée mais ne l'applique pas (comme il se doit) dans le fichier `NAMESPACE` qui est utilisé par R:
 ```
 #' @method plot multiple
 #' @export
 ```
-* Enfin, les fonctions dérivées de méthodes génériques venant d'un autre package nécessitent d'importer la méthode générique:
-```
+
+- Les fonctions dérivées de méthodes génériques venant d'un autre package nécessitent d'importer la méthode générique si elle n'est pas fournie par **base** (`print` est fourni par **base** et n'est donc pas concerné):
+```{r}
 #' @importFrom graphics plot
+#' @importFrom ggplot2 autoplot
 ```
+
+Dans `DESCRIPTION`, le package d'origine de chaque générique doit être listé dans la directive `Depends:`, pas dans `Imports:`:
+```
+Depends: R (>= 2.10), ggplot2, graphics
+```
+
+Enfin, l'importation de fonctions du tidyverse nécessite aussi quelques précautions:
+
+- le package**tidyverse** est réservé à l'usage interactif de R: il n'est pas question de l'importer dans `DESCRIPTION` parce que ses dépendances peuvent changer et aboutir à des résultats imprévisibles;
+- Le package **magrittr** fournit les tuyaux, principalement `%>%`.
+Il doit être importé dans `DESCRIPTION`.
+```
+Imports: magrittr, stats
+```
+
+- Comme il n'est pas possible de les préfixer `%>%` par le nom du package, il faut importer la fonction en utilisant les délimiteurs prévus pour les fonctions dont le nom contient des caractères spéciaux:
+```{r}
+#' @importFrom magrittr `%>%`
+```
+
+
+Finalement, le code complet est le suivant:
+```{r, tidy=FALSE}
+#' Multiplication of a numeric vector
+#'
+#' @param number a numeric vector
+#' @param times a number to multiply
+#'
+#' @return an object of class `multiple`
+#' @export
+#'
+#' @examples
+#' multiple(1:2,3)
+multiple <- function(number, times = 1) {
+  # Calculate the multiples
+  y <- number * times
+  # Save in a list
+  result <- list(x = number, y = y, times = times)
+  # Set the class
+  class(result) <- c("multiple", class(result))
+  return(result)
+}
+
+#' Print objects of class multiple
+#'
+#' @param x an object of class `multiple`.
+#' @param ... further arguments passed to the generic method.
+#'
+#' @export
+#'
+#' @examples
+#' print(multiple(2,3))
+print.multiple <- function(x, ...) {
+  print.default(x$y)
+}
+
+#' Summarize objects of class multiple
+#'
+#' @param object an object of class `multiple`.
+#' @param ... further arguments passed to the generic method.
+#'
+#' @export
+#'
+#' @examples
+#' summary(multiple(2,3))
+summary.multiple <- function(object, ...) {
+  print.default(object$x)
+  cat("multiplied by", object$times, "is:\n")
+  print.default(object$y)
+}
+
+
+#' Plot objects of class multiple
+#'
+#' @param x a vector of numbers
+#' @param y a vector of multiplied numbers
+#' @param ... further arguments passed to the generic method.
+#'
+#' @importFrom graphics plot
+#' @export
+#'
+#' @examples
+#' plot(multiple(2,3))
+plot.multiple <- function(x, y, ...) {
+  plot.default(y=x$y, x=x$x, type = "p", 
+               main = paste("Multiplication by", x$times), ...)
+}
+
+
+#' autoplot
+#'
+#' ggplot of the `multiple` objects.
+#'
+#' @param object an object of class `multiple`.
+#' @param ... ignored.
+#'
+#' @return a `ggplot` object
+#' @importFrom ggplot2 autoplot
+#' @importFrom magrittr `%>%`
+#' @export
+#'
+#' @examples
+#' autoplot(multiple(2,3))
+autoplot.multiple <- function(object, ...) {
+  data.frame(x = object$x, y = object$y) %>%
+    ggplot2::ggplot() +
+    ggplot2::geom_point(ggplot2::aes_(x = ~x, y = ~y)) +
+    ggplot2::labs(title = paste("Multiplication by", 
+                                object$times))
+}
+```
+
 
 ### Code C++
 
@@ -687,7 +824,8 @@ NumericVector timesTwo(NumericVector x) {
 }
 ```
 
-- dans `DESCRIPTION`, **Rcpp** et **RcppParallel** si du code parallélisé est utilisé (supprimer ses références sinon) doivent être importés et déclarés dans `LinkingTo`:
+- dans `DESCRIPTION`, importer les packages.
+**Rcpp**, et **RcppParallel** si du code parallélisé est utilisé (supprimer ses références sinon), doivent être déclarés dans `LinkingTo`:
 ```
 Imports: Rcpp, RcppParallel
 LinkingTo: Rcpp, RcppParallel
@@ -705,6 +843,11 @@ LinkingTo: Rcpp, RcppParallel
 src/*.o
 src/*.so
 src/*.dll
+```
+
+Ces modifications sont en partie effectuées automatiquement, pour **Rcpp** seulement, par **usethis**, mais l'insertion manuelle du code est plus rapide et fiable: ne pas utiliser cette commande.
+```{r, eval=FALSE}
+# usethis::use_rcpp()
 ```
 
 La construction du package entraînera la compilation du code: les Rtools sont donc indispensables.
@@ -735,7 +878,12 @@ Ajouter la ligne suivante à `DESCRIPTION`:
 RdMacros: Rdpack
 ```
 
-Enfin, importer **Rdpack** et spécifiquement sa fonction `reprompt` en ajoutant les lignes suivantes à la documentation pour  **roxygen2** dans `package.R`:
+Ajouter aussi le package `Rdpack` à la liste des packages importés:
+```
+Imports: magrittr, stats, Rcpp, Rdpack
+```
+
+Enfin, importer la fonction `reprompt()` de **Rdpack** en ajoutant les lignes suivantes à la documentation pour **roxygen2** dans `package.R`:
 ```{r}
 #' @importFrom Rdpack reprompt
 ```
@@ -845,7 +993,8 @@ Chaque test (donc le contenu de chaque fichier) commence par son contexte, c'est
 context("function double")
 ```
 
-Les tests suivent, chacun passé comme arguments de la fonction `test_that())`:
+Les tests sont contenus dans des fichiers qui les regroupent par thème, par exemple `test_double.R`.
+Le nom de chaque test est passé comme argument de la fonction `test_that())`:
 ```{r}
 test_that("Double values are correct", {
   skip_on_cran()
@@ -870,6 +1019,45 @@ Les tests devront donc être réalisés sur GitHub, grâce à l'intégration con
 Les tests peuvent être lancés par le menu "More > Test package" de la fenêtre *Build* ou par la commande `devtools::test()`.
 
 Il est conseillé d'écrire les tests dès qu'une fonction du package est stabilisée.
+
+
+## Fichier .gitignore
+
+Le fichier `.gitignore` obtenu à ce stade est incomplet.
+Il peut être remplacé par celui-ci:
+```
+# History files
+.Rhistory
+.Rapp.history
+# Session Data files
+.RData
+# Example code in package build process
+*-Ex.R
+# Output files from R CMD build
+/*.tar.gz
+# Output files from R CMD check
+/*.Rcheck/
+# RStudio files
+.Rproj.user/
+.Rprofile
+# knitr and R markdown default cache directories
+*_cache/
+/cache/
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+# C binaries
+src/*.o
+src/*.so
+src/*.dll
+/src-i386/
+/src-x64/
+# uncomment if pkgdown is run by Travis
+# docs/
+```
+
+La dernière ligne concerne le dossier `docs/`, qui reçoit le site web produit par **pkgdown**.
+Elle est commentée tant que la production du site est réalisée localement, mais décommentée si elle est confiée à Travis-CI (voir section suivante).
 
 
 ## Intégration continue {#sec:package-ci5}
