@@ -43,6 +43,7 @@ Quand les documents sont produits localement, ils sont placés dans le dossier `
 
 Pour que Travis s'en charge, quelques réglages sont nécessaires.
 
+
 ### Obtention d'un jeton d'accès personnel {#sec:pat}
 
 Pour écrire sur GitHub, le service d'intégration continue devra s'authentifier au moyen d'une clé privée, appelée *Personal Access Token* (PAT).
@@ -54,7 +55,8 @@ Les jetons sont créés sur GitHub, dans les paramètres de son compte d'utilisa
 Générer un nouveau jeton, le décrire en tant que "Travis" et lui donner l'autorisation "repo", c'est-à-dire modifier *tous* les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
 Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard: elle doit être sauvegardée comme un mot de passe.
 
-### Activation du dépôt {#sec:activation-ci}
+
+### Activation du dépôt sur Travis {#sec:activation-ci}
 
 Sur le site de Travis, afficher les paramètres de son compte d'utilisateur.
 La liste des dépôts GitHub est présentée.
@@ -76,6 +78,18 @@ Le jeton ne pourra plus être lu sur Travis, pas plus que sur GitHub.
 Il sera utilisé comme une variable, à partir de son nom, pour n'apparaître dans aucun fichier.
 
 Le nom *GITHUB_TOKEN* est une convention: on pourrait le modifier, mais on ne le fait pas.
+
+
+### Activation du dépôt sur CodeCov
+
+L'opération est similaire sur le site Codecov: l'analyse de la couverture du code des packages est utile pour détecter les portions de code non testées.
+En revanche, l'analyse de la couverture des projets de document n'a pas d'intérêt.
+
+Pour activer un dépôt, il faut d'authentifier sur le site de CodeCov avec son compte GitHub.
+La liste des dépôts est affichée et peut être actualisée.
+Si les dépôts à traiter sont hébergés par une organisation, par exemple les dépôts d'une salle de classe GitHub, il faut actualiser la liste des organisations en suivant les instructions (un lien permet de modifier rapidement les options de GithHub pour autoriser la lecture d'une organisation par Codecov) et à nouveau mettre à jour la liste des dépôts.
+Enfin, quand le dépôt recherché est visible, il faut l'activer.
+Il est inutile d'utiliser le système de jetons de Codecov pour les projets traités par Travis.
 
 
 ### Scripter les actions de Travis
@@ -120,8 +134,8 @@ Elle peut être mise à `false` pour l'effacer (commande `git push --force`) pui
 
 Ce script peut être amélioré en ajoutant un cache:
 
--   pour éviter à Travis de recompiler les packages R à chaque exécution, et économiser plusieurs minutes;
--   pour éviter à knitR d'évaluer les calculs de tous les bouts de codes non modifiés, qui peuvent nécessiter de longs calculs.
+- pour éviter à Travis de recompiler les packages R à chaque exécution, et économiser plusieurs minutes;
+- pour éviter à knitR d'évaluer les calculs de tous les bouts de codes non modifiés, qui peuvent nécessiter de longs calculs.
 
 Le code correspondant de la partie `cache`, à placer avant `script` est le suivant:
 
@@ -167,11 +181,8 @@ Le comportement par défaut est d'envoyer un message au propriétaire du compte 
 
 Finalement, les deux fichiers suivants sont ceux utilisés pour l'intégration continue de ce livre.
 
--   Fichier `.travis.yml`:
+- Fichier `.travis.yml`:
 
-```{=html}
-<!-- -->
-```
     language: r
 
     cache:
@@ -195,11 +206,9 @@ Finalement, les deux fichiers suivants sont ceux utilisés pour l'intégration c
       on:
         branch: master
 
--   Fichier `DESCRIPTION`:
 
-```{=html}
-<!-- -->
-```
+- Fichier `DESCRIPTION`:
+
     Package: travailleR
     Title: Travailler avec R
     Version: 1.0.0
@@ -207,7 +216,7 @@ Finalement, les deux fichiers suivants sont ceux utilisés pour l'intégration c
       person("Eric", "Marcon", , "e.marcon@free.fr", |>
           c("aut", "cre"))
       )
-    URL: https://github.com/ericmarcon/travailleR
+    URL: https://github.com/EricMarcon/travailleR
     Depends:
       R (>= 3.1.0)
     Imports:
@@ -259,7 +268,7 @@ Les arguments forcent la construction complète du site.
 Le site est créé dans le dossier `public`.
 La commande `touch` crée un fichier vide appelé `.nojekyll` qui servira après publication à indiquer à GitHub que le site web créé ne doit pas être traité par son propre générateur de sites appelé Jekyll.
 
-Tout utilisateur de GitHub (dont l'identifiant est ici *GitHubID*) dispose d'un dépôt par défaut dont le nom est `GitHubID.github.io`.
+Tout utilisateur de GitHub dispose d'un dépôt par défaut dont le nom est `GitHubID.github.io`.
 Il n'a normalement qu'une seule branche `master`.
 Le contenu de la branche est un site web (pas sa source, qui doit être placée dans un dépôt différent) accessible à l'adresse <https://GitHubID.github.io>.
 Le déploiement copie le dossier `public` dans ce dépôt.
@@ -275,7 +284,7 @@ Les premières lignes (Package, Title,...) ne sont pas utilisées par Travis mai
       person("Eric", "Marcon", , "e.marcon@free.fr", 
              c("aut", "cre"))
       )
-    URL: https://github.com/ericmarcon/Home-Page
+    URL: https://github.com/EricMarcon/Home-Page
     Depends:
       R (>= 3.1.0)
     Imports:
@@ -291,14 +300,15 @@ Si le site web utilise des données en ligne qui justifient de le mettre à jour
 Pour cela, afficher les propriétés du dépôt sur Travis-CI (voir la saisie du jeton GitHub en section \@ref(sec:activation-ci)) et ajouter une tâche programmée (*cron job*).
 Compléter puis cliquer sur "Add":
 
--   Branch: master;
--   Interval: selon les besoins;
--   Options: au choix, exécuter systématiquement ou ne pas le faire si le site a déjà été reconstruit dans les dernières 24 heures.
+- Branch: master;
+- Interval: selon les besoins;
+- Options: au choix, exécuter systématiquement ou ne pas le faire si le site a déjà été reconstruit dans les dernières 24 heures.
 
 Exemple: la page qui affiche la bibliométrie du site web[^ci-4] de l'auteur interroge Google Scholar pour afficher les citations des publications.
 Le site est mis à jour tous les mois pour que les statistiques soient à jour.
 
-[^ci-4]: <https://ericmarcon.github.io/fr/publication/>
+[^ci-4]: <https://EricMarcon.github.io/fr/publication/>
+
 
 #### Packages R {#sec:package-ci6}
 

@@ -349,7 +349,7 @@ Une introduction à l'utilisation du package doit être écrite dans ce document
 
 Le package **pkgdown** permet de créer un site d'accompagnement du package[^505], qui reprend le fichier `README.md` comme page d'accueil, la vignette dans une rubrique "Get Started", l'ensemble des fichiers d'aide avec leurs exemples exécutés (section "Reference"), le fichier `NEWS.md` pour un historique du package (section "Changelog") et des informations du fichier `DESCRIPTION`.
 
-[^505]: Exemple: https://ericmarcon.github.io/entropart/
+[^505]: Exemple: https://EricMarcon.github.io/entropart/
 
 Créer le site avec **usethis**
 ```{r, eval=FALSE}
@@ -433,7 +433,7 @@ Il est préférable d'importer uniquement la fonction `rnorm()` en la déclarant
 
 Ce n'est pas une pratique idéale non plus parce que l'origine de la fonction n'apparaîtrait pas clairement dans le code du package.
 
-La bonne pratique est de ne rien importer (au sens de **roxygen2**) et de qualifier systématiquement les fonctions d'autres packages dans le code avec la syntaxe `package::fonction()`.
+La bonne pratique est de ne rien importer (au sens de **roxygen2**) et de qualifier systématiquement les fonctions d'autres packages dans le code avec la syntaxe `package::`\break`fonction()`.
 C'est la solution retenue ici parce que la directive `@importFrom` importerait la fonction dans tout le package **multiple**, pas seulement dans la fonction `fuzzydouble()`, au risque de créer des effets de bord (modifier le comportement d'une autre fonction du package qui n'assumerait pas l'importation de `rnorm()`).
 Finalement, le code de la fonction est le suivant:
 ```{r, eval=FALSE}
