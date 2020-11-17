@@ -406,7 +406,7 @@ Le bruit est tiré dans une loi normale centrée d'écart-type `sd` et ajouté �
 `rnorm()` est une fonction du package **stats**. 
 Même si le package est systématiquement chargé par R, le package d'appartenance de la fonction doit obligatoirement être déclaré: les seules exceptions sont les fonctions du package **base**.
 
-Le package **stats** doit d'abord être déclaré dans la directive `Imports` dans `DESCRIPTION` qui contient une instruction `Imports:`.
+Le package **stats** doit d'abord être déclaré dans `DESCRIPTION` qui contient une instruction `Imports:`.
 Tous les packages utilisés par le code de **multiple** seront listés, séparés par des virgules.
 ```
 Imports: stats
@@ -433,7 +433,7 @@ Il est préférable d'importer uniquement la fonction `rnorm()` en la déclarant
 
 Ce n'est pas une pratique idéale non plus parce que l'origine de la fonction n'apparaîtrait pas clairement dans le code du package.
 
-La bonne pratique est de ne rien importer (au sens de **roxygen2**) et de qualifier systématiquement les fonctions d'autres packages dans le code avec la syntaxe `package::`\break`fonction()`.
+La bonne pratique est de ne rien importer (au sens de **roxygen2**) et de qualifier systématiquement les fonctions d'autres packages avec la syntaxe `package::fonction()`.
 C'est la solution retenue ici parce que la directive `@importFrom` importerait la fonction dans tout le package **multiple**, pas seulement dans la fonction `fuzzydouble()`, au risque de créer des effets de bord (modifier le comportement d'une autre fonction du package qui n'assumerait pas l'importation de `rnorm()`).
 Finalement, le code de la fonction est le suivant:
 ```{r, eval=FALSE}
