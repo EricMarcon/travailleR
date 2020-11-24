@@ -8,7 +8,7 @@ Les outils pour le faire sont l'objet de ce chapitre, complété par la producti
 Dans un fichier `.R`, le code doit toujours être commenté pour faciliter sa lecture.
 Quand l'explication du code nécessite plusieurs lignes de commentaire par ligne ou bloc de code, il est temps d'inverser la logique et de placer le code dans un texte.
 
-L'outil le plus simple est le bloc-note Markdown (Menu "File \> New File \> R Notebook").
+L'outil le plus simple est le bloc-note Markdown (Menu "File > New File > R Notebook").
 Le modèle de document contient son mode d'emploi.
 
 Le langage qui permet de formater le texte est Markdown[^rediger-1], un langage de balisage simple à utiliser:
@@ -40,10 +40,12 @@ Il commence par un en-tête au format YAML[^rediger-5]:
 
 [^rediger-5]: <https://fr.wikipedia.org/wiki/YAML>
 
-    ---
-    title: "R Notebook"
-    output: html_notebook
-    ---
+```
+---
+title: "R Notebook"
+output: html_notebook
+---
+```
 
 La première entrée est le titre, la seconde le format de sortie: plus précisément le nom de la fonction chargée de traiter le document.
 
@@ -78,7 +80,7 @@ Elle a aussi quelques inconvénients:
 ## Modèles R Markdown
 
 Des modèles de document plus élaborés que le bloc-note sont fournis par des packages, dont **rmarkdown**.
-Ils sont accessibles par le menu "File \> New File \> R Markdown..." (figure \@ref(fig:e-rmd1))).
+Ils sont accessibles par le menu "File > New File > R Markdown..." (figure \@ref(fig:e-rmd1))).
 
 (ref:e-rmd1) Nouveau document Markdown à partir d'un modèle.
 
@@ -152,7 +154,7 @@ Le modèle contient sa propre documentation.
 
 #### Créer
 
-Utiliser le menu "File \> New File \> R Markdown..." puis sélectionner "From template" (figure \@ref(fig:e-rmd1)).
+Utiliser le menu "File > New File > R Markdown..." puis sélectionner "From template" (figure \@ref(fig:e-rmd1)).
 La liste des modèles disponible et le package qui les propose est alors affichée.
 
 Sélectionner le modèle Memo EcoFoG du package **EcoFoG**, choisir le nom du projet ("Name:", qui sera le nom du dossier dans lequel il sera créé, et son dossier parent ("Location:").
@@ -330,7 +332,6 @@ bookdown::gitbook:
   includes:
     in_header: gtag.js
 ```
-
 
 ## Site web R Markdown
 
@@ -784,29 +785,31 @@ Si une image `featured.png` (optimale pour un schéma) ou `featured.jpg` (optima
 
 `index.Rmd` comprend un entête au format yaml (entourée par des `---`) ou toml (entourée par des `+++`) qui décrit son affichage:
 
-    ---
-    title: "Titre du billet"
-    subtitle: "Sous-titre"
-    summary: "Résumé"
-    authors: []
-    tags: ["Mot Clé 1", "Autre Mot Clé"]
-    categories: []
-    date: 2020-04-17
-    featured: false
-    draft: false
+```
+---
+title: "Titre du billet"
+subtitle: "Sous-titre"
+summary: "Résumé"
+authors: []
+tags: ["Mot Clé 1", "Autre Mot Clé"]
+categories: []
+date: 2020-04-17
+featured: false
+draft: false
 
-    # Featured image
-    # To use, add an image named `featured.jpg/png` to 
-    # your page's folder.
-    # Focal points: Smart, Center, TopLeft, Top, TopRight,
-    # Left, Right, BottomLeft, Bottom, BottomRight.
-    image:
-      caption: ""
-      focal_point: ""
-      preview_only: false
-      
-    bibliography: references.bib
-    ---
+# Featured image
+# To use, add an image named `featured.jpg/png` to 
+# your page's folder.
+# Focal points: Smart, Center, TopLeft, Top, TopRight,
+# Left, Right, BottomLeft, Bottom, BottomRight.
+image:
+  caption: ""
+  focal_point: ""
+  preview_only: false
+  
+bibliography: references.bib
+---
+```
 
 Les auteurs sont utilisés dans les sites collectifs.
 Les tags permettent d'alimenter le composant nuage de mots s'il est activé dans la page d'accueil.
@@ -850,18 +853,20 @@ Un fichier `cite.bib` contenant la référence au format BibTex est placé dans 
 Le nom du dossier est de préférence celui de l'identifiant de la publication.
 L'entête du fichier `index.md` (ici au format Markdown, mais `.Rmd` est possible si du code R est nécessaire) contient les mêmes informations que le fichier BibTex, mais au format approprié (yaml), et les éléments propres à Academic (`featured`):
 
-    ---
-    title: "Evaluating the geographic concentration of |>
-    industries using distance-based methods"
-    authors: ["Eric Marcon", "Florence Puech"]
-    publication_types: ["2"]
-    abstract: "We propose (...)"
-    publication: "*Journal of Economic Geography*"
-    doi: "10.1093/jeg/lbg016"
+```
+---
+title: "Evaluating the geographic concentration of |>
+industries using distance-based methods"
+authors: ["Eric Marcon", "Florence Puech"]
+publication_types: ["2"]
+abstract: "We propose (...)"
+publication: "*Journal of Economic Geography*"
+doi: "10.1093/jeg/lbg016"
 
-    date: 2003-10-01
-    featured: false
-    ---
+date: 2003-10-01
+featured: false
+---
+```
 
 Les types de publication sont:
 
@@ -917,52 +922,54 @@ Une image peut être utilisée plus facilement que pour une publication.
 
 L'entête contient des lignes particulières adaptées aux communications:
 
-    ---
-    title: "Construction de l'estimateur de biodiversité |>
-    Chao1"
-    event: "Semaine des mathématiques 2020"
-    event_url: https://eduscol.education.fr/cid59178/|>
-    semaine-des-mathematiques.html
+```
+---
+title: "Construction de l'estimateur de biodiversité |>
+Chao1"
+event: "Semaine des mathématiques 2020"
+event_url: https://eduscol.education.fr/cid59178/|>
+semaine-des-mathematiques.html
 
-    location: Université de Guyane
+location: Université de Guyane
 
-    summary: []
-    abstract: |
-      Pour estimer le nombre d’espèces (richesse 
-      spécifique) d’une communauté à partir d’un 
-      échantillon, l’estimateur Chao1 est l’outil 
-      le plus utilisé.
+summary: []
+abstract: |
+  Pour estimer le nombre d’espèces (richesse 
+  spécifique) d’une communauté à partir d’un 
+  échantillon, l’estimateur Chao1 est l’outil 
+  le plus utilisé.
 
-      Sa construction est expliquée et son efficacité
-      est testée sur des données simulées.
+  Sa construction est expliquée et son efficacité
+  est testée sur des données simulées.
 
-    # Talk start and end times.
-    #   End time can optionally be hidden by 
-    # prefixing the line with `#`.
-    date: "2020-03-11T11:00:00Z"
-    date_end: "2020-03-11T12:00:00Z"
-    all_day: false
+# Talk start and end times.
+#   End time can optionally be hidden by 
+# prefixing the line with `#`.
+date: "2020-03-11T11:00:00Z"
+date_end: "2020-03-11T12:00:00Z"
+all_day: false
 
-    # Schedule page publish date (NOT talk date).
-    publishDate: "2020-04-14"
+# Schedule page publish date (NOT talk date).
+publishDate: "2020-04-14"
 
-    # Is this a featured talk? (true/false)
-    featured: false
+# Is this a featured talk? (true/false)
+featured: false
 
-    image:
-      caption: 'Produit scalaire des vecteurs $v_0$ |>
-    et $v_2$'
-      focal_point: Smart
+image:
+  caption: 'Produit scalaire des vecteurs $v_0$ |>
+et $v_2$'
+  focal_point: Smart
 
-    url_code: "https://github.com/EricMarcon/Chao1"
-    url_pdf: "https://EricMarcon.github.io/Chao1/|>
-    Chao1.pdf"
-    url_slides: "https://EricMarcon.github.io/Chao1/|>
-    Chao1.html"
+url_code: "https://github.com/EricMarcon/Chao1"
+url_pdf: "https://EricMarcon.github.io/Chao1/|>
+Chao1.pdf"
+url_slides: "https://EricMarcon.github.io/Chao1/|>
+Chao1.html"
 
-    # Enable math on this page?
-    math: true
-    ---
+# Enable math on this page?
+math: true
+---
+```
 
 Les liens (`url_code` par exemple) font apparaître des boutons qui permettent d'afficher respectivement le code source de la présentation, un fichier pdf et les diapositives en ligne.
 
@@ -1095,4 +1102,4 @@ knitr::opts_chunk$set(
   knitr.graphics.auto_pdf = TRUE)
 ```
 
-Enfin, **ragg** peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la versoin 1.4 (Menu "Tools \> Global Options \> General \> Graphics \> Backend").
+Enfin, **ragg** peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la versoin 1.4 (Menu "Tools > Global Options > General > Graphics > Backend").
