@@ -279,7 +279,7 @@ La page d'accueil du site web est créée par bookdown à partir du fichier `ind
 
 La mise en page est assurée de façon totalement automatique par pandoc (en HTML) et LaTeX (en PDF).
 
-Il est souvent utile d'aider LaTeX à résoudre quelques dépassements de marge dûs à de trop grandes contraintes de mise en page: pour la lisibilité optimale, les colonnes sont étroites, mais le code (texte formaté entre deux apostrophes inversées) n'autorise pas la césure.
+Il est souvent utile d'aider LaTeX à résoudre quelques dépassements de marge dus à de trop grandes contraintes de mise en page: pour la lisibilité optimale, les colonnes sont étroites, mais le code (texte formaté entre deux apostrophes inversées) n'autorise pas la césure.
 
 Si une ligne de texte dépasse dans la marge de droite dans le document PDF, la solution consiste à ajouter manuellement le code `\break` à l'emplacement désiré pour le retour à la ligne dans le document R Markdown.
 La commande n'a aucun effet sur le document HTML mais force la césure en LaTeX.
@@ -314,6 +314,23 @@ Les blocs de code littéral, délimités par trois apostrophes inversées, doive
 La construction d'un ouvrage prend du temps, surtout s'il contient des calculs.
 Elle doit être lancée au format gitbook et au format PDF.
 En production, elle peut être confiée à Travis-CI (chapitre \@ref(sec:bookdown-ci)).
+
+### Google Analytics
+
+Le suivi de l'audience de l'ouvrage peut être confié à Google Analytics.
+Pour cela, il faut créer un compte et ajouter une *propriété* Google Analytics, c'est-à-dire un site web, puis un flux de données, ici un flux web[^rediger-37].
+
+[^rediger-37]: https://support.google.com/analytics/answer/9304153?hl=fr&ref_topic=9303319
+
+Google Analytics fournit un script de configuration nommé `gtag.js` à placer à la racine du dossier du projet.
+Enfin, déclarer le script dans l'entête des pages web en ajoutant une instruction dans `_output.yml`, dans sa première section.
+
+```
+bookdown::gitbook:
+  includes:
+    in_header: gtag.js
+```
+
 
 ## Site web R Markdown
 
