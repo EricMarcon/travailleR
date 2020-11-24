@@ -15,8 +15,10 @@ maintitlepage:
       \item bookdown (\url{http://bookdown.org/})
     \end{itemize}
     
-    Son code source est sur GitHub: \url{https://github.com/EricMarcon/travailleR}.
+    Son code source est sur GitHub: \url{https://github.com/EricMarcon/travailleR/}.
+    
     Le texte mis à jour en continu peut être lu sur \url{https://ericmarcon.github.io/travailleR/}.
+    
     Les versions d'étape sont déposées sur HAL: \url{https://hal.archives-ouvertes.fr/}.
     
 documentclass: memoir
@@ -56,7 +58,7 @@ resume: |
 <!-- Commande nécessaire pour la copie de l'icône "Essentiel" en HTML--> 
 <img src="images/Essentiel.png" alt="image" hidden/>
 
-```{r Parameters, echo=FALSE, message=FALSE}
+```{r Parameters, include=FALSE}
 ### Utilities. Do not modify.
 # Installation of packages if necessary
 InstallPackages <- function(Packages) {
@@ -81,7 +83,7 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 ```
 
 
-```{r Options, echo=FALSE, message=FALSE}
+```{r Options, include=FALSE}
 ### Customized options for this book
 # Add necessary packages here
 Packages <- c("compiler", "doParallel", "entropart", "foreach", "gridExtra", "htmlwidgets", "magrittr", "microbenchmark", "parallel", "profvis", "pryr", "ragg", "R6", "Rcpp", "RcppParallel", "spatstat", "testthat", "tidyverse", "usethis")
@@ -90,8 +92,8 @@ InstallPackages(Packages)
 
 # knitr options
 knitr::opts_chunk$set(
-  cache=TRUE, warning=FALSE,
-  echo = TRUE,
+  cache=FALSE, # Pas de cache possible à cause du code C++
+  warning=FALSE, echo = TRUE,
   fig.env='SCfigure', fig.asp=.75, fig.align='center', out.width='80%', 
   dev = "ragg_png",
   tidy=TRUE, tidy.opts=list(blank=FALSE, width.cutoff=55), size="scriptsize",
