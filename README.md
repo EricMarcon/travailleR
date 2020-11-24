@@ -1,4 +1,4 @@
-# Support de cours R
+# Travailler avec R
 
 ![stability-wip](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 [![Travis-CI Build Status](https://travis-ci.org/EricMarcon/travailleR.svg?branch=master)](https://travis-ci.org/EricMarcon/travailleR)
