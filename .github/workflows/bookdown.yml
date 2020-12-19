@@ -40,21 +40,23 @@ jobs:
           name: _book
           path: docs/
   checkout-and-deploy:
-   runs-on: ubuntu-latest
-   needs: renderbook
-   steps:
-     - name: Checkout
-       uses: actions/checkout@master
-     - name: Download artifact
-       uses: actions/download-artifact@v1
-       with:
-         # Artifact name
-         name: _book
-         # Destination path
-         path: docs
-     - name: Deploy to GitHub Pages
-       uses: Cecilapp/GitHub-Pages-deploy@master
-       env:
-          EMAIL: ${{ secrets.EMAIL }}   
-          GH_TOKEN: ${{ secrets.GH_PAT }} 
-          BUILD_DIR: docs/
+    runs-on: ubuntu-latest
+    needs: renderbook
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Download artifact
+        uses: actions/download-artifact@v1
+        with:
+          # Artifact name
+          name: _book
+          # Destination path
+          path: docs
+      - name: Deploy to GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          email: ${{ secrets.EMAIL }}
+          build_dir: docs
+          jekyll: no
