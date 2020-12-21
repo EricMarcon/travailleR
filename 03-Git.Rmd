@@ -150,7 +150,7 @@ Un dépôt vide sur GitHub doit être créé (figure \@ref(fig:CreateRepo)):
 * Choisir le statut du dépôt:
   * Public: visible par tout le monde
   * Privé: visible seulement par les collaborateurs du projet, ce qui exclut de compléter par des pages web de présentation.
-* Ne pas ajouter de `README`, `.gitIgnore` ou licence: le projet doit être vide.
+* Ne pas ajouter de `README`, `.gitignore` ou licence: le projet doit être vide.
 * Cliquer sur "create Repository".
 * Copier l'adresse du dépôt (https://github.com/...)
 
@@ -344,8 +344,23 @@ Chaque branche se comporte comme une version différente du projet.
 Attention: pour éviter la confusion, sauvegarder les modifications, prendre en compte et valider les changements avant de changer de branche.
 
 
+### Comportement du système de fichier
+
+A chaque changement de branche, git réécrit les fichiers du projet pour qu'ils reflètent l'état de la branche.
+Les changements peuvent être observés hors de RStudio, dans l'explorateur de fichier par exemple.
+
+Les fichiers ignorés par `.gitignore` ne sont pas modifiés.
+Il est donc indispensable que les fichiers `.gitignore` des différentes branches soit identiques, sinon des fichiers ignorés dans une branche apparaîtront comme ajoutés dans la branche affichée après un changement.
+
+Les branches de développement ont un contenu proche de celui de la branche principale.
+Ce n'est pas le cas de branches spécialisées vues plus loin, comme `gh-pages` (voir section \@ref(sec:github-pages)) qui contient le site web de présentation du dépôt.
+Il est préférable de ne pas tenter d'afficher ces branches dans RStudio: leur contenu est produit automatiquement et ne doit pas être modifié manuellement.
+Si c'est indispensable, il faudra y copier le fichier `.gitignore` de la branche principale et garder à l'esprit que les fichiers ignorés appartiennent en réalité à une autre branche que celle affichée.
+
+
 ### Fusionner avec `merge`
 
+La fusion d'une branche de développement avec la branche principale marque l'atteinte de son objectif: son code va être intégré au projet.
 L'interface graphique de RStudio ne prévoit pas les fusions, il faut donc utiliser le terminal: tout d'abord, se placer dans la branche cible (possible avec l'interface graphique):
 ```
 git checkout master

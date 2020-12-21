@@ -515,77 +515,48 @@ Le site est mis à jour toutes les semaines pour que les statistiques soient à 
 
 #### Packages R {#sec:package-ci6}
 
-Le script minimal est:
+Le script minimal pour la vérification d'un package est le suivant[^ci-5]:
 
-    language: r
+```
+on:
+  push:
+    branches:
+      - master
 
-Travis s'appuie sur le fichier `DESCRIPTION` pour installer les packages nécessaires et lance la vérification du package avec l'option `--as-cran`.
-La vérification échoue si elle retourne une erreur, un avertissement ou une note.
+name: R-CMD-check
 
-Les packages supplémentaires, nécessaires aux actions de Travis en cas de succès, sont déclarés dans `r_packages`:
+jobs:
+  R-CMD-check:
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GH_PAT }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+      - name: Install dependencies
+        run: |
+          install.packages(c("remotes", "rcmdcheck"))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+      - name: Check
+        run: rcmdcheck::rcmdcheck(error_on = "warning")
+        shell: Rscript {0}
+```
 
-    r_packages: # Packages à installer pour Travis
-      - covr    # Interfaçage de Covecov
-      - pkgdown # Création du site d'aide des packages R
+[^ci-5]: <https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow>
 
-La partie `after_success` du script permet d'effectuer des tâches seulement dans cette situation: typiquement appeler Codecov pour mesurer le taux de couverture du code et utiliser **pkgdown** pour créer le site web d'aide:
+Le fichier est nommé `CMD-check.yml`.
+Il ne contient qu'une seule tâche, nommée `R-CMD-check` comme le flux.
 
-    after_success:
-      # Appel à Covecov
-      - Rscript -e 'covr::codecov(type ="all")'
-      # Dossier du site d'aide
-      - mkdir docs
-      # Tirer...
-      - git fetch origin gh-pages:gh-pages
-      # ...dans docs
-      - git --work-tree=docs checkout gh-pages -- .
-      # Construction du site
-      - travis_wait 60 Rscript -e 'pkgdown::build_site()'
-      # Fichier vide
-      - touch docs/.nojekyll
+Les étapes `Install dependencies` et `Check` utilisent `Rscript` comme environnement de commande, ce qui leur permet d'exécuter directement des commandes R (à comparer à l'utilisation de `R -e` dans les exemples précédents).
 
-La construction du site par **pkgdown** est plus compliqué que celle d'un livre produit par **bookdown** parce que deux versions coexistent si le package est hébergé sur CRAN: à la racine du dossier `docs`, la version de production correspondant à la version sur CRAN et, dans `docs/dev`, la version correspondant à la version en cours du package.
-Une seule est produite par Travis mais les deux doivent être conservées: il ne faut pas que la version de production, consultée par les utilisateurs du package, soit supprimée quand une version de développement est créée.
+Le script n'utilise pas **Renv** pour gérer les packages parce que la vérification d'un package doit fonctionner avec les versions en cours sur CRAN.
+**remotes** installe les packages nécessaires à partir du fichier `DESCRIPTION`.
 
-La dernière ligne du script consiste à créer un fichier vide nommé `.nojekyll` pour indiquer à GitHub que les pages web produites ne doivent pas être traitées comme le code source d'un site Jekyll, ce qui est le comportement par défaut des pages GitHub.
+Enfin, l'étape `Check` vérifie le package.
+Les avertissements sont traités comme des erreurs.
 
-L'exemple suivant correspond au package **entropart**, déposé sur CRAN.
-
-Fichier `.travis.yml`:
-
-    language: r
-    warnings_are_errors: true     # Comportement de CRAN
-    cache: packages
-
-    r_packages:     # Packages à installer pour Travis
-      - covr        # Interfaçage de Covecov
-      - pkgdown     # Pour la création du site d'aide
-
-    after_success:
-      - Rscript -e 'covr::codecov(type ="all")' 
-      - mkdir docs
-      - git fetch origin gh-pages:gh-pages
-      - git --work-tree=docs checkout gh-pages -- .
-      - travis_wait 60 Rscript -e 'pkgdown::build_site()'
-      - touch docs/.nojekyll
-
-    deploy:
-      provider: pages
-      skip_cleanup: true
-      keep_history: true                                   
-      token: $GITHUB_TOKEN
-      on:
-        branch: master
-      local_dir: docs
-
-    notifications:
-      email:
-        recipients:
-          - e.marcon@free.fr
-
-Pour des paramétrages particuliers, la documentation complète de Travis peut être consultée[^ci-5].
-
-[^ci-5]: <https://docs.travis-ci.com/user/languages/r/>
+Ce script ne produit rien: son succès est affiché par un badge à afficher dans le fichier `README.md` (voir section \@ref(sec:ci-badges))
 
 
 ### Ajouter des badges {#sec:ci-badges}

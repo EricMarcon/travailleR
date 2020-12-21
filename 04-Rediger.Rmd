@@ -408,9 +408,10 @@ Le fichier `.gitignore` est le suivant :
 
 Activer les pages GitHub (section \@ref(sec:github-pages)) sur le dossier `docs` pour héberger le site.
 Ajouter un fichier vide nommé `.nojekyll` dans `docs` pour que les pages GitHub ne tentent pas de reformater le site.
-On peut uliser le terminal de RStudio pour exécuter:
+On peut utiliser le terminal de RStudio pour exécuter:
 
     touch docs/.nojekyll
+
 
 ## Site web personnel : blogdown {#sec:blogdown}
 
@@ -457,6 +458,12 @@ Go doit donc être installé[^rediger-23].
 
 La façon la plus simple consiste à créer un dépôt sur GitHub à partir du modèle.
 Sur la page du dépôt *starter-academic*[^rediger-24], cliquer sur le bouton *Use this template*, s'authentifier éventuellement sur GitHub, puis saisir le nom du dépôt qui contiendra le projet, par exemple "MySite".
+
+Le dépôt peut être celui du site principal de son compte GitHub (voir section \@ref(sec:github-pages)), à l'adresse https://GitHubID.github.io [^rediger-40].
+Le nom à saisir est simplement "GitHubID.github.io" (*GitHubID* est le nom du compte GitHub).
+
+[^rediger-40]: Exemple: https://EricMarcon.github.io/Krigeage/
+
 Créer le dépôt.
 Copier l'adresse du dépôt en cliquant sur le bouton *Code* puis sur le bouton à droite de l'adresse (figure \@ref(fig:rediger-GitHub-Clone)).
 
@@ -471,9 +478,9 @@ knitr::include_graphics('images/rediger-GitHub-Clone.png')
 Dans RStudio, créer un nouveau projet à partir de GitHub: dans le menu des projets en haut à droite, cliquer sur *New Project...* puis *Version Control* puis *Git* puis coller l'adresse dans le champ "Repository URL" (figure \@ref(fig:rediger-Projet-GitHub)).
 Sélectionner le dossier dans lequel le projet sera créé en cliquant sur "Browse" et enfin cliquer sur "Create Project".
 
-(ref:rediger-Projet-GitHub) Copie de l'adresse d'un dépôt à cloner sur GitHub.
+(ref:rediger-Projet-GitHub) Collage de l'adresse du dépôt à cloner.
 
-```{r rediger-Projet-GitHub, fig.cap="(ref:rediger-rediger-Projet-GitHub)", echo=FALSE}
+```{r rediger-Projet-GitHub, fig.cap="(ref:rediger-Projet-GitHub)", echo=FALSE}
 knitr::include_graphics('images/rediger-Projet-GitHub.png')
 ```
 
@@ -500,18 +507,44 @@ Le contenu de `.gitignore` doit être le suivant:
     *.rmarkdown
     _index.html
     index.html
+    **/index_files/
 
 Un bug de **blogdown** nécessite de déplacer le fichier `config/_default/config.toml` à la racine du projet.
 
 Prendre en compte ces modification dans git en faisant un commit.
 
-Exécuter
 
+### Site personnel sur GitHub
+
+Si le site doit être le site principal de son compte GitHub (voir section \@ref(sec:github-pages)), son code doit être placé dans une autre branche que `master`, qui est destinée à l'affichage des pages produites.
+Quelques manipulations supplémentaires sont nécessaires à ce stade.
+
+La première consiste à créer une branche `source` pour le code (voir section \@ref(sec:branches)).
+Exécuter dans le terminal de RStudio:
+```
+git branch source
+git checkout source
+```
+Si l'interface graphique de RStudio ne reflète pas le changement de branche, il faut quitter et relancer l'application.
+
+A partir de cette étape, tous les développements auront lieu dans la branche `source`.
+Elle n'a pas pour objectif d'être fusionnée avec la branche `master`.
+
+
+### Construction du site
+
+Exécuter
+```{r, eval=FALSE}
+blogdown::build_site(build_rmd = TRUE)
+```
+
+pour construire le site web, y compris ses futures pages R Markdown.
+
+Pour afficher le site, exécuter :
 ```{r, eval=FALSE}
 blogdown:::serve_site()
 ```
 
-pour construire le site web.
 Il apparaît dans la fenêtre *Viewer* de RStudio, dont le bouton d'agrandissement permet l'affichage dans le navigateur internet par défaut du système.
 
 Pour modifier le contenu du site, il est préférable d'arrêter le serveur web par la commande:
@@ -520,10 +553,29 @@ Pour modifier le contenu du site, il est préférable d'arrêter le serveur web 
 blogdown:::stop_server()
 ```
 
+Le site produit par **blogdown** se trouve dans le dossier `public` qui peut être copié directement sur un serveur web qui l'hébergera.
+Une solution simple pour un site autre que le site principal du dépôt GitHub consiste à déclarer ce dossier comme racine des pages GitHub du projet 
+(section \@ref(sec:github-pages)).
+
+Pour le site principal, le contenu de public doit être copié à la racine de la branche `master`.
+Cette opération sera réalisée par intégration continue: voir section \@ref(sec:blogdown-ci).
+Pour le faire manuellement, suivre les étapes suivantes:
+
+- afficher la branche `master`. Le répertoire `public` est ignoré par `gitignore` donc il n'est pas modifié;
+- dans la branche `master`, supprimer tout le contenu original devenu inutile puisque le code est traité dans la branche `source`. Conserver les fichiers et dossiers commençant par un point (paramètres de git, GitHub et RStudio), les dossiers ignorés (`public`, `ressources` et `static`)  et supprimer le reste;
+- déplacer le contenu de `public` vers la racine du projet;
+- valider par un *commit*;
+- pousser le projet sur GitHub;
+- vérifier le bon affichage du site sur https://GitHubID.github.io.
+
+
+### Site multilingue
+
 Si le site est multilingue (Français et Anglais par exemple), son contenu (dossier `content`) doit être copié dans un dossier correspondant à chaque langue.
 Par exemple, le fichier `content/authors/admin/_index.md` qui contient les informations sur le propriétaire du site est remplacé par `content/en/authors/admin/_index.md` et `content/fr/`\break`authors/admin/_index.md` si le site supporte l'Anglais et le Français.
 En pratique, créer un dossier `en` et un dossier `fr` dans `content`.
 Copier tout le contenu de content (sauf les deux nouveaux dossiers) dans `en` puis déplacer ce même contenu dans `fr`.
+
 
 ### Paramétrer
 
