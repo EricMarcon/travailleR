@@ -11,37 +11,39 @@ plutôt que pour des projets contenant un simple document Markdown rarement modi
 
 ## Outils
 
-### Travis
+### GitHub Actions
 
-L'outil utilisé le plus fréquemment pour des projets R déposés sur GitHub est *Travis CI*[^ci-1].
+L'outil utilisé le plus fréquemment pour des projets R déposés sur GitHub était *Travis CI*[^ci-1] mais le service est devenu payant en 2021.
 
 [^ci-1]: <https://travis-ci.org/>
 
-Il est nécessaire d'ouvrir un compte sur le site.
-Il est possible de s'authentifier avec son compte GitHub pour limiter le nombre de mots de passe.
+Les Actions GitHub remplacent avantageusement Travis. 
+Ce service est intégré à GitHub.
 
 ### Codecov
 
-Pour évaluer le taux de couverture du code des packages R, c'est-à-dire la proportion du code testé d'une façon ou d'une autre (exemples, tests unitaires, vignette), le service *Codecov*[^ci-2] s'intègre parfaitement à Travis.
+Pour évaluer le taux de couverture du code des packages R, c'est-à-dire la proportion du code testé d'une façon ou d'une autre (exemples, tests unitaires, vignette), le service *Codecov*[^ci-2] s'intègre parfaitement à GitHub.
 
 [^ci-2]: <https://codecov.io/>
 
-Il faut là encore ouvrir un compte, de préférence en s'authentifiant par GitHub.
+Il faut ouvrir un compte, de préférence en s'authentifiant par GitHub.
 
 ### GitHub Pages
 
 Les pages web de GitHub peuvent être hébergées dans le répertoire `docs` de la branche master du projet: c'est la solution retenue quand elle sont produites sur le poste de travail.
 
-Si elles sont produites par Travis, elle le seront obligatoirement dans une branche dédiée appelée `gh-pages`.
+Si elles sont produites par intégration continue, elle le seront obligatoirement dans une branche dédiée appelée `gh-pages`.
 
-## Intégration continue d'un projet de document
 
-L'objectif est de faire tricoter par Travis un projet Markdown, comme ce document.
+## Principes
+
+Un projet de document est traité en exemple.
+L'objectif est de faire tricoter par GitHub un projet Markdown.
 Cette pratique est appropriée pour les projets d'ouvrages, qui nécessitent beaucoup de ressources pour leur construction.
 Dans ce type de projet, le code est tricoté par knitr pour produire plusieurs documents, typiquement aux formats HTML et PDF, accessibles sur les pages GitHub.
 Quand les documents sont produits localement, ils sont placés dans le dossier `docs` et poussés sur GitHub.
 
-Pour que Travis s'en charge, quelques réglages sont nécessaires.
+Pour que GitHub s'en charge, quelques réglages sont nécessaires.
 
 
 ### Obtention d'un jeton d'accès personnel {#sec:pat}
@@ -52,260 +54,461 @@ Les jetons sont créés sur GitHub, dans les paramètres de son compte d'utilisa
 
 [^ci-3]: <https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line>
 
-Générer un nouveau jeton, le décrire en tant que "Travis" et lui donner l'autorisation "repo", c'est-à-dire modifier *tous* les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
+Générer un nouveau jeton, le décrire en tant que "GitHub Actions" et lui donner l'autorisation "repo", c'est-à-dire modifier *tous* les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
 Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard: elle doit être sauvegardée comme un mot de passe.
 
 
-### Activation du dépôt sur Travis {#sec:activation-ci}
+### Secrets du projet {#sec:secrets-ci}
 
-Sur le site de Travis, afficher les paramètres de son compte d'utilisateur.
-La liste des dépôts GitHub est présentée.
-Pour en activer un, cliquer sur l'interrupteur gris à côté de son nom (figure \@ref(fig:travis-Depots)).
+Sur GitHub, afficher les paramètres du projet et sélectionner "Secrets".
+Le bouton *New Repository Secret* permet de stocker des variables utilisées dans les scripts des Actions GitHub (visibles publiquement) sans en diffuser la valeur.
+Le jeton d'accès personnel est indispensable pour que les Actions GitHub puissent écrire leur production dans le projet.
+Créer un secret nommé "GH_PAT" et saisir la valeur du jeton sauvegardée précédemment.
+Après avoir cliqué sur *Add Secret*, le jeton ne pourra plus être lu.
 
-(ref:travis-Depots) Activation d'un dépôt dans Travis CI.
-```{r travis-Depots, fig.cap="(ref:travis-Depots)", echo=FALSE}
-knitr::include_graphics('images/travis-Depots.png')
-```
-
-Cliquer ensuite sur "Settings" pour enregistrer le jeton d'accès.
-Dans la zone *Environment variables*, compléter:
-
--   Name : GITHUB_TOKEN
--   Value : \<coller le jeton\>
-
-Cliquer sur "Add".
-Le jeton ne pourra plus être lu sur Travis, pas plus que sur GitHub.
-Il sera utilisé comme une variable, à partir de son nom, pour n'apparaître dans aucun fichier.
-
-Le nom *GITHUB_TOKEN* est une convention: on pourrait le modifier, mais on ne le fait pas.
+Pour permettre l'envoi de messages de succès ou d'échec sans diffuser son adresse de messagerie, créer un secret nommé "EMAIL" qui la contient.
 
 
 ### Activation du dépôt sur CodeCov
 
-L'opération est similaire sur le site Codecov: l'analyse de la couverture du code des packages est utile pour détecter les portions de code non testées.
+L'analyse de la couverture du code des packages est utile pour détecter les portions de code non testées.
 En revanche, l'analyse de la couverture des projets de document n'a pas d'intérêt.
 
 Pour activer un dépôt, il faut d'authentifier sur le site de CodeCov avec son compte GitHub.
 La liste des dépôts est affichée et peut être actualisée.
 Si les dépôts à traiter sont hébergés par une organisation, par exemple les dépôts d'une salle de classe GitHub, il faut actualiser la liste des organisations en suivant les instructions (un lien permet de modifier rapidement les options de GithHub pour autoriser la lecture d'une organisation par Codecov) et à nouveau mettre à jour la liste des dépôts.
 Enfin, quand le dépôt recherché est visible, il faut l'activer.
-Il est inutile d'utiliser le système de jetons de Codecov pour les projets traités par Travis.
+Il est inutile d'utiliser le système de jetons de Codecov.
 
 
-### Scripter les actions de Travis
+### Scripter les actions de GitHub
+
+Un flux de travail (*workflow*)  de GitHub est une succession de tâches (*jobs*) comprenant des étapes (*steps*).
+Un flux de travail est déclenché par un évènement, généralement chaque *push* du projet, mais aussi à intervalles réguliers (*cron*).
+
+Typiquement, les flux créés ici contiennent deux tâches: la première installe R et les composants nécessaires et exécute des scripts R (ce qui constitue ses étapes successives); la seconde publie des fichiers obtenus dans les pages GitHub.
+
+Les flux de travail sont configurés dans un fichier au format YAML placé dans le dossier `.github/workflows/` du projet.
+Les différentes parties du script sont présentées ci-dessous.
+Le script complet est celui de ce document, accessible sur GitHub[^ci-10].
+
+[^ci-10]: <https://github.com/EricMarcon/travailleR/blob/master/.github/workflows/bookdown.yml>
+
+
+#### Déclenchement {#sec:declenchement}
+
+L'action est déclenchée à chaque fois que des mises à jour sont poussées sur GitHub:
+```
+on:
+  push:
+     branches:
+       - master
+```
+
+La branche prise en compte est *master* (à remplacer par *main* le cas échéant).
+
+Pour déclencher l'action périodiquement, il faut utiliser la syntaxe de *cron* (le système de planification des tâches sous Unix):
+```
+on:
+  schedule:
+    - cron: '0 22 * * 0'  # every sunday at 22:00
+```
+
+Les valeurs successives sont celles des minutes, des heures, du jour (quantième du mois), du mois et du jour de la semaine (0 pour dimanche à 6 pour samedi). 
+Les `*` permettent d'ignorer une valeur.
+
+Les entrées `push` et `schedule` peuvent être utilisées ensemble: 
+```
+on:
+  push:
+     branches:
+       - master
+  schedule:
+    - cron: '0 22 * * 0'
+```
+
+#### Nom du flux de travail
+
+Le nom du flux est libre.
+Il sera affiché par le badge qui sera ajouté dans le fichier `README.md` du projet (voir section \@ref(sec:ci-badges)).
+```
+name: bookdown
+```
+
+#### Première tâche
+
+Les tâches sont décrites dans la rubrique `jobs`.
+`renderbook` est le nom de la première tâche: il est libre.
+Ici, l'action principale consistera à produire un ouvrage bookdown avec la fonction `render_book()`, d'où son nom. 
+
+```
+jobs:
+  renderbook:
+    runs-on: macOS-latest
+```
+
+La déclaration `runs-on` décrit le système d'exploitation sur lequel la tâche doit s'exécuter.
+Les choix possibles sont Windows, Ubuntu ou MacOS[^ci-11].
+L'intégration continue de R sur GitHub utilise habituellement MacOS. 
+
+[^ci-11]: <https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on>
+
+
+#### Premières étapes
+
+Les étapes sont décrites dans la rubrique `steps`.
+
+```
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+      - name: Install pandoc
+        run: |
+          brew install pandoc
+```
+
+Chaque étape est décrite par son nom (libre) et ce qu'elle réalise. 
+
+La force de GitHub Actions est de permettre l'utilisation d'*actions* écrites par d'autres et stockées dans un projet public GitHub.
+Une action est un script accompagné de métadonnées qui décrivent son usage.
+Son développement est accompagné par des numéros de version successifs.
+On appelle une action par l'instruction `uses:`, le projet GitHub qui la contient et sa version.
+
+Les actions généralistes sont mises à disposition par GitHub dans l'organisation GitHub Actions[^ci-12].
+L'action "actions/checkout" permet de se placer dans la branche principale du projet traité par le flux de travail: c'est en général la première étape de tous les flux.
+
+[^ci-12]: https://github.com/actions/
+
+L'action suivante est l'installation de R, mise à disposition par l'organisation R infrastructure[^ci-13].
+
+[^ci-13]: https://github.com/r-lib/
+
+L'installation de pandoc (logiciel extérieur à R mais nécessaire à R Markdown) est réalisée par une commande exécutée par MacOS.
+Elle est appelée par `run:` et peut contenir plusieurs lignes (d'où le `|`).
+Ce script dépend du système d'exploitation: `brew` est le gestionnaire de paquets de MacOS.
+
+
+#### Caches
+
+L'installation des packages de R prend du temps, beaucoup s'ils sont installés à partir des sources (la procédure standard sous Ubuntu, mais pas sous MacOS et Windows où les packages binaires sont utilisés par défaut).
+Le calcul des bouts de code est en général l'étape la plus longue du flux de travail.
+L'action `cache` permet de mettre en cache les résultats des deux opérations.
+
+```
+      - name: Cache Renv packages
+        uses: actions/cache@v2
+        with:
+          path: $HOME/.local/share/renv
+          key: r-${{ hashFiles('renv.lock') }}
+          restore-keys: r-
+      - name: Cache bookdown results
+        uses: actions/cache@v2
+        with:
+          path: _bookdown_files
+          key: bookdown-${{ hashFiles('**/*Rmd') }}
+          restore-keys: bookdown-
+```
+
+Le cache est mis à jour en cas de modification d'un package ou d'un bout de code, ce qui nécessite un moyen rapide de vérifier les modifications: une valeur de contrôle (*hashtag*) est calculée par la fonction `hashFiles()` à partir du fichier `renv.lock` (voir ci-dessous) pour les packages et l'ensemble des fichiers `.Rmd` pour les bouts de code.
+Tout changement entraîne la réinstallation des packages ou le recalcul de l'ensemble du code: la gestion du cache est moins fine que celle de R sur un poste de travail, qui ne recalcule que les bouts de code modifiés.
+
+
+#### Packages {#sec:packages-ci}
+
+L'installation des packages est gérée par la fonction `install.packages()`.
+Plutôt que d'énumérer les packages à installer dans les arguments de la fonction, source d'erreur, il est préférable d'utiliser le package **renv** pour enregistrer tous les packages utilisés par le projet et les installer en une fois pour l'intégration continue. 
+**renv** installera les packages dans la version enregistrée, ce qui permet d'éviter des effets imprévus dus à des versions différentes entre le poste de travail et GitHub Actions.
+
+```
+      - name: Install packages
+        run: |
+          R -e 'install.packages("renv")'
+          R -e 'renv::restore()'
+```
+
+Il est nécessaire d'installer **renv** sur le poste de travail utilisé pour le développement du projet.
+
+Il faut utiliser un fichier `DESCRIPTION` pour lister les packages de tout projet, comme si c'était un package R.
+Pour ce document:
+```
+Package: travailleR
+Title: Travailler avec R
+Version: 1.1.0
+Authors@R: c(
+  person("Eric", "Marcon", , "e.marcon@free.fr", c("aut", "cre"))
+  )
+URL: https://github.com/EricMarcon/travailleR
+Imports:
+  bookdown,
+  (...)
+```
+
+Avant de déclencher le flux de travail, il est nécessaire de créer la liste des packages dans leur version en cours sur le poste de travail:
+```{r, eval=FALSE}
+renv::snapshot(type="explicit")
+```
+
+A sa première utilisation, le package **renv** informe de quelques adaptations de l'environnement de travail, qu'il faut accepter.
+
+Cette commande crée le fichier `renv.lock` qui est utilisé par GitHub Actions pour installer les packages pendant l'intégration continue.
+Il pourra être mis à jour à tout moment pour prendre en compte leur mise à jour.
+
+
+#### Tricot
+
+La production de l'ouvrage est lancée par une commande R. 
+
+```
+      - name: Render book
+        run: Rscript -e 'bookdown::render_book("index.Rmd", quiet = TRUE)'
+```
+
+Les formats à produire sont paramétrés dans `_output.yml`:
+```
+bookdown::pdf_book:
+  (...)
+bookdown::gitbook:
+  (...)
+```
+
+Le fichier PDF doit être produit avant le format GitBook pour que son lien de téléchargement soit ajouté à la barre de menu du site GitBook.
+
+
+#### Sauvegarde
+
+Le résultat du tricot, placé dans le dossier `docs` de la machine virtuelle en charge de l'intégration continue, doit être préservé pour que la tâche suivante puisse l'utiliser.
+
+La dernière étape de la tâche de production utilise l'action `upload-artifact` pour cela.
+```
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: _book
+          path: docs/
+```
+
+Le contenu de `docs` est sauvegardé en tant qu'*artefact* nommé "_book".
+Les artefacts sont visibles publiquement sur la page des Actions du projet GitHub.
+
+Après sa dernière étape, la machine virtuelle utlisée pour cette étape est détruite.
+
+
+#### Publication
+
+La publication de l'artefact dans la brache `gh-pages` du projet nécessite une autre tâche.
+
+```
+  checkout-and-deploy:
+    runs-on: ubuntu-latest
+    needs: renderbook
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download artifact
+        uses: actions/download-artifact@v1
+        with:
+          # Artifact name
+          name: _book
+          # Destination path
+          path: docs
+      - name: Deploy to GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          email: ${{ secrets.EMAIL }}
+          build_dir: docs
+          jekyll: no
+```
+
+La tâche est nommée "checkout-and-deploy" (le nom est libre).
+Elle s'exécute sur une machine virtuelle sous Ubuntu.
+Elle ne peut se lancer que si la tâche "renderbook" a réussi.
+Ses étapes sont les suivantes:
+
+- *Checkout*: Placement dans la branche principale du projet;
+- *Download artifact*: Restauration du dossier `docs`;
+- *Deploy to GitHub Pages*: copie du dossier `docs` dans la branche `gh-pages`.
+
+Cette dernière étape utiliser l'action `GitHub-Pages-deploy` mise à disposition par l'organisation *Cecilapp* .
+Elle utilise une variable d'environnement, `GITHUB_TOKEN`, pour s'authentifier et des paramètres:
+
+- *email*: l'adresse de messagerie destinataire du rapport d'exécution.
+Pour ne pas exposer l'adresse publiquement, elle a été stockée dans un secret du projet;
+- *buid_dir*: le répertoire à publier,
+- *jekyll:no* pour créer un fichier vide nommé `.nojekyll` qui indique aux pages GitHub de ne pas essayer de traiter leur contenu comme un site web Jekyll.
+
+
+## Modèles de scripts
+
+Des modèles de scripts pour tous les types de projets sont présentés ici, en commençant par la version complète du précédent.
+Tous nécessitent même préparation:
+
+- les secrets `GH_PAT` et `EMAIL` doivent être enregistrés dans le projet GitHub (section \@ref(sec:secrets-ci));
+- un fichier `DESCRIPTION` doit être utilisé pour lister les packages nécessaires (section \@ref(sec:package-description)), quel que soit le type de projet;
+- un instantané des packages installés (`renv.lock`) doit être réalisé avec **renv** (section \@ref(sec:packages-ci)).
+
 
 #### Projet d'ouvrage {#sec:bookdown-ci}
 
-Le script de contrôle de Travis doit être nommé `.travis.yml`.
-Il est au format YAML.
-Un script simple pour un projet `bookdown` ressemble à ceci (le signe `|>` indique que la suite du code devrait se trouver sur la même ligne, mais est coupée pour le formatage de ce document):
+Le flux de travail s'appelle `bookdown`; sa tâche de production `renderbook`.
+Le fichier est `bookdown.yml`.
 
-    language: r
+```
+on:
+  push:
+     branches:
+       - master
 
-    script:
-    - Rscript -e "bookdown::render_book('index.Rmd', |>
-        'bookdown::pdf_book', quiet = TRUE)"
-    - Rscript -e "bookdown::render_book('index.Rmd', |>
-        'bookdown::gitbook', quiet = TRUE)"
+name: bookdown
 
-    deploy:
-      provider: pages
-      skip_cleanup: true
-      github_token: $GITHUB_TOKEN
-      keep_history: true
-      local_dir: docs
-      on:
-        branch: master
+jobs:
+  renderbook:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+      - name: Install pandoc
+        run: |
+          brew install pandoc
+      - name: Cache Renv packages
+        uses: actions/cache@v2
+        with:
+          path: $HOME/.local/share/renv
+          key: r-${{ hashFiles('renv.lock') }}
+          restore-keys: r-
+      - name: Cache bookdown results
+        uses: actions/cache@v2
+        with:
+          path: _bookdown_files
+          key: bookdown-${{ hashFiles('**/*Rmd') }}
+          restore-keys: bookdown-
+      - name: Install packages
+        run: |
+          R -e 'install.packages("renv")'
+          R -e 'renv::restore()'
+      - name: Render book
+        run: Rscript -e 'bookdown::render_book("index.Rmd", quiet = TRUE)'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: _book
+          path: docs/
+  checkout-and-deploy:
+    runs-on: ubuntu-latest
+    needs: renderbook
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download artifact
+        uses: actions/download-artifact@v1
+        with:
+          # Artifact name
+          name: _book
+          # Destination path
+          path: docs
+      - name: Deploy to GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          email: ${{ secrets.EMAIL }}
+          build_dir: docs
+          jekyll: no
+```
 
-Ce script minimal indique que le *langage* est R.
-
-La partie *script* exécute des commandes sous R: `render_book` pour construire un livre, aux formats PDF et HTML.
-Le fichier PDF doit exister pour que le lien vers son téléchargement soit affiché dans la barre de commandes du format HTML, qui doit donc être créé en dernier.
-
-La partie *deploy* gère le déploiement du résultat, écrit dans le dossier `docs` de la branche *master* par `render_book`.
-La commande `skip_cleanup` permet d'éviter que le contenu de `docs` soit effacé entre les phases `script` et `deploy`.
-La version 2 de l'outil de déploiement de Travis CI supprimera cette commande.
-
-Le fournisseur `pages` tire la branche `gh-pages` depuis GitHub, valide les modifications et pousse le résultat.
-Le jeton GitHub est passé au script par Travis par la variable enregistrée précédemment, ce qui lui donne l'autorisation d'écrire sur GitHub.
-
-Enfin, l'option `keep_history` permet de conserver l'historique de la branche `gh-pages`.
-Elle peut être mise à `false` pour l'effacer (commande `git push --force`) puisque le contenu n'est que le résultat d'une production automatique, l'historique important étant celui du code.
-
-Ce script peut être amélioré en ajoutant un cache:
-
-- pour éviter à Travis de recompiler les packages R à chaque exécution, et économiser plusieurs minutes;
-- pour éviter à knitR d'évaluer les calculs de tous les bouts de codes non modifiés, qui peuvent nécessiter de longs calculs.
-
-Le code correspondant de la partie `cache`, à placer avant `script` est le suivant:
-
-    cache:
-      packages: true
-      directories: _bookdown_files
-
-Enfin, Travis interrompt son exécution en absence de retour pendant 10 minutes.
-Si des bouts de code exécutent des calculs longs, il faut augmenter cette limite avec la commande `travis_wait` qui reçoit comme premier argument le nombre de minutes permises, ici une heure:
-
-    script:
-      - travis_wait 60 Rscript -e |>
-          "bookdown::render_book('index.Rmd', |>
-          'bookdown::pdf_book', quiet = TRUE)"
-      - travis_wait 60 Rscript -e |>
-          "bookdown::render_book('index.Rmd', |>
-          'bookdown::gitbook', quiet = TRUE)"
-
-Les packages R à installer depuis CRAN peuvent être déclarés avant le script par une entrée `r_packages` et une entrée `r_github_packages` pour les packages sur GitHub.
-Ce n'est pas une bonne pratique pour les packages du projet: la bonne méthode consiste à utiliser un fichier `DESCRIPTION`, comme si le projet était un package R.
-Les directives `Depends` et `Imports` de ce fichier `DESCRIPTION` sont prises en compte par Travis et installés.
-
-Certains packages nécessitent pour leur installation sous Linux (à partir de leur code source) celle de packages *apt*.
-Par exemple, le package R *sf* nécessite l'ajout des entrées suivantes:
-
-    addons:
-      apt:
-        packages:
-          - libudunits2-dev
-          - libgdal-dev
-          - libgeos-dev
-          - libproj-dev
-
-Pour savoir quels packages *apt* installer, il est nécessaire de se référer à la documentation du package R et prendre en compte les instructions pour l'installation sous Ubuntu.
-
-A la fin de l'exécution de son script, Travis peut envoyer systématiquement un message de compte-rendu:
-
-    notifications:
-      email:
-        on_success: always
-
-Le comportement par défaut est d'envoyer un message au propriétaire du compte GitHub en cas d'échec ou seulement au premier succès d'un script qui échouait.
-
-Finalement, les deux fichiers suivants sont ceux utilisés pour l'intégration continue de ce livre.
-
-- Fichier `.travis.yml`:
-
-    language: r
-
-    cache:
-      packages: true
-      directories: _bookdown_files
-
-    script:
-      - travis_wait 60 Rscript -e |>
-          "bookdown::render_book('index.Rmd', |>
-          'bookdown::gitbook', quiet = TRUE)"
-      - travis_wait 60 Rscript -e |>
-          "bookdown::render_book('index.Rmd', |>
-          'bookdown::pdf_book', quiet = TRUE)"
-
-    deploy:
-      provider: pages
-      skip_cleanup: true
-      github_token: $GITHUB_TOKEN
-      keep_history: true
-      local_dir: docs
-      on:
-        branch: master
-
-
-- Fichier `DESCRIPTION`:
-
-    Package: travailleR
-    Title: Travailler avec R
-    Version: 1.0.0
-    Authors@R: c(
-      person("Eric", "Marcon", , "e.marcon@free.fr", |>
-          c("aut", "cre"))
-      )
-    URL: https://github.com/EricMarcon/travailleR
-    Depends:
-      R (>= 3.1.0)
-    Imports:
-      bookdown,
-      kableExtra,
-      tidyverse,
-      magrittr,
-      gridExtra
 
 #### Site web blogdown {#sec:blogdown-ci}
 
-Le fichier `.travis.yml` est très similaire:
+Le fichier appelé `blogkdown.yml` est très similaire, mais le contexte est différent: le code du site web est ici dans la branche `source` du dépôt (voir section \@ref(sec:blogdown)).
+Le nom du flux de travail est `blogdown` et celui de la tâche de production est `buildsite`.
 
-    language: r
-    latex: false
+```
+on:
+  push:
+     branches:
+       - source
+  schedule:
+    - cron: '0 22 * * 0'
 
-    branches:
-      only:
-        - master
+name: blogdown
 
-    cache:
-      packages: yes
-      directories:
-        - $HOME/bin
+jobs:
+  buildsite:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          ref: 'source'
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+      - name: Install pandoc
+        run: |
+          brew install pandoc
+      - name: Cache Renv packages
+        uses: actions/cache@v2
+        with:
+          path: $HOME/.local/share/renv
+          key: r-${{ hashFiles('renv.lock') }}
+          restore-keys: r-
+      - name: Install packages
+        run: |
+          R -e 'install.packages("renv")'
+          R -e 'renv::restore()'
+      - name: Build website
+        run: |
+          R -e 'blogdown::install_hugo(force=TRUE)'
+          R -e 'blogdown::build_site(local = TRUE, build_rmd = TRUE)'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: _website
+          path: public/
+  checkout-and-deploy:
+    runs-on: ubuntu-latest
+    needs: buildsite
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: 'source'
+      - name: Download artifact
+        uses: actions/download-artifact@v1
+        with:
+          # Artifact name
+          name: _website
+          # Destination path
+          path: public
+      - name: Deploy to GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          branch: 'master'
+          build_dir: public
+          email: ${{ secrets.EMAIL }}
+          jekyll: no
+```
 
-    script:
-      - Rscript -e 'blogdown::install_hugo(force=TRUE)'
-      - Rscript -e 'blogdown::build_site(local = TRUE, |>
-          build_rmd = TRUE)'
-      - touch public/.nojekyll
+L'action `checkout` se place dans la branche `source` avec sa variable `ref`.
 
-    deploy:
-      provider: pages
-      skip_cleanup: true
-      token: $GITHUB_TOKEN
-      on:
-        branch: master
-      local_dir: public
-      repo: GitHubID/GitHubID.github.io
-      target_branch: master
+Il n'est pas possible de mettre en cache les résultats des bouts de code parce qu'ils se trouvent dans les pages `.Rmd` du projet, dont l'emplacement n'est pas prévisible.
+Le cache se limite aux packages.
 
-L'instruction `latex: false` ajoutée en début de fichier permet d'économiser le temps de l'installation d'une distribution LaTeX puisqu'un site web n'en a normalement pas besoin.
+La tâche `Build website` utilise le package **blogdown** pour installer Hugo (le générateur de sites web) et ensuite construire le site.
 
-La mise en cache de `$HOME/bin` évite d'installer à chaque fois le générateur de site web Hugo.
+Enfin, la tâche de déploiement se place dans la branche `source` pour récupérer le dossier `public` produit par la tâche de production et la déploie dans la branche `master` au lieu de la branche `gh-page` habituelle pour respecter l'organisation de GitHub.
 
-Le script consiste à installer Hugo avec le package **blogdown** puis à construire le site (la commande `build_site()` est similaire à la commande `serve_site()` utilisée pendant le développement mais ne lance pas de serveur web pour afficher le résultat).
-Les arguments forcent la construction complète du site.
-
-Le site est créé dans le dossier `public`.
-La commande `touch` crée un fichier vide appelé `.nojekyll` qui servira après publication à indiquer à GitHub que le site web créé ne doit pas être traité par son propre générateur de sites appelé Jekyll.
-
-Tout utilisateur de GitHub dispose d'un dépôt par défaut dont le nom est `GitHubID.github.io`.
-Il n'a normalement qu'une seule branche `master`.
-Le contenu de la branche est un site web (pas sa source, qui doit être placée dans un dépôt différent) accessible à l'adresse <https://GitHubID.github.io>.
-Le déploiement copie le dossier `public` dans ce dépôt.
-Il ne garde pas de trace de l'historique (`skip_cleanup: true`) puisque le contrôle de source est déjà activé dans le dépôt contenant le code source du site.
-
-Un fichier `DESCRIPTION` est obligatoire pour Travis qui y cherche les packages R à installer.
-Les premières lignes (Package, Title,...) ne sont pas utilisées par Travis mais permettent de respecter le format standard des fichiers `DESCRIPTION`.
-
-    Package: Home-Page
-    Title: Eric Marcon's Home Page
-    Version: 1.0.0
-    Authors@R: c(
-      person("Eric", "Marcon", , "e.marcon@free.fr", 
-             c("aut", "cre"))
-      )
-    URL: https://github.com/EricMarcon/Home-Page
-    Depends:
-      R (>= 3.1.0)
-    Imports:
-      blogdown, 
-      GoFKernel,
-      igraph,
-      scholar,
-      tidyverse
-
-Tous les packages utilisés dans les fichiers R Markdown du site doivent être déclarés dans le fichier `DESCRIPTION`.
-
-Si le site web utilise des données en ligne qui justifient de le mettre à jour périodiquement, Travis peut être lancé tous les jours, toutes les semaines ou tous les mois en plus des reconstruction déclenchées par une modification du dépôt sur GitHub.
-Pour cela, afficher les propriétés du dépôt sur Travis-CI (voir la saisie du jeton GitHub en section \@ref(sec:activation-ci)) et ajouter une tâche programmée (*cron job*).
-Compléter puis cliquer sur "Add":
-
-- Branch: master;
-- Interval: selon les besoins;
-- Options: au choix, exécuter systématiquement ou ne pas le faire si le site a déjà été reconstruit dans les dernières 24 heures.
+Si le site web utilise des données en ligne qui justifient de le mettre à jour périodiquement, GitHub Actions peut être lancé tous les jours, toutes les semaines ou tous les mois en plus des reconstruction déclenchées par une modification du dépôt (voir section \@ref(sec:declenchement)).
+Ici, le site est reconstruit tous les dimanches à 22h.
 
 Exemple: la page qui affiche la bibliométrie du site web[^ci-4] de l'auteur interroge Google Scholar pour afficher les citations des publications.
-Le site est mis à jour tous les mois pour que les statistiques soient à jour.
+Le site est mis à jour toutes les semaines pour que les statistiques soient à jour.
 
 [^ci-4]: <https://EricMarcon.github.io/fr/publication/>
 
@@ -384,58 +587,16 @@ Pour des paramétrages particuliers, la documentation complète de Travis peut �
 
 [^ci-5]: <https://docs.travis-ci.com/user/languages/r/>
 
-#### Vérification de `.travis.yml`
 
-Le débogage de la configuration de Travis est particulièrement laborieux parce que toute modification du fichier `.travis.yml` nécessite d'être validée et poussée pour déclencher Travis et éventuellement générer des erreurs.
-L'ensemble du processus peut durer plusieurs dizaines de minutes.
-Un outil de vérification en ligne[^ci-6] permet de valider au moins la syntaxe du fichier et donc de gagner du temps.
+### Ajouter des badges {#sec:ci-badges}
 
-[^ci-6]: <https://config.travis-ci.com/explore>
-
-
-#### Problèmes transitoires
-
-Les changements de version de R, de LaTeX, de pandoc... peuvent générer des erreurs dans l'intégration continue. 
-Une bonne pratique consiste à adapter son fichier `.travis.yml` en s'inspirant de projets qui fonctionnent: il suffit de regarder leur code sur GitHub.
-
-Parmi les problèmes les plus courants:
-
-- pour les projets d'ouvrage, une version plus ancienne de pandoc sur Travis que sur le poste de travail empêche le bon tricot du document alors qu'il fonctionne parfaitement en local.
-La solution consiste à forcer la version de pandoc (elle devra être mise à jour régulièrement). 
-Le début de fichier suivant force les versions de Linux et de pandoc:
-```
-language: r
-os: linux
-dist: xenial
-pandoc_version: 2.7.3
-```
-
-- pour tous les projets, la défaillance d'un package importé qui ne s'installe pas correctement peut être contournée en utilisant les versions binaires des packages fournies par RStudio.
-Les commandes suivantes, ajoutées avant les scripts, permettent de le faire:
-```
-# Packages binaires à partir de RStudio
-before_install:
-  - echo "options(repos = 
-     c(CRAN = 'https://packagemanager.rstudio.com/all/|>
-     __linux__/xenial/latest'))" >> ~/.Rprofile.site
-  - echo "options(HTTPUserAgent = paste0('R/',  |>
-    getRversion(), ' R (', paste(getRversion(), |> 
-    R.version['platform'], R.version['arch'],   |> 
-    R.version['os']), ')'))" >> ~/.Rprofile.site
-```
-
-Ces contournements devront être réévalués régulièrement et supprimés quand ils ne seront plus utiles.
-
-
-### Ajouter des badges
-
-Le succès du script sur Travis est visible sur GitHub en ajoutant un badge dans le fichier README.md, juste après le titre du fichier:
+Le succès des Actions GitHub est visible en ajoutant un badge dans le fichier `README.md`, juste après le titre du fichier.
+Sur la page du projet, choisir "Actions" puis sélectionner l'action (dans "Workflows").
+Cliquer sur le bouton *...* puis sur *Create Status Badge*.
+Coller le code Markdown:
 
     # Nom du projet
-
-    [![Travis-CI Build Status](https://travis-ci.org/ |>
-      <GitHubID>/<Depot>.svg?branch=master)] |>
-      (https://travis-ci.org/<GitHubID>/<Depot>)
+    ![bookdown](https://github.com/<GitHubID>/<Depot>/workflows/<Action>/badge.svg)
 
 Le taux de couverture mesuré par Codecov peut aussi être affiché par un badge:
 
