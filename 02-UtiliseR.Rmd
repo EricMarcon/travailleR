@@ -885,7 +885,7 @@ system.time(mclapply(1:(nbCoeurs+1), f, time=1))
 Le temps reste ensuite stable jusqu'au double du nombre de coeurs.
 La figure \@ref(fig:r-parallele) montre l'évolution du temps de calcul en fonction du nombre de tâches.
 
-(ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant un quart de secondes (chaque tâche est une pause d'un quart de seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs (égal à ```r  parallel::detectCores()```) plus une. 
+(ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant un quart de seconde (chaque tâche est une pause d'un quart de seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs (égal à ```r  parallel::detectCores()```) plus une. 
 ```{r r-parallele, fig.cap="(ref:r-parallele)", echo=FALSE}
 Taches <- 1:(2*nbCoeurs+1)
 Temps <- sapply(Taches, function(nbTaches) system.time(mclapply(1:nbTaches, f)))
