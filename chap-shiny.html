@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="fr" xml:lang="fr">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7 Shiny | Travailler avec R</title>
+  <meta name="description" content="Support du cours Travailler avec R." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7 Shiny | Travailler avec R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Support du cours Travailler avec R." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7 Shiny | Travailler avec R" />
+  
+  <meta name="twitter:description" content="Support du cours Travailler avec R." />
+  
+
+<meta name="author" content="Eric Marcon" />
+
+
+<meta name="date" content="2020-12-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chap-ci.html"/>
+<link rel="next" href="chap-enseigner.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7NVD1TWMCJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7NVD1TWMCJ');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Travailler avec R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Présentation</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objectifs"><i class="fa fa-check"></i>Objectifs</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i>Conventions</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="chap-logiciels.html"><a href="chap-logiciels.html"><i class="fa fa-check"></i><b>1</b> Logiciels</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#r"><i class="fa fa-check"></i><b>1.1</b> R</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation"><i class="fa fa-check"></i><b>1.1.1</b> Installation</a></li>
+<li class="chapter" data-level="1.1.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#rtools"><i class="fa fa-check"></i><b>1.1.2</b> Rtools</a></li>
+<li class="chapter" data-level="1.1.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#mise-à-jour"><i class="fa fa-check"></i><b>1.1.3</b> Mise à jour</a></li>
+<li class="chapter" data-level="1.1.4" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:librairies"><i class="fa fa-check"></i><b>1.1.4</b> Librairies</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#rstudio"><i class="fa fa-check"></i><b>1.2</b> RStudio</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-1"><i class="fa fa-check"></i><b>1.2.1</b> Installation</a></li>
+<li class="chapter" data-level="1.2.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#dossier-de-travail"><i class="fa fa-check"></i><b>1.2.2</b> Dossier de travail</a></li>
+<li class="chapter" data-level="1.2.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:solution-dossiers"><i class="fa fa-check"></i><b>1.2.3</b> Solution retenue</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-depuis-cran"><i class="fa fa-check"></i><b>1.3.1</b> Installation depuis CRAN</a></li>
+<li class="chapter" data-level="1.3.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-depuis-github"><i class="fa fa-check"></i><b>1.3.2</b> Installation depuis GitHub</a></li>
+<li class="chapter" data-level="1.3.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-depuis-bioconductor"><i class="fa fa-check"></i><b>1.3.3</b> Installation depuis Bioconductor</a></li>
+<li class="chapter" data-level="1.3.4" data-path="chap-logiciels.html"><a href="chap-logiciels.html#solution-retenue"><i class="fa fa-check"></i><b>1.3.4</b> Solution retenue</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="chap-logiciels.html"><a href="chap-logiciels.html#git"><i class="fa fa-check"></i><b>1.4</b> Git</a></li>
+<li class="chapter" data-level="1.5" data-path="chap-logiciels.html"><a href="chap-logiciels.html#github"><i class="fa fa-check"></i><b>1.5</b> GitHub</a></li>
+<li class="chapter" data-level="1.6" data-path="chap-logiciels.html"><a href="chap-logiciels.html#miktex"><i class="fa fa-check"></i><b>1.6</b> MiKTeX</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-2"><i class="fa fa-check"></i><b>1.6.1</b> Installation</a></li>
+<li class="chapter" data-level="1.6.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#mises-à-jour"><i class="fa fa-check"></i><b>1.6.2</b> Mises à jour</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="chap-logiciels.html"><a href="chap-logiciels.html#go"><i class="fa fa-check"></i><b>1.7</b> Go</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html"><i class="fa fa-check"></i><b>2</b> Utiliser R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#les-langages-de-r"><i class="fa fa-check"></i><b>2.1</b> Les langages de R</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#base"><i class="fa fa-check"></i><b>2.1.1</b> Base</a></li>
+<li class="chapter" data-level="2.1.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#sec:S3"><i class="fa fa-check"></i><b>2.1.2</b> S3</a></li>
+<li class="chapter" data-level="2.1.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#s4"><i class="fa fa-check"></i><b>2.1.3</b> S4</a></li>
+<li class="chapter" data-level="2.1.4" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#rc"><i class="fa fa-check"></i><b>2.1.4</b> RC</a></li>
+<li class="chapter" data-level="2.1.5" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#s6"><i class="fa fa-check"></i><b>2.1.5</b> S6</a></li>
+<li class="chapter" data-level="2.1.6" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#tidyverse"><i class="fa fa-check"></i><b>2.1.6</b> Tidyverse</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#sec:environnements"><i class="fa fa-check"></i><b>2.2</b> Environnements</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#organisation"><i class="fa fa-check"></i><b>2.2.1</b> Organisation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#recherche"><i class="fa fa-check"></i><b>2.2.2</b> Recherche</a></li>
+<li class="chapter" data-level="2.2.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#espaces-de-nom-des-packages"><i class="fa fa-check"></i><b>2.2.3</b> Espaces de nom des packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#mesure-du-temps-dexécution"><i class="fa fa-check"></i><b>2.3</b> Mesure du temps d’exécution</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#system.time"><i class="fa fa-check"></i><b>2.3.1</b> system.time</a></li>
+<li class="chapter" data-level="2.3.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#microbenchmark"><i class="fa fa-check"></i><b>2.3.2</b> microbenchmark</a></li>
+<li class="chapter" data-level="2.3.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#profilage"><i class="fa fa-check"></i><b>2.3.3</b> Profilage</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#boucles"><i class="fa fa-check"></i><b>2.4</b> Boucles</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#fonctions-vectorielles"><i class="fa fa-check"></i><b>2.4.1</b> Fonctions vectorielles</a></li>
+<li class="chapter" data-level="2.4.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#lapply"><i class="fa fa-check"></i><b>2.4.2</b> lapply</a></li>
+<li class="chapter" data-level="2.4.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#boucles-for"><i class="fa fa-check"></i><b>2.4.3</b> Boucles for</a></li>
+<li class="chapter" data-level="2.4.4" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#replicate"><i class="fa fa-check"></i><b>2.4.4</b> replicate</a></li>
+<li class="chapter" data-level="2.4.5" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#vectorize"><i class="fa fa-check"></i><b>2.4.5</b> Vectorize</a></li>
+<li class="chapter" data-level="2.4.6" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#statistiques-marginales"><i class="fa fa-check"></i><b>2.4.6</b> Statistiques marginales</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#sec:cpp"><i class="fa fa-check"></i><b>2.5</b> Code C++</a></li>
+<li class="chapter" data-level="2.6" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#paralléliser-r"><i class="fa fa-check"></i><b>2.6</b> Paralléliser R</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#mclapply-fork"><i class="fa fa-check"></i><b>2.6.1</b> mclapply (fork)</a></li>
+<li class="chapter" data-level="2.6.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#parlapply-socket"><i class="fa fa-check"></i><b>2.6.2</b> parLapply (socket)</a></li>
+<li class="chapter" data-level="2.6.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#foreach"><i class="fa fa-check"></i><b>2.6.3</b> foreach</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#sec:cas"><i class="fa fa-check"></i><b>2.7</b> Etude de cas</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#création-des-données"><i class="fa fa-check"></i><b>2.7.1</b> Création des données</a></li>
+<li class="chapter" data-level="2.7.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#spatstat"><i class="fa fa-check"></i><b>2.7.2</b> Spatstat</a></li>
+<li class="chapter" data-level="2.7.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#apply"><i class="fa fa-check"></i><b>2.7.3</b> apply</a></li>
+<li class="chapter" data-level="2.7.4" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#boucle-for"><i class="fa fa-check"></i><b>2.7.4</b> boucle for</a></li>
+<li class="chapter" data-level="2.7.5" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#boucle-foreach"><i class="fa fa-check"></i><b>2.7.5</b> boucle foreach</a></li>
+<li class="chapter" data-level="2.7.6" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#rcpp"><i class="fa fa-check"></i><b>2.7.6</b> RCpp</a></li>
+<li class="chapter" data-level="2.7.7" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#rcppparallel"><i class="fa fa-check"></i><b>2.7.7</b> RcppParallel</a></li>
+<li class="chapter" data-level="2.7.8" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#conclusions-sur-loptimisation-de-la-vitesse-du-code"><i class="fa fa-check"></i><b>2.7.8</b> Conclusions sur l’optimisation de la vitesse du code</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chap-git.html"><a href="chap-git.html"><i class="fa fa-check"></i><b>3</b> Git et GitHub</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="chap-git.html"><a href="chap-git.html#sec:principes-git"><i class="fa fa-check"></i><b>3.1</b> Principes</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="chap-git.html"><a href="chap-git.html#sec:git-cds"><i class="fa fa-check"></i><b>3.1.1</b> Contrôle de source</a></li>
+<li class="chapter" data-level="3.1.2" data-path="chap-git.html"><a href="chap-git.html#git-et-github"><i class="fa fa-check"></i><b>3.1.2</b> git et GitHub</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="chap-git.html"><a href="chap-git.html#créer-un-nouveau-dépôt"><i class="fa fa-check"></i><b>3.2</b> Créer un nouveau dépôt</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="chap-git.html"><a href="chap-git.html#a-partir-dun-projet-existant"><i class="fa fa-check"></i><b>3.2.1</b> A partir d’un projet existant</a></li>
+<li class="chapter" data-level="3.2.2" data-path="chap-git.html"><a href="chap-git.html#prendre-en-compte-des-fichiers"><i class="fa fa-check"></i><b>3.2.2</b> Prendre en compte des fichiers</a></li>
+<li class="chapter" data-level="3.2.3" data-path="chap-git.html"><a href="chap-git.html#valider-des-modifications"><i class="fa fa-check"></i><b>3.2.3</b> Valider des modifications</a></li>
+<li class="chapter" data-level="3.2.4" data-path="chap-git.html"><a href="chap-git.html#créer-un-dépôt-vide-sur-github"><i class="fa fa-check"></i><b>3.2.4</b> Créer un dépôt vide sur GitHub</a></li>
+<li class="chapter" data-level="3.2.5" data-path="chap-git.html"><a href="chap-git.html#lier-git-et-github"><i class="fa fa-check"></i><b>3.2.5</b> Lier git et GitHub</a></li>
+<li class="chapter" data-level="3.2.6" data-path="chap-git.html"><a href="chap-git.html#pousser-les-premières-modifications"><i class="fa fa-check"></i><b>3.2.6</b> Pousser les premières modifications</a></li>
+<li class="chapter" data-level="3.2.7" data-path="chap-git.html"><a href="chap-git.html#cloner-un-dépôt-de-github"><i class="fa fa-check"></i><b>3.2.7</b> Cloner un dépôt de GitHub</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="chap-git.html"><a href="chap-git.html#usage-courant"><i class="fa fa-check"></i><b>3.3</b> Usage courant</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="chap-git.html"><a href="chap-git.html#tirer-modifier-valider-pousser"><i class="fa fa-check"></i><b>3.3.1</b> Tirer, modifier, valider, pousser</a></li>
+<li class="chapter" data-level="3.3.2" data-path="chap-git.html"><a href="chap-git.html#régler-les-conflits"><i class="fa fa-check"></i><b>3.3.2</b> Régler les conflits</a></li>
+<li class="chapter" data-level="3.3.3" data-path="chap-git.html"><a href="chap-git.html#voir-les-différences"><i class="fa fa-check"></i><b>3.3.3</b> Voir les différences</a></li>
+<li class="chapter" data-level="3.3.4" data-path="chap-git.html"><a href="chap-git.html#revenir-en-arrière"><i class="fa fa-check"></i><b>3.3.4</b> Revenir en arrière</a></li>
+<li class="chapter" data-level="3.3.5" data-path="chap-git.html"><a href="chap-git.html#voir-lhistorique"><i class="fa fa-check"></i><b>3.3.5</b> Voir l’historique</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="chap-git.html"><a href="chap-git.html#sec:branches"><i class="fa fa-check"></i><b>3.4</b> Branches</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="chap-git.html"><a href="chap-git.html#créer-une-nouvelle-branche"><i class="fa fa-check"></i><b>3.4.1</b> Créer une nouvelle branche</a></li>
+<li class="chapter" data-level="3.4.2" data-path="chap-git.html"><a href="chap-git.html#changer-de-branche"><i class="fa fa-check"></i><b>3.4.2</b> Changer de branche</a></li>
+<li class="chapter" data-level="3.4.3" data-path="chap-git.html"><a href="chap-git.html#comportement-du-système-de-fichier"><i class="fa fa-check"></i><b>3.4.3</b> Comportement du système de fichier</a></li>
+<li class="chapter" data-level="3.4.4" data-path="chap-git.html"><a href="chap-git.html#fusionner-avec-merge"><i class="fa fa-check"></i><b>3.4.4</b> Fusionner avec <code>merge</code></a></li>
+<li class="chapter" data-level="3.4.5" data-path="chap-git.html"><a href="chap-git.html#fusionner-avec-une-requête-de-tirage"><i class="fa fa-check"></i><b>3.4.5</b> Fusionner avec une requête de tirage</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="chap-git.html"><a href="chap-git.html#usage-avancé"><i class="fa fa-check"></i><b>3.5</b> Usage avancé</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="chap-git.html"><a href="chap-git.html#commandes-de-git"><i class="fa fa-check"></i><b>3.5.1</b> Commandes de git</a></li>
+<li class="chapter" data-level="3.5.2" data-path="chap-git.html"><a href="chap-git.html#taille-dun-dépôt"><i class="fa fa-check"></i><b>3.5.2</b> Taille d’un dépôt</a></li>
+<li class="chapter" data-level="3.5.3" data-path="chap-git.html"><a href="chap-git.html#supprimer-un-dossier"><i class="fa fa-check"></i><b>3.5.3</b> Supprimer un dossier</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="chap-git.html"><a href="chap-git.html#sec:github-pages"><i class="fa fa-check"></i><b>3.6</b> Pages GitHub</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="chap-git.html"><a href="chap-git.html#activation"><i class="fa fa-check"></i><b>3.6.1</b> Activation</a></li>
+<li class="chapter" data-level="3.6.2" data-path="chap-git.html"><a href="chap-git.html#badges"><i class="fa fa-check"></i><b>3.6.2</b> Badges</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="chap-rediger.html"><a href="chap-rediger.html"><i class="fa fa-check"></i><b>4</b> Rédiger</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="chap-rediger.html"><a href="chap-rediger.html#bloc-note-markdown-r-notebook"><i class="fa fa-check"></i><b>4.1</b> Bloc-note Markdown (R Notebook)</a></li>
+<li class="chapter" data-level="4.2" data-path="chap-rediger.html"><a href="chap-rediger.html#modèles-r-markdown"><i class="fa fa-check"></i><b>4.2</b> Modèles R Markdown</a></li>
+<li class="chapter" data-level="4.3" data-path="chap-rediger.html"><a href="chap-rediger.html#memo-article-bookdown"><i class="fa fa-check"></i><b>4.3</b> Memo, article : bookdown</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:memo"><i class="fa fa-check"></i><b>4.3.1</b> Modèle Memo EcoFoG</a></li>
+<li class="chapter" data-level="4.3.2" data-path="chap-rediger.html"><a href="chap-rediger.html#autres-modèles"><i class="fa fa-check"></i><b>4.3.2</b> Autres modèles</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="chap-rediger.html"><a href="chap-rediger.html#présentation-ecofog-bookdown"><i class="fa fa-check"></i><b>4.4</b> Présentation EcoFoG : bookdown</a></li>
+<li class="chapter" data-level="4.5" data-path="chap-rediger.html"><a href="chap-rediger.html#ouvrage-ecofog-bookdown"><i class="fa fa-check"></i><b>4.5</b> Ouvrage EcoFoG : bookdown</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="chap-rediger.html"><a href="chap-rediger.html#créer-1"><i class="fa fa-check"></i><b>4.5.1</b> Créer</a></li>
+<li class="chapter" data-level="4.5.2" data-path="chap-rediger.html"><a href="chap-rediger.html#ecrire-1"><i class="fa fa-check"></i><b>4.5.2</b> Ecrire</a></li>
+<li class="chapter" data-level="4.5.3" data-path="chap-rediger.html"><a href="chap-rediger.html#tricoter-1"><i class="fa fa-check"></i><b>4.5.3</b> Tricoter</a></li>
+<li class="chapter" data-level="4.5.4" data-path="chap-rediger.html"><a href="chap-rediger.html#finitions"><i class="fa fa-check"></i><b>4.5.4</b> Finitions</a></li>
+<li class="chapter" data-level="4.5.5" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:rediger-ouvrage-ci"><i class="fa fa-check"></i><b>4.5.5</b> Intégration continue</a></li>
+<li class="chapter" data-level="4.5.6" data-path="chap-rediger.html"><a href="chap-rediger.html#google-analytics"><i class="fa fa-check"></i><b>4.5.6</b> Google Analytics</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="chap-rediger.html"><a href="chap-rediger.html#site-web-r-markdown"><i class="fa fa-check"></i><b>4.6</b> Site web R Markdown</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="chap-rediger.html"><a href="chap-rediger.html#modèle"><i class="fa fa-check"></i><b>4.6.1</b> Modèle</a></li>
+<li class="chapter" data-level="4.6.2" data-path="chap-rediger.html"><a href="chap-rediger.html#améliorations"><i class="fa fa-check"></i><b>4.6.2</b> Améliorations</a></li>
+<li class="chapter" data-level="4.6.3" data-path="chap-rediger.html"><a href="chap-rediger.html#contôle-de-source"><i class="fa fa-check"></i><b>4.6.3</b> Contôle de source</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:blogdown"><i class="fa fa-check"></i><b>4.7</b> Site web personnel : blogdown</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="chap-rediger.html"><a href="chap-rediger.html#installation-des-outils"><i class="fa fa-check"></i><b>4.7.1</b> Installation des outils</a></li>
+<li class="chapter" data-level="4.7.2" data-path="chap-rediger.html"><a href="chap-rediger.html#créer-2"><i class="fa fa-check"></i><b>4.7.2</b> Créer</a></li>
+<li class="chapter" data-level="4.7.3" data-path="chap-rediger.html"><a href="chap-rediger.html#site-personnel-sur-github"><i class="fa fa-check"></i><b>4.7.3</b> Site personnel sur GitHub</a></li>
+<li class="chapter" data-level="4.7.4" data-path="chap-rediger.html"><a href="chap-rediger.html#construction-du-site"><i class="fa fa-check"></i><b>4.7.4</b> Construction du site</a></li>
+<li class="chapter" data-level="4.7.5" data-path="chap-rediger.html"><a href="chap-rediger.html#site-multilingue"><i class="fa fa-check"></i><b>4.7.5</b> Site multilingue</a></li>
+<li class="chapter" data-level="4.7.6" data-path="chap-rediger.html"><a href="chap-rediger.html#paramétrer"><i class="fa fa-check"></i><b>4.7.6</b> Paramétrer</a></li>
+<li class="chapter" data-level="4.7.7" data-path="chap-rediger.html"><a href="chap-rediger.html#ecrire-2"><i class="fa fa-check"></i><b>4.7.7</b> Ecrire</a></li>
+<li class="chapter" data-level="4.7.8" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:rediger-web-ci"><i class="fa fa-check"></i><b>4.7.8</b> Intégration continue</a></li>
+<li class="chapter" data-level="4.7.9" data-path="chap-rediger.html"><a href="chap-rediger.html#mises-à-jour-1"><i class="fa fa-check"></i><b>4.7.9</b> Mises à jour</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="chap-rediger.html"><a href="chap-rediger.html#exportation-de-figures"><i class="fa fa-check"></i><b>4.8</b> Exportation de figures</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="chap-rediger.html"><a href="chap-rediger.html#formats-vectoriels-et-raster"><i class="fa fa-check"></i><b>4.8.1</b> Formats vectoriels et raster</a></li>
+<li class="chapter" data-level="4.8.2" data-path="chap-rediger.html"><a href="chap-rediger.html#fonctions"><i class="fa fa-check"></i><b>4.8.2</b> Fonctions</a></li>
+<li class="chapter" data-level="4.8.3" data-path="chap-rediger.html"><a href="chap-rediger.html#package-ragg"><i class="fa fa-check"></i><b>4.8.3</b> Package ragg</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="chap-package.html"><a href="chap-package.html"><i class="fa fa-check"></i><b>5</b> Package</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="chap-package.html"><a href="chap-package.html#premier-package"><i class="fa fa-check"></i><b>5.1</b> Premier package</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="chap-package.html"><a href="chap-package.html#création"><i class="fa fa-check"></i><b>5.1.1</b> Création</a></li>
+<li class="chapter" data-level="5.1.2" data-path="chap-package.html"><a href="chap-package.html#première-fonction"><i class="fa fa-check"></i><b>5.1.2</b> Première fonction</a></li>
+<li class="chapter" data-level="5.1.3" data-path="chap-package.html"><a href="chap-package.html#sec:package-cds"><i class="fa fa-check"></i><b>5.1.3</b> Contrôle de source</a></li>
+<li class="chapter" data-level="5.1.4" data-path="chap-package.html"><a href="chap-package.html#package.r"><i class="fa fa-check"></i><b>5.1.4</b> package.R</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="chap-package.html"><a href="chap-package.html#organisation-du-package"><i class="fa fa-check"></i><b>5.2</b> Organisation du package</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="chap-package.html"><a href="chap-package.html#sec:package-description"><i class="fa fa-check"></i><b>5.2.1</b> Fichier DESCRIPTION</a></li>
+<li class="chapter" data-level="5.2.2" data-path="chap-package.html"><a href="chap-package.html#fichier-news.md"><i class="fa fa-check"></i><b>5.2.2</b> Fichier NEWS.md</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="chap-package.html"><a href="chap-package.html#vignette-et-pkgdown"><i class="fa fa-check"></i><b>5.3</b> Vignette et pkgdown</a></li>
+<li class="chapter" data-level="5.4" data-path="chap-package.html"><a href="chap-package.html#code-spécifique-aux-packages"><i class="fa fa-check"></i><b>5.4</b> Code spécifique aux packages</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="chap-package.html"><a href="chap-package.html#importation-de-fonctions"><i class="fa fa-check"></i><b>5.4.1</b> Importation de fonctions</a></li>
+<li class="chapter" data-level="5.4.2" data-path="chap-package.html"><a href="chap-package.html#méthodes-s3"><i class="fa fa-check"></i><b>5.4.2</b> Méthodes S3</a></li>
+<li class="chapter" data-level="5.4.3" data-path="chap-package.html"><a href="chap-package.html#en-pratique"><i class="fa fa-check"></i><b>5.4.3</b> En pratique</a></li>
+<li class="chapter" data-level="5.4.4" data-path="chap-package.html"><a href="chap-package.html#code-c"><i class="fa fa-check"></i><b>5.4.4</b> Code C++</a></li>
+<li class="chapter" data-level="5.4.5" data-path="chap-package.html"><a href="chap-package.html#package-bien-rangé"><i class="fa fa-check"></i><b>5.4.5</b> Package bien rangé</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="chap-package.html"><a href="chap-package.html#bibliographie"><i class="fa fa-check"></i><b>5.5</b> Bibliographie</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="chap-package.html"><a href="chap-package.html#préparation"><i class="fa fa-check"></i><b>5.5.1</b> Préparation</a></li>
+<li class="chapter" data-level="5.5.2" data-path="chap-package.html"><a href="chap-package.html#citations"><i class="fa fa-check"></i><b>5.5.2</b> Citations</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="chap-package.html"><a href="chap-package.html#données"><i class="fa fa-check"></i><b>5.6</b> Données</a></li>
+<li class="chapter" data-level="5.7" data-path="chap-package.html"><a href="chap-package.html#tests-unitaires"><i class="fa fa-check"></i><b>5.7</b> Tests unitaires</a></li>
+<li class="chapter" data-level="5.8" data-path="chap-package.html"><a href="chap-package.html#fichier-.gitignore"><i class="fa fa-check"></i><b>5.8</b> Fichier .gitignore</a></li>
+<li class="chapter" data-level="5.9" data-path="chap-package.html"><a href="chap-package.html#sec:package-ci5"><i class="fa fa-check"></i><b>5.9</b> Intégration continue</a></li>
+<li class="chapter" data-level="5.10" data-path="chap-package.html"><a href="chap-package.html#cran"><i class="fa fa-check"></i><b>5.10</b> CRAN</a>
+<ul>
+<li class="chapter" data-level="5.10.1" data-path="chap-package.html"><a href="chap-package.html#test-du-package"><i class="fa fa-check"></i><b>5.10.1</b> Test du package</a></li>
+<li class="chapter" data-level="5.10.2" data-path="chap-package.html"><a href="chap-package.html#soumission"><i class="fa fa-check"></i><b>5.10.2</b> Soumission</a></li>
+<li class="chapter" data-level="5.10.3" data-path="chap-package.html"><a href="chap-package.html#maintenance"><i class="fa fa-check"></i><b>5.10.3</b> Maintenance</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chap-ci.html"><a href="chap-ci.html"><i class="fa fa-check"></i><b>6</b> Intégration continue</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chap-ci.html"><a href="chap-ci.html#outils"><i class="fa fa-check"></i><b>6.1</b> Outils</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="chap-ci.html"><a href="chap-ci.html#github-actions"><i class="fa fa-check"></i><b>6.1.1</b> GitHub Actions</a></li>
+<li class="chapter" data-level="6.1.2" data-path="chap-ci.html"><a href="chap-ci.html#codecov"><i class="fa fa-check"></i><b>6.1.2</b> Codecov</a></li>
+<li class="chapter" data-level="6.1.3" data-path="chap-ci.html"><a href="chap-ci.html#github-pages"><i class="fa fa-check"></i><b>6.1.3</b> GitHub Pages</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="chap-ci.html"><a href="chap-ci.html#principes"><i class="fa fa-check"></i><b>6.2</b> Principes</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="chap-ci.html"><a href="chap-ci.html#sec:pat"><i class="fa fa-check"></i><b>6.2.1</b> Obtention d’un jeton d’accès personnel</a></li>
+<li class="chapter" data-level="6.2.2" data-path="chap-ci.html"><a href="chap-ci.html#sec:secrets-ci"><i class="fa fa-check"></i><b>6.2.2</b> Secrets du projet</a></li>
+<li class="chapter" data-level="6.2.3" data-path="chap-ci.html"><a href="chap-ci.html#activation-du-dépôt-sur-codecov"><i class="fa fa-check"></i><b>6.2.3</b> Activation du dépôt sur CodeCov</a></li>
+<li class="chapter" data-level="6.2.4" data-path="chap-ci.html"><a href="chap-ci.html#scripter-les-actions-de-github"><i class="fa fa-check"></i><b>6.2.4</b> Scripter les actions de GitHub</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="chap-ci.html"><a href="chap-ci.html#modèles-de-scripts"><i class="fa fa-check"></i><b>6.3</b> Modèles de scripts</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="chap-ci.html"><a href="chap-ci.html#sec:ci-badges"><i class="fa fa-check"></i><b>6.3.1</b> Ajouter des badges</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chap-shiny.html"><a href="chap-shiny.html"><i class="fa fa-check"></i><b>7</b> Shiny</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chap-shiny.html"><a href="chap-shiny.html#première-application"><i class="fa fa-check"></i><b>7.1</b> Première application</a></li>
+<li class="chapter" data-level="7.2" data-path="chap-shiny.html"><a href="chap-shiny.html#application-plus-élaborée"><i class="fa fa-check"></i><b>7.2</b> Application plus élaborée</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="chap-shiny.html"><a href="chap-shiny.html#méthode-de-travail"><i class="fa fa-check"></i><b>7.2.1</b> Méthode de travail</a></li>
+<li class="chapter" data-level="7.2.2" data-path="chap-shiny.html"><a href="chap-shiny.html#exemple"><i class="fa fa-check"></i><b>7.2.2</b> Exemple</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chap-shiny.html"><a href="chap-shiny.html#sec:hebergement-shiny"><i class="fa fa-check"></i><b>7.3</b> Hébergement</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chap-enseigner.html"><a href="chap-enseigner.html"><i class="fa fa-check"></i><b>8</b> Enseigner avec R</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="chap-enseigner.html"><a href="chap-enseigner.html#learnr"><i class="fa fa-check"></i><b>8.1</b> learnr</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="chap-enseigner.html"><a href="chap-enseigner.html#premier-tutoriel"><i class="fa fa-check"></i><b>8.1.1</b> Premier tutoriel</a></li>
+<li class="chapter" data-level="8.1.2" data-path="chap-enseigner.html"><a href="chap-enseigner.html#diffusion"><i class="fa fa-check"></i><b>8.1.2</b> Diffusion</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="chap-enseigner.html"><a href="chap-enseigner.html#github-classrooms"><i class="fa fa-check"></i><b>8.2</b> GitHub Classrooms</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="chap-enseigner.html"><a href="chap-enseigner.html#inscription"><i class="fa fa-check"></i><b>8.2.1</b> Inscription</a></li>
+<li class="chapter" data-level="8.2.2" data-path="chap-enseigner.html"><a href="chap-enseigner.html#organisations"><i class="fa fa-check"></i><b>8.2.2</b> Organisations</a></li>
+<li class="chapter" data-level="8.2.3" data-path="chap-enseigner.html"><a href="chap-enseigner.html#nouvelle-salle-de-classe"><i class="fa fa-check"></i><b>8.2.3</b> Nouvelle salle de classe</a></li>
+<li class="chapter" data-level="8.2.4" data-path="chap-enseigner.html"><a href="chap-enseigner.html#préparer-un-modèle-de-dépôt"><i class="fa fa-check"></i><b>8.2.4</b> Préparer un modèle de dépôt</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="chap-conclusion.html"><a href="chap-conclusion.html"><i class="fa fa-check"></i><b>9</b> Conclusion</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/EricMarcon/travailleR" target="blank">Hébergé sur GitHub, publié par bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Travailler avec R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chap:shiny" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Shiny</h1>
+<p>Shiny permet de publier sous la forme d’un site web une application interactive utilisant du code R.
+Le site peut fonctionner localement, sur le poste de travail d’un utilisateur qui le lance à partir de RStudio, ou en ligne, sur un serveur dédié exécutant Shiny Server<a href="#fn97" class="footnote-ref" id="fnref97"><sup>97</sup></a>.</p>
+<p>De façon basique, un formulaire permet de saisir les arguments d’un fonction et une fenêtre de visualisation d’afficher les résultats du calcul.</p>
+<p>L’utilisation d’une application Shiny rend très simple l’exécution du code, y compris pour des utilisateurs étrangers à R, mais limite évidemment les possibilités.</p>
+<div id="première-application" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Première application</h2>
+<p>Dans RStudio, créer une application avec le menu “File &gt; New File &gt; Shiny Web App…”, saisir le nom de l’application “MonAppShiny” et sélectionner le dossier où la placer.</p>
+<p>Le nom de l’application a servi à créer un dossier qu’il faut maintenant transformer en projet (menu des projets en haut à droite de RStudio, “New Project &gt; Existing Directory”, sélectionner le dossier de l’application).</p>
+<p>Le fichier de l’application nommé <code>app.R</code> contient deux fonctions: <code>ui()</code> qui définit l’interface graphique et <code>server()</code> qui contient le code R à exécuter.
+L’application peut être lancée en cliquant sur “Run App” dans la fenêtre du code.</p>
+
+<p></p>
+<div class="figure" style="text-align: center"><span id="fig:shiny-geiser"></span>
+<img src="images/shiny-geiser.png" alt="Application Shiny Old Faithful Geyser Data." width="80%" />
+<p class="caption">
+Figure 7.1: Application Shiny <em>Old Faithful Geyser Data</em>.
+</p>
+</div>
+<p></p>
+<p>La correspondance entre la fenêtre affichée (figure <a href="chap-shiny.html#fig:shiny-geiser">7.1</a>) et le code de la fonction <code>ui()</code> est simple à voir:</p>
+<ul>
+<li>le titre de l’application est affiché par la fonction <code>titlePanel()</code>;</li>
+<li>le curseur qui fixe le nombre de barres de l’histogramme est créé par <code>sliderInput()</code>;</li>
+<li>la fonction <code>sidebarLayout()</code> fixe la disposition des éléments de la page, <code>sidebarPanel</code> pour les contrôles de saisie et <code>mainPanel()</code> pour l’affichage du résultat.</li>
+</ul>
+<p>Le résultat est affiché par la fonction <code>plotOutput()</code> dont l’argument est le nom d’un élément de <code>output</code>, la variable remplie par la fonction <code>server()</code>.</p>
+<p>Toute modification d’un élément de l’interface, précisément d’un élément affiché par une fonction dont le nom se termine par <code>Input()</code> (il en existe pour tous les types d’entrées, par exemple <code>textInput()</code>) de <strong>Shiny</strong> provoque l’exécution de <code>server()</code> et la mise à jour des éléments de <code>output</code>.</p>
+</div>
+<div id="application-plus-élaborée" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Application plus élaborée</h2>
+<div id="méthode-de-travail" class="section level3" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Méthode de travail</h3>
+<p>Une application est créée en choisissant:</p>
+<ul>
+<li>une disposition de la fenêtre (<em>layout</em>);</li>
+<li>les contrôles de saisie des paramètres (<em>intput</em>);</li>
+<li>les contrôles d’affichage des résultats (<em>output</em>).</li>
+</ul>
+<p>Le code pour traiter les entrées et produire les sorties est ensuite écrit dans <code>server()</code>.</p>
+<p>Le tutoriel de RStudio<a href="#fn98" class="footnote-ref" id="fnref98"><sup>98</sup></a> est très détaillé et doit être utilisé pour aller plus loin.</p>
+</div>
+<div id="exemple" class="section level3" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Exemple</h3>
+<p>Cette application simple utilise le package <strong>scholar</strong> pour interroger Google Scholar et obtenir les données bibliométriques d’un auteur à partir de son identifiant.</p>
+<p>Le fichier <code>app.R</code> contient tout le code et est construit progressivement ici.
+L’application complète, avec des sorties graphiques en plus de sa version simplifiée présentée ici est disponible sur GitHub<a href="#fn99" class="footnote-ref" id="fnref99"><sup>99</sup></a>.</p>
+<p>Le début du code consiste à préparer l’exécution de l’application en chargeant les packages nécessaires:</p>
+<p></p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="chap-shiny.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the application ####</span></span>
+<span id="cb380-2"><a href="chap-shiny.html#cb380-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb380-3"><a href="chap-shiny.html#cb380-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;shiny&quot;</span>)</span>
+<span id="cb380-4"><a href="chap-shiny.html#cb380-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<p></p>
+<p>Le code de l’application complète intègre une foncion pour installer les packages manquants, à n’exécuter que quand l’application est exécutée sur un poste de travail (sur un serveur, la gestion des packages n’est pas du ressort de l’application).</p>
+<p>L’interface utilisateur est la suivante:</p>
+<p></p>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="chap-shiny.html#cb381-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UI ####</span></span>
+<span id="cb381-2"><a href="chap-shiny.html#cb381-2" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb381-3"><a href="chap-shiny.html#cb381-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Application title</span></span>
+<span id="cb381-4"><a href="chap-shiny.html#cb381-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">&quot;Bibliometrics&quot;</span>),</span>
+<span id="cb381-5"><a href="chap-shiny.html#cb381-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb381-6"><a href="chap-shiny.html#cb381-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb381-7"><a href="chap-shiny.html#cb381-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb381-8"><a href="chap-shiny.html#cb381-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">helpText</span>(<span class="st">&quot;Enter the Google Scholar ID of an author.&quot;</span>),</span>
+<span id="cb381-9"><a href="chap-shiny.html#cb381-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">textInput</span>(<span class="st">&quot;AuthorID&quot;</span>, <span class="st">&quot;Google Scholar ID&quot;</span>, <span class="st">&quot;4iLBmbUAAAAJ&quot;</span>),</span>
+<span id="cb381-10"><a href="chap-shiny.html#cb381-10" aria-hidden="true" tabindex="-1"></a>      <span class="co"># End of input</span></span>
+<span id="cb381-11"><a href="chap-shiny.html#cb381-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">br</span>(),</span>
+<span id="cb381-12"><a href="chap-shiny.html#cb381-12" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Display author&#39;s name and h</span></span>
+<span id="cb381-13"><a href="chap-shiny.html#cb381-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">uiOutput</span>(<span class="st">&quot;name&quot;</span>),</span>
+<span id="cb381-14"><a href="chap-shiny.html#cb381-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">uiOutput</span>(<span class="st">&quot;h&quot;</span>)</span>
+<span id="cb381-15"><a href="chap-shiny.html#cb381-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb381-16"><a href="chap-shiny.html#cb381-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show plots in the main panel</span></span>
+<span id="cb381-17"><a href="chap-shiny.html#cb381-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb381-18"><a href="chap-shiny.html#cb381-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotOutput</span>(<span class="st">&quot;network&quot;</span>),</span>
+<span id="cb381-19"><a href="chap-shiny.html#cb381-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotOutput</span>(<span class="st">&quot;citations&quot;</span>)</span>
+<span id="cb381-20"><a href="chap-shiny.html#cb381-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb381-21"><a href="chap-shiny.html#cb381-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb381-22"><a href="chap-shiny.html#cb381-22" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p></p>
+<p>La fenêtre de l’application est fluide, c’est-à-dire qu’elle se réorganise seule quand sa taille varie, et est composée d’un panneau latéral (pour la saisie et l’affichage de texte) et d’un panneau principal, pour l’affichage de graphiques.</p>
+<p>Les éléments du panneau latéral sont:</p>
+<ul>
+<li>un texte d’aide: <code>helpText()</code>;</li>
+<li>un champ de texte à saisir, <code>textInput()</code>, dont les arguments sont le nom, le texte affiché, et la valeur par défaut (l’identifiant d’un auteur);</li>
+<li>un saut de ligne: <code>br()</code>;</li>
+<li>des contrôles de sortie au format HTML: <code>uiOutput()</code>, dont l’argument unique est le nom.</li>
+</ul>
+<p>Le panneau principal contient deux contrôles de sortie graphiques, <code>plotOutput()</code> dont l’argument est aussi le nom.</p>
+<p>Le code à exécuter pour traiter les entrées et produire les sorties est dans la fonction <code>server()</code>.</p>
+<p></p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="chap-shiny.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Server logic ####</span></span>
+<span id="cb382-2"><a href="chap-shiny.html#cb382-2" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb382-3"><a href="chap-shiny.html#cb382-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Run the get_profile function only once ####</span></span>
+<span id="cb382-4"><a href="chap-shiny.html#cb382-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Store the author profile</span></span>
+<span id="cb382-5"><a href="chap-shiny.html#cb382-5" aria-hidden="true" tabindex="-1"></a>  AuthorProfile <span class="ot">&lt;-</span> <span class="fu">reactiveVal</span>()</span>
+<span id="cb382-6"><a href="chap-shiny.html#cb382-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Update it when input$AuthorID is changed</span></span>
+<span id="cb382-7"><a href="chap-shiny.html#cb382-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>AuthorID, </span>
+<span id="cb382-8"><a href="chap-shiny.html#cb382-8" aria-hidden="true" tabindex="-1"></a>               <span class="fu">AuthorProfile</span>(<span class="fu">get_profile</span>(input<span class="sc">$</span>AuthorID)))</span>
+<span id="cb382-9"><a href="chap-shiny.html#cb382-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb382-10"><a href="chap-shiny.html#cb382-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Output ####</span></span>
+<span id="cb382-11"><a href="chap-shiny.html#cb382-11" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb382-12"><a href="chap-shiny.html#cb382-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">h2</span>(<span class="fu">AuthorProfile</span>()<span class="sc">$</span>name)</span>
+<span id="cb382-13"><a href="chap-shiny.html#cb382-13" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb382-14"><a href="chap-shiny.html#cb382-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb382-15"><a href="chap-shiny.html#cb382-15" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>h <span class="ot">&lt;-</span></span>
+<span id="cb382-16"><a href="chap-shiny.html#cb382-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">renderUI</span>({</span>
+<span id="cb382-17"><a href="chap-shiny.html#cb382-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">a</span>(<span class="at">href =</span> <span class="fu">paste0</span>(</span>
+<span id="cb382-18"><a href="chap-shiny.html#cb382-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;https://scholar.google.com/citations?user=&quot;</span>, </span>
+<span id="cb382-19"><a href="chap-shiny.html#cb382-19" aria-hidden="true" tabindex="-1"></a>        input<span class="sc">$</span>AuthorID),</span>
+<span id="cb382-20"><a href="chap-shiny.html#cb382-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste</span>(<span class="st">&quot;h index:&quot;</span>, <span class="fu">AuthorProfile</span>()<span class="sc">$</span>h_index),</span>
+<span id="cb382-21"><a href="chap-shiny.html#cb382-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">target =</span> <span class="st">&quot;_blank&quot;</span></span>
+<span id="cb382-22"><a href="chap-shiny.html#cb382-22" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb382-23"><a href="chap-shiny.html#cb382-23" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb382-24"><a href="chap-shiny.html#cb382-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb382-25"><a href="chap-shiny.html#cb382-25" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>citations <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb382-26"><a href="chap-shiny.html#cb382-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_citation_history</span>(input<span class="sc">$</span>AuthorID)  <span class="sc">%&gt;%</span></span>
+<span id="cb382-27"><a href="chap-shiny.html#cb382-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(year, cites)) <span class="sc">+</span></span>
+<span id="cb382-28"><a href="chap-shiny.html#cb382-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> year, <span class="at">yend =</span> <span class="dv">0</span>),</span>
+<span id="cb382-29"><a href="chap-shiny.html#cb382-29" aria-hidden="true" tabindex="-1"></a>                   <span class="at">size =</span> <span class="dv">1</span>,</span>
+<span id="cb382-30"><a href="chap-shiny.html#cb382-30" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span></span>
+<span id="cb382-31"><a href="chap-shiny.html#cb382-31" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&#39;darkgrey&#39;</span>) <span class="sc">+</span></span>
+<span id="cb382-32"><a href="chap-shiny.html#cb382-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">&#39;firebrick&#39;</span>) <span class="sc">+</span></span>
+<span id="cb382-33"><a href="chap-shiny.html#cb382-33" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Citations per year&quot;</span>,</span>
+<span id="cb382-34"><a href="chap-shiny.html#cb382-34" aria-hidden="true" tabindex="-1"></a>           <span class="at">caption =</span> <span class="st">&quot;Source: Google Scholar&quot;</span>)</span>
+<span id="cb382-35"><a href="chap-shiny.html#cb382-35" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb382-36"><a href="chap-shiny.html#cb382-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb382-37"><a href="chap-shiny.html#cb382-37" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>network <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb382-38"><a href="chap-shiny.html#cb382-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_blank</span>()</span>
+<span id="cb382-39"><a href="chap-shiny.html#cb382-39" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb382-40"><a href="chap-shiny.html#cb382-40" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p></p>
+<p>Les informations nécessaires aux champs de sortie <code>$name</code> et <code>$h</code> (nom de l’auteur et indice h) sont obtenus par la fonction <code>get_profile()</code> du package <strong>scholar</strong>.
+Cette fonction effectue interroge la page web Google Scholar de l’auteur et extrait les valeurs du résultat: c’est une traitement lourd, qu’il vaut mieux n’exécuter qu’une seule fois plutôt que deux, dans les fonctions <code>renderUI()</code> chargées de calculer les valeurs de <code>output$h</code> et <code>output$name</code>.</p>
+<p>Le code le plus simple pour le faire serait le suivant:</p>
+<p></p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="chap-shiny.html#cb383-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the get_profile function only once #### Store the</span></span>
+<span id="cb383-2"><a href="chap-shiny.html#cb383-2" aria-hidden="true" tabindex="-1"></a><span class="co"># author profile</span></span>
+<span id="cb383-3"><a href="chap-shiny.html#cb383-3" aria-hidden="true" tabindex="-1"></a>AuthorProfile <span class="ot">&lt;-</span> <span class="fu">get_profile</span>(input<span class="sc">$</span>AuthorID)</span></code></pre></div>
+<p></p>
+<p>La difficulté de la programmation d’une application Shiny est que tout calcul se référant à un élément de l’interface d’entrée doit être <em>réactif</em>.
+Si ce dernier code était exécuté, le message d’erreur suivant apparaît:
+“Operation not allowed without an active reactive context. (You tried to do something that can only be done from inside a reactive expression or observer.)”.</p>
+<p>En pratique, l’exécution du code est lancée par la modification d’un contrôle d’entrée (ici: <code>intput$AuthorID</code>).
+Le code faisant référence à un de ces contrôles doit être en permanence en attente d’une modification: il doit donc placé dans des fonctions particulières comme <code>renderPlot</code> dans l’application <em>Old Faithful Geyser Data</em> ou <code>renderUI()</code> ici.
+Le code suivant s’exécuterait sans erreur:</p>
+<p></p>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="chap-shiny.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output ####</span></span>
+<span id="cb384-2"><a href="chap-shiny.html#cb384-2" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb384-3"><a href="chap-shiny.html#cb384-3" aria-hidden="true" tabindex="-1"></a>    AuthorProfile <span class="ot">&lt;-</span> <span class="fu">get_profile</span>(input<span class="sc">$</span>AuthorID)</span>
+<span id="cb384-4"><a href="chap-shiny.html#cb384-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">h2</span>(AuthorProfile<span class="sc">$</span>name)</span>
+<span id="cb384-5"><a href="chap-shiny.html#cb384-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<p></p>
+<p>L’appel à la valeur du contrôle <code>input$AuthorID</code> a bien lieu dans une fonction réactive (mais <code>get_profile()</code> devrait être utilisé une deuxième fois dans le calcul de <code>output$h</code>, ce que nous voulons éviter).
+La fonction <code>h2(AuthorProfile$name)</code> produit du code HTML, un paragraphe de titre de niveau 2 dont la valeur est passée en argument.</p>
+<p>Toutes les fonctions dont le nom commence par <code>render</code> dans le package <strong>shiny</strong> sont réactives, et chacune est destinée à produire un type de sortie différent, par exemple du texte (<code>renderText()</code>) ou du code HTML (<code>renderUI()</code>).</p>
+<p>Si du code est nécessaire pour calculer des variables communes à plusieurs contrôles de sortie (<code>output$name</code> et <code>output$h</code>), il doit lui-même être réactif.
+Deux fonctions sont très utiles:</p>
+<ul>
+<li><code>observeEvent()</code> surveille les changements d’un contrôle d’entrée et exécute du code quand ils se produisent;</li>
+<li><code>reactiveVal()</code> permet de définir une variable réactive, qui sera modifiée par le code de <code>observeEvent()</code> et entraînera à son tour l’exécution d’autres fonctions réactives qui utilisent sa valeur.</li>
+</ul>
+<p>Le code optimal crée donc une variable réactive pour y stocker le résultat de l’interrogation de Google Scholar</p>
+<p></p>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="chap-shiny.html#cb385-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the author profile</span></span>
+<span id="cb385-2"><a href="chap-shiny.html#cb385-2" aria-hidden="true" tabindex="-1"></a>AuthorProfile <span class="ot">&lt;-</span> <span class="fu">reactiveVal</span>()</span></code></pre></div>
+<p></p>
+<p>La variable réactive est vide à ce stade.
+Son utilisation est ensuite celle d’une fonction: <code>AuthorProfile(x)</code> lui attribue la valeur <code>x</code> et <code>AuthorProfile()</code>, sans argument, renvoie sa valeur.
+La fonction <code>observeEvent()</code> est déclenchée quand <code>input$AuthorID</code> est modifié et exécute le code passé en deuxième argument, ici la mise à jour de <code>AuthorProfile</code>.</p>
+<p></p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="chap-shiny.html#cb386-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Update it when input$AuthorID is changed</span></span>
+<span id="cb386-2"><a href="chap-shiny.html#cb386-2" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>AuthorID, <span class="fu">AuthorProfile</span>(<span class="fu">get_profile</span>(input<span class="sc">$</span>AuthorID)))</span></code></pre></div>
+<p></p>
+<p>Enfin, les fonctions <code>renderUI()</code> qui fournissent les valeurs des contrôles de sortie utilisent la valeur de <code>AuthorProfile</code>:</p>
+<p></p>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="chap-shiny.html#cb387-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output ####</span></span>
+<span id="cb387-2"><a href="chap-shiny.html#cb387-2" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb387-3"><a href="chap-shiny.html#cb387-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">h2</span>(<span class="fu">AuthorProfile</span>()<span class="sc">$</span>name)</span>
+<span id="cb387-4"><a href="chap-shiny.html#cb387-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<p></p>
+<p>Remarquer les parenthèses de <code>AuthorProfile()</code>, variable réactive, par opposition à la syntaxe <code>AuthorProfile$name</code> pour une variable classique.</p>
+<p>La valeur de <code>output$h</code> est un lien internet, <code>&lt;a href=...</code> en HTML, écrit par la fonction <code>a()</code> du package <strong>htmltools</strong> utilisé par <code>renderUI()</code>.</p>
+<p></p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="chap-shiny.html#cb388-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>h <span class="ot">&lt;-</span> <span class="fu">renderUI</span>({</span>
+<span id="cb388-2"><a href="chap-shiny.html#cb388-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">a</span>(<span class="at">href =</span> <span class="fu">paste0</span>(<span class="st">&quot;https://scholar.google.com/citations?user=&quot;</span>, </span>
+<span id="cb388-3"><a href="chap-shiny.html#cb388-3" aria-hidden="true" tabindex="-1"></a>        input<span class="sc">$</span>AuthorID), <span class="fu">paste</span>(<span class="st">&quot;h index:&quot;</span>, <span class="fu">AuthorProfile</span>()<span class="sc">$</span>h_index), </span>
+<span id="cb388-4"><a href="chap-shiny.html#cb388-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">target =</span> <span class="st">&quot;_blank&quot;</span>)</span>
+<span id="cb388-5"><a href="chap-shiny.html#cb388-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<p></p>
+<p>Le lien est vers la page Google Scholar de l’auteur.
+La valeur affichée est son indice h.
+L’argument <code>target = "_blank"</code> indique que le lien doit être ouvert dans une nouvelle fenêtre du navigateur.</p>
+<p>Le graphique <code>output$citations</code> est créé par la fonction réactive <code>renderPlot()</code>.
+Les données fournies par la fonction <code>get_citation_history()</code> de <strong>scholar</strong> (qui interroge l’API de Google Scholar) sont traitées par <code>ggplot()</code>.</p>
+<p>Enfin, le graphique <code>output$network</code> est un graphique vide dans cette version simplifiée de l’application.</p>
+<p>L’application complète reprend ce code en y ajoutant le traitement des erreurs dans le cas où le code de l’auteur n’existe par sur Google Scholar et le graphique du réseau des co-auteurs.</p>
+</div>
+</div>
+<div id="sec:hebergement-shiny" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Hébergement</h2>
+<p>Une application Shiny n’est pas forcément hébergée par un serveur web: elle peut être exécutée sur les postes de travail des utilisateurs s’ils disposent de R.</p>
+<p>Pour un usage plus large, un serveur dédié est nécessaire.
+Shinyapps.io<a href="#fn100" class="footnote-ref" id="fnref100"><sup>100</sup></a> est un service de RStudio qui permet d’héberger gratuitement 5 applications Shiny avec un temps de fonctionnement maximal de 5 heures par mois.</p>
+<p>Il faut tout d’abord ouvrir un compte sur le site, de préférence avec ses identifiants GitHub.
+Pour permettre la gestion des applications en ligne directement depuis RStudio, il faut installer ensuite le package <strong>rsconnect</strong> et le paramétrer:</p>
+<p></p>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="chap-shiny.html#cb389-1" aria-hidden="true" tabindex="-1"></a>rsconnect<span class="sc">::</span><span class="fu">setAccountInfo</span>(<span class="at">name =</span> <span class="st">&quot;prenom.nom&quot;</span>, <span class="at">token =</span> <span class="st">&quot;xxx&quot;</span>, </span>
+<span id="cb389-2"><a href="chap-shiny.html#cb389-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">secret =</span> <span class="st">&quot;&lt;SECRET&gt;&quot;</span>)</span></code></pre></div>
+<p></p>
+<p>Le code exact, avec le nom d’uilisateur et le jeton à utiliser, sont affichés sur la page d’accueil de Shinyapps.io: cliquer sur “Show Secret”, copier le code et le coller dans la console de RStudio pour l’exécuter.
+Un bouton <em>Publish</em> est disponible juste à droite du bouton <em>Run App</em>.
+Cliquer dessus et valider la publication (figure <a href="chap-shiny.html#fig:shiny-publish">7.2</a>).</p>
+
+<p></p>
+<div class="figure" style="text-align: center"><span id="fig:shiny-publish"></span>
+<img src="images/shiny-publish.png" alt="Application Shiny Old Faithful Geyser Data." width="80%" />
+<p class="caption">
+Figure 7.2: Application Shiny <em>Old Faithful Geyser Data</em>.
+</p>
+</div>
+<p></p>
+<p>L’application est maintenant accessible à l’adresse <a href="https://prenom-nom.shinyapps.io/MonAppShiny/" class="uri">https://prenom-nom.shinyapps.io/MonAppShiny/</a></p>
+<p>L’application “Bibliometrics” ne fonctionne pas sur Shinyapps.io parce que la façon dont le package <strong>Scholar</strong> interroge Google Scholar n’est pas supportée.
+La plupart des applications Shiny fonctionnent sans difficulté, tant qu’elles ne nécessitent pas de fonctionnalités réseau complexes.</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="97">
+<li id="fn97"><p><a href="https://rstudio.com/products/shiny/download-server/" class="uri">https://rstudio.com/products/shiny/download-server/</a><a href="chap-shiny.html#fnref97" class="footnote-back">↩︎</a></p></li>
+<li id="fn98"><p><a href="https://shiny.rstudio.com/tutorial/" class="uri">https://shiny.rstudio.com/tutorial/</a><a href="chap-shiny.html#fnref98" class="footnote-back">↩︎</a></p></li>
+<li id="fn99"><p><a href="https://github.com/EricMarcon/bibliometrics" class="uri">https://github.com/EricMarcon/bibliometrics</a><a href="chap-shiny.html#fnref99" class="footnote-back">↩︎</a></p></li>
+<li id="fn100"><p><a href="https://www.shinyapps.io/" class="uri">https://www.shinyapps.io/</a><a href="chap-shiny.html#fnref100" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chap-ci.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chap-enseigner.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["travailleR.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
