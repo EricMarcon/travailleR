@@ -374,8 +374,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="chap-ci.html"><a href="chap-ci.html#modèles-de-scripts"><i class="fa fa-check"></i><b>6.3</b> Modèles de scripts</a>
 <ul>
-<li class="chapter" data-level="6.3.1" data-path="chap-ci.html"><a href="chap-ci.html#sec:ci-badges"><i class="fa fa-check"></i><b>6.3.1</b> Ajouter des badges</a></li>
+<li class="chapter" data-level="6.3.1" data-path="chap-ci.html"><a href="chap-ci.html#sec:bookdown-ci"><i class="fa fa-check"></i><b>6.3.1</b> Projet d’ouvrage</a></li>
+<li class="chapter" data-level="6.3.2" data-path="chap-ci.html"><a href="chap-ci.html#sec:blogdown-ci"><i class="fa fa-check"></i><b>6.3.2</b> Site web blogdown</a></li>
+<li class="chapter" data-level="6.3.3" data-path="chap-ci.html"><a href="chap-ci.html#sec:package-ci6"><i class="fa fa-check"></i><b>6.3.3</b> Packages R</a></li>
 </ul></li>
+<li class="chapter" data-level="6.4" data-path="chap-ci.html"><a href="chap-ci.html#sec:ci-badges"><i class="fa fa-check"></i><b>6.4</b> Ajouter des badges</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="chap-shiny.html"><a href="chap-shiny.html"><i class="fa fa-check"></i><b>7</b> Shiny</a>
 <ul>
@@ -816,7 +819,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="chap-package.html#cb296-1" aria-hidden="true" tabindex="-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7fedf193eb58&gt;
+## &lt;bytecode: 0x7ffa752160e8&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -954,9 +957,9 @@ Dans sa version réelle, 3 est noté <code>3.0</code> pour montrer clairement qu
 <span id="cb324-3"><a href="chap-package.html#cb324-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
 ##                expr  min     lq     mean median     uq     max neval
-##  triple.integer(2L)  307  324.0 20861.63    328  360.0 2050088   100
-##   triple.numeric(2)  307  321.5 17834.16    333  354.0 1749173   100
-##          triple(2L) 1305 1342.0  1468.27   1356 1423.5    6377   100</code></pre>
+##  triple.integer(2L)  310  325.0 21153.18  335.5  360.0 2079031   100
+##   triple.numeric(2)  309  316.5 18986.19  331.0  355.0 1863732   100
+##          triple(2L) 1386 1407.0  1560.49 1426.5 1492.5    6854   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> montre que la fonction <code>triple.integer()</code> est légèrement plus rapide que <code>triple.numeric</code> comme attendu mais que la méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
 R teste en effet l’existence de fonctions correspondant à la classe de l’objet passé en argument aux méthodes génériques.
@@ -1385,7 +1388,7 @@ Elle est commentée tant que la production du site est réalisée localement, ma
 Elle peut être automatisée très simplement avec le service GitHub Actions, déclenché à chaque modification du dépôt sur GitHub.
 L’analyse de la couverture du code par les tests (quelles parties du codes sont testées ou non) sera ajoutée.</p>
 <p>GitHub est également capable de reconstruire la documentation du package avec <strong>pkgdown</strong>, autre opération consommatrice de ressources, après la réussite des tests.</p>
-<p>La section <a href="chap-ci.html#sec:package-ci6">6.3.0.3</a> détaille le moyen de le faire.</p>
+<p>La section <a href="chap-ci.html#sec:package-ci6">6.3.3</a> détaille le moyen de le faire.</p>
 </div>
 <div id="cran" class="section level2" number="5.10">
 <h2><span class="header-section-number">5.10</span> CRAN</h2>
