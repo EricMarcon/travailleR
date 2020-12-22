@@ -23,7 +23,9 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Render book
-        run: bookdown::render_book("index.Rmd", quiet = TRUE)
+        run: |
+          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
+          bookdown::render_book("index.Rmd", "bookdown::gitbook")
         shell: Rscript {0}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
