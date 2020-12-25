@@ -204,7 +204,7 @@
 \author{Eric Marcon}
 
 
-\date{2020-12-22}
+\date{2020-12-25}
 
 
 % Main title page with filigrane
@@ -994,7 +994,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7ffa75eaabb0>
+## <bytecode: 0x7f96ddb0efb0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1468,7 +1468,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7ffa80ae4340>
+## <environment: 0x7f96e5c582e0>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1540,7 +1540,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7ffa811d1be0>
+## <bytecode: 0x7f96e9c69c10>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1722,7 +1722,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.021   0.001   0.023
+##   0.020   0.000   0.022
 \end{verbatim}
 
 \normalsize
@@ -1754,10 +1754,10 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq      max neval
-##  f1(X)  36.105  37.4940  51.19189  38.4370  39.7120 1251.140   100
-##  f2(X)  46.052  47.5935  61.41815  48.5130  50.1595 1200.504   100
-##  f3(X) 268.930 270.2690 283.86002 270.9125 272.8655 1436.373   100
-##  f4(X) 399.725 401.0580 417.90711 402.2365 406.5795 1804.751   100
+##  f1(X)  36.177  38.0200  71.94909  39.6150  46.4390 1274.901   100
+##  f2(X)  45.650  47.6730  71.20558  49.1275  53.7230 1298.309   100
+##  f3(X) 268.560 270.7875 348.96494 276.3525 317.5860 1532.537   100
+##  f4(X) 399.256 401.1815 489.66734 404.3505 428.1445 1945.793   100
 \end{verbatim}
 
 \normalsize
@@ -1780,10 +1780,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  38.4370
-## 2 f2(X)  48.5130
-## 3 f3(X) 270.9125
-## 4 f4(X) 402.2365
+## 1 f1(X)  39.6150
+## 2 f2(X)  49.1275
+## 3 f3(X) 276.3525
+## 4 f4(X) 404.3505
 \end{verbatim}
 
 \normalsize
@@ -1813,10 +1813,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  38.4370
-## 2 f2(X)  48.5130
-## 3 f3(X) 270.9125
-## 4 f4(X) 402.2365
+## 1 f1(X)  39.6150
+## 2 f2(X)  49.1275
+## 3 f3(X) 276.3525
+## 4 f4(X) 404.3505
 \end{verbatim}
 
 \normalsize
@@ -1943,7 +1943,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7ffa63663a18>
+## <bytecode: 0x7f96ca9595b8>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -1996,10 +1996,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.7055
-## 2                lapply(x1, FUN = sqrt) 302.2040
-## 3                sapply(x1, FUN = sqrt) 357.8130
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 302.1540
+## 1                              sqrt(x1)   4.8190
+## 2                lapply(x1, FUN = sqrt) 301.6095
+## 3                sapply(x1, FUN = sqrt) 356.8680
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 302.6605
 \end{verbatim}
 
 \normalsize
@@ -2051,9 +2051,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr   median
-## 1  Boucle(x1) 780.3845
-## 2 Boucle2(x1)  80.3845
+##          expr  median
+## 1  Boucle(x1) 798.056
+## 2 Boucle2(x1)  80.989
 \end{verbatim}
 
 \begin{Shaded}
@@ -2085,8 +2085,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{lapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 296.4825
-## 2                Boucle(x1)  79.8925
+## 1 vapply(x1, FUN = sqrt, 0) 303.5015
+## 2                Boucle(x1)  80.7655
 \end{verbatim}
 
 \normalsize
@@ -2109,8 +2109,8 @@ Attention, le test de performance peut être trompeur:
 
 \begin{verbatim}
 ##                                               expr    median
-## 1                        vapply(x1, FUN = sqrt, 0)  308.4585
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3330.4635
+## 1                        vapply(x1, FUN = sqrt, 0)  300.7835
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3171.8375
 \end{verbatim}
 
 \normalsize
@@ -2177,8 +2177,8 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 
 \begin{verbatim}
 ##                        expr    median
-## 1 replicate(1000, runif(1)) 2685.3320
-## 2               runif(1000)   32.8165
+## 1 replicate(1000, runif(1)) 2924.4365
+## 2               runif(1000)   32.9705
 \end{verbatim}
 
 \normalsize
@@ -2216,9 +2216,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.141014
-## 2 apply(diamonds[-(2:4)], 2, sum) 7.874215
-## 3       colSums(diamonds[-(2:4)]) 2.434920
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.100512
+## 2 apply(diamonds[-(2:4)], 2, sum) 7.876457
+## 3       colSums(diamonds[-(2:4)]) 2.422686
 \end{verbatim}
 
 \normalsize
@@ -2424,7 +2424,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.850
+##   0.003   0.001   0.984
 \end{verbatim}
 
 \begin{Shaded}
@@ -2436,12 +2436,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.005   0.009   0.578
+##   0.007   0.011   0.747
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût de l'ordre du temps de calcul au-delà du quart de seconde attendu: environ \texttt{0.33} secondes ici.
+La mise en place de la parallélisation a un coût de l'ordre du temps de calcul au-delà du quart de seconde attendu: environ \texttt{0.5} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2456,7 +2456,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   3.002
+##   0.000   0.000   3.209
 \end{verbatim}
 
 \begin{Shaded}
@@ -2468,7 +2468,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.005   2.163
+##   0.002   0.006   2.057
 \end{verbatim}
 
 \normalsize
@@ -2487,7 +2487,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs, les performanc
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.005   2.023
+##   0.003   0.005   2.199
 \end{verbatim}
 
 \begin{Shaded}
@@ -2498,7 +2498,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs, les performanc
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.006   2.131
+##   0.001   0.003   2.116
 \end{verbatim}
 
 \normalsize
@@ -2662,7 +2662,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.001   0.923
+##   0.003   0.000   1.004
 \end{verbatim}
 
 \begin{Shaded}
@@ -2677,7 +2677,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.010   0.017   0.270
+##   0.009   0.016   0.381
 \end{verbatim}
 
 \normalsize
@@ -2761,7 +2761,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.359   0.034   5.580
+##   5.338   0.033   5.595
 \end{verbatim}
 
 \begin{Shaded}
@@ -2795,7 +2795,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.262   0.020   5.401
+##   5.191   0.016   5.365
 \end{verbatim}
 
 \begin{Shaded}
@@ -2837,7 +2837,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.361   0.024   5.678
+##   5.275   0.032   5.503
 \end{verbatim}
 
 \begin{Shaded}
@@ -2877,7 +2877,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.044   0.020   3.168
+##   2.992   0.017   3.099
 \end{verbatim}
 
 \begin{Shaded}
@@ -2917,7 +2917,7 @@ En parallèle, le temps de calcul n'est pas amélioré parce que les tâches ind
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.287   0.300   1.987
+##   3.249   0.287   1.969
 \end{verbatim}
 
 \begin{Shaded}
@@ -2957,7 +2957,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.755   0.011   1.878
+##   1.732   0.014   1.823
 \end{verbatim}
 
 \begin{Shaded}
@@ -3003,7 +3003,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.706   0.026   2.860
+##   2.711   0.031   2.897
 \end{verbatim}
 
 \begin{Shaded}
@@ -3045,7 +3045,7 @@ La parallélisation ralentit encore le calcul ici parce que les tâches élémen
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.115   0.039   0.098
+##   0.120   0.053   0.109
 \end{verbatim}
 
 \begin{Shaded}
@@ -3222,11 +3222,11 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: microseconds
+## Unit: milliseconds
 ##                                                      expr     min      lq
-##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 668.174 674.288
-##      mean   median       uq      max neval
-##  951.0103 1001.204 1021.561 2441.018   100
+##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 1.04757 1.98519
+##      mean   median       uq     max neval
+##  2.316966 2.001046 2.044088 12.6858   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3266,7 +3266,7 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.019   0.036   7.405
+##   7.019   0.047   7.322
 \end{verbatim}
 
 \normalsize
@@ -3284,7 +3284,7 @@ En parallèle, le temps augmente peu.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.956   0.044   2.320
+##   4.953   0.055   2.604
 \end{verbatim}
 
 \normalsize
@@ -4170,7 +4170,7 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 \begin{verbatim}
-date: "2020-12-22"
+date: "2020-12-25"
 \end{verbatim}
 
 Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
@@ -6142,7 +6142,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7ffa752160e8>
+## <bytecode: 0x7f96dac90778>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -6424,9 +6424,9 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 \begin{verbatim}
 ## Unit: nanoseconds
 ##                expr  min     lq     mean median     uq     max neval
-##  triple.integer(2L)  308  326.0 20724.00  331.0  370.5 2036461   100
-##   triple.numeric(2)  312  324.5 17562.26  334.5  366.5 1721515   100
-##          triple(2L) 1363 1392.0  1528.13 1409.5 1479.0    6244   100
+##  triple.integer(2L)  313  326.0 21561.97  338.0  359.0 2119970   100
+##   triple.numeric(2)  310  324.0 17774.47  333.5  352.5 1743251   100
+##          triple(2L) 1284 1317.5  1466.91 1342.0 1404.5    6354   100
 \end{verbatim}
 
 \normalsize
@@ -7099,6 +7099,10 @@ Le nom de chaque test est passé comme argument de la fonction \texttt{test\_tha
 \NormalTok{\})}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Test passed
+\end{verbatim}
 
 \normalsize
 

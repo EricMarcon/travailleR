@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2020-12-22" />
+<meta name="date" content="2020-12-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -819,7 +819,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="chap-package.html#cb296-1" aria-hidden="true" tabindex="-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7ffa752160e8&gt;
+## &lt;bytecode: 0x7f96dac90778&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -957,9 +957,9 @@ Dans sa version réelle, 3 est noté <code>3.0</code> pour montrer clairement qu
 <span id="cb324-3"><a href="chap-package.html#cb324-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
 ##                expr  min     lq     mean median     uq     max neval
-##  triple.integer(2L)  310  325.0 21153.18  335.5  360.0 2079031   100
-##   triple.numeric(2)  309  316.5 18986.19  331.0  355.0 1863732   100
-##          triple(2L) 1386 1407.0  1560.49 1426.5 1492.5    6854   100</code></pre>
+##  triple.integer(2L)  306  316.5 20528.68  328.0  344.5 2017717   100
+##   triple.numeric(2)  297  310.0 17466.61  327.5  353.0 1712494   100
+##          triple(2L) 1272 1317.0  1454.24 1340.0 1394.5    6745   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> montre que la fonction <code>triple.integer()</code> est légèrement plus rapide que <code>triple.numeric</code> comme attendu mais que la méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
 R teste en effet l’existence de fonctions correspondant à la classe de l’objet passé en argument aux méthodes génériques.
@@ -1339,6 +1339,7 @@ Le nom de chaque test est passé comme argument de la fonction <code>test_that()
 <span id="cb359-8"><a href="chap-package.html#cb359-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Error management</span></span>
 <span id="cb359-9"><a href="chap-package.html#cb359-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expect_error</span>(<span class="fu">double</span>(<span class="st">&quot;a&quot;</span>))</span>
 <span id="cb359-10"><a href="chap-package.html#cb359-10" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<pre><code>## Test passed 🥇</code></pre>
 <p></p>
 <p>Toutes les fonctions commençant par <code>expect</code> permettent de comparer leur premier argument à un résultat: dans l’exemple ci-dessus, le résultat de <code>double(1:2)</code> doit être <code>2 4</code> et le type de ce vecteur doit être réel à double précision.
 Le dernier test vérifie qu’une chaîne de caractère passée comme argument génère une erreur, ce qui n’est pas optimal: si le package traitait l’erreur, le message retourné pourrait être testé.</p>

@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2020-12-22" />
+<meta name="date" content="2020-12-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -500,7 +500,7 @@ Dans R, les méthodes sont définies à partir de méthodes génériques.</p>
 ## 
 ## function (x, ...) 
 ## standardGeneric(&quot;print&quot;)
-## &lt;environment: 0x7ffa7a7e55f8&gt;
+## &lt;environment: 0x7f96e2af1890&gt;
 ## Methods may be defined for arguments: x
 ## Use  showMethods(&quot;print&quot;)  for currently available ones.</code></pre>
 <p></p>
@@ -741,7 +741,7 @@ Chaque package chargé crée un environnement fils pour former une pile des envi
 <span id="cb67-2"><a href="chap-utiliseR.html#cb67-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>() <span class="fu">environment</span>()</span>
 <span id="cb67-3"><a href="chap-utiliseR.html#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Affichage de l&#39;environnement de la fonction</span></span>
 <span id="cb67-4"><a href="chap-utiliseR.html#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>()</span></code></pre></div>
-<pre><code>## &lt;environment: 0x7ffa7be66c90&gt;</code></pre>
+<pre><code>## &lt;environment: 0x7f96e04d7ae0&gt;</code></pre>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="chap-utiliseR.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Environnement parent de celui de la fonction</span></span>
 <span id="cb69-2"><a href="chap-utiliseR.html#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">parent.env</span>(<span class="fu">f</span>())</span></code></pre></div>
 <pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
@@ -777,7 +777,7 @@ S’il n’est pas trouvé, il est cherché dans l’environnement parent, puis 
 <span id="cb75-4"><a href="chap-utiliseR.html#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qGlobalEnv</span>()</span></code></pre></div>
 <pre><code>## function (save = &quot;default&quot;, status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## &lt;bytecode: 0x7ffa811d1be0&gt;
+## &lt;bytecode: 0x7f96e9c69c10&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>La variable <code>q</code> est définie dans l’environnement global.
@@ -896,10 +896,10 @@ Pour des temps d’exécution très courts, il est nécessaire de répéter la m
 <span id="cb94-10"><a href="chap-utiliseR.html#cb94-10" aria-hidden="true" tabindex="-1"></a>(mb <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(<span class="fu">f1</span>(X), <span class="fu">f2</span>(X), <span class="fu">f3</span>(X), <span class="fu">f4</span>(X)))</span></code></pre></div>
 <pre><code>## Unit: microseconds
 ##   expr     min       lq      mean   median       uq      max neval
-##  f1(X)  37.028  38.3775  58.04092  39.4435  41.4385 1664.066   100
-##  f2(X)  46.911  48.1810  67.92783  49.0070  53.7055 1639.402   100
-##  f3(X) 269.409 271.1235 294.66412 272.4155 282.0220 1764.457   100
-##  f4(X) 400.244 402.1635 433.68831 404.3300 414.3895 2222.271   100</code></pre>
+##  f1(X)  35.491  36.3650  51.60410  37.0355  38.5225 1395.343   100
+##  f2(X)  44.662  45.8920  60.66307  46.5805  47.8860 1347.255   100
+##  f3(X) 261.133 262.5125 280.24523 263.8000 269.7305 1582.138   100
+##  f4(X) 388.298 389.8010 414.44631 393.7200 404.7500 1979.101   100</code></pre>
 <p></p>
 <p>Le tableau retourné contient les temps minimum, médian, moyen, max et les premiers et troisièmes quartiles, ainsi que le nombre de répétitions.
 La valeur médiane est à comparer.
@@ -910,10 +910,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:</p>
 <p></p>
 <div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="chap-utiliseR.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mb)[, <span class="fu">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
 <pre><code>##    expr   median
-## 1 f1(X)  39.4435
-## 2 f2(X)  49.0070
-## 3 f3(X) 272.4155
-## 4 f4(X) 404.3300</code></pre>
+## 1 f1(X)  37.0355
+## 2 f2(X)  46.5805
+## 3 f3(X) 263.8000
+## 4 f4(X) 393.7200</code></pre>
 <p></p>
 <p>Pour faire des calculs sur ces résultats, il faut les stocker dans une variable.
 Pour empêcher l’affichage dans la console, la solution la plus simple est d’utiliser la fonction <code>capture.output</code> en affectant son résultat à une variable.</p>
@@ -924,10 +924,10 @@ Pour empêcher l’affichage dans la console, la solution la plus simple est d�
 <p></p>
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="chap-utiliseR.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mb)[, <span class="fu">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
 <pre><code>##    expr   median
-## 1 f1(X)  39.4435
-## 2 f2(X)  49.0070
-## 3 f3(X) 272.4155
-## 4 f4(X) 404.3300</code></pre>
+## 1 f1(X)  37.0355
+## 2 f2(X)  46.5805
+## 3 f3(X) 263.8000
+## 4 f4(X) 393.7200</code></pre>
 <p></p>
 <p>Le temps de calcul est à peu près identique entre <span class="math inline">\(x \times x\)</span> et <span class="math inline">\(x^2\)</span>.
 Le calcul de puissance est nettement plus long, surtout si la puissance n’est pas entière, parce qu’il nécessite un calcul de logarithme.
@@ -996,7 +996,7 @@ La fonction <code>lnq</code> du package <strong>entropart</strong> retourne le l
 ##         return(Log)
 ##     }
 ## }
-## &lt;bytecode: 0x7ffa64062860&gt;
+## &lt;bytecode: 0x7f96cb31db68&gt;
 ## &lt;environment: namespace:entropart&gt;</code></pre>
 <p></p>
 <p>Pour qu’une fonction soit vectorielle, chaque ligne de son code doit permetre que le premier argument soit traité comme un vecteur.
@@ -1023,10 +1023,10 @@ Elle est déclinée sous plusieurs versions:</p>
 <span id="cb112-2"><a href="chap-utiliseR.html#cb112-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">FUN =</span> sqrt), <span class="fu">vapply</span>(x1, <span class="at">FUN =</span> sqrt, <span class="at">FUN.VALUE =</span> <span class="dv">0</span>))</span>
 <span id="cb112-3"><a href="chap-utiliseR.html#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mb)[, <span class="fu">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
 <pre><code>##                                    expr   median
-## 1                              sqrt(x1)   4.7335
-## 2                lapply(x1, FUN = sqrt) 299.1820
-## 3                sapply(x1, FUN = sqrt) 359.0475
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 299.7720</code></pre>
+## 1                              sqrt(x1)   4.5980
+## 2                lapply(x1, FUN = sqrt) 299.9300
+## 3                sapply(x1, FUN = sqrt) 352.4915
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 298.1595</code></pre>
 <p>
 <code>lapply()</code> est beaucoup plus lent qu’une fonction vectorielle.
 <code>sapply()</code> nécessite plus de temps pour <code>simplify2array()</code>, qui doit détecter comment rassembler les résultats.
@@ -1059,8 +1059,8 @@ Le niveau par défaut est 3: les fonctions sont toutes compilées, et les boucle
 <span id="cb116-12"><a href="chap-utiliseR.html#cb116-12" aria-hidden="true" tabindex="-1"></a>mb <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(<span class="fu">Boucle</span>(x1), <span class="fu">Boucle2</span>(x1))</span>
 <span id="cb116-13"><a href="chap-utiliseR.html#cb116-13" aria-hidden="true" tabindex="-1"></a>(mbs <span class="ot">&lt;-</span> <span class="fu">summary</span>(mb)[, <span class="fu">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)])</span></code></pre></div>
 <pre><code>##          expr   median
-## 1  Boucle(x1) 786.5055
-## 2 Boucle2(x1)  80.4765</code></pre>
+## 1  Boucle(x1) 777.2335
+## 2 Boucle2(x1)  79.1555</code></pre>
 <div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="chap-utiliseR.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compilation automatique par défaut depuis la version</span></span>
 <span id="cb118-2"><a href="chap-utiliseR.html#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.5</span></span>
 <span id="cb118-3"><a href="chap-utiliseR.html#cb118-3" aria-hidden="true" tabindex="-1"></a><span class="fu">enableJIT</span>(<span class="at">level =</span> <span class="dv">3</span>)</span></code></pre></div>
@@ -1072,9 +1072,9 @@ Le gain est considérable: de 1 à <code>10</code>.</p>
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="chap-utiliseR.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test</span></span>
 <span id="cb120-2"><a href="chap-utiliseR.html#cb120-2" aria-hidden="true" tabindex="-1"></a>mb <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(<span class="fu">vapply</span>(x1, <span class="at">FUN =</span> sqrt, <span class="dv">0</span>), <span class="fu">Boucle</span>(x1))</span>
 <span id="cb120-3"><a href="chap-utiliseR.html#cb120-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mb)[, <span class="fu">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
-<pre><code>##                        expr  median
-## 1 vapply(x1, FUN = sqrt, 0) 300.269
-## 2                Boucle(x1)  80.290</code></pre>
+<pre><code>##                        expr   median
+## 1 vapply(x1, FUN = sqrt, 0) 297.7650
+## 2                Boucle(x1)  80.6325</code></pre>
 <p></p>
 <p>Attention, le test de performance peut être trompeur:</p>
 <p></p>
@@ -1085,9 +1085,9 @@ Le gain est considérable: de 1 à <code>10</code>.</p>
 <span id="cb122-5"><a href="chap-utiliseR.html#cb122-5" aria-hidden="true" tabindex="-1"></a>                     <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x1)) </span>
 <span id="cb122-6"><a href="chap-utiliseR.html#cb122-6" aria-hidden="true" tabindex="-1"></a>                       Racine[i] <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(x1[i]))</span>
 <span id="cb122-7"><a href="chap-utiliseR.html#cb122-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mb)[, <span class="fu">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
-<pre><code>##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  302.697
-## 2 for (i in 1:length(x1)) Racine[i] &lt;- sqrt(x1[i]) 3657.155</code></pre>
+<pre><code>##                                               expr    median
+## 1                        vapply(x1, FUN = sqrt, 0)  299.5255
+## 2 for (i in 1:length(x1)) Racine[i] &lt;- sqrt(x1[i]) 3440.9205</code></pre>
 <p></p>
 <p>Dans ce code, la boucle for n’est pas compilée donc elle est beaucoup plus lente que dans le cadre normal de son utilisation (dans une fonction ou au niveau supérieur du code).</p>
 <p>Les boucles longues permettent un suivi de leur progression par une barre de texte, ce qui est un autre avantage.
@@ -1119,9 +1119,9 @@ La fonction suivante exécute des pauses d’un dixième de seconde pendant le t
 <p></p>
 <div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="chap-utiliseR.html#cb128-1" aria-hidden="true" tabindex="-1"></a>mb <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">runif</span>(<span class="dv">1</span>)), <span class="fu">runif</span>(<span class="dv">1000</span>))</span>
 <span id="cb128-2"><a href="chap-utiliseR.html#cb128-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mb)[, <span class="fu">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
-<pre><code>##                        expr    median
-## 1 replicate(1000, runif(1)) 2842.6620
-## 2               runif(1000)   33.5175</code></pre>
+<pre><code>##                        expr   median
+## 1 replicate(1000, runif(1)) 2908.623
+## 2               runif(1000)   33.114</code></pre>
 <p></p>
 </div>
 <div id="vectorize" class="section level3" number="2.4.5">
@@ -1146,9 +1146,9 @@ Ecrire plutôt les boucles.</p>
 <span id="cb130-10"><a href="chap-utiliseR.html#cb130-10" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">colSums</span>(diamonds[<span class="sc">-</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>)]))</span>
 <span id="cb130-11"><a href="chap-utiliseR.html#cb130-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mb)[, <span class="fu">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
 <pre><code>##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.243991
-## 2 apply(diamonds[-(2:4)], 2, sum) 8.028720
-## 3       colSums(diamonds[-(2:4)]) 2.486343</code></pre>
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.089224
+## 2 apply(diamonds[-(2:4)], 2, sum) 7.715471
+## 3       colSums(diamonds[-(2:4)]) 2.369325</code></pre>
 <p></p>
 <p><code>apply</code> clarifie le code mais est plus lent que la boucle, qui est à peine plus lente que <code>colSums</code>.</p>
 </div>
@@ -1292,34 +1292,34 @@ Ce document est tricoté avec <code>3</code> coeurs, qui sont tous utilisés.</p
 <span id="cb136-6"><a href="chap-utiliseR.html#cb136-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Série : temps théorique = nbCoeurs/4 secondes</span></span>
 <span id="cb136-7"><a href="chap-utiliseR.html#cb136-7" aria-hidden="true" tabindex="-1"></a>(tserie <span class="ot">&lt;-</span> <span class="fu">system.time</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>nbCoeurs, f)))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.002   0.000   0.785</code></pre>
+##   0.002   0.000   0.906</code></pre>
 <div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="chap-utiliseR.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parallèle : temps théorique = 1/4 secondes</span></span>
 <span id="cb138-2"><a href="chap-utiliseR.html#cb138-2" aria-hidden="true" tabindex="-1"></a>(tparallele <span class="ot">&lt;-</span> <span class="fu">system.time</span>(<span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span>nbCoeurs, f)))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.003   0.007   0.644</code></pre>
+##   0.003   0.005   0.583</code></pre>
 <p></p>
-<p>La mise en place de la parallélisation a un coût de l’ordre du temps de calcul au-delà du quart de seconde attendu: environ <code>0.39</code> secondes ici.
+<p>La mise en place de la parallélisation a un coût de l’ordre du temps de calcul au-delà du quart de seconde attendu: environ <code>0.33</code> secondes ici.
 Le temps d’exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n’en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d’un seconde.</p>
 <p></p>
 <div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="chap-utiliseR.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Série</span></span>
 <span id="cb140-2"><a href="chap-utiliseR.html#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>nbCoeurs, f, <span class="at">time =</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.000   0.000   3.124</code></pre>
+##    0.00    0.00    3.26</code></pre>
 <div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="chap-utiliseR.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parallèle</span></span>
 <span id="cb142-2"><a href="chap-utiliseR.html#cb142-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span>nbCoeurs, f, <span class="at">time =</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.003   0.008   2.281</code></pre>
+##   0.002   0.005   2.213</code></pre>
 <p></p>
 <p>Le temps additionnel nécessaire pour l’exécution parallèle du nouveau code est relativement plus faible: les coûts deviennent inférieurs à l’économie quand le temps de chaque tâche s’allonge.</p>
 <p>Si le nombre de tâches parallèles dépasse le nombre de coeurs, les performances s’effondrent parce que la tâche supplémentaire doit être exécutée après les premières.</p>
 <p></p>
 <div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="chap-utiliseR.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span>nbCoeurs, f, <span class="at">time =</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.002   0.006   2.152</code></pre>
+##   0.003   0.005   2.133</code></pre>
 <div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="chap-utiliseR.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span>(nbCoeurs <span class="sc">+</span> <span class="dv">1</span>), f, <span class="at">time =</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.001   0.003   2.275</code></pre>
+##   0.001   0.003   2.186</code></pre>
 <p></p>
 <p>Le temps reste ensuite stable jusqu’au double du nombre de coeurs.
 La figure <a href="chap-utiliseR.html#fig:r-parallele">2.2</a> montre l’évolution du temps de calcul en fonction du nombre de tâches.</p>
@@ -1403,14 +1403,14 @@ Ici, l’itérateur <code>icount</code> passe les valeurs 1, 2 et 3 individuelle
 <span id="cb155-6"><a href="chap-utiliseR.html#cb155-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">f</span>(i)</span>
 <span id="cb155-7"><a href="chap-utiliseR.html#cb155-7" aria-hidden="true" tabindex="-1"></a>    })</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.004   0.000   0.980</code></pre>
+##   0.003   0.000   0.916</code></pre>
 <div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="chap-utiliseR.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parallèle</span></span>
 <span id="cb157-2"><a href="chap-utiliseR.html#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">foreach</span>(<span class="at">i =</span> <span class="fu">icount</span>(nbCoeurs), <span class="at">.combine =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%dopar%</span> </span>
 <span id="cb157-3"><a href="chap-utiliseR.html#cb157-3" aria-hidden="true" tabindex="-1"></a>    {</span>
 <span id="cb157-4"><a href="chap-utiliseR.html#cb157-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">f</span>(i)</span>
 <span id="cb157-5"><a href="chap-utiliseR.html#cb157-5" aria-hidden="true" tabindex="-1"></a>    })</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.010   0.017   0.339</code></pre>
+##   0.009   0.017   0.391</code></pre>
 <p></p>
 <p>Le coût fixe de la parallélisation est faible.</p>
 </div>
@@ -1456,7 +1456,7 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 <span id="cb163-6"><a href="chap-utiliseR.html#cb163-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb163-7"><a href="chap-utiliseR.html#cb163-7" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(d <span class="ot">&lt;-</span> <span class="fu">fsapply1</span>())</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.469   0.035   5.512</code></pre>
+##   5.111   0.011   5.124</code></pre>
 <div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="chap-utiliseR.html#cb165-1" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5103392</code></pre>
 <p></p>
@@ -1471,7 +1471,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 <span id="cb167-6"><a href="chap-utiliseR.html#cb167-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb167-7"><a href="chap-utiliseR.html#cb167-7" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(d <span class="ot">&lt;-</span> <span class="fu">fsapply2</span>())</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.295   0.048   5.351</code></pre>
+##   4.965   0.004   4.973</code></pre>
 <div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="chap-utiliseR.html#cb169-1" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5103392</code></pre>
 <p>
@@ -1490,7 +1490,7 @@ Le format de sortie n’est pas toujours évident à écrire:</p>
 <span id="cb171-6"><a href="chap-utiliseR.html#cb171-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb171-7"><a href="chap-utiliseR.html#cb171-7" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(d <span class="ot">&lt;-</span> <span class="fu">fsapply3</span>())</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.212   0.024   5.241</code></pre>
+##   4.946   0.007   4.960</code></pre>
 <div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="chap-utiliseR.html#cb173-1" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5103392</code></pre>
 <p></p>
@@ -1511,7 +1511,7 @@ Le format de sortie n’est pas toujours évident à écrire:</p>
 <span id="cb175-13"><a href="chap-utiliseR.html#cb175-13" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb175-14"><a href="chap-utiliseR.html#cb175-14" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(d <span class="ot">&lt;-</span> <span class="fu">fsapply4</span>())</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   3.077   0.015   3.097</code></pre>
+##   3.075   0.003   3.078</code></pre>
 <div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="chap-utiliseR.html#cb177-1" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5103392</code></pre>
 <p></p>
@@ -1532,7 +1532,7 @@ Le format de sortie n’est pas toujours évident à écrire:</p>
 <span id="cb179-13"><a href="chap-utiliseR.html#cb179-13" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb179-14"><a href="chap-utiliseR.html#cb179-14" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(d <span class="ot">&lt;-</span> <span class="fu">fsapply5</span>())</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   3.938   1.124   2.557</code></pre>
+##   3.175   0.257   1.748</code></pre>
 <div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="chap-utiliseR.html#cb181-1" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5103392</code></pre>
 <p></p>
@@ -1553,7 +1553,7 @@ Le format de sortie n’est pas toujours évident à écrire:</p>
 <span id="cb183-10"><a href="chap-utiliseR.html#cb183-10" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb183-11"><a href="chap-utiliseR.html#cb183-11" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(d <span class="ot">&lt;-</span> <span class="fu">ffor</span>())</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.970   0.017   1.994</code></pre>
+##   1.693   0.001   1.695</code></pre>
 <div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="chap-utiliseR.html#cb185-1" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5103392</code></pre>
 <p></p>
@@ -1580,7 +1580,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 <span id="cb187-15"><a href="chap-utiliseR.html#cb187-15" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb187-16"><a href="chap-utiliseR.html#cb187-16" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(d <span class="ot">&lt;-</span> <span class="fu">fforeach1</span>(Y))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.735   0.026   2.770</code></pre>
+##   2.618   0.012   2.633</code></pre>
 <div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="chap-utiliseR.html#cb189-1" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5267848</code></pre>
 <p></p>
@@ -1603,7 +1603,7 @@ La parallélisation ralentit encore le calcul ici parce que les tâches élémen
 <span id="cb191-14"><a href="chap-utiliseR.html#cb191-14" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb191-15"><a href="chap-utiliseR.html#cb191-15" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(d <span class="ot">&lt;-</span> <span class="fu">fforeach3</span>(Y))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.133   0.059   0.112</code></pre>
+##   0.115   0.042   0.096</code></pre>
 <div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="chap-utiliseR.html#cb193-1" aria-hidden="true" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5267848</code></pre>
 <p></p>
@@ -1721,10 +1721,10 @@ Une documentation est disponible<a href="#fn21" class="footnote-ref" id="fnref21
 <div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="chap-utiliseR.html#cb200-1" aria-hidden="true" tabindex="-1"></a>(mb <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(d <span class="ot">&lt;-</span> <span class="fu">TotalDistance</span>(X<span class="sc">$</span>x, X<span class="sc">$</span>y)<span class="sc">/</span>NbPoints<span class="sc">/</span>(NbPoints <span class="sc">-</span> </span>
 <span id="cb200-2"><a href="chap-utiliseR.html#cb200-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">2</span>))</span></code></pre></div>
 <pre><code>## Unit: microseconds
-##                                                      expr     min      lq
-##  d &lt;- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 668.216 672.719
-##      mean  median      uq     max neval
-##  756.0247 678.152 689.231 2849.38   100</code></pre>
+##                                                      expr    min       lq
+##  d &lt;- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 651.11 669.8875
+##      mean  median       uq      max neval
+##  690.5223 672.667 676.8695 2246.129   100</code></pre>
 <div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="chap-utiliseR.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="co"># suppressmessages pour éliminer les messages superflus</span></span>
 <span id="cb202-2"><a href="chap-utiliseR.html#cb202-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">autoplot</span>(mb))</span></code></pre></div>
 <p><img src="travailleR_files/figure-html/unnamed-chunk-53-1.png" width="80%" style="display: block; margin: auto;" /></p>
@@ -1738,14 +1738,14 @@ Une documentation est disponible<a href="#fn21" class="footnote-ref" id="fnref21
 <span id="cb205-2"><a href="chap-utiliseR.html#cb205-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">runifpoint</span>(NbPoints)</span>
 <span id="cb205-3"><a href="chap-utiliseR.html#cb205-3" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(d <span class="ot">&lt;-</span> <span class="fu">MeanDistance</span>(X<span class="sc">$</span>x, X<span class="sc">$</span>y))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   7.046   0.031   7.090</code></pre>
+##   6.868   0.004   6.880</code></pre>
 <p></p>
 <p>En parallèle, le temps augmente peu.</p>
 <p></p>
 <div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="chap-utiliseR.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(d <span class="ot">&lt;-</span> <span class="fu">TotalDistance</span>(X<span class="sc">$</span>x, X<span class="sc">$</span>y)<span class="sc">/</span>NbPoints<span class="sc">/</span>(NbPoints <span class="sc">-</span> </span>
 <span id="cb207-2"><a href="chap-utiliseR.html#cb207-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.049   0.022   1.785</code></pre>
+##   4.908   0.003   1.640</code></pre>
 <p></p>
 </div>
 <div id="conclusions-sur-loptimisation-de-la-vitesse-du-code" class="section level3" number="2.7.8">
