@@ -18,24 +18,17 @@ jobs:
       - name: Install pandoc
         run: |
           brew install pandoc
-      - name: Cache Renv packages
-        uses: actions/cache@v2
-        with:
-          path: $HOME/.local/share/renv
-          key: r-${{ hashFiles('renv.lock') }}
-          restore-keys: r-
-      - name: Cache bookdown results
-        uses: actions/cache@v2
-        with:
-          path: _bookdown_files
-          key: bookdown-${{ hashFiles('**/*Rmd') }}
-          restore-keys: bookdown-
-      - name: Install packages
+      - name: Install dependencies
         run: |
-          R -e 'install.packages("renv")'
-          R -e 'renv::restore()'
+          install.packages(c("remotes", "tinytex"))
+          tinytex::install_tinytex()
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
       - name: Render book
-        run: Rscript -e 'bookdown::render_book("index.Rmd", quiet = TRUE)'
+        run: |
+          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
+          bookdown::render_book("index.Rmd", "bookdown::gitbook")
+        shell: Rscript {0}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
