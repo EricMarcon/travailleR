@@ -16,11 +16,10 @@ jobs:
         with:
           crayon.enabled: 'FALSE'
       - name: Install pandoc
-        run: |
-          brew install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "tinytex"))
+          install.packages(c("remotes", "bookdown", "tinytex"))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
