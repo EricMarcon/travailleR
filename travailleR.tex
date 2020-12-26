@@ -128,13 +128,9 @@
 
 %%% PACKAGES
 \usepackage{lipsum} % Dummy text.
+% Utilisation :
+% Ajouter ici d'éventuels packages LaTeX
 
-% Bug de bookdown: ne traite plus la déclaration "otherlangs" dans le préambule
-% Pour charger les langues, écriture ici en dur du produit de bookdown
-% Corrigé le 22/11/2019. A retester régulièrement: supprimer ces lignes si la compilation fonctionne sans elles.
-\usepackage{polyglossia}
-  \setmainlanguage[variant=american]{english}
-  \setotherlanguage[]{french}
 
 % Environnement "Essentiel" en début de chapitre
 \usepackage[tikz]{bclogo}
@@ -146,6 +142,14 @@
 %```{block, type='Essentiel'}
 % Texte à mettre en valeur
 % ```
+
+% Blocs de code taille scriptsize
+\let\oldverbatim\verbatim
+\def\verbatim{\oldverbatim\scriptsize}
+% Utilisation :
+% S'applique aux blocs de code et résultats du code R
+% opts_chunk$set(size="scriptsize") s'applique au code et ses résultats
+% Si désaccord sur les résultats, \def\verbatim{...} est prioritaire
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -204,7 +208,7 @@
 \author{Eric Marcon}
 
 
-\date{2020-12-25}
+\date{2020-12-26}
 
 
 % Main title page with filigrane
@@ -993,7 +997,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fea9a763978>
+## <bytecode: 0x7ffdf207e778>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1467,7 +1471,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7feaa6992a00>
+## <environment: 0x7ffdf87d5300>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1539,7 +1543,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fea879a6d30>
+## <bytecode: 0x7ffdfdfe5430>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1721,7 +1725,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    0.02    0.00    0.02
+##   0.020   0.000   0.019
 \end{verbatim}
 
 \normalsize
@@ -1753,10 +1757,10 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq      max neval
-##  f1(X)  32.264  36.5340  51.87103  37.3825  39.1990 1258.853   100
-##  f2(X)  42.440  45.9495  61.43584  46.8890  49.7185 1205.334   100
-##  f3(X) 259.032 262.7505 290.92280 265.0415 278.0045 1558.960   100
-##  f4(X) 386.719 389.8570 420.08749 391.4630 398.5775 2516.145   100
+##  f1(X)  35.875  37.4660  53.10341  38.1470  39.4935 1382.726   100
+##  f2(X)  45.791  47.4165  74.52226  48.1335  49.3625 2541.507   100
+##  f3(X) 262.031 268.7430 284.97282 271.3395 273.7825 1591.281   100
+##  f4(X) 389.195 400.0755 421.45332 403.0220 408.6830 1886.454   100
 \end{verbatim}
 
 \normalsize
@@ -1779,10 +1783,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  37.3825
-## 2 f2(X)  46.8890
-## 3 f3(X) 265.0415
-## 4 f4(X) 391.4630
+## 1 f1(X)  38.1470
+## 2 f2(X)  48.1335
+## 3 f3(X) 271.3395
+## 4 f4(X) 403.0220
 \end{verbatim}
 
 \normalsize
@@ -1812,10 +1816,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  37.3825
-## 2 f2(X)  46.8890
-## 3 f3(X) 265.0415
-## 4 f4(X) 391.4630
+## 1 f1(X)  38.1470
+## 2 f2(X)  48.1335
+## 3 f3(X) 271.3395
+## 4 f4(X) 403.0220
 \end{verbatim}
 
 \normalsize
@@ -1942,7 +1946,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7feaa676f0d8>
+## <bytecode: 0x7ffddfa9add8>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -1995,10 +1999,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.5080
-## 2                lapply(x1, FUN = sqrt) 295.0485
-## 3                sapply(x1, FUN = sqrt) 350.0830
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 297.0825
+## 1                              sqrt(x1)   4.7610
+## 2                lapply(x1, FUN = sqrt) 302.3010
+## 3                sapply(x1, FUN = sqrt) 358.5475
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 302.9070
 \end{verbatim}
 
 \normalsize
@@ -2050,9 +2054,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr   median
-## 1  Boucle(x1) 747.7365
-## 2 Boucle2(x1)  76.6580
+##          expr  median
+## 1  Boucle(x1) 772.225
+## 2 Boucle2(x1)  78.492
 \end{verbatim}
 
 \begin{Shaded}
@@ -2084,8 +2088,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{lapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 296.8685
-## 2                Boucle(x1)  79.0155
+## 1 vapply(x1, FUN = sqrt, 0) 295.8925
+## 2                Boucle(x1)  77.8650
 \end{verbatim}
 
 \normalsize
@@ -2107,9 +2111,9 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr    median
-## 1                        vapply(x1, FUN = sqrt, 0)  296.3795
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3093.2300
+##                                               expr   median
+## 1                        vapply(x1, FUN = sqrt, 0)  311.026
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3232.565
 \end{verbatim}
 
 \normalsize
@@ -2176,8 +2180,8 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 
 \begin{verbatim}
 ##                        expr   median
-## 1 replicate(1000, runif(1)) 2591.347
-## 2               runif(1000)   32.496
+## 1 replicate(1000, runif(1)) 2619.183
+## 2               runif(1000)   32.520
 \end{verbatim}
 
 \normalsize
@@ -2215,9 +2219,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 2.966861
-## 2 apply(diamonds[-(2:4)], 2, sum) 7.566579
-## 3       colSums(diamonds[-(2:4)]) 2.315367
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.086902
+## 2 apply(diamonds[-(2:4)], 2, sum) 7.833168
+## 3       colSums(diamonds[-(2:4)]) 2.430625
 \end{verbatim}
 
 \normalsize
@@ -2423,7 +2427,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   1.117
+##   0.002   0.000   0.877
 \end{verbatim}
 
 \begin{Shaded}
@@ -2435,12 +2439,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.005   0.009   0.624
+##   0.007   0.010   0.629
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût de l'ordre du temps de calcul au-delà du quart de seconde attendu: environ \texttt{0.37} secondes ici.
+La mise en place de la parallélisation a un coût de l'ordre du temps de calcul au-delà du quart de seconde attendu: environ \texttt{0.38} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2455,7 +2459,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   3.137
+##   0.000   0.000   3.348
 \end{verbatim}
 
 \begin{Shaded}
@@ -2467,7 +2471,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.004   2.010
+##   0.003   0.006   2.031
 \end{verbatim}
 
 \normalsize
@@ -2486,7 +2490,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs, les performanc
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.005   2.148
+##   0.002   0.005   2.065
 \end{verbatim}
 
 \begin{Shaded}
@@ -2497,7 +2501,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs, les performanc
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   2.130
+##   0.005   0.008   2.185
 \end{verbatim}
 
 \normalsize
@@ -2661,7 +2665,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.000   1.042
+##   0.004   0.000   1.032
 \end{verbatim}
 
 \begin{Shaded}
@@ -2676,7 +2680,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.010   0.016   0.380
+##   0.009   0.017   0.319
 \end{verbatim}
 
 \normalsize
@@ -2760,7 +2764,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.206   0.024   5.455
+##   5.257   0.028   5.405
 \end{verbatim}
 
 \begin{Shaded}
@@ -2794,7 +2798,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.144   0.013   5.271
+##   5.145   0.018   5.482
 \end{verbatim}
 
 \begin{Shaded}
@@ -2836,7 +2840,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.244   0.013   5.625
+##   5.240   0.019   5.367
 \end{verbatim}
 
 \begin{Shaded}
@@ -2876,7 +2880,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.967   0.009   3.006
+##   2.965   0.009   3.049
 \end{verbatim}
 
 \begin{Shaded}
@@ -2916,7 +2920,7 @@ En parallèle, le temps de calcul n'est pas amélioré parce que les tâches ind
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.206   0.268   1.869
+##   3.192   0.312   1.924
 \end{verbatim}
 
 \begin{Shaded}
@@ -2956,7 +2960,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.747   0.007   1.795
+##   1.717   0.008   1.754
 \end{verbatim}
 
 \begin{Shaded}
@@ -3002,7 +3006,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.638   0.019   2.832
+##   2.691   0.020   2.785
 \end{verbatim}
 
 \begin{Shaded}
@@ -3044,7 +3048,7 @@ La parallélisation ralentit encore le calcul ici parce que les tâches élémen
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.111   0.039   0.090
+##   0.116   0.044   0.108
 \end{verbatim}
 
 \begin{Shaded}
@@ -3222,10 +3226,10 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 
 \begin{verbatim}
 ## Unit: microseconds
-##                                                      expr     min     lq
-##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 648.444 651.93
-##      mean  median      uq     max neval
-##  693.9524 657.355 670.911 2220.47   100
+##                                                      expr     min       lq
+##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 666.991 671.0855
+##      mean   median       uq     max neval
+##  1342.313 675.8175 688.8665 31737.6   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3265,7 +3269,7 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   6.949   0.012   7.242
+##   6.959   0.015   7.228
 \end{verbatim}
 
 \normalsize
@@ -3283,7 +3287,7 @@ En parallèle, le temps augmente peu.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.929   0.011   2.166
+##   4.928   0.008   2.044
 \end{verbatim}
 
 \normalsize
@@ -4169,7 +4173,7 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 \begin{verbatim}
-date: "2020-12-25"
+date: "2020-12-26"
 \end{verbatim}
 
 Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
@@ -6141,7 +6145,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fea9a60c780>
+## <bytecode: 0x7ffdf1a73de8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -6422,10 +6426,10 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median     uq     max neval
-##  triple.integer(2L)  310  325.0 20947.66  330.0  358.5 2058887   100
-##   triple.numeric(2)  309  319.5 17640.53  326.5  346.0 1730634   100
-##          triple(2L) 1299 1323.0  1462.31 1343.0 1396.5    6181   100
+##                expr  min   lq     mean median     uq     max neval
+##  triple.integer(2L)  311  327 21256.04  332.0  368.0 2089556   100
+##   triple.numeric(2)  310  324 17693.50  332.5  360.0 1734824   100
+##          triple(2L) 1341 1375  1504.37 1400.5 1475.5    5858   100
 \end{verbatim}
 
 \normalsize
@@ -7353,7 +7357,7 @@ jobs:
 
 La déclaration \texttt{runs-on} décrit le système d'exploitation sur lequel la tâche doit s'exécuter.
 Les choix possibles sont Windows, Ubuntu ou MacOS\footnote{\url{https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions\#jobsjob_idruns-on}}.
-L'intégration continue de R sur GitHub utilise habituellement MacOS.
+L'intégration continue de R sur GitHub utilise habituellement MacOS qui a l'avantage d'utiliser des packages R compilés donc beaucoup plus simples (certains packages nécessitent des librairies extérieures à R pour leur compilation) et rapides à installer, tout en permettant l'usage de scripts.
 
 \hypertarget{premiuxe8res-uxe9tapes}{%
 \subsubsection{Premières étapes}\label{premiuxe8res-uxe9tapes}}
@@ -7378,14 +7382,23 @@ Une action est un script accompagné de métadonnées qui décrivent son usage.
 Son développement est accompagné par des numéros de version successifs.
 On appelle une action par l'instruction \texttt{uses:}, le projet GitHub qui la contient et sa version.
 
+Dans leur projet GitHub respectif, les actions existent dans leur version de développement (\texttt{@master}) et dans des versions d'étape (\emph{release}) accessibles par leur numéro (\texttt{@v1}).
+Ces versions d'étape sont préférables parce qu'elles sont stables.
+
 Les actions généralistes sont mises à disposition par GitHub dans l'organisation GitHub Actions\footnote{\url{https://github.com/actions/}}.
 L'action ``actions/checkout'' permet de se placer dans la branche principale du projet traité par le flux de travail: c'est en général la première étape de tous les flux.
 
 L'action suivante est l'installation de R, mise à disposition par l'organisation R infrastructure\footnote{\url{https://github.com/r-lib/}}.
 
-L'installation de pandoc (logiciel extérieur à R mais nécessaire à R Markdown) est réalisée par une commande exécutée par MacOS.
+L'installation de pandoc (logiciel extérieur à R mais nécessaire à R Markdown) peut être réalisée par une commande exécutée par MacOS.
 Elle est appelée par \texttt{run:} et peut contenir plusieurs lignes (d'où le \texttt{\textbar{}}).
 Ce script dépend du système d'exploitation: \texttt{brew} est le gestionnaire de paquets de MacOS.
+Pour éviter les spécificités d'un système, il est préférable d'utiliser une action:
+
+\begin{verbatim}
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
+\end{verbatim}
 
 \hypertarget{caches}{%
 \subsubsection{Caches}\label{caches}}
@@ -7461,6 +7474,35 @@ A sa première utilisation, le package \textbf{renv} informe de quelques adaptat
 Cette commande crée le fichier \texttt{renv.lock} qui est utilisé par GitHub Actions pour installer les packages pendant l'intégration continue.
 Il pourra être mis à jour à tout moment pour prendre en compte leur mise à jour.
 
+Alternativement, les packages nécessaires peuvent être installés sans l'aide de \textbf{Renv}:
+
+\begin{verbatim}
+      - name: Install packages
+        run: |
+          install.packages(c("remotes", "bookdown", "tinytex"))
+          tinytex::install_tinytex()
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+\end{verbatim}
+
+Cette étape utilise \texttt{Rscript} comme environnement de commande, ce qui lui permet d'exécuter directement des commandes R (à comparer à l'utilisation de \texttt{R\ -e} dans les exemples précédents).
+
+Les packages servant à produire le document sont listés:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{remotes} pour sa fonction \texttt{install\_deps()};
+\item
+  \textbf{bookdown} pour tricoter;
+\item
+  \textbf{tinytex} pour disposer d'une distribution LaTeX.
+\end{itemize}
+
+Les autres packages, ceux utilisés par le projet, sont lus dans le fichier \texttt{DESCRIPTION} par la fonction \texttt{install\_deps()}.
+
+Dans cette approche, les packages ne sont pas mis en cache.
+
 \hypertarget{tricot}{%
 \subsubsection{Tricot}\label{tricot}}
 
@@ -7468,17 +7510,12 @@ La production de l'ouvrage est lancée par une commande R.
 
 \begin{verbatim}
       - name: Render book
-        run: Rscript -e 'bookdown::render_book("index.Rmd", quiet = TRUE)'
+        run: |
+          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
+          bookdown::render_book("index.Rmd", "bookdown::gitbook")
 \end{verbatim}
 
-Les formats à produire sont paramétrés dans \texttt{\_output.yml}:
-
-\begin{verbatim}
-bookdown::pdf_book:
-  (...)
-bookdown::gitbook:
-  (...)
-\end{verbatim}
+Les formats paramétrés dans \texttt{\_output.yml} sont ignorés.
 
 Le fichier PDF doit être produit avant le format GitBook pour que son lien de téléchargement soit ajouté à la barre de menu du site GitBook.
 
@@ -7598,27 +7635,21 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup R
         uses: r-lib/actions/setup-r@v1
+        with:
+          crayon.enabled: 'FALSE'
       - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
+      - name: Install dependencies
         run: |
-          brew install pandoc
-      - name: Cache Renv packages
-        uses: actions/cache@v2
-        with:
-          path: $HOME/.local/share/renv
-          key: r-${{ hashFiles('renv.lock') }}
-          restore-keys: r-
-      - name: Cache bookdown results
-        uses: actions/cache@v2
-        with:
-          path: _bookdown_files
-          key: bookdown-${{ hashFiles('**/*Rmd') }}
-          restore-keys: bookdown-
-      - name: Install packages
-        run: |
-          R -e 'install.packages("renv")'
-          R -e 'renv::restore()'
+          install.packages(c("remotes", "bookdown", "tinytex"))
+          tinytex::install_tinytex()
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
       - name: Render book
-        run: Rscript -e 'bookdown::render_book("index.Rmd", quiet = TRUE)'
+        run: |
+          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
+          bookdown::render_book("index.Rmd", "bookdown::gitbook")
+        shell: Rscript {0}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -7647,6 +7678,76 @@ jobs:
           jekyll: no
 \end{verbatim}
 
+\textbf{Renv} n'est pas utilisé.
+
+\hypertarget{sec:rmarkdown-ci}{%
+\subsection{Mémos et présentatons}\label{sec:rmarkdown-ci}}
+
+Le flux de travail s'appelle \texttt{rmarkdown}; sa tâche de production \texttt{render}.
+Le fichier est \texttt{rmarkdown.yml}.
+
+\begin{verbatim}
+on:
+  push:
+     branches:
+       - master
+
+name: rmarkdown
+
+jobs:
+  render:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
+      - name: Install dependencies
+        run: |
+          install.packages(c("remotes", "rmarkdown", "tinytex"))
+          tinytex::install_tinytex()
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+      - name: Render Rmarkdown files
+        run: |
+          RMD_PATH=($(ls | grep '[.]Rmd$'))
+          Rscript -e 'for (file in commandArgs(TRUE)) rmarkdown::render(file, "all")' ${RMD_PATH[*]}
+          Rscript -e 'source("GithubPages.R")'
+          echo 'theme: jekyll-theme-slate' > docs/_config.yml
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: _docs
+          path: docs/
+  checkout-and-deploy:
+    runs-on: ubuntu-latest
+    needs: render
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download artifact
+        uses: actions/download-artifact@v1
+        with:
+          # Artifact name
+          name: _docs
+          # Destination path
+          path: docs
+      - name: Deploy to GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          email: ${{ secrets.EMAIL }}
+          build_dir: docs
+          jekyll: yes
+\end{verbatim}
+
+L'étape chargée du tricot utilise un script pour lister tous les fichiers \texttt{.Rmd}, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits), exécuter le script \texttt{GithubPages.R} (voir section \ref{sec:memo}) et configurer le thème des pages GitHub.
+
+La tâche de déploiement indique aux pages GitHub d'utiliser Jekyll, c'est-à-dire d'utiliser le fichier \texttt{README.md} comme page d'accueil.
+
 \hypertarget{sec:blogdown-ci}{%
 \subsection{Site web blogdown}\label{sec:blogdown-ci}}
 
@@ -7674,8 +7775,7 @@ jobs:
       - name: Setup R
         uses: r-lib/actions/setup-r@v1
       - name: Install pandoc
-        run: |
-          brew install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
       - name: Cache Renv packages
         uses: actions/cache@v2
         with:
@@ -7725,6 +7825,7 @@ L'action \texttt{checkout} se place dans la branche \texttt{source} avec sa vari
 
 Il n'est pas possible de mettre en cache les résultats des bouts de code parce qu'ils se trouvent dans les pages \texttt{.Rmd} du projet, dont l'emplacement n'est pas prévisible.
 Le cache se limite aux packages.
+L'utilisation de \textbf{Renv} se justifie parce que le site est reconstruit régulièrement sans intervention de l'auteur: la stabilité de son environnement permet d'éviter un échec dû à une mise à jour incompatible d'un package.
 
 La tâche \texttt{Build\ website} utilise le package \textbf{blogdown} pour installer Hugo (le générateur de sites web) et ensuite construire le site.
 
@@ -7769,8 +7870,6 @@ jobs:
 
 Le fichier est nommé \texttt{CMD-check.yml}.
 Il ne contient qu'une seule tâche, nommée \texttt{R-CMD-check} comme le flux.
-
-Les étapes \texttt{Install\ dependencies} et \texttt{Check} utilisent \texttt{Rscript} comme environnement de commande, ce qui leur permet d'exécuter directement des commandes R (à comparer à l'utilisation de \texttt{R\ -e} dans les exemples précédents).
 
 Le script n'utilise pas \textbf{Renv} pour gérer les packages parce que la vérification d'un package doit fonctionner avec les versions en cours sur CRAN.
 \textbf{remotes} installe les packages nécessaires à partir du fichier \texttt{DESCRIPTION}.

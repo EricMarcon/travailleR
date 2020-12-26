@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2020-12-25" />
+<meta name="date" content="2020-12-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -340,8 +340,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="chap-ci.html"><a href="chap-ci.html#modèles-de-scripts"><i class="fa fa-check"></i><b>6.3</b> Modèles de scripts</a><ul>
 <li class="chapter" data-level="6.3.1" data-path="chap-ci.html"><a href="chap-ci.html#sec:bookdown-ci"><i class="fa fa-check"></i><b>6.3.1</b> Projet d’ouvrage</a></li>
-<li class="chapter" data-level="6.3.2" data-path="chap-ci.html"><a href="chap-ci.html#sec:blogdown-ci"><i class="fa fa-check"></i><b>6.3.2</b> Site web blogdown</a></li>
-<li class="chapter" data-level="6.3.3" data-path="chap-ci.html"><a href="chap-ci.html#sec:package-ci6"><i class="fa fa-check"></i><b>6.3.3</b> Packages R</a></li>
+<li class="chapter" data-level="6.3.2" data-path="chap-ci.html"><a href="chap-ci.html#sec:rmarkdown-ci"><i class="fa fa-check"></i><b>6.3.2</b> Mémos et présentatons</a></li>
+<li class="chapter" data-level="6.3.3" data-path="chap-ci.html"><a href="chap-ci.html#sec:blogdown-ci"><i class="fa fa-check"></i><b>6.3.3</b> Site web blogdown</a></li>
+<li class="chapter" data-level="6.3.4" data-path="chap-ci.html"><a href="chap-ci.html#sec:package-ci6"><i class="fa fa-check"></i><b>6.3.4</b> Packages R</a></li>
 </ul></li>
 <li class="chapter" data-level="6.4" data-path="chap-ci.html"><a href="chap-ci.html#sec:ci-badges"><i class="fa fa-check"></i><b>6.4</b> Ajouter des badges</a></li>
 </ul></li>
@@ -494,7 +495,7 @@ Ici, l’action principale consistera à produire un ouvrage bookdown avec la fo
     runs-on: macOS-latest</code></pre>
 <p>La déclaration <code>runs-on</code> décrit le système d’exploitation sur lequel la tâche doit s’exécuter.
 Les choix possibles sont Windows, Ubuntu ou MacOS<a href="#fn92" class="footnote-ref" id="fnref92"><sup>92</sup></a>.
-L’intégration continue de R sur GitHub utilise habituellement MacOS.</p>
+L’intégration continue de R sur GitHub utilise habituellement MacOS qui a l’avantage d’utiliser des packages R compilés donc beaucoup plus simples (certains packages nécessitent des librairies extérieures à R pour leur compilation) et rapides à installer, tout en permettant l’usage de scripts.</p>
 </div>
 <div id="premières-étapes" class="section level4">
 <h4><span class="header-section-number">6.2.4.4</span> Premières étapes</h4>
@@ -512,12 +513,17 @@ L’intégration continue de R sur GitHub utilise habituellement MacOS.</p>
 Une action est un script accompagné de métadonnées qui décrivent son usage.
 Son développement est accompagné par des numéros de version successifs.
 On appelle une action par l’instruction <code>uses:</code>, le projet GitHub qui la contient et sa version.</p>
+<p>Dans leur projet GitHub respectif, les actions existent dans leur version de développement (<code>@master</code>) et dans des versions d’étape (<em>release</em>) accessibles par leur numéro (<code>@v1</code>).
+Ces versions d’étape sont préférables parce qu’elles sont stables.</p>
 <p>Les actions généralistes sont mises à disposition par GitHub dans l’organisation GitHub Actions<a href="#fn93" class="footnote-ref" id="fnref93"><sup>93</sup></a>.
 L’action “actions/checkout” permet de se placer dans la branche principale du projet traité par le flux de travail: c’est en général la première étape de tous les flux.</p>
 <p>L’action suivante est l’installation de R, mise à disposition par l’organisation R infrastructure<a href="#fn94" class="footnote-ref" id="fnref94"><sup>94</sup></a>.</p>
-<p>L’installation de pandoc (logiciel extérieur à R mais nécessaire à R Markdown) est réalisée par une commande exécutée par MacOS.
+<p>L’installation de pandoc (logiciel extérieur à R mais nécessaire à R Markdown) peut être réalisée par une commande exécutée par MacOS.
 Elle est appelée par <code>run:</code> et peut contenir plusieurs lignes (d’où le <code>|</code>).
-Ce script dépend du système d’exploitation: <code>brew</code> est le gestionnaire de paquets de MacOS.</p>
+Ce script dépend du système d’exploitation: <code>brew</code> est le gestionnaire de paquets de MacOS.
+Pour éviter les spécificités d’un système, il est préférable d’utiliser une action:</p>
+<pre><code>      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v1</code></pre>
 </div>
 <div id="caches" class="section level4">
 <h4><span class="header-section-number">6.2.4.5</span> Caches</h4>
@@ -563,22 +569,36 @@ Imports:
   (...)</code></pre>
 <p>Avant de déclencher le flux de travail, il est nécessaire de créer la liste des packages dans leur version en cours sur le poste de travail:</p>
 <p></p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="chap-ci.html#cb371-1"></a>renv<span class="op">::</span><span class="kw">snapshot</span>(<span class="dt">type =</span> <span class="st">&quot;explicit&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="chap-ci.html#cb372-1"></a>renv<span class="op">::</span><span class="kw">snapshot</span>(<span class="dt">type =</span> <span class="st">&quot;explicit&quot;</span>)</span></code></pre></div>
 <p></p>
 <p>A sa première utilisation, le package <strong>renv</strong> informe de quelques adaptations de l’environnement de travail, qu’il faut accepter.</p>
 <p>Cette commande crée le fichier <code>renv.lock</code> qui est utilisé par GitHub Actions pour installer les packages pendant l’intégration continue.
 Il pourra être mis à jour à tout moment pour prendre en compte leur mise à jour.</p>
+<p>Alternativement, les packages nécessaires peuvent être installés sans l’aide de <strong>Renv</strong>:</p>
+<pre><code>      - name: Install packages
+        run: |
+          install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;tinytex&quot;))
+          tinytex::install_tinytex()
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}</code></pre>
+<p>Cette étape utilise <code>Rscript</code> comme environnement de commande, ce qui lui permet d’exécuter directement des commandes R (à comparer à l’utilisation de <code>R -e</code> dans les exemples précédents).</p>
+<p>Les packages servant à produire le document sont listés:</p>
+<ul>
+<li><strong>remotes</strong> pour sa fonction <code>install_deps()</code>;</li>
+<li><strong>bookdown</strong> pour tricoter;</li>
+<li><strong>tinytex</strong> pour disposer d’une distribution LaTeX.</li>
+</ul>
+<p>Les autres packages, ceux utilisés par le projet, sont lus dans le fichier <code>DESCRIPTION</code> par la fonction <code>install_deps()</code>.</p>
+<p>Dans cette approche, les packages ne sont pas mis en cache.</p>
 </div>
 <div id="tricot" class="section level4">
 <h4><span class="header-section-number">6.2.4.7</span> Tricot</h4>
 <p>La production de l’ouvrage est lancée par une commande R.</p>
 <pre><code>      - name: Render book
-        run: Rscript -e &#39;bookdown::render_book(&quot;index.Rmd&quot;, quiet = TRUE)&#39;</code></pre>
-<p>Les formats à produire sont paramétrés dans <code>_output.yml</code>:</p>
-<pre><code>bookdown::pdf_book:
-  (...)
-bookdown::gitbook:
-  (...)</code></pre>
+        run: |
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;)
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;)</code></pre>
+<p>Les formats paramétrés dans <code>_output.yml</code> sont ignorés.</p>
 <p>Le fichier PDF doit être produit avant le format GitBook pour que son lien de téléchargement soit ajouté à la barre de menu du site GitBook.</p>
 </div>
 <div id="sauvegarde" class="section level4">
@@ -666,27 +686,21 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup R
         uses: r-lib/actions/setup-r@v1
+        with:
+          crayon.enabled: &#39;FALSE&#39;
       - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
+      - name: Install dependencies
         run: |
-          brew install pandoc
-      - name: Cache Renv packages
-        uses: actions/cache@v2
-        with:
-          path: $HOME/.local/share/renv
-          key: r-${{ hashFiles(&#39;renv.lock&#39;) }}
-          restore-keys: r-
-      - name: Cache bookdown results
-        uses: actions/cache@v2
-        with:
-          path: _bookdown_files
-          key: bookdown-${{ hashFiles(&#39;**/*Rmd&#39;) }}
-          restore-keys: bookdown-
-      - name: Install packages
-        run: |
-          R -e &#39;install.packages(&quot;renv&quot;)&#39;
-          R -e &#39;renv::restore()&#39;
+          install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;tinytex&quot;))
+          tinytex::install_tinytex()
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
       - name: Render book
-        run: Rscript -e &#39;bookdown::render_book(&quot;index.Rmd&quot;, quiet = TRUE)&#39;
+        run: |
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;)
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;)
+        shell: Rscript {0}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -713,9 +727,72 @@ jobs:
           email: ${{ secrets.EMAIL }}
           build_dir: docs
           jekyll: no</code></pre>
+<p><strong>Renv</strong> n’est pas utilisé.</p>
+</div>
+<div id="sec:rmarkdown-ci" class="section level3">
+<h3><span class="header-section-number">6.3.2</span> Mémos et présentatons</h3>
+<p>Le flux de travail s’appelle <code>rmarkdown</code>; sa tâche de production <code>render</code>.
+Le fichier est <code>rmarkdown.yml</code>.</p>
+<pre><code>on:
+  push:
+     branches:
+       - master
+
+name: rmarkdown
+
+jobs:
+  render:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
+      - name: Install dependencies
+        run: |
+          install.packages(c(&quot;remotes&quot;, &quot;rmarkdown&quot;, &quot;tinytex&quot;))
+          tinytex::install_tinytex()
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+      - name: Render Rmarkdown files
+        run: |
+          RMD_PATH=($(ls | grep &#39;[.]Rmd$&#39;))
+          Rscript -e &#39;for (file in commandArgs(TRUE)) rmarkdown::render(file, &quot;all&quot;)&#39; ${RMD_PATH[*]}
+          Rscript -e &#39;source(&quot;GithubPages.R&quot;)&#39;
+          echo &#39;theme: jekyll-theme-slate&#39; &gt; docs/_config.yml
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: _docs
+          path: docs/
+  checkout-and-deploy:
+    runs-on: ubuntu-latest
+    needs: render
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download artifact
+        uses: actions/download-artifact@v1
+        with:
+          # Artifact name
+          name: _docs
+          # Destination path
+          path: docs
+      - name: Deploy to GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          email: ${{ secrets.EMAIL }}
+          build_dir: docs
+          jekyll: yes</code></pre>
+<p>L’étape chargée du tricot utilise un script pour lister tous les fichiers <code>.Rmd</code>, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits), exécuter le script <code>GithubPages.R</code> (voir section <a href="chap-rediger.html#sec:memo">4.3.1</a>) et configurer le thème des pages GitHub.</p>
+<p>La tâche de déploiement indique aux pages GitHub d’utiliser Jekyll, c’est-à-dire d’utiliser le fichier <code>README.md</code> comme page d’accueil.</p>
 </div>
 <div id="sec:blogdown-ci" class="section level3">
-<h3><span class="header-section-number">6.3.2</span> Site web blogdown</h3>
+<h3><span class="header-section-number">6.3.3</span> Site web blogdown</h3>
 <p>Le fichier appelé <code>blogkdown.yml</code> est très similaire, mais le contexte est différent: le code du site web est ici dans la branche <code>source</code> du dépôt (voir section <a href="chap-rediger.html#sec:blogdown">4.7</a>).
 Le nom du flux de travail est <code>blogdown</code> et celui de la tâche de production est <code>buildsite</code>.</p>
 <pre><code>on:
@@ -738,8 +815,7 @@ jobs:
       - name: Setup R
         uses: r-lib/actions/setup-r@v1
       - name: Install pandoc
-        run: |
-          brew install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
       - name: Cache Renv packages
         uses: actions/cache@v2
         with:
@@ -785,7 +861,8 @@ jobs:
           jekyll: no</code></pre>
 <p>L’action <code>checkout</code> se place dans la branche <code>source</code> avec sa variable <code>ref</code>.</p>
 <p>Il n’est pas possible de mettre en cache les résultats des bouts de code parce qu’ils se trouvent dans les pages <code>.Rmd</code> du projet, dont l’emplacement n’est pas prévisible.
-Le cache se limite aux packages.</p>
+Le cache se limite aux packages.
+L’utilisation de <strong>Renv</strong> se justifie parce que le site est reconstruit régulièrement sans intervention de l’auteur: la stabilité de son environnement permet d’éviter un échec dû à une mise à jour incompatible d’un package.</p>
 <p>La tâche <code>Build website</code> utilise le package <strong>blogdown</strong> pour installer Hugo (le générateur de sites web) et ensuite construire le site.</p>
 <p>Enfin, la tâche de déploiement se place dans la branche <code>source</code> pour récupérer le dossier <code>public</code> produit par la tâche de production et la déploie dans la branche <code>master</code> au lieu de la branche <code>gh-page</code> habituelle pour respecter l’organisation de GitHub.</p>
 <p>Si le site web utilise des données en ligne qui justifient de le mettre à jour périodiquement, GitHub Actions peut être lancé tous les jours, toutes les semaines ou tous les mois en plus des reconstruction déclenchées par une modification du dépôt (voir section <a href="chap-ci.html#sec:declenchement">6.2.4.1</a>).
@@ -794,7 +871,7 @@ Ici, le site est reconstruit tous les dimanches à 22h.</p>
 Le site est mis à jour toutes les semaines pour que les statistiques soient à jour.</p>
 </div>
 <div id="sec:package-ci6" class="section level3">
-<h3><span class="header-section-number">6.3.3</span> Packages R</h3>
+<h3><span class="header-section-number">6.3.4</span> Packages R</h3>
 <p>Le script minimal pour la vérification d’un package est le suivant<a href="#fn96" class="footnote-ref" id="fnref96"><sup>96</sup></a>:</p>
 <pre><code>on:
   push:
@@ -821,7 +898,6 @@ jobs:
         shell: Rscript {0}</code></pre>
 <p>Le fichier est nommé <code>CMD-check.yml</code>.
 Il ne contient qu’une seule tâche, nommée <code>R-CMD-check</code> comme le flux.</p>
-<p>Les étapes <code>Install dependencies</code> et <code>Check</code> utilisent <code>Rscript</code> comme environnement de commande, ce qui leur permet d’exécuter directement des commandes R (à comparer à l’utilisation de <code>R -e</code> dans les exemples précédents).</p>
 <p>Le script n’utilise pas <strong>Renv</strong> pour gérer les packages parce que la vérification d’un package doit fonctionner avec les versions en cours sur CRAN.
 <strong>remotes</strong> installe les packages nécessaires à partir du fichier <code>DESCRIPTION</code>.</p>
 <p>Enfin, l’étape <code>Check</code> vérifie le package.
