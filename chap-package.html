@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2020-12-26" />
+<meta name="date" content="2020-12-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -320,7 +320,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.7" data-path="chap-package.html"><a href="chap-package.html#tests-unitaires"><i class="fa fa-check"></i><b>5.7</b> Tests unitaires</a></li>
 <li class="chapter" data-level="5.8" data-path="chap-package.html"><a href="chap-package.html#fichier-.gitignore"><i class="fa fa-check"></i><b>5.8</b> Fichier .gitignore</a></li>
 <li class="chapter" data-level="5.9" data-path="chap-package.html"><a href="chap-package.html#sec:package-ci5"><i class="fa fa-check"></i><b>5.9</b> Intégration continue</a></li>
-<li class="chapter" data-level="5.10" data-path="chap-package.html"><a href="chap-package.html#cran"><i class="fa fa-check"></i><b>5.10</b> CRAN</a><ul>
+<li class="chapter" data-level="5.10" data-path="chap-package.html"><a href="chap-package.html#sec:package-cran"><i class="fa fa-check"></i><b>5.10</b> CRAN</a><ul>
 <li class="chapter" data-level="5.10.1" data-path="chap-package.html"><a href="chap-package.html#test-du-package"><i class="fa fa-check"></i><b>5.10.1</b> Test du package</a></li>
 <li class="chapter" data-level="5.10.2" data-path="chap-package.html"><a href="chap-package.html#soumission"><i class="fa fa-check"></i><b>5.10.2</b> Soumission</a></li>
 <li class="chapter" data-level="5.10.3" data-path="chap-package.html"><a href="chap-package.html#maintenance"><i class="fa fa-check"></i><b>5.10.3</b> Maintenance</a></li>
@@ -780,7 +780,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="chap-package.html#cb296-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7ffdf1a73de8&gt;
+## &lt;bytecode: 0x7febc5228978&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -918,9 +918,9 @@ Dans sa version réelle, 3 est noté <code>3.0</code> pour montrer clairement qu
 <span id="cb324-3"><a href="chap-package.html#cb324-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
 ##                expr  min     lq     mean median     uq     max neval
-##  triple.integer(2L)  285  299.0 20087.12    308  339.5 1974829   100
-##   triple.numeric(2)  282  294.0 17250.05    307  331.0 1693228   100
-##          triple(2L) 1236 1276.5  1430.09   1307 1396.0    5983   100</code></pre>
+##  triple.integer(2L)  303  317.0 20695.51  338.0  384.0 2032367   100
+##   triple.numeric(2)  305  313.5 17864.77  338.5  369.5 1751255   100
+##          triple(2L) 1323 1356.0  1493.82 1370.5 1454.0    6162   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> montre que la fonction <code>triple.integer()</code> est légèrement plus rapide que <code>triple.numeric</code> comme attendu mais que la méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
 R teste en effet l’existence de fonctions correspondant à la classe de l’objet passé en argument aux méthodes génériques.
@@ -1352,7 +1352,7 @@ L’analyse de la couverture du code par les tests (quelles parties du codes son
 <p>GitHub est également capable de reconstruire la documentation du package avec <strong>pkgdown</strong>, autre opération consommatrice de ressources, après la réussite des tests.</p>
 <p>La section <a href="chap-ci.html#sec:package-ci6">6.3.4</a> détaille le moyen de le faire.</p>
 </div>
-<div id="cran" class="section level2">
+<div id="sec:package-cran" class="section level2">
 <h2><span class="header-section-number">5.10</span> CRAN</h2>
 <p>Les packages dont l’audience dépasse l’entourage de l’auteur peuvent être déposés sur CRAN.
 Les règles à respecter sur CRAN sont nombreuses<a href="#fn85" class="footnote-ref" id="fnref85"><sup>85</sup></a>. Elles sont vérifiées par la commande de vérification <code>R CMD check</code> avec l’option <code>-- as.cran</code>.

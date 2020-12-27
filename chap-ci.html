@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2020-12-26" />
+<meta name="date" content="2020-12-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -320,7 +320,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.7" data-path="chap-package.html"><a href="chap-package.html#tests-unitaires"><i class="fa fa-check"></i><b>5.7</b> Tests unitaires</a></li>
 <li class="chapter" data-level="5.8" data-path="chap-package.html"><a href="chap-package.html#fichier-.gitignore"><i class="fa fa-check"></i><b>5.8</b> Fichier .gitignore</a></li>
 <li class="chapter" data-level="5.9" data-path="chap-package.html"><a href="chap-package.html#sec:package-ci5"><i class="fa fa-check"></i><b>5.9</b> Intégration continue</a></li>
-<li class="chapter" data-level="5.10" data-path="chap-package.html"><a href="chap-package.html#cran"><i class="fa fa-check"></i><b>5.10</b> CRAN</a><ul>
+<li class="chapter" data-level="5.10" data-path="chap-package.html"><a href="chap-package.html#sec:package-cran"><i class="fa fa-check"></i><b>5.10</b> CRAN</a><ul>
 <li class="chapter" data-level="5.10.1" data-path="chap-package.html"><a href="chap-package.html#test-du-package"><i class="fa fa-check"></i><b>5.10.1</b> Test du package</a></li>
 <li class="chapter" data-level="5.10.2" data-path="chap-package.html"><a href="chap-package.html#soumission"><i class="fa fa-check"></i><b>5.10.2</b> Soumission</a></li>
 <li class="chapter" data-level="5.10.3" data-path="chap-package.html"><a href="chap-package.html#maintenance"><i class="fa fa-check"></i><b>5.10.3</b> Maintenance</a></li>
@@ -872,7 +872,7 @@ Le site est mis à jour toutes les semaines pour que les statistiques soient à 
 </div>
 <div id="sec:package-ci6" class="section level3">
 <h3><span class="header-section-number">6.3.4</span> Packages R</h3>
-<p>Le script minimal pour la vérification d’un package est le suivant<a href="#fn96" class="footnote-ref" id="fnref96"><sup>96</sup></a>:</p>
+<p>Un script optimal pour la vérification d’un package est le suivant:</p>
 <pre><code>on:
   push:
     branches:
@@ -888,21 +888,38 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          install.packages(c(&quot;remotes&quot;, &quot;rcmdcheck&quot;))
+          install.packages(c(&quot;remotes&quot;, &quot;rcmdcheck&quot;, &quot;covr&quot;, &quot;pkgdown&quot;))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Check
-        run: rcmdcheck::rcmdcheck(error_on = &quot;warning&quot;)
-        shell: Rscript {0}</code></pre>
-<p>Le fichier est nommé <code>CMD-check.yml</code>.
+        run: rcmdcheck::rcmdcheck(args = &quot;--no-manual&quot;, error_on = &quot;warning&quot;)
+        shell: Rscript {0}
+      - name: Test coverage
+        run: covr::codecov(type=&quot;all&quot;)
+        shell: Rscript {0}
+      - name: Install package
+        run: R CMD INSTALL .
+      - name: Pkgdown
+        run: |
+          git config --local user.email &quot;actions@github.com&quot;
+          git config --local user.name &quot;GitHub Actions&quot;
+          Rscript -e &#39;pkgdown::deploy_to_branch(new_process = FALSE)&#39;</code></pre>
+<p>Le fichier est nommé <code>check.yml</code>.
 Il ne contient qu’une seule tâche, nommée <code>R-CMD-check</code> comme le flux.</p>
 <p>Le script n’utilise pas <strong>Renv</strong> pour gérer les packages parce que la vérification d’un package doit fonctionner avec les versions en cours sur CRAN.
 <strong>remotes</strong> installe les packages nécessaires à partir du fichier <code>DESCRIPTION</code>.</p>
-<p>Enfin, l’étape <code>Check</code> vérifie le package.
+<p>L’étape <code>Check</code> vérifie le package.
 Les avertissements sont traités comme des erreurs.</p>
-<p>Ce script ne produit rien: son succès est affiché par un badge à afficher dans le fichier <code>README.md</code> (voir section <a href="chap-ci.html#sec:ci-badges">6.4</a>)</p>
+<p>L’étape <code>Test coverage</code> utilise le package <strong>covr</strong> pour mesurer le taux de couverture et téléverse les résultats sur le site Codecov.</p>
+<p>Enfin, les deux dernières étapes installent le package puis utilisent <strong>pkgdown</strong> pour créer le site de documentation du package et le pousser dans la branche <code>gh-pages</code> du projet.</p>
+<p>Ce script ne contient qu’une tâche: le déploiement du site de documentation est directement exécuté par <strong>pkgdown</strong>.
+Son succès est affiché par un badge à afficher dans le fichier <code>README.md</code> (voir section <a href="chap-ci.html#sec:ci-badges">6.4</a>)</p>
+<p>Des scripts plus complexes sont proposés par R-lib<a href="#fn96" class="footnote-ref" id="fnref96"><sup>96</sup></a>, notamment pour exécuter les tests sur plusieurs systèmes d’exploitation et plusieurs versions de R.
+Ces tests poussés sont à effectuer avant de soumettre à CRAN (section <a href="chap-package.html#sec:package-cran">5.10</a>) mais consomment trop de ressource pour un usage systématique.</p>
 </div>
 </div>
 <div id="sec:ci-badges" class="section level2">
@@ -912,7 +929,7 @@ Sur la page du projet, choisir “Actions” puis sélectionner l’action (dans
 Cliquer sur le bouton <em>…</em> puis sur <em>Create Status Badge</em>.
 Coller le code Markdown:</p>
 <pre><code># Nom du projet
-![bookdown](https://github.com/&lt;GitHubID&gt;/&lt;Depot&gt;/workflows/&lt;Action&gt;/badge.svg)</code></pre>
+![bookdown](https://github.com/&lt;GitHubID&gt;/&lt;Depot&gt;/workflows/&lt;Tâche&gt;/badge.svg)</code></pre>
 <p>Le taux de couverture mesuré par Codecov peut aussi être affiché par un badge:</p>
 <pre><code>![codecov](https://codecov.io/github/&lt;GitHubID&gt;/
   &lt;Depot&gt;/branch/master/graphs/badge.svg)]
