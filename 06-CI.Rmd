@@ -9,6 +9,7 @@ En cas d'échec, un message d'alerte est envoyé.
 La mise en place de l'intégration continue se justifie pour des projets lourds, avec des mises à jour régulières.
 plutôt que pour des projets contenant un simple document Markdown rarement modifié.
 
+
 ## Outils
 
 ### GitHub Actions
@@ -605,7 +606,7 @@ Le site est mis à jour toutes les semaines pour que les statistiques soient à 
 
 ### Packages R {#sec:package-ci6}
 
-Le script minimal pour la vérification d'un package est le suivant[^ci-5]:
+Un script optimal pour la vérification d'un package est le suivant:
 
 ```
 on:
@@ -623,28 +624,48 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck"))
+          install.packages(c("remotes", "rcmdcheck", "covr", "pkgdown"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Check
-        run: rcmdcheck::rcmdcheck(error_on = "warning")
+        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
         shell: Rscript {0}
+      - name: Test coverage
+        run: covr::codecov(type="all")
+        shell: Rscript {0}
+      - name: Install package
+        run: R CMD INSTALL .
+      - name: Pkgdown
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
 ```
 
-[^ci-5]: <https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow>
-
-Le fichier est nommé `CMD-check.yml`.
+Le fichier est nommé `check.yml`.
 Il ne contient qu'une seule tâche, nommée `R-CMD-check` comme le flux.
 
 Le script n'utilise pas **Renv** pour gérer les packages parce que la vérification d'un package doit fonctionner avec les versions en cours sur CRAN.
 **remotes** installe les packages nécessaires à partir du fichier `DESCRIPTION`.
 
-Enfin, l'étape `Check` vérifie le package.
+L'étape `Check` vérifie le package.
 Les avertissements sont traités comme des erreurs.
 
-Ce script ne produit rien: son succès est affiché par un badge à afficher dans le fichier `README.md` (voir section \@ref(sec:ci-badges))
+L'étape `Test coverage` utilise le package **covr** pour mesurer le taux de couverture et téléverse les résultats sur le site Codecov.
+
+Enfin, les deux dernières étapes installent le package puis utilisent **pkgdown** pour créer le site de documentation du package et le pousser dans la branche `gh-pages` du projet.
+
+Ce script ne contient qu'une tâche: le déploiement du site de documentation est directement exécuté par **pkgdown**.
+Son succès est affiché par un badge à afficher dans le fichier `README.md` (voir section \@ref(sec:ci-badges))
+
+Des scripts plus complexes sont proposés par R-lib[^ci-5], notamment pour exécuter les tests sur plusieurs systèmes d'exploitation et plusieurs versions de R.
+Ces tests poussés sont à effectuer avant de soumettre à CRAN (section \@ref(sec:package-cran)) mais consomment trop de ressource pour un usage systématique.
+
+[^ci-5]: <https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow>
 
 
 ## Ajouter des badges {#sec:ci-badges}
@@ -655,7 +676,7 @@ Cliquer sur le bouton *...* puis sur *Create Status Badge*.
 Coller le code Markdown:
 
     # Nom du projet
-    ![bookdown](https://github.com/<GitHubID>/<Depot>/workflows/<Action>/badge.svg)
+    ![bookdown](https://github.com/<GitHubID>/<Depot>/workflows/<Tâche>/badge.svg)
 
 Le taux de couverture mesuré par Codecov peut aussi être affiché par un badge:
 
