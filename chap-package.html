@@ -780,7 +780,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="chap-package.html#cb297-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7f99cf1c0530&gt;
+## &lt;bytecode: 0x7fd4f77cc9c8&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -917,10 +917,10 @@ Dans sa version réelle, 3 est noté <code>3.0</code> pour montrer clairement qu
 <span id="cb325-2"><a href="chap-package.html#cb325-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>), </span>
 <span id="cb325-3"><a href="chap-package.html#cb325-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min     lq     mean median   uq     max neval
-##  triple.integer(2L)  307  316.5   362.13  345.5  371    1205   100
-##   triple.numeric(2)  306  317.0 17583.22  341.5  365 1723009   100
-##          triple(2L) 1325 1350.0 21738.27 1377.0 1429 2029253   100</code></pre>
+##                expr  min   lq     mean median     uq     max neval
+##  triple.integer(2L)  312  324   362.17  336.0  361.5    1000   100
+##   triple.numeric(2)  308  324 18461.55  333.5  354.0 1811826   100
+##          triple(2L) 1314 1339 22518.76 1361.0 1412.0 2108359   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> montre que la fonction <code>triple.integer()</code> est légèrement plus rapide que <code>triple.numeric</code> comme attendu mais que la méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
 R teste en effet l’existence de fonctions correspondant à la classe de l’objet passé en argument aux méthodes génériques.
