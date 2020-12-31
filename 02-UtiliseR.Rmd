@@ -865,7 +865,7 @@ f <- function(x, time=.25) {
 (tparallele <- system.time(mclapply(1:nbCoeurs, f, mc.cores=nbCoeurs)))
 ```
 
-La mise en place de la parallélisation a un coût de l'ordre du temps de calcul au-delà du quart de seconde attendu: environ ```r format(tparallele[3]-1/4, digits=2)``` secondes ici.
+La mise en place de la parallélisation a un coût d'environ ```r format(tparallele[3]-1/4, digits=2)``` secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -1069,7 +1069,8 @@ system.time(d <- fsapply4())
 d
 ```
 
-En parallèle, le temps de calcul n'est pas amélioré parce que les tâches individuelles sont trop courtes.
+En parallèle, le temps de calcul n'est pas amélioré sous Windows parce que les tâches individuelles sont trop courtes.
+Sous MacOS ou Linux, le calcul est accéléré.
 
 ```{r}
 fsapply5 <- function() {
@@ -1136,7 +1137,7 @@ Les boucles foreach imbriquées sont à réserver à des tâches très longues (
 
 La parallélisation est efficace dans le code ci-dessous, notamment parce qu'elle permet d'éviter les boucles foreach imbriquées.
 En revanche, les distances sont calculées deux fois.
-La performance reste très inférieure à celle d'une simple boucle for.
+La performance reste très inférieure à celle d'une simple boucle for (rappel: 100 fois moins de distances sont calculées).
  
 ```{r, tidy=FALSE}
 registerDoParallel(cores = detectCores())
@@ -1305,13 +1306,19 @@ system.time(d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints-1)*2)
 
 ### Conclusions sur l'optimisation de la vitesse du code
 
-L'optimisation du temps de calcul sous R peut être compliquée si elle passe par la parallélisation et l'écriture de code C++.
+De cette étude de cas, plusieurs enseignements peuvent être retirés:
+
+- une boucle for est une bonne base pour des calculs répétitifs, plus rapide que `vapply()`, simple à lire et à écrire;
+- des fonctions optimisées peuvent exister dans les packages de R pour des tâches courantes (ici, la fonction `pairdist()` de **spatstat** est deux ordres de grandeur plus rapide que la boucle for);
+- le recours au code C++ permet d'accélérer significativement les calculs, de trois ordres de grandeur ici;
+- la parallélisation du code C++ divise encore le temps de calcul par environ la moitié du nombre de coeurs pour de longs calculs.
+
+Au-delà de cet exemple, l'optimisation du temps de calcul sous R peut être compliquée si elle passe par la parallélisation et l'écriture de code C++.
 L'effort doit donc être concentré sur les calculs réellement long alors que la lisibilité du code doit rester la priorité pour le code courant.
+Le code C est assez facile à intégrer grâce à **RCpp** et sa parallélisation n'est pas très coûteuse avec **RCppParallel**.
 
 L'utilisation de boucles for n'est plus pénalisante depuis la version 3.5 de R.
 L'écriture de code vectoriel, utilisant `sapply()` se justifie toujours pour sa lisibilité.
-
-Le code C est assez facile à intégrer grâce à **RCpp** et sa parallélisation n'est pas très coûteuse avec **RCppParallel**.
 
 Le choix de paralléliser le code doit être évalué selon le temps d'exécution de chaque tâche parallélisable.
 S'il dépasse quelques secondes, la parallélisation se justifie.
