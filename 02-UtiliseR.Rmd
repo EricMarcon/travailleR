@@ -577,7 +577,7 @@ Elle est déclinée sous plusieurs versions:
 ```{r}
 # Tirage de 1000 valeurs dans une loi uniforme
 x1 <- runif(1000)
-# La racine carrée de peut être calculée pour le vecteur ou chaque valeur 
+# La racine carrée peut être calculée pour le vecteur ou chaque valeur 
 identical(sqrt(x1), sapply(x1, FUN=sqrt))
 mb <- microbenchmark(sqrt(x1), lapply(x1, FUN=sqrt), sapply(x1, FUN=sqrt), vapply(x1, FUN=sqrt, FUN.VALUE = 0))
 summary(mb)[, c("expr", "median")]
@@ -619,7 +619,7 @@ enableJIT(level=3)
 ```
 Le gain est considérable: de 1 à ```r format(mbs[1,2]/mbs[2,2], digits=0)```.
 
-Les boucles for sont maintenant nettement plus rapides que `lapply`.
+Les boucles for sont maintenant nettement plus rapides que `vapply`.
 
 ```{r}
 # Test
@@ -776,10 +776,11 @@ Cependant, un contournement existe pour émuler `mclapply` sous Windows en appel
 require(parallel)    
 
 ## Define the hack
-mclapply.hack <- function(...) {
+# mc.cores argument added: Eric Marcon
+mclapply.hack <- function(..., mc.cores=detectCores()) {
   ## Create a cluster
   size.of.list <- length(list(...)[[1]])
-  cl <- makeCluster( min(size.of.list, detectCores()) )
+  cl <- makeCluster( min(size.of.list, mc.cores) )
   
   ## Find out the names of the loaded packages 
   loaded.package.names <- c(
@@ -847,7 +848,7 @@ mclapply <- switch( Sys.info()[['sysname']],
 ```
 
 Le code suivant teste la parallélisation d'une fonction qui renvoie son argument inchangé après une pause d'un quart de seconde.
-Ce document est tricoté avec ```r  parallel::detectCores()``` coeurs, qui sont tous utilisés.
+Ce document est tricoté avec ```r  parallel::detectCores()``` coeurs, qui sont tous utilisés sauf un pour ne pas saturer le système.
 
 ```{r}
 f <- function(x, time=.25) {
@@ -855,11 +856,13 @@ f <- function(x, time=.25) {
   return(x)
 }
 
-nbCoeurs <- detectCores()
+# Laisser un coeur libre pour le système
+ nbCoeurs <- detectCores()-1
+
 # Série : temps théorique = nbCoeurs/4 secondes
 (tserie <- system.time(lapply(1:nbCoeurs, f)))
 # Parallèle : temps théorique = 1/4 secondes
-(tparallele <- system.time(mclapply(1:nbCoeurs, f)))
+(tparallele <- system.time(mclapply(1:nbCoeurs, f, mc.cores=nbCoeurs)))
 ```
 
 La mise en place de la parallélisation a un coût de l'ordre du temps de calcul au-delà du quart de seconde attendu: environ ```r format(tparallele[3]-1/4, digits=2)``` secondes ici.
@@ -870,32 +873,41 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 # Série
 system.time(lapply(1:nbCoeurs, f, time=1))
 # Parallèle
-system.time(mclapply(1:nbCoeurs, f, time=1))
+system.time(mclapply(1:nbCoeurs, f, time=1, mc.cores=nbCoeurs))
 ```
 
 Le temps additionnel nécessaire pour l'exécution parallèle du nouveau code est relativement plus faible: les coûts deviennent inférieurs à l'économie quand le temps de chaque tâche s'allonge.
 
-Si le nombre de tâches parallèles dépasse le nombre de coeurs, les performances s'effondrent parce que la tâche supplémentaire doit être exécutée après les premières.
+Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les performances s'effondrent parce que la tâche supplémentaire doit être exécutée après les premières.
 
 ```{r}
-system.time(mclapply(1:nbCoeurs, f, time=1))
-system.time(mclapply(1:(nbCoeurs+1), f, time=1))
+system.time(mclapply(1:nbCoeurs, f, time=1, mc.cores=nbCoeurs))
+system.time(mclapply(1:(nbCoeurs+1), f, time=1, mc.cores=nbCoeurs))
 ```
 
 Le temps reste ensuite stable jusqu'au double du nombre de coeurs.
 La figure \@ref(fig:r-parallele) montre l'évolution du temps de calcul en fonction du nombre de tâches.
 
-(ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant un quart de seconde (chaque tâche est une pause d'un quart de seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs (égal à ```r  parallel::detectCores()```) plus une. 
-```{r r-parallele, fig.cap="(ref:r-parallele)", echo=FALSE}
+(ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant une seconde (chaque tâche est une pause d'un quart de seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs utilisés (égal à ```r nbCoeurs```) plus une. 
+```{r r-parallele, fig.cap="(ref:r-parallele)"}
 Taches <- 1:(2*nbCoeurs+1)
-Temps <- sapply(Taches, function(nbTaches) system.time(mclapply(1:nbTaches, f)))
+Temps <- sapply(Taches, function(nbTaches) system.time(mclapply(1:nbTaches, f, time=1, mc.cores=nbCoeurs)))
 library("tidyverse")
 tibble(Taches, Temps=Temps["elapsed",]) %>% 
   ggplot +
-  geom_line(aes(x=Taches, y=Temps))
+  geom_line(aes(x=Taches, y=Temps)) +
+  geom_vline(xintercept=nbCoeurs, col="red", lty=2) +
+  geom_vline(xintercept=2*nbCoeurs, col="red", lty=2)
 ```
 
-Si le nombre de tâches est petit, il faut donc l'adapter au nombre de coeurs sous peine de perte de performance.
+La forme théorique de cette courbe est la suivante:
+
+- pour une tâche, le temps est égal à une seconde plus le temps de mise en place de la parallélisation;
+- le temps devrait rester stable jusqu'au nombre de coeurs utilisés;
+- quand les coeurs sont tous utilisés (pointillés rouges), le temps devrait augmenter d'une seconde puis rester stable jusqu'à la limite suivante.
+
+En pratique, le temps de calcul est déterminé par d'autres facteurs difficilement prévisibles.
+La bonne pratique est d'adapter le nombre de tâches au nombre de coeurs sous peine de perte de performance.
 
 ### parLapply (socket)
 
@@ -1091,10 +1103,11 @@ ffor <- function() {
   }
   return(distance/NbPoints/(NbPoints-1)*2)
 }
-system.time(d <- ffor())
+# Temps de calcul, mémorisé
+(for_time <- system.time(d <- ffor()))
 d
 ```
-
+C'est la façon la plus simple et efficace d'écrire ce code sans parallélisation et en se limitant au langage de R.
 
 ### boucle foreach
 
@@ -1120,7 +1133,10 @@ d
 ```
 
 Les boucles foreach imbriquées sont à réserver à des tâches très longues (plusieurs secondes au moins) pour amortir les coûts fixes de leur mise en place.
-La parallélisation ralentit encore le calcul ici parce que les tâches élémentaires sont courtes.
+
+La parallélisation est efficace dans le code ci-dessous, notamment parce qu'elle permet d'éviter les boucles foreach imbriquées.
+En revanche, les distances sont calculées deux fois.
+La performance reste très inférieure à celle d'une simple boucle for.
  
 ```{r, tidy=FALSE}
 registerDoParallel(cores = detectCores())
@@ -1280,7 +1296,8 @@ X <- runifpoint(NbPoints)
 system.time(d <- MeanDistance(X$x, X$y))
 ```
 
-En parallèle, le temps augmente peu.
+En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit ```r format(as.integer(for_time["elapsed"]*2500), digits=0)``` secondes.
 
 ```{r}
 system.time(d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints-1)*2)
