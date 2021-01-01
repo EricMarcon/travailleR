@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2020-12-31" />
+<meta name="date" content="2021-01-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -397,14 +397,14 @@ Un package à usage personnel ou limité à une équipe de travail est simple à
 Ce type de package a vocation à être hébergé sur GitHub.</p>
 <p>Des packages à usage plus large, qui fournissent par exemple le code correspondant à une méthode publiée, sont placés dans le dépôt CRAN, d’où ils pourront être installés par la commande standard <code>install.packages()</code>.
 CRAN effectue des vérifications poussées du code et n’accepte que les packages passant sans aucun avertissement sa batterie de tests.
-Ils doivent respecter la politique<a href="#fn76" class="footnote-ref" id="fnref76"><sup>76</sup></a> du dépôt.</p>
+Ils doivent respecter la politique<a href="#fn77" class="footnote-ref" id="fnref77"><sup>77</sup></a> du dépôt.</p>
 <p>La documentation pour la création de packages est abondante.
 L’ouvrage de référence est celui de <span class="citation">Wickham (<a href="#ref-Wickham2015" role="doc-biblioref">2015</a>)</span>, à consulter en tant que référence.</p>
 <p>L’approche utilisée ici consiste à créer un premier package très rapidement pour comprendre que la démarche est assez simple.
 Il sera ensuite enrichi des éléments nécessaires à un package diffusé à d’autres utilisateurs que son concepteur: une documentation complète et des tests de bon fonctionnement notamment.</p>
 <div id="premier-package" class="section level2">
 <h2><span class="header-section-number">5.1</span> Premier package</h2>
-<p>Cette introduction reprend les recommandations du blog <em>Créer un package en quelques minutes</em><a href="#fn77" class="footnote-ref" id="fnref77"><sup>77</sup></a> de ThinkR.</p>
+<p>Cette introduction reprend les recommandations du blog <em>Créer un package en quelques minutes</em><a href="#fn78" class="footnote-ref" id="fnref78"><sup>78</sup></a> de ThinkR.</p>
 <div id="création" class="section level3">
 <h3><span class="header-section-number">5.1.1</span> Création</h3>
 <p>Les packages ont une organisation stricte dans une structure de fichiers et de répertoires figée.
@@ -530,7 +530,7 @@ Ensuite, construire le package (<em>Install and Restart</em>) et vérifier le r�
 <p></p>
 <p>Il est possible d’automatiser la mise à jour de la documentation à chaque construction du package par le menu “Build &gt; Configure Build Tools…”: cliquer sur “Configure” et cocher la case “Automatically reoxygenize when running Install and Restart”.
 C’est un choix efficace pour un petit package mais pénalisant quand le temps de mise à jour de la documentation s’allonge avec la complexité du package. La reconstruction du package est le plus souvent utilisée pour tester des modifications du code: sa rapidité est essentielle.</p>
-<p>La documentation pour <strong>roxygen2</strong> supporte le format Markdown<a href="#fn78" class="footnote-ref" id="fnref78"><sup>78</sup></a>.</p>
+<p>La documentation pour <strong>roxygen2</strong> supporte le format Markdown<a href="#fn79" class="footnote-ref" id="fnref79"><sup>79</sup></a>.</p>
 <p>A ce stade, le package est fonctionnel: il contient une fonction et un début de documentation.
 Il est temps de lancer une vérification de son code: dans la fenêtre <em>Build</em>, cliquer sur “Check” ou utiliser la commande <code>devtools::check()</code>.
 L’opération <em>réoxygène</em> le package (met à jour sa documentation), effectue un grand nombre de tests et renvoie la liste des erreurs, avertissements et notes détectées.
@@ -548,7 +548,7 @@ Erreur : R CMD check found WARNINGs</code></pre>
 <div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="chap-package.html#cb277-1"></a><span class="kw">options</span>(<span class="dt">usethis.full_name =</span> <span class="st">&quot;Eric Marcon&quot;</span>)</span>
 <span id="cb277-2"><a href="chap-package.html#cb277-2"></a>usethis<span class="op">::</span><span class="kw">use_gpl3_license</span>()</span></code></pre></div>
 <p></p>
-<p>La liste des licences valides est fournie par R<a href="#fn79" class="footnote-ref" id="fnref79"><sup>79</sup></a>.</p>
+<p>La liste des licences valides est fournie par R<a href="#fn80" class="footnote-ref" id="fnref80"><sup>80</sup></a>.</p>
 <p>Après correction, relancer les tests jusqu’à la disparition des alertes.</p>
 </div>
 </div>
@@ -633,7 +633,7 @@ Dans ce cas, il faut préciser le rôle de chacun :</p>
 </ul>
 <p>La description du package en un paragraphe permet de donner plus d’informations.</p>
 <p>La licence précise la façon dont le package peut être utilisé et modifié.
-GPL-3 est une bonne valeur par défaut, mais d’autres choix sont possibles<a href="#fn80" class="footnote-ref" id="fnref80"><sup>80</sup></a>.</p>
+GPL-3 est une bonne valeur par défaut, mais d’autres choix sont possibles<a href="#fn81" class="footnote-ref" id="fnref81"><sup>81</sup></a>.</p>
 <p>L’option <code>LazyData</code> signifie que les données d’exemples fournies avec le package peuvent être utilisées sans les appeler au préalable par la fonction <code>data()</code>: c’est le standard actuel.</p>
 <p>Enfin, les deux dernières lignes sont gérées par <strong>roxygen2</strong>.</p>
 </div>
@@ -666,7 +666,7 @@ subtitle: &quot;Multiples of numbers&quot;</code></pre>
 <p>Le reste de l’entête permet à R de construire la vignette à partir de code R Markdown.</p>
 <p>Le corps de la vignette contient par défaut du code R pour déclarer les options de présentation des bouts de code et le chargement du package.
 Une introduction à l’utilisation du package doit être écrite dans ce documents, en R Markdown.</p>
-<p>Le package <strong>pkgdown</strong> permet de créer un site d’accompagnement du package<a href="#fn81" class="footnote-ref" id="fnref81"><sup>81</sup></a>, qui reprend le fichier <code>README.md</code> comme page d’accueil, la vignette dans une rubrique “Get Started”, l’ensemble des fichiers d’aide avec leurs exemples exécutés (section “Reference”), le fichier <code>NEWS.md</code> pour un historique du package (section “Changelog”) et des informations du fichier <code>DESCRIPTION</code>.</p>
+<p>Le package <strong>pkgdown</strong> permet de créer un site d’accompagnement du package<a href="#fn82" class="footnote-ref" id="fnref82"><sup>82</sup></a>, qui reprend le fichier <code>README.md</code> comme page d’accueil, la vignette dans une rubrique “Get Started”, l’ensemble des fichiers d’aide avec leurs exemples exécutés (section “Reference”), le fichier <code>NEWS.md</code> pour un historique du package (section “Changelog”) et des informations du fichier <code>DESCRIPTION</code>.</p>
 <p>Créer le site avec <strong>usethis</strong></p>
 <p></p>
 <div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="chap-package.html#cb284-1"></a>usethis<span class="op">::</span><span class="kw">use_pkgdown</span>()</span></code></pre></div>
@@ -692,10 +692,10 @@ De cette façon, les utilisateurs d’une version de production du package ont a
 <p>Le site peut être enrichi de plusieurs façons:</p>
 <ul>
 <li>En ajoutant des articles au format R Markdown dans le dossier <code>vignettes/articles</code>;</li>
-<li>En améliorant sa présentation (regroupement des fonctions par thèmes, ajout de badges, d’un sticker<a href="#fn82" class="footnote-ref" id="fnref82"><sup>82</sup></a>…): se référer à la vignette de <strong>pkgdown</strong>.</li>
+<li>En améliorant sa présentation (regroupement des fonctions par thèmes, ajout de badges, d’un sticker<a href="#fn83" class="footnote-ref" id="fnref83"><sup>83</sup></a>…): se référer à la vignette de <strong>pkgdown</strong>.</li>
 </ul>
 <p>Pour enrichir la documentation du package, il est possible d’utiliser un fichier <code>README.Rmd</code> au format R Markdown, à tricoter pour créer le <code>README.md</code> standard de GitHub, utilisé comme page d’accueil du site <strong>pkgdown</strong>, qui peut de cette façon présenter des exemples d’utilisation du code.
-La démarche est détaillée dans <em>R Packages</em><a href="#fn83" class="footnote-ref" id="fnref83"><sup>83</sup></a>.
+La démarche est détaillée dans <em>R Packages</em><a href="#fn84" class="footnote-ref" id="fnref84"><sup>84</sup></a>.
 La complexité ajoutée est à comparer au gain obtenu: une page d’accueil simple (sans code) avec des liens vers la vignette et les articles est plus simple à mettre en oeuvre.</p>
 </div>
 <div id="code-spécifique-aux-packages" class="section level2">
@@ -780,7 +780,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="chap-package.html#cb297-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7fd4f77cc9c8&gt;
+## &lt;bytecode: 0x7f84fc537868&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -917,10 +917,10 @@ Dans sa version réelle, 3 est noté <code>3.0</code> pour montrer clairement qu
 <span id="cb325-2"><a href="chap-package.html#cb325-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>), </span>
 <span id="cb325-3"><a href="chap-package.html#cb325-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min   lq     mean median     uq     max neval
-##  triple.integer(2L)  312  324   362.17  336.0  361.5    1000   100
-##   triple.numeric(2)  308  324 18461.55  333.5  354.0 1811826   100
-##          triple(2L) 1314 1339 22518.76 1361.0 1412.0 2108359   100</code></pre>
+##                expr  min     lq     mean median     uq     max neval
+##  triple.integer(2L)  309  315.0   355.53  333.0  352.5    1146   100
+##   triple.numeric(2)  308  324.0 18064.36  330.5  349.5 1772095   100
+##          triple(2L) 1315 1337.5 22294.13 1349.5 1384.0 2087622   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> montre que la fonction <code>triple.integer()</code> est légèrement plus rapide que <code>triple.numeric</code> comme attendu mais que la méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
 R teste en effet l’existence de fonctions correspondant à la classe de l’objet passé en argument aux méthodes génériques.
@@ -1208,7 +1208,7 @@ Ce dossier contient des fichiers qui seront placés à la racine du dossier du p
 <p>Les références sont citées en utilisant la commande <code>\insertCite{key}{package}</code> dans la documentation destinée à <strong>roxygen2</strong>.
 <code>package</code> est le nom du package dans lequel le fichier <code>REFERENCES.bib</code> doit être cherché: ce sera normalement le package en cours, mais les références d’autres packages sont accessibles, à la seule condition qu’ils utilisent <strong>Rdpack</strong>.</p>
 <p><code>key</code> est l’identifiant de la référence dans le fichier.
-Exemple<a href="#fn84" class="footnote-ref" id="fnref84"><sup>84</sup></a>: documentation du package <strong>SpatDiv</strong> hébergé sur GitHub, fichier <code>.R</code> du package:</p>
+Exemple<a href="#fn85" class="footnote-ref" id="fnref85"><sup>85</sup></a>: documentation du package <strong>SpatDiv</strong> hébergé sur GitHub, fichier <code>.R</code> du package:</p>
 <p></p>
 <div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="chap-package.html#cb352-1"></a><span class="co">#&#39; SpatDiv</span></span>
 <span id="cb352-2"><a href="chap-package.html#cb352-2"></a><span class="co">#&#39;</span></span>
@@ -1355,19 +1355,19 @@ L’analyse de la couverture du code par les tests (quelles parties du codes son
 <div id="sec:package-cran" class="section level2">
 <h2><span class="header-section-number">5.10</span> CRAN</h2>
 <p>Les packages dont l’audience dépasse l’entourage de l’auteur peuvent être déposés sur CRAN.
-Les règles à respecter sur CRAN sont nombreuses<a href="#fn85" class="footnote-ref" id="fnref85"><sup>85</sup></a>. Elles sont vérifiées par la commande de vérification <code>R CMD check</code> avec l’option <code>-- as.cran</code>.
+Les règles à respecter sur CRAN sont nombreuses<a href="#fn86" class="footnote-ref" id="fnref86"><sup>86</sup></a>. Elles sont vérifiées par la commande de vérification <code>R CMD check</code> avec l’option <code>-- as.cran</code>.
 La vérification ne doit renvoyer aucune erreur, aucun avertissement, ni aucune note avant de soumettre le package.</p>
 <div id="test-du-package" class="section level3">
 <h3><span class="header-section-number">5.10.1</span> Test du package</h3>
 <p>La vérification du package par GitHub dans le cadre de l’intégration continue n’est pas suffisante.
 Le package doit être testé sur la version de développement de R.
-Le site <em>R-hub builder</em><a href="#fn86" class="footnote-ref" id="fnref86"><sup>86</sup></a> permet de le faire simplement.</p>
+Le site <em>R-hub builder</em><a href="#fn87" class="footnote-ref" id="fnref87"><sup>87</sup></a> permet de le faire simplement.</p>
 <p>Le package, dont la version ne doit pas être de développement (limitée à trois nombres, voir section <a href="chap-package.html#sec:package-description">5.2.1</a>), doit être construit au format source: dans la fenêtre <em>Build</em> de RStudio, cliquer sur “More &gt; Build Source Package”.
 Sur le site <em>R-hub builder</em>, cliquer sur <em>Advanced</em>, sélectionner le fichier source du package et la plateforme de test: <em>Debian Linux, R-devel, GCC</em>.</p>
 </div>
 <div id="soumission" class="section level3">
 <h3><span class="header-section-number">5.10.2</span> Soumission</h3>
-<p>Quand le package est au point, la soumission à CRAN se fait par le site web dédié<a href="#fn87" class="footnote-ref" id="fnref87"><sup>87</sup></a>.</p>
+<p>Quand le package est au point, la soumission à CRAN se fait par le site web dédié<a href="#fn88" class="footnote-ref" id="fnref88"><sup>88</sup></a>.</p>
 <p>En cas de rejet, traiter les demandes et soumettre à nouveau en incrémentant le numéro de version.</p>
 </div>
 <div id="maintenance" class="section level3">
@@ -1388,19 +1388,19 @@ Dans le cas contraire, le package est archivé.</p>
 </div>
 <div class="footnotes">
 <hr />
-<ol start="76">
-<li id="fn76"><p><a href="https://cran.r-project.org/web/packages/policies.html" class="uri">https://cran.r-project.org/web/packages/policies.html</a><a href="chap-package.html#fnref76" class="footnote-back">↩︎</a></p></li>
-<li id="fn77"><p><a href="https://thinkr.fr/creer-package-r-quelques-minutes/" class="uri">https://thinkr.fr/creer-package-r-quelques-minutes/</a><a href="chap-package.html#fnref77" class="footnote-back">↩︎</a></p></li>
-<li id="fn78"><p><a href="https://roxygen2.r-lib.org/articles/markdown.html" class="uri">https://roxygen2.r-lib.org/articles/markdown.html</a><a href="chap-package.html#fnref78" class="footnote-back">↩︎</a></p></li>
-<li id="fn79"><p><a href="https://svn.r-project.org/R/trunk/share/licenses/license.db" class="uri">https://svn.r-project.org/R/trunk/share/licenses/license.db</a><a href="chap-package.html#fnref79" class="footnote-back">↩︎</a></p></li>
-<li id="fn80"><p><a href="https://r-pkgs.org/description.html#description-license" class="uri">https://r-pkgs.org/description.html#description-license</a><a href="chap-package.html#fnref80" class="footnote-back">↩︎</a></p></li>
-<li id="fn81"><p>Exemple: <a href="https://EricMarcon.github.io/entropart/" class="uri">https://EricMarcon.github.io/entropart/</a><a href="chap-package.html#fnref81" class="footnote-back">↩︎</a></p></li>
-<li id="fn82"><p>L’application Shiny <strong>hexmake</strong> permet de créer facilement un sticker: <a href="https://connect.thinkr.fr/hexmake/" class="uri">https://connect.thinkr.fr/hexmake/</a><a href="chap-package.html#fnref82" class="footnote-back">↩︎</a></p></li>
-<li id="fn83"><p><a href="https://r-pkgs.org/release.html?q=readme#readme-rmd" class="uri">https://r-pkgs.org/release.html?q=readme#readme-rmd</a><a href="chap-package.html#fnref83" class="footnote-back">↩︎</a></p></li>
-<li id="fn84"><p>Package <strong>SpatDiv</strong> sur GitHub: <a href="https://github.com/EricMarcon/SpatDiv/blob/master/R/package.R" class="uri">https://github.com/EricMarcon/SpatDiv/blob/master/R/package.R</a><a href="chap-package.html#fnref84" class="footnote-back">↩︎</a></p></li>
-<li id="fn85"><p><a href="https://cran.r-project.org/web/packages/policies.html" class="uri">https://cran.r-project.org/web/packages/policies.html</a><a href="chap-package.html#fnref85" class="footnote-back">↩︎</a></p></li>
-<li id="fn86"><p><a href="https://builder.r-hub.io/" class="uri">https://builder.r-hub.io/</a><a href="chap-package.html#fnref86" class="footnote-back">↩︎</a></p></li>
-<li id="fn87"><p><a href="https://xmpalantir.wu.ac.at/cransubmit/" class="uri">https://xmpalantir.wu.ac.at/cransubmit/</a><a href="chap-package.html#fnref87" class="footnote-back">↩︎</a></p></li>
+<ol start="77">
+<li id="fn77"><p><a href="https://cran.r-project.org/web/packages/policies.html" class="uri">https://cran.r-project.org/web/packages/policies.html</a><a href="chap-package.html#fnref77" class="footnote-back">↩︎</a></p></li>
+<li id="fn78"><p><a href="https://thinkr.fr/creer-package-r-quelques-minutes/" class="uri">https://thinkr.fr/creer-package-r-quelques-minutes/</a><a href="chap-package.html#fnref78" class="footnote-back">↩︎</a></p></li>
+<li id="fn79"><p><a href="https://roxygen2.r-lib.org/articles/markdown.html" class="uri">https://roxygen2.r-lib.org/articles/markdown.html</a><a href="chap-package.html#fnref79" class="footnote-back">↩︎</a></p></li>
+<li id="fn80"><p><a href="https://svn.r-project.org/R/trunk/share/licenses/license.db" class="uri">https://svn.r-project.org/R/trunk/share/licenses/license.db</a><a href="chap-package.html#fnref80" class="footnote-back">↩︎</a></p></li>
+<li id="fn81"><p><a href="https://r-pkgs.org/description.html#description-license" class="uri">https://r-pkgs.org/description.html#description-license</a><a href="chap-package.html#fnref81" class="footnote-back">↩︎</a></p></li>
+<li id="fn82"><p>Exemple: <a href="https://EricMarcon.github.io/entropart/" class="uri">https://EricMarcon.github.io/entropart/</a><a href="chap-package.html#fnref82" class="footnote-back">↩︎</a></p></li>
+<li id="fn83"><p>L’application Shiny <strong>hexmake</strong> permet de créer facilement un sticker: <a href="https://connect.thinkr.fr/hexmake/" class="uri">https://connect.thinkr.fr/hexmake/</a><a href="chap-package.html#fnref83" class="footnote-back">↩︎</a></p></li>
+<li id="fn84"><p><a href="https://r-pkgs.org/release.html?q=readme#readme-rmd" class="uri">https://r-pkgs.org/release.html?q=readme#readme-rmd</a><a href="chap-package.html#fnref84" class="footnote-back">↩︎</a></p></li>
+<li id="fn85"><p>Package <strong>SpatDiv</strong> sur GitHub: <a href="https://github.com/EricMarcon/SpatDiv/blob/master/R/package.R" class="uri">https://github.com/EricMarcon/SpatDiv/blob/master/R/package.R</a><a href="chap-package.html#fnref85" class="footnote-back">↩︎</a></p></li>
+<li id="fn86"><p><a href="https://cran.r-project.org/web/packages/policies.html" class="uri">https://cran.r-project.org/web/packages/policies.html</a><a href="chap-package.html#fnref86" class="footnote-back">↩︎</a></p></li>
+<li id="fn87"><p><a href="https://builder.r-hub.io/" class="uri">https://builder.r-hub.io/</a><a href="chap-package.html#fnref87" class="footnote-back">↩︎</a></p></li>
+<li id="fn88"><p><a href="https://xmpalantir.wu.ac.at/cransubmit/" class="uri">https://xmpalantir.wu.ac.at/cransubmit/</a><a href="chap-package.html#fnref88" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
