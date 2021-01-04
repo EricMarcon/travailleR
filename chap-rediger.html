@@ -599,6 +599,7 @@ La commande n’a aucun effet sur le document HTML mais force la césure en LaTe
 Pour couper du texte formaté (entre astérisques pour l’italique ou plus fréquemment entre apostrophes inversées pour du code), il faut terminer le formatage avant <code>\break</code> et le recommencer après.
 Exemple, pour forcer le retour à la ligne avant <code>fichier.Rmd</code>:</p>
 <pre><code>Le fichier `/chemin/`\break`fichier.Rmd`</code></pre>
+<p>En HTML, un espace sera ajouté entre les deux portions de code.</p>
 <p>Les bouts de code R sont formatés automatiquement par <strong>knitr</strong> quand l’option <code>tidy=TRUE</code> leur est appliquée.
 Le comportement par défaut est indiqué dans les options de <strong>knitr</strong>, dans un bout de code au début de chaque document:</p>
 <p></p>
@@ -1295,12 +1296,21 @@ Les fonctions optimisées sont <code>agg_png()</code>, <code>agg_jpeg()</code>et
 Pour ce document, les options déclarées dans <code>index.Rmd</code> sont les suivantes:</p>
 <p></p>
 <div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="chap-rediger.html#cb267-1"></a>knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(</span>
-<span id="cb267-2"><a href="chap-rediger.html#cb267-2"></a>  <span class="dt">cache=</span><span class="ot">TRUE</span>, <span class="dt">warning=</span><span class="ot">FALSE</span>,</span>
-<span id="cb267-3"><a href="chap-rediger.html#cb267-3"></a>  <span class="dt">echo =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb267-4"><a href="chap-rediger.html#cb267-4"></a>  <span class="dt">fig.env=</span><span class="st">&#39;SCfigure&#39;</span>, <span class="dt">fig.asp=</span>.<span class="dv">75</span>, <span class="dt">fig.align=</span><span class="st">&#39;center&#39;</span>, <span class="dt">out.width=</span><span class="st">&#39;80%&#39;</span>, </span>
-<span id="cb267-5"><a href="chap-rediger.html#cb267-5"></a>  <span class="dt">dev =</span> <span class="st">&quot;ragg_png&quot;</span>,</span>
-<span id="cb267-6"><a href="chap-rediger.html#cb267-6"></a>  <span class="dt">tidy=</span><span class="ot">TRUE</span>, <span class="dt">tidy.opts=</span><span class="kw">list</span>(<span class="dt">blank=</span><span class="ot">FALSE</span>, <span class="dt">width.cutoff=</span><span class="dv">55</span>), <span class="dt">size=</span><span class="st">&quot;scriptsize&quot;</span>,</span>
-<span id="cb267-7"><a href="chap-rediger.html#cb267-7"></a>  <span class="dt">knitr.graphics.auto_pdf =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<span id="cb267-2"><a href="chap-rediger.html#cb267-2"></a>  <span class="dt">cache =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb267-3"><a href="chap-rediger.html#cb267-3"></a>  <span class="dt">warning =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb267-4"><a href="chap-rediger.html#cb267-4"></a>  <span class="dt">echo =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb267-5"><a href="chap-rediger.html#cb267-5"></a>  <span class="dt">fig.env =</span> <span class="st">&#39;SCfigure&#39;</span>, </span>
+<span id="cb267-6"><a href="chap-rediger.html#cb267-6"></a>  <span class="dt">fig.asp =</span> <span class="fl">.75</span>, <span class="dt">fig.align =</span> <span class="st">&#39;center&#39;</span>, <span class="dt">out.width =</span> <span class="st">&#39;80%&#39;</span>, </span>
+<span id="cb267-7"><a href="chap-rediger.html#cb267-7"></a>  <span class="dt">dev =</span> <span class="st">&quot;ragg_png&quot;</span>,</span>
+<span id="cb267-8"><a href="chap-rediger.html#cb267-8"></a>  <span class="dt">tidy =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb267-9"><a href="chap-rediger.html#cb267-9"></a>  <span class="dt">tidy.opts =</span> </span>
+<span id="cb267-10"><a href="chap-rediger.html#cb267-10"></a>    <span class="kw">list</span>(</span>
+<span id="cb267-11"><a href="chap-rediger.html#cb267-11"></a>      <span class="dt">blank =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb267-12"><a href="chap-rediger.html#cb267-12"></a>      <span class="dt">width.cutoff =</span> <span class="dv">55</span></span>
+<span id="cb267-13"><a href="chap-rediger.html#cb267-13"></a>      ), </span>
+<span id="cb267-14"><a href="chap-rediger.html#cb267-14"></a>    <span class="dt">size =</span> <span class="st">&quot;scriptsize&quot;</span>,</span>
+<span id="cb267-15"><a href="chap-rediger.html#cb267-15"></a>    <span class="dt">knitr.graphics.auto_pdf =</span> <span class="ot">TRUE</span></span>
+<span id="cb267-16"><a href="chap-rediger.html#cb267-16"></a>  )</span></code></pre></div>
 <p></p>
 <p>Enfin, <strong>ragg</strong> peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la version 1.4 (Menu “Tools &gt; Global Options &gt; General &gt; Graphics &gt; Backend”).</p>
 
