@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-01-01" />
+<meta name="date" content="2021-01-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -463,7 +463,7 @@ Les informations à fournir sont le titre et le nom de l’auteur, et le format 
 Ces modèles créent un seul fichier dont l’enregistrement ne sera obligatoire qu’au moment de tricoter.</p>
 <p>La syntaxe est la même que celle du bloc-note.
 Dans l’entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:</p>
-<pre><code>date: &quot;2021-01-01&quot;</code></pre>
+<pre><code>date: &quot;2021-01-04&quot;</code></pre>
 <p>Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
 Il commence par un guillemet inversé suivi de <code>r</code>et se termine par un autre guillement inversé.</p>
 <p>Les documents peuvent être tricotés au format HTML, PDF (via LaTeX) ou Word.
@@ -571,7 +571,7 @@ Le format PDF est dérivé du modèle LaTeX <em>memoir</em><a href="#fn55" class
 <h3><span class="header-section-number">4.5.1</span> Créer</h3>
 <p>La création d’un projet d’ouvrage est identique à celle présentée plus haut: le modèle est: Ouvrage EcoFoG. Le dossier créé doit être transformé en chapitre, comme pour un Memo EcoFoG.</p>
 <p>Chaque chapitre de l’ouvrage est un fichier Rmd, dont le nom commence normalement par son numéro (ex.: <code>01-intro.Rmd</code>).
-Tous les fichiers Rmd présents dans le dossier du projet sont en réalité traités comme des chapitres, triés par ordre de nom de fichier, dont ceux fournis par le modèle (démarrage et syntaxe) qui doivent être supprimés à l’exception de <code>99-references.Rmd</code> qui contient la bilibiographie, placée à la fin.
+Tous les fichiers Rmd présents dans le dossier du projet sont en réalité traités comme des chapitres, triés par ordre de nom de fichier, dont ceux fournis par le modèle (démarrage et syntaxe) qui doivent être supprimés à l’exception de <code>99-references.Rmd</code> qui contient la bibliographie, placée à la fin.
 Le fichier <code>index.Rmd</code> est particulier: il contient l’entête du document et le premier chapitre.</p>
 </div>
 <div id="ecrire-1" class="section level3">
@@ -596,7 +596,7 @@ La page d’accueil du site web est créée par bookdown à partir du fichier <c
 <p>Il est souvent utile d’aider LaTeX à résoudre quelques dépassements de marge dus à de trop grandes contraintes de mise en page: pour la lisibilité optimale, les colonnes sont étroites, mais le code (texte formaté entre deux apostrophes inversées) n’autorise pas la césure.</p>
 <p>Si une ligne de texte dépasse dans la marge de droite dans le document PDF, la solution consiste à ajouter manuellement le code <code>\break</code> à l’emplacement désiré pour le retour à la ligne dans le document R Markdown.
 La commande n’a aucun effet sur le document HTML mais force la césure en LaTeX.
-Pour couper du texte formaté (entre astérisques pour l’italique ou plus fréquemment entre appostrophes inversées pour du code), il faut terminer le formatage avant <code>\break</code> et le recommencer après.
+Pour couper du texte formaté (entre astérisques pour l’italique ou plus fréquemment entre apostrophes inversées pour du code), il faut terminer le formatage avant <code>\break</code> et le recommencer après.
 Exemple, pour forcer le retour à la ligne avant <code>fichier.Rmd</code>:</p>
 <pre><code>Le fichier `/chemin/`\break`fichier.Rmd`</code></pre>
 <p>Les bouts de code R sont formatés automatiquement par <strong>knitr</strong> quand l’option <code>tidy=TRUE</code> leur est appliquée.
@@ -949,7 +949,7 @@ Il présente le propriétaire du site.
 Son titre doit être localisé.
 Dans le dossier <code>/content/fr/home</code>, sa valeur sera:</p>
 <pre><code>title = &quot;Biographie&quot;</code></pre>
-<p>L’auteur (<code>author</code>) doir correspondre à un dossier de <code>/contents/&lt;langue&gt;/authors</code>.
+<p>L’auteur (<code>author</code>) doit correspondre à un dossier de <code>/contents/&lt;langue&gt;/authors</code>.
 <code>admin</code> convient parfaitement pour un site personnel.
 Academic permet de créer des sites d’équipes: dans cette configuration, un dossier par personne serait nécessaire.
 L’image affichée par le composant est le fichier <code>avatar.jpg</code> placé dans ce dossier.
@@ -1073,7 +1073,7 @@ L’option <code>preview_only: true</code> limite l’affichage aux miniatures (
 <p>Les éléments d’entête nécessaires au corps de texte R Markdown, comme le nom du fichier contenant les références bibliographiques, placé dans le même dossier, sont ajoutés.</p>
 <p>Le corps du texte est celui d’un document R Markdown standard, avec du code R inclus.
 Un bout de code initial permet de fixer les options de R et charger les packages nécessaires.</p>
-<p>En pratique, la façon la plus efficace de créer un nouveau billet est de copier le dossier complet d’un billet précédent, de le renmmer et de modifier son contenu.
+<p>En pratique, la façon la plus efficace de créer un nouveau billet est de copier le dossier complet d’un billet précédent, de le renommer et de modifier son contenu.
 La commande <code>blogdown::new_post()</code> peut aussi être utilisée mais ne gère pas les langues multiples (et crée donc le billet dans le dossier <code>/contents/post</code> à moins de préciser l’argument <code>subdir</code>).</p>
 <p>La reconstruction du site ne met par défaut pas à jour les pages basées sur un fichier <code>.Rmd</code>.
 Pour le faire, il faut forcer la commande <code>build_site()</code>.</p>
@@ -1116,7 +1116,7 @@ featured: false
 <p>Des boutons sont affichés en haut de la page de la publication en fonction des informations trouvées :</p>
 <ul>
 <li>PDF: si la ligne <code>url</code> est présente dans l’en-tête;</li>
-<li>Citation: si le fichier <code>cite.bib</code> est orésent dans le dossier;</li>
+<li>Citation: si le fichier <code>cite.bib</code> est présent dans le dossier;</li>
 <li>DOI: si la ligne <code>doi</code> est présente dans l’en-tête.</li>
 </ul>
 <p>Le corps de la publication contient un lien (au format HTML) vers le site Dimension qui fournit des informations bibliométriques.
@@ -1254,9 +1254,9 @@ La figure <a href="chap-rediger.html#fig:volcano">4.8</a> montre le résultat du
 <span id="cb264-7"><a href="chap-rediger.html#cb264-7"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at =</span> <span class="kw">seq</span>(<span class="dv">100</span>, <span class="dv">600</span>, <span class="dt">by =</span> <span class="dv">100</span>))</span>
 <span id="cb264-8"><a href="chap-rediger.html#cb264-8"></a><span class="kw">box</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:volcano"></span>
-<img src="travailleR_files/figure-html/volcano-1.png" alt="Courbes de niveau du volcan Maunga Whau, code fourni en exemple de l’aide de la foncion image()." width="80%" />
+<img src="travailleR_files/figure-html/volcano-1.png" alt="Courbes de niveau du volcan Maunga Whau, code fourni en exemple de l’aide de la fonction image()." width="80%" />
 <p class="caption">
-Figure 4.8: Courbes de niveau du volcan Maunga Whau, code fourni en exemple de l’aide de la foncion <code>image()</code>.
+Figure 4.8: Courbes de niveau du volcan Maunga Whau, code fourni en exemple de l’aide de la fonction <code>image()</code>.
 </p>
 </div>
 <p></p>
@@ -1302,7 +1302,7 @@ Pour ce document, les options déclarées dans <code>index.Rmd</code> sont les s
 <span id="cb267-6"><a href="chap-rediger.html#cb267-6"></a>  <span class="dt">tidy=</span><span class="ot">TRUE</span>, <span class="dt">tidy.opts=</span><span class="kw">list</span>(<span class="dt">blank=</span><span class="ot">FALSE</span>, <span class="dt">width.cutoff=</span><span class="dv">55</span>), <span class="dt">size=</span><span class="st">&quot;scriptsize&quot;</span>,</span>
 <span id="cb267-7"><a href="chap-rediger.html#cb267-7"></a>  <span class="dt">knitr.graphics.auto_pdf =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p></p>
-<p>Enfin, <strong>ragg</strong> peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la versoin 1.4 (Menu “Tools &gt; Global Options &gt; General &gt; Graphics &gt; Backend”).</p>
+<p>Enfin, <strong>ragg</strong> peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la version 1.4 (Menu “Tools &gt; Global Options &gt; General &gt; Graphics &gt; Backend”).</p>
 
 </div>
 </div>
