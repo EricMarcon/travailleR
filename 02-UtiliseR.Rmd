@@ -889,15 +889,17 @@ Le temps reste ensuite stable jusqu'au double du nombre de coeurs.
 La figure \@ref(fig:r-parallele) montre l'évolution du temps de calcul en fonction du nombre de tâches.
 
 (ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant une seconde (chaque tâche est une pause d'un quart de seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs utilisés (égal à ```r nbCoeurs```) plus une. 
-```{r r-parallele, fig.cap="(ref:r-parallele)"}
-Taches <- 1:(2*nbCoeurs+1)
-Temps <- sapply(Taches, function(nbTaches) system.time(mclapply(1:nbTaches, f, time=1, mc.cores=nbCoeurs)))
+```{r r-parallele, fig.cap="(ref:r-parallele)", tidy=FALSE}
+Taches <- 1:(2 * nbCoeurs+1)
+Temps <- sapply(Taches, function(nbTaches) {
+      system.time(mclapply(1:nbTaches, f, time=1, mc.cores=nbCoeurs))
+              })
 library("tidyverse")
-tibble(Taches, Temps=Temps["elapsed",]) %>% 
+tibble(Taches, Temps=Temps["elapsed", ]) %>% 
   ggplot +
-  geom_line(aes(x=Taches, y=Temps)) +
-  geom_vline(xintercept=nbCoeurs, col="red", lty=2) +
-  geom_vline(xintercept=2*nbCoeurs, col="red", lty=2)
+  geom_line(aes(x = Taches, y = Temps)) +
+  geom_vline(xintercept = nbCoeurs, col = "red", lty = 2) +
+  geom_vline(xintercept = 2 * nbCoeurs, col = "red", lty = 2)
 ```
 
 La forme théorique de cette courbe est la suivante:

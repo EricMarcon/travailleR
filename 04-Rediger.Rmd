@@ -287,6 +287,8 @@ Exemple, pour forcer le retour à la ligne avant `fichier.Rmd`:
 
     Le fichier `/chemin/`\break`fichier.Rmd`
 
+En HTML, un espace sera ajouté entre les deux portions de code.
+
 Les bouts de code R sont formatés automatiquement par **knitr** quand l'option `tidy=TRUE` leur est appliquée.
 Le comportement par défaut est indiqué dans les options de **knitr**, dans un bout de code au début de chaque document:
 
@@ -1139,12 +1141,21 @@ Pour ce document, les options déclarées dans `index.Rmd` sont les suivantes:
 
 ```{r, eval=FALSE, tidy=FALSE}
 knitr::opts_chunk$set(
-  cache=TRUE, warning=FALSE,
+  cache = TRUE, 
+  warning = FALSE,
   echo = TRUE,
-  fig.env='SCfigure', fig.asp=.75, fig.align='center', out.width='80%', 
+  fig.env = 'SCfigure', 
+  fig.asp = .75, fig.align = 'center', out.width = '80%', 
   dev = "ragg_png",
-  tidy=TRUE, tidy.opts=list(blank=FALSE, width.cutoff=55), size="scriptsize",
-  knitr.graphics.auto_pdf = TRUE)
+  tidy = TRUE, 
+  tidy.opts = 
+    list(
+      blank = FALSE, 
+      width.cutoff = 55
+      ), 
+    size = "scriptsize",
+    knitr.graphics.auto_pdf = TRUE
+  )
 ```
 
 Enfin, **ragg** peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la version 1.4 (Menu "Tools > Global Options > General > Graphics > Backend").
