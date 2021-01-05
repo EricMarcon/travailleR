@@ -554,7 +554,7 @@ tryCatch(print(y), error= function(e) print(e))
 De nouvelles méthodes génériques peuvent être créées et déclinées selon les classes.
 
 A titre d'exemple, créons une méthode générique `triple` qui calculera le triple des valeurs dans le package **multiple**, déclinée en deux fonctions distinctes: une pour les entiers et une pour les réels.
-Les calculs sur les nombres entiers sont bien plus rapides que ceux sur les réels, ce qui justifie l'effort d'écrire deux versions du code.
+Les calculs sur les nombres entiers plus rapides que ceux sur les réels, ce qui justifie l'effort d'écrire deux versions du code.
 
 ```{r}
 # Méthode générique
@@ -596,7 +596,8 @@ class(triple(2))
 microbenchmark::microbenchmark(triple.integer(2L), triple.numeric(2), triple(2L))
 ```
 
-La mesure des performances par le package **microbenchmark** montre que la fonction `triple.integer()` est légèrement plus rapide que `triple.numeric` comme attendu mais que la méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
+La mesure des performances par le package **microbenchmark** ne montre pas de différence entre les fonctions `triple.integer()` et `triple.numeric` comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d'appel de la fonction.
+La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
 R teste en effet l'existence de fonctions correspondant à la classe de l'objet passé en argument aux méthodes génériques.
 Comme un objet peut appartenir à plusieurs classes, il recherche une fonction adaptée à la première classe, puis aux classes suivantes successivement.
 Cette recherche prend beaucoup de temps et justifie de réserver l'usage de méthodes génériques à la lisibilité du code plutôt qu'à une recherche de performance: l'intérêt des méthodes génériques est de fournir à l'utilisateur du code une seule fonction pour un objectif donné (`plot` pour réaliser une figure) quelles que soient les données à traiter.
