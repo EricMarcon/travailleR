@@ -268,7 +268,7 @@ Alternativement, les packages nécessaires peuvent être installés sans l'aide 
 ```
       - name: Install packages
         run: |
-          install.packages(c("remotes", "bookdown", "tinytex"))
+          install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
@@ -280,6 +280,7 @@ Les packages servant à produire le document sont listés:
 
 - **remotes** pour sa fonction `install_deps()`;
 - **bookdown** pour tricoter;
+- **formatR** pour la mise en forme des bouts de code (`tidy=TRUE`);
 - **tinytex** pour disposer d'une distribution LaTeX.
 
 Les autres packages, ceux utilisés par le projet, sont lus dans le fichier `DESCRIPTION` par la fonction `install_deps()`.
@@ -411,7 +412,7 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "bookdown", "tinytex"))
+          install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
@@ -476,7 +477,7 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "bookdown", "tinytex"))
+          install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
@@ -518,6 +519,15 @@ L'étape chargée du tricot utilise un script pour lister tous les fichiers `.Rm
 
 La tâche de déploiement indique aux pages GitHub d'utiliser Jekyll, c'est-à-dire d'utiliser le fichier `README.md` comme page d'accueil.
 
+Le fichier `DESCRIPTION` doit contenir les références au package **EcoFoG** si ses modèles sont utilisés:
+```
+Imports:
+  (...),
+  EcoFoG,
+  (...)
+Remotes:
+  EcoFoG/EcoFoG
+```
 
 ### Site web blogdown {#sec:blogdown-ci}
 
