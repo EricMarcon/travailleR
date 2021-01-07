@@ -577,7 +577,7 @@ Il pourra être mis à jour à tout moment pour prendre en compte leur mise à j
 <p>Alternativement, les packages nécessaires peuvent être installés sans l’aide de <strong>Renv</strong>:</p>
 <pre><code>      - name: Install packages
         run: |
-          install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;tinytex&quot;))
+          install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;formatR&quot;, &quot;tinytex&quot;))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}</code></pre>
@@ -586,6 +586,7 @@ Il pourra être mis à jour à tout moment pour prendre en compte leur mise à j
 <ul>
 <li><strong>remotes</strong> pour sa fonction <code>install_deps()</code>;</li>
 <li><strong>bookdown</strong> pour tricoter;</li>
+<li><strong>formatR</strong> pour la mise en forme des bouts de code (<code>tidy=TRUE</code>);</li>
 <li><strong>tinytex</strong> pour disposer d’une distribution LaTeX.</li>
 </ul>
 <p>Les autres packages, ceux utilisés par le projet, sont lus dans le fichier <code>DESCRIPTION</code> par la fonction <code>install_deps()</code>.</p>
@@ -696,7 +697,7 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;tinytex&quot;))
+          install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;formatR&quot;, &quot;tinytex&quot;))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
@@ -756,7 +757,7 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;tinytex&quot;))
+          install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;formatR&quot;, &quot;tinytex&quot;))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
@@ -794,6 +795,13 @@ jobs:
           jekyll: yes</code></pre>
 <p>L’étape chargée du tricot utilise un script pour lister tous les fichiers <code>.Rmd</code>, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits), exécuter le script <code>GithubPages.R</code> (voir section <a href="chap-rediger.html#sec:memo">4.3.1</a>) et configurer le thème des pages GitHub.</p>
 <p>La tâche de déploiement indique aux pages GitHub d’utiliser Jekyll, c’est-à-dire d’utiliser le fichier <code>README.md</code> comme page d’accueil.</p>
+<p>Le fichier <code>DESCRIPTION</code> doit contenir les références au package <strong>EcoFoG</strong> si ses modèles sont utilisés:</p>
+<pre><code>Imports:
+  (...),
+  EcoFoG,
+  (...)
+Remotes:
+  EcoFoG/EcoFoG</code></pre>
 </div>
 <div id="sec:blogdown-ci" class="section level3">
 <h3><span class="header-section-number">6.3.3</span> Site web blogdown</h3>
