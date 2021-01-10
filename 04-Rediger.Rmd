@@ -172,10 +172,10 @@ Les instructions pour utiliser le modèle sont contenues dans le texte fourni pa
 
 Le document peut être tricoté en plusieurs formats:
 
--   *html\_document2* est le format HTML pour lequel le modèle a été conçu: un bloc-note avec une table des matières flottante;
+-   *html_document2* est le format HTML pour lequel le modèle a été conçu: un bloc-note avec une table des matières flottante;
 -   *gitbook* est un format HTML alternatif, utilisé normalement pour les ouvrages;
--   *pdf\_book* produit un document PDF suivant le modèle LaTeX *article*, couramment utilisé directement en LaTeX;
--   *word\_document2* crée un ficher Word.
+-   *pdf_book* produit un document PDF suivant le modèle LaTeX *article*, couramment utilisé directement en LaTeX;
+-   *word_document2* crée un ficher Word.
 
 #### Mettre en ligne
 
@@ -252,7 +252,7 @@ Ce document a été écrit avec ce modèle.
 La création d'un projet d'ouvrage est identique à celle présentée plus haut: le modèle est: Ouvrage EcoFoG. Le dossier créé doit être transformé en chapitre, comme pour un Memo EcoFoG.
 
 Chaque chapitre de l'ouvrage est un fichier Rmd, dont le nom commence normalement par son numéro (ex.: `01-intro.Rmd`).
-Tous les fichiers Rmd présents dans le dossier du projet sont en réalité traités comme des chapitres, triés par ordre de nom de fichier, dont ceux fournis par le modèle (démarrage et syntaxe) qui doivent être supprimés à l'exception de `99-references.Rmd` qui contient la bilibiographie, placée à la fin.
+Tous les fichiers Rmd présents dans le dossier du projet sont en réalité traités comme des chapitres, triés par ordre de nom de fichier, dont ceux fournis par le modèle (démarrage et syntaxe) qui doivent être supprimés à l'exception de `99-references.Rmd` qui contient la bibliographie, placée à la fin.
 Le fichier `index.Rmd` est particulier: il contient l'entête du document et le premier chapitre.
 
 ### Ecrire
@@ -282,10 +282,12 @@ Il est souvent utile d'aider LaTeX à résoudre quelques dépassements de marge 
 
 Si une ligne de texte dépasse dans la marge de droite dans le document PDF, la solution consiste à ajouter manuellement le code `\break` à l'emplacement désiré pour le retour à la ligne dans le document R Markdown.
 La commande n'a aucun effet sur le document HTML mais force la césure en LaTeX.
-Pour couper du texte formaté (entre astérisques pour l'italique ou plus fréquemment entre appostrophes inversées pour du code), il faut terminer le formatage avant `\break` et le recommencer après.
+Pour couper du texte formaté (entre astérisques pour l'italique ou plus fréquemment entre apostrophes inversées pour du code), il faut terminer le formatage avant `\break` et le recommencer après.
 Exemple, pour forcer le retour à la ligne avant `fichier.Rmd`:
 
     Le fichier `/chemin/`\break`fichier.Rmd`
+
+En HTML, un espace sera ajouté entre les deux portions de code.
 
 Les bouts de code R sont formatés automatiquement par **knitr** quand l'option `tidy=TRUE` leur est appliquée.
 Le comportement par défaut est indiqué dans les options de **knitr**, dans un bout de code au début de chaque document:
@@ -722,7 +724,7 @@ Dans le dossier `/content/fr/home`, sa valeur sera:
 
     title = "Biographie"
 
-L'auteur (`author`) doir correspondre à un dossier de `/contents/<langue>/authors`.
+L'auteur (`author`) doit correspondre à un dossier de `/contents/<langue>/authors`.
 `admin` convient parfaitement pour un site personnel.
 Academic permet de créer des sites d'équipes: dans cette configuration, un dossier par personne serait nécessaire.
 L'image affichée par le composant est le fichier `avatar.jpg` placé dans ce dossier.
@@ -873,7 +875,7 @@ Les éléments d'entête nécessaires au corps de texte R Markdown, comme le nom
 Le corps du texte est celui d'un document R Markdown standard, avec du code R inclus.
 Un bout de code initial permet de fixer les options de R et charger les packages nécessaires.
 
-En pratique, la façon la plus efficace de créer un nouveau billet est de copier le dossier complet d'un billet précédent, de le renmmer et de modifier son contenu.
+En pratique, la façon la plus efficace de créer un nouveau billet est de copier le dossier complet d'un billet précédent, de le renommer et de modifier son contenu.
 La commande `blogdown::new_post()` peut aussi être utilisée mais ne gère pas les langues multiples (et crée donc le billet dans le dossier `/contents/post` à moins de préciser l'argument `subdir`).
 
 La reconstruction du site ne met par défaut pas à jour les pages basées sur un fichier `.Rmd`.
@@ -930,7 +932,7 @@ Les types de publication sont:
 Des boutons sont affichés en haut de la page de la publication en fonction des informations trouvées :
 
 -   PDF: si la ligne `url` est présente dans l'en-tête;
--   Citation: si le fichier `cite.bib` est orésent dans le dossier;
+-   Citation: si le fichier `cite.bib` est présent dans le dossier;
 -   DOI: si la ligne `doi` est présente dans l'en-tête.
 
 Le corps de la publication contient un lien (au format HTML) vers le site Dimension qui fournit des informations bibliométriques.
@@ -1083,7 +1085,7 @@ Les figures raster (composées d'un ensemble de points, comme les photographies)
 La fonction `image()` utilisée pour afficher des cartes utilise par défaut des polygones plutôt que des points.
 La figure \@ref(fig:volcano) montre le résultat du code suivant:
 
-(ref:volcano) Courbes de niveau du volcan Maunga Whau, code fourni en exemple de l'aide de la foncion `image()`.
+(ref:volcano) Courbes de niveau du volcan Maunga Whau, code fourni en exemple de l'aide de la fonction `image()`.
 
 ```{r volcano, fig.cap="(ref:volcano)", echo=TRUE}
 x <- 10*(1:nrow(volcano))
@@ -1139,12 +1141,21 @@ Pour ce document, les options déclarées dans `index.Rmd` sont les suivantes:
 
 ```{r, eval=FALSE, tidy=FALSE}
 knitr::opts_chunk$set(
-  cache=TRUE, warning=FALSE,
+  cache = TRUE, 
+  warning = FALSE,
   echo = TRUE,
-  fig.env='SCfigure', fig.asp=.75, fig.align='center', out.width='80%', 
+  fig.env = 'SCfigure', 
+  fig.asp = .75, fig.align = 'center', out.width = '80%', 
   dev = "ragg_png",
-  tidy=TRUE, tidy.opts=list(blank=FALSE, width.cutoff=55), size="scriptsize",
-  knitr.graphics.auto_pdf = TRUE)
+  tidy = TRUE, 
+  tidy.opts = 
+    list(
+      blank = FALSE, 
+      width.cutoff = 55
+      ), 
+    size = "scriptsize",
+    knitr.graphics.auto_pdf = TRUE
+  )
 ```
 
-Enfin, **ragg** peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la versoin 1.4 (Menu "Tools > Global Options > General > Graphics > Backend").
+Enfin, **ragg** peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la version 1.4 (Menu "Tools > Global Options > General > Graphics > Backend").

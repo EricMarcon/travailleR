@@ -268,7 +268,7 @@ Alternativement, les packages nécessaires peuvent être installés sans l'aide 
 ```
       - name: Install packages
         run: |
-          install.packages(c("remotes", "bookdown", "tinytex"))
+          install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
@@ -280,6 +280,7 @@ Les packages servant à produire le document sont listés:
 
 - **remotes** pour sa fonction `install_deps()`;
 - **bookdown** pour tricoter;
+- **formatR** pour la mise en forme des bouts de code (`tidy=TRUE`);
 - **tinytex** pour disposer d'une distribution LaTeX.
 
 Les autres packages, ceux utilisés par le projet, sont lus dans le fichier `DESCRIPTION` par la fonction `install_deps()`.
@@ -319,12 +320,12 @@ La dernière étape de la tâche de production utilise l'action `upload-artifact
 Le contenu de `docs` est sauvegardé en tant qu'*artefact* nommé "_book".
 Les artefacts sont visibles publiquement sur la page des Actions du projet GitHub.
 
-Après sa dernière étape, la machine virtuelle utlisée pour cette étape est détruite.
+Après sa dernière étape, la machine virtuelle utilisée pour cette étape est détruite.
 
 
 #### Publication
 
-La publication de l'artefact dans la brache `gh-pages` du projet nécessite une autre tâche.
+La publication de l'artefact dans la branche `gh-pages` du projet nécessite une autre tâche.
 
 ```
   checkout-and-deploy:
@@ -411,7 +412,7 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "bookdown", "tinytex"))
+          install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
@@ -476,7 +477,7 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rmarkdown", "tinytex"))
+          install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
@@ -518,6 +519,15 @@ L'étape chargée du tricot utilise un script pour lister tous les fichiers `.Rm
 
 La tâche de déploiement indique aux pages GitHub d'utiliser Jekyll, c'est-à-dire d'utiliser le fichier `README.md` comme page d'accueil.
 
+Le fichier `DESCRIPTION` doit contenir les références au package **EcoFoG** si ses modèles sont utilisés:
+```
+Imports:
+  (...),
+  EcoFoG,
+  (...)
+Remotes:
+  EcoFoG/EcoFoG
+```
 
 ### Site web blogdown {#sec:blogdown-ci}
 
@@ -599,7 +609,7 @@ L'utilisation de **Renv** se justifie parce que le site est reconstruit réguli�
 
 La tâche `Build website` utilise le package **blogdown** pour installer Hugo (le générateur de sites web) et ensuite construire le site.
 
-Enfin, la tâche de déploiement se place dans la branche `source` pour récupérer le dossier `public` produit par la tâche de production et la déploie dans la branche `master` au lieu de la branche `gh-page` habituelle pour respecter l'organisation de GitHub.
+Enfin, la tâche de déploiement se place dans la branche `source` pour récupérer le dossier `public` produit par la tâche de production et la déploie dans la branche `master` au lieu de la branche `gh-pages` habituelle pour respecter l'organisation de GitHub.
 
 Si le site web utilise des données en ligne qui justifient de le mettre à jour périodiquement, GitHub Actions peut être lancé tous les jours, toutes les semaines ou tous les mois en plus des reconstruction déclenchées par une modification du dépôt (voir section \@ref(sec:declenchement)).
 Ici, le site est reconstruit tous les dimanches à 22h.

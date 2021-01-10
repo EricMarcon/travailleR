@@ -88,7 +88,7 @@ double <- function(number) {
 ```
 
 A ce stade, la fonction est interne au package et n'est pas accessible depuis l'environnement de travail. 
-Pour s'en persuader, contruire le package (*Install and Restart*) et vérifier le bon fonctionnement de la fonction:
+Pour s'en persuader, construire le package (*Install and Restart*) et vérifier le bon fonctionnement de la fonction:
 ```{r, eval=FALSE}
 double(2)
 ```
@@ -274,7 +274,7 @@ Le titre est affiché dans la fenêtre *Packages* à côté des noms des package
 
 La version doit respecter les conventions:
 
-* Le premier nombre est la verson majeure, 0 tant que le package n'est pas stable puis 1.
+* Le premier nombre est la version majeure, 0 tant que le package n'est pas stable puis 1.
 La version majeure ne change que si le package n'est plus compatible avec ses versions précédentes, ce qui oblige les utilisateurs à modifier leur code.
 * Le deuxième est la version mineure, incrémentée quand des fonctionnalités nouvelles sont ajoutées.
 * Le troisième est la version de correction: 0 à l'origine, incrémentée à chaque correction de code sans nouvelle fonctionnalité.
@@ -554,7 +554,7 @@ tryCatch(print(y), error= function(e) print(e))
 De nouvelles méthodes génériques peuvent être créées et déclinées selon les classes.
 
 A titre d'exemple, créons une méthode générique `triple` qui calculera le triple des valeurs dans le package **multiple**, déclinée en deux fonctions distinctes: une pour les entiers et une pour les réels.
-Les calculs sur les nombres entiers sont bien plus rapides que ceux sur les réels, ce qui justifie l'effort d'écrire deux versions du code.
+Les calculs sur les nombres entiers plus rapides que ceux sur les réels, ce qui justifie l'effort d'écrire deux versions du code.
 
 ```{r}
 # Méthode générique
@@ -568,7 +568,7 @@ Sa signature (c'est-à-dire l'ensemble de ses arguments) est importante parce qu
 Comme la nature du premier argument dépendra de la classe de chaque objet, l'usage est de l'appeler `x`.
 
 La méthode est déclinée en deux fonctions:
-```{r}
+```{r, tidy=FALSE}
 triple.integer<- function (x, ...){
   return(x * 3L)
 }
@@ -580,6 +580,7 @@ triple.numeric<- function (x, ...){
 
 Dans sa version entière, `x` est multiplié par `3L`, le suffixe `L` signifiant que 3 doit être compris comme un entier.
 Dans sa version réelle, 3 est noté `3.0` pour montrer clairement qu'il s'agit d'un réel.
+Sous R, `3` sans autre précision est compris comme un réel.
 
 Le choix de la fonction dépend de la classe de l'objet passé en argument.
 ```{r}
@@ -595,7 +596,8 @@ class(triple(2))
 microbenchmark::microbenchmark(triple.integer(2L), triple.numeric(2), triple(2L))
 ```
 
-La mesure des performances par le package **microbenchmark** montre que la fonction `triple.integer()` est légèrement plus rapide que `triple.numeric` comme attendu mais que la méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
+La mesure des performances par le package **microbenchmark** ne montre pas de différence entre les fonctions `triple.integer()` et `triple.numeric` comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d'appel de la fonction.
+La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
 R teste en effet l'existence de fonctions correspondant à la classe de l'objet passé en argument aux méthodes génériques.
 Comme un objet peut appartenir à plusieurs classes, il recherche une fonction adaptée à la première classe, puis aux classes suivantes successivement.
 Cette recherche prend beaucoup de temps et justifie de réserver l'usage de méthodes génériques à la lisibilité du code plutôt qu'à une recherche de performance: l'intérêt des méthodes génériques est de fournir à l'utilisateur du code une seule fonction pour un objectif donné (`plot` pour réaliser une figure) quelles que soient les données à traiter.

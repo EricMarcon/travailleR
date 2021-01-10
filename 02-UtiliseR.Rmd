@@ -47,7 +47,7 @@ Leur usage est donc à privilégier.
 
 S3 est le langage le plus utilisé, souvent le seul connu par les utilisateurs de R.
 
-C'est un langage orienté objet dans lequel les classes, c'est-è-dire le type des objets, sont déclaratives.
+C'est un langage orienté objet dans lequel les classes, c'est-à-dire le type des objets, sont déclaratives.
 
 ```{r S3-1}
 MonPrenom <- "Eric"
@@ -283,7 +283,7 @@ ggplot(data = <DATA>) +
 Les données peuvent être transformées par une fonction d'échelle, comme `scale_y_log10()`;
 - la position est l'emplacement des objets sur le graphique (souvent "identity"; "stack" pour un histogramme empilé, "jitter" pour déplacer légèrement les points superposés dans un `geom_point`);
 - les coordonnées définissent l'affichage du graphique (`coord_fixed()` pour ne pas déformer une carte par exemple) ;
-- enfin, les facettes offrent la possibilité d'afficher plusieurs aspects des mêmes données en produidant un graphique par modalité d'une variable.
+- enfin, les facettes offrent la possibilité d'afficher plusieurs aspects des mêmes données en produisant un graphique par modalité d'une variable.
 
 L'ensemble formé par le pipeline et **ggplot2** permet des traitements complexes dans un code lisible.
 La figure \@ref(fig:diamonds) montre le résultat du code suivant:
@@ -559,7 +559,7 @@ La fonction `lnq` du package **entropart** retourne le logarithme déformé d'or
 entropart::lnq
 ```
 
-Pour qu'une fonction soit vectorielle, chaque ligne de son code doit permetre que le premier argument soit traité comme un vecteur.
+Pour qu'une fonction soit vectorielle, chaque ligne de son code doit permettre que le premier argument soit traité comme un vecteur.
 Ici: `log(x)` et `x^` sont une fonction et un opérateur vectoriels et la condition `[x < 0]` retourne aussi un vecteur.
 
 
@@ -889,15 +889,17 @@ Le temps reste ensuite stable jusqu'au double du nombre de coeurs.
 La figure \@ref(fig:r-parallele) montre l'évolution du temps de calcul en fonction du nombre de tâches.
 
 (ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant une seconde (chaque tâche est une pause d'un quart de seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs utilisés (égal à ```r nbCoeurs```) plus une. 
-```{r r-parallele, fig.cap="(ref:r-parallele)"}
-Taches <- 1:(2*nbCoeurs+1)
-Temps <- sapply(Taches, function(nbTaches) system.time(mclapply(1:nbTaches, f, time=1, mc.cores=nbCoeurs)))
+```{r r-parallele, fig.cap="(ref:r-parallele)", tidy=FALSE}
+Taches <- 1:(2 * nbCoeurs+1)
+Temps <- sapply(Taches, function(nbTaches) {
+      system.time(mclapply(1:nbTaches, f, time=1, mc.cores=nbCoeurs))
+              })
 library("tidyverse")
-tibble(Taches, Temps=Temps["elapsed",]) %>% 
+tibble(Taches, Temps=Temps["elapsed", ]) %>% 
   ggplot +
-  geom_line(aes(x=Taches, y=Temps)) +
-  geom_vline(xintercept=nbCoeurs, col="red", lty=2) +
-  geom_vline(xintercept=2*nbCoeurs, col="red", lty=2)
+  geom_line(aes(x = Taches, y = Temps)) +
+  geom_vline(xintercept = nbCoeurs, col = "red", lty = 2) +
+  geom_vline(xintercept = 2 * nbCoeurs, col = "red", lty = 2)
 ```
 
 La forme théorique de cette courbe est la suivante:
@@ -1028,7 +1030,7 @@ system.time(d <- fsapply1())
 d
 ```
 
-Un peu de temps peut être gagnée en remplaçant sapply par vapply: le format des résultats n'a pas à être déterminé par la fonction.
+Un peu de temps peut être gagnée en remplaçant `sapply` par `vapply`: le format des résultats n'a pas à être déterminé par la fonction.
 Le gain est négligeable sur un long calcul comme celui-ci mais important pour des calculs courts.
 
 ```{r}
