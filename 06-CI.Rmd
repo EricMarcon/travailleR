@@ -185,7 +185,7 @@ L'action "actions/checkout" permet de se placer dans la branche principale du pr
 
 [^ci-12]: https://github.com/actions/
 
-L'action suivante est l'installation de R, mise à disposition par l'organisation R infrastructure[^ci-13].
+L'action suivante est l'installation de R, mise à disposition par l'organisation *R infrastructure*[^ci-13].
 
 [^ci-13]: https://github.com/r-lib/
 
@@ -475,6 +475,11 @@ jobs:
         uses: r-lib/actions/setup-r@v1
       - name: Install pandoc
         uses: r-lib/actions/setup-pandoc@v1
+      - name: Install package EcoFoG
+        run: |
+          # cairo for package gdtools
+          brew install cairo
+          Rscript -e 'remotes::install_github("EcoFoG/EcoFoG")'
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
@@ -515,19 +520,17 @@ jobs:
           jekyll: yes
 ```
 
+Les modèles Memo, Article et Presentation, contrairement aux ouvrages, ont besoin du package EcoFoG pour leur tricot.
+Il est installé par le script.
+Comme tout package installé depuis GitHub, il est compilé à partir de son code source.
+Si des packages dépendants existent sur CRAN dans une version plus récente au format source qu'au format binaire pour MacOS, ils sont installés à leur tour.
+Certains de ces packages ont besoin de librairies extérieures à R: ici, `cairo` pour le package **gdtools** de R. 
+L'installation de `cairo` est la plupart du temps inutile, mais pendant les quelques jours suivant chaque mise à jour de **gdtools** sur CRAN, avant que le package binaire soit disponible, l'installation d'**EcoFoG** est impossible sans ce préalable.
+
 L'étape chargée du tricot utilise un script pour lister tous les fichiers `.Rmd`, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits), exécuter le script `GithubPages.R` (voir section \@ref(sec:memo)) et configurer le thème des pages GitHub.
 
 La tâche de déploiement indique aux pages GitHub d'utiliser Jekyll, c'est-à-dire d'utiliser le fichier `README.md` comme page d'accueil.
 
-Le fichier `DESCRIPTION` doit contenir les références au package **EcoFoG** si ses modèles sont utilisés:
-```
-Imports:
-  (...),
-  EcoFoG,
-  (...)
-Remotes:
-  EcoFoG/EcoFoG
-```
 
 ### Site web blogdown {#sec:blogdown-ci}
 
