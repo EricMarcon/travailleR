@@ -517,7 +517,7 @@ On appelle une action par l’instruction <code>uses:</code>, le projet GitHub q
 Ces versions d’étape sont préférables parce qu’elles sont stables.</p>
 <p>Les actions généralistes sont mises à disposition par GitHub dans l’organisation GitHub Actions<a href="#fn94" class="footnote-ref" id="fnref94"><sup>94</sup></a>.
 L’action “actions/checkout” permet de se placer dans la branche principale du projet traité par le flux de travail: c’est en général la première étape de tous les flux.</p>
-<p>L’action suivante est l’installation de R, mise à disposition par l’organisation R infrastructure<a href="#fn95" class="footnote-ref" id="fnref95"><sup>95</sup></a>.</p>
+<p>L’action suivante est l’installation de R, mise à disposition par l’organisation <em>R infrastructure</em><a href="#fn95" class="footnote-ref" id="fnref95"><sup>95</sup></a>.</p>
 <p>L’installation de pandoc (logiciel extérieur à R mais nécessaire à R Markdown) peut être réalisée par une commande exécutée par MacOS.
 Elle est appelée par <code>run:</code> et peut contenir plusieurs lignes (d’où le <code>|</code>).
 Ce script dépend du système d’exploitation: <code>brew</code> est le gestionnaire de paquets de MacOS.
@@ -755,6 +755,11 @@ jobs:
         uses: r-lib/actions/setup-r@v1
       - name: Install pandoc
         uses: r-lib/actions/setup-pandoc@v1
+      - name: Install package EcoFoG
+        run: |
+          # cairo for package gdtools
+          brew install cairo
+          Rscript -e &#39;remotes::install_github(&quot;EcoFoG/EcoFoG&quot;)&#39;
       - name: Install dependencies
         run: |
           install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;formatR&quot;, &quot;tinytex&quot;))
@@ -793,15 +798,14 @@ jobs:
           email: ${{ secrets.EMAIL }}
           build_dir: docs
           jekyll: yes</code></pre>
+<p>Les modèles Memo, Article et Presentation, contrairement aux ouvrages, ont besoin du package EcoFoG pour leur tricot.
+Il est installé par le script.
+Comme tout package installé depuis GitHub, il est compilé à partir de son code source.
+Si des packages dépendants existent sur CRAN dans une version plus récente au format source qu’au format binaire pour MacOS, ils sont installés à leur tour.
+Certains de ces packages ont besoin de librairies extérieures à R: ici, <code>cairo</code> pour le package <strong>gdtools</strong> de R.
+L’installation de <code>cairo</code> est la plupart du temps inutile, mais pendant les quelques jours suivant chaque mise à jour de <strong>gdtools</strong> sur CRAN, avant que le package binaire soit disponible, l’installation d’<strong>EcoFoG</strong> est impossible sans ce préalable.</p>
 <p>L’étape chargée du tricot utilise un script pour lister tous les fichiers <code>.Rmd</code>, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits), exécuter le script <code>GithubPages.R</code> (voir section <a href="chap-rediger.html#sec:memo">4.3.1</a>) et configurer le thème des pages GitHub.</p>
 <p>La tâche de déploiement indique aux pages GitHub d’utiliser Jekyll, c’est-à-dire d’utiliser le fichier <code>README.md</code> comme page d’accueil.</p>
-<p>Le fichier <code>DESCRIPTION</code> doit contenir les références au package <strong>EcoFoG</strong> si ses modèles sont utilisés:</p>
-<pre><code>Imports:
-  (...),
-  EcoFoG,
-  (...)
-Remotes:
-  EcoFoG/EcoFoG</code></pre>
 </div>
 <div id="sec:blogdown-ci" class="section level3">
 <h3><span class="header-section-number">6.3.3</span> Site web blogdown</h3>
