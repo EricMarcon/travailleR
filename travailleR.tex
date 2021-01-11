@@ -4,7 +4,7 @@
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode=true}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
-  \PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
 
 
 \documentclass[
@@ -15,7 +15,7 @@
   ]{memoir}
 
 % Font family: lmodern by default
-  \usepackage{lmodern}
+\usepackage{lmodern}
 
 % Double (or whatever) spacing
 
@@ -23,7 +23,7 @@
 \usepackage{ifxetex,ifluatex}
 
 % mathspec: arbitrary math fonts
-  \usepackage{unicode-math}
+\usepackage{unicode-math}
 \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 
 % More font families
@@ -93,21 +93,21 @@
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 
 % Tables
-  \usepackage{longtable,booktabs,tabu}
-  % Fix footnotes in tables (requires footnote package)
-  \IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
+\usepackage{longtable,booktabs,tabu}
+% Fix footnotes in tables (requires footnote package)
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
 
 % Graphics
-  \usepackage{graphicx,grffile}
-  \graphicspath{{images/}}
-  \makeatletter
-  \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-  \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-  \makeatother
-  % Scale images if necessary, so that they will not overflow the page
-  % margins by default, and it is still possible to overwrite the defaults
-  % using explicit options in \includegraphics[width, height, ...]{}
-  \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\usepackage{graphicx,grffile}
+\graphicspath{{images/}}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 
 
 
@@ -115,7 +115,7 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-  \setcounter{secnumdepth}{5}
+\setcounter{secnumdepth}{5}
 
 % set default figure placement to htbp
 \makeatletter
@@ -126,13 +126,13 @@
 %%% Complete the preamble of the LaTeX template
 %%%------------------------------------------------------------------------------
 
-%%% PACKAGES
+%%% Packages
 \usepackage{lipsum} % Dummy text.
 % Utilisation :
 % Ajouter ici d'éventuels packages LaTeX
 
 
-% Environnement "Essentiel" en début de chapitre
+%%% Environnement "Essentiel" en début de chapitre
 \usepackage[tikz]{bclogo}
 \newenvironment{Essentiel}
   {\begin{bclogo}[logo=\bctrombone, noborder=true, couleur=lightgray!50]{L'essentiel}\parindent0pt}
@@ -143,7 +143,7 @@
 % Texte à mettre en valeur
 % ```
 
-% Blocs de code taille scriptsize
+%%% Blocs de code taille scriptsize
 \let\oldverbatim\verbatim
 \def\verbatim{\oldverbatim\scriptsize}
 % Utilisation :
@@ -151,7 +151,18 @@
 % opts_chunk$set(size="scriptsize") s'applique au code et ses résultats
 % Si désaccord sur les résultats, \def\verbatim{...} est prioritaire
 
-\hyphenation{ac-com-pa-gne-ment do-cu-men-ta-tion}
+
+%%% Langues supplémentaires.
+% Commenter pour désactiver, décommenter pour activer
+% Référence: https://mirrors.chevalier.io/CTAN/macros/unicodetex/latex/polyglossia/polyglossia.pdf (table 3)
+\usepackage{polyglossia}
+% fr-FR
+\setotherlanguage[]{french}
+% Au choix: Anglais en-GB ou en-US (défaut)
+%\setotherlanguage[variant=british]{english}
+\setotherlanguage[]{english}
+% pt-BR
+%\setotherlanguage[variant=brazilian]{portuguese}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -169,11 +180,8 @@
 
 \usepackage{enumitem}
 
-  % load polyglossia as late as possible as it *could* call bidi if RTL lang (e.g. Hebrew or Arabic)
-  \usepackage{polyglossia}
-  \setmainlanguage[]{french}
-
-
+\usepackage{polyglossia}
+\setmainlanguage[]{french}
 
 
 \usepackage[style=authoryear-ibid,backend=biber,citestyle=verbose-inote,pageref=true,isbn=false,backref=true,giveninits=true,uniquename=init,maxcitenames=2,maxbibnames=150,sorting=nyt,sortcites=false]{biblatex}
@@ -182,20 +190,21 @@
 
 % cslreferences environment required by pandoc > 2.7
 
-
 % Specific commands for EcoFoG style. Must come after biblatex.
 \usepackage{latex/BookTemplate}
+
+% PDF title page to insert
 
 % Hyperref comes last
 \usepackage{hyperref}
 \hypersetup{
-            pdftitle={Travailler avec R},
-            pdfauthor={Eric Marcon},
-            colorlinks=true,
-            linkcolor=Maroon,
-            citecolor=Blue,
-            urlcolor=Blue,
-            breaklinks=true}
+  pdftitle={Travailler avec R},
+  pdfauthor={Eric Marcon},
+  colorlinks=true,
+  linkcolor=Maroon,
+  citecolor=Blue,
+  urlcolor=Blue,
+  breaklinks=true}
 
 % Don't use monospace font for urls
 \urlstyle{same}
@@ -210,7 +219,7 @@
 \author{Eric Marcon}
 
 
-\date{2021-01-10}
+\date{2021-01-11}
 
 
 % Main title page with filigrane
@@ -249,16 +258,12 @@
     \includegraphics[width=5cm]{Logo-Lab}\\ \bigskip
 		UMR \'Ecologie des forêts de Guyane\\
 		\url{http://www.ecofog.gf}\\[3\baselineskip]
-		Les opinions émises par les auteurs sont personnelles et n’engagent ni l’UMR EcoFoG ni ses tutelles.
+		Les opinions émises par les auteurs sont personnelles et n'engagent ni l'UMR EcoFoG ni ses tutelles.
 
     \tiny{Photographie en couverture: Hadrien Lalagüe}
 	\end{textblock}
 	\newpage
 }
-
-% PhD / HDR Thesis
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 
 % End of preamble
@@ -270,6 +275,7 @@
 
 % Title page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \MainTitlePage[Ce document est réalisé de façon dynamique et reproductible grâce à:
 
@@ -284,9 +290,6 @@ Son code source est sur GitHub: \url{https://github.com/EricMarcon/travailleR/}.
 Le texte mis à jour en continu peut être lu sur \url{https://ericmarcon.github.io/travailleR/}.
 
 Les versions d'étape sont déposées sur HAL: \url{https://hal.archives-ouvertes.fr/hal-03022820}.]
-
-
-
 
 
 % Before Body
@@ -999,7 +1002,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fd85c8a3260>
+## <bytecode: 0x7ff4876d3a60>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1473,7 +1476,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7fd867972b28>
+## <environment: 0x7ff48e772c50>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1545,7 +1548,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fd867dd0dc8>
+## <bytecode: 0x7ff493f7bcf0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1727,7 +1730,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.019   0.000   0.019
+##   0.021   0.001   0.022
 \end{verbatim}
 
 \normalsize
@@ -1759,10 +1762,10 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq      max neval
-##  f1(X)  37.218  39.2195  59.52688  41.7100  48.4300 1350.816   100
-##  f2(X)  46.722  49.3675  72.54443  51.7270  59.7900 1540.887   100
-##  f3(X) 269.706 273.6275 344.81873 283.6165 347.7385 1873.223   100
-##  f4(X) 399.743 404.3030 521.14112 417.8300 534.0210 1913.290   100
+##  f1(X)  36.702  37.8755  57.05417  38.7450  41.7275 1640.255   100
+##  f2(X)  46.359  47.7630  62.50595  48.6295  50.2760 1227.233   100
+##  f3(X) 268.879 270.8865 287.69809 271.7560 276.8245 1462.244   100
+##  f4(X) 399.761 401.5545 429.98891 402.8450 410.4245 1905.921   100
 \end{verbatim}
 
 \normalsize
@@ -1785,10 +1788,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  41.7100
-## 2 f2(X)  51.7270
-## 3 f3(X) 283.6165
-## 4 f4(X) 417.8300
+## 1 f1(X)  38.7450
+## 2 f2(X)  48.6295
+## 3 f3(X) 271.7560
+## 4 f4(X) 402.8450
 \end{verbatim}
 
 \normalsize
@@ -1818,10 +1821,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  41.7100
-## 2 f2(X)  51.7270
-## 3 f3(X) 283.6165
-## 4 f4(X) 417.8300
+## 1 f1(X)  38.7450
+## 2 f2(X)  48.6295
+## 3 f3(X) 271.7560
+## 4 f4(X) 402.8450
 \end{verbatim}
 
 \normalsize
@@ -1948,7 +1951,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7fd84977d200>
+## <bytecode: 0x7ff475417d28>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2001,10 +2004,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.9945
-## 2                lapply(x1, FUN = sqrt) 338.7550
-## 3                sapply(x1, FUN = sqrt) 404.3870
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 330.1425
+## 1                              sqrt(x1)   4.6050
+## 2                lapply(x1, FUN = sqrt) 300.5115
+## 3                sapply(x1, FUN = sqrt) 355.5755
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 300.5120
 \end{verbatim}
 
 \normalsize
@@ -2057,8 +2060,8 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \begin{verbatim}
 ##          expr   median
-## 1  Boucle(x1) 839.7835
-## 2 Boucle2(x1)  84.5205
+## 1  Boucle(x1) 778.7800
+## 2 Boucle2(x1)  80.6165
 \end{verbatim}
 
 \begin{Shaded}
@@ -2090,8 +2093,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 300.1045
-## 2                Boucle(x1)  80.4735
+## 1 vapply(x1, FUN = sqrt, 0) 298.5050
+## 2                Boucle(x1)  78.7975
 \end{verbatim}
 
 \normalsize
@@ -2114,8 +2117,8 @@ Attention, le test de performance peut être trompeur:
 
 \begin{verbatim}
 ##                                               expr    median
-## 1                        vapply(x1, FUN = sqrt, 0)  310.8675
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 4032.3165
+## 1                        vapply(x1, FUN = sqrt, 0)  311.4225
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3590.8040
 \end{verbatim}
 
 \normalsize
@@ -2181,9 +2184,9 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr    median
-## 1 replicate(1000, runif(1)) 4195.5135
-## 2               runif(1000)   34.3715
+##                        expr   median
+## 1 replicate(1000, runif(1)) 3837.977
+## 2               runif(1000)   35.098
 \end{verbatim}
 
 \normalsize
@@ -2221,9 +2224,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.514143
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.037549
-## 3       colSums(diamonds[-(2:4)]) 2.683566
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.216047
+## 2 apply(diamonds[-(2:4)], 2, sum) 8.001591
+## 3       colSums(diamonds[-(2:4)]) 2.492667
 \end{verbatim}
 
 \normalsize
@@ -2431,7 +2434,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.711
+##   0.002   0.000   0.590
 \end{verbatim}
 
 \begin{Shaded}
@@ -2443,12 +2446,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.007   0.016   0.406
+##   0.004   0.010   0.405
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.16} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.15} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2463,7 +2466,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.001   2.108
+##   0.000   0.000   2.037
 \end{verbatim}
 
 \begin{Shaded}
@@ -2475,7 +2478,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.005   0.011   1.013
+##   0.005   0.008   1.080
 \end{verbatim}
 
 \normalsize
@@ -2494,7 +2497,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.006   1.092
+##   0.001   0.003   1.007
 \end{verbatim}
 
 \begin{Shaded}
@@ -2505,7 +2508,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.005   2.116
+##   0.003   0.005   2.180
 \end{verbatim}
 
 \normalsize
@@ -2697,7 +2700,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.575
+##   0.003   0.000   0.580
 \end{verbatim}
 
 \begin{Shaded}
@@ -2712,7 +2715,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.012   0.410
+##   0.007   0.015   0.408
 \end{verbatim}
 
 \normalsize
@@ -2799,7 +2802,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.434   0.042   5.711
+##   5.269   0.038   5.574
 \end{verbatim}
 
 \begin{Shaded}
@@ -2833,7 +2836,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.444   0.038   5.666
+##   5.339   0.033   5.526
 \end{verbatim}
 
 \begin{Shaded}
@@ -2875,7 +2878,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.229   0.032   5.517
+##   5.136   0.028   5.468
 \end{verbatim}
 
 \begin{Shaded}
@@ -2915,7 +2918,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.045   0.018   3.258
+##   2.972   0.016   3.045
 \end{verbatim}
 
 \begin{Shaded}
@@ -2956,7 +2959,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.338   0.291   2.214
+##   3.358   0.323   2.937
 \end{verbatim}
 
 \begin{Shaded}
@@ -2997,7 +3000,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.796   0.016   1.853
+##   1.752   0.015   1.775
 \end{verbatim}
 
 \begin{Shaded}
@@ -3044,7 +3047,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.774   0.024   2.944
+##   2.773   0.039   2.837
 \end{verbatim}
 
 \begin{Shaded}
@@ -3089,7 +3092,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.120   0.043   0.131
+##   0.117   0.042   0.104
 \end{verbatim}
 
 \begin{Shaded}
@@ -3267,10 +3270,10 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 
 \begin{verbatim}
 ## Unit: microseconds
-##                                                      expr     min       lq
-##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 669.418 679.2285
-##      mean   median      uq      max neval
-##  769.7757 694.9945 791.288 2336.291   100
+##                                                      expr     min      lq
+##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 705.007 998.298
+##      mean  median       uq      max neval
+##  1146.079 1178.82 1264.349 2576.304   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3310,13 +3313,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.110   0.048   7.494
+##   7.033   0.031   7.071
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4632} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4437} secondes.
 
 \scriptsize
 
@@ -3329,7 +3332,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.025   0.038   2.425
+##   4.981   0.066   2.425
 \end{verbatim}
 
 \normalsize
@@ -4228,7 +4231,7 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 \begin{verbatim}
-date: "2021-01-10"
+date: "2021-01-11"
 \end{verbatim}
 
 Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
@@ -6211,7 +6214,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fd8595d7258>
+## <bytecode: 0x7ff487359f38>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -6493,10 +6496,10 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median     uq     max neval
-##  triple.integer(2L)  309  316.0   375.65    329  362.5    1350   100
-##   triple.numeric(2)  308  323.5 23523.20    332  361.0 2316724   100
-##          triple(2L) 1345 1368.5 26814.62   1400 1444.0 2528903   100
+##                expr  min     lq     mean median   uq     max neval
+##  triple.integer(2L)  308  313.0   368.35  328.0  347    1050   100
+##   triple.numeric(2)  307  323.0 22769.42  328.0  354 2241678   100
+##          triple(2L) 1352 1385.5 24073.89 1406.5 1458 2255632   100
 \end{verbatim}
 
 \normalsize
@@ -8554,7 +8557,10 @@ Ce document est mis à jour régulièrement en fonction de l'évolution des outi
 \SmallMargins
 
 %
+\twocolumn
+\renewcommand*{\bibfont}{\scriptsize}
 \printbibliography
+\onecolumn
 
 
 % Tables (of tables, of figures)
