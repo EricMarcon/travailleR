@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-01-14" />
+<meta name="date" content="2021-01-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -577,6 +577,8 @@ Il pourra être mis à jour à tout moment pour prendre en compte leur mise à j
 <p>Alternativement, les packages nécessaires peuvent être installés sans l’aide de <strong>Renv</strong>:</p>
 <pre><code>      - name: Install packages
         run: |
+          options(pkgType = &quot;binary&quot;)
+          options(install.packages.check.source = &quot;no&quot;)
           install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;formatR&quot;, &quot;tinytex&quot;))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
@@ -590,6 +592,12 @@ Il pourra être mis à jour à tout moment pour prendre en compte leur mise à j
 <li><strong>tinytex</strong> pour disposer d’une distribution LaTeX.</li>
 </ul>
 <p>Les autres packages, ceux utilisés par le projet, sont lus dans le fichier <code>DESCRIPTION</code> par la fonction <code>install_deps()</code>.</p>
+<p>Sous MacOS, les packages sont installés par défaut en version binaire, mais à partir de leur code source s’il est plus récent.
+La création des packages binaires prend quelques jours à CRAN: cette situation n’est donc pas rare.
+Les packages ne contenant que du code R ou du code C++ sans référence à des librairies externes s’installent en revanche sans problème.
+En revanche, si le package nécessite des librairies externes à R ou une compilation de code Fortran, l’installation échoue.
+Il serait donc nécessaire d’installer préalablement les librairies nécessaires (et éventuellement un compilateur Fortran) à l’ensemble des packages dont le projet dépend: cette solution n’est pas réaliste parce qu’elle implique l’inventaire de l’ensemble des dépendances, qui peuvent changer, et un nombre important d’installations chronophages et inutiles la plupart du temps, quand les packages binaires sont à jour.
+Une meilleure solution est de forcer l’installation des packages binaires même si le code source est plus récent: c’est l’objet des deux options de R définies avant l’appel à <code>install.packages()</code>.</p>
 <p>Dans cette approche, les packages ne sont pas mis en cache.</p>
 </div>
 <div id="tricot" class="section level4">
@@ -697,6 +705,8 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
+          options(pkgType = &quot;binary&quot;)
+          options(install.packages.check.source = &quot;no&quot;)
           install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;formatR&quot;, &quot;tinytex&quot;))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
@@ -755,16 +765,14 @@ jobs:
         uses: r-lib/actions/setup-r@v1
       - name: Install pandoc
         uses: r-lib/actions/setup-pandoc@v1
-      - name: Install package EcoFoG
-        run: |
-          # cairo for package gdtools
-          brew install cairo
-          Rscript -e &#39;remotes::install_github(&quot;EcoFoG/EcoFoG&quot;)&#39;
       - name: Install dependencies
         run: |
+          options(pkgType = &quot;binary&quot;)
+          options(install.packages.check.source = &quot;no&quot;)
           install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;formatR&quot;, &quot;tinytex&quot;))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
+          remotes::install_github(&quot;EcoFoG/EcoFoG&quot;)
         shell: Rscript {0}
       - name: Render Rmarkdown files
         run: |
@@ -799,11 +807,7 @@ jobs:
           build_dir: docs
           jekyll: yes</code></pre>
 <p>Les modèles Memo, Article et Presentation, contrairement aux ouvrages, ont besoin du package EcoFoG pour leur tricot.
-Il est installé par le script.
-Comme tout package installé depuis GitHub, il est compilé à partir de son code source.
-Si des packages dépendants existent sur CRAN dans une version plus récente au format source qu’au format binaire pour MacOS, ils sont installés à leur tour.
-Certains de ces packages ont besoin de librairies extérieures à R: ici, <code>cairo</code> pour le package <strong>gdtools</strong> de R.
-L’installation de <code>cairo</code> est la plupart du temps inutile, mais pendant les quelques jours suivant chaque mise à jour de <strong>gdtools</strong> sur CRAN, avant que le package binaire soit disponible, l’installation d’<strong>EcoFoG</strong> est impossible sans ce préalable.</p>
+Il est installé par le script.</p>
 <p>L’étape chargée du tricot utilise un script pour lister tous les fichiers <code>.Rmd</code>, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits), exécuter le script <code>GithubPages.R</code> (voir section <a href="chap-rediger.html#sec:memo">4.3.1</a>) et configurer le thème des pages GitHub.</p>
 <p>La tâche de déploiement indique aux pages GitHub d’utiliser Jekyll, c’est-à-dire d’utiliser le fichier <code>README.md</code> comme page d’accueil.</p>
 </div>
@@ -840,12 +844,14 @@ jobs:
           restore-keys: r-
       - name: Install packages
         run: |
-          R -e &#39;install.packages(&quot;renv&quot;)&#39;
-          R -e &#39;renv::restore()&#39;
+          install.packages(&quot;renv&quot;)
+          renv::restore()
+        shell: Rscript {0}
       - name: Build website
         run: |
-          R -e &#39;blogdown::install_hugo(force=TRUE)&#39;
-          R -e &#39;blogdown::build_site(local = TRUE, build_rmd = TRUE)&#39;
+          blogdown::install_hugo(force=TRUE)
+          blogdown::build_site(local = TRUE, build_rmd = TRUE)
+        shell: Rscript {0}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -908,6 +914,8 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
+          options(pkgType = &quot;binary&quot;)
+          options(install.packages.check.source = &quot;no&quot;)
           install.packages(c(&quot;remotes&quot;, &quot;rcmdcheck&quot;, &quot;covr&quot;, &quot;pkgdown&quot;))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
