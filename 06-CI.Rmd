@@ -268,6 +268,8 @@ Alternativement, les packages nécessaires peuvent être installés sans l'aide 
 ```
       - name: Install packages
         run: |
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
           install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
@@ -284,6 +286,13 @@ Les packages servant à produire le document sont listés:
 - **tinytex** pour disposer d'une distribution LaTeX.
 
 Les autres packages, ceux utilisés par le projet, sont lus dans le fichier `DESCRIPTION` par la fonction `install_deps()`.
+
+Sous MacOS, les packages sont installés par défaut en version binaire, mais à partir de leur code source s'il est plus récent.
+La création des packages binaires prend quelques jours à CRAN: cette situation n'est donc pas rare.
+Les packages ne contenant que du code R ou du code C++ sans référence à des librairies externes s'installent en revanche sans problème.
+En revanche, si le package nécessite des librairies externes à R ou une compilation de code Fortran, l'installation échoue.
+Il serait donc nécessaire d'installer préalablement les librairies nécessaires (et éventuellement un compilateur Fortran) à l'ensemble des packages dont le projet dépend: cette solution n'est pas réaliste parce qu'elle implique l'inventaire de l'ensemble des dépendances, qui peuvent changer, et un nombre important d'installations chronophages et inutiles la plupart du temps, quand les packages binaires sont à jour.
+Une meilleure solution est de forcer l'installation des packages binaires même si le code source est plus récent: c'est l'objet des deux options de R définies avant l'appel à `install.packages()`.
 
 Dans cette approche, les packages ne sont pas mis en cache.
 
@@ -475,17 +484,17 @@ jobs:
         uses: r-lib/actions/setup-r@v1
       - name: Install pandoc
         uses: r-lib/actions/setup-pandoc@v1
-      - name: Install package EcoFoG
-        run: |
-          # cairo for package gdtools
-          brew install cairo
-          Rscript -e 'remotes::install_github("EcoFoG/EcoFoG")'
       - name: Install dependencies
         run: |
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
           install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
+      - name: Install package EcoFoG
+        run: |
+          Rscript -e 'remotes::install_github("EcoFoG/EcoFoG")'
       - name: Render Rmarkdown files
         run: |
           RMD_PATH=($(ls | grep '[.]Rmd$'))
@@ -522,10 +531,6 @@ jobs:
 
 Les modèles Memo, Article et Presentation, contrairement aux ouvrages, ont besoin du package EcoFoG pour leur tricot.
 Il est installé par le script.
-Comme tout package installé depuis GitHub, il est compilé à partir de son code source.
-Si des packages dépendants existent sur CRAN dans une version plus récente au format source qu'au format binaire pour MacOS, ils sont installés à leur tour.
-Certains de ces packages ont besoin de librairies extérieures à R: ici, `cairo` pour le package **gdtools** de R. 
-L'installation de `cairo` est la plupart du temps inutile, mais pendant les quelques jours suivant chaque mise à jour de **gdtools** sur CRAN, avant que le package binaire soit disponible, l'installation d'**EcoFoG** est impossible sans ce préalable.
 
 L'étape chargée du tricot utilise un script pour lister tous les fichiers `.Rmd`, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits), exécuter le script `GithubPages.R` (voir section \@ref(sec:memo)) et configurer le thème des pages GitHub.
 
