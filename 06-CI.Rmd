@@ -493,10 +493,8 @@ jobs:
           install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
+          remotes::install_github("EcoFoG/EcoFoG")
         shell: Rscript {0}
-      - name: Install package EcoFoG
-        run: |
-          Rscript -e 'remotes::install_github("EcoFoG/EcoFoG")'
       - name: Render Rmarkdown files
         run: |
           RMD_PATH=($(ls | grep '[.]Rmd$'))
