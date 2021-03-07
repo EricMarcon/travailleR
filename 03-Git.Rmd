@@ -162,6 +162,8 @@ En haut à droite de la fenêtre *Git* (figure \@ref(fig:git-Fichiers)), il est 
 Ensuite, il est affiché "master", le nom par défaut de la branche principale du projet.
 Le projet peut alors être lié au dépôt GitHub.
 
+#### Méthode graphique
+
 Cliquer sur le bouton violet à côté de "master": une fenêtre apparaît (habituellement utilisée pour la création d'une nouvelle branche, voir section \@ref(sec:branches)).
 Saisir le nom de la branche "master", cliquer sur "Add Remotes" et compléter:
 
@@ -173,8 +175,26 @@ Cocher la case "Sync with Remote".
 
 Au message indiquant qu'une branche *master* existe déjà, cliquer sur "Overwrite".
 
+#### En ligne de commande
+
+Plutôt que la manipulation précédente, le lien entre Git et GitHub peut être mis en place par quelques commandes de git exécutées dans le terminal de RStudio.
+Elles sont affichées sur la page d'accueil de tout dépôt vide nouvellement créé sur GitHub et peuvent donc être copiées et coller directement vers le terminal.
+```
+git remote add origin https://github.com/GitHubID/NomduPackage.git
+git branch -M master
+git push -u origin master
+```
+
+La première commande déclare le dépôt GitHub comme dépôt distant.
 Le nom *origin* est une convention de git.
 Il peut être modifié mais l'organisation du projet sera plus lisible en respectant la convention.
+
+Les commandes suivantes activent la branche principale du projet et poussent son contenu vers GitHub.
+
+Attention au nom de la branche principale (voir section \@ref(sec:branches)): par défaut, elle s'appelle "master" dans un projet créé dans RStudio mais "main" sur GitHub.
+Les lignes de commande ci-dessus fournies par GitHub remplacent donc `master` par `main` et doivent être corrigées pour correspondre au nom de la branche créée par RStudio.
+
+#### Authentification
 
 A la première connexion de RStudio à GitHub, une fenêtre d'authentification permet de saisir ses identifiants GitHub (figure \@ref(fig:git-PAT)).
 
