@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-01-25" />
+<meta name="date" content="2021-03-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -156,8 +156,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#rstudio"><i class="fa fa-check"></i><b>1.2</b> RStudio</a><ul>
 <li class="chapter" data-level="1.2.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-1"><i class="fa fa-check"></i><b>1.2.1</b> Installation</a></li>
-<li class="chapter" data-level="1.2.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#dossier-de-travail"><i class="fa fa-check"></i><b>1.2.2</b> Dossier de travail</a></li>
-<li class="chapter" data-level="1.2.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:solution-dossiers"><i class="fa fa-check"></i><b>1.2.3</b> Solution retenue</a></li>
+<li class="chapter" data-level="1.2.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#encodage-des-fichiers"><i class="fa fa-check"></i><b>1.2.2</b> Encodage des fichiers</a></li>
+<li class="chapter" data-level="1.2.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#dossier-de-travail"><i class="fa fa-check"></i><b>1.2.3</b> Dossier de travail</a></li>
+<li class="chapter" data-level="1.2.4" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:solution-dossiers"><i class="fa fa-check"></i><b>1.2.4</b> Solution retenue</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a><ul>
 <li class="chapter" data-level="1.3.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-depuis-cran"><i class="fa fa-check"></i><b>1.3.1</b> Installation depuis CRAN</a></li>
@@ -553,6 +554,8 @@ Figure 3.7: Création d’un dépôt sur GitHub.
 En haut à droite de la fenêtre <em>Git</em> (figure <a href="chap-git.html#fig:git-Fichiers">3.3</a>), il est affiché “(no branch)” avant cela.
 Ensuite, il est affiché “master”, le nom par défaut de la branche principale du projet.
 Le projet peut alors être lié au dépôt GitHub.</p>
+<div id="méthode-graphique" class="section level4">
+<h4><span class="header-section-number">3.2.5.1</span> Méthode graphique</h4>
 <p>Cliquer sur le bouton violet à côté de “master”: une fenêtre apparaît (habituellement utilisée pour la création d’une nouvelle branche, voir section <a href="chap-git.html#sec:branches">3.4</a>).
 Saisir le nom de la branche “master”, cliquer sur “Add Remotes” et compléter:</p>
 <ul>
@@ -562,8 +565,23 @@ Saisir le nom de la branche “master”, cliquer sur “Add Remotes” et compl
 </ul>
 <p>Cocher la case “Sync with Remote”.</p>
 <p>Au message indiquant qu’une branche <em>master</em> existe déjà, cliquer sur “Overwrite”.</p>
-<p>Le nom <em>origin</em> est une convention de git.
+</div>
+<div id="en-ligne-de-commande" class="section level4">
+<h4><span class="header-section-number">3.2.5.2</span> En ligne de commande</h4>
+<p>Plutôt que la manipulation précédente, le lien entre Git et GitHub peut être mis en place par quelques commandes de git exécutées dans le terminal de RStudio.
+Elles sont affichées sur la page d’accueil de tout dépôt vide nouvellement créé sur GitHub et peuvent donc être copiées et coller directement vers le terminal.</p>
+<pre><code>git remote add origin https://github.com/GitHubID/NomduPackage.git
+git branch -M master
+git push -u origin master</code></pre>
+<p>La première commande déclare le dépôt GitHub comme dépôt distant.
+Le nom <em>origin</em> est une convention de git.
 Il peut être modifié mais l’organisation du projet sera plus lisible en respectant la convention.</p>
+<p>Les commandes suivantes activent la branche principale du projet et poussent son contenu vers GitHub.</p>
+<p>Attention au nom de la branche principale (voir section <a href="chap-git.html#sec:branches">3.4</a>): par défaut, elle s’appelle “master” dans un projet créé dans RStudio mais “main” sur GitHub.
+Les lignes de commande ci-dessus fournies par GitHub remplacent donc <code>master</code> par <code>main</code> et doivent être corrigées pour correspondre au nom de la branche créée par RStudio.</p>
+</div>
+<div id="authentification" class="section level4">
+<h4><span class="header-section-number">3.2.5.3</span> Authentification</h4>
 <p>A la première connexion de RStudio à GitHub, une fenêtre d’authentification permet de saisir ses identifiants GitHub (figure <a href="chap-git.html#fig:git-PAT">3.8</a>).</p>
 
 <p></p>
@@ -576,6 +594,7 @@ Figure 3.8: Création d’un dépôt sur GitHub.
 <p></p>
 <p>GitHub délivre un jeton d’accès personnel (PAT) à git (voir section <a href="chap-ci.html#sec:pat">6.2.1</a> pour plus de détails) pour éviter de répéter la saisie des informations d’authentification à chaque opération.
 Un message électronique est envoyé au titulaire du compte GitHub pour l’en avertir.</p>
+</div>
 </div>
 <div id="pousser-les-premières-modifications" class="section level3">
 <h3><span class="header-section-number">3.2.6</span> Pousser les premières modifications</h3>
@@ -871,7 +890,7 @@ Les badges correspondants sont listés sur le site du Tidyverse<a href="#fn38" c
 <p>Le package <strong>usethis</strong> simplifie leur création en plaçant le code nécessaire dans le presse-papier.
 Il suffit ensuite de le coller dans le fichier.</p>
 <p></p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="chap-git.html#cb225-1"></a>usethis<span class="op">::</span><span class="kw">use_lifecycle_badge</span>(<span class="st">&quot;maturing&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="chap-git.html#cb232-1"></a>usethis<span class="op">::</span><span class="kw">use_lifecycle_badge</span>(<span class="st">&quot;maturing&quot;</span>)</span></code></pre></div>
 <p></p>
 
 </div>
@@ -946,7 +965,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["travailleR.pdf"],
+"download": null,
 "toc": {
 "collapse": "subsection"
 }

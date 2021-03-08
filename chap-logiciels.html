@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-01-25" />
+<meta name="date" content="2021-03-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -156,8 +156,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#rstudio"><i class="fa fa-check"></i><b>1.2</b> RStudio</a><ul>
 <li class="chapter" data-level="1.2.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-1"><i class="fa fa-check"></i><b>1.2.1</b> Installation</a></li>
-<li class="chapter" data-level="1.2.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#dossier-de-travail"><i class="fa fa-check"></i><b>1.2.2</b> Dossier de travail</a></li>
-<li class="chapter" data-level="1.2.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:solution-dossiers"><i class="fa fa-check"></i><b>1.2.3</b> Solution retenue</a></li>
+<li class="chapter" data-level="1.2.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#encodage-des-fichiers"><i class="fa fa-check"></i><b>1.2.2</b> Encodage des fichiers</a></li>
+<li class="chapter" data-level="1.2.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#dossier-de-travail"><i class="fa fa-check"></i><b>1.2.3</b> Dossier de travail</a></li>
+<li class="chapter" data-level="1.2.4" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:solution-dossiers"><i class="fa fa-check"></i><b>1.2.4</b> Solution retenue</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a><ul>
 <li class="chapter" data-level="1.3.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-depuis-cran"><i class="fa fa-check"></i><b>1.3.1</b> Installation depuis CRAN</a></li>
@@ -467,10 +468,21 @@ Figure 1.1: Activation du droit de modifier la bibliothèque système sous Windo
 <div id="installation-1" class="section level3">
 <h3><span class="header-section-number">1.2.1</span> Installation</h3>
 <p>Installer la dernière version de <em>RStudio Desktop</em> à partir du site de RStudio<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>.</p>
-<p>Une commande est disponible dans le menu <em>Help</em> de RStudio pour vérifier l’existence d’une version plus récente, à installer.</p>
+<p>Une commande est disponible dans le menu “Help” de RStudio pour vérifier l’existence d’une version plus récente, à installer.</p>
+</div>
+<div id="encodage-des-fichiers" class="section level3">
+<h3><span class="header-section-number">1.2.2</span> Encodage des fichiers</h3>
+<p>Les fichiers manipulés dans R sont très majoritairement des fichiers texte.
+Les caractères spéciaux, notamment les accents, peuvent être codés de diverses façons mais la déclaration du codage n’est pas intégrée aux fichiers.
+Le codage par défaut dépend du système d’exploitation, ce qui pose régulièrement des problèmes de lisibilité des fichiers partagés.
+Le codage UTF8 est devenu le standard parce qu’il est universellement reconnu et supporte tous les alphabets sans ambiguïtés.</p>
+<p>Dès la première utilisation de RStudio, créer un nouveau fichier R (menu “File &gt; New File &gt; R Script”), l’enregistrer au format UTF8 (“File &gt; Save with Encoding…”), choisir UTF8 dans la liste des formats et cocher la case “Set as default encoding for source files”.
+Supprimer le fichier après l’avoir enregistré.</p>
+<p>Les nouveaux fichiers seront codés au format UTF8.
+Les fichiers codés sous un autre format ne s’afficheront pas correctement: ils pourront être réouverts avec leur codage d’origine (“File &gt; Reopen with Encoding…”), en essayant éventuellement plusieurs codages jusqu’à obtenir un affichage correct et sauvegardés au format UTF8 ensuite.</p>
 </div>
 <div id="dossier-de-travail" class="section level3">
-<h3><span class="header-section-number">1.2.2</span> Dossier de travail</h3>
+<h3><span class="header-section-number">1.2.3</span> Dossier de travail</h3>
 <p>Le dossier de travail par défaut est le dossier personnel de l’utilisateur, appelé <code>~</code> par RStudio:</p>
 <p></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="chap-logiciels.html#cb4-1"></a><span class="kw">Sys.getenv</span>(<span class="st">&quot;R_USER&quot;</span>)</span></code></pre></div>
@@ -491,7 +503,7 @@ Le dossier de travail en cours est obtenu par la commande <code>getwd()</code>.<
 Les projets sous contrôle de source ne devraient pas se trouver dans un dossier déjà sauvegardé par un autre moyen, comme un lecteur OneDrive sous Windows, sous peine d’une utilisation excessive des ressources: chaque validation de modifications engendre la sauvegarde des fichiers modifiés, mais aussi des fichiers de contrôle qui peuvent être de grande taille.</p>
 </div>
 <div id="sec:solution-dossiers" class="section level3">
-<h3><span class="header-section-number">1.2.3</span> Solution retenue</h3>
+<h3><span class="header-section-number">1.2.4</span> Solution retenue</h3>
 <p>L’organisation de l’environnement travail est une affaire personnelle, qui dépend des préférences de chacun.
 L’organisation proposée ici n’est qu’une possibilité, à adapter à ses propres choix, mais en respectant les contraintes mentionnées.</p>
 <p>Sous Windows, une organisation optimale est la suivante:</p>
@@ -761,7 +773,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["travailleR.pdf"],
+"download": null,
 "toc": {
 "collapse": "subsection"
 }
