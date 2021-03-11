@@ -53,6 +53,15 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7NVD1TWMCJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7NVD1TWMCJ');
+</script>
 
 
 <style type="text/css">
@@ -263,8 +272,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.5.2" data-path="chap-rediger.html"><a href="chap-rediger.html#ecrire-2"><i class="fa fa-check"></i><b>4.5.2</b> Ecrire</a></li>
 <li class="chapter" data-level="4.5.3" data-path="chap-rediger.html"><a href="chap-rediger.html#tricoter-1"><i class="fa fa-check"></i><b>4.5.3</b> Tricoter</a></li>
 <li class="chapter" data-level="4.5.4" data-path="chap-rediger.html"><a href="chap-rediger.html#finitions"><i class="fa fa-check"></i><b>4.5.4</b> Finitions</a></li>
-<li class="chapter" data-level="4.5.5" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:rediger-ouvrage-ci"><i class="fa fa-check"></i><b>4.5.5</b> Intégration continue</a></li>
-<li class="chapter" data-level="4.5.6" data-path="chap-rediger.html"><a href="chap-rediger.html#google-analytics"><i class="fa fa-check"></i><b>4.5.6</b> Google Analytics</a></li>
+<li class="chapter" data-level="4.5.5" data-path="chap-rediger.html"><a href="chap-rediger.html#site-gitbook"><i class="fa fa-check"></i><b>4.5.5</b> Site gitbook</a></li>
+<li class="chapter" data-level="4.5.6" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:rediger-ouvrage-ci"><i class="fa fa-check"></i><b>4.5.6</b> Intégration continue</a></li>
+<li class="chapter" data-level="4.5.7" data-path="chap-rediger.html"><a href="chap-rediger.html#google-analytics"><i class="fa fa-check"></i><b>4.5.7</b> Google Analytics</a></li>
 </ul></li>
 <li class="chapter" data-level="4.6" data-path="chap-rediger.html"><a href="chap-rediger.html#site-web-r-markdown"><i class="fa fa-check"></i><b>4.6</b> Site web R Markdown</a><ul>
 <li class="chapter" data-level="4.6.1" data-path="chap-rediger.html"><a href="chap-rediger.html#modèle"><i class="fa fa-check"></i><b>4.6.1</b> Modèle</a></li>
@@ -364,7 +374,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9" data-path="chap-conclusion.html"><a href="chap-conclusion.html"><i class="fa fa-check"></i><b>9</b> Conclusion</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
-<li><a href="https://github.com/EricMarcon/travailleR" target="blank">Hébergé sur GitHub, publié par bookdown</a></li>
+<li>
+  <a href="https://github.com/EricMarcon/travailleR" target="blank">
+    Hébergé sur GitHub, publié par bookdown
+  </a>
+</li>
 
 </ul>
 
@@ -564,7 +578,7 @@ Imports:
   (...)</code></pre>
 <p>Avant de déclencher le flux de travail, il est nécessaire de créer la liste des packages dans leur version en cours sur le poste de travail:</p>
 
-<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="chap-ci.html#cb370-1"></a>renv<span class="op">::</span><span class="kw">snapshot</span>(<span class="dt">type =</span> <span class="st">&quot;explicit&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="chap-ci.html#cb372-1"></a>renv<span class="op">::</span><span class="kw">snapshot</span>(<span class="dt">type =</span> <span class="st">&quot;explicit&quot;</span>)</span></code></pre></div>
 
 <p>A sa première utilisation, le package <strong>renv</strong> informe de quelques adaptations de l’environnement de travail, qu’il faut accepter.</p>
 <p>Cette commande crée le fichier <code>renv.lock</code> qui est utilisé par GitHub Actions pour installer les packages pendant l’intégration continue.
@@ -1030,9 +1044,6 @@ gitbook.start({
 "download": ["travailleR.pdf"],
 "toc": {
 "collapse": "subsection"
-},
-"includes": {
-"in_header": "gtag.js"
 }
 });
 });
