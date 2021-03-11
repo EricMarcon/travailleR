@@ -598,12 +598,18 @@ Une meilleure solution est de forcer l’installation des packages binaires mêm
 <div id="tricot" class="section level4">
 <h4><span class="header-section-number">6.2.4.7</span> Tricot</h4>
 <p>La production de l’ouvrage est lancée par une commande R.</p>
-<pre><code>      - name: Render book
+<pre><code>      - name: Render pdf book
         run: |
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;, envir = new.env())
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;, envir = new.env())</code></pre>
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;)
+        shell: Rscript {0}
+      - name: Render gitbook
+        run: |
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;)
+        shell: Rscript {0}</code></pre>
 <p>Les formats paramétrés dans <code>_output.yml</code> sont ignorés.</p>
-<p>Le fichier PDF doit être produit avant le format GitBook pour que son lien de téléchargement soit ajouté à la barre de menu du site GitBook.</p>
+<p>Le fichier PDF doit être produit avant le format GitBook pour que son lien de téléchargement soit ajouté à la barre de menu du site GitBook.
+D’autre part, R doit être fermé et rouvert entre les deux rendus faute de quoi les tableaux ne sont pas créés correctement dans le GitBook<a href="#fn98" class="footnote-ref" id="fnref98"><sup>98</sup></a>.
+Les deux étapes ne doivent pas être regroupées en une seule.</p>
 </div>
 <div id="sauvegarde" class="section level4">
 <h4><span class="header-section-number">6.2.4.8</span> Sauvegarde</h4>
@@ -706,10 +712,13 @@ jobs:
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-      - name: Render book
+      - name: Render pdf book
         run: |
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;, envir = new.env())
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;, envir = new.env())
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;)
+        shell: Rscript {0}
+      - name: Render gitbook
+        run: |
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;)
         shell: Rscript {0}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
@@ -884,7 +893,7 @@ L’utilisation de <strong>Renv</strong> se justifie parce que le site est recon
 <p>Enfin, la tâche de déploiement se place dans la branche <code>source</code> pour récupérer le dossier <code>public</code> produit par la tâche de production et la déploie dans la branche <code>master</code> au lieu de la branche <code>gh-pages</code> habituelle pour respecter l’organisation de GitHub.</p>
 <p>Si le site web utilise des données en ligne qui justifient de le mettre à jour périodiquement, GitHub Actions peut être lancé tous les jours, toutes les semaines ou tous les mois en plus des reconstruction déclenchées par une modification du dépôt (voir section <a href="chap-ci.html#sec:declenchement">6.2.4.1</a>).
 Ici, le site est reconstruit tous les dimanches à 22h.</p>
-<p>Exemple: la page qui affiche la bibliométrie du site web<a href="#fn98" class="footnote-ref" id="fnref98"><sup>98</sup></a> de l’auteur interroge Google Scholar pour afficher les citations des publications.
+<p>Exemple: la page qui affiche la bibliométrie du site web<a href="#fn99" class="footnote-ref" id="fnref99"><sup>99</sup></a> de l’auteur interroge Google Scholar pour afficher les citations des publications.
 Le site est mis à jour toutes les semaines pour que les statistiques soient à jour.</p>
 </div>
 <div id="sec:package-ci6" class="section level3">
@@ -937,7 +946,7 @@ Les avertissements sont traités comme des erreurs.</p>
 <p>Enfin, les deux dernières étapes installent le package puis utilisent <strong>pkgdown</strong> pour créer le site de documentation du package et le pousser dans la branche <code>gh-pages</code> du projet.</p>
 <p>Ce script ne contient qu’une tâche: le déploiement du site de documentation est directement exécuté par <strong>pkgdown</strong>.
 Son succès est affiché par un badge à afficher dans le fichier <code>README.md</code> (voir section <a href="chap-ci.html#sec:ci-badges">6.4</a>)</p>
-<p>Des scripts plus complexes sont proposés par R-lib<a href="#fn99" class="footnote-ref" id="fnref99"><sup>99</sup></a>, notamment pour exécuter les tests sur plusieurs systèmes d’exploitation et plusieurs versions de R.
+<p>Des scripts plus complexes sont proposés par R-lib<a href="#fn100" class="footnote-ref" id="fnref100"><sup>100</sup></a>, notamment pour exécuter les tests sur plusieurs systèmes d’exploitation et plusieurs versions de R.
 Ces tests poussés sont à effectuer avant de soumettre à CRAN (section <a href="chap-package.html#sec:package-cran">5.10</a>) mais consomment trop de ressource pour un usage systématique.</p>
 </div>
 </div>
@@ -965,8 +974,9 @@ Coller le code Markdown:</p>
 <li id="fn95"><p><a href="https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on" class="uri">https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on</a><a href="chap-ci.html#fnref95" class="footnote-back">↩︎</a></p></li>
 <li id="fn96"><p><a href="https://github.com/actions/" class="uri">https://github.com/actions/</a><a href="chap-ci.html#fnref96" class="footnote-back">↩︎</a></p></li>
 <li id="fn97"><p><a href="https://github.com/r-lib/" class="uri">https://github.com/r-lib/</a><a href="chap-ci.html#fnref97" class="footnote-back">↩︎</a></p></li>
-<li id="fn98"><p><a href="https://EricMarcon.github.io/fr/publication/" class="uri">https://EricMarcon.github.io/fr/publication/</a><a href="chap-ci.html#fnref98" class="footnote-back">↩︎</a></p></li>
-<li id="fn99"><p><a href="https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow" class="uri">https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow</a><a href="chap-ci.html#fnref99" class="footnote-back">↩︎</a></p></li>
+<li id="fn98"><p><a href="https://stackoverflow.com/questions/46080853/why-does-rendering-a-pdf-from-rmarkdown-require-closing-rstudio-between-renders/46083308#46083308" class="uri">https://stackoverflow.com/questions/46080853/why-does-rendering-a-pdf-from-rmarkdown-require-closing-rstudio-between-renders/46083308#46083308</a><a href="chap-ci.html#fnref98" class="footnote-back">↩︎</a></p></li>
+<li id="fn99"><p><a href="https://EricMarcon.github.io/fr/publication/" class="uri">https://EricMarcon.github.io/fr/publication/</a><a href="chap-ci.html#fnref99" class="footnote-back">↩︎</a></p></li>
+<li id="fn100"><p><a href="https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow" class="uri">https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow</a><a href="chap-ci.html#fnref100" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
