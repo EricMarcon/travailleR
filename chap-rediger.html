@@ -51,6 +51,8 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -480,7 +482,7 @@ Le package ne fournit pas directement de modèles.</p>
 <p>Le package <strong>EcoFoG</strong> disponible sur GitHub fournit les modèles présentés ici.
 Il doit être installé:</p>
 <p></p>
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="chap-rediger.html#cb229-1"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;EcoFoG/EcoFoG&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="chap-rediger.html#cb235-1"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;EcoFoG/EcoFoG&quot;</span>)</span></code></pre></div>
 <p></p>
 <div id="ecrire" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> Ecrire</h3>
@@ -516,7 +518,7 @@ L’option <code>echo</code> doit être mise à <code>FALSE</code> par défaut p
 <div id="figures" class="section level4">
 <h4><span class="header-section-number">4.3.1.2</span> Figures</h4>
 <p></p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="chap-rediger.html#cb231-1"></a><span class="kw">plot</span>(pressure)</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="chap-rediger.html#cb237-1"></a><span class="kw">plot</span>(pressure)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:pressure"></span>
 <img src="travailleR_files/figure-html/pressure-1.png" alt="Titre de la figure" width="80%" />
 <p class="caption">
@@ -556,16 +558,143 @@ Placer systématiquement ces fichiers dans le dossier <code>images</code> pour u
 Le contenu du tableau est dans un dataframe.
 La fonction <code>kable</code> du package <em>knitr</em> prépare le tableau pour l’affichage et passe le résultat à la fonction <code>kable_styling</code> du package <em>kableExtra</em> pour le formatage final.</p>
 <p></p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="chap-rediger.html#cb233-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
-<span id="cb233-2"><a href="chap-rediger.html#cb233-2"></a><span class="kw">names</span>(iris) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Longueur sépales ($l_s$)&quot;</span>, <span class="st">&quot;Largeur&quot;</span>, </span>
-<span id="cb233-3"><a href="chap-rediger.html#cb233-3"></a>    <span class="st">&quot;Longueur pétales&quot;</span>, <span class="st">&quot;Largeur&quot;</span>, <span class="st">&quot;Espèce&quot;</span>)</span>
-<span id="cb233-4"><a href="chap-rediger.html#cb233-4"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(iris), <span class="dt">caption =</span> <span class="st">&quot;Tableau créé par R&quot;</span>, </span>
-<span id="cb233-5"><a href="chap-rediger.html#cb233-5"></a>    <span class="dt">longtable =</span> <span class="ot">TRUE</span>, <span class="dt">booktabs =</span> <span class="ot">TRUE</span>, <span class="dt">escape =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb233-6"><a href="chap-rediger.html#cb233-6"></a><span class="st">    </span>kableExtra<span class="op">::</span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="st">&quot;striped&quot;</span>, </span>
-<span id="cb233-7"><a href="chap-rediger.html#cb233-7"></a>        <span class="dt">full_width =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="chap-rediger.html#cb239-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb239-2"><a href="chap-rediger.html#cb239-2"></a><span class="kw">names</span>(iris) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Longueur sépales ($l_s$)&quot;</span>, <span class="st">&quot;Largeur&quot;</span>, </span>
+<span id="cb239-3"><a href="chap-rediger.html#cb239-3"></a>    <span class="st">&quot;Longueur pétales&quot;</span>, <span class="st">&quot;Largeur&quot;</span>, <span class="st">&quot;Espèce&quot;</span>)</span>
+<span id="cb239-4"><a href="chap-rediger.html#cb239-4"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(iris), <span class="dt">caption =</span> <span class="st">&quot;Tableau créé par R&quot;</span>, </span>
+<span id="cb239-5"><a href="chap-rediger.html#cb239-5"></a>    <span class="dt">longtable =</span> <span class="ot">TRUE</span>, <span class="dt">booktabs =</span> <span class="ot">TRUE</span>, <span class="dt">escape =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb239-6"><a href="chap-rediger.html#cb239-6"></a><span class="st">    </span>kableExtra<span class="op">::</span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="st">&quot;striped&quot;</span>, </span>
+<span id="cb239-7"><a href="chap-rediger.html#cb239-7"></a>        <span class="dt">full_width =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:kable">Table 4.1: </span>Tableau créé par R
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Longueur sépales (<span class="math inline">\(l_s\)</span>)
+</th>
+<th style="text-align:right;">
+Largeur
+</th>
+<th style="text-align:right;">
+Longueur pétales
+</th>
+<th style="text-align:right;">
+Largeur
+</th>
+<th style="text-align:left;">
+Espèce
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+5.1
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4.9
+</td>
+<td style="text-align:right;">
+3.0
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+3.2
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+3.1
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5.0
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5.4
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.7
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+</tbody>
+</table>
 
-<p></p>
-<p>La légende est précisée par l’argument <code>caption</code> et le référencement est possible parce que le tableau reçoit une étiquette dont le nom est <code>tab:</code> suivi du nom du bout de code (tableau <a href="#tab:kable"><strong>??</strong></a>).
+<p>La légende est précisée par l’argument <code>caption</code> et le référencement est possible parce que le tableau reçoit une étiquette dont le nom est <code>tab:</code> suivi du nom du bout de code (tableau <a href="chap-rediger.html#tab:kable">4.1</a>).
 Comme pour les figures, une légende améliorée peut être écrite dans un paragraphe séparé.</p>
 <p>Utiliser systématiquement l’argument <code>booktabs = TRUE</code> pour que l’épaisseur des lignes de séparation soit optimale en LaTeX.
 Comme le tableau contient des mathématiques (dans le nom de la première colonne), l’option <code>escape = FALSE</code> est nécessaire.</p>
@@ -597,11 +726,11 @@ Enfin, l’option <code>full_width = FALSE</code> permet d’ajuster la largeur 
 <div id="bibliographie" class="section level4">
 <h4><span class="header-section-number">4.3.1.6</span> Bibliographie</h4>
 <p>Les références bibliographiques au format bibtex doivent être incluses dans le fichier <code>.bib</code> déclaré dans l’entête du document Markdown.</p>
-<pre><code>bibliography: references.bib</code></pre>
+<p>bibliography: references.bib</p>
 <p>Elles peuvent être appelées dans le texte, entre parenthèses par le code <code>[@Reference]</code>, ou dans le texte, en supprimant les crochets.</p>
 <p>La bibliographie est traitée par pandoc lors de la production de documents Word ou HTML.
 Le style bibliographique peut être précisé, en ajoutant la ligne</p>
-<pre><code>csl:nom_du_fichier.csl</code></pre>
+<p>csl:nom_du_fichier.csl</p>
 <p>dans l’entête du document et en copiant le fichier de style <em>.csl</em> dans le dossier du projet.
 Plus d’un millier de styles sont disponibles.<a href="#fn49" class="footnote-ref" id="fnref49"><sup>49</sup></a></p>
 <p>Pour les documents PDF, la bibliographie est gérée par LaTeX.
@@ -658,14 +787,11 @@ De cette façon, il est possible d’activer les pages GitHub du projet (sur le 
 Le fichier <code>README.md</code> sera la page d’accueil du site web produit.</p>
 <p>Le script retourne de nombreux avertissements, sans conséquence, quand un fichier doit être écrasé par exemple.</p>
 <p>Pour le projet présenté en exemple, le fichier <code>README.md</code> est le suivant:</p>
-<pre><code># Krigeage avec R
-
-Techniques pour interpoler les valeurs d&#39;une variable
-continue.
-
-[Voir le support](https://EricMarcon.github.io/
-Krigeage/Krigeage.html) ou le [télécharger]
-(https://EricMarcon.github.io/Krigeage/Krigeage.pdf)</code></pre>
+<p># Krigeage avec R</p>
+<p>Techniques pour interpoler les valeurs d’une variable
+continue.</p>
+<p><a href="https://EricMarcon.github.io/%20Krigeage/Krigeage.html">Voir le support</a> ou le [télécharger]
+(<a href="https://EricMarcon.github.io/Krigeage/Krigeage.pdf" class="uri">https://EricMarcon.github.io/Krigeage/Krigeage.pdf</a>)</p>
 <p>La première ligne contient le titre, la seconde une description.
 Les liens pointent vers le fichier HMTL et le fichier PDF produits, tous les deux dans le dossier <code>docs</code>.
 Les liens sont absolus, avec l’adresse complète des fichiers, et non relatifs, parce que le fichier <code>README.md</code> est le même à la racine du projet (affiché par GitHub en dessous du code) et dans le dossier <code>docs</code> (utilisé par les pages GitHuB comme page d’accueil du site).</p>
@@ -730,21 +856,21 @@ La page d’accueil du site web est créée par bookdown à partir du fichier <c
 La commande n’a aucun effet sur le document HTML mais force la césure en LaTeX.
 Pour couper du texte formaté (entre astérisques pour l’italique ou plus fréquemment entre apostrophes inversées pour du code), il faut terminer le formatage avant <code>\break</code> et le recommencer après.
 Exemple, pour forcer le retour à la ligne avant <code>fichier.Rmd</code>:</p>
-<pre><code>Le fichier `/chemin/`\break`fichier.Rmd`</code></pre>
+<p>Le fichier <code>/chemin/</code><code>fichier.Rmd</code></p>
 <p>En HTML, un espace sera ajouté entre les deux portions de code.</p>
 <p>Les bouts de code R sont formatés automatiquement par <strong>knitr</strong> quand l’option <code>tidy=TRUE</code> leur est appliquée.
 Le comportement par défaut est indiqué dans les options de <strong>knitr</strong>, dans un bout de code au début de chaque document:</p>
-<p></p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="chap-rediger.html#cb240-1"></a><span class="co"># knitr options</span></span>
-<span id="cb240-2"><a href="chap-rediger.html#cb240-2"></a>knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(</span>
-<span id="cb240-3"><a href="chap-rediger.html#cb240-3"></a>  <span class="dt">cache=</span><span class="ot">TRUE</span>, <span class="dt">warning=</span><span class="ot">FALSE</span>, <span class="dt">echo =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb240-4"><a href="chap-rediger.html#cb240-4"></a>  <span class="dt">fig.env=</span><span class="st">&#39;SCfigure&#39;</span>, <span class="dt">fig.asp=</span>.<span class="dv">75</span>, </span>
-<span id="cb240-5"><a href="chap-rediger.html#cb240-5"></a>  <span class="dt">fig.align=</span><span class="st">&#39;center&#39;</span>, <span class="dt">out.width=</span><span class="st">&#39;80%&#39;</span>, </span>
-<span id="cb240-6"><a href="chap-rediger.html#cb240-6"></a>  <span class="dt">tidy=</span><span class="ot">TRUE</span>, </span>
-<span id="cb240-7"><a href="chap-rediger.html#cb240-7"></a>  <span class="dt">tidy.opts=</span><span class="kw">list</span>(<span class="dt">blank=</span><span class="ot">FALSE</span>, <span class="dt">width.cutoff=</span><span class="dv">55</span>), </span>
-<span id="cb240-8"><a href="chap-rediger.html#cb240-8"></a>    <span class="dt">size=</span><span class="st">&quot;scriptsize&quot;</span>,</span>
-<span id="cb240-9"><a href="chap-rediger.html#cb240-9"></a>  <span class="dt">knitr.graphics.auto_pdf =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="chap-rediger.html#cb242-1"></a><span class="co"># knitr options</span></span>
+<span id="cb242-2"><a href="chap-rediger.html#cb242-2"></a>knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(</span>
+<span id="cb242-3"><a href="chap-rediger.html#cb242-3"></a>  <span class="dt">cache=</span><span class="ot">TRUE</span>, <span class="dt">warning=</span><span class="ot">FALSE</span>, <span class="dt">echo =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb242-4"><a href="chap-rediger.html#cb242-4"></a>  <span class="dt">fig.env=</span><span class="st">&#39;SCfigure&#39;</span>, <span class="dt">fig.asp=</span>.<span class="dv">75</span>, </span>
+<span id="cb242-5"><a href="chap-rediger.html#cb242-5"></a>  <span class="dt">fig.align=</span><span class="st">&#39;center&#39;</span>, <span class="dt">out.width=</span><span class="st">&#39;80%&#39;</span>, </span>
+<span id="cb242-6"><a href="chap-rediger.html#cb242-6"></a>  <span class="dt">tidy=</span><span class="ot">TRUE</span>, </span>
+<span id="cb242-7"><a href="chap-rediger.html#cb242-7"></a>  <span class="dt">tidy.opts=</span><span class="kw">list</span>(<span class="dt">blank=</span><span class="ot">FALSE</span>, <span class="dt">width.cutoff=</span><span class="dv">55</span>), </span>
+<span id="cb242-8"><a href="chap-rediger.html#cb242-8"></a>    <span class="dt">size=</span><span class="st">&quot;scriptsize&quot;</span>,</span>
+<span id="cb242-9"><a href="chap-rediger.html#cb242-9"></a>  <span class="dt">knitr.graphics.auto_pdf =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+
 <p>La largeur maximale d’une ligne de code formaté est ici de 55 caractères, optimal pour le modèle “Ouvrage EcoFoG”.
 Il arrive que le formatage automatique ne fonctionne pas parce que <strong>knitr</strong> ne parvient pas à trouver une coupure de ligne respectant toutes les contraintes, ce qui provoque un dépassement de marge dans le code.
 Dans ce cas, formater manuellement le bout de code en lui ajoutant l’option <code>tidy=FALSE</code>.</p>
@@ -787,24 +913,24 @@ D’autres pages seront ajoutées en créant de nouveaux fichiers <code>.Rmd</co
 <li>en plaçant les fichiers du site dans le dossier <code>docs</code> et ainsi séparer le code et la production.</li>
 </ul>
 <p>Le fichier <code>_site.yml</code> complété est le suivant:</p>
-<pre><code>name: &quot;my-website&quot;
+<p>name: “my-website”
 navbar:
-  title: &quot;My Website&quot;
-  left:
-    - text: &quot;Home&quot;
-      href: index.html
-    - text: &quot;About&quot;
-      href: about.html
-  right:
-    - icon: fa-github
-      href: https://github.com/rstudio/rmarkdown
-output_dir: &quot;docs&quot;
+title: “My Website”
+left:
+- text: “Home”
+href: index.html
+- text: “About”
+href: about.html
+right:
+- icon: fa-github
+href: <a href="https://github.com/rstudio/rmarkdown" class="uri">https://github.com/rstudio/rmarkdown</a>
+output_dir: “docs”
 output:
-  bookdown::html_document2:
-    theme: sandstone
-    highlight: tango
-    toc: true
-    toc_float: yes</code></pre>
+bookdown::html_document2:
+theme: sandstone
+highlight: tango
+toc: true
+toc_float: yes</p>
 <p>L’icône de GitHub fait partie de la collection Font Awesome dont toutes les icônes gratuites<a href="#fn60" class="footnote-ref" id="fnref60"><sup>60</sup></a> sont utilisables avec la même syntaxe: “fa-nom”.</p>
 <p>Le lien correspondant à l’icône doit être celui du dépôt GitHub du site web.</p>
 <p>La syntaxe de la section <code>output</code> est la même que celle des documents vus plus haut, comme le mémo EcoFoG.
@@ -817,21 +943,20 @@ Enfin, la table des matières est flottante, ce qui signifie que sa position s�
 <h3><span class="header-section-number">4.6.3</span> Contôle de source</h3>
 <p>Le projet doit être placé sous contrôle de source et poussé sur GitHub (chapitre <a href="chap-git.html#chap:git">3</a>).
 Le fichier <code>.gitignore</code> est le suivant :</p>
-<pre><code># R
+<p># R
 .Rbuildignore
 .RData
 .Rhistory
 .Rprofile
-.Rproj.user
-
-# Web Site
+.Rproj.user</p>
+<p># Web Site
 /_site/
 /*_cache/
-/*_files/</code></pre>
+/*_files/</p>
 <p>Activer les pages GitHub (section <a href="chap-git.html#sec:github-pages">3.6</a>) sur le dossier <code>docs</code> pour héberger le site.
 Ajouter un fichier vide nommé <code>.nojekyll</code> dans <code>docs</code> pour que les pages GitHub ne tentent pas de reformater le site.
 On peut utiliser le terminal de RStudio pour exécuter:</p>
-<pre><code>touch docs/.nojekyll</code></pre>
+<p>touch docs/.nojekyll</p>
 </div>
 </div>
 <div id="sec:blogdown" class="section level2">
@@ -851,13 +976,13 @@ Nous utiliserons donc cette solution, pour un site comme celui proposé en exemp
 <div id="installation-des-outils" class="section level3">
 <h3><span class="header-section-number">4.7.1</span> Installation des outils</h3>
 <p>La première étape consiste à installer le package <strong>blogdown</strong> dans R.</p>
-<p></p>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="chap-rediger.html#cb245-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;blogdown&quot;</span>)</span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="chap-rediger.html#cb244-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;blogdown&quot;</span>)</span></code></pre></div>
+
 <p><strong>blogdown</strong> est capable d’installer Hugo sous Windows, macOS ou Linux.</p>
-<p></p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="chap-rediger.html#cb246-1"></a>blogdown<span class="op">::</span><span class="kw">install_hugo</span>()</span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="chap-rediger.html#cb245-1"></a>blogdown<span class="op">::</span><span class="kw">install_hugo</span>()</span></code></pre></div>
+
 <p>La documentation complète de <strong>blogdown</strong> est disponible<a href="#fn63" class="footnote-ref" id="fnref63"><sup>63</sup></a>.</p>
 <p>Les versions récentes de Hugo utilisent <em>Go</em> (le langage de programmation) pour installer leurs modules à la volée: ici le thème Academic est chargé depuis GitHub au moment de la création du site.
 Go doit donc être installé<a href="#fn64" class="footnote-ref" id="fnref64"><sup>64</sup></a>.</p>
@@ -871,47 +996,45 @@ Le nom à saisir est simplement “GitHubID.github.io” (<em>GitHubID</em> est 
 <p>Créer le dépôt.
 Copier l’adresse du dépôt en cliquant sur le bouton <em>Code</em> puis sur le bouton à droite de l’adresse (figure <a href="chap-rediger.html#fig:rediger-GitHub-Clone">4.4</a>).</p>
 
-<p></p>
+
 <div class="figure" style="text-align: center"><span id="fig:rediger-GitHub-Clone"></span>
 <img src="images/rediger-GitHub-Clone.png" alt="Copie de l’adresse d’un dépôt à cloner sur GitHub." width="80%" />
 <p class="caption">
 Figure 4.4: Copie de l’adresse d’un dépôt à cloner sur GitHub.
 </p>
 </div>
-<p></p>
+
 <p>Dans RStudio, créer un nouveau projet à partir de GitHub: dans le menu des projets en haut à droite, cliquer sur <em>New Project…</em> puis <em>Version Control</em> puis <em>Git</em> puis coller l’adresse dans le champ “Repository URL” (figure <a href="chap-rediger.html#fig:rediger-Projet-GitHub">4.5</a>).
 Sélectionner le dossier dans lequel le projet sera créé en cliquant sur “Browse” et enfin cliquer sur “Create Project”.</p>
 
-<p></p>
+
 <div class="figure" style="text-align: center"><span id="fig:rediger-Projet-GitHub"></span>
 <img src="images/rediger-Projet-GitHub.png" alt="Collage de l’adresse du dépôt à cloner." width="80%" />
 <p class="caption">
 Figure 4.5: Collage de l’adresse du dépôt à cloner.
 </p>
 </div>
-<p></p>
+
 <p>Le projet créé est une copie exacte du modèle, qui doit être personnalisée.</p>
 <p>RStudio ajoute automatiquement à la fin du fichier <code>.gitignore</code> une ligne pour ignorer ses fichiers de travail (dossier <code>.Rproj.user</code>).
 Ajouter une ligne de commentaire pour le signaler.
 Le contenu de <code>.gitignore</code> doit être le suivant:</p>
-<pre><code># R
+<p># R
 .Rbuildignore
 .RData
 .Rhistory
 .Rprofile
-.Rproj.user
-
-# Hugo
+.Rproj.user</p>
+<p># Hugo
 /resources/
-/public/
-
-# blogdown
+/public/</p>
+<p># blogdown
 /static/en/
 /static/fr/
 *.rmarkdown
 _index.html
 index.html
-**/index_files/</code></pre>
+**/index_files/</p>
 <p>Un bug de <strong>blogdown</strong> nécessite de déplacer le fichier <code>config/_default/config.toml</code> à la racine du projet.</p>
 <p>Prendre en compte ces modification dans git en faisant un commit.</p>
 </div>
@@ -930,19 +1053,19 @@ Elle n’a pas pour objectif d’être fusionnée avec la branche <code>master</
 <div id="construction-du-site" class="section level3">
 <h3><span class="header-section-number">4.7.4</span> Construction du site</h3>
 <p>Exécuter</p>
-<p></p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="chap-rediger.html#cb249-1"></a>blogdown<span class="op">::</span><span class="kw">build_site</span>(<span class="dt">build_rmd =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="chap-rediger.html#cb247-1"></a>blogdown<span class="op">::</span><span class="kw">build_site</span>(<span class="dt">build_rmd =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+
 <p>pour construire le site web, y compris ses futures pages R Markdown.</p>
 <p>Pour afficher le site, exécuter :</p>
-<p></p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="chap-rediger.html#cb250-1"></a>blogdown<span class="op">:::</span><span class="kw">serve_site</span>()</span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="chap-rediger.html#cb248-1"></a>blogdown<span class="op">:::</span><span class="kw">serve_site</span>()</span></code></pre></div>
+
 <p>Il apparaît dans la fenêtre <em>Viewer</em> de RStudio, dont le bouton d’agrandissement permet l’affichage dans le navigateur internet par défaut du système.</p>
 <p>Pour modifier le contenu du site, il est préférable d’arrêter le serveur web par la commande:</p>
-<p></p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="chap-rediger.html#cb251-1"></a>blogdown<span class="op">:::</span><span class="kw">stop_server</span>()</span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="chap-rediger.html#cb249-1"></a>blogdown<span class="op">:::</span><span class="kw">stop_server</span>()</span></code></pre></div>
+
 <p>Le site produit par <strong>blogdown</strong> se trouve dans le dossier <code>public</code> qui peut être copié directement sur un serveur web qui l’hébergera.
 Une solution simple pour un site autre que le site principal du dépôt GitHub consiste à déclarer ce dossier comme racine des pages GitHub du projet
 (section <a href="chap-git.html#sec:github-pages">3.6</a>).</p>
@@ -972,36 +1095,36 @@ Les principales sont passées en revue ici pour une création rapide d’un site
 <p>Le fichier <code>config.toml</code> contient les paramètres généraux du site.
 Les lignes à mettre à jour sont celle du titre du site (le nom du propriétaire puisqu’il s’agit d’un site personnel) et son adresse publique.
 Pour le site exemple :</p>
-<p></p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="chap-rediger.html#cb252-1"></a>title =<span class="st"> &quot;Eric Marcon&quot;</span></span>
-<span id="cb252-2"><a href="chap-rediger.html#cb252-2"></a>baseurl =<span class="st"> &quot;https://EricMarcon.github.io/&quot;</span></span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="chap-rediger.html#cb250-1"></a>title =<span class="st"> &quot;Eric Marcon&quot;</span></span>
+<span id="cb250-2"><a href="chap-rediger.html#cb250-2"></a>baseurl =<span class="st"> &quot;https://EricMarcon.github.io/&quot;</span></span></code></pre></div>
+
 <p>Il contient aussi la ligne de sélection de la langue par défaut (“en” ou “fr” au choix) et celle qui permet de placer les fichiers produits par Hugo dans chaque dossier de langue (“true” obligatoirement pour un site multilingue):</p>
-<pre><code>defaultContentLanguage = &quot;fr&quot;
-defaultContentLanguageInSubdir = true</code></pre>
+<p>defaultContentLanguage = “fr”
+defaultContentLanguageInSubdir = true</p>
 <p>Le dossier <code>config/_default/</code> contient les autres fichiers de configuration.</p>
 <p><code>languages.toml</code> contient les paramètres linguistiques et les traductions de menus.
 Pour chaque langue, la version utilisée et le dossier de contenu sont précisés:</p>
-<pre><code>[en]
-  languageCode = &quot;en-us&quot;
-  contentDir = &quot;content/en&quot;
+<p>[en]
+languageCode = “en-us”
+contentDir = “content/en”
 [fr]
-  languageCode = &quot;fr-fr&quot;
-  contentDir = &quot;content/fr&quot;</code></pre>
+languageCode = “fr-fr”
+contentDir = “content/fr”</p>
 <p>Pour les langues additionnelles, le titre du site, les paramètres d’affichage des dates et la traduction des menus sont ajoutés.
 Dans la section <code>[fr]</code>:</p>
-<pre><code>[en]
-  languageCode = &quot;en-us&quot;
-  contentDir = &quot;content/en&quot;
+<p>[en]
+languageCode = “en-us”
+contentDir = “content/en”
 [fr]
-  languageCode = &quot;fr-fr&quot;
-  contentDir = &quot;content/fr&quot;</code></pre>
+languageCode = “fr-fr”
+contentDir = “content/fr”</p>
 <p>Ces lignes sont commentées dans le modèle et doivent dont être décommentées en retirant les <code>#</code> en têtes de lignes.</p>
 <p>Les menus sont décrits plus bas.</p>
 <p><code>params.toml</code> décrit l’aspect du site.
 Les options sont regroupées par sujet, par exemple “Theme” pour l’apparence générale.
 Dans “Basic Info”, la ligne</p>
-<pre><code>site_type = &quot;Person&quot;</code></pre>
+<p>site_type = “Person”</p>
 <p>sélectionne un site personnel.
 Il est possible d’utiliser Academic pour un site de projet scientifique ou un site d’unité, non documentés en détail ici.
 Les principales différences sont, pour un site collectif:</p>
@@ -1010,12 +1133,12 @@ Les principales différences sont, pour un site collectif:</p>
 <li>un composant décrit plus bas, qui permet de présenter les personnes, doit être activé.</li>
 </ul>
 <p>La description du site dans la langue par défaut est saisie, à destination des moteurs de recherche:</p>
-<pre><code>description = &quot;Eric Marcon&#39;s Homepage&quot;</code></pre>
+<p>description = “Eric Marcon’s Homepage”</p>
 <p>Elle doit être traduite dans le fichier <code>languages.toml</code>, dans chaque langue.</p>
 <p>Dans “Site Features”, nous sélectionnons la coloration du code R, l’activation du formatage des équations et l’avertissement légal pour l’utilisation des cookies.</p>
-<pre><code>highlight_languages = [&quot;r&quot;] 
+<p>highlight_languages = [“r”]
 math = true
-privacy_pack = true</code></pre>
+privacy_pack = true</p>
 <p>La ligne <code>edit_page</code> doit être mise à jour: remplacer le dépôt par défaut “<a href="https://github.com/gcushen/hugo-academic" class="uri">https://github.com/gcushen/hugo-academic</a>” par celui du site.</p>
 <p>“Contact details” contient les informations pour contacter le propriétaire du site.
 Elles doivent être saisies.</p>
@@ -1045,43 +1168,43 @@ Chaque élément est décrit par un fichier markdown.
 Le premier est <code>index.md</code>.
 Il n’est normalement jamais modifié.
 Son contenu est le suivant:</p>
-<pre><code>+++
+<p>+++
 # Homepage
-type = &quot;widget_page&quot;
-headless = true  # Homepage is headless, other widget 
+type = “widget_page”
+headless = true # Homepage is headless, other widget
 pages are not.
-+++</code></pre>
++++</p>
 <p>Le fichier ne contient qu’un entête au format TOML, encadré par une ligne de <code>+++</code>.
 Le type de composant (<code>type</code>) indique qu’il s’agit d’une page de composants, dans laquelle les autres composants du dossier trouveront leur place.
 <code>headless = true</code> signifie que la page n’a pas d’en-tête.</p>
 
-<p></p>
+
 <div class="figure" style="text-align: center"><span id="fig:rediger-demo"></span>
 <img src="images/rediger-demo.png" alt="Composant demo dans Academic." width="80%" />
 <p class="caption">
 Figure 4.6: Composant <code>demo</code> dans Academic.
 </p>
 </div>
-<p></p>
+
 <p>Le composant <code>demo.md</code> (figure <a href="chap-rediger.html#fig:rediger-demo">4.6</a>) est un composant de type “blank”, c’est-à-dire une page de texte libre: il sert ici à présenter le modèle Academic Kickstart et doit donc être désactivé.
 L’entête contient ses informations de formatage (titre, nombre de colonnes, couleurs…) et le contenu de la page est écrit en markdown.
 Les composants apparaissent par ordre croissant de poids (<code>weight</code> dans l’entête): 15 marque le premier composant dans le modèle Academic.
 Le composant peut être désactivé en supprimant son fichier ou en modifiant sa propriété <code>active</code> dans l’entête:</p>
-<pre><code>active = false  # Activate this widget? true/false</code></pre>
+<p>active = false # Activate this widget? true/false</p>
 
-<p></p>
+
 <div class="figure" style="text-align: center"><span id="fig:rediger-about"></span>
 <img src="images/rediger-about.png" alt="Composant about dans Academic." width="80%" />
 <p class="caption">
 Figure 4.7: Composant <code>about</code> dans Academic.
 </p>
 </div>
-<p></p>
+
 <p>Le composant suivant est <code>about.md</code> (figure <a href="chap-rediger.html#fig:rediger-about">4.7</a>).
 Il présente le propriétaire du site.
 Son titre doit être localisé.
 Dans le dossier <code>/content/fr/home</code>, sa valeur sera:</p>
-<pre><code>title = &quot;Biographie&quot;</code></pre>
+<p>title = “Biographie”</p>
 <p>L’auteur (<code>author</code>) doit correspondre à un dossier de <code>/contents/&lt;langue&gt;/authors</code>.
 <code>admin</code> convient parfaitement pour un site personnel.
 Academic permet de créer des sites d’équipes: dans cette configuration, un dossier par personne serait nécessaire.
@@ -1091,25 +1214,25 @@ Limiter la taille du fichier pour la performance du site (moins d’un mégaocte
 Son organisation est assez claire: modifier son contenu à partir de l’exemple fourni.
 Si des icônes de type <code>ai</code> sont utilisées, activer le pack d’icône Academicons dans <code>config/_default/params.toml</code>.</p>
 
-<p></p>
+
 <div class="figure" style="text-align: center"><span id="fig:rediger-skills"></span>
 <img src="images/rediger-skills.png" alt="Composant skills dans Academic." width="80%" />
 <p class="caption">
 Figure 4.8: Composant <code>skills</code> dans Academic.
 </p>
 </div>
-<p></p>
+
 <p>Le composant talents (<code>skills</code>, figure <a href="chap-rediger.html#fig:rediger-skills">4.8</a>) présente les compétences de l’auteur de façon graphique.
 Une collection d’icônes est disponible, et des icônes nouvelles peuvent être ajoutées.</p>
 
-<p></p>
+
 <div class="figure" style="text-align: center"><span id="fig:rediger-experience"></span>
 <img src="images/rediger-experience.png" alt="Composant experience dans Academic." width="80%" />
 <p class="caption">
 Figure 4.9: Composant <code>experience</code> dans Academic.
 </p>
 </div>
-<p></p>
+
 <p>Le composant expérience (<code>experience</code>, figure <a href="chap-rediger.html#fig:rediger-experience">4.9</a>) liste les expériences professionnelles.
 Toutes les informations sont saisies dans son entête.</p>
 <p>Le composant <code>accomplishments</code> présente les formations professionnelles et permet d’accéder à leurs certificats.</p>
@@ -1121,12 +1244,12 @@ Il est possible de créer des composants de ces types librement, en spécifiant 
 Exemple: créer un composant nommé <code>software.md</code> en renommant <code>projects.md</code>, modifier sa ligne <code>page_type = "software"</code> et créer un dossier <code>/contents/&lt;langue&gt;/software</code> pour y placer du contenu.</p>
 <p>Les composants <code>publications</code> et <code>featured</code> sont de type “pages” et “portfolio” respectivement et prennent leur contenu dans le dossier <code>publication</code>.</p>
 <p>Le composant <code>tags</code> présente un nuage de mots à partir des mots-clés déclarés dans tous les fichiers de contenu (billets de blog, publications…) sous la forme suivante dans leur entête:</p>
-<pre><code>tags = [&quot;Mot Clé 1&quot;, &quot;Autre Mot Clé&quot;]</code></pre>
+<p>tags = [“Mot Clé 1”, “Autre Mot Clé”]</p>
 <p>Enfin, le composant <code>contact</code> permet d’afficher un formulaire de contact.
 Il utilise les informations du fichier <code>config/_default/params.toml</code> dans sa partie commençant par:</p>
-<pre><code>############################
+<p>############################
 ## Contact details
-##</code></pre>
+##</p>
 <p>Pour afficher une carte, entrer la latitude et la longitude de l’adresse dans la ligne <code>coordinates</code>.
 Pour afficher un formulaire de messagerie, choisir le service <em>formspree.io</em> (<code>email_form = 2</code> dans <code>contact.md</code>).
 Pour activer le service de messagerie, il faudra construire le site web, s’envoyer un premier message en utilisant le formulaire et suivre les instructions de Formspree.</p>
@@ -1140,25 +1263,24 @@ Pour comprendre son fonctionnement, le plus simple consiste à l’activer.</p>
 Il est paramétré dans <code>config/_default/menus.toml</code>.
 Les éléments du menu ont un nom affiché, un lien (commençant par <code>#</code> pour pointer vers un composant ou un chemin relatif dans le site comme <code>publication/</code>), et un poids qui définit leur ordre d’affichage, de la même façon que celui des composants de la page d’accueil.</p>
 <p>Un menu à deux éléments pour pointer vers l’accueil du site et les billets de blogs est donc le suivant:</p>
-<pre><code>[[main]]
-  name = &quot;Home&quot;
-  url = &quot;#about&quot;
-  weight = 10
-
-[[main]]
-  name = &quot;Posts&quot;
-  url = &quot;#posts&quot;
-  weight = 20</code></pre>
+<p>[[main]]
+name = “Home”
+url = “#about”
+weight = 10</p>
+<p>[[main]]
+name = “Posts”
+url = “#posts”
+weight = 20</p>
 <p>Le menu doit être traduit dans chaque langue dans le fichier <code>config/_default/languages.toml</code>:</p>
-<pre><code>[fr]
-  [[fr.menu.main]]
-    name = &quot;Accueil&quot;
-    url = &quot;#about&quot;
-    weight = 10
-  [[fr.menu.main]]
-    name = &quot;Articles&quot;
-    url = &quot;#posts&quot;
-    weight = 20</code></pre>
+<p>[fr]
+[[fr.menu.main]]
+name = “Accueil”
+url = “#about”
+weight = 10
+[[fr.menu.main]]
+name = “Articles”
+url = “#posts”
+weight = 20</p>
 </div>
 <div id="billets" class="section level4">
 <h4><span class="header-section-number">4.7.7.3</span> Billets</h4>
@@ -1210,10 +1332,10 @@ Un bout de code initial permet de fixer les options de R et charger les packages
 La commande <code>blogdown::new_post()</code> peut aussi être utilisée mais ne gère pas les langues multiples (et crée donc le billet dans le dossier <code>/contents/post</code> à moins de préciser l’argument <code>subdir</code>).</p>
 <p>La reconstruction du site ne met par défaut pas à jour les pages basées sur un fichier <code>.Rmd</code>.
 Pour le faire, il faut forcer la commande <code>build_site()</code>.</p>
-<p></p>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="chap-rediger.html#cb267-1"></a>blogdown<span class="op">::</span><span class="kw">build_site</span>(<span class="dt">build_rmd =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb267-2"><a href="chap-rediger.html#cb267-2"></a>blogdown<span class="op">::</span><span class="kw">serve_site</span>()</span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="chap-rediger.html#cb252-1"></a>blogdown<span class="op">::</span><span class="kw">build_site</span>(<span class="dt">build_rmd =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb252-2"><a href="chap-rediger.html#cb252-2"></a>blogdown<span class="op">::</span><span class="kw">serve_site</span>()</span></code></pre></div>
+
 </div>
 <div id="publications" class="section level4">
 <h4><span class="header-section-number">4.7.7.4</span> Publications</h4>
@@ -1254,10 +1376,9 @@ featured: false
 </ul>
 <p>Le corps de la publication contient un lien (au format HTML) vers le site Dimension qui fournit des informations bibliométriques.
 Ce lien peut être réutilisé très simplement, en remplaçant simplement le DOI du document:</p>
-<pre><code>&lt;span class=&quot;__dimensions_badge_embed__&quot; 
-  data-doi=&quot;10.1093/jeg/lbg016&quot;&gt;&lt;/span&gt;
-&lt;script async src=&quot;https://badge.dimensions.ai/
-  badge.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</code></pre>
+<span class="__dimensions_badge_embed__" data-doi="10.1093/jeg/lbg016"></span>
+<script async src="https://badge.dimensions.ai/
+      badge.js" charset="utf-8"></script>
 <p>Enfin, un fichier <code>/contents/&lt;langue&gt;/publications/</code><code>_index.Rmd</code> permet de présenter la bibliographie complète.
 Il est accessible à partir du composant <code>publications</code> de la page d’accueil qui affiche un lien “Plus de Publications”.</p>
 <p>Le fichier exemple<a href="#fn73" class="footnote-ref" id="fnref73"><sup>73</sup></a> avec son code<a href="#fn74" class="footnote-ref" id="fnref74"><sup>74</sup></a> permet d’interroger Google Scholar pour obtenir le réseau de coauteurs, l’indice h et le nombre de citations annuelles de l’auteur.
@@ -1350,15 +1471,15 @@ Le fichier <code>icon.png</code> peut être remplacé.</p>
 <p>Le thème Academic est régulièrement mis à jour.
 La version utilisée est indiquée dans le fichier <code>go.mod</code>.
 Pour utiliser la dernière version officielle, exécuter dans la console R la commande suivante:</p>
-<p></p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="chap-rediger.html#cb271-1"></a>blogdown<span class="op">::</span><span class="kw">hugo_cmd</span>(<span class="st">&quot;mod get -u&quot;</span>)</span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="chap-rediger.html#cb255-1"></a>blogdown<span class="op">::</span><span class="kw">hugo_cmd</span>(<span class="st">&quot;mod get -u&quot;</span>)</span></code></pre></div>
+
 <p>Les fichiers <code>go.mod</code> et <code>go.sum</code>, qui contient les codes de hachage des fichiers du module, sont mis à jour.</p>
 <p>Chaque changement de version peut nécessiter des adaptations du contenu du site, référencées dans la documentation en ligne du thème<a href="#fn77" class="footnote-ref" id="fnref77"><sup>77</sup></a>.</p>
 <p>Mettre Hugo à jour en même temps:</p>
-<p></p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="chap-rediger.html#cb272-1"></a>blogdown<span class="op">::</span><span class="kw">update_hugo</span>()</span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="chap-rediger.html#cb256-1"></a>blogdown<span class="op">::</span><span class="kw">update_hugo</span>()</span></code></pre></div>
+
 </div>
 </div>
 <div id="exportation-de-figures" class="section level2">
@@ -1377,22 +1498,22 @@ Il est préférable de créer des scripts pour créer les figures de façon repr
 La fonction <code>image()</code> utilisée pour afficher des cartes utilise par défaut des polygones plutôt que des points.
 La figure <a href="chap-rediger.html#fig:volcano">4.10</a> montre le résultat du code suivant:</p>
 
-<p></p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="chap-rediger.html#cb273-1"></a>x &lt;-<span class="st"> </span><span class="dv">10</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(volcano))</span>
-<span id="cb273-2"><a href="chap-rediger.html#cb273-2"></a>y &lt;-<span class="st"> </span><span class="dv">10</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(volcano))</span>
-<span id="cb273-3"><a href="chap-rediger.html#cb273-3"></a><span class="kw">image</span>(x, y, volcano, <span class="dt">col =</span> <span class="kw">hcl.colors</span>(<span class="dv">100</span>, <span class="st">&quot;terrain&quot;</span>), <span class="dt">axes =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb273-4"><a href="chap-rediger.html#cb273-4"></a><span class="kw">contour</span>(x, y, volcano, <span class="dt">levels =</span> <span class="kw">seq</span>(<span class="dv">90</span>, <span class="dv">200</span>, <span class="dt">by =</span> <span class="dv">5</span>), <span class="dt">add =</span> <span class="ot">TRUE</span>, </span>
-<span id="cb273-5"><a href="chap-rediger.html#cb273-5"></a>    <span class="dt">col =</span> <span class="st">&quot;brown&quot;</span>)</span>
-<span id="cb273-6"><a href="chap-rediger.html#cb273-6"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at =</span> <span class="kw">seq</span>(<span class="dv">100</span>, <span class="dv">800</span>, <span class="dt">by =</span> <span class="dv">100</span>))</span>
-<span id="cb273-7"><a href="chap-rediger.html#cb273-7"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at =</span> <span class="kw">seq</span>(<span class="dv">100</span>, <span class="dv">600</span>, <span class="dt">by =</span> <span class="dv">100</span>))</span>
-<span id="cb273-8"><a href="chap-rediger.html#cb273-8"></a><span class="kw">box</span>()</span></code></pre></div>
+
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="chap-rediger.html#cb257-1"></a>x &lt;-<span class="st"> </span><span class="dv">10</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(volcano))</span>
+<span id="cb257-2"><a href="chap-rediger.html#cb257-2"></a>y &lt;-<span class="st"> </span><span class="dv">10</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(volcano))</span>
+<span id="cb257-3"><a href="chap-rediger.html#cb257-3"></a><span class="kw">image</span>(x, y, volcano, <span class="dt">col =</span> <span class="kw">hcl.colors</span>(<span class="dv">100</span>, <span class="st">&quot;terrain&quot;</span>), <span class="dt">axes =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb257-4"><a href="chap-rediger.html#cb257-4"></a><span class="kw">contour</span>(x, y, volcano, <span class="dt">levels =</span> <span class="kw">seq</span>(<span class="dv">90</span>, <span class="dv">200</span>, <span class="dt">by =</span> <span class="dv">5</span>), <span class="dt">add =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb257-5"><a href="chap-rediger.html#cb257-5"></a>    <span class="dt">col =</span> <span class="st">&quot;brown&quot;</span>)</span>
+<span id="cb257-6"><a href="chap-rediger.html#cb257-6"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at =</span> <span class="kw">seq</span>(<span class="dv">100</span>, <span class="dv">800</span>, <span class="dt">by =</span> <span class="dv">100</span>))</span>
+<span id="cb257-7"><a href="chap-rediger.html#cb257-7"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at =</span> <span class="kw">seq</span>(<span class="dv">100</span>, <span class="dv">600</span>, <span class="dt">by =</span> <span class="dv">100</span>))</span>
+<span id="cb257-8"><a href="chap-rediger.html#cb257-8"></a><span class="kw">box</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:volcano"></span>
 <img src="travailleR_files/figure-html/volcano-1.png" alt="Courbes de niveau du volcan Maunga Whau, code fourni en exemple de l’aide de la fonction image()." width="80%" />
 <p class="caption">
 Figure 4.10: Courbes de niveau du volcan Maunga Whau, code fourni en exemple de l’aide de la fonction <code>image()</code>.
 </p>
 </div>
-<p></p>
+
 <p>Elle est composée d’un ensemble de rectangles colorés: il s’agit bien d’une image vectorielle.</p>
 <p>Si nécessaire, des images peuvent être produites aux formats BMP (bitmap, sans compression), JPEG (compressées avec perte de qualité), PNG (compressées sans perte de qualité, avec transparence possible) ou Tiff (compressées ou non).</p>
 </div>
@@ -1400,16 +1521,16 @@ Figure 4.10: Courbes de niveau du volcan Maunga Whau, code fourni en exemple de 
 <h3><span class="header-section-number">4.8.2</span> Fonctions</h3>
 <p>La fonction <code>postscript()</code> produit un fichier EPS.
 Le code R doit appeler la fonction pour créer le fichier, produire la figure, puis fermer le fichier, par exemple:</p>
-<p></p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="chap-rediger.html#cb274-1"></a><span class="co"># Ouverture du fichier</span></span>
-<span id="cb274-2"><a href="chap-rediger.html#cb274-2"></a><span class="kw">postscript</span>(<span class="st">&quot;Fig1.eps&quot;</span>, <span class="dt">width =</span> <span class="dv">6</span>, <span class="dt">height =</span> <span class="dv">4</span>, <span class="dt">horizontal =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb274-3"><a href="chap-rediger.html#cb274-3"></a><span class="co"># Création de la figure</span></span>
-<span id="cb274-4"><a href="chap-rediger.html#cb274-4"></a><span class="kw">plot</span>(cars)</span>
-<span id="cb274-5"><a href="chap-rediger.html#cb274-5"></a><span class="co"># Fermeture du fichier</span></span>
-<span id="cb274-6"><a href="chap-rediger.html#cb274-6"></a><span class="kw">dev.off</span>()</span></code></pre></div>
+
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="chap-rediger.html#cb258-1"></a><span class="co"># Ouverture du fichier</span></span>
+<span id="cb258-2"><a href="chap-rediger.html#cb258-2"></a><span class="kw">postscript</span>(<span class="st">&quot;Fig1.eps&quot;</span>, <span class="dt">width =</span> <span class="dv">6</span>, <span class="dt">height =</span> <span class="dv">4</span>, <span class="dt">horizontal =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb258-3"><a href="chap-rediger.html#cb258-3"></a><span class="co"># Création de la figure</span></span>
+<span id="cb258-4"><a href="chap-rediger.html#cb258-4"></a><span class="kw">plot</span>(cars)</span>
+<span id="cb258-5"><a href="chap-rediger.html#cb258-5"></a><span class="co"># Fermeture du fichier</span></span>
+<span id="cb258-6"><a href="chap-rediger.html#cb258-6"></a><span class="kw">dev.off</span>()</span></code></pre></div>
 <pre><code>## agg_png 
 ##       2</code></pre>
-<p></p>
+
 <p>La largeur et la hauteur (en pouces) d’un fichier vectoriel n’ont pas d’importance, mais leur rapport fixe l’aspect de la figure.
 La taille des textes est fixe: augmenter la taille de la figure revient donc à diminuer la taille relative des textes: procéder par essais successifs, en veillant à ce que les légendes restent lisibles à la taille finale de la figure.</p>
 <p>L’argument <code>horizontal</code> fixe l’orientation de la figure de façon assez imprévisible: procéder par essais.</p>
@@ -1426,24 +1547,24 @@ Les fonctions optimisées sont <code>agg_png()</code>, <code>agg_jpeg()</code>et
 <p>Les documents R Markdown produisent des images au format PNG pour leur version HTML.
 <strong>ragg</strong> améliore leur qualité: le package doit être installé et <code>dev = "ragg_png"</code> doit être ajoutée aux options de <strong>knitr</strong>.
 Pour ce document, les options déclarées dans <code>index.Rmd</code> sont les suivantes:</p>
-<p></p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="chap-rediger.html#cb276-1"></a>knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(</span>
-<span id="cb276-2"><a href="chap-rediger.html#cb276-2"></a>  <span class="dt">cache =</span> <span class="ot">TRUE</span>, </span>
-<span id="cb276-3"><a href="chap-rediger.html#cb276-3"></a>  <span class="dt">warning =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb276-4"><a href="chap-rediger.html#cb276-4"></a>  <span class="dt">echo =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb276-5"><a href="chap-rediger.html#cb276-5"></a>  <span class="dt">fig.env =</span> <span class="st">&#39;SCfigure&#39;</span>, </span>
-<span id="cb276-6"><a href="chap-rediger.html#cb276-6"></a>  <span class="dt">fig.asp =</span> <span class="fl">.75</span>, <span class="dt">fig.align =</span> <span class="st">&#39;center&#39;</span>, <span class="dt">out.width =</span> <span class="st">&#39;80%&#39;</span>, </span>
-<span id="cb276-7"><a href="chap-rediger.html#cb276-7"></a>  <span class="dt">dev =</span> <span class="st">&quot;ragg_png&quot;</span>,</span>
-<span id="cb276-8"><a href="chap-rediger.html#cb276-8"></a>  <span class="dt">tidy =</span> <span class="ot">TRUE</span>, </span>
-<span id="cb276-9"><a href="chap-rediger.html#cb276-9"></a>  <span class="dt">tidy.opts =</span> </span>
-<span id="cb276-10"><a href="chap-rediger.html#cb276-10"></a>    <span class="kw">list</span>(</span>
-<span id="cb276-11"><a href="chap-rediger.html#cb276-11"></a>      <span class="dt">blank =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb276-12"><a href="chap-rediger.html#cb276-12"></a>      <span class="dt">width.cutoff =</span> <span class="dv">55</span></span>
-<span id="cb276-13"><a href="chap-rediger.html#cb276-13"></a>      ), </span>
-<span id="cb276-14"><a href="chap-rediger.html#cb276-14"></a>    <span class="dt">size =</span> <span class="st">&quot;scriptsize&quot;</span>,</span>
-<span id="cb276-15"><a href="chap-rediger.html#cb276-15"></a>    <span class="dt">knitr.graphics.auto_pdf =</span> <span class="ot">TRUE</span></span>
-<span id="cb276-16"><a href="chap-rediger.html#cb276-16"></a>  )</span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="chap-rediger.html#cb260-1"></a>knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(</span>
+<span id="cb260-2"><a href="chap-rediger.html#cb260-2"></a>  <span class="dt">cache =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb260-3"><a href="chap-rediger.html#cb260-3"></a>  <span class="dt">warning =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb260-4"><a href="chap-rediger.html#cb260-4"></a>  <span class="dt">echo =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb260-5"><a href="chap-rediger.html#cb260-5"></a>  <span class="dt">fig.env =</span> <span class="st">&#39;SCfigure&#39;</span>, </span>
+<span id="cb260-6"><a href="chap-rediger.html#cb260-6"></a>  <span class="dt">fig.asp =</span> <span class="fl">.75</span>, <span class="dt">fig.align =</span> <span class="st">&#39;center&#39;</span>, <span class="dt">out.width =</span> <span class="st">&#39;80%&#39;</span>, </span>
+<span id="cb260-7"><a href="chap-rediger.html#cb260-7"></a>  <span class="dt">dev =</span> <span class="st">&quot;ragg_png&quot;</span>,</span>
+<span id="cb260-8"><a href="chap-rediger.html#cb260-8"></a>  <span class="dt">tidy =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb260-9"><a href="chap-rediger.html#cb260-9"></a>  <span class="dt">tidy.opts =</span> </span>
+<span id="cb260-10"><a href="chap-rediger.html#cb260-10"></a>    <span class="kw">list</span>(</span>
+<span id="cb260-11"><a href="chap-rediger.html#cb260-11"></a>      <span class="dt">blank =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb260-12"><a href="chap-rediger.html#cb260-12"></a>      <span class="dt">width.cutoff =</span> <span class="dv">55</span></span>
+<span id="cb260-13"><a href="chap-rediger.html#cb260-13"></a>      ), </span>
+<span id="cb260-14"><a href="chap-rediger.html#cb260-14"></a>    <span class="dt">size =</span> <span class="st">&quot;scriptsize&quot;</span>,</span>
+<span id="cb260-15"><a href="chap-rediger.html#cb260-15"></a>    <span class="dt">knitr.graphics.auto_pdf =</span> <span class="ot">TRUE</span></span>
+<span id="cb260-16"><a href="chap-rediger.html#cb260-16"></a>  )</span></code></pre></div>
+
 <p>Enfin, <strong>ragg</strong> peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la version 1.4 (Menu “Tools &gt; Global Options &gt; General &gt; Graphics &gt; Backend”).</p>
 
 </div>

@@ -51,6 +51,8 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -561,9 +563,9 @@ Imports:
   bookdown,
   (...)</code></pre>
 <p>Avant de déclencher le flux de travail, il est nécessaire de créer la liste des packages dans leur version en cours sur le poste de travail:</p>
-<p></p>
-<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="chap-ci.html#cb382-1"></a>renv<span class="op">::</span><span class="kw">snapshot</span>(<span class="dt">type =</span> <span class="st">&quot;explicit&quot;</span>)</span></code></pre></div>
-<p></p>
+
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="chap-ci.html#cb370-1"></a>renv<span class="op">::</span><span class="kw">snapshot</span>(<span class="dt">type =</span> <span class="st">&quot;explicit&quot;</span>)</span></code></pre></div>
+
 <p>A sa première utilisation, le package <strong>renv</strong> informe de quelques adaptations de l’environnement de travail, qu’il faut accepter.</p>
 <p>Cette commande crée le fichier <code>renv.lock</code> qui est utilisé par GitHub Actions pour installer les packages pendant l’intégration continue.
 Il pourra être mis à jour à tout moment pour prendre en compte leur mise à jour.</p>
@@ -945,12 +947,11 @@ Ces tests poussés sont à effectuer avant de soumettre à CRAN (section <a href
 Sur la page du projet, choisir “Actions” puis sélectionner l’action (dans “Workflows”).
 Cliquer sur le bouton <em>…</em> puis sur <em>Create Status Badge</em>.
 Coller le code Markdown:</p>
-<pre><code># Nom du projet
-![bookdown](https://github.com/&lt;GitHubID&gt;/&lt;Depot&gt;/workflows/&lt;Tâche&gt;/badge.svg)</code></pre>
+<p># Nom du projet
+<img src="https://github.com/%3CGitHubID%3E/%3CDepot%3E/workflows/%3CTâche%3E/badge.svg" alt="bookdown" /></p>
 <p>Le taux de couverture mesuré par Codecov peut aussi être affiché par un badge:</p>
-<pre><code>![codecov](https://codecov.io/github/&lt;GitHubID&gt;/
-  &lt;Depot&gt;/branch/master/graphs/badge.svg)]
-  (https://codecov.io/github/&lt;GitHubID&gt;/&lt;Depot&gt;)</code></pre>
+<p><img src="https://codecov.io/github/%3CGitHubID%3E/%20%3CDepot%3E/branch/master/graphs/badge.svg" alt="codecov" />]
+(<a href="https://codecov.io/github/" class="uri">https://codecov.io/github/</a><GitHubID>/<Depot>)</p>
 
 </div>
 </div>
