@@ -773,7 +773,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="chap-package.html#cb306-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7fbb0ed1d1a8&gt;
+## &lt;bytecode: 0x7fea1ba1fb08&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -787,7 +787,7 @@ Les fonctions peuvent être listées:</p>
 ## [4] &quot;plot.acf&quot;          &quot;plot.ACF&quot;          &quot;plot.addvar&quot;</code></pre>
 <div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="chap-package.html#cb310-1"></a><span class="co"># Nombre total</span></span>
 <span id="cb310-2"><a href="chap-package.html#cb310-2"></a><span class="kw">length</span>(<span class="kw">methods</span>(plot))</span></code></pre></div>
-<pre><code>## [1] 146</code></pre>
+<pre><code>## [1] 145</code></pre>
 <p>
 Inversement, les méthodes disponibles pour une classe peuvent être affichées:</p>
 <p></p>
@@ -911,10 +911,10 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb334-2"><a href="chap-package.html#cb334-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>), </span>
 <span id="cb334-3"><a href="chap-package.html#cb334-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min     lq     mean median     uq     max neval
-##  triple.integer(2L)  567  613.5   674.04  654.5  694.5    1477   100
-##   triple.numeric(2)  564  611.0 26254.14  636.5  681.5 2559987   100
-##          triple(2L) 2233 2338.0 33801.75 2399.0 2494.5 3131383   100</code></pre>
+##                expr  min     lq    mean median     uq   max neval
+##  triple.integer(2L)  531  548.5  586.16  558.0  580.5   901   100
+##   triple.numeric(2)  532  549.0  600.90  559.0  577.5  2066   100
+##          triple(2L) 1606 1627.0 1960.62 1644.5 1714.5 26950   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -946,7 +946,17 @@ Pour toute classe créée, les méthodes <code>print</code>, <code>summary</code
 En absence de fonction <code>print.multiple()</code>, R cherche la fonction <code>print.list()</code> qui n’existe pas et se rabat sur la fonction <code>print.default()</code>:</p>
 <p></p>
 <div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="chap-package.html#cb338-1"></a>my_multiple</span></code></pre></div>
-<pre><code>## [1] 2 4 6</code></pre>
+<pre><code>## $x
+## [1] 1 2 3
+## 
+## $y
+## [1] 2 4 6
+## 
+## $times
+## [1] 2
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;multiple&quot; &quot;list&quot;</code></pre>
 <p></p>
 <p>La fonction <code>print.multiple</code> doit donc être écrite pour un affichage lisible, limité au résultat:</p>
 <p></p>
@@ -955,7 +965,17 @@ En absence de fonction <code>print.multiple()</code>, R cherche la fonction <cod
 <span id="cb340-3"><a href="chap-package.html#cb340-3"></a>}</span>
 <span id="cb340-4"><a href="chap-package.html#cb340-4"></a><span class="co"># Nouvel affichage</span></span>
 <span id="cb340-5"><a href="chap-package.html#cb340-5"></a>my_multiple</span></code></pre></div>
-<pre><code>## [1] 2 4 6</code></pre>
+<pre><code>## $x
+## [1] 1 2 3
+## 
+## $y
+## [1] 2 4 6
+## 
+## $times
+## [1] 2
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;multiple&quot; &quot;list&quot;</code></pre>
 <p></p>
 <p>Les détails peuvent être présentés dans la fonction <code>summary</code>:</p>
 <p></p>

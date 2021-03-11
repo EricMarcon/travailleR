@@ -598,8 +598,8 @@ Une meilleure solution est de forcer l’installation des packages binaires mêm
 <p>La production de l’ouvrage est lancée par une commande R.</p>
 <pre><code>      - name: Render book
         run: |
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;)
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;)</code></pre>
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;, envir = new.env())
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;, envir = new.env())</code></pre>
 <p>Les formats paramétrés dans <code>_output.yml</code> sont ignorés.</p>
 <p>Le fichier PDF doit être produit avant le format GitBook pour que son lien de téléchargement soit ajouté à la barre de menu du site GitBook.</p>
 </div>
@@ -706,8 +706,8 @@ jobs:
         shell: Rscript {0}
       - name: Render book
         run: |
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;)
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;)
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;, envir = new.env())
+          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;, envir = new.env())
         shell: Rscript {0}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
