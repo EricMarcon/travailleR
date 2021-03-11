@@ -489,6 +489,50 @@ Dans ce cas, formater manuellement le bout de code en lui ajoutant l'option `tid
 
 Les blocs de code littéral, délimités par trois apostrophes inversées, doivent être formatés manuellement, en évitant toute ligne de plus de 55 caractères.
 
+### Site gitbook
+
+Le site web contenant le document gitbook doit être paramétré dans `_output.yml` pour que :
+
+- Le titre du document apparaisse en haut de la table des matières;
+- Une indication de l'usage de GitHub et bookdown soit affichée en bas de la table des matières;
+- Un bouton GitHub dans la barre de titre permette d'ouvrir le dépôt du projet;
+- Un autre bouton permette de télécharger le document PDF.
+
+Le fichier `_output.yml` de ce document est le suivant:
+
+```
+bookdown::gitbook:
+  css: style.css
+  config:
+    sharing:
+      github: yes
+      facebook: false
+      twitter: false
+    toc:
+      before: |
+        <li><a href="./">Travailler avec R</a></li>
+      after: |
+        <li>
+          <a href="https://github.com/EricMarcon/travailleR" target="blank">
+            Hébergé sur GitHub, publié par bookdown
+          </a>
+        </li>
+    download: pdf
+```
+
+La section `sharing:` gère les boutons de la barre de titre.
+Par défaut, les liens vers Facebook et Twitter sont activés mais celui vers GitHub ne l'est pas.
+Pour qu'il fonctionne, le dépôt GitHub doit être déclaré dans l'entête du fichier `index.rmd`:
+
+```
+github-repo: EricMarcon/travailleR
+```
+
+La section `toc:` contient deux portions de code HTML dans lesquelles le titre du document et le lien vers son dépôt GitHub doivent être adaptés au projet.
+
+Enfin, la section `download:` liste les formats de documents téléchargeables et permet d'afficher un bouton de téléchargement dans la barre de titre.
+
+
 ### Intégration continue {#sec:rediger-ouvrage-ci}
 
 La construction d'un ouvrage prend du temps, surtout s'il contient des calculs.
