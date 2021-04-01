@@ -77,7 +77,7 @@ En revanche, l'analyse de la couverture des projets de document n'a pas d'intér
 
 Pour activer un dépôt, il faut d'authentifier sur le site de CodeCov avec son compte GitHub.
 La liste des dépôts est affichée et peut être actualisée.
-Si les dépôts à traiter sont hébergés par une organisation, par exemple les dépôts d'une salle de classe GitHub, il faut actualiser la liste des organisations en suivant les instructions (un lien permet de modifier rapidement les options de GithHub pour autoriser la lecture d'une organisation par Codecov) et à nouveau mettre à jour la liste des dépôts.
+Si les dépôts à traiter sont hébergés par une organisation, par exemple les dépôts d'une salle de classe GitHub, il faut actualiser la liste des organisations en suivant les instructions (un lien permet de modifier rapidement les options de GitHub pour autoriser la lecture d'une organisation par Codecov) et à nouveau mettre à jour la liste des dépôts.
 Enfin, quand le dépôt recherché est visible, il faut l'activer.
 Il est inutile d'utiliser le système de jetons de Codecov.
 
@@ -713,12 +713,17 @@ Le succès des Actions GitHub est visible en ajoutant un badge dans le fichier `
 Sur la page du projet, choisir "Actions" puis sélectionner l'action (dans "Workflows").
 Cliquer sur le bouton *...* puis sur *Create Status Badge*.
 Coller le code Markdown:
+```
+# Nom du projet
+![bookdown](https://github.com/<GitHubID>/<Depot>/workflows/<NomDuFlux>/badge.svg)
+```
 
-    # Nom du projet
-    ![bookdown](https://github.com/<GitHubID>/<Depot>/workflows/<Tâche>/badge.svg)
+Le nom du flux a été déclaré dans l'entrée `name:` du fichier de configuration des actions GitHub.
+
 
 Le taux de couverture mesuré par Codecov peut aussi être affiché par un badge:
-
-    ![codecov](https://codecov.io/github/<GitHubID>/
-      <Depot>/branch/master/graphs/badge.svg)]
-      (https://codecov.io/github/<GitHubID>/<Depot>)
+```
+[![codecov](https://codecov.io/github/<GitHubID>/
+  <Depot>/branch/master/graphs/badge.svg)]
+  (https://codecov.io/github/<GitHubID>/<Depot>)
+```
