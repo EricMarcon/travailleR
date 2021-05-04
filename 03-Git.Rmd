@@ -152,8 +152,10 @@ Un dépôt vide sur GitHub doit être créé (figure \@ref(fig:CreateRepo)):
   * Privé: visible seulement par les collaborateurs du projet, ce qui exclut de compléter par des pages web de présentation.
 * Ne pas ajouter de `README`, `.gitignore` ou licence: le projet doit être vide.
 * Cliquer sur "create Repository".
-* Copier l'adresse du dépôt (https://github.com/...)
+* Copier l'adresse du dépôt (https://github.com/... ou git@github.com:...)
 
+Le choix de l'adresse est lié à la méthode d'authentification.
+L'authentification SSH (voir section \@ref(sec:SSH)) est à privilégier.
 
 ### Lier git et GitHub
 
@@ -178,9 +180,9 @@ Au message indiquant qu'une branche *master* existe déjà, cliquer sur "Overwri
 #### En ligne de commande
 
 Plutôt que la manipulation précédente, le lien entre Git et GitHub peut être mis en place par quelques commandes de git exécutées dans le terminal de RStudio.
-Elles sont affichées sur la page d'accueil de tout dépôt vide nouvellement créé sur GitHub et peuvent donc être copiées et coller directement vers le terminal.
+Elles sont affichées sur la page d'accueil de tout dépôt vide nouvellement créé sur GitHub et peuvent donc être copiées et collées directement vers le terminal.
 ```
-git remote add origin https://github.com/GitHubID/NomduPackage.git
+git remote add origin git@github.com:GitHubID/NomDuDepot.git
 git branch -M master
 git push -u origin master
 ```
@@ -196,7 +198,7 @@ Les lignes de commande ci-dessus fournies par GitHub remplacent donc `master` pa
 
 #### Authentification
 
-A la première connexion de RStudio à GitHub, une fenêtre d'authentification permet de saisir ses identifiants GitHub (figure \@ref(fig:git-PAT)).
+Si l'authentification HTTPS est choisie, à la première connexion de RStudio à GitHub, une fenêtre permet de saisir ses identifiants GitHub (figure \@ref(fig:git-PAT)).
 
 (ref:git-PAT) Création d'un dépôt sur GitHub.
 ```{r git-PAT, fig.cap="(ref:git-PAT)", echo=FALSE}
@@ -205,6 +207,8 @@ knitr::include_graphics('images/git-PAT.png')
 
 GitHub délivre un jeton d'accès personnel (PAT) à git (voir section \@ref(sec:pat) pour plus de détails) pour éviter de répéter la saisie des informations d'authentification à chaque opération.
 Un message électronique est envoyé au titulaire du compte GitHub pour l'en avertir.
+
+Si l'authentification SSH est choisie et a été configurée à l'installation de git (section \@ref(sec:SSH)), aucune action n'est nécessaire.
 
 
 ### Pousser les premières modifications

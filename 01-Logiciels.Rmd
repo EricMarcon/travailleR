@@ -294,7 +294,9 @@ La dernière partie du script est à compléter avec les packages utilisés rég
 Ce script est à exécuter à chaque mise à jour de R, après avoir éventuellement activé le droit d'écriture dans la librairie système (voir section \@ref(sec:librairies)).
 
 
-## Git
+## git et GitHub
+
+### git
 
 git est le logiciel de contrôle de source utilisé ici.
 Son utilisation est détaillée dans le chapitre \@ref(chap:git).
@@ -308,6 +310,11 @@ Pour Ubuntu, le package apt est `git-all`.
 
 git est installé sans interface graphique, fournie par RStudio.
 
+Dans RStudio, modifier les options globales (menu "Tools > Global Options...").
+Sélectionner *Terminal* et l'option *New Terminals open with*: GitBash.
+
+Vérifier la bonne installation de git en tapant la commande `git -h` dans le terminal de RStudio: l'aide doit s'afficher.
+
 Après l'installation de git, il est possible que le terminal de RStudio ne fonctionne plus correctement et renvoie un message d'erreur contenant les éléments suivants:
 ```
 *** fatal error - cygheap base mismatch detected
@@ -315,13 +322,21 @@ This problem is probably due to using incompatible
 versions of the cygwin DLL.
 ```
 Le message d'erreur est imprécis: la librairie qui ne doit exister qu'en un seul exemplaire n'est pas `cygwin1.dll` mais `msys-2.0.dll`.
-Rechercher ce fichier dans le dossier d'installation de git et le supprimer: il se trouve déjà dans le dossier de Rtools.
+Rechercher ce fichier dans les dossier d'installation de git et de Rtools. 
+Remplacer celui de git par celui de Rtools: la version des deux fichiers doit être identique.
 
+Entrer ses informations d'identification en exécutant les commandes suivantes dans le terminal:
+```
+git config user.name
+git config user.email
+```
 
-## GitHub
+Le nom d'utilisateur est libre, de préférence "Prénom Nom".
+
+### GitHub
 
 *GitHub* est la plateforme accessible par un [site web](https://github.com/) qui permet de partager le contenu des dépôts *git*.
-Pour l'utiliser, il suffit d'ouvrir un compte.
+Pour l'utiliser, il suffit d'ouvrir un compte avec la même adresse de messagerie que celle enregistrée dans git.
 
 Le nom du compte GitHub est noté ici *GitHubID*.
 Chaque compte GitHub permet d'héberger des dépôts (un dépôt contient les fichiers d'un projet) à l'adresse https://github.com/GitHubID/NomDuDepot [^107].
@@ -333,6 +348,45 @@ Enfin, un site web global est prévu pour chaque utilisateur à l'adresse https:
 [^108]: Exemple: https://EricMarcon.github.io/travailleR/
 
 [^109]: Exemple: https://EricMarcon.github.io/
+
+### Authenthification SSH {#sec:SSH}
+
+La communication entre git (installé sur l'ordinateur local) et GitHub (plateforme en ligne) nécessite de s'authentifier.
+
+Deux méthodes sont disponibles: HTTPS (aussi appelée SSL) et SSH.
+SSH est la plus robuste mais nécessite la création d'une clé privée.
+
+Dans le terminal de RStudio, exécuter:
+```
+ssh-keygen -t ed25519 -C "nom@compagnie.com"
+```
+L'adresse de messagerie doit être celle enregistrée dans la configuration de git et le compte GitHub.
+La clé est enregistrée dans le dossier `.ssh` du répertoire personnel de l'utilisateur.
+Il est possible d'ajouter un mot de passe (*passphrase*) à la clé, qui devra être tapé à la première utilisation de chaque session de travail.
+Si l'ordinateur est correctement sécurisé (pas d'accès physique par des tiers), la laisser vide permet de gagner en fluidité.
+
+Attention: la clé privée est strictement confidentielle et ne doit être copiée nulle part où elle pourrait être lue par un tiers (attention aux sauvegardes automatiques notamment).
+Elle n'a pas besoin d'être bien sauvegardée: en cas de perte, elle sera remplacée facilement.
+
+Dans le dossier `.ssh`, deux fichiers sont créés: l'un contient la clé privée, l'autre, avec l'extension `.pub`, la clé publique correspondante.
+Ouvrir le second avec un éditeur de texte et copier la clé publique dans le presse-papier.
+Sur GitHub, afficher les réglages de son compte (menu "Settings"), sélectionner "SSH and GPG Keys", cliquer sur "New SSH Key" et coller la clé dans le champ "Key".
+Donner un nom à la clé dans le champ "Title".
+Le nom peut être celui de l'ordinateur sur lequel la clé a été créée.
+La clé ne doit pas être copiée sur plusieurs ordinateurs: en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.
+
+Dans le terminal de RStudio, vérifier le bon fonctionnement de la clé:
+```
+ssh -T git@github.com
+```
+
+Un message indique que l'authenticité du serveur GitHub ne peut pas être vérifiée: un contrôle manuel est nécessaire pour la première connexion.
+Vérifier auprès de GitHub que l'empreinte du serveur est correcte[^112] et taper `yes`.
+Le serveur est ajouté automatiquement à la liste des serveurs connus, dans le fichier `known_hosts`.
+
+[^112]: https://docs.github.com/en/github/authenticating-to-github/githubs-ssh-key-fingerprints
+
+Si la clé est compromise (perte ou prêt de l'ordinateur qui la contient), la supprimer sur GitHub et en créer une nouvelle.
 
 
 ## MiKTeX
