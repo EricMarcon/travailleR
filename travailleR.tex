@@ -219,7 +219,7 @@
 \author{Eric Marcon}
 
 
-\date{2021-04-01}
+\date{2021-05-04}
 
 
 % Main title page with filigrane
@@ -402,10 +402,10 @@ Le chemin des Rtools doit être déclaré à R, en exécutant dans la console de
 Les Rtools doivent être complétés par quelques utilitaires manquants, à installer quand le besoin apparaît (en général, un avertissement de R indiquant que le logiciel n'est pas installé).
 
 La vérification des packages renvoie un avertissement si \emph{qpdf}\footnote{\url{https://sourceforge.net/projects/qpdf/}} n'est pas installé.
-Télécharger le fichier zip et coller tout le contenu du dossier \texttt{bin} dans le dossier \texttt{bin} de \texttt{Rtools} (\texttt{C:\textbackslash{}Rtools40\textbackslash{}usr\textbackslash{}bin} pour la version 4.0).
+Télécharger le fichier zip et coller tout le contenu du dossier \texttt{bin} dans le dossier \texttt{usr/bin} de \texttt{Rtools} (\texttt{C:\textbackslash{}Rtools40\textbackslash{}usr\textbackslash{}bin} pour la version 4.0).
 
 Un autre avertissement est renvoyé en absence de \emph{Ghostscript}\footnote{\url{https://www.ghostscript.com/}} à télécharger et installer.
-Copier ensuite le contenu du dossier \texttt{bin} dans le dossier \texttt{bin} de \texttt{Rtools}.
+Copier ensuite le contenu du dossier \texttt{bin} dans le dossier \texttt{usr/bin} de \texttt{Rtools}.
 
 \hypertarget{mise-uxe0-jour}{%
 \subsection{Mise à jour}\label{mise-uxe0-jour}}
@@ -749,8 +749,11 @@ La dernière partie du script est à compléter avec les packages utilisés rég
 
 Ce script est à exécuter à chaque mise à jour de R, après avoir éventuellement activé le droit d'écriture dans la librairie système (voir section \ref{sec:librairies}).
 
+\hypertarget{git-et-github}{%
+\section{git et GitHub}\label{git-et-github}}
+
 \hypertarget{git}{%
-\section{Git}\label{git}}
+\subsection{git}\label{git}}
 
 git est le logiciel de contrôle de source utilisé ici.
 Son utilisation est détaillée dans le chapitre \ref{chap:git}.
@@ -762,6 +765,11 @@ Pour Ubuntu, le package apt est \texttt{git-all}.
 
 git est installé sans interface graphique, fournie par RStudio.
 
+Dans RStudio, modifier les options globales (menu ``Tools \textgreater{} Global Options\ldots{}'').
+Sélectionner \emph{Terminal} et l'option \emph{New Terminals open with}: GitBash.
+
+Vérifier la bonne installation de git en tapant la commande \texttt{git\ -h} dans le terminal de RStudio: l'aide doit s'afficher.
+
 Après l'installation de git, il est possible que le terminal de RStudio ne fonctionne plus correctement et renvoie un message d'erreur contenant les éléments suivants:
 
 \begin{verbatim}
@@ -771,18 +779,70 @@ versions of the cygwin DLL.
 \end{verbatim}
 
 Le message d'erreur est imprécis: la librairie qui ne doit exister qu'en un seul exemplaire n'est pas \texttt{cygwin1.dll} mais \texttt{msys-2.0.dll}.
-Rechercher ce fichier dans le dossier d'installation de git et le supprimer: il se trouve déjà dans le dossier de Rtools.
+Rechercher ce fichier dans les dossier d'installation de git et de Rtools.
+Ils se trouvent normalement dans \texttt{usr/bin}.
+Remplacer celui de git par celui de Rtools: la version des deux fichiers doit être identique.
+
+Entrer ses informations d'identification en exécutant les commandes suivantes dans le terminal:
+
+\begin{verbatim}
+git config user.name
+git config user.email
+\end{verbatim}
+
+Le nom d'utilisateur est libre, de préférence ``Prénom Nom''.
 
 \hypertarget{github}{%
-\section{GitHub}\label{github}}
+\subsection{GitHub}\label{github}}
 
 \emph{GitHub} est la plateforme accessible par un \href{https://github.com/}{site web} qui permet de partager le contenu des dépôts \emph{git}.
-Pour l'utiliser, il suffit d'ouvrir un compte.
+Pour l'utiliser, il suffit d'ouvrir un compte avec la même adresse de messagerie que celle enregistrée dans git.
 
 Le nom du compte GitHub est noté ici \emph{GitHubID}.
 Chaque compte GitHub permet d'héberger des dépôts (un dépôt contient les fichiers d'un projet) à l'adresse \url{https://github.com/GitHubID/NomDuDepot} \footnote{Exemple: \url{https://github.com/EricMarcon/travailleR}}.
 Chaque dépôt peut disposer d'un site web à l'adresse \url{https://GitHubID.github.io/NomDuDepot/} \footnote{Exemple: \url{https://EricMarcon.github.io/travailleR/}}.
 Enfin, un site web global est prévu pour chaque utilisateur à l'adresse \url{https://GitHubID.github.io/} \footnote{Exemple: \url{https://EricMarcon.github.io/}}.
+
+\hypertarget{sec:SSH}{%
+\subsection{Authenthification SSH}\label{sec:SSH}}
+
+La communication entre git (installé sur l'ordinateur local) et GitHub (plateforme en ligne) nécessite de s'authentifier.
+
+Deux méthodes sont disponibles: HTTPS (aussi appelée SSL) et SSH.
+SSH est la plus robuste mais nécessite la création d'une clé privée.
+
+Dans le terminal de RStudio, exécuter:
+
+\begin{verbatim}
+ssh-keygen -t ed25519 -C "nom@compagnie.com"
+\end{verbatim}
+
+L'adresse de messagerie doit être celle enregistrée dans la configuration de git et le compte GitHub.
+La clé est enregistrée dans le dossier \texttt{.ssh} du répertoire personnel de l'utilisateur.
+Il est possible d'ajouter un mot de passe (\emph{passphrase}) à la clé, qui devra être tapé à la première utilisation de chaque session de travail.
+Si l'ordinateur est correctement sécurisé (pas d'accès physique par des tiers), la laisser vide permet de gagner en fluidité.
+
+Attention: la clé privée est strictement confidentielle et ne doit être copiée nulle part où elle pourrait être lue par un tiers (attention aux sauvegardes automatiques notamment).
+Elle n'a pas besoin d'être bien sauvegardée: en cas de perte, elle sera remplacée facilement.
+
+Dans le dossier \texttt{.ssh}, deux fichiers sont créés: l'un contient la clé privée, l'autre, avec l'extension \texttt{.pub}, la clé publique correspondante.
+Ouvrir le second avec un éditeur de texte et copier la clé publique dans le presse-papier.
+Sur GitHub, afficher les réglages de son compte (menu ``Settings''), sélectionner ``SSH and GPG Keys'', cliquer sur ``New SSH Key'' et coller la clé dans le champ ``Key''.
+Donner un nom à la clé dans le champ ``Title''.
+Le nom peut être celui de l'ordinateur sur lequel la clé a été créée.
+La clé ne doit pas être copiée sur plusieurs ordinateurs: en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.
+
+Dans le terminal de RStudio, vérifier le bon fonctionnement de la clé:
+
+\begin{verbatim}
+ssh -T git@github.com
+\end{verbatim}
+
+Un message indique que l'authenticité du serveur GitHub ne peut pas être vérifiée: un contrôle manuel est nécessaire pour la première connexion.
+Vérifier auprès de GitHub que l'empreinte du serveur est correcte\footnote{\url{https://docs.github.com/en/github/authenticating-to-github/githubs-ssh-key-fingerprints}} et taper \texttt{yes}.
+Le serveur est ajouté automatiquement à la liste des serveurs connus, dans le fichier \texttt{known\_hosts}.
+
+Si la clé est compromise (perte ou prêt de l'ordinateur qui la contient), la supprimer sur GitHub et en créer une nouvelle.
 
 \hypertarget{miktex}{%
 \section{MiKTeX}\label{miktex}}
@@ -1020,7 +1080,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7f9b878e6850>
+## <bytecode: 0x7fa2b027a850>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1494,7 +1554,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7f9b8b1c05c8>
+## <environment: 0x7fa2b3777810>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1566,7 +1626,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7f9b93019660>
+## <bytecode: 0x7fa29cd984a8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1748,7 +1808,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.019   0.000   0.019
+##   0.019   0.000   0.020
 \end{verbatim}
 
 \normalsize
@@ -1780,10 +1840,10 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq      max neval
-##  f1(X)  35.188  37.8635  52.38261  38.8285  40.8685 1280.162   100
-##  f2(X)  42.166  45.1205  59.37738  46.0030  47.9620 1278.124   100
-##  f3(X) 273.233 275.9045 294.05833 277.5185 285.6460 1576.425   100
-##  f4(X) 406.074 408.7455 440.47585 412.8835 424.6525 1857.409   100
+##  f1(X)  35.401  37.6500  54.73783  39.6895  42.5595 1380.568   100
+##  f2(X)  43.116  45.6480 104.30229  47.1150  50.2360 4065.934   100
+##  f3(X) 274.262 276.8205 301.10260 278.8560 283.5920 1508.730   100
+##  f4(X) 404.843 408.9010 452.14753 410.8750 418.1500 2285.774   100
 \end{verbatim}
 
 \normalsize
@@ -1806,10 +1866,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  38.8285
-## 2 f2(X)  46.0030
-## 3 f3(X) 277.5185
-## 4 f4(X) 412.8835
+## 1 f1(X)  39.6895
+## 2 f2(X)  47.1150
+## 3 f3(X) 278.8560
+## 4 f4(X) 410.8750
 \end{verbatim}
 
 \normalsize
@@ -1839,10 +1899,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  38.8285
-## 2 f2(X)  46.0030
-## 3 f3(X) 277.5185
-## 4 f4(X) 412.8835
+## 1 f1(X)  39.6895
+## 2 f2(X)  47.1150
+## 3 f3(X) 278.8560
+## 4 f4(X) 410.8750
 \end{verbatim}
 
 \normalsize
@@ -1969,7 +2029,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7f9b744ac6d8>
+## <bytecode: 0x7fa2bbcbbcd0>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2022,10 +2082,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.7510
-## 2                lapply(x1, FUN = sqrt) 296.9820
-## 3                sapply(x1, FUN = sqrt) 349.9680
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 293.4965
+## 1                              sqrt(x1)   4.6755
+## 2                lapply(x1, FUN = sqrt) 294.9200
+## 3                sapply(x1, FUN = sqrt) 348.6240
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 294.2695
 \end{verbatim}
 
 \normalsize
@@ -2078,8 +2138,8 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \begin{verbatim}
 ##          expr   median
-## 1  Boucle(x1) 765.4535
-## 2 Boucle2(x1)  77.9470
+## 1  Boucle(x1) 770.8915
+## 2 Boucle2(x1)  81.5935
 \end{verbatim}
 
 \begin{Shaded}
@@ -2095,7 +2155,7 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{verbatim}
 
 \normalsize
-Le gain est considérable: de 1 à \texttt{10}.
+Le gain est considérable: de 1 à \texttt{9}.
 
 Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
@@ -2111,8 +2171,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 288.0205
-## 2                Boucle(x1)  77.7035
+## 1 vapply(x1, FUN = sqrt, 0) 292.3725
+## 2                Boucle(x1)  80.2930
 \end{verbatim}
 
 \normalsize
@@ -2135,8 +2195,8 @@ Attention, le test de performance peut être trompeur:
 
 \begin{verbatim}
 ##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  300.702
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3409.250
+## 1                        vapply(x1, FUN = sqrt, 0)  296.010
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3336.007
 \end{verbatim}
 
 \normalsize
@@ -2203,8 +2263,8 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 
 \begin{verbatim}
 ##                        expr   median
-## 1 replicate(1000, runif(1)) 3534.943
-## 2               runif(1000)   32.901
+## 1 replicate(1000, runif(1)) 4191.822
+## 2               runif(1000)   34.657
 \end{verbatim}
 
 \normalsize
@@ -2242,9 +2302,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.541247
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.039697
-## 3       colSums(diamonds[-(2:4)]) 2.386312
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.536517
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.039155
+## 3       colSums(diamonds[-(2:4)]) 2.397553
 \end{verbatim}
 
 \normalsize
@@ -2452,7 +2512,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.650
+##   0.002   0.000   0.763
 \end{verbatim}
 
 \begin{Shaded}
@@ -2464,12 +2524,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.005   0.013   0.373
+##   0.005   0.017   0.270
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.12} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.02} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2484,7 +2544,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.000   2.083
+##   0.000   0.000   2.239
 \end{verbatim}
 
 \begin{Shaded}
@@ -2496,7 +2556,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.002   1.090
+##   0.003   0.006   1.011
 \end{verbatim}
 
 \normalsize
@@ -2515,7 +2575,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.099
+##   0.001   0.004   1.120
 \end{verbatim}
 
 \begin{Shaded}
@@ -2526,7 +2586,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.005   2.051
+##   0.002   0.006   2.212
 \end{verbatim}
 
 \normalsize
@@ -2718,7 +2778,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.000   0.682
+##   0.003   0.000   0.666
 \end{verbatim}
 
 \begin{Shaded}
@@ -2733,7 +2793,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.007   0.014   0.320
+##   0.007   0.013   0.332
 \end{verbatim}
 
 \normalsize
@@ -2820,7 +2880,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.306   0.040   5.580
+##   5.278   0.043   5.508
 \end{verbatim}
 
 \begin{Shaded}
@@ -2854,7 +2914,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.409   0.033   5.740
+##   5.276   0.035   5.481
 \end{verbatim}
 
 \begin{Shaded}
@@ -2896,7 +2956,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.193   0.033   5.451
+##   5.110   0.025   5.333
 \end{verbatim}
 
 \begin{Shaded}
@@ -2936,7 +2996,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.060   0.024   3.210
+##   3.041   0.023   3.125
 \end{verbatim}
 
 \begin{Shaded}
@@ -2977,7 +3037,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.338   0.284   2.096
+##   3.334   0.395   2.419
 \end{verbatim}
 
 \begin{Shaded}
@@ -3018,7 +3078,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.789   0.014   1.904
+##   1.794   0.010   1.920
 \end{verbatim}
 
 \begin{Shaded}
@@ -3065,7 +3125,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.674   0.023   2.858
+##   2.737   0.029   2.908
 \end{verbatim}
 
 \begin{Shaded}
@@ -3110,7 +3170,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.123   0.042   0.106
+##   0.121   0.048   0.112
 \end{verbatim}
 
 \begin{Shaded}
@@ -3286,9 +3346,9 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \begin{verbatim}
 ## Unit: microseconds
 ##                                                      expr     min       lq
-##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 989.243 1935.355
-##      mean   median       uq      max neval
-##  2435.748 2068.547 2628.412 11349.41   100
+##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 779.892 1449.168
+##      mean   median      uq      max neval
+##  1953.118 2059.011 2347.28 7403.044   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3328,13 +3388,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.340   0.040   7.641
+##   7.373   0.042   7.748
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4759} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4799} secondes.
 
 \scriptsize
 
@@ -3347,7 +3407,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.956   0.048   2.310
+##   4.950   0.045   2.451
 \end{verbatim}
 
 \normalsize
@@ -3416,8 +3476,8 @@ La commande \texttt{git\ status} (figure \ref{fig:git-Status}) retourne l'état 
 
 RStudio intègre une interface graphique pour git suffisante pour se passer de la ligne de commande dans le cadre d'une utilisation standard, présentée ici.
 
-\hypertarget{git-et-github}{%
-\subsection{git et GitHub}\label{git-et-github}}
+\hypertarget{git-et-github-1}{%
+\subsection{git et GitHub}\label{git-et-github-1}}
 
 \emph{git} est le logiciel installé sur le poste de travail.
 
@@ -3623,8 +3683,11 @@ Un dépôt vide sur GitHub doit être créé (figure \ref{fig:CreateRepo}):
 \item
   Cliquer sur ``create Repository''.
 \item
-  Copier l'adresse du dépôt (\url{https://github.com/}\ldots)
+  Copier l'adresse du dépôt (\url{https://github.com/}\ldots{} ou \href{mailto:git@github.com}{\nolinkurl{git@github.com}}:\ldots)
 \end{itemize}
+
+Le choix de l'adresse est lié à la méthode d'authentification.
+L'authentification SSH (voir section \ref{sec:SSH}) est à privilégier.
 
 \hypertarget{lier-git-et-github}{%
 \subsection{Lier git et GitHub}\label{lier-git-et-github}}
@@ -3658,10 +3721,10 @@ Au message indiquant qu'une branche \emph{master} existe déjà, cliquer sur ``O
 \subsubsection{En ligne de commande}\label{en-ligne-de-commande}}
 
 Plutôt que la manipulation précédente, le lien entre Git et GitHub peut être mis en place par quelques commandes de git exécutées dans le terminal de RStudio.
-Elles sont affichées sur la page d'accueil de tout dépôt vide nouvellement créé sur GitHub et peuvent donc être copiées et coller directement vers le terminal.
+Elles sont affichées sur la page d'accueil de tout dépôt vide nouvellement créé sur GitHub et peuvent donc être copiées et collées directement vers le terminal.
 
 \begin{verbatim}
-git remote add origin https://github.com/GitHubID/NomduPackage.git
+git remote add origin git@github.com:GitHubID/NomDuDepot.git
 git branch -M master
 git push -u origin master
 \end{verbatim}
@@ -3678,7 +3741,7 @@ Les lignes de commande ci-dessus fournies par GitHub remplacent donc \texttt{mas
 \hypertarget{authentification}{%
 \subsubsection{Authentification}\label{authentification}}
 
-A la première connexion de RStudio à GitHub, une fenêtre d'authentification permet de saisir ses identifiants GitHub (figure \ref{fig:git-PAT}).
+Si l'authentification HTTPS est choisie, à la première connexion de RStudio à GitHub, une fenêtre permet de saisir ses identifiants GitHub (figure \ref{fig:git-PAT}).
 
 
 
@@ -3697,6 +3760,8 @@ A la première connexion de RStudio à GitHub, une fenêtre d'authentification p
 
 GitHub délivre un jeton d'accès personnel (PAT) à git (voir section \ref{sec:pat} pour plus de détails) pour éviter de répéter la saisie des informations d'authentification à chaque opération.
 Un message électronique est envoyé au titulaire du compte GitHub pour l'en avertir.
+
+Si l'authentification SSH est choisie et a été configurée à l'installation de git (section \ref{sec:SSH}), aucune action n'est nécessaire.
 
 \hypertarget{pousser-les-premiuxe8res-modifications}{%
 \subsection{Pousser les premières modifications}\label{pousser-les-premiuxe8res-modifications}}
@@ -4270,7 +4335,7 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 \begin{verbatim}
-date: "2021-04-01"
+date: "2021-05-04"
 \end{verbatim}
 
 Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
@@ -4441,7 +4506,7 @@ La fonction \texttt{kable} du package \emph{knitr} prépare le tableau pour l'af
 \KeywordTok{names}\NormalTok{(iris) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Longueur sépales ($l_s$)"}\NormalTok{, }\StringTok{"Largeur"}\NormalTok{, }
     \StringTok{"Longueur pétales"}\NormalTok{, }\StringTok{"Largeur"}\NormalTok{, }\StringTok{"Espèce"}\NormalTok{)}
 \NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(iris), }\DataTypeTok{caption =} \StringTok{"Tableau créé par R"}\NormalTok{, }
-    \DataTypeTok{longtable =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{booktabs =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{escape =} \OtherTok{FALSE}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+    \DataTypeTok{longtable =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{booktabs =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{escape =} \OtherTok{FALSE}\NormalTok{) }\OperatorTok{%>%}
 \StringTok{    }\NormalTok{kableExtra}\OperatorTok{::}\KeywordTok{kable_styling}\NormalTok{(}\DataTypeTok{bootstrap_options =} \StringTok{"striped"}\NormalTok{, }
         \DataTypeTok{full_width =} \OtherTok{FALSE}\NormalTok{)}
 \end{Highlighting}
@@ -6542,7 +6607,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7f9b87302030>
+## <bytecode: 0x7fa2ad753348>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -6824,10 +6889,10 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median     uq     max neval
-##  triple.integer(2L)  328  348.0   405.11  379.5  422.5    1146   100
-##   triple.numeric(2)  319  345.0 18872.06  384.5  427.5 1847128   100
-##          triple(2L) 1330 1365.5 23631.25 1391.0 1423.5 2216123   100
+##                expr  min   lq     mean median     uq     max neval
+##  triple.integer(2L)  307  317   369.35  330.5  384.0    1105   100
+##   triple.numeric(2)  311  324 21527.51  342.0  383.5 2116464   100
+##          triple(2L) 1297 1334 26339.62 1355.0 1403.5 2489860   100
 \end{verbatim}
 
 \normalsize
