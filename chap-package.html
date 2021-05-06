@@ -5,26 +5,26 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Package | Travailler avec R</title>
-  <meta name="description" content="5 Package | Travailler avec R" />
+  <meta name="description" content="Organisation du travail autour de R et RStudio" />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Package | Travailler avec R" />
   <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://ericmarcon.github.io/travailleR/" />
   
-  
-  
+  <meta property="og:description" content="Organisation du travail autour de R et RStudio" />
   <meta name="github-repo" content="EricMarcon/travailleR" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="5 Package | Travailler avec R" />
   
-  
+  <meta name="twitter:description" content="Organisation du travail autour de R et RStudio" />
   
 
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-05-04" />
+<meta name="date" content="2021-05-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -795,7 +795,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="chap-package.html#cb295-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7fe0ce6231c0&gt;
+## &lt;bytecode: 0x7fbff601b200&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -933,10 +933,10 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb323-2"><a href="chap-package.html#cb323-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>), </span>
 <span id="cb323-3"><a href="chap-package.html#cb323-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min   lq     mean median     uq     max neval
-##  triple.integer(2L)  305  321   395.64  377.0  425.5    1058   100
-##   triple.numeric(2)  305  318 18479.54  374.5  405.0 1810692   100
-##          triple(2L) 1346 1385 22727.78 1420.0 1522.0 2122407   100</code></pre>
+##                expr  min     lq     mean median     uq     max neval
+##  triple.integer(2L)  311  323.5   380.57  338.5  402.0    1239   100
+##   triple.numeric(2)  309  322.0 18288.65  333.0  395.0 1792107   100
+##          triple(2L) 1312 1349.5 22230.56 1371.0 1428.5 2079009   100</code></pre>
 
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
