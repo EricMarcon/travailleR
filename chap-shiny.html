@@ -455,36 +455,36 @@ Figure 7.1: Application Shiny <em>Old Faithful Geyser Data</em>.
 L’application complète, avec des sorties graphiques en plus de sa version simplifiée présentée ici est disponible sur GitHub<a href="#fn106" class="footnote-ref" id="fnref106"><sup>106</sup></a>.</p>
 <p>Le début du code consiste à préparer l’exécution de l’application en chargeant les packages nécessaires:</p>
 
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="chap-shiny.html#cb388-1"></a><span class="co"># Prepare the application ####</span></span>
-<span id="cb388-2"><a href="chap-shiny.html#cb388-2"></a><span class="co"># Load packages</span></span>
-<span id="cb388-3"><a href="chap-shiny.html#cb388-3"></a><span class="kw">library</span>(<span class="st">&quot;shiny&quot;</span>)</span>
-<span id="cb388-4"><a href="chap-shiny.html#cb388-4"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="chap-shiny.html#cb409-1"></a><span class="co"># Prepare the application ####</span></span>
+<span id="cb409-2"><a href="chap-shiny.html#cb409-2"></a><span class="co"># Load packages</span></span>
+<span id="cb409-3"><a href="chap-shiny.html#cb409-3"></a><span class="kw">library</span>(<span class="st">&quot;shiny&quot;</span>)</span>
+<span id="cb409-4"><a href="chap-shiny.html#cb409-4"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
 
 <p>Le code de l’application complète intègre une fonction pour installer les packages manquants, à n’exécuter que quand l’application est exécutée sur un poste de travail (sur un serveur, la gestion des packages n’est pas du ressort de l’application).</p>
 <p>L’interface utilisateur est la suivante:</p>
 
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="chap-shiny.html#cb389-1"></a><span class="co"># UI ####</span></span>
-<span id="cb389-2"><a href="chap-shiny.html#cb389-2"></a>ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(</span>
-<span id="cb389-3"><a href="chap-shiny.html#cb389-3"></a>  <span class="co"># Application title</span></span>
-<span id="cb389-4"><a href="chap-shiny.html#cb389-4"></a>  <span class="kw">titlePanel</span>(<span class="st">&quot;Bibliometrics&quot;</span>),</span>
-<span id="cb389-5"><a href="chap-shiny.html#cb389-5"></a>  </span>
-<span id="cb389-6"><a href="chap-shiny.html#cb389-6"></a>  <span class="kw">sidebarLayout</span>(</span>
-<span id="cb389-7"><a href="chap-shiny.html#cb389-7"></a>    <span class="kw">sidebarPanel</span>(</span>
-<span id="cb389-8"><a href="chap-shiny.html#cb389-8"></a>      <span class="kw">helpText</span>(<span class="st">&quot;Enter the Google Scholar ID of an author.&quot;</span>),</span>
-<span id="cb389-9"><a href="chap-shiny.html#cb389-9"></a>      <span class="kw">textInput</span>(<span class="st">&quot;AuthorID&quot;</span>, <span class="st">&quot;Google Scholar ID&quot;</span>, <span class="st">&quot;4iLBmbUAAAAJ&quot;</span>),</span>
-<span id="cb389-10"><a href="chap-shiny.html#cb389-10"></a>      <span class="co"># End of input</span></span>
-<span id="cb389-11"><a href="chap-shiny.html#cb389-11"></a>      <span class="kw">br</span>(),</span>
-<span id="cb389-12"><a href="chap-shiny.html#cb389-12"></a>      <span class="co"># Display author&#39;s name and h</span></span>
-<span id="cb389-13"><a href="chap-shiny.html#cb389-13"></a>      <span class="kw">uiOutput</span>(<span class="st">&quot;name&quot;</span>),</span>
-<span id="cb389-14"><a href="chap-shiny.html#cb389-14"></a>      <span class="kw">uiOutput</span>(<span class="st">&quot;h&quot;</span>)</span>
-<span id="cb389-15"><a href="chap-shiny.html#cb389-15"></a>    ),</span>
-<span id="cb389-16"><a href="chap-shiny.html#cb389-16"></a>    <span class="co"># Show plots in the main panel</span></span>
-<span id="cb389-17"><a href="chap-shiny.html#cb389-17"></a>    <span class="kw">mainPanel</span>(</span>
-<span id="cb389-18"><a href="chap-shiny.html#cb389-18"></a>      <span class="kw">plotOutput</span>(<span class="st">&quot;network&quot;</span>),</span>
-<span id="cb389-19"><a href="chap-shiny.html#cb389-19"></a>      <span class="kw">plotOutput</span>(<span class="st">&quot;citations&quot;</span>)</span>
-<span id="cb389-20"><a href="chap-shiny.html#cb389-20"></a>    )</span>
-<span id="cb389-21"><a href="chap-shiny.html#cb389-21"></a>  )</span>
-<span id="cb389-22"><a href="chap-shiny.html#cb389-22"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="chap-shiny.html#cb410-1"></a><span class="co"># UI ####</span></span>
+<span id="cb410-2"><a href="chap-shiny.html#cb410-2"></a>ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(</span>
+<span id="cb410-3"><a href="chap-shiny.html#cb410-3"></a>  <span class="co"># Application title</span></span>
+<span id="cb410-4"><a href="chap-shiny.html#cb410-4"></a>  <span class="kw">titlePanel</span>(<span class="st">&quot;Bibliometrics&quot;</span>),</span>
+<span id="cb410-5"><a href="chap-shiny.html#cb410-5"></a>  </span>
+<span id="cb410-6"><a href="chap-shiny.html#cb410-6"></a>  <span class="kw">sidebarLayout</span>(</span>
+<span id="cb410-7"><a href="chap-shiny.html#cb410-7"></a>    <span class="kw">sidebarPanel</span>(</span>
+<span id="cb410-8"><a href="chap-shiny.html#cb410-8"></a>      <span class="kw">helpText</span>(<span class="st">&quot;Enter the Google Scholar ID of an author.&quot;</span>),</span>
+<span id="cb410-9"><a href="chap-shiny.html#cb410-9"></a>      <span class="kw">textInput</span>(<span class="st">&quot;AuthorID&quot;</span>, <span class="st">&quot;Google Scholar ID&quot;</span>, <span class="st">&quot;4iLBmbUAAAAJ&quot;</span>),</span>
+<span id="cb410-10"><a href="chap-shiny.html#cb410-10"></a>      <span class="co"># End of input</span></span>
+<span id="cb410-11"><a href="chap-shiny.html#cb410-11"></a>      <span class="kw">br</span>(),</span>
+<span id="cb410-12"><a href="chap-shiny.html#cb410-12"></a>      <span class="co"># Display author&#39;s name and h</span></span>
+<span id="cb410-13"><a href="chap-shiny.html#cb410-13"></a>      <span class="kw">uiOutput</span>(<span class="st">&quot;name&quot;</span>),</span>
+<span id="cb410-14"><a href="chap-shiny.html#cb410-14"></a>      <span class="kw">uiOutput</span>(<span class="st">&quot;h&quot;</span>)</span>
+<span id="cb410-15"><a href="chap-shiny.html#cb410-15"></a>    ),</span>
+<span id="cb410-16"><a href="chap-shiny.html#cb410-16"></a>    <span class="co"># Show plots in the main panel</span></span>
+<span id="cb410-17"><a href="chap-shiny.html#cb410-17"></a>    <span class="kw">mainPanel</span>(</span>
+<span id="cb410-18"><a href="chap-shiny.html#cb410-18"></a>      <span class="kw">plotOutput</span>(<span class="st">&quot;network&quot;</span>),</span>
+<span id="cb410-19"><a href="chap-shiny.html#cb410-19"></a>      <span class="kw">plotOutput</span>(<span class="st">&quot;citations&quot;</span>)</span>
+<span id="cb410-20"><a href="chap-shiny.html#cb410-20"></a>    )</span>
+<span id="cb410-21"><a href="chap-shiny.html#cb410-21"></a>  )</span>
+<span id="cb410-22"><a href="chap-shiny.html#cb410-22"></a>)</span></code></pre></div>
 
 <p>La fenêtre de l’application est fluide, c’est-à-dire qu’elle se réorganise seule quand sa taille varie, et est composée d’un panneau latéral (pour la saisie et l’affichage de texte) et d’un panneau principal, pour l’affichage de graphiques.</p>
 <p>Les éléments du panneau latéral sont:</p>
@@ -497,54 +497,54 @@ L’application complète, avec des sorties graphiques en plus de sa version sim
 <p>Le panneau principal contient deux contrôles de sortie graphiques, <code>plotOutput()</code> dont l’argument est aussi le nom.</p>
 <p>Le code à exécuter pour traiter les entrées et produire les sorties est dans la fonction <code>server()</code>.</p>
 
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="chap-shiny.html#cb390-1"></a><span class="co"># Server logic ####</span></span>
-<span id="cb390-2"><a href="chap-shiny.html#cb390-2"></a>server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output) {</span>
-<span id="cb390-3"><a href="chap-shiny.html#cb390-3"></a>  <span class="co"># Run the get_profile function only once ####</span></span>
-<span id="cb390-4"><a href="chap-shiny.html#cb390-4"></a>  <span class="co"># Store the author profile</span></span>
-<span id="cb390-5"><a href="chap-shiny.html#cb390-5"></a>  AuthorProfile &lt;-<span class="st"> </span><span class="kw">reactiveVal</span>()</span>
-<span id="cb390-6"><a href="chap-shiny.html#cb390-6"></a>  <span class="co"># Update it when input$AuthorID is changed</span></span>
-<span id="cb390-7"><a href="chap-shiny.html#cb390-7"></a>  <span class="kw">observeEvent</span>(input<span class="op">$</span>AuthorID, </span>
-<span id="cb390-8"><a href="chap-shiny.html#cb390-8"></a>               <span class="kw">AuthorProfile</span>(<span class="kw">get_profile</span>(input<span class="op">$</span>AuthorID)))</span>
-<span id="cb390-9"><a href="chap-shiny.html#cb390-9"></a>  </span>
-<span id="cb390-10"><a href="chap-shiny.html#cb390-10"></a>  <span class="co"># Output ####</span></span>
-<span id="cb390-11"><a href="chap-shiny.html#cb390-11"></a>  output<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw">renderUI</span>({</span>
-<span id="cb390-12"><a href="chap-shiny.html#cb390-12"></a>    <span class="kw">h2</span>(<span class="kw">AuthorProfile</span>()<span class="op">$</span>name)</span>
-<span id="cb390-13"><a href="chap-shiny.html#cb390-13"></a>  })</span>
-<span id="cb390-14"><a href="chap-shiny.html#cb390-14"></a>  </span>
-<span id="cb390-15"><a href="chap-shiny.html#cb390-15"></a>  output<span class="op">$</span>h &lt;-</span>
-<span id="cb390-16"><a href="chap-shiny.html#cb390-16"></a><span class="st">    </span><span class="kw">renderUI</span>({</span>
-<span id="cb390-17"><a href="chap-shiny.html#cb390-17"></a>      <span class="kw">a</span>(<span class="dt">href =</span> <span class="kw">paste0</span>(</span>
-<span id="cb390-18"><a href="chap-shiny.html#cb390-18"></a>        <span class="st">&quot;https://scholar.google.com/citations?user=&quot;</span>, </span>
-<span id="cb390-19"><a href="chap-shiny.html#cb390-19"></a>        input<span class="op">$</span>AuthorID),</span>
-<span id="cb390-20"><a href="chap-shiny.html#cb390-20"></a>        <span class="kw">paste</span>(<span class="st">&quot;h index:&quot;</span>, <span class="kw">AuthorProfile</span>()<span class="op">$</span>h_index),</span>
-<span id="cb390-21"><a href="chap-shiny.html#cb390-21"></a>        <span class="dt">target =</span> <span class="st">&quot;_blank&quot;</span></span>
-<span id="cb390-22"><a href="chap-shiny.html#cb390-22"></a>      )</span>
-<span id="cb390-23"><a href="chap-shiny.html#cb390-23"></a>    })</span>
-<span id="cb390-24"><a href="chap-shiny.html#cb390-24"></a>  </span>
-<span id="cb390-25"><a href="chap-shiny.html#cb390-25"></a>  output<span class="op">$</span>citations &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({</span>
-<span id="cb390-26"><a href="chap-shiny.html#cb390-26"></a>    <span class="kw">get_citation_history</span>(input<span class="op">$</span>AuthorID)  <span class="op">%&gt;%</span></span>
-<span id="cb390-27"><a href="chap-shiny.html#cb390-27"></a><span class="st">      </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(year, cites)) <span class="op">+</span></span>
-<span id="cb390-28"><a href="chap-shiny.html#cb390-28"></a><span class="st">      </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">xend =</span> year, <span class="dt">yend =</span> <span class="dv">0</span>),</span>
-<span id="cb390-29"><a href="chap-shiny.html#cb390-29"></a>                   <span class="dt">size =</span> <span class="dv">1</span>,</span>
-<span id="cb390-30"><a href="chap-shiny.html#cb390-30"></a>                   <span class="dt">color =</span></span>
-<span id="cb390-31"><a href="chap-shiny.html#cb390-31"></a>                     <span class="st">&#39;darkgrey&#39;</span>) <span class="op">+</span></span>
-<span id="cb390-32"><a href="chap-shiny.html#cb390-32"></a><span class="st">      </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">color =</span> <span class="st">&#39;firebrick&#39;</span>) <span class="op">+</span></span>
-<span id="cb390-33"><a href="chap-shiny.html#cb390-33"></a><span class="st">      </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Citations per year&quot;</span>,</span>
-<span id="cb390-34"><a href="chap-shiny.html#cb390-34"></a>           <span class="dt">caption =</span> <span class="st">&quot;Source: Google Scholar&quot;</span>)</span>
-<span id="cb390-35"><a href="chap-shiny.html#cb390-35"></a>  })</span>
-<span id="cb390-36"><a href="chap-shiny.html#cb390-36"></a>  </span>
-<span id="cb390-37"><a href="chap-shiny.html#cb390-37"></a>  output<span class="op">$</span>network &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({</span>
-<span id="cb390-38"><a href="chap-shiny.html#cb390-38"></a>    <span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_blank</span>()</span>
-<span id="cb390-39"><a href="chap-shiny.html#cb390-39"></a>  })</span>
-<span id="cb390-40"><a href="chap-shiny.html#cb390-40"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="chap-shiny.html#cb411-1"></a><span class="co"># Server logic ####</span></span>
+<span id="cb411-2"><a href="chap-shiny.html#cb411-2"></a>server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output) {</span>
+<span id="cb411-3"><a href="chap-shiny.html#cb411-3"></a>  <span class="co"># Run the get_profile function only once ####</span></span>
+<span id="cb411-4"><a href="chap-shiny.html#cb411-4"></a>  <span class="co"># Store the author profile</span></span>
+<span id="cb411-5"><a href="chap-shiny.html#cb411-5"></a>  AuthorProfile &lt;-<span class="st"> </span><span class="kw">reactiveVal</span>()</span>
+<span id="cb411-6"><a href="chap-shiny.html#cb411-6"></a>  <span class="co"># Update it when input$AuthorID is changed</span></span>
+<span id="cb411-7"><a href="chap-shiny.html#cb411-7"></a>  <span class="kw">observeEvent</span>(input<span class="op">$</span>AuthorID, </span>
+<span id="cb411-8"><a href="chap-shiny.html#cb411-8"></a>               <span class="kw">AuthorProfile</span>(<span class="kw">get_profile</span>(input<span class="op">$</span>AuthorID)))</span>
+<span id="cb411-9"><a href="chap-shiny.html#cb411-9"></a>  </span>
+<span id="cb411-10"><a href="chap-shiny.html#cb411-10"></a>  <span class="co"># Output ####</span></span>
+<span id="cb411-11"><a href="chap-shiny.html#cb411-11"></a>  output<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw">renderUI</span>({</span>
+<span id="cb411-12"><a href="chap-shiny.html#cb411-12"></a>    <span class="kw">h2</span>(<span class="kw">AuthorProfile</span>()<span class="op">$</span>name)</span>
+<span id="cb411-13"><a href="chap-shiny.html#cb411-13"></a>  })</span>
+<span id="cb411-14"><a href="chap-shiny.html#cb411-14"></a>  </span>
+<span id="cb411-15"><a href="chap-shiny.html#cb411-15"></a>  output<span class="op">$</span>h &lt;-</span>
+<span id="cb411-16"><a href="chap-shiny.html#cb411-16"></a><span class="st">    </span><span class="kw">renderUI</span>({</span>
+<span id="cb411-17"><a href="chap-shiny.html#cb411-17"></a>      <span class="kw">a</span>(<span class="dt">href =</span> <span class="kw">paste0</span>(</span>
+<span id="cb411-18"><a href="chap-shiny.html#cb411-18"></a>        <span class="st">&quot;https://scholar.google.com/citations?user=&quot;</span>, </span>
+<span id="cb411-19"><a href="chap-shiny.html#cb411-19"></a>        input<span class="op">$</span>AuthorID),</span>
+<span id="cb411-20"><a href="chap-shiny.html#cb411-20"></a>        <span class="kw">paste</span>(<span class="st">&quot;h index:&quot;</span>, <span class="kw">AuthorProfile</span>()<span class="op">$</span>h_index),</span>
+<span id="cb411-21"><a href="chap-shiny.html#cb411-21"></a>        <span class="dt">target =</span> <span class="st">&quot;_blank&quot;</span></span>
+<span id="cb411-22"><a href="chap-shiny.html#cb411-22"></a>      )</span>
+<span id="cb411-23"><a href="chap-shiny.html#cb411-23"></a>    })</span>
+<span id="cb411-24"><a href="chap-shiny.html#cb411-24"></a>  </span>
+<span id="cb411-25"><a href="chap-shiny.html#cb411-25"></a>  output<span class="op">$</span>citations &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({</span>
+<span id="cb411-26"><a href="chap-shiny.html#cb411-26"></a>    <span class="kw">get_citation_history</span>(input<span class="op">$</span>AuthorID)  <span class="op">%&gt;%</span></span>
+<span id="cb411-27"><a href="chap-shiny.html#cb411-27"></a><span class="st">      </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(year, cites)) <span class="op">+</span></span>
+<span id="cb411-28"><a href="chap-shiny.html#cb411-28"></a><span class="st">      </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">xend =</span> year, <span class="dt">yend =</span> <span class="dv">0</span>),</span>
+<span id="cb411-29"><a href="chap-shiny.html#cb411-29"></a>                   <span class="dt">size =</span> <span class="dv">1</span>,</span>
+<span id="cb411-30"><a href="chap-shiny.html#cb411-30"></a>                   <span class="dt">color =</span></span>
+<span id="cb411-31"><a href="chap-shiny.html#cb411-31"></a>                     <span class="st">&#39;darkgrey&#39;</span>) <span class="op">+</span></span>
+<span id="cb411-32"><a href="chap-shiny.html#cb411-32"></a><span class="st">      </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">color =</span> <span class="st">&#39;firebrick&#39;</span>) <span class="op">+</span></span>
+<span id="cb411-33"><a href="chap-shiny.html#cb411-33"></a><span class="st">      </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Citations per year&quot;</span>,</span>
+<span id="cb411-34"><a href="chap-shiny.html#cb411-34"></a>           <span class="dt">caption =</span> <span class="st">&quot;Source: Google Scholar&quot;</span>)</span>
+<span id="cb411-35"><a href="chap-shiny.html#cb411-35"></a>  })</span>
+<span id="cb411-36"><a href="chap-shiny.html#cb411-36"></a>  </span>
+<span id="cb411-37"><a href="chap-shiny.html#cb411-37"></a>  output<span class="op">$</span>network &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({</span>
+<span id="cb411-38"><a href="chap-shiny.html#cb411-38"></a>    <span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_blank</span>()</span>
+<span id="cb411-39"><a href="chap-shiny.html#cb411-39"></a>  })</span>
+<span id="cb411-40"><a href="chap-shiny.html#cb411-40"></a>}</span></code></pre></div>
 
 <p>Les informations nécessaires aux champs de sortie <code>$name</code> et <code>$h</code> (nom de l’auteur et indice h) sont obtenus par la fonction <code>get_profile()</code> du package <strong>scholar</strong>.
 Cette fonction effectue interroge la page web Google Scholar de l’auteur et extrait les valeurs du résultat: c’est une traitement lourd, qu’il vaut mieux n’exécuter qu’une seule fois plutôt que deux, dans les fonctions <code>renderUI()</code> chargées de calculer les valeurs de <code>output$h</code> et <code>output$name</code>.</p>
 <p>Le code le plus simple pour le faire serait le suivant:</p>
 
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="chap-shiny.html#cb391-1"></a><span class="co"># Run the get_profile function only once #### Store the</span></span>
-<span id="cb391-2"><a href="chap-shiny.html#cb391-2"></a><span class="co"># author profile</span></span>
-<span id="cb391-3"><a href="chap-shiny.html#cb391-3"></a>AuthorProfile &lt;-<span class="st"> </span><span class="kw">get_profile</span>(input<span class="op">$</span>AuthorID)</span></code></pre></div>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="chap-shiny.html#cb412-1"></a><span class="co"># Run the get_profile function only once #### Store the</span></span>
+<span id="cb412-2"><a href="chap-shiny.html#cb412-2"></a><span class="co"># author profile</span></span>
+<span id="cb412-3"><a href="chap-shiny.html#cb412-3"></a>AuthorProfile &lt;-<span class="st"> </span><span class="kw">get_profile</span>(input<span class="op">$</span>AuthorID)</span></code></pre></div>
 
 <p>La difficulté de la programmation d’une application Shiny est que tout calcul se référant à un élément de l’interface d’entrée doit être <em>réactif</em>.
 Si ce dernier code était exécuté, le message d’erreur suivant apparaît:
@@ -553,11 +553,11 @@ Si ce dernier code était exécuté, le message d’erreur suivant apparaît:
 Le code faisant référence à un de ces contrôles doit être en permanence en attente d’une modification: il doit donc placé dans des fonctions particulières comme <code>renderPlot</code> dans l’application <em>Old Faithful Geyser Data</em> ou <code>renderUI()</code> ici.
 Le code suivant s’exécuterait sans erreur:</p>
 
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="chap-shiny.html#cb392-1"></a><span class="co"># Output ####</span></span>
-<span id="cb392-2"><a href="chap-shiny.html#cb392-2"></a>output<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw">renderUI</span>({</span>
-<span id="cb392-3"><a href="chap-shiny.html#cb392-3"></a>    AuthorProfile &lt;-<span class="st"> </span><span class="kw">get_profile</span>(input<span class="op">$</span>AuthorID)</span>
-<span id="cb392-4"><a href="chap-shiny.html#cb392-4"></a>    <span class="kw">h2</span>(AuthorProfile<span class="op">$</span>name)</span>
-<span id="cb392-5"><a href="chap-shiny.html#cb392-5"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="chap-shiny.html#cb413-1"></a><span class="co"># Output ####</span></span>
+<span id="cb413-2"><a href="chap-shiny.html#cb413-2"></a>output<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw">renderUI</span>({</span>
+<span id="cb413-3"><a href="chap-shiny.html#cb413-3"></a>    AuthorProfile &lt;-<span class="st"> </span><span class="kw">get_profile</span>(input<span class="op">$</span>AuthorID)</span>
+<span id="cb413-4"><a href="chap-shiny.html#cb413-4"></a>    <span class="kw">h2</span>(AuthorProfile<span class="op">$</span>name)</span>
+<span id="cb413-5"><a href="chap-shiny.html#cb413-5"></a>})</span></code></pre></div>
 
 <p>L’appel à la valeur du contrôle <code>input$AuthorID</code> a bien lieu dans une fonction réactive (mais <code>get_profile()</code> devrait être utilisé une deuxième fois dans le calcul de <code>output$h</code>, ce que nous voulons éviter).
 La fonction <code>h2(AuthorProfile$name)</code> produit du code HTML, un paragraphe de titre de niveau 2 dont la valeur est passée en argument.</p>
@@ -570,31 +570,31 @@ Deux fonctions sont très utiles:</p>
 </ul>
 <p>Le code optimal crée donc une variable réactive pour y stocker le résultat de l’interrogation de Google Scholar</p>
 
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="chap-shiny.html#cb393-1"></a><span class="co"># Store the author profile</span></span>
-<span id="cb393-2"><a href="chap-shiny.html#cb393-2"></a>AuthorProfile &lt;-<span class="st"> </span><span class="kw">reactiveVal</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="chap-shiny.html#cb414-1"></a><span class="co"># Store the author profile</span></span>
+<span id="cb414-2"><a href="chap-shiny.html#cb414-2"></a>AuthorProfile &lt;-<span class="st"> </span><span class="kw">reactiveVal</span>()</span></code></pre></div>
 
 <p>La variable réactive est vide à ce stade.
 Son utilisation est ensuite celle d’une fonction: <code>AuthorProfile(x)</code> lui attribue la valeur <code>x</code> et <code>AuthorProfile()</code>, sans argument, renvoie sa valeur.
 La fonction <code>observeEvent()</code> est déclenchée quand <code>input$AuthorID</code> est modifié et exécute le code passé en deuxième argument, ici la mise à jour de <code>AuthorProfile</code>.</p>
 
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="chap-shiny.html#cb394-1"></a><span class="co"># Update it when input$AuthorID is changed</span></span>
-<span id="cb394-2"><a href="chap-shiny.html#cb394-2"></a><span class="kw">observeEvent</span>(input<span class="op">$</span>AuthorID, <span class="kw">AuthorProfile</span>(<span class="kw">get_profile</span>(input<span class="op">$</span>AuthorID)))</span></code></pre></div>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="chap-shiny.html#cb415-1"></a><span class="co"># Update it when input$AuthorID is changed</span></span>
+<span id="cb415-2"><a href="chap-shiny.html#cb415-2"></a><span class="kw">observeEvent</span>(input<span class="op">$</span>AuthorID, <span class="kw">AuthorProfile</span>(<span class="kw">get_profile</span>(input<span class="op">$</span>AuthorID)))</span></code></pre></div>
 
 <p>Enfin, les fonctions <code>renderUI()</code> qui fournissent les valeurs des contrôles de sortie utilisent la valeur de <code>AuthorProfile</code>:</p>
 
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="chap-shiny.html#cb395-1"></a><span class="co"># Output ####</span></span>
-<span id="cb395-2"><a href="chap-shiny.html#cb395-2"></a>output<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw">renderUI</span>({</span>
-<span id="cb395-3"><a href="chap-shiny.html#cb395-3"></a>    <span class="kw">h2</span>(<span class="kw">AuthorProfile</span>()<span class="op">$</span>name)</span>
-<span id="cb395-4"><a href="chap-shiny.html#cb395-4"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="chap-shiny.html#cb416-1"></a><span class="co"># Output ####</span></span>
+<span id="cb416-2"><a href="chap-shiny.html#cb416-2"></a>output<span class="op">$</span>name &lt;-<span class="st"> </span><span class="kw">renderUI</span>({</span>
+<span id="cb416-3"><a href="chap-shiny.html#cb416-3"></a>    <span class="kw">h2</span>(<span class="kw">AuthorProfile</span>()<span class="op">$</span>name)</span>
+<span id="cb416-4"><a href="chap-shiny.html#cb416-4"></a>})</span></code></pre></div>
 
 <p>Remarquer les parenthèses de <code>AuthorProfile()</code>, variable réactive, par opposition à la syntaxe <code>AuthorProfile$name</code> pour une variable classique.</p>
 <p>La valeur de <code>output$h</code> est un lien internet, <code>&lt;a href=...</code> en HTML, écrit par la fonction <code>a()</code> du package <strong>htmltools</strong> utilisé par <code>renderUI()</code>.</p>
 
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="chap-shiny.html#cb396-1"></a>output<span class="op">$</span>h &lt;-<span class="st"> </span><span class="kw">renderUI</span>({</span>
-<span id="cb396-2"><a href="chap-shiny.html#cb396-2"></a>    <span class="kw">a</span>(<span class="dt">href =</span> <span class="kw">paste0</span>(<span class="st">&quot;https://scholar.google.com/citations?user=&quot;</span>, </span>
-<span id="cb396-3"><a href="chap-shiny.html#cb396-3"></a>        input<span class="op">$</span>AuthorID), <span class="kw">paste</span>(<span class="st">&quot;h index:&quot;</span>, <span class="kw">AuthorProfile</span>()<span class="op">$</span>h_index), </span>
-<span id="cb396-4"><a href="chap-shiny.html#cb396-4"></a>        <span class="dt">target =</span> <span class="st">&quot;_blank&quot;</span>)</span>
-<span id="cb396-5"><a href="chap-shiny.html#cb396-5"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="chap-shiny.html#cb417-1"></a>output<span class="op">$</span>h &lt;-<span class="st"> </span><span class="kw">renderUI</span>({</span>
+<span id="cb417-2"><a href="chap-shiny.html#cb417-2"></a>    <span class="kw">a</span>(<span class="dt">href =</span> <span class="kw">paste0</span>(<span class="st">&quot;https://scholar.google.com/citations?user=&quot;</span>, </span>
+<span id="cb417-3"><a href="chap-shiny.html#cb417-3"></a>        input<span class="op">$</span>AuthorID), <span class="kw">paste</span>(<span class="st">&quot;h index:&quot;</span>, <span class="kw">AuthorProfile</span>()<span class="op">$</span>h_index), </span>
+<span id="cb417-4"><a href="chap-shiny.html#cb417-4"></a>        <span class="dt">target =</span> <span class="st">&quot;_blank&quot;</span>)</span>
+<span id="cb417-5"><a href="chap-shiny.html#cb417-5"></a>})</span></code></pre></div>
 
 <p>Le lien est vers la page Google Scholar de l’auteur.
 La valeur affichée est son indice h.
@@ -613,8 +613,8 @@ Shinyapps.io<a href="#fn107" class="footnote-ref" id="fnref107"><sup>107</sup></
 <p>Il faut tout d’abord ouvrir un compte sur le site, de préférence avec ses identifiants GitHub.
 Pour permettre la gestion des applications en ligne directement depuis RStudio, il faut installer ensuite le package <strong>rsconnect</strong> et le paramétrer:</p>
 
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="chap-shiny.html#cb397-1"></a>rsconnect<span class="op">::</span><span class="kw">setAccountInfo</span>(<span class="dt">name =</span> <span class="st">&quot;prenom.nom&quot;</span>, <span class="dt">token =</span> <span class="st">&quot;xxx&quot;</span>, </span>
-<span id="cb397-2"><a href="chap-shiny.html#cb397-2"></a>    <span class="dt">secret =</span> <span class="st">&quot;&lt;SECRET&gt;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="chap-shiny.html#cb418-1"></a>rsconnect<span class="op">::</span><span class="kw">setAccountInfo</span>(<span class="dt">name =</span> <span class="st">&quot;prenom.nom&quot;</span>, <span class="dt">token =</span> <span class="st">&quot;xxx&quot;</span>, </span>
+<span id="cb418-2"><a href="chap-shiny.html#cb418-2"></a>    <span class="dt">secret =</span> <span class="st">&quot;&lt;SECRET&gt;&quot;</span>)</span></code></pre></div>
 
 <p>Le code exact, avec le nom d’utilisateur et le jeton à utiliser, sont affichés sur la page d’accueil de Shinyapps.io: cliquer sur “Show Secret”, copier le code et le coller dans la console de RStudio pour l’exécuter.
 Un bouton <em>Publish</em> est disponible juste à droite du bouton <em>Run App</em>.
