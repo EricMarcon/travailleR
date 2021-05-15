@@ -399,7 +399,7 @@
 
 \author{Eric Marcon}
 
-\date{2021-05-06}
+\date{2021-05-15}
 
 
 % End of preamble
@@ -782,7 +782,7 @@ L'argument \texttt{build\_vignettes} est nécessaire pour créer les vignettes d
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{remotes}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"EcoFoG/EcoFoG"}\NormalTok{, }\DataTypeTok{build_vignettes =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{remotes}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"EricMarcon/memoiR"}\NormalTok{, }\DataTypeTok{build_vignettes =} \OtherTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -860,10 +860,8 @@ Il contient une fonction qui vérifie si chaque package est déjà installé pou
   \StringTok{"bookdown"}\NormalTok{,}
   \CommentTok{# Sites web}
   \StringTok{"blogdown"}\NormalTok{,}
-  \CommentTok{# Modèle de présentation}
-  \StringTok{"xaringan"}\NormalTok{,}
-  \CommentTok{# Modèles d'articles}
-  \StringTok{"rticles"}     
+  \CommentTok{# Modèles de documents}
+  \StringTok{"memoiR"}
 \NormalTok{  ))}
 
 
@@ -1216,7 +1214,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7f8d41d1b328>
+## <bytecode: 0x7fc6f19c3410>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1690,7 +1688,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7f8d2fab2320>
+## <environment: 0x7fc6fd34c920>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1762,7 +1760,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7f8d3027fe40>
+## <bytecode: 0x7fc6fd6905a0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1944,7 +1942,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.020   0.001   0.021
+##   0.020   0.001   0.023
 \end{verbatim}
 
 \normalsize
@@ -1976,10 +1974,10 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq       max neval
-##  f1(X)  35.704  36.9285  51.70152  38.1220  39.8110  1228.279   100
-##  f2(X)  42.881  44.9010  61.12064  46.4130  50.0520  1169.561   100
-##  f3(X) 267.845 270.3730 299.91185 277.5805 283.8025  1774.754   100
-##  f4(X) 395.758 398.6100 629.17186 408.3065 417.4965 15178.229   100
+##  f1(X)  35.144  36.7245  53.64754  37.6935  40.0815  1221.321   100
+##  f2(X)  42.022  44.2285  67.19333  45.4340  49.2470  1169.351   100
+##  f3(X) 268.199 275.7450 336.88440 277.4140 285.5380  3298.852   100
+##  f4(X) 395.460 399.7685 909.81557 408.1660 415.4510 25164.660   100
 \end{verbatim}
 
 \normalsize
@@ -2002,10 +2000,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  38.1220
-## 2 f2(X)  46.4130
-## 3 f3(X) 277.5805
-## 4 f4(X) 408.3065
+## 1 f1(X)  37.6935
+## 2 f2(X)  45.4340
+## 3 f3(X) 277.4140
+## 4 f4(X) 408.1660
 \end{verbatim}
 
 \normalsize
@@ -2035,10 +2033,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  38.1220
-## 2 f2(X)  46.4130
-## 3 f3(X) 277.5805
-## 4 f4(X) 408.3065
+## 1 f1(X)  37.6935
+## 2 f2(X)  45.4340
+## 3 f3(X) 277.4140
+## 4 f4(X) 408.1660
 \end{verbatim}
 
 \normalsize
@@ -2165,7 +2163,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7f8d43d900a0>
+## <bytecode: 0x7fc6f3ec8908>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2218,10 +2216,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.4630
-## 2                lapply(x1, FUN = sqrt) 315.0385
-## 3                sapply(x1, FUN = sqrt) 359.9930
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 308.9905
+## 1                              sqrt(x1)   4.6065
+## 2                lapply(x1, FUN = sqrt) 293.9895
+## 3                sapply(x1, FUN = sqrt) 347.0570
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 291.8350
 \end{verbatim}
 
 \normalsize
@@ -2273,9 +2271,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr  median
-## 1  Boucle(x1) 758.444
-## 2 Boucle2(x1)  78.301
+##          expr   median
+## 1  Boucle(x1) 760.4920
+## 2 Boucle2(x1)  79.7095
 \end{verbatim}
 
 \begin{Shaded}
@@ -2306,9 +2304,9 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr  median
-## 1 vapply(x1, FUN = sqrt, 0) 303.115
-## 2                Boucle(x1)  78.486
+##                        expr   median
+## 1 vapply(x1, FUN = sqrt, 0) 279.5595
+## 2                Boucle(x1)  78.1830
 \end{verbatim}
 
 \normalsize
@@ -2330,9 +2328,9 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr    median
-## 1                        vapply(x1, FUN = sqrt, 0)  297.8885
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3108.1615
+##                                               expr   median
+## 1                        vapply(x1, FUN = sqrt, 0)  284.700
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3082.208
 \end{verbatim}
 
 \normalsize
@@ -2398,9 +2396,9 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr    median
-## 1 replicate(1000, runif(1)) 4087.1290
-## 2               runif(1000)   35.0575
+##                        expr   median
+## 1 replicate(1000, runif(1)) 3889.598
+## 2               runif(1000)   34.716
 \end{verbatim}
 
 \normalsize
@@ -2438,9 +2436,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.477699
-## 2 apply(diamonds[-(2:4)], 2, sum) 8.965795
-## 3       colSums(diamonds[-(2:4)]) 2.377756
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.513390
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.138697
+## 3       colSums(diamonds[-(2:4)]) 2.366887
 \end{verbatim}
 
 \normalsize
@@ -2648,7 +2646,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.521
+##   0.002   0.000   0.617
 \end{verbatim}
 
 \begin{Shaded}
@@ -2660,12 +2658,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.006   0.014   0.375
+##   0.004   0.006   0.285
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.12} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.035} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2680,7 +2678,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##       0       0       2
+##   0.000   0.000   2.098
 \end{verbatim}
 
 \begin{Shaded}
@@ -2692,7 +2690,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.007   1.127
+##   0.004   0.008   1.013
 \end{verbatim}
 
 \normalsize
@@ -2711,7 +2709,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.005   0.007   1.013
+##   0.005   0.007   1.142
 \end{verbatim}
 
 \begin{Shaded}
@@ -2722,7 +2720,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.005   2.201
+##   0.003   0.005   2.203
 \end{verbatim}
 
 \normalsize
@@ -2914,7 +2912,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.503
+##   0.003   0.000   0.664
 \end{verbatim}
 
 \begin{Shaded}
@@ -2929,7 +2927,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.007   0.012   0.331
+##   0.007   0.011   0.353
 \end{verbatim}
 
 \normalsize
@@ -3016,7 +3014,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.405   0.039   5.849
+##   5.392   0.034   5.907
 \end{verbatim}
 
 \begin{Shaded}
@@ -3050,7 +3048,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.056   0.021   5.579
+##   5.053   0.023   5.387
 \end{verbatim}
 
 \begin{Shaded}
@@ -3092,7 +3090,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.027   0.019   5.307
+##   5.045   0.022   5.435
 \end{verbatim}
 
 \begin{Shaded}
@@ -3132,7 +3130,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.944   0.014   3.071
+##   2.972   0.013   3.161
 \end{verbatim}
 
 \begin{Shaded}
@@ -3173,7 +3171,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.231   0.324   2.093
+##   1.687   0.182   2.726
 \end{verbatim}
 
 \begin{Shaded}
@@ -3214,7 +3212,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.755   0.007   1.816
+##   1.777   0.009   1.933
 \end{verbatim}
 
 \begin{Shaded}
@@ -3261,7 +3259,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.664   0.025   2.798
+##   2.653   0.020   2.941
 \end{verbatim}
 
 \begin{Shaded}
@@ -3306,7 +3304,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.119   0.039   0.135
+##   0.119   0.039   0.124
 \end{verbatim}
 
 \begin{Shaded}
@@ -3480,11 +3478,11 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: microseconds
-##                                                      expr     min       lq
-##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 789.782 2072.613
-##      mean   median       uq      max neval
-##  1921.483 2100.022 2130.064 3770.037   100
+## Unit: milliseconds
+##                                                      expr      min       lq
+##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 1.086931 1.154161
+##     mean   median       uq      max neval
+##  1.67626 1.829016 2.080199 3.672229   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3524,13 +3522,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.241   0.017   7.468
+##   7.282   0.020   7.699
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4540} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4832} secondes.
 
 \scriptsize
 
@@ -3543,7 +3541,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.913   0.014   2.069
+##   4.917   0.016   3.856
 \end{verbatim}
 
 \normalsize
@@ -3622,8 +3620,8 @@ RStudio intègre une interface graphique pour git suffisante pour se passer de l
 Comme GitHub permet au minimum la sauvegarde des dépôts git, les deux sont toujours utilisés ensemble.
 GitHub n'est pas la seule plateforme utilisable mais la principale. Les alternatives sont Bitbucket\footnote{\url{https://bitbucket.org/}} et GitLab\footnote{\url{https://about.gitlab.com/}} par exemple.
 
-\hypertarget{cruxe9er-un-nouveau-duxe9puxf4t}{%
-\section{Créer un nouveau dépôt}\label{cruxe9er-un-nouveau-duxe9puxf4t}}
+\hypertarget{sec:creerdepot}{%
+\section{Créer un nouveau dépôt}\label{sec:creerdepot}}
 
 \hypertarget{a-partir-dun-projet-existant}{%
 \subsection{A partir d'un projet existant}\label{a-partir-dun-projet-existant}}
@@ -4096,6 +4094,17 @@ Chaque branche se comporte comme une version différente du projet.
 
 Attention: pour éviter la confusion, sauvegarder les modifications, prendre en compte et valider les changements avant de changer de branche.
 
+\hypertarget{pousser-la-nouvelle-branche}{%
+\subsection{Pousser la nouvelle branche}\label{pousser-la-nouvelle-branche}}
+
+Les premières modifications de la nouvelle branche doivent être poussées en ligne de commande parce que les boutons \enquote{Push} et \enquote{Pull} de la fenêtre \emph{Git} ne fonctionnent pas tant que la branche n'existe pas sur le dépôt distant.
+
+Exécuter, dans le terminal:
+
+\begin{verbatim}
+git push -u origin new_branch
+\end{verbatim}
+
 \hypertarget{comportement-du-systuxe8me-de-fichier}{%
 \subsection{Comportement du système de fichier}\label{comportement-du-systuxe8me-de-fichier}}
 
@@ -4471,7 +4480,7 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 \begin{verbatim}
-date: "2021-05-06"
+date: "2021-05-15"
 \end{verbatim}
 
 Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
@@ -4502,24 +4511,14 @@ Enfin, les légendes de figures ou tableaux ne supportent que du texte brut, san
 Le package a été conçu pour la rédaction d'ouvrages comportant plusieurs chapitres mais peut être utilisé pour des articles.
 Le package ne fournit pas directement de modèles.
 
-Le package \textbf{EcoFoG} disponible sur GitHub fournit les modèles présentés ici.
-Il doit être installé:
-
-\scriptsize
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{remotes}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"EcoFoG/EcoFoG"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\normalsize
+Le package \textbf{memoiR} fournit les modèles présentés ici.
+Il doit être installé.
 
 \hypertarget{ecrire}{%
 \subsection{Ecrire}\label{ecrire}}
 
 Les principales caractéristiques de Markdown sont résumées ici.
-Une formation rapide et complète est proposée par RStudio\footnote{\url{https://rmarkdown.rstudio.com/lesson-1.html}}.
+Une formation rapide et plus complète est proposée par RStudio\footnote{\url{https://rmarkdown.rstudio.com/lesson-1.html}}.
 
 Le texte est écrit sans aucun autre formatage que les les retours à la ligne.
 Un simple retour à la ligne n'a aucun effet sur le document produit: il permet de séparer les phrases pour simplifier le suivi du code source par git.
@@ -4730,17 +4729,24 @@ dans l'entête du document et en copiant le fichier de style \emph{.csl} dans le
 Plus d'un millier de styles sont disponibles \footnote{\url{https://github.com/citation-style-language/styles}}.
 
 Pour les documents PDF, la bibliographie est gérée par LaTeX.
-Le style est inclus dans le modèle EcoFoG: c'est celui de \emph{Methods in Ecology and Evolution}.
-Il ne peut pas être changé, pour assurer l'homogénéité des documents produits.
 
 Pour préparer la soumission d'un manuscrit à une revue, il faudra ouvrir le fichier \emph{.tex} intermédiaire produit par pandoc et copier le contenu de l'environnement \{document\} dans le modèle proposé par la revue, qui se chargera du formatage.
 
 \hypertarget{langues}{%
 \subsubsection{Langues}\label{langues}}
 
-L'Anglais et le Français sont supportés, à déclarer dans l'entête du document.
+Les langues sont à déclarer dans l'entête des document produits par les modèles de \textbf{memoiR}.
 
 La langue principale du document modifie le nom de certains éléments, comme la table des matières.
+Les langues supplémentaires permettent la rédaction de documents multilingues.
+
+Les champs de l'entête sont:
+
+\begin{verbatim}
+lang: fr-FR
+otherlangs: [en-US, it]
+\end{verbatim}
+
 Le changement de langue dans le document est géré en LaTeX mais pas en HTML en insérant sur une nouvelle ligne la commande suivante :
 
 \begin{verbatim}
@@ -4750,14 +4756,14 @@ Le changement de langue dans le document est géré en LaTeX mais pas en HTML en
 La langue en cours n'a d'effet que dans les sorties LaTeX: un espace est ajouté devant les ponctuations doubles en Français, la taille des espaces est plus grande en début de phrase en Anglais, etc.
 La commande \texttt{\textbackslash{}selectlanguage} est simplement ignorée en HTML.
 
-Les modèles EcoFoG utilisent le package LaTeX \emph{babel} qui reconnaît les noms de langue \emph{french} et \emph{english}.
-Pandoc utilise en revanche les codes IETF \emph{fr-FR} ou \emph{en-US} pour un support linguistique limité en HTML.
-Les deux paramètres doivent donc être saisis dans l'entête du document.
+Les noms de langues sont différents dans l'entête (codes IETF) et dans le texte (nom de la langue).
+La correspondance et la liste complète des langues se trouve dans le tableau 3 de la documentation du package \textbf{polyglossia}\footnote{\url{http://mirrors.ctan.org/macros/unicodetex/latex/polyglossia/polyglossia.pdf}}.
 
 \hypertarget{sec:memo}{%
-\subsection{Modèle Memo EcoFoG}\label{sec:memo}}
+\subsection{Modèle Simple Article}\label{sec:memo}}
 
-Le modèle Memo EcoFoG produit un document HTML simple avec une table des matières flottante (voir l'exemple\footnote{\url{https://EricMarcon.github.io/Krigeage/Krigeage.html}}).
+Le modèle \emph{Simple Article} de \textbf{memoiR} produit un document HTML simple avec une table des matières flottante (voir l'exemple\footnote{\url{https://EricMarcon.github.io/Krigeage/Krigeage.html}}).
+D'autres formats HTML sont disponibles: voir la gallerie\footnote{\url{https://ericmarcon.github.io/memoiR/}} du package.
 Le format PDF est proche du modèle \emph{article} de LaTeX (exemple\footnote{\url{https://EricMarcon.github.io/Krigeage/Krigeage.pdf}}).
 
 Le modèle contient sa propre documentation.
@@ -4768,13 +4774,13 @@ Le modèle contient sa propre documentation.
 Utiliser le menu \enquote{File \textgreater{} New File \textgreater{} R Markdown\ldots{}} puis sélectionner \enquote{From template} (figure \ref{fig:e-rmd1}).
 La liste des modèles disponible et le package qui les propose est alors affichée.
 
-Sélectionner le modèle Memo EcoFoG du package \textbf{EcoFoG}, choisir le nom du projet (\enquote{Name:}, qui sera le nom du dossier dans lequel il sera créé, et son dossier parent (\enquote{Location:}).
+Sélectionner le modèle \emph{Simple Article} du package \textbf{memoiR}, choisir le nom du projet (\enquote{Name:}, qui sera le nom du dossier dans lequel il sera créé, et son dossier parent (\enquote{Location:}).
 Dans l'organisation proposée en section \ref{sec:solution-dossiers}, le dossier parent est \texttt{\%LOCALAPPDATA\%\textbackslash{}ProjetsR}.
 Le nom du projet ne doit contenir aucun caractère spécial (accent, espace\ldots) pour assurer sa portabilité sur tous les systèmes d'exploitation (Windows, Linux, MacOS).
 
 Les modèles élaborés créent un dossier avec de nombreux fichiers (bibliographie, styles, modèle LaTex\ldots), contrairement aux modèles simples qui créent seulement un fichier.
 
-Quand un dossier est créé, par exemple par le modèle Memo EcoFoG, il faut en faire un projet RStudio: dans le menu des projets (en haut à droite de la fenêtre de RStudio), utiliser le menu \enquote{New Project\ldots{}} puis \enquote{Existing Directory} et sélectionner le dossier qui vient d'être créé.
+Quand un dossier est créé, par exemple par le modèle \emph{Simple Article}, il faut en faire un projet RStudio: dans le menu des projets (en haut à droite de la fenêtre de RStudio), utiliser le menu \enquote{New Project\ldots{}} puis \enquote{Existing Directory} et sélectionner le dossier qui vient d'être créé.
 
 \hypertarget{ecrire-1}{%
 \subsubsection{Ecrire}\label{ecrire-1}}
@@ -4793,69 +4799,66 @@ Le document peut être tricoté en plusieurs formats:
 \item
   \emph{gitbook} est un format HTML alternatif, utilisé normalement pour les ouvrages;
 \item
+  \emph{downcute} est un format HTML proposé par le package \textbf{rmdformats};
+\item
   \emph{pdf\_book} produit un document PDF suivant le modèle LaTeX \emph{article}, couramment utilisé directement en LaTeX;
 \item
   \emph{word\_document2} crée un ficher Word.
 \end{itemize}
 
-\hypertarget{mettre-en-ligne}{%
-\subsubsection{Mettre en ligne}\label{mettre-en-ligne}}
+\hypertarget{sec:article-en-ligne}{%
+\subsubsection{Mettre en ligne}\label{sec:article-en-ligne}}
 
-Le script \texttt{GithubPages.R} fourni avec le modèle place tous les documents tricotés (HTML et PDF) dans le dossier \texttt{docs}, avec une copie du fichier \texttt{README.md}.
+Le package \textbf{memoiR} simplifie la mise en ligne des documents produits.
+
+La fonction \texttt{build\_gitignore()} crée un fichier \texttt{.gitignore} pour le contrôle de source qui doit être activé (voir section \ref{sec:git-cds}).
+
+La fonction \texttt{build\_readme()} crée un fichier \texttt{README.md} nécessaire à GitHub.
+Il contient le titre du projet, son résumé et des liens vers les versions HTML et PDF des documents produits.
+
+Le projet doit être lié à un dépôt GitHub (section \ref{sec:creerdepot}).
+
+Deux stratégies de publications sont possible.
+Dans la première, les documents sont tricotés localement et placés dans le dossier \texttt{docs}, qui sera le support des pages GitHub.
+Dans la seconde, les documents sont tricotés par GitHub Actions à chaque fois que des modifications sont poussées sur le dépôt: on parle d'intégration continue (section \ref{chap:ci}).
+
+La stratégie de production locale est traitée ici; l'intégration continue le sera dans la section \ref{sec:memoiR-ci}.
+
+La fonction \texttt{build\_githubpages()} place tous les documents tricotés (HTML et PDF) dans le dossier \texttt{docs}, avec une copie du fichier \texttt{README.md}.
 De cette façon, il est possible d'activer les pages GitHub du projet (sur le dossier \texttt{docs} de la branche \texttt{master}).
 Le fichier \texttt{README.md} sera la page d'accueil du site web produit.
 
-Le script retourne de nombreux avertissements, sans conséquence, quand un fichier doit être écrasé par exemple.
-
-Pour le projet présenté en exemple, le fichier \texttt{README.md} est le suivant:
-
-\begin{verbatim}
-# Krigeage avec R
-
-Techniques pour interpoler les valeurs d'une variable
-continue.
-
-[Voir le support](https://EricMarcon.github.io/
-Krigeage/Krigeage.html) ou le [télécharger]
-(https://EricMarcon.github.io/Krigeage/Krigeage.pdf)
-\end{verbatim}
-
-La première ligne contient le titre, la seconde une description.
-Les liens pointent vers le fichier HMTL et le fichier PDF produits, tous les deux dans le dossier \texttt{docs}.
-Les liens sont absolus, avec l'adresse complète des fichiers, et non relatifs, parce que le fichier \texttt{README.md} est le même à la racine du projet (affiché par GitHub en dessous du code) et dans le dossier \texttt{docs} (utilisé par les pages GitHuB comme page d'accueil du site).
-
 En pratique, on tricote au format HTML pendant toute la phase de rédaction du mémo, parce que la production est très rapide.
 Quand le document est stabilisé, il faut le tricoter au format HTML et au format PDF.
-Enfin, l'exécution du script \texttt{GithubPages.R} (l'ouvrir et cliquer sur le bouton \emph{Source}) place tous les fichiers produits dans \texttt{docs}.
+Enfin, l'exécution de \texttt{build\_githubpages()} place tous les fichiers produits dans \texttt{docs}.
 Il reste à pousser le dépôt sur GitHub et activer les pages GitHub.
-
-La production des documents a lieu sur le poste de travail, elle n'est pas sous-traitée à un service en ligne (intégration continue, voir plus bas) contrairement à celle des ouvrages, qui nécessitent plus de ressources.
 
 \hypertarget{autres-moduxe8les}{%
 \subsection{Autres modèles}\label{autres-moduxe8les}}
 
-Le modèle \emph{Article} d'\textbf{EcoFoG} est destiné à la production d'articles PDF pour l'autoarchivage (typiquement, le dépôt sur HAL) bien formatés, au format A4 en double colonne\footnote{Exemple: \url{https://EricMarcon.github.io/Rochebrune2018/Entropie.pdf}}.
+Le modèle \emph{Stylish Article} de \textbf{memoiR} est destiné à la production d'articles PDF pour l'autoarchivage (typiquement, le dépôt sur HAL) bien formatés, au format A4 en double colonne\footnote{Exemple: \url{https://EricMarcon.github.io/Rochebrune2018/Entropie.pdf}}.
 
-Le format HTML est le même que celui du modèle de mémo.
+Le format HTML est le même que celui du modèle \emph{Simple Article}.
 
 Le package \textbf{rticles} a pour ambition de fournir des modèles pour toutes les revues scientifiques qui acceptent une soumission d'articles en LaTeX.
 Il propose donc des modèles Markdown qui produisent des fichiers PDF conformes aux exigences des revues et la possibilité de récupérer le fichier \texttt{.tex} intermédiaire (pandoc produit un fichier \texttt{.tex} transmis au compilateur LaTeX).
 Le package ne permet pas de tricot HTML parce qu'il utilise la syntaxe LaTeX dans le document R Markdown au lieu d'utiliser \textbf{bookdown} pour gérer les références bibliographique et les références croisées.
 Il n'est pas possible d'échanger directement du contenu R Markdown standard avec des documents écrits pour \textbf{rticles}, ce qui limite beaucoup l'intérêt du package.
 
-\hypertarget{pruxe9sentation-ecofog-bookdown}{%
-\section{Présentation EcoFoG : bookdown}\label{pruxe9sentation-ecofog-bookdown}}
+\hypertarget{pruxe9sentation-beamer}{%
+\section{Présentation Beamer}\label{pruxe9sentation-beamer}}
 
-Le modèle Présentation EcoFoG permet de créer des présentations au format HTML et PDF (beamer) simultanément, comme le montre l'exemple\footnote{\url{https://EricMarcon.github.io/Chao1/}, choisir Lecture (HTML) ou Téléchargement (PDF).}.
+Le modèle \emph{Beamer Presentation} de \textbf{memoiR} permet de créer des présentations au format HTML et PDF (beamer) simultanément, comme le montre l'exemple\footnote{\url{https://EricMarcon.github.io/Chao1/}, choisir Lecture (HTML) ou Téléchargement (PDF).}.
 
-La démarche est identique à celle du Memo EcoFoG. Les niveaux de titre permettent de séparer les parties de la présentation (\texttt{\#}) et les diapositives (\texttt{\#\#}).
+La démarche est identique à celle des articles du même package.
+Les niveaux de titre permettent de séparer les parties de la présentation (\texttt{\#}) et les diapositives (\texttt{\#\#}).
 Deux formats sont disponibles en HTML: ioslides\footnote{\url{https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html}} et Slidy\footnote{\url{https://bookdown.org/yihui/rmarkdown/slidy-presentation.html}}.
 Quelques spécificités dans le code permettent d'affiner la présentation des diapositives, pour un affichage sur deux colonnes par exemple: elles sont documentées dans le modèle.
 
-\hypertarget{ouvrage-ecofog-bookdown}{%
-\section{Ouvrage EcoFoG : bookdown}\label{ouvrage-ecofog-bookdown}}
+\hypertarget{memoir}{%
+\section{memoir}\label{memoir}}
 
-Le modèle d'ouvrage est destiné aux documents longs, qui présentent une différence importante avec les documents précédents: un document long est composé de plusieurs chapitres, chacun placé dans son fichier \texttt{.Rmd}.
+Le modèle \emph{Memoir} du package \textbf{memoiR} est destiné aux documents longs, qui présentent une différence importante avec les documents précédents: un document long est composé de plusieurs chapitres, chacun placé dans son fichier \texttt{.Rmd}.
 
 Le format HTML est gitbook\footnote{\url{https://www.gitbook.com/}}, le standard de la lecture en ligne de documents de ce type.
 Le format PDF est dérivé du modèle LaTeX \emph{memoir}\footnote{\url{https://www.ctan.org/pkg/memoir}}, optimisé aussi pour les documents longs.
@@ -4865,7 +4868,10 @@ Ce document a été écrit avec ce modèle.
 \hypertarget{cruxe9er-1}{%
 \subsection{Créer}\label{cruxe9er-1}}
 
-La création d'un projet d'ouvrage est identique à celle présentée plus haut: le modèle est: Ouvrage EcoFoG. Le dossier créé doit être transformé en chapitre, comme pour un Memo EcoFoG.
+La création d'un projet d'ouvrage est identique à celle présentée plus haut: le modèle est: \emph{Memoir}.
+Le dossier créé doit être transformé en projet.
+
+Exécuter \texttt{build\_git()} et \texttt{build\_readme()}, activer le contrôle de source et pousser le projet sur GitHub, de la même façon que pour un article (section \ref{sec:article-en-ligne}).
 
 Chaque chapitre de l'ouvrage est un fichier Rmd, dont le nom commence normalement par son numéro (ex.: \texttt{01-intro.Rmd}).
 Tous les fichiers Rmd présents dans le dossier du projet sont en réalité traités comme des chapitres, triés par ordre de nom de fichier, dont ceux fournis par le modèle (démarrage et syntaxe) qui doivent être supprimés à l'exception de \texttt{99-references.Rmd} qui contient la bibliographie, placée à la fin.
@@ -4874,10 +4880,10 @@ Le fichier \texttt{index.Rmd} est particulier: il contient l'entête du document
 \hypertarget{ecrire-2}{%
 \subsection{Ecrire}\label{ecrire-2}}
 
-Ce premier chapitre est placé dans l'avant-propos de l'ouvrage imprimé: il ne doit pas être numéroté (d'où le code \texttt{\{-\}} à côté du titre) dans la version HTML.
+Le premier chapitre est placé dans l'avant-propos de l'ouvrage imprimé: il ne doit pas être numéroté (d'où le code \texttt{\{-\}} à côté du titre) dans la version HTML.
 Il se termine obligatoirement par la commande LaTeX \texttt{\textbackslash{}mainmatter} qui marque le début du corps de l'ouvrage.
 
-Les niveaux de plan commencent sont \texttt{\#} pour les chapitres (un seul par fichier), \texttt{\#\#} pour les sections, etc.
+Les niveaux de plan commencent par \texttt{\#} pour les chapitres (un seul par fichier), \texttt{\#\#} pour les sections, etc.
 
 \hypertarget{tricoter-1}{%
 \subsection{Tricoter}\label{tricoter-1}}
@@ -4890,7 +4896,7 @@ Le livre entier est créé en cliquant sur le bouton \emph{Build Book} de la fen
 La liste déroulante du bouton permet de créer tous les documents ou de se limiter à un format.
 
 Les fichiers produits sont placés directement dans le dossier \texttt{docs}, qui sera utilisé par les pages GitHub pour permettre la lecture en ligne et le téléchargement du PDF.
-La page d'accueil du site web est créée par bookdown à partir du fichier \texttt{index.Rmd}: le fichier \texttt{README.md} n'est pas dupliqué dans \texttt{docs} le script \texttt{GithubPages.R} ne doit pas être utilisé (il n'est pas fourni dans le modèle).
+La page d'accueil du site web est créée par bookdown à partir du fichier \texttt{index.Rmd}: le fichier \texttt{README.md} n'est pas dupliqué dans \texttt{docs}.
 
 \hypertarget{finitions}{%
 \subsection{Finitions}\label{finitions}}
@@ -4911,7 +4917,7 @@ Le fichier `/chemin/`\break`fichier.Rmd`
 En HTML, un espace sera ajouté entre les deux portions de code.
 
 Les bouts de code R sont formatés automatiquement par \textbf{knitr} quand l'option \texttt{tidy=TRUE} leur est appliquée.
-Le comportement par défaut est indiqué dans les options de \textbf{knitr}, dans un bout de code au début de chaque document:
+Le comportement par défaut est indiqué dans les options de \textbf{knitr}, dans un bout de code au début du fichier \texttt{index.Rmd}:
 
 \scriptsize
 
@@ -4931,7 +4937,7 @@ Le comportement par défaut est indiqué dans les options de \textbf{knitr}, dan
 
 \normalsize
 
-La largeur maximale d'une ligne de code formaté est ici de 55 caractères, optimal pour le modèle \enquote{Ouvrage EcoFoG}.
+La largeur maximale d'une ligne de code formaté est ici de 55 caractères, optimal pour le modèle.
 Il arrive que le formatage automatique ne fonctionne pas parce que \textbf{knitr} ne parvient pas à trouver une coupure de ligne respectant toutes les contraintes, ce qui provoque un dépassement de marge dans le code.
 Dans ce cas, formater manuellement le bout de code en lui ajoutant l'option \texttt{tidy=FALSE}.
 
@@ -5067,7 +5073,7 @@ L'icône de GitHub fait partie de la collection Font Awesome dont toutes les ic�
 
 Le lien correspondant à l'icône doit être celui du dépôt GitHub du site web.
 
-La syntaxe de la section \texttt{output} est la même que celle des documents vus plus haut, comme le mémo EcoFoG.
+La syntaxe de la section \texttt{output} est la même que celle des documents vus plus haut.
 Elle s'applique à toutes les pages (dont l'entête YAML est réduite au minimum).
 Les thèmes disponibles sont ceux de rmarkdown\footnote{\url{https://bookdown.org/yihui/rmarkdown/html-document.html\#appearance-and-style}}.
 
@@ -5111,7 +5117,7 @@ Un site Hugo peut être hébergé par exemple sur la page personnelle de tout ut
 
 Hugo propose de nombreux thèmes, qui sont des modèles de structure de sites, donc le thème \textbf{Academic}, destiné aux chercheurs.
 Dans RStudio, le package \textbf{blogdown} est prévu pour produire facilement des pages web avec Hugo.
-Ces pages peuvent contenir du code R: elles sont très proches d'un Memo EcoFoG dont le contenu peut être facilement copié et collé.
+Ces pages peuvent contenir du code R: elles sont très proches d'un article, vu plus haut, dont le contenu peut être facilement copié et collé.
 Nous utiliserons donc cette solution, pour un site comme celui proposé en exemple\footnote{\url{https://EricMarcon.github.io/}}.
 
 La structure du site web est simple:
@@ -6743,7 +6749,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7f8d3ee04d68>
+## <bytecode: 0x7fc6efde7fc8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7026,9 +7032,9 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 \begin{verbatim}
 ## Unit: nanoseconds
 ##                expr  min   lq     mean median     uq     max neval
-##  triple.integer(2L)  309  323   388.90  344.5  412.5    1226   100
-##   triple.numeric(2)  307  323 18572.14  345.0  405.5 1819876   100
-##          triple(2L) 1306 1357 22615.50 1396.0 1433.0 2116123   100
+##  triple.integer(2L)  295  312   359.57  324.5  368.5    1221   100
+##   triple.numeric(2)  293  311 18317.62  321.5  373.0 1797464   100
+##          triple(2L) 1285 1320 22352.43 1340.5 1396.0 2085982   100
 \end{verbatim}
 
 \normalsize
@@ -7166,7 +7172,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-97-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-96-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7174,7 +7180,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-97-2} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-96-2} \end{center}
 
 \normalsize
 
@@ -8217,7 +8223,7 @@ Elle utilise une variable d'environnement, \texttt{GITHUB\_TOKEN}, pour s'authen
 \hypertarget{moduxe8les-de-scripts}{%
 \section{Modèles de scripts}\label{moduxe8les-de-scripts}}
 
-Des modèles de scripts pour tous les types de projets sont présentés ici, en commençant par la version complète du précédent.
+Des modèles de scripts pour tous les types de projets sont présentés ici.
 Tous nécessitent même préparation:
 
 \begin{itemize}
@@ -8238,89 +8244,25 @@ Supprimer ensuite le dossier \texttt{docs} s'il existait, pousser la modificatio
 docs/
 \end{verbatim}
 
+\hypertarget{sec:memoiR-ci}{%
+\subsection{memoiR}\label{sec:memoiR-ci}}
+
+La fonction \texttt{build\_ghworkflow()} du package \textbf{memoiR} crée automatiquement les scripts nécessaires à la production des modèles du package.
+Le script est toujours nommé \texttt{memoir.yml}.
+
+Ces scripts n'utilisent ni \textbf{renv} ni cache.
+Ils n'ont pas besoin d'un fichier \texttt{DESCRIPTION} pour l'installation des dépendances mais chaque document doit contenir son le bout de code de paramétrage (\texttt{Options}) la liste de tous les packages nécessaires à son tricot (stockés dans la variable \texttt{Packages}).
+
 \hypertarget{sec:bookdown-ci}{%
 \subsection{Projet d'ouvrage}\label{sec:bookdown-ci}}
 
-Le flux de travail s'appelle \texttt{bookdown}; sa tâche de production \texttt{renderbook}.
-Le fichier est \texttt{bookdown.yml}.
-
-\begin{verbatim}
-on:
-  push:
-     branches:
-       - master
-
-name: bookdown
-
-jobs:
-  renderbook:
-    runs-on: macOS-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-      - name: Setup R
-        uses: r-lib/actions/setup-r@v1
-        with:
-          crayon.enabled: 'FALSE'
-      - name: Install pandoc
-        uses: r-lib/actions/setup-pandoc@v1
-      - name: Install dependencies
-        run: |
-          options(pkgType = "binary")
-          options(install.packages.check.source = "no")
-          install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
-          tinytex::install_tinytex()
-          remotes::install_deps(dependencies = TRUE)
-        shell: Rscript {0}
-      - name: Render pdf book
-        run: |
-          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
-        shell: Rscript {0}
-      - name: Render gitbook
-        run: |
-          bookdown::render_book("index.Rmd", "bookdown::gitbook")
-        shell: Rscript {0}
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: _book
-          path: docs/
-  checkout-and-deploy:
-    runs-on: ubuntu-latest
-    needs: renderbook
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Download artifact
-        uses: actions/download-artifact@v1
-        with:
-          # Artifact name
-          name: _book
-          # Destination path
-          path: docs
-      - name: Deploy to GitHub Pages
-        uses: Cecilapp/GitHub-Pages-deploy@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-        with:
-          email: ${{ secrets.EMAIL }}
-          build_dir: docs
-          jekyll: no
-\end{verbatim}
-
-\textbf{Renv} n'est pas utilisé.
-
-\hypertarget{sec:rmarkdown-ci}{%
-\subsection{Mémos et présentatons}\label{sec:rmarkdown-ci}}
-
 Le flux de travail s'appelle \texttt{rmarkdown}; sa tâche de production \texttt{render}.
-Le fichier est \texttt{rmarkdown.yml}.
 
 \begin{verbatim}
 on:
   push:
-     branches:
-       - master
+   branches:
+     - master
 
 name: rmarkdown
 
@@ -8338,22 +8280,22 @@ jobs:
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
-          install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
+          install.packages(c("memoiR", "rmdformats", "tinytex"))
           tinytex::install_tinytex()
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_github("EcoFoG/EcoFoG")
         shell: Rscript {0}
-      - name: Render Rmarkdown files
+      - name: Render pdf book
         run: |
-          RMD_PATH=($(ls | grep '[.]Rmd$'))
-          Rscript -e 'for (file in commandArgs(TRUE)) rmarkdown::render(file, "all")' ${RMD_PATH[*]}
-          Rscript -e 'source("GithubPages.R")'
-          echo 'theme: jekyll-theme-slate' > docs/_config.yml
+          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
+        shell: Rscript {0}
+      - name: Render gitbook
+        run: |
+          bookdown::render_book("index.Rmd", "bookdown::gitbook")
+        shell: Rscript {0}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: _docs
-          path: docs/
+          name: ghpages
+          path: docs
   checkout-and-deploy:
     runs-on: ubuntu-latest
     needs: render
@@ -8363,9 +8305,68 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v1
         with:
-          # Artifact name
-          name: _docs
-          # Destination path
+          name: ghpages
+          path: docs
+      - name: Deploy to GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          email: ${{ secrets.EMAIL }}
+          build_dir: docs
+          jekyll: no
+\end{verbatim}
+
+\hypertarget{articles-et-pruxe9sentations}{%
+\subsection{Articles et présentations}\label{articles-et-pruxe9sentations}}
+
+Le flux de travail s'appelle \texttt{rmarkdown}; sa tâche de production \texttt{render}.
+
+\begin{verbatim}
+on:
+  push:
+   branches:
+     - master
+
+name: rmarkdown
+
+jobs:
+  render:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
+      - name: Install dependencies
+        run: |
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("memoiR", "rmdformats", "tinytex"))
+          tinytex::install_tinytex()
+        shell: Rscript {0}
+      - name: Render Rmarkdown files
+        run: |
+          RMD_PATH=($(ls | grep "[.]Rmd$"))
+          Rscript -e 'for (file in commandArgs(TRUE)) rmarkdown::render(file, "all")' ${RMD_PATH[*]}
+          Rscript -e 'memoiR::build_githubpages()'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ghpages
+          path: docs
+  checkout-and-deploy:
+    runs-on: ubuntu-latest
+    needs: render
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: ghpages
           path: docs
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
@@ -8377,10 +8378,8 @@ jobs:
           jekyll: yes
 \end{verbatim}
 
-Les modèles Memo, Article et Presentation, contrairement aux ouvrages, ont besoin du package EcoFoG pour leur tricot.
-Il est installé par le script.
-
-L'étape chargée du tricot utilise un script pour lister tous les fichiers \texttt{.Rmd}, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits), exécuter le script \texttt{GithubPages.R} (voir section \ref{sec:memo}) et configurer le thème des pages GitHub.
+L'étape chargée du tricot utilise un script pour lister tous les fichiers \texttt{.Rmd}, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits).
+La fonction \texttt{build\_githubpages()} (voir section \ref{sec:memo}) place les résultat dans \texttt{docs}.
 
 La tâche de déploiement indique aux pages GitHub d'utiliser Jekyll, c'est-à-dire d'utiliser le fichier \texttt{README.md} comme page d'accueil.
 
