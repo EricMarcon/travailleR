@@ -95,7 +95,9 @@ Ces modèles créent un seul fichier dont l'enregistrement ne sera obligatoire q
 La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
-    date: "`r Sys.Date()`"
+```
+date: "`r Sys.Date()`"
+```
 
 Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
 Il commence par un guillemet inversé suivi de `r`et se termine par un autre guillement inversé.
@@ -275,15 +277,19 @@ Dans tous les cas, l'appel à la référence est fait par la commande `\@ref(ref
 
 Les références bibliographiques au format bibtex doivent être incluses dans le fichier `.bib` déclaré dans l'entête du document Markdown.
 
-    bibliography: references.bib
+```
+bibliography: references.bib
+```
 
 Elles peuvent être appelées dans le texte, entre parenthèses par le code `[@Reference]`, ou dans le texte, en supprimant les crochets.
 
 La bibliographie est traitée par pandoc lors de la production de documents Word ou HTML.
 Le style bibliographique peut être précisé, en ajoutant la ligne 
 
-    csl:nom_du_fichier.csl
-    
+```
+csl:nom_du_fichier.csl
+```
+
 dans l'entête du document et en copiant le fichier de style _.csl_ dans le dossier du projet.
 Plus d'un millier de styles sont disponibles [^401].
 
@@ -476,7 +482,9 @@ La commande n'a aucun effet sur le document HTML mais force la césure en LaTeX.
 Pour couper du texte formaté (entre astérisques pour l'italique ou plus fréquemment entre apostrophes inversées pour du code), il faut terminer le formatage avant `\break` et le recommencer après.
 Exemple, pour forcer le retour à la ligne avant `fichier.Rmd`:
 
-    Le fichier `/chemin/`\break`fichier.Rmd`
+```
+Le fichier `/chemin/`\break`fichier.Rmd`
+```
 
 En HTML, un espace sera ajouté entre les deux portions de code.
 
@@ -593,25 +601,26 @@ Le modèle de site peut facilement être amélioré en complétant `_site.yml`:
 -   en plaçant les fichiers du site dans le dossier `docs` et ainsi séparer le code et la production.
 
 Le fichier `_site.yml` complété est le suivant:
-
-    name: "my-website"
-    navbar:
-      title: "My Website"
-      left:
-        - text: "Home"
-          href: index.html
-        - text: "About"
-          href: about.html
-      right:
-        - icon: fa-github
-          href: https://github.com/rstudio/rmarkdown
-    output_dir: "docs"
-    output:
-      bookdown::html_document2:
-        theme: sandstone
-        highlight: tango
-        toc: true
-        toc_float: yes
+```
+name: "my-website"
+navbar:
+  title: "My Website"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+  right:
+    - icon: fa-github
+      href: https://github.com/rstudio/rmarkdown
+output_dir: "docs"
+output:
+  bookdown::html_document2:
+    theme: sandstone
+    highlight: tango
+    toc: true
+    toc_float: yes
+```
 
 L'icône de GitHub fait partie de la collection Font Awesome dont toutes les icônes gratuites[^rediger-19] sont utilisables avec la même syntaxe: "fa-nom".
 
@@ -631,25 +640,29 @@ Enfin, la table des matières est flottante, ce qui signifie que sa position s'a
 ### Contôle de source
 
 Le projet doit être placé sous contrôle de source et poussé sur GitHub (chapitre \@ref(chap:git)).
-Le fichier `.gitignore` est le suivant :
+Le fichier `.gitignore` est le suivant:
 
-    # R
-    .Rbuildignore
-    .RData
-    .Rhistory
-    .Rprofile
-    .Rproj.user
+```
+# R
+.Rbuildignore
+.RData
+.Rhistory
+.Rprofile
+.Rproj.user
 
-    # Web Site
-    /_site/
-    /*_cache/
-    /*_files/
+# Web Site
+/_site/
+/*_cache/
+/*_files/
+```
 
 Activer les pages GitHub (section \@ref(sec:github-pages)) sur le dossier `docs` pour héberger le site.
 Ajouter un fichier vide nommé `.nojekyll` dans `docs` pour que les pages GitHub ne tentent pas de reformater le site.
 On peut utiliser le terminal de RStudio pour exécuter:
 
-    touch docs/.nojekyll
+```
+touch docs/.nojekyll
+```
 
 
 ## Site web personnel : blogdown {#sec:blogdown}
@@ -729,24 +742,26 @@ RStudio ajoute automatiquement à la fin du fichier `.gitignore` une ligne pour 
 Ajouter une ligne de commentaire pour le signaler.
 Le contenu de `.gitignore` doit être le suivant:
 
-    # R
-    .Rbuildignore
-    .RData
-    .Rhistory
-    .Rprofile
-    .Rproj.user
+```
+# R
+.Rbuildignore
+.RData
+.Rhistory
+.Rprofile
+.Rproj.user
 
-    # Hugo
-    /resources/
-    /public/
+# Hugo
+/resources/
+/public/
 
-    # blogdown
-    /static/en/
-    /static/fr/
-    *.rmarkdown
-    _index.html
-    index.html
-    **/index_files/
+# blogdown
+/static/en/
+/static/fr/
+*.rmarkdown
+_index.html
+index.html
+**/index_files/
+```
 
 Un bug de **blogdown** nécessite de déplacer le fichier `config/_default/config.toml` à la racine du projet.
 
@@ -832,30 +847,36 @@ baseurl = "https://EricMarcon.github.io/"
 
 Il contient aussi la ligne de sélection de la langue par défaut ("en" ou "fr" au choix) et celle qui permet de placer les fichiers produits par Hugo dans chaque dossier de langue ("true" obligatoirement pour un site multilingue):
 
-    defaultContentLanguage = "fr"
-    defaultContentLanguageInSubdir = true
+```
+defaultContentLanguage = "fr"
+defaultContentLanguageInSubdir = true
+```
 
 Le dossier `config/_default/` contient les autres fichiers de configuration.
 
 `languages.toml` contient les paramètres linguistiques et les traductions de menus.
 Pour chaque langue, la version utilisée et le dossier de contenu sont précisés:
 
-    [en]
-      languageCode = "en-us"
-      contentDir = "content/en"
-    [fr]
-      languageCode = "fr-fr"
-      contentDir = "content/fr"
+```
+[en]
+  languageCode = "en-us"
+  contentDir = "content/en"
+[fr]
+  languageCode = "fr-fr"
+  contentDir = "content/fr"
+```
 
 Pour les langues additionnelles, le titre du site, les paramètres d'affichage des dates et la traduction des menus sont ajoutés.
 Dans la section `[fr]`:
 
-    [en]
-      languageCode = "en-us"
-      contentDir = "content/en"
-    [fr]
-      languageCode = "fr-fr"
-      contentDir = "content/fr"
+```
+[en]
+  languageCode = "en-us"
+  contentDir = "content/en"
+[fr]
+  languageCode = "fr-fr"
+  contentDir = "content/fr"
+```
 
 Ces lignes sont commentées dans le modèle et doivent dont être décommentées en retirant les `#` en têtes de lignes.
 
@@ -865,7 +886,9 @@ Les menus sont décrits plus bas.
 Les options sont regroupées par sujet, par exemple "Theme" pour l'apparence générale.
 Dans "Basic Info", la ligne
 
-    site_type = "Person"
+```
+site_type = "Person"
+```
 
 sélectionne un site personnel.
 Il est possible d'utiliser Academic pour un site de projet scientifique ou un site d'unité, non documentés en détail ici.
@@ -876,15 +899,19 @@ Les principales différences sont, pour un site collectif:
 
 La description du site dans la langue par défaut est saisie, à destination des moteurs de recherche:
 
-    description = "Eric Marcon's Homepage"
+```
+description = "Eric Marcon's Homepage"
+```
 
 Elle doit être traduite dans le fichier `languages.toml`, dans chaque langue.
 
 Dans "Site Features", nous sélectionnons la coloration du code R, l'activation du formatage des équations et l'avertissement légal pour l'utilisation des cookies.
 
-    highlight_languages = ["r"] 
-    math = true
-    privacy_pack = true
+```
+highlight_languages = ["r"] 
+math = true
+privacy_pack = true
+```
 
 La ligne `edit_page` doit être mise à jour: remplacer le dépôt par défaut "<https://github.com/gcushen/hugo-academic>" par celui du site.
 
@@ -923,13 +950,14 @@ Chaque élément est décrit par un fichier markdown.
 Le premier est `index.md`.
 Il n'est normalement jamais modifié.
 Son contenu est le suivant:
-
-    +++
-    # Homepage
-    type = "widget_page"
-    headless = true  # Homepage is headless, other widget 
-    pages are not.
-    +++
+```
++++
+# Homepage
+type = "widget_page"
+headless = true  # Homepage is headless, other widget 
+pages are not.
++++
+```
 
 Le fichier ne contient qu'un entête au format TOML, encadré par une ligne de `+++`.
 Le type de composant (`type`) indique qu'il s'agit d'une page de composants, dans laquelle les autres composants du dossier trouveront leur place.
@@ -946,7 +974,9 @@ L'entête contient ses informations de formatage (titre, nombre de colonnes, cou
 Les composants apparaissent par ordre croissant de poids (`weight` dans l'entête): 15 marque le premier composant dans le modèle Academic.
 Le composant peut être désactivé en supprimant son fichier ou en modifiant sa propriété `active` dans l'entête:
 
-    active = false  # Activate this widget? true/false
+```
+active = false  # Activate this widget? true/false
+```
 
 (ref:rediger-about) Composant `about` dans Academic.
 
@@ -959,7 +989,9 @@ Il présente le propriétaire du site.
 Son titre doit être localisé.
 Dans le dossier `/content/fr/home`, sa valeur sera:
 
-    title = "Biographie"
+```
+title = "Biographie"
+```
 
 L'auteur (`author`) doit correspondre à un dossier de `/contents/<langue>/authors`.
 `admin` convient parfaitement pour un site personnel.
@@ -1003,14 +1035,18 @@ Les composants `publications` et `featured` sont de type "pages" et "portfolio" 
 
 Le composant `tags` présente un nuage de mots à partir des mots-clés déclarés dans tous les fichiers de contenu (billets de blog, publications...) sous la forme suivante dans leur entête:
 
-    tags = ["Mot Clé 1", "Autre Mot Clé"]
+```
+tags = ["Mot Clé 1", "Autre Mot Clé"]
+```
 
 Enfin, le composant `contact` permet d'afficher un formulaire de contact.
 Il utilise les informations du fichier `config/_default/params.toml` dans sa partie commençant par:
 
-    ############################
-    ## Contact details
-    ##
+```
+############################
+## Contact details
+##
+```
 
 Pour afficher une carte, entrer la latitude et la longitude de l'adresse dans la ligne `coordinates`.
 Pour afficher un formulaire de messagerie, choisir le service *formspree.io* (`email_form = 2` dans `contact.md`).
@@ -1028,27 +1064,31 @@ Les éléments du menu ont un nom affiché, un lien (commençant par `#` pour po
 
 Un menu à deux éléments pour pointer vers l'accueil du site et les billets de blogs est donc le suivant:
 
-    [[main]]
-      name = "Home"
-      url = "#about"
-      weight = 10
+```
+[[main]]
+  name = "Home"
+  url = "#about"
+  weight = 10
 
-    [[main]]
-      name = "Posts"
-      url = "#posts"
-      weight = 20
+[[main]]
+  name = "Posts"
+  url = "#posts"
+  weight = 20
+```
 
 Le menu doit être traduit dans chaque langue dans le fichier `config/_default/languages.toml`:
 
-    [fr]
-      [[fr.menu.main]]
-        name = "Accueil"
-        url = "#about"
-        weight = 10
-      [[fr.menu.main]]
-        name = "Articles"
-        url = "#posts"
-        weight = 20
+```
+[fr]
+  [[fr.menu.main]]
+    name = "Accueil"
+    url = "#about"
+    weight = 10
+  [[fr.menu.main]]
+    name = "Articles"
+    url = "#posts"
+    weight = 20
+```
 
 #### Billets
 
@@ -1175,10 +1215,12 @@ Des boutons sont affichés en haut de la page de la publication en fonction des 
 Le corps de la publication contient un lien (au format HTML) vers le site Dimension qui fournit des informations bibliométriques.
 Ce lien peut être réutilisé très simplement, en remplaçant simplement le DOI du document:
 
-    <span class="__dimensions_badge_embed__" 
-      data-doi="10.1093/jeg/lbg016"></span>
-    <script async src="https://badge.dimensions.ai/
-      badge.js" charset="utf-8"></script>
+```
+<span class="__dimensions_badge_embed__" 
+  data-doi="10.1093/jeg/lbg016"></span>
+<script async src="https://badge.dimensions.ai/
+  badge.js" charset="utf-8"></script>
+```
 
 Enfin, un fichier `/contents/<langue>/publications/`\break`_index.Rmd` permet de présenter la bibliographie complète.
 Il est accessible à partir du composant `publications` de la page d'accueil qui affiche un lien "Plus de Publications".
