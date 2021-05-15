@@ -388,7 +388,7 @@ Pour ne pas exposer l'adresse publiquement, elle a été stockée dans un secret
 
 ## Modèles de scripts
 
-Des modèles de scripts pour tous les types de projets sont présentés ici, en commençant par la version complète du précédent.
+Des modèles de scripts pour tous les types de projets sont présentés ici.
 Tous nécessitent même préparation:
 
 - les secrets `GH_PAT` et `EMAIL` doivent être enregistrés dans le projet GitHub (section \@ref(sec:secrets-ci));
@@ -402,88 +402,25 @@ Supprimer ensuite le dossier `docs` s'il existait, pousser la modification sur G
 docs/
 ```
 
+### memoiR {#sec:memoiR-ci}
+
+La fonction `build_ghworkflow()` du package **memoiR** crée automatiquement les scripts nécessaires à la production des modèles du package.
+Le script est toujours nommé `memoir.yml`.
+
+Ces scripts n'utilisent ni **renv** ni cache.
+Ils n'ont pas besoin d'un fichier `DESCRIPTION` pour l'installation des dépendances mais chaque document doit contenir son le bout de code de paramétrage (`Options`) la liste de tous les packages nécessaires à son tricot (stockés dans la variable `Packages`).
+
+
+
 ### Projet d'ouvrage {#sec:bookdown-ci}
 
-Le flux de travail s'appelle `bookdown`; sa tâche de production `renderbook`.
-Le fichier est `bookdown.yml`.
-
-```
-on:
-  push:
-     branches:
-       - master
-
-name: bookdown
-
-jobs:
-  renderbook:
-    runs-on: macOS-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-      - name: Setup R
-        uses: r-lib/actions/setup-r@v1
-        with:
-          crayon.enabled: 'FALSE'
-      - name: Install pandoc
-        uses: r-lib/actions/setup-pandoc@v1
-      - name: Install dependencies
-        run: |
-          options(pkgType = "binary")
-          options(install.packages.check.source = "no")
-          install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
-          tinytex::install_tinytex()
-          remotes::install_deps(dependencies = TRUE)
-        shell: Rscript {0}
-      - name: Render pdf book
-        run: |
-          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
-        shell: Rscript {0}
-      - name: Render gitbook
-        run: |
-          bookdown::render_book("index.Rmd", "bookdown::gitbook")
-        shell: Rscript {0}
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: _book
-          path: docs/
-  checkout-and-deploy:
-    runs-on: ubuntu-latest
-    needs: renderbook
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Download artifact
-        uses: actions/download-artifact@v1
-        with:
-          # Artifact name
-          name: _book
-          # Destination path
-          path: docs
-      - name: Deploy to GitHub Pages
-        uses: Cecilapp/GitHub-Pages-deploy@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-        with:
-          email: ${{ secrets.EMAIL }}
-          build_dir: docs
-          jekyll: no
-```
-
-**Renv** n'est pas utilisé.
-
-
-### Mémos et présentatons {#sec:rmarkdown-ci}
-
 Le flux de travail s'appelle `rmarkdown`; sa tâche de production `render`.
-Le fichier est `rmarkdown.yml`.
 
 ```
 on:
   push:
-     branches:
-       - master
+   branches:
+     - master
 
 name: rmarkdown
 
@@ -501,22 +438,22 @@ jobs:
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
-          install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
+          install.packages(c("memoiR", "rmdformats", "tinytex"))
           tinytex::install_tinytex()
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_github("EcoFoG/EcoFoG")
         shell: Rscript {0}
-      - name: Render Rmarkdown files
+      - name: Render pdf book
         run: |
-          RMD_PATH=($(ls | grep '[.]Rmd$'))
-          Rscript -e 'for (file in commandArgs(TRUE)) rmarkdown::render(file, "all")' ${RMD_PATH[*]}
-          Rscript -e 'source("GithubPages.R")'
-          echo 'theme: jekyll-theme-slate' > docs/_config.yml
+          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
+        shell: Rscript {0}
+      - name: Render gitbook
+        run: |
+          bookdown::render_book("index.Rmd", "bookdown::gitbook")
+        shell: Rscript {0}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: _docs
-          path: docs/
+          name: ghpages
+          path: docs
   checkout-and-deploy:
     runs-on: ubuntu-latest
     needs: render
@@ -526,9 +463,68 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v1
         with:
-          # Artifact name
-          name: _docs
-          # Destination path
+          name: ghpages
+          path: docs
+      - name: Deploy to GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          email: ${{ secrets.EMAIL }}
+          build_dir: docs
+          jekyll: no
+```
+
+
+### Articles et présentations
+
+Le flux de travail s'appelle `rmarkdown`; sa tâche de production `render`.
+
+```
+on:
+  push:
+   branches:
+     - master
+
+name: rmarkdown
+
+jobs:
+  render:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v1
+      - name: Install dependencies
+        run: |
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("memoiR", "rmdformats", "tinytex"))
+          tinytex::install_tinytex()
+        shell: Rscript {0}
+      - name: Render Rmarkdown files
+        run: |
+          RMD_PATH=($(ls | grep "[.]Rmd$"))
+          Rscript -e 'for (file in commandArgs(TRUE)) rmarkdown::render(file, "all")' ${RMD_PATH[*]}
+          Rscript -e 'memoiR::build_githubpages()'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ghpages
+          path: docs
+  checkout-and-deploy:
+    runs-on: ubuntu-latest
+    needs: render
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: ghpages
           path: docs
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
@@ -540,10 +536,8 @@ jobs:
           jekyll: yes
 ```
 
-Les modèles Memo, Article et Presentation, contrairement aux ouvrages, ont besoin du package EcoFoG pour leur tricot.
-Il est installé par le script.
-
-L'étape chargée du tricot utilise un script pour lister tous les fichiers `.Rmd`, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits), exécuter le script `GithubPages.R` (voir section \@ref(sec:memo)) et configurer le thème des pages GitHub.
+L'étape chargée du tricot utilise un script pour lister tous les fichiers `.Rmd`, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits).
+La fonction `build_githubpages()` (voir section \@ref(sec:memo)) place les résultat dans `docs`.
 
 La tâche de déploiement indique aux pages GitHub d'utiliser Jekyll, c'est-à-dire d'utiliser le fichier `README.md` comme page d'accueil.
 

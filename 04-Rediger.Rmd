@@ -15,10 +15,10 @@ Le langage qui permet de formater le texte est Markdown[^rediger-1], un langage 
 
 [^rediger-1]: <https://fr.wikipedia.org/wiki/Markdown>
 
--   Les paragraphes sont séparés par des sauts de ligne;
--   Le document est structuré par des titres: leur ligne commence par un nombre de `#` correspondant à leur niveau;
--   Les formats de caractères sont limités à l'essentiel: italique ou gras (texte entouré par une ou deux `*`);
--   D'autres codes simples permettent tous les formatages utiles.
+- Les paragraphes sont séparés par des sauts de ligne;
+- Le document est structuré par des titres: leur ligne commence par un nombre de `#` correspondant à leur niveau;
+- Les formats de caractères sont limités à l'essentiel: italique ou gras (texte entouré par une ou deux `*`);
+- D'autres codes simples permettent tous les formatages utiles.
 
 Ce langage est le pivot du logiciel pandoc[^rediger-2], dédié à la conversion de documents de formats différents.
 
@@ -132,17 +132,13 @@ Enfin, les légendes de figures ou tableaux ne supportent que du texte brut, san
 Le package a été conçu pour la rédaction d'ouvrages comportant plusieurs chapitres mais peut être utilisé pour des articles.
 Le package ne fournit pas directement de modèles.
 
-Le package **EcoFoG** disponible sur GitHub fournit les modèles présentés ici.
-Il doit être installé:
-
-```{r, eval=FALSE}
-remotes::install_github("EcoFoG/EcoFoG")
-```
+Le package **memoiR** fournit les modèles présentés ici.
+Il doit être installé.
 
 ### Ecrire
 
 Les principales caractéristiques de Markdown sont résumées ici.
-Une formation rapide et complète est proposée par RStudio[^402].
+Une formation rapide et plus complète est proposée par RStudio[^402].
 
 [^402]: https://rmarkdown.rstudio.com/lesson-1.html
 
@@ -289,22 +285,28 @@ Le style bibliographique peut être précisé, en ajoutant la ligne
     csl:nom_du_fichier.csl
     
 dans l'entête du document et en copiant le fichier de style _.csl_ dans le dossier du projet.
-Plus d'un millier de styles sont disponibles [^41].
+Plus d'un millier de styles sont disponibles [^401].
 
-[^41]: <https://github.com/citation-style-language/styles>
+[^401]: <https://github.com/citation-style-language/styles>
 
 Pour les documents PDF, la bibliographie est gérée par LaTeX.
-Le style est inclus dans le modèle EcoFoG: c'est celui de _Methods in Ecology and Evolution_.
-Il ne peut pas être changé, pour assurer l'homogénéité des documents produits.
 
 Pour préparer la soumission d'un manuscrit à une revue, il faudra ouvrir le fichier _.tex_ intermédiaire produit par pandoc et copier le contenu de l'environnement \{document\} dans le modèle proposé par la revue, qui se chargera du formatage.
 
 
 #### Langues
 
-L'Anglais et le Français sont supportés, à déclarer dans l'entête du document.
+Les langues sont à déclarer dans l'entête des document produits par les modèles de **memoiR**.
 
 La langue principale du document modifie le nom de certains éléments, comme la table des matières.
+Les langues supplémentaires permettent la rédaction de documents multilingues.
+
+Les champs de l'entête sont:
+```
+lang: fr-FR
+otherlangs: [en-US, it]
+```
+
 Le changement de langue dans le document est géré en LaTeX mais pas en HTML en insérant sur une nouvelle ligne la commande suivante : 
 ```
 \selectlanguage{english}
@@ -313,15 +315,19 @@ Le changement de langue dans le document est géré en LaTeX mais pas en HTML en
 La langue en cours n'a d'effet que dans les sorties LaTeX: un espace est ajouté devant les ponctuations doubles en Français, la taille des espaces est plus grande en début de phrase en Anglais, etc.
 La commande `\selectlanguage` est simplement ignorée en HTML.
 
-Les modèles EcoFoG utilisent le package LaTeX _babel_ qui reconnaît les noms de langue _french_ et _english_.
-Pandoc utilise en revanche les codes IETF _fr-FR_ ou _en-US_ pour un support linguistique limité en HTML.
-Les deux paramètres doivent donc être saisis dans l'entête du document.
+Les noms de langues sont différents dans l'entête (codes IETF) et dans le texte (nom de la langue).
+La correspondance et la liste complète des langues se trouve dans le tableau 3 de la documentation du package **polyglossia**[^403].
+
+[^403]: http://mirrors.ctan.org/macros/unicodetex/latex/polyglossia/polyglossia.pdf
 
 
-### Modèle Memo EcoFoG {#sec:memo}
+### Modèle Simple Article {#sec:memo}
 
-Le modèle Memo EcoFoG produit un document HTML simple avec une table des matières flottante (voir l'exemple[^rediger-10]).
+Le modèle *Simple Article* de **memoiR** produit un document HTML simple avec une table des matières flottante (voir l'exemple[^rediger-10]).
+D'autres formats HTML sont disponibles: voir la gallerie[^404] du package.
 Le format PDF est proche du modèle *article* de LaTeX (exemple[^rediger-11]).
+
+[^404]: https://ericmarcon.github.io/memoiR/
 
 [^rediger-10]: <https://EricMarcon.github.io/Krigeage/Krigeage.html>
 
@@ -334,13 +340,13 @@ Le modèle contient sa propre documentation.
 Utiliser le menu "File > New File > R Markdown..." puis sélectionner "From template" (figure \@ref(fig:e-rmd1)).
 La liste des modèles disponible et le package qui les propose est alors affichée.
 
-Sélectionner le modèle Memo EcoFoG du package **EcoFoG**, choisir le nom du projet ("Name:", qui sera le nom du dossier dans lequel il sera créé, et son dossier parent ("Location:").
+Sélectionner le modèle *Simple Article* du package **memoiR**, choisir le nom du projet ("Name:", qui sera le nom du dossier dans lequel il sera créé, et son dossier parent ("Location:").
 Dans l'organisation proposée en section \@ref(sec:solution-dossiers), le dossier parent est `%LOCALAPPDATA%\ProjetsR`.
 Le nom du projet ne doit contenir aucun caractère spécial (accent, espace...) pour assurer sa portabilité sur tous les systèmes d'exploitation (Windows, Linux, MacOS).
 
 Les modèles élaborés créent un dossier avec de nombreux fichiers (bibliographie, styles, modèle LaTex...), contrairement aux modèles simples qui créent seulement un fichier.
 
-Quand un dossier est créé, par exemple par le modèle Memo EcoFoG, il faut en faire un projet RStudio: dans le menu des projets (en haut à droite de la fenêtre de RStudio), utiliser le menu "New Project..." puis "Existing Directory" et sélectionner le dossier qui vient d'être créé.
+Quand un dossier est créé, par exemple par le modèle *Simple Article*, il faut en faire un projet RStudio: dans le menu des projets (en haut à droite de la fenêtre de RStudio), utiliser le menu "New Project..." puis "Existing Directory" et sélectionner le dossier qui vient d'être créé.
 
 #### Ecrire
 
@@ -353,59 +359,60 @@ Le document peut être tricoté en plusieurs formats:
 
 -   *html_document2* est le format HTML pour lequel le modèle a été conçu: un bloc-note avec une table des matières flottante;
 -   *gitbook* est un format HTML alternatif, utilisé normalement pour les ouvrages;
+-   *downcute* est un format HTML proposé par le package **rmdformats**;
 -   *pdf_book* produit un document PDF suivant le modèle LaTeX *article*, couramment utilisé directement en LaTeX;
 -   *word_document2* crée un ficher Word.
 
-#### Mettre en ligne
 
-Le script `GithubPages.R` fourni avec le modèle place tous les documents tricotés (HTML et PDF) dans le dossier `docs`, avec une copie du fichier `README.md`.
+#### Mettre en ligne {#sec:article-en-ligne}
+
+Le package **memoiR** simplifie la mise en ligne des documents produits.
+
+La fonction `build_gitignore()` crée un fichier `.gitignore` pour le contrôle de source qui doit être activé (voir section \@ref(sec:git-cds)).
+
+La fonction `build_readme()` crée un fichier `README.md` nécessaire à GitHub.
+Il contient le titre du projet, son résumé et des liens vers les versions HTML et PDF des documents produits.
+
+Le projet doit être lié à un dépôt GitHub (section \@ref(sec:creerdepot)).
+
+Deux stratégies de publications sont possible. 
+Dans la première, les documents sont tricotés localement et placés dans le dossier `docs`, qui sera le support des pages GitHub.
+Dans la seconde, les documents sont tricotés par GitHub Actions à chaque fois que des modifications sont poussées sur le dépôt: on parle d'intégration continue (section \@ref(chap:ci)).
+
+La stratégie de production locale est traitée ici; l'intégration continue le sera dans la section \@ref(sec:memoiR-ci).
+
+La fonction `build_githubpages()` place tous les documents tricotés (HTML et PDF) dans le dossier `docs`, avec une copie du fichier `README.md`.
 De cette façon, il est possible d'activer les pages GitHub du projet (sur le dossier `docs` de la branche `master`).
 Le fichier `README.md` sera la page d'accueil du site web produit.
 
-Le script retourne de nombreux avertissements, sans conséquence, quand un fichier doit être écrasé par exemple.
-
-Pour le projet présenté en exemple, le fichier `README.md` est le suivant:
-
-    # Krigeage avec R
-
-    Techniques pour interpoler les valeurs d'une variable
-    continue.
-
-    [Voir le support](https://EricMarcon.github.io/
-    Krigeage/Krigeage.html) ou le [télécharger]
-    (https://EricMarcon.github.io/Krigeage/Krigeage.pdf)
-
-La première ligne contient le titre, la seconde une description.
-Les liens pointent vers le fichier HMTL et le fichier PDF produits, tous les deux dans le dossier `docs`.
-Les liens sont absolus, avec l'adresse complète des fichiers, et non relatifs, parce que le fichier `README.md` est le même à la racine du projet (affiché par GitHub en dessous du code) et dans le dossier `docs` (utilisé par les pages GitHuB comme page d'accueil du site).
-
 En pratique, on tricote au format HTML pendant toute la phase de rédaction du mémo, parce que la production est très rapide.
 Quand le document est stabilisé, il faut le tricoter au format HTML et au format PDF.
-Enfin, l'exécution du script `GithubPages.R` (l'ouvrir et cliquer sur le bouton *Source*) place tous les fichiers produits dans `docs`.
+Enfin, l'exécution de `build_githubpages()` place tous les fichiers produits dans `docs`.
 Il reste à pousser le dépôt sur GitHub et activer les pages GitHub.
 
-La production des documents a lieu sur le poste de travail, elle n'est pas sous-traitée à un service en ligne (intégration continue, voir plus bas) contrairement à celle des ouvrages, qui nécessitent plus de ressources.
 
 ### Autres modèles
 
-Le modèle *Article* d'**EcoFoG** est destiné à la production d'articles PDF pour l'autoarchivage (typiquement, le dépôt sur HAL) bien formatés, au format A4 en double colonne[^rediger-12].
+Le modèle *Stylish Article* de **memoiR** est destiné à la production d'articles PDF pour l'autoarchivage (typiquement, le dépôt sur HAL) bien formatés, au format A4 en double colonne[^rediger-12].
 
 [^rediger-12]: Exemple: <https://EricMarcon.github.io/Rochebrune2018/Entropie.pdf>
 
-Le format HTML est le même que celui du modèle de mémo.
+Le format HTML est le même que celui du modèle *Simple Article*.
 
 Le package **rticles** a pour ambition de fournir des modèles pour toutes les revues scientifiques qui acceptent une soumission d'articles en LaTeX.
 Il propose donc des modèles Markdown qui produisent des fichiers PDF conformes aux exigences des revues et la possibilité de récupérer le fichier `.tex` intermédiaire (pandoc produit un fichier `.tex` transmis au compilateur LaTeX).
 Le package ne permet pas de tricot HTML parce qu'il utilise la syntaxe LaTeX dans le document R Markdown au lieu d'utiliser **bookdown** pour gérer les références bibliographique et les références croisées.
 Il n'est pas possible d'échanger directement du contenu R Markdown standard avec des documents écrits pour **rticles**, ce qui limite beaucoup l'intérêt du package.
 
-## Présentation EcoFoG : bookdown
 
-Le modèle Présentation EcoFoG permet de créer des présentations au format HTML et PDF (beamer) simultanément, comme le montre l'exemple[^rediger-13].
+## Présentation Beamer
+
+Le modèle *Beamer Presentation* de **memoiR** permet de créer des présentations au format HTML et PDF (beamer) simultanément, comme le montre l'exemple[^rediger-13].
 
 [^rediger-13]: <https://EricMarcon.github.io/Chao1/>, choisir Lecture (HTML) ou Téléchargement (PDF).
 
-La démarche est identique à celle du Memo EcoFoG. Les niveaux de titre permettent de séparer les parties de la présentation (`#`) et les diapositives (`##`).
+La démarche est identique à celle des articles du même package.
+Les niveaux de titre permettent de séparer les parties de la présentation (`#`) et les diapositives (`##`).
 Deux formats sont disponibles en HTML: ioslides[^rediger-14] et Slidy[^rediger-15]. 
 Quelques spécificités dans le code permettent d'affiner la présentation des diapositives, pour un affichage sur deux colonnes par exemple: elles sont documentées dans le modèle.
 
@@ -413,9 +420,10 @@ Quelques spécificités dans le code permettent d'affiner la présentation des d
 
 [^rediger-15]: <https://bookdown.org/yihui/rmarkdown/slidy-presentation.html>
 
-## Ouvrage EcoFoG : bookdown
 
-Le modèle d'ouvrage est destiné aux documents longs, qui présentent une différence importante avec les documents précédents: un document long est composé de plusieurs chapitres, chacun placé dans son fichier `.Rmd`.
+## memoir
+
+Le modèle *Memoir* du package **memoiR** est destiné aux documents longs, qui présentent une différence importante avec les documents précédents: un document long est composé de plusieurs chapitres, chacun placé dans son fichier `.Rmd`.
 
 Le format HTML est gitbook[^rediger-16], le standard de la lecture en ligne de documents de ce type.
 Le format PDF est dérivé du modèle LaTeX *memoir*[^rediger-17], optimisé aussi pour les documents longs.
@@ -428,7 +436,10 @@ Ce document a été écrit avec ce modèle.
 
 ### Créer
 
-La création d'un projet d'ouvrage est identique à celle présentée plus haut: le modèle est: Ouvrage EcoFoG. Le dossier créé doit être transformé en chapitre, comme pour un Memo EcoFoG.
+La création d'un projet d'ouvrage est identique à celle présentée plus haut: le modèle est: *Memoir*. 
+Le dossier créé doit être transformé en projet.
+
+Exécuter `build_git()` et `build_readme()`, activer le contrôle de source et pousser le projet sur GitHub, de la même façon que pour un article (section \@ref(sec:article-en-ligne)).
 
 Chaque chapitre de l'ouvrage est un fichier Rmd, dont le nom commence normalement par son numéro (ex.: `01-intro.Rmd`).
 Tous les fichiers Rmd présents dans le dossier du projet sont en réalité traités comme des chapitres, triés par ordre de nom de fichier, dont ceux fournis par le modèle (démarrage et syntaxe) qui doivent être supprimés à l'exception de `99-references.Rmd` qui contient la bibliographie, placée à la fin.
@@ -436,10 +447,10 @@ Le fichier `index.Rmd` est particulier: il contient l'entête du document et le 
 
 ### Ecrire
 
-Ce premier chapitre est placé dans l'avant-propos de l'ouvrage imprimé: il ne doit pas être numéroté (d'où le code `{-}` à côté du titre) dans la version HTML.
+Le premier chapitre est placé dans l'avant-propos de l'ouvrage imprimé: il ne doit pas être numéroté (d'où le code `{-}` à côté du titre) dans la version HTML.
 Il se termine obligatoirement par la commande LaTeX `\mainmatter` qui marque le début du corps de l'ouvrage.
 
-Les niveaux de plan commencent sont `#` pour les chapitres (un seul par fichier), `##` pour les sections, etc.
+Les niveaux de plan commencent par `#` pour les chapitres (un seul par fichier), `##` pour les sections, etc.
 
 ### Tricoter
 
@@ -451,7 +462,8 @@ Le livre entier est créé en cliquant sur le bouton *Build Book* de la fenêtre
 La liste déroulante du bouton permet de créer tous les documents ou de se limiter à un format.
 
 Les fichiers produits sont placés directement dans le dossier `docs`, qui sera utilisé par les pages GitHub pour permettre la lecture en ligne et le téléchargement du PDF.
-La page d'accueil du site web est créée par bookdown à partir du fichier `index.Rmd`: le fichier `README.md` n'est pas dupliqué dans `docs` le script `GithubPages.R` ne doit pas être utilisé (il n'est pas fourni dans le modèle).
+La page d'accueil du site web est créée par bookdown à partir du fichier `index.Rmd`: le fichier `README.md` n'est pas dupliqué dans `docs`.
+
 
 ### Finitions
 
@@ -469,7 +481,7 @@ Exemple, pour forcer le retour à la ligne avant `fichier.Rmd`:
 En HTML, un espace sera ajouté entre les deux portions de code.
 
 Les bouts de code R sont formatés automatiquement par **knitr** quand l'option `tidy=TRUE` leur est appliquée.
-Le comportement par défaut est indiqué dans les options de **knitr**, dans un bout de code au début de chaque document:
+Le comportement par défaut est indiqué dans les options de **knitr**, dans un bout de code au début du fichier `index.Rmd`:
 
 ```{r, eval=FALSE, tidy=FALSE}
 # knitr options
@@ -483,11 +495,12 @@ knitr::opts_chunk$set(
   knitr.graphics.auto_pdf = TRUE)
 ```
 
-La largeur maximale d'une ligne de code formaté est ici de 55 caractères, optimal pour le modèle "Ouvrage EcoFoG".
+La largeur maximale d'une ligne de code formaté est ici de 55 caractères, optimal pour le modèle.
 Il arrive que le formatage automatique ne fonctionne pas parce que **knitr** ne parvient pas à trouver une coupure de ligne respectant toutes les contraintes, ce qui provoque un dépassement de marge dans le code.
 Dans ce cas, formater manuellement le bout de code en lui ajoutant l'option `tidy=FALSE`.
 
 Les blocs de code littéral, délimités par trois apostrophes inversées, doivent être formatés manuellement, en évitant toute ligne de plus de 55 caractères.
+
 
 ### Site gitbook
 
@@ -555,6 +568,7 @@ bookdown::gitbook:
     in_header: gtag.js
 ```
 
+
 ## Site web R Markdown
 
 Un site web constitué de pages écrites avec R Markdown (sans les fonctionnalités de **bookdown**) et un menu peut être créé très simplement, avec un résultat de bonne facture[^rediger-18].
@@ -605,7 +619,7 @@ L'icône de GitHub fait partie de la collection Font Awesome dont toutes les ic�
 
 Le lien correspondant à l'icône doit être celui du dépôt GitHub du site web.
 
-La syntaxe de la section `output` est la même que celle des documents vus plus haut, comme le mémo EcoFoG.
+La syntaxe de la section `output` est la même que celle des documents vus plus haut.
 Elle s'applique à toutes les pages (dont l'entête YAML est réduite au minimum).
 Les thèmes disponibles sont ceux de rmarkdown[^rediger-20].
 
@@ -646,7 +660,7 @@ Un site Hugo peut être hébergé par exemple sur la page personnelle de tout ut
 
 Hugo propose de nombreux thèmes, qui sont des modèles de structure de sites, donc le thème **Academic**, destiné aux chercheurs.
 Dans RStudio, le package **blogdown** est prévu pour produire facilement des pages web avec Hugo.
-Ces pages peuvent contenir du code R: elles sont très proches d'un Memo EcoFoG dont le contenu peut être facilement copié et collé.
+Ces pages peuvent contenir du code R: elles sont très proches d'un article, vu plus haut, dont le contenu peut être facilement copié et collé.
 Nous utiliserons donc cette solution, pour un site comme celui proposé en exemple[^rediger-21].
 
 [^rediger-21]: <https://EricMarcon.github.io/>
