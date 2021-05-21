@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-05-15" />
+<meta name="date" content="2021-05-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -259,6 +259,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.5.1" data-path="chap-git.html"><a href="chap-git.html#commandes-de-git"><i class="fa fa-check"></i><b>3.5.1</b> Commandes de git</a></li>
 <li class="chapter" data-level="3.5.2" data-path="chap-git.html"><a href="chap-git.html#taille-dun-dépôt"><i class="fa fa-check"></i><b>3.5.2</b> Taille d’un dépôt</a></li>
 <li class="chapter" data-level="3.5.3" data-path="chap-git.html"><a href="chap-git.html#supprimer-un-dossier"><i class="fa fa-check"></i><b>3.5.3</b> Supprimer un dossier</a></li>
+<li class="chapter" data-level="3.5.4" data-path="chap-git.html"><a href="chap-git.html#revenir-en-arrière-1"><i class="fa fa-check"></i><b>3.5.4</b> Revenir en arrière</a></li>
 </ul></li>
 <li class="chapter" data-level="3.6" data-path="chap-git.html"><a href="chap-git.html#sec:github-pages"><i class="fa fa-check"></i><b>3.6</b> Pages GitHub</a><ul>
 <li class="chapter" data-level="3.6.1" data-path="chap-git.html"><a href="chap-git.html#activation"><i class="fa fa-check"></i><b>3.6.1</b> Activation</a></li>
@@ -883,6 +884,24 @@ L’option <code>--force</code> implique le remplacement du contenu du dépôt d
 <p>Ce code peut être utilisé pour supprimer totalement n’importe quel fichier ou dossier d’un dépôt en remplaçant simplement <code>docs</code> dans la commande <code>git filter-branch</code> initiale.
 La réduction de la taille du dépôt peut être suivie en utilisant <code>git count-objects -vH</code> avant l’opération, avant <code>git gc</code> (la taille du dépôt reste stable mais a été déplacée vers <em>garbage</em>) et à la fin (la taille du dépôt est sensiblement réduite).</p>
 </div>
+<div id="revenir-en-arrière-1" class="section level3">
+<h3><span class="header-section-number">3.5.4</span> Revenir en arrière</h3>
+<p>Il est possible de restaurer un dépôt dans un état précédent en plaçant sa tête (figure <a href="chap-git.html#fig:git-Trees">3.6</a>) au niveau d’un ancien <em>commit</em>.
+Toutes les modifications ultérieures sont alors détruites.
+Cette opération ne doit pas être réalisée sur un dépôt partagé: les autres utilisateurs ne pourraient plus pousser leurs modifications.</p>
+<p>Afficher l’historique du dépôt et rechercher l’identifiant (SHA) du dernier <em>commit</em> à conserver.
+Dans le terminal de RStudio, exécuter:</p>
+<pre><code>git reset --hard &lt;SHA&gt;
+git push -f</code></pre>
+<p>Tout l’historique du dépôt après le point de restauration choisi est perdu.</p>
+<p>Une méthode moins radicale et utilisable sur un dépôt partagé consiste à exécuter un <em>commit</em> qui annule les modifications d’un autre mais ne détruit aucune donnée de l’historique.
+Cette opération n’annule qu’un seul <em>commit</em> à la fois et doit donc être répétée pour en annuler plusieurs, en commençant par le plus récent.
+Dans le terminal de RStudio, exécuter:</p>
+<pre><code>git revert &lt;SHA&gt;</code></pre>
+<p>Pour annuler le dernier <em>commit</em>, exécuter:</p>
+<pre><code>git revert HEAD</code></pre>
+<p>Utiliser <code>HEAD</code> évite simplement de rechercher l’identifiant correspondant.</p>
+</div>
 </div>
 <div id="sec:github-pages" class="section level2">
 <h2><span class="header-section-number">3.6</span> Pages GitHub</h2>
@@ -916,7 +935,7 @@ Les badges correspondants sont listés sur le site du Tidyverse<a href="#fn39" c
 <p>Le package <strong>usethis</strong> simplifie leur création en plaçant le code nécessaire dans le presse-papier.
 Il suffit ensuite de le coller dans le fichier.</p>
 <p></p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="chap-git.html#cb236-1"></a>usethis<span class="op">::</span><span class="kw">use_lifecycle_badge</span>(<span class="st">&quot;maturing&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="chap-git.html#cb239-1"></a>usethis<span class="op">::</span><span class="kw">use_lifecycle_badge</span>(<span class="st">&quot;maturing&quot;</span>)</span></code></pre></div>
 <p></p>
 
 </div>
