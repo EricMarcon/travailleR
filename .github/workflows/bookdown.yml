@@ -23,6 +23,7 @@ jobs:
           options(install.packages.check.source = "no")
           install.packages(c("remotes", "bookdown", "tinytex"))
           tinytex::install_tinytex()
+          tinytex::tlmgr_install(c("tex-gyre", "tex-gyre-math"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Render pdf book
