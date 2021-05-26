@@ -566,6 +566,37 @@ Ce code peut être utilisé pour supprimer totalement n'importe quel fichier ou 
 La réduction de la taille du dépôt peut être suivie en utilisant `git count-objects -vH` avant l'opération, avant `git gc` (la taille du dépôt reste stable mais a été déplacée vers *garbage*) et à la fin (la taille du dépôt est sensiblement réduite).
 
 
+### Revenir en arrière
+
+Il est possible de restaurer un dépôt dans un état précédent en plaçant sa tête (figure \@ref(fig:git-Trees)) au niveau d'un ancien *commit*.
+Toutes les modifications ultérieures sont alors détruites.
+Cette opération ne doit pas être réalisée sur un dépôt partagé: les autres utilisateurs ne pourraient plus pousser leurs modifications.
+
+Afficher l'historique du dépôt et rechercher l'identifiant (SHA) du dernier *commit* à conserver.
+Dans le terminal de RStudio, exécuter:
+```
+git reset --hard <SHA>
+git push -f
+```
+
+Tout l'historique du dépôt après le point de restauration choisi est perdu.
+
+Une méthode moins radicale et utilisable sur un dépôt partagé consiste à exécuter un *commit* qui annule les modifications d'un autre mais ne détruit aucune donnée de l'historique.
+Cette opération n'annule qu'un seul *commit* à la fois et doit donc être répétée pour en annuler plusieurs, en commençant par le plus récent.
+Dans le terminal de RStudio, exécuter:
+```
+git revert <SHA>
+```
+
+Pour annuler le dernier *commit*, exécuter:
+```
+git revert HEAD
+```
+
+Utiliser `HEAD` évite simplement de rechercher l'identifiant correspondant.
+
+
+
 ## Pages GitHub  {#sec:github-pages}
 
 Tout projet sur GitHub doit avoir contenir un fichier `README.md` pour le présenter.
