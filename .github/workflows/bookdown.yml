@@ -17,17 +17,13 @@ jobs:
           crayon.enabled: 'FALSE'
       - name: Install pandoc
         uses: r-lib/actions/setup-pandoc@v1
-      - name: Install TinyTeX
-        uses: r-lib/actions/setup-tinytex@v1
-      - name: Install texlive-scripts
-        run: |
-          tlmgr install texlive-scripts
       - name: Install dependencies
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
-          install.packages(c("remotes", "bookdown"))
+          install.packages(c("remotes", "bookdown", "tinytex"))
           remotes::install_deps(dependencies = TRUE)
+          tinytex::install_tinytex()
           tinytex::tlmgr_install(c("tex-gyre", "tex-gyre-math"))
         shell: Rscript {0}
       - name: Render pdf book
