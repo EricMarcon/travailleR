@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-05-21" />
+<meta name="date" content="2021-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -769,9 +769,8 @@ Finalement, le code de la fonction est le suivant:</p>
 <span id="cb315-16"><a href="chap-package.html#cb315-16"></a><span class="co">#&#39; fuzzydouble(2)</span></span>
 <span id="cb315-17"><a href="chap-package.html#cb315-17"></a><span class="co">#&#39; fuzzydouble(1:4)</span></span>
 <span id="cb315-18"><a href="chap-package.html#cb315-18"></a>fuzzydouble &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">sd =</span> <span class="dv">1</span>) {</span>
-<span id="cb315-19"><a href="chap-package.html#cb315-19"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number <span class="op">+</span><span class="st"> </span>stats<span class="op">::</span><span class="kw">rnorm</span>(<span class="kw">length</span>(number), <span class="dv">0</span>, </span>
-<span id="cb315-20"><a href="chap-package.html#cb315-20"></a>        sd))</span>
-<span id="cb315-21"><a href="chap-package.html#cb315-21"></a>}</span></code></pre></div>
+<span id="cb315-19"><a href="chap-package.html#cb315-19"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number <span class="op">+</span><span class="st"> </span>stats<span class="op">::</span><span class="kw">rnorm</span>(<span class="kw">length</span>(number), <span class="dv">0</span>, sd))</span>
+<span id="cb315-20"><a href="chap-package.html#cb315-20"></a>}</span></code></pre></div>
 
 </div>
 <div id="méthodes-s3" class="section level3">
@@ -798,7 +797,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="chap-package.html#cb320-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7f978bfb8400&gt;
+## &lt;bytecode: 0x7f829a9ebd80&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -808,8 +807,9 @@ Les fonctions peuvent être listées:</p>
 
 <div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="chap-package.html#cb322-1"></a><span class="co"># Quelques fonctions plot()</span></span>
 <span id="cb322-2"><a href="chap-package.html#cb322-2"></a><span class="kw">head</span>(<span class="kw">methods</span>(plot))</span></code></pre></div>
-<pre><code>## [1] &quot;plot,ANY-method&quot;   &quot;plot,color-method&quot; &quot;plot.AccumCurve&quot;  
-## [4] &quot;plot.acf&quot;          &quot;plot.ACF&quot;          &quot;plot.addvar&quot;</code></pre>
+<pre><code>## [1] &quot;plot,ANY-method&quot;   &quot;plot,color-method&quot;
+## [3] &quot;plot.AccumCurve&quot;   &quot;plot.acf&quot;         
+## [5] &quot;plot.ACF&quot;          &quot;plot.addvar&quot;</code></pre>
 <div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="chap-package.html#cb324-1"></a><span class="co"># Nombre total</span></span>
 <span id="cb324-2"><a href="chap-package.html#cb324-2"></a><span class="kw">length</span>(<span class="kw">methods</span>(plot))</span></code></pre></div>
 <pre><code>## [1] 145</code></pre>
@@ -817,15 +817,20 @@ Les fonctions peuvent être listées:</p>
 <p>Inversement, les méthodes disponibles pour une classe peuvent être affichées:</p>
 
 <div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="chap-package.html#cb326-1"></a><span class="kw">methods</span>(<span class="dt">class =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
-<pre><code>##  [1] add1           alias          anova          case.names     coerce        
-##  [6] confint        cooks.distance deviance       dfbeta         dfbetas       
-## [11] drop1          dummy.coef     effects        extractAIC     family        
-## [16] formula        fortify        hatvalues      influence      initialize    
-## [21] kappa          labels         logLik         model.frame    model.matrix  
-## [26] nobs           plot           predict        print          proj          
-## [31] qqnorm         qr             residuals      rstandard      rstudent      
-## [36] show           simulate       slotsFromS3    summary        variable.names
-## [41] vcov          
+<pre><code>##  [1] add1           alias          anova         
+##  [4] case.names     coerce         confint       
+##  [7] cooks.distance deviance       dfbeta        
+## [10] dfbetas        drop1          dummy.coef    
+## [13] effects        extractAIC     family        
+## [16] formula        fortify        hatvalues     
+## [19] influence      initialize     kappa         
+## [22] labels         logLik         model.frame   
+## [25] model.matrix   nobs           plot          
+## [28] predict        print          proj          
+## [31] qqnorm         qr             residuals     
+## [34] rstandard      rstudent       show          
+## [37] simulate       slotsFromS3    summary       
+## [40] variable.names vcov          
 ## see &#39;?methods&#39; for accessing help and source code</code></pre>
 
 <p>La méthode <code>print</code> est utilisée pour afficher tout objet (elle est implicite quand on saisit seulement le nom d’un objet):</p>
@@ -857,7 +862,8 @@ Les fonctions peuvent être listées:</p>
 ## (Intercept) -17.5791     6.7584  -2.601   0.0123 *  
 ## speed         3.9324     0.4155   9.464 1.49e-12 ***
 ## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Signif. codes:  
+## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 15.38 on 48 degrees of freedom
 ## Multiple R-squared:  0.6511, Adjusted R-squared:  0.6438 
@@ -936,10 +942,14 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb348-2"><a href="chap-package.html#cb348-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>), </span>
 <span id="cb348-3"><a href="chap-package.html#cb348-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min   lq     mean median     uq     max neval
-##  triple.integer(2L)  317  327   372.70  335.0  380.5    1051   100
-##   triple.numeric(2)  315  328 18071.47  334.5  378.5 1771474   100
-##          triple(2L) 1317 1350 22100.99 1368.5 1450.0 2065531   100</code></pre>
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  319  327.5   370.65    335  364.0
+##   triple.numeric(2)  316  329.0 18725.34    337  371.5
+##          triple(2L) 1276 1303.0 22818.95   1325 1363.0
+##      max neval
+##     1294   100
+##  1836099   100
+##  2141470   100</code></pre>
 
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.

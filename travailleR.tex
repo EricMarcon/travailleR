@@ -1,53 +1,55 @@
-% template adapted from https://github.com/jgm/pandoc-templates/blob/master/default.latex
+% Template adapted from https://github.com/jgm/pandoc-templates/blob/master/default.latex
+% To be used with XeLaTex in memoiR
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode=true}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+% Right to left support
 
 
 \documentclass[
-  11pt,
+  14pt,
   french,
   a4paper,
   extrafontsizes,onecolumn,openright
   ]{memoir}
 
-% Font family: lmodern by default
-\usepackage{lmodern}
-
 % Double (or whatever) spacing
 
+% Math
 \usepackage{amssymb, amsmath}
-\usepackage{ifxetex,ifluatex}
-
 % mathspec: arbitrary math fonts
 \usepackage{unicode-math}
-\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\defaultfontfeatures{Scale=MatchLowercase}
+\defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 
-% More font families
+% Fonts
+\usepackage{lmodern}
+\usepackage{fontspec}
 % Main font
+\setmainfont[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,BoldItalicFont=*-bolditalic]{texgyretermes}
 % Specific sanserif font
 % Specific monotype font
 % Specific math font
-% Chinese, Japanese, Corean fonts
+  \setmathfont[]{texgyretermes-math.otf}
+  % Chinese, Japanese, Corean fonts
 
-% Use upquote if available, for straight quotes in verbatim environments
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% Use microtype if available
-\IfFileExists{microtype.sty}{%
+% Use upquote for straight quotes in verbatim environments
+\usepackage{upquote}
+% Use microtype
 \usepackage[]{microtype}
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
-}{}
 
 % Verbatim in note
 
+% Color links
 \usepackage{xcolor}
 
+% Strikeout
 
-% Listings package
-
+% Necessary for code chunks
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -89,6 +91,8 @@
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 
+% Listings package
+
 % Tables
 \usepackage{longtable,booktabs,tabu}
 % Fix footnotes in tables (requires footnote package)
@@ -106,22 +110,56 @@
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 
-
-
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
+% Prevent overfull lines
+\setlength{\emergencystretch}{3em}  
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
+% Number sections
 \setcounter{secnumdepth}{5}
 
-% set default figure placement to htbp
+% Set default figure placement to htbp
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
 
 % Include headers (preamble.tex) here
-% Add LaTeX code into the preamble of the document here
-\hyphenation{bio-di-ver-si-ty sap-lings}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% memoiR dalef3 chapter style 
+% https://ctan.crest.fr/tex-archive/info/latex-samples/MemoirChapStyles/MemoirChapStyles.pdf
+\usepackage{soul}
+\definecolor{nicered}{rgb}{.647,.129,.149}
+\makeatletter
+\newlength\dlf@normtxtw
+\setlength\dlf@normtxtw{\textwidth}
+\def\myhelvetfont{\def\sfdefault{mdput}}
+\newsavebox{\feline@chapter}
+\newcommand\feline@chapter@marker[1][4cm]{%
+  \sbox\feline@chapter{%
+    \resizebox{!}{#1}{\fboxsep=1pt%
+	  \colorbox{nicered}{\color{white}\bfseries\sffamily\thechapter}%
+	}}%
+  \rotatebox{90}{%
+    \resizebox{%
+	  \heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}%
+	{!}{\scshape\so\@chapapp}}\quad%
+  \raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
+ }
+\newcommand\feline@chm[1][4cm]{%
+  \sbox\feline@chapter{\feline@chapter@marker[#1]}%
+  \makebox[0pt][l]{% aka \rlap
+    \makebox[1cm][r]{\usebox\feline@chapter}%
+  }}
+\makechapterstyle{daleif1}{
+  \renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so}
+  \renewcommand\chaptitlefont{\normalfont\huge\bfseries\scshape\color{nicered}}
+  \renewcommand\chapternamenum{}
+  \renewcommand\printchaptername{}
+  \renewcommand\printchapternum{\null\hfill\feline@chm[2.5cm]\par}
+  \renewcommand\afterchapternum{\par\vskip\midchapskip}
+  \renewcommand\printchaptertitle[1]{\chaptitlefont\raggedleft ##1\par}
+}
+\makeatother
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -137,6 +175,7 @@
 \usepackage{makecell}
 \usepackage{xcolor}
 
+% Spacing in lists
 \usepackage{enumitem}
 
 % Polyglossia
@@ -144,15 +183,16 @@
 \setmainlanguage{fr-FR}
 \setotherlanguage{en-US}
 
+% BibLaTeX
 \usepackage[backend=biber,style=verbose-inote,pageref=true,isbn=false,backref=true,giveninits=true,uniquename=init,maxcitenames=2,maxbibnames=150,sorting=nyt,sortcites=false]{biblatex}
 \addbibresource{references.bib}
 
 % cslreferences environment required by pandoc > 2.7
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % memoiR format
-
 
 % Chapter Summary environment 
 \usepackage[tikz]{bclogo}
@@ -164,7 +204,6 @@
 %```{block, type='Summary'}
 % Deliver message here.
 % ```
-
 
 % scriptsize code 
 \let\oldverbatim\verbatim
@@ -178,22 +217,22 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Based on memoir, style companion
-\newcommand{\MemoirChapStyle}{companion}
-\newcommand{\MemoirPageStyle}{companion}
+\newcommand{\MemoirChapStyle}{daleif1}
+\newcommand{\MemoirPageStyle}{Ruled}
 
 % Space between paragraphs
-\RequirePackage{parskip}
+\usepackage{parskip}
 	\abnormalparskip{3pt}
 
 % Adjust margin paragraphs vertical position
-\RequirePackage{marginfix}
+\usepackage{marginfix}
 
 
 % Margins
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % allow use of '-',+','/' ans '*' to make simple length computation
-\RequirePackage{calc}
+\usepackage{calc}
 
 % Full-width figures utilities
 \newlength\widthw % full width
@@ -211,9 +250,9 @@
 \makeatletter
 % 1" margins for the front matter.
 \newcommand*{\SmallMargins}{
-  \setlrmarginsandblock{1in}{1in}{*}
+  \setlrmarginsandblock{1.5in}{1.5in}{*}
   \setmarginnotes{0.1in}{0.1in}{0.1in}
-  \setulmarginsandblock{1.5in}{1in}{*}
+ \setulmarginsandblock{1.5in}{1in}{*}
   \checkandfixthelayout
   \ch@ngetext
   \clearpage
@@ -224,25 +263,10 @@
 }
 
 % 3" outer margin for the main matter
-\newcommand*{\LargeMargins}{
-  \setlrmarginsandblock{1in}{3in}{*}
-  \setmarginnotes{0.2in}{1.8in}{0.1in}
-  \setsidecaps{0.2in}{1.8in}
-  \setulmarginsandblock{1.5in}{1in}{*}
-  \checkandfixthelayout
-  \ch@ngetext
-  \clearpage
-  \setlength{\widthw}{\textwidth+\marginparsep+\marginparwidth}
-  \footnotesinmargin
-  \chapterstyle{\MemoirChapStyle}	% Chapter and page styles must be recalled
-  \pagestyle{\MemoirPageStyle}
-}
-
+\newcommand{\LargeMargins}{\SmallMargins}
 \makeatother
 
 % Figure captions and footnotes in outer margins
-\usepackage[margincaption,outercaption,ragged,wide]{sidecap}
-%\sidecapmargin{outer}
 
 
 % Main title page with filigrane
@@ -284,7 +308,6 @@
 	\newpage
 }
 
-
 % Clear page and open an even one (\clearpage opens an odd one)
 \newcommand{\evenpage}{
   \clearpage
@@ -300,7 +323,7 @@
 }
 
 % Text blocks
-\RequirePackage[absolute,overlay]{textpos}
+\usepackage[absolute,overlay]{textpos}
 	\setlength{\TPHorizModule}{1mm}
 	\setlength{\TPVertModule}{1mm}
 
@@ -309,60 +332,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
 %% Bibliography
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\RequirePackage[strict,autostyle]{csquotes}
+\usepackage[strict,autostyle]{csquotes}
 % Repeated citation as author-year-title instead of author-title (modification of footcite:note in verbose-inote.cbx)
-\renewbibmacro*{footcite:note}{%
-	\ifnameundef{labelname}
-		{\printfield{label}}
-		{\printnames{labelname}}
-	\setunit*{\nameyeardelim}
-	\iffieldundef{labelyear}
-		{}
-		{\printtext[parens]{\printfield{labelyear}\printfield{userb}}.}
-	\ifsamepage{\the\value{instcount}}{\csuse{cbx@f@\thefield{entrykey}}}
-		{}
-		{\setunit*{\nametitledelim} \printfield[title]{labeltitle}}
-	\setunit*{\addcomma\space}
-	\printtext{
-		\bibstring{seenote}\addnbspace
-		\ref{cbx@\csuse{cbx@f@\thefield{entrykey}}}
-		\iftoggle{cbx:pageref}
-		{
-			\ifsamepage{\the\value{instcount}}	{\csuse{cbx@f@\thefield{entrykey}}}
-			{}
-			{\addcomma\space\bibstring{page}\addnbspace
-			\pageref{cbx@\csuse{cbx@f@\thefield{entrykey}}}
-			}
-		}
-		{}
-	}
-}
-% Normal text in citations, to allow \textcite
-\AtEveryCite{\renewcommand*{\mkbibnamefamily}[1]{\textnormal{#1}}}
-% Add url's to computer softfware and @Misc in general, delete it in other cases
-% in citations...
-\AtEveryCitekey{%
-  \ifentrytype{misc}{%
-  }{%
-  \clearfield{url}%
-  \clearfield{urldate}%
-  }%
-}
-% ... and in bibliography
-\AtEveryBibitem{%
-  \ifentrytype{misc}{%
-  }{%
-  \clearfield{url}%
-  \clearfield{urldate}%
-}%
-}
-
 
 %% Table of Contents
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % fix the typesetting of the part number
 \renewcommand\partnumberlinebox[2]{#2\ ---\ }
 
@@ -370,14 +349,10 @@
 % Fonts
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Font size of side captions and side notes
-\captionnamefont{\scriptsize}
-\captiontitlefont{\scriptsize}
-\renewcommand{\footnotesize}{\tiny}
-
 
 % Hyperref comes last
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \usepackage{hyperref}
 \hypersetup{
   pdftitle={Travailler avec R},
@@ -399,7 +374,7 @@
 
 \author{Eric Marcon}
 
-\date{2021-05-21}
+\date{2021-05-26}
 
 
 % End of preamble
@@ -418,7 +393,7 @@
 \begin{itemize}
   \item \LaTeX, dans sa distribution Miktex (\url{http://miktex.org/}) et la classe memoir (\url{http://www.ctan.org/pkg/memoir}).
   \item R (\url{http://www.r-project.org/}) et RStudio (\url{http://www.rstudio.com/})
-  \item bookdown (\url{http://bookdown.org/})
+  \item bookdown (\url{http://bookdown.org/}) et memoiR (\url{https://ericmarcon.github.io/memoiR/})
 \end{itemize}
 
 Son code source est sur GitHub: \url{https://github.com/EricMarcon/travailleR/}.
@@ -578,14 +553,14 @@ Sous Windows, donner le droit \enquote{Modifier} au groupe des utilisateurs de l
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/R-library} 
 
 }
 
 \caption{Activation du droit de modifier la bibliothèque système sous Windows.}\label{fig:R-library}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -603,7 +578,7 @@ L'emplacement des librairies est donné par la fonction \texttt{.libPaths()}:
 
 \begin{verbatim}
 ## [1] "/Users/runner/work/_temp/Library"                              
-## [2] "/Library/Frameworks/R.framework/Versions/4.0/Resources/library"
+## [2] "/Library/Frameworks/R.framework/Versions/4.1/Resources/library"
 \end{verbatim}
 
 \normalsize
@@ -708,14 +683,14 @@ Sous Windows, une organisation optimale est la suivante:
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=1\linewidth]{images/R-ProjetsR} 
 
 }
 
 \caption{Dossier pour les projets sous contrôle de source, sous Windows.}\label{fig:R-ProjetsR}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -738,14 +713,14 @@ A la demande de l'installation d'un package sous Windows, CRAN propose la versio
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/R-BinaryPkg} 
 
 }
 
 \caption{Activation du droit de modifier la bibliothèque système sous Windows.}\label{fig:R-BinaryPkg}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -1214,7 +1189,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fef2824f7e8>
+## <bytecode: 0x7f99c5962a70>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1231,8 +1206,9 @@ Il existe beaucoup de méthodes S3 pour \texttt{print}:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "print.acf"         "print.AES"         "print.all_vars"   
-## [4] "print.anova"       "print.ansi_string" "print.ansi_style"
+## [1] "print.acf"         "print.AES"        
+## [3] "print.all_vars"    "print.anova"      
+## [5] "print.ansi_string" "print.ansi_style"
 \end{verbatim}
 
 \normalsize
@@ -1454,8 +1430,7 @@ Une méthode \texttt{initialize()} est utilisée comme constructeur.
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(R6)}
 \NormalTok{PersonneR6 <-}\StringTok{ }\KeywordTok{R6Class}\NormalTok{(}\StringTok{"PersonneR6"}\NormalTok{, }\DataTypeTok{public =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{Nom =} \StringTok{"character"}\NormalTok{, }
-    \DataTypeTok{Prenom =} \StringTok{"character"}\NormalTok{, }\DataTypeTok{initialize =} \ControlFlowTok{function}\NormalTok{(}\DataTypeTok{Nom =} \OtherTok{NA}\NormalTok{, }
-        \DataTypeTok{Prenom =} \OtherTok{NA}\NormalTok{) \{}
+    \DataTypeTok{Prenom =} \StringTok{"character"}\NormalTok{, }\DataTypeTok{initialize =} \ControlFlowTok{function}\NormalTok{(}\DataTypeTok{Nom =} \OtherTok{NA}\NormalTok{, }\DataTypeTok{Prenom =} \OtherTok{NA}\NormalTok{) \{}
 \NormalTok{        self}\OperatorTok{$}\NormalTok{Nom <-}\StringTok{ }\NormalTok{Nom}
 \NormalTok{        self}\OperatorTok{$}\NormalTok{Prenom <-}\StringTok{ }\NormalTok{Prenom}
 \NormalTok{    \}, }\DataTypeTok{print =} \ControlFlowTok{function}\NormalTok{() }\KeywordTok{cat}\NormalTok{(self}\OperatorTok{$}\NormalTok{Prenom, self}\OperatorTok{$}\NormalTok{Nom)))}
@@ -1615,14 +1590,14 @@ La figure \ref{fig:diamonds} montre le résultat du code suivant:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/diamonds-1} 
 
 }
 
 \caption{Prix des diamants en fonction de leur poids. Démonstration du code de \textbf{ggplot2} combiné au traitement de données du tidyverse.}\label{fig:diamonds}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -1652,13 +1627,17 @@ La console se trouve dans l'environnement global, fils du dernier package charg�
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] ".GlobalEnv"         "package:R6"         "package:entropart" 
-##  [4] "package:forcats"    "package:stringr"    "package:dplyr"     
-##  [7] "package:purrr"      "package:readr"      "package:tidyr"     
-## [10] "package:tibble"     "package:ggplot2"    "package:tidyverse" 
-## [13] "package:kableExtra" "package:stats"      "package:graphics"  
-## [16] "package:grDevices"  "package:utils"      "package:datasets"  
-## [19] "package:methods"    "Autoloads"          "package:base"
+##  [1] ".GlobalEnv"         "package:R6"        
+##  [3] "package:entropart"  "package:forcats"   
+##  [5] "package:stringr"    "package:dplyr"     
+##  [7] "package:purrr"      "package:readr"     
+##  [9] "package:tidyr"      "package:tibble"    
+## [11] "package:ggplot2"    "package:tidyverse" 
+## [13] "package:kableExtra" "package:stats"     
+## [15] "package:graphics"   "package:grDevices" 
+## [17] "package:utils"      "package:datasets"  
+## [19] "package:methods"    "Autoloads"         
+## [21] "package:base"
 \end{verbatim}
 
 \normalsize
@@ -1688,7 +1667,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7fef160d1e78>
+## <environment: 0x7f99ce5cb358>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1734,8 +1713,8 @@ Exemple:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Fonction (mal écrite) utilisant une variable qu'elle}
-\CommentTok{# ne définit pas}
+\CommentTok{# Fonction (mal écrite) utilisant une variable qu'elle ne}
+\CommentTok{# définit pas}
 \NormalTok{qGlobalEnv <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{}
     \KeywordTok{return}\NormalTok{(q)}
 \NormalTok{\}}
@@ -1760,7 +1739,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fef1689faf8>
+## <bytecode: 0x7f99b2adae00>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1818,13 +1797,17 @@ Exemple:
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] ".GlobalEnv"         "package:R6"         "package:entropart" 
-##  [4] "package:forcats"    "package:stringr"    "package:dplyr"     
-##  [7] "package:purrr"      "package:readr"      "package:tidyr"     
-## [10] "package:tibble"     "package:ggplot2"    "package:tidyverse" 
-## [13] "package:kableExtra" "package:stats"      "package:graphics"  
-## [16] "package:grDevices"  "package:utils"      "package:datasets"  
-## [19] "package:methods"    "Autoloads"          "package:base"
+##  [1] ".GlobalEnv"         "package:R6"        
+##  [3] "package:entropart"  "package:forcats"   
+##  [5] "package:stringr"    "package:dplyr"     
+##  [7] "package:purrr"      "package:readr"     
+##  [9] "package:tidyr"      "package:tibble"    
+## [11] "package:ggplot2"    "package:tidyverse" 
+## [13] "package:kableExtra" "package:stats"     
+## [15] "package:graphics"   "package:grDevices" 
+## [17] "package:utils"      "package:datasets"  
+## [19] "package:methods"    "Autoloads"         
+## [21] "package:base"
 \end{verbatim}
 
 \begin{Shaded}
@@ -1861,12 +1844,15 @@ Exemple:
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] ".GlobalEnv"         "package:R6"         "package:forcats"   
-##  [4] "package:stringr"    "package:dplyr"      "package:purrr"     
-##  [7] "package:readr"      "package:tidyr"      "package:tibble"    
-## [10] "package:ggplot2"    "package:tidyverse"  "package:kableExtra"
-## [13] "package:stats"      "package:graphics"   "package:grDevices" 
-## [16] "package:utils"      "package:datasets"   "package:methods"   
+##  [1] ".GlobalEnv"         "package:R6"        
+##  [3] "package:forcats"    "package:stringr"   
+##  [5] "package:dplyr"      "package:purrr"     
+##  [7] "package:readr"      "package:tidyr"     
+##  [9] "package:tibble"     "package:ggplot2"   
+## [11] "package:tidyverse"  "package:kableExtra"
+## [13] "package:stats"      "package:graphics"  
+## [15] "package:grDevices"  "package:utils"     
+## [17] "package:datasets"   "package:methods"   
 ## [19] "Autoloads"          "package:base"
 \end{verbatim}
 
@@ -1934,15 +1920,15 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Ecart absolu moyen de 1000 valeurs dans une loi}
-\CommentTok{# uniforme, répété 100 fois}
+\CommentTok{# Ecart absolu moyen de 1000 valeurs dans une loi uniforme,}
+\CommentTok{# répété 100 fois}
 \KeywordTok{system.time}\NormalTok{(}\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{100}\NormalTok{) }\KeywordTok{mad}\NormalTok{(}\KeywordTok{runif}\NormalTok{(}\DecValTok{1000}\NormalTok{)))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.021   0.001   0.022
+##   0.021   0.001   0.023
 \end{verbatim}
 
 \normalsize
@@ -1973,11 +1959,16 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 
 \begin{verbatim}
 ## Unit: microseconds
-##   expr     min       lq      mean   median       uq      max neval
-##  f1(X)  36.107  37.7440  53.66116  38.7170  42.8795 1244.221   100
-##  f2(X)  43.617  45.1935  59.90310  46.2195  48.2285 1238.738   100
-##  f3(X) 275.332 277.4610 295.84574 279.7410 291.1000 1476.685   100
-##  f4(X) 406.245 408.6020 432.54468 415.2460 424.0065 1890.824   100
+##   expr     min       lq      mean   median       uq
+##  f1(X)  37.298  38.6075  53.50288  39.4785  41.6130
+##  f2(X)  45.303  46.4560  62.57225  47.2935  49.9105
+##  f3(X) 274.795 277.6540 308.23572 281.4715 290.8835
+##  f4(X) 407.384 409.9140 434.54516 414.1385 424.0245
+##       max neval
+##  1335.740   100
+##  1408.808   100
+##  1654.026   100
+##  1915.389   100
 \end{verbatim}
 
 \normalsize
@@ -2000,10 +1991,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  38.7170
-## 2 f2(X)  46.2195
-## 3 f3(X) 279.7410
-## 4 f4(X) 415.2460
+## 1 f1(X)  39.4785
+## 2 f2(X)  47.2935
+## 3 f3(X) 281.4715
+## 4 f4(X) 414.1385
 \end{verbatim}
 
 \normalsize
@@ -2033,10 +2024,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  38.7170
-## 2 f2(X)  46.2195
-## 3 f3(X) 279.7410
-## 4 f4(X) 415.2460
+## 1 f1(X)  39.4785
+## 2 f2(X)  47.2935
+## 3 f3(X) 281.4715
+## 4 f4(X) 414.1385
 \end{verbatim}
 
 \normalsize
@@ -2113,8 +2104,8 @@ Il faut donc raisonner en termes de vecteurs plutôt que de scalaires.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Tirage de deux vecteurs de trois nombres aléatoires}
-\CommentTok{# entre 0 et 1}
+\CommentTok{# Tirage de deux vecteurs de trois nombres aléatoires entre 0}
+\CommentTok{# et 1}
 \NormalTok{x1 <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{3}\NormalTok{)}
 \NormalTok{x2 <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DecValTok{3}\NormalTok{)}
 \CommentTok{# Racine carrée des trois nombres de x1}
@@ -2163,7 +2154,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7fef284f5388>
+## <bytecode: 0x7f99b33ba4a8>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2216,10 +2207,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.6805
-## 2                lapply(x1, FUN = sqrt) 302.8430
-## 3                sapply(x1, FUN = sqrt) 361.2510
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 294.0735
+## 1                              sqrt(x1)   4.6000
+## 2                lapply(x1, FUN = sqrt) 294.7835
+## 3                sapply(x1, FUN = sqrt) 347.9525
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 305.1365
 \end{verbatim}
 
 \normalsize
@@ -2271,15 +2262,14 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr  median
-## 1  Boucle(x1) 778.437
-## 2 Boucle2(x1)  80.994
+##          expr   median
+## 1  Boucle(x1) 827.4355
+## 2 Boucle2(x1)  79.3540
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# Compilation automatique par défaut depuis la version}
-\CommentTok{# 3.5}
+\CommentTok{# Compilation automatique par défaut depuis la version 3.5}
 \KeywordTok{enableJIT}\NormalTok{(}\DataTypeTok{level =} \DecValTok{3}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2304,9 +2294,9 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 288.6300
-## 2                Boucle(x1)  80.4125
+##                        expr  median
+## 1 vapply(x1, FUN = sqrt, 0) 298.872
+## 2                Boucle(x1)  78.741
 \end{verbatim}
 
 \normalsize
@@ -2328,9 +2318,9 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr    median
-## 1                        vapply(x1, FUN = sqrt, 0)  290.0555
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3186.3590
+##                                               expr   median
+## 1                        vapply(x1, FUN = sqrt, 0)  308.096
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3299.160
 \end{verbatim}
 
 \normalsize
@@ -2360,7 +2350,7 @@ La fonction suivante exécute des pauses d'un dixième de seconde pendant le tem
 \end{Shaded}
 
 \begin{verbatim}
-## ================================================================================
+## ============================================================
 \end{verbatim}
 
 \normalsize
@@ -2396,9 +2386,9 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr   median
-## 1 replicate(1000, runif(1)) 4021.068
-## 2               runif(1000)   35.410
+##                        expr    median
+## 1 replicate(1000, runif(1)) 4200.1950
+## 2               runif(1000)   35.2565
 \end{verbatim}
 
 \normalsize
@@ -2436,9 +2426,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.496958
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.091192
-## 3       colSums(diamonds[-(2:4)]) 2.397811
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.649467
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.287880
+## 3       colSums(diamonds[-(2:4)]) 2.480059
 \end{verbatim}
 
 \normalsize
@@ -2646,7 +2636,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.504
+##   0.003   0.000   0.675
 \end{verbatim}
 
 \begin{Shaded}
@@ -2658,12 +2648,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.006   0.012   0.367
+##   0.004   0.007   0.261
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.12} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.011} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2678,7 +2668,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.021
+##   0.001   0.000   2.275
 \end{verbatim}
 
 \begin{Shaded}
@@ -2690,7 +2680,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.005   1.010
+##   0.003   0.005   1.033
 \end{verbatim}
 
 \normalsize
@@ -2709,7 +2699,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.025
+##   0.001   0.003   1.020
 \end{verbatim}
 
 \begin{Shaded}
@@ -2720,7 +2710,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   2.152
+##   0.003   0.006   2.242
 \end{verbatim}
 
 \normalsize
@@ -2747,14 +2737,14 @@ La figure \ref{fig:r-parallele} montre l'évolution du temps de calcul en foncti
 \end{Highlighting}
 \end{Shaded}
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/r-parallele-1} 
 
 }
 
 \caption{Temps d'exécution en parallèle de tâches nécessitant une seconde (chaque tâche est une pause d'une seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs utilisés (égal à \texttt{2}) plus une.}\label{fig:r-parallele}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -2912,7 +2902,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.555
+##   0.003   0.000   0.541
 \end{verbatim}
 
 \begin{Shaded}
@@ -2927,7 +2917,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.009   0.012   0.402
+##   0.008   0.013   0.291
 \end{verbatim}
 
 \normalsize
@@ -3004,8 +2994,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 \begin{Highlighting}[]
 \NormalTok{fsapply1 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{}
 \NormalTok{    distances <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) }\KeywordTok{sapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }
-        \ControlFlowTok{function}\NormalTok{(j) }\KeywordTok{sqrt}\NormalTok{((X}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(X}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }
-\StringTok{            }\NormalTok{X}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}\NormalTok{)))}
+        \ControlFlowTok{function}\NormalTok{(j) }\KeywordTok{sqrt}\NormalTok{((X}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(X}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}\NormalTok{)))}
     \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(distances)}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{))}
 \NormalTok{\}}
 \KeywordTok{system.time}\NormalTok{(d <-}\StringTok{ }\KeywordTok{fsapply1}\NormalTok{())}
@@ -3014,7 +3003,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.492   0.049   5.752
+##   5.458   0.050   5.527
 \end{verbatim}
 
 \begin{Shaded}
@@ -3038,8 +3027,8 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 \begin{Highlighting}[]
 \NormalTok{fsapply2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{}
 \NormalTok{    distances <-}\StringTok{ }\KeywordTok{vapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) }\KeywordTok{vapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }
-        \ControlFlowTok{function}\NormalTok{(j) }\KeywordTok{sqrt}\NormalTok{((X}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(X}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }
-\StringTok{            }\NormalTok{X}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}\NormalTok{), }\DecValTok{0}\NormalTok{), }\DecValTok{1}\OperatorTok{:}\DecValTok{1000} \OperatorTok{+}\StringTok{ }\DecValTok{0}\NormalTok{)}
+        \ControlFlowTok{function}\NormalTok{(j) }\KeywordTok{sqrt}\NormalTok{((X}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(X}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}\NormalTok{), }
+        \DecValTok{0}\NormalTok{), }\DecValTok{1}\OperatorTok{:}\DecValTok{1000} \OperatorTok{+}\StringTok{ }\DecValTok{0}\NormalTok{)}
     \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(distances)}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{))}
 \NormalTok{\}}
 \KeywordTok{system.time}\NormalTok{(d <-}\StringTok{ }\KeywordTok{fsapply2}\NormalTok{())}
@@ -3048,7 +3037,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.136   0.030   5.379
+##   5.312   0.025   5.348
 \end{verbatim}
 
 \begin{Shaded}
@@ -3090,7 +3079,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.138   0.029   5.368
+##   5.128   0.029   5.167
 \end{verbatim}
 
 \begin{Shaded}
@@ -3121,8 +3110,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 \NormalTok{            \}}
 \NormalTok{        \}, }\DecValTok{0}\NormalTok{)}
 \NormalTok{    \}, }\DecValTok{1}\OperatorTok{:}\DecValTok{1000} \OperatorTok{+}\StringTok{ }\DecValTok{0}\NormalTok{)}
-    \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(distances))}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{) }\OperatorTok{*}\StringTok{ }
-\StringTok{        }\DecValTok{2}\NormalTok{)}
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(distances))}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{) }\OperatorTok{*}\StringTok{ }\DecValTok{2}\NormalTok{)}
 \NormalTok{\}}
 \KeywordTok{system.time}\NormalTok{(d <-}\StringTok{ }\KeywordTok{fsapply4}\NormalTok{())}
 \end{Highlighting}
@@ -3130,7 +3118,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.973   0.016   3.301
+##   2.972   0.014   2.995
 \end{verbatim}
 
 \begin{Shaded}
@@ -3171,7 +3159,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.322   0.352   2.871
+##   3.342   0.354   2.158
 \end{verbatim}
 
 \begin{Shaded}
@@ -3212,7 +3200,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.817   0.014   1.880
+##   1.789   0.010   1.802
 \end{verbatim}
 
 \begin{Shaded}
@@ -3242,14 +3230,13 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 \NormalTok{Y <-}\StringTok{ }\KeywordTok{runifpoint}\NormalTok{(NbPointsReduit)}
 \NormalTok{fforeach1 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(Y) \{}
 \NormalTok{    distances <-}\StringTok{ }\KeywordTok{foreach}\NormalTok{(}\DataTypeTok{i =} \DecValTok{1}\OperatorTok{:}\NormalTok{NbPointsReduit, }\DataTypeTok{.combine =} \StringTok{"cbind"}\NormalTok{) }\OperatorTok{%:%}\StringTok{ }
-\StringTok{        }\KeywordTok{foreach}\NormalTok{(}\DataTypeTok{j =} \DecValTok{1}\OperatorTok{:}\NormalTok{NbPointsReduit, }\DataTypeTok{.combine =} \StringTok{"c"}\NormalTok{) }\OperatorTok{%do%}\StringTok{ }
-\StringTok{        }\NormalTok{\{}
-            \ControlFlowTok{if}\NormalTok{ (j }\OperatorTok{>}\StringTok{ }\NormalTok{i) \{}
-\NormalTok{                (Y}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{Y}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(Y}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }\NormalTok{Y}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}
-\NormalTok{            \} }\ControlFlowTok{else}\NormalTok{ \{}
-                \DecValTok{0}
-\NormalTok{            \}}
+\StringTok{        }\KeywordTok{foreach}\NormalTok{(}\DataTypeTok{j =} \DecValTok{1}\OperatorTok{:}\NormalTok{NbPointsReduit, }\DataTypeTok{.combine =} \StringTok{"c"}\NormalTok{) }\OperatorTok{%do%}\StringTok{ }\NormalTok{\{}
+        \ControlFlowTok{if}\NormalTok{ (j }\OperatorTok{>}\StringTok{ }\NormalTok{i) \{}
+\NormalTok{            (Y}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{Y}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(Y}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }\NormalTok{Y}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}
+\NormalTok{        \} }\ControlFlowTok{else}\NormalTok{ \{}
+            \DecValTok{0}
 \NormalTok{        \}}
+\NormalTok{    \}}
     \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(distances))}\OperatorTok{/}\NormalTok{NbPointsReduit}\OperatorTok{/}\NormalTok{(NbPointsReduit }\OperatorTok{-}\StringTok{ }
 \StringTok{        }\DecValTok{1}\NormalTok{) }\OperatorTok{*}\StringTok{ }\DecValTok{2}\NormalTok{)}
 \NormalTok{\}}
@@ -3259,7 +3246,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.692   0.030   2.813
+##   2.583   0.018   2.602
 \end{verbatim}
 
 \begin{Shaded}
@@ -3304,7 +3291,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.113   0.037   0.095
+##   0.124   0.046   0.107
 \end{verbatim}
 
 \begin{Shaded}
@@ -3479,10 +3466,10 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 
 \begin{verbatim}
 ## Unit: milliseconds
-##                                                      expr      min       lq
-##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2 1.189955 1.567541
-##      mean   median       uq      max neval
-##  1.994458 2.036061 2.098402 5.694995   100
+##                                                      expr
+##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
+##      min       lq     mean   median       uq      max neval
+##  1.08261 1.102101 1.199906 1.189745 1.239743 2.462482   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3522,13 +3509,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.337   0.045   7.880
+##   7.342   0.021   7.374
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4699} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4504} secondes.
 
 \scriptsize
 
@@ -3541,7 +3528,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.928   0.051   4.437
+##   4.955   0.045   2.649
 \end{verbatim}
 
 \normalsize
@@ -3595,14 +3582,14 @@ Les commandes de git peuvent être exécutées dans le terminal de RStudio.
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/git-Status} 
 
 }
 
 \caption{Capture d'écran du terminal de RStudio. La commande \texttt{git\ status} supposée décrire l'état du dépôt renvoie une erreur si le projet R n'est pas sous contrôle de source.}\label{fig:git-Status}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -3634,14 +3621,14 @@ Redémarrer RStudio à la demande.
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/git-Project} 
 
 }
 
 \caption{Activation du contrôle de source dans le menu \enquote{Tools \textgreater{} Project Options\ldots{}}.}\label{fig:git-Project}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -3652,14 +3639,14 @@ Elle contient la liste des fichiers du projet (figure \ref{fig:git-Fichiers}).
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/git-Fichiers} 
 
 }
 
 \caption{Fichiers du projet, pas encore pris en compte par git.}\label{fig:git-Fichiers}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -3686,14 +3673,14 @@ Les fichiers pris en compte font partie de l'\emph{index} de git.
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/git-Commit} 
 
 }
 
 \caption{Fenêtre de validation des modifications prises en compte.}\label{fig:git-Commit}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -3712,14 +3699,14 @@ La commande exécutée est \texttt{git\ commit\ -m\ "Message\ de\ validation"}.
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/git-id} 
 
 }
 
 \caption{Fenêtre de demande d'identification.}\label{fig:git-id}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -3757,14 +3744,14 @@ Dans le vocabulaire de git, il comprend trois \emph{arbres} (figure \ref{fig:git
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/git-Trees} 
 
 }
 
 \caption{Les trois arbres de git. Source: \url{https://rogerdudler.github.io/git-guide/index.fr.html}}\label{fig:git-Trees}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -3781,14 +3768,14 @@ Il est possible, même s'il vaut mieux l'éviter, de modifier à nouveau un fich
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/CreateRepo} 
 
 }
 
 \caption{Création d'un dépôt sur GitHub.}\label{fig:CreateRepo}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -3881,14 +3868,14 @@ Si l'authentification HTTPS est choisie, à la première connexion de RStudio à
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/git-PAT} 
 
 }
 
 \caption{Création d'un dépôt sur GitHub.}\label{fig:git-PAT}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -3931,14 +3918,14 @@ stability-work_in_progress-lightgrey.svg)
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/git-Clone} 
 
 }
 
 \caption{Création d'un dépôt sur GitHub.}\label{fig:git-Clone}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -3955,14 +3942,14 @@ Pour travailler à plusieurs sur le même projet, le propriétaire du projet doi
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/git-Access} 
 
 }
 
 \caption{Création d'un dépôt sur GitHub.}\label{fig:git-Access}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -4014,14 +4001,14 @@ Dans la fenêtre \emph{Git} de RStudio, le menu contextuel (affiché par un clic
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/git-diff} 
 
 }
 
 \caption{Différences entre le répertoire de travail et la tête.}\label{fig:git-diff}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -4041,14 +4028,14 @@ Le bouton en forme d'horloge de la fenêtre \emph{Git} de RStudio affiche l'hist
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/git-historique} 
 
 }
 
 \caption{Historique des validations dans le dépôt.}\label{fig:git-historique}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -4495,14 +4482,14 @@ Ils sont accessibles par le menu \enquote{File \textgreater{} New File \textgrea
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/e-rmd1} 
 
 }
 
 \caption{Nouveau document Markdown à partir d'un modèle.}\label{fig:e-rmd1}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -4514,7 +4501,7 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 \begin{verbatim}
-date: "2021-05-21"
+date: "2021-05-26"
 \end{verbatim}
 
 Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
@@ -4609,14 +4596,14 @@ L'option \texttt{echo} doit être mise à \texttt{FALSE} par défaut pour un art
 \end{Highlighting}
 \end{Shaded}
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/pressure-1} 
 
 }
 
 \caption{Titre de la figure}\label{fig:pressure}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -4641,14 +4628,14 @@ La figure \ref{fig:pressure2} bénéficie d'une légende améliorée.
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/pressure2-1} 
 
 }
 
 \caption{Titre avec \emph{italique}, maths (\(\sqrt\pi\)) et renvoi vers la figure \ref{fig:pressure}}\label{fig:pressure2}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -4672,10 +4659,10 @@ La fonction \texttt{kable} du package \emph{knitr} prépare le tableau pour l'af
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
-\KeywordTok{names}\NormalTok{(iris) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Longueur sépales ($l_s$)"}\NormalTok{, }\StringTok{"Largeur"}\NormalTok{, }
-    \StringTok{"Longueur pétales"}\NormalTok{, }\StringTok{"Largeur"}\NormalTok{, }\StringTok{"Espèce"}\NormalTok{)}
-\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(iris), }\DataTypeTok{caption =} \StringTok{"Tableau créé par R"}\NormalTok{, }
-    \DataTypeTok{longtable =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{booktabs =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{escape =} \OtherTok{FALSE}\NormalTok{) }\OperatorTok{%>%}
+\KeywordTok{names}\NormalTok{(iris) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Longueur sépales ($l_s$)"}\NormalTok{, }\StringTok{"Largeur"}\NormalTok{, }\StringTok{"Longueur pétales"}\NormalTok{, }
+    \StringTok{"Largeur"}\NormalTok{, }\StringTok{"Espèce"}\NormalTok{)}
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(iris), }\DataTypeTok{caption =} \StringTok{"Tableau créé par R"}\NormalTok{, }\DataTypeTok{longtable =} \OtherTok{TRUE}\NormalTok{, }
+    \DataTypeTok{booktabs =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{escape =} \OtherTok{FALSE}\NormalTok{) }\OperatorTok{%>%}
 \StringTok{    }\NormalTok{kableExtra}\OperatorTok{::}\KeywordTok{kable_styling}\NormalTok{(}\DataTypeTok{bootstrap_options =} \StringTok{"striped"}\NormalTok{, }
         \DataTypeTok{full_width =} \OtherTok{FALSE}\NormalTok{)}
 \end{Highlighting}
@@ -5212,14 +5199,14 @@ Copier l'adresse du dépôt en cliquant sur le bouton \emph{Code} puis sur le bo
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/rediger-GitHub-Clone} 
 
 }
 
 \caption{Copie de l'adresse d'un dépôt à cloner sur GitHub.}\label{fig:rediger-GitHub-Clone}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -5230,14 +5217,14 @@ Sélectionner le dossier dans lequel le projet sera créé en cliquant sur \enqu
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/rediger-Projet-GitHub} 
 
 }
 
 \caption{Collage de l'adresse du dépôt à cloner.}\label{fig:rediger-Projet-GitHub}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -5521,14 +5508,14 @@ Le type de composant (\texttt{type}) indique qu'il s'agit d'une page de composan
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/rediger-demo} 
 
 }
 
 \caption{Composant \texttt{demo} dans Academic.}\label{fig:rediger-demo}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -5545,14 +5532,14 @@ active = false  # Activate this widget? true/false
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/rediger-about} 
 
 }
 
 \caption{Composant \texttt{about} dans Academic.}\label{fig:rediger-about}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -5579,14 +5566,14 @@ Si des icônes de type \texttt{ai} sont utilisées, activer le pack d'icône Aca
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/rediger-skills} 
 
 }
 
 \caption{Composant \texttt{skills} dans Academic.}\label{fig:rediger-skills}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -5597,14 +5584,14 @@ Une collection d'icônes est disponible, et des icônes nouvelles peuvent être 
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/rediger-experience} 
 
 }
 
 \caption{Composant \texttt{experience} dans Academic.}\label{fig:rediger-experience}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -6013,14 +6000,14 @@ La figure \ref{fig:volcano} montre le résultat du code suivant:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/volcano-1} 
 
 }
 
 \caption{Courbes de niveau du volcan Maunga Whau, code fourni en exemple de l'aide de la fonction \texttt{image()}.}\label{fig:volcano}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -6048,8 +6035,8 @@ Le code R doit appeler la fonction pour créer le fichier, produire la figure, p
 \end{Shaded}
 
 \begin{verbatim}
-## agg_png 
-##       2
+## pdf 
+##   2
 \end{verbatim}
 
 \normalsize
@@ -6720,8 +6707,7 @@ Finalement, le code de la fonction est le suivant:
 \CommentTok{#' fuzzydouble(2)}
 \CommentTok{#' fuzzydouble(1:4)}
 \NormalTok{fuzzydouble <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(number, }\DataTypeTok{sd =} \DecValTok{1}\NormalTok{) \{}
-    \KeywordTok{return}\NormalTok{(}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{number }\OperatorTok{+}\StringTok{ }\NormalTok{stats}\OperatorTok{::}\KeywordTok{rnorm}\NormalTok{(}\KeywordTok{length}\NormalTok{(number), }\DecValTok{0}\NormalTok{, }
-\NormalTok{        sd))}
+    \KeywordTok{return}\NormalTok{(}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{number }\OperatorTok{+}\StringTok{ }\NormalTok{stats}\OperatorTok{::}\KeywordTok{rnorm}\NormalTok{(}\KeywordTok{length}\NormalTok{(number), }\DecValTok{0}\NormalTok{, sd))}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -6783,7 +6769,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fef28e94590>
+## <bytecode: 0x7f99c3d4ff60>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -6804,8 +6790,9 @@ Les fonctions peuvent être listées:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "plot,ANY-method"   "plot,color-method" "plot.AccumCurve"  
-## [4] "plot.acf"          "plot.ACF"          "plot.addvar"
+## [1] "plot,ANY-method"   "plot,color-method"
+## [3] "plot.AccumCurve"   "plot.acf"         
+## [5] "plot.ACF"          "plot.addvar"
 \end{verbatim}
 
 \begin{Shaded}
@@ -6831,15 +6818,20 @@ Inversement, les méthodes disponibles pour une classe peuvent être affichées:
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] add1           alias          anova          case.names     coerce        
-##  [6] confint        cooks.distance deviance       dfbeta         dfbetas       
-## [11] drop1          dummy.coef     effects        extractAIC     family        
-## [16] formula        fortify        hatvalues      influence      initialize    
-## [21] kappa          labels         logLik         model.frame    model.matrix  
-## [26] nobs           plot           predict        print          proj          
-## [31] qqnorm         qr             residuals      rstandard      rstudent      
-## [36] show           simulate       slotsFromS3    summary        variable.names
-## [41] vcov          
+##  [1] add1           alias          anova         
+##  [4] case.names     coerce         confint       
+##  [7] cooks.distance deviance       dfbeta        
+## [10] dfbetas        drop1          dummy.coef    
+## [13] effects        extractAIC     family        
+## [16] formula        fortify        hatvalues     
+## [19] influence      initialize     kappa         
+## [22] labels         logLik         model.frame   
+## [25] model.matrix   nobs           plot          
+## [28] predict        print          proj          
+## [31] qqnorm         qr             residuals     
+## [34] rstandard      rstudent       show          
+## [37] simulate       slotsFromS3    summary       
+## [40] variable.names vcov          
 ## see '?methods' for accessing help and source code
 \end{verbatim}
 
@@ -6891,7 +6883,8 @@ Le méthode \texttt{summary} affiche un résumé lisible de l'objet:
 ## (Intercept) -17.5791     6.7584  -2.601   0.0123 *  
 ## speed         3.9324     0.4155   9.464 1.49e-12 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 15.38 on 48 degrees of freedom
 ## Multiple R-squared:  0.6511, Adjusted R-squared:  0.6438 
@@ -7065,10 +7058,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median     uq     max neval
-##  triple.integer(2L)  318  334.0   398.17  351.0  420.0    1567   100
-##   triple.numeric(2)  318  329.5 19050.52  340.0  408.0 1868126   100
-##          triple(2L) 1328 1366.5 23292.06 1406.5 1452.5 2183818   100
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  315  329.0   371.24  345.0  371.5
+##   triple.numeric(2)  320  334.0 18713.96  344.5  368.5
+##          triple(2L) 1294 1321.5 22089.01 1341.0 1391.0
+##      max neval
+##     1051   100
+##  1835923   100
+##  2055895   100
 \end{verbatim}
 
 \normalsize
@@ -8619,14 +8616,14 @@ L'application peut être lancée en cliquant sur \enquote{Run App} dans la fenê
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/shiny-geiser} 
 
 }
 
 \caption{Application Shiny \emph{Old Faithful Geyser Data}.}\label{fig:shiny-geiser}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -8952,14 +8949,14 @@ Cliquer dessus et valider la publication (figure \ref{fig:shiny-publish}).
 
 \scriptsize
 
-\begin{SCfigure}
+\begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{images/shiny-publish} 
 
 }
 
 \caption{Application Shiny \emph{Old Faithful Geyser Data}.}\label{fig:shiny-publish}
-\end{SCfigure}
+\end{figure}
 
 \normalsize
 
@@ -9139,8 +9136,6 @@ Ce document est mis à jour régulièrement en fonction de l'évolution des outi
 \backmatter
 \SmallMargins
 
-\twocolumn
-\renewcommand*{\bibfont}{\scriptsize}
 \printbibliography
 \onecolumn
 
@@ -9149,6 +9144,9 @@ Ce document est mis à jour régulièrement en fonction de l'évolution des outi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+\cleardoublepage
+\LargeMargins
+\listoffigures
 
 
 % After-body (LaTeX code inclusion)
