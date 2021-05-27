@@ -24,9 +24,11 @@ jobs:
           install.packages(c("remotes", "bookdown", "tinytex"))
           remotes::install_deps(dependencies = TRUE)
           tinytex::install_tinytex()
-          tinytex::tlmgr_install(c("tex-gyre", "tex-gyre-math", "hyph-utf8"))
-          tinytex::tlmgr_update()
+          tinytex::tlmgr_install(c("tex-gyre", "tex-gyre-math"))
         shell: Rscript {0}
+      - name: Update hyphenation patterns
+        run: |
+          fmtutil-sys --all
       - name: Render pdf book
         run: |
           bookdown::render_book("index.Rmd", "bookdown::pdf_book")
