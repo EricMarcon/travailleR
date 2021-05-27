@@ -797,7 +797,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="chap-package.html#cb320-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7fb2009a0238&gt;
+## &lt;bytecode: 0x7f95399da640&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -942,14 +942,14 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb348-2"><a href="chap-package.html#cb348-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>), </span>
 <span id="cb348-3"><a href="chap-package.html#cb348-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min   lq     mean median   uq     max
-##  triple.integer(2L)  313  323   359.17  333.0  357    1126
-##   triple.numeric(2)  311  323 18653.57  336.0  361 1830020
-##          triple(2L) 1256 1294 22037.16 1316.5 1359 2064284
-##  neval
-##    100
-##    100
-##    100</code></pre>
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  316  329.0   371.28    338  364.0
+##   triple.numeric(2)  317  327.0 18910.14    340  364.5
+##          triple(2L) 1259 1298.5 23530.13   1320 1384.0
+##      max neval
+##     1099   100
+##  1855198   100
+##  2201776   100</code></pre>
 
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -1245,7 +1245,7 @@ Ce dossier contient des fichiers qui seront placés à la racine du dossier du p
 </div>
 <div id="citations" class="section level3">
 <h3><span class="header-section-number">5.5.2</span> Citations</h3>
-<p>Les références sont citées en utilisant la commande <code>\insertCite{key}{package}</code> dans la documentation destinée à <strong>roxygen2</strong>.
+<p>Les références sont citées par la commande <code>\insertCite{key}{package}</code> dans la documentation destinée à <strong>roxygen2</strong>.
 <code>package</code> est le nom du package dans lequel le fichier <code>REFERENCES.bib</code> doit être cherché: ce sera normalement le package en cours, mais les références d’autres packages sont accessibles, à la seule condition qu’ils utilisent <strong>Rdpack</strong>.</p>
 <p><code>key</code> est l’identifiant de la référence dans le fichier.
 Exemple<a href="#fn90" class="footnote-ref" id="fnref90"><sup>90</sup></a>: documentation du package <strong>SpatDiv</strong> hébergé sur GitHub, fichier <code>.R</code> du package:</p>

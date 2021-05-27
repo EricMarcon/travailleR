@@ -1096,7 +1096,7 @@ Le contenu de <code>.gitignore</code> doit être le suivant:</p>
 _index.html
 index.html
 **/index_files/</code></pre>
-<p>Un bug de <strong>blogdown</strong> nécessite de déplacer le fichier <code>config/_default/config.toml</code> à la racine du projet.</p>
+<p>Un bug de <strong>blogdown</strong> nécessite de déplacer le fichier <code>config.toml</code> du dossier <code>config/_default/</code> à la racine du projet.</p>
 <p>Prendre en compte ces modification dans git en faisant un commit.</p>
 </div>
 <div id="site-personnel-sur-github" class="section level3">
@@ -1145,7 +1145,7 @@ Pour le faire manuellement, suivre les étapes suivantes:</p>
 <div id="site-multilingue" class="section level3">
 <h3><span class="header-section-number">4.7.5</span> Site multilingue</h3>
 <p>Si le site est multilingue (Français et Anglais par exemple), son contenu (dossier <code>content</code>) doit être copié dans un dossier correspondant à chaque langue.
-Par exemple, le fichier <code>content/authors/admin/_index.md</code> qui contient les informations sur le propriétaire du site est remplacé par <code>content/en/authors/admin/_index.md</code> et <code>content/fr/authors/admin/_index.md</code> si le site supporte l’Anglais et le Français.
+Par exemple, le fichier <code>content/authors/admin/_index.md</code> qui contient les informations sur le propriétaire du site est remplacé par <code>content/en/authors/admin/_index.md</code> et <code>content/fr/authors/admin</code><code>/_index.md</code> si le site supporte l’Anglais et le Français.
 En pratique, créer un dossier <code>en</code> et un dossier <code>fr</code> dans <code>content</code>.
 Copier tout le contenu de content (sauf les deux nouveaux dossiers) dans <code>en</code> puis déplacer ce même contenu dans <code>fr</code>.</p>
 </div>
@@ -1266,7 +1266,7 @@ Il présente le propriétaire du site.
 Son titre doit être localisé.
 Dans le dossier <code>/content/fr/home</code>, sa valeur sera:</p>
 <pre><code>title = &quot;Biographie&quot;</code></pre>
-<p>L’auteur (<code>author</code>) doit correspondre à un dossier de <code>/contents/&lt;langue&gt;/authors</code>.
+<p>L’auteur (<code>author</code>) doit correspondre à un dossier de <code>/contents/&lt;langue&gt;</code><code>/authors</code>.
 <code>admin</code> convient parfaitement pour un site personnel.
 Academic permet de créer des sites d’équipes: dans cette configuration, un dossier par personne serait nécessaire.
 L’image affichée par le composant est le fichier <code>avatar.jpg</code> placé dans ce dossier.
@@ -1297,7 +1297,7 @@ Figure 4.9: Composant <code>experience</code> dans Academic.
 <p>Le composant expérience (<code>experience</code>, figure <a href="chap-rediger.html#fig:rediger-experience">4.9</a>) liste les expériences professionnelles.
 Toutes les informations sont saisies dans son entête.</p>
 <p>Le composant <code>accomplishments</code> présente les formations professionnelles et permet d’accéder à leurs certificats.</p>
-<p>Le composant <code>posts</code> va chercher son contenu dans le dossier <code>/contents/&lt;langue&gt;/post</code> qui contient les billets de blog (voir plus bas).
+<p>Le composant <code>posts</code> va chercher son contenu dans le dossier <code>/contents</code><code>/&lt;langue&gt;/post</code> qui contient les billets de blog (voir plus bas).
 Le fichier <code>posts.md</code> contient des options de mise en page dans son entête.</p>
 <p>Le composant <code>projects</code> fonctionne de la même façon.
 La différence entre les deux composants est leur mise en forme: <code>posts</code> est du type “pages”, qui affiche les éléments les plus récents, alors que <code>projects</code> est de type “portfolio”, qui affiche les éléments sélectionnés qui contiennent la description <code>featured: true</code> dans leur propre entête.
@@ -1321,7 +1321,7 @@ Pour comprendre son fonctionnement, le plus simple consiste à l’activer.</p>
 <div id="menu-de-la-page-daccueil" class="section level4">
 <h4><span class="header-section-number">4.7.7.2</span> Menu de la page d’accueil</h4>
 <p>La page d’accueil comporte un menu qui permet de naviguer rapidement vers ses composants ou vers d’autres pages.
-Il est paramétré dans <code>config/_default/menus.toml</code>.
+Il est paramétré dans <code>config/_default</code><code>/menus.toml</code>.
 Les éléments du menu ont un nom affiché, un lien (commençant par <code>#</code> pour pointer vers un composant ou un chemin relatif dans le site comme <code>publication/</code>), et un poids qui définit leur ordre d’affichage, de la même façon que celui des composants de la page d’accueil.</p>
 <p>Un menu à deux éléments pour pointer vers l’accueil du site et les billets de blogs est donc le suivant:</p>
 <pre><code>[[main]]
@@ -1333,7 +1333,7 @@ Les éléments du menu ont un nom affiché, un lien (commençant par <code>#</co
   name = &quot;Posts&quot;
   url = &quot;#posts&quot;
   weight = 20</code></pre>
-<p>Le menu doit être traduit dans chaque langue dans le fichier <code>config/_default/languages.toml</code>:</p>
+<p>Le menu doit être traduit dans chaque langue dans le fichier <code>config/_default</code><code>/languages.toml</code>:</p>
 <pre><code>[fr]
   [[fr.menu.main]]
     name = &quot;Accueil&quot;

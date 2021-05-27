@@ -801,7 +801,8 @@ jobs:
       - name: Render Rmarkdown files
         run: |
           RMD_PATH=($(ls | grep &quot;[.]Rmd$&quot;))
-          Rscript -e &#39;for (file in commandArgs(TRUE)) rmarkdown::render(file, &quot;all&quot;)&#39; ${RMD_PATH[*]}
+          Rscript -e &#39;for (file in commandArgs(TRUE)) |&gt;
+              rmarkdown::render(file, &quot;all&quot;)&#39; ${RMD_PATH[*]}
           Rscript -e &#39;memoiR::build_githubpages()&#39;
       - name: Upload artifact
         uses: actions/upload-artifact@v1
