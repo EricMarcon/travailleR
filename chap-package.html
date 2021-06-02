@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-05-28" />
+<meta name="date" content="2021-06-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -797,7 +797,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="chap-package.html#cb320-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7f8f0c9da608&gt;
+## &lt;bytecode: 0x7fbd501da020&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -942,14 +942,14 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb348-2"><a href="chap-package.html#cb348-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>), </span>
 <span id="cb348-3"><a href="chap-package.html#cb348-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min   lq     mean median     uq
-##  triple.integer(2L)  331  337   467.17  354.0  372.5
-##   triple.numeric(2)  318  326 19395.44  345.5  363.5
-##          triple(2L) 1287 1317 23610.51 1339.0 1377.5
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  313  322.0   375.83    331  391.5
+##   triple.numeric(2)  311  322.5 18496.82    353  394.0
+##          triple(2L) 1323 1346.5 23350.94   1364 1454.0
 ##      max neval
-##     7915   100
-##  1902977   100
-##  2214447   100</code></pre>
+##     1305   100
+##  1811870   100
+##  2189066   100</code></pre>
 
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
