@@ -1331,13 +1331,13 @@ S'il dépasse quelques secondes, la parallélisation se justifie.
 `foreach()` ne remplace pas `for()` aussi simplement et ne se justifie que pour des tâches très lourdes en termes de mémoire et de temps de calcul, en particulier sur des clusters de calcul.
 
 
-## Flux de travail
+## Flux de travail {#sec:targets}
 
 Le package **targets** permet de gérer un flux de travail (*workflow*), c'est-à dire de décomposer le code en tâches élémentaires appelées *cibles* qui s'enchaînent, dont le résultat est stocké dans une variable, elle-même enregistrée sur le disque.
 En cas de changement dans le code ou les données utilisées, seules les cibles concernées sont réévaluées.
 
 Le fonctionnement du flux est proche de celui d'un cache, mais ne dépend pas de l'ordinateur sur lequel il s'exécute.
-**targets** permet de visualiser les tâches obsolètes, d'intégrer le flux à un projet de document (voir section \@ref(sec:XXX)), et même de faire appel à un cluster de calcul pour traiter les tâches en parallèle.
+**targets** permet de visualiser les tâches obsolètes, d'intégrer le flux à un projet de document (voir section \@ref(sec:targetsmd)), et même de faire appel à un cluster de calcul pour traiter les tâches en parallèle.
 
 ### Principe de fonctionnement
 
@@ -1378,12 +1378,12 @@ library(targets)
 tar_option_set(packages = c("spatstat", "dbmss"))
 list(
   # Tirage des points
-  tar_target(X,
+    tar_target(X,
     runifpoint(NbPoints)
   ),
   # Paramétrage
   tar_target(NbPoints,
-    NbPoints <- 1000
+    1000
   ),
   # Distance moyenne
   tar_target(d,
@@ -1394,6 +1394,34 @@ list(
     autoplot(as.wmppp(X))
   )
 )
+```
+
+
+```{r ecrire_targets, include=FALSE}
+# Ecriture sur le disque du fichier _targets.R
+usethis::write_over("_targets.R", c(
+  'library(targets)',
+  'tar_option_set(packages = c("spatstat", "dbmss"))',
+  'list(',
+  '  # Tirage des points',
+  '  tar_target(X,',
+  '    runifpoint(NbPoints)',
+  '  ),',
+  '  # Paramétrage',
+  '  tar_target(NbPoints,',
+  '    1000',
+  '  ),',
+  '  # Distance moyenne',
+  '  tar_target(d,',
+  '    sum(pairdist(X))/NbPoints/(NbPoints-1)',
+  '  ),',
+  '  # Carte',
+  '  tar_target(map,',
+  '    autoplot(as.wmppp(X))',
+  '  )',
+  ')'
+  ),
+  quiet=TRUE)
 ```
 
 Les commandes globales consistent à charger le package **targets** lui-même puis lister les packages nécessaires au code.
@@ -1434,6 +1462,6 @@ tar_read(map)
 
 ### Intérêt pratique
 
-Dans cet exemple, **targets** complique l'écriture du code et `tar_make()\` est beaucoup plus lent que la simple exécution du code qu'il traite parce qu'il doit vérifier si les cibles sont à jour.
+Dans cet exemple, **targets** complique l'écriture du code et `tar_make()` est beaucoup plus lent que la simple exécution du code qu'il traite parce qu'il doit vérifier si les cibles sont à jour.
 Dans un projet réel qui nécessite de longs calculs, le traitement du statut des cibles est négligeable et le gain de temps apporté par la seule évaluation des cibles nécessaires est considérable.
 La définition des cibles reste une contrainte, mais force à bien structurer son projet.

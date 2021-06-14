@@ -1441,3 +1441,92 @@ knitr::opts_chunk$set(
 ```
 
 Enfin, **ragg** peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la version 1.4 (Menu "Tools > Global Options > General > Graphics > Backend").
+
+
+## Flux de travail {#sec:targetsmd}
+
+Un flux de travail (voir section \@ref(sec:targets)) peut être intégré dans un document R Markdown à partir de la version 0.5 du package **targets**.
+
+```{r}
+library("targets")
+```
+
+Le flux est géré par des bouts de code de type `targets`.
+Leur entête minimal est `{targets}` au lieu de est `{r}`, et ils doivent être nommés.
+Ces bouts de code permettent de créer le fichier `_targets.R` quand ils sont exécutés en mode non interactif, notamment pendant que le document est tricoté.
+S'ils sont lancés en mode interactif, par exemple dans R Studio, leur code est exécuté.
+L'option `tar_interactive = FALSE` dans leur entête permet de les tester sans tricoter tout le document.
+
+Le premier bout de code, avec l'option `tar_globals=TRUE`, écrit les options globales du flux. 
+Pour créer le flux présenté en section \@ref(sec:targets), le code est simplement:
+
+````
+```{targets targets_global, tar_globals=TRUE}`r ''`
+tar_option_set(packages = c("spatstat", "dbmss"))
+```
+````
+
+```{targets targets_global, tar_globals=TRUE, echo=FALSE, tar_interactive = FALSE}
+tar_option_set(packages = c("spatstat", "dbmss"))
+```
+
+Les fonctions utilisées par les cibles sont déclarées dans ce type de bout de code: elles sont ajoutées à un fichier dans le dossier de travail `_targets_r` (différent du dossier `_targets` qui contient les cibles).
+
+Les cibles elles-mêmes sont déclarées dans des bouts de code dont le nom est celui de la variable de destination.
+
+````
+```{targets X, tar_simple=TRUE}`r ''`
+runifpoint(NbPoints)
+```
+````
+
+```{targets X, tar_simple=TRUE, echo=FALSE, tar_interactive = FALSE}
+runifpoint(NbPoints)
+```
+
+Le bout de code précédent a pour entête `{targets X, tar_simple=TRUE}` pour stocker le jeu de points crée par le code dans la variable `X`.
+
+Chaque cible nécessite un bout de code construit de cette manière.
+La valeur de la cible est la dernière valeur retournée, à la manière d'une fonction qui n'utiliserait pas `return()`.
+
+La lecture du document est compliquée parce que la variable  de destination n'apparaît pas (elle est dans l'entête du bout de code).
+Une solution est d'affecter explicitement la dernière valeur à une variable du même nom que la cible.
+Pour la cible `NbPoints`, le code initial est: 
+```{targets NbPoints_0, tar_simple=TRUE, eval=FALSE}
+  1000
+```
+
+Il peut être remplacé avantageusement par:
+```{targets NbPoints, tar_simple=TRUE, tar_interactive = FALSE}
+  NbPoints <- 1000
+```
+
+La variable n'est utilisée que pour la lisibilité: elle n'a pas d'existence au delà du bout de code.
+Elle pourrait avoir un autre nom (`z <- 1000`): la variable de destination de la cible a le nom du bout de code, c'est-à-dire `NbPoints`.
+
+Les autres bouts de code nécessaires pour compléter le flux sont les suivants :
+
+- `d`:
+```{targets d, tar_simple=TRUE, tar_interactive = FALSE}
+  sum(pairdist(X))/NbPoints/(NbPoints-1)
+```
+
+- `map`:
+```{targets map, tar_simple=TRUE, tar_interactive = FALSE}
+  autoplot(as.wmppp(X))
+```
+
+Pour lancer le calcul des cibles, un bout de code standard (`{r}`) doit appeler `tar_make()`:
+
+```{r}
+tar_visnetwork()
+tar_make()
+```
+
+`tar_visnetwork()` permet de vérifier que le flux est correct avant de l'exécuter.
+Au moment de la production finale du document, l'option `include=FALSE` peut être ajoutée à l'entête de ce bout de code pour qu'il ne produise aucun affichage.
+
+Les bouts de code qui utilisent les valeurs des cibles doivent les lire avec `tar_read()`:
+```{r}
+tar_read(map)
+```
