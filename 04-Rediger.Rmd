@@ -1451,6 +1451,8 @@ Un flux de travail (voir section \@ref(sec:targets)) peut être intégré dans u
 library("targets")
 ```
 
+### Déclaration du flux
+
 Le flux est géré par des bouts de code de type `targets`.
 Leur entête minimal est `{targets}` au lieu de est `{r}`, et ils doivent être nommés.
 Ces bouts de code permettent de créer le fichier `_targets.R` quand ils sont exécutés en mode non interactif, notamment pendant que le document est tricoté.
@@ -1466,11 +1468,13 @@ tar_option_set(packages = c("spatstat", "dbmss"))
 ```
 ````
 
-```{targets targets_global, tar_globals=TRUE, echo=FALSE, tar_interactive = FALSE}
+```{targets targets_global, tar_globals=TRUE, include=FALSE, tar_interactive = FALSE}
 tar_option_set(packages = c("spatstat", "dbmss"))
 ```
 
 Les fonctions utilisées par les cibles sont déclarées dans ce type de bout de code: elles sont ajoutées à un fichier dans le dossier de travail `_targets_r` (différent du dossier `_targets` qui contient les cibles).
+
+### Déclaration des cibles
 
 Les cibles elles-mêmes sont déclarées dans des bouts de code dont le nom est celui de la variable de destination.
 
@@ -1480,31 +1484,26 @@ runifpoint(NbPoints)
 ```
 ````
 
-```{targets X, tar_simple=TRUE, echo=FALSE, tar_interactive = FALSE}
-runifpoint(NbPoints)
-```
-
 Le bout de code précédent a pour entête `{targets X, tar_simple=TRUE}` pour stocker le jeu de points crée par le code dans la variable `X`.
 
 Chaque cible nécessite un bout de code construit de cette manière.
 La valeur de la cible est la dernière valeur retournée, à la manière d'une fonction qui n'utiliserait pas `return()`.
 
-La lecture du document est compliquée parce que la variable  de destination n'apparaît pas (elle est dans l'entête du bout de code).
-Une solution est d'affecter explicitement la dernière valeur à une variable du même nom que la cible.
-Pour la cible `NbPoints`, le code initial est: 
-```{targets NbPoints_0, tar_simple=TRUE, eval=FALSE}
-  1000
+Pendant le tricot, ce code simplifié (`tar_simple=TRUE`) est transformé automatiquement en écriture de cible:
+```{targets X, tar_simple=TRUE, tar_interactive = FALSE}
+runifpoint(NbPoints)
 ```
 
-Il peut être remplacé avantageusement par:
-```{targets NbPoints, tar_simple=TRUE, tar_interactive = FALSE}
-  NbPoints <- 1000
-```
+La lecture du document est alourdie par cette syntaxe particulière: **targets** n'est pas utile pour des documents dont le code, rapide à exécuter, doit être affiché dans le texte.
+En revanche, si le code est long à exécuter et n'est pas affiché, son intérêt est considérable pour limiter le temps de calcul.
 
-La variable n'est utilisée que pour la lisibilité: elle n'a pas d'existence au delà du bout de code.
-Elle pourrait avoir un autre nom (`z <- 1000`): la variable de destination de la cible a le nom du bout de code, c'est-à-dire `NbPoints`.
 
 Les autres bouts de code nécessaires pour compléter le flux sont les suivants :
+
+- `NbPoints`:
+```{targets NbPoints, tar_simple=TRUE, eval=FALSE}
+  1000
+```
 
 - `d`:
 ```{targets d, tar_simple=TRUE, tar_interactive = FALSE}
@@ -1516,6 +1515,8 @@ Les autres bouts de code nécessaires pour compléter le flux sont les suivants 
   autoplot(as.wmppp(X))
 ```
 
+### Exécution du flux
+
 Pour lancer le calcul des cibles, un bout de code standard (`{r}`) doit appeler `tar_make()`:
 
 ```{r}
@@ -1526,7 +1527,14 @@ tar_make()
 `tar_visnetwork()` permet de vérifier que le flux est correct avant de l'exécuter.
 Au moment de la production finale du document, l'option `include=FALSE` peut être ajoutée à l'entête de ce bout de code pour qu'il ne produise aucun affichage.
 
+### Utilisation des résultats
+
 Les bouts de code qui utilisent les valeurs des cibles doivent les lire avec `tar_read()`:
 ```{r}
 tar_read(map)
 ```
+
+### Contrôle de source
+
+Les fichiers de **targets** doivent être inclus au contrôle de source.
+De cette façon, les calculs effectués localement ne seront pas répétés par GitHub Actions (chapitre \@ref(chap:ci)) et la construction du document sera rapide.
