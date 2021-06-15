@@ -242,8 +242,35 @@ Comme le tableau contient des mathématiques (dans le nom de la première colonn
 L'option de style `bootstrap_options = "striped"` fournit des tableaux plus lisibles en HTML.
 Enfin, l'option `full_width = FALSE` permet d'ajuster la largeur du tableau à son contenu au lieu d'occuper toute la largeur disponible.
 
+Le package **flextable** permet de réaliser des tableaux plus élaborés, comme dans l'exemple suivant qui affiche en couleur les longs sépales.
+```{r}
+library("flextable")
+# Rappel du jeu de données initial iris
+datasets::iris %>%
+  # Premières lignes
+  head %>% 
+  # Création d'un objet flextable
+  flextable %>%
+  # Titre des colonnes
+  set_header_labels(Sepal.Length="Longueur sépales",
+                    Sepal.Width="Largeur", 
+                    Petal.Length="Longueur pétales",
+                    Petal.Width="Largeur",
+                    Species="Espèce") %>%
+  # Sélection des longs sépales (>5) et affichage en rouge
+  color(~Sepal.Length > 5, ~Sepal.Length, color="red")
+```
 
+La formule mathématique $l_s$ a été retirée du titre de la colonne parce que **flextable** ne l'interprète pas de façon simple (mais une solution existe[^413]).
+La documentation du package[^411] est disponible en ligne, ainsi qu'une galerie[^412].
 
+[^411]: https://ardata-fr.github.io/flextable-book/
+
+[^412]: https://ardata-fr.github.io/flextable-gallery/gallery/
+
+[^413]: https://ardata-fr.github.io/flextable-gallery/gallery/
+
+Pour un usage occasionnel, **flextable** est plus difficile à prendre en main que **kableExtra** mais il est plus puissant si un usage intensif des tableaux est nécessaire.
 
 #### Maths
 
