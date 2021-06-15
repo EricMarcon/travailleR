@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-06-02" />
+<meta name="date" content="2021-06-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,8 +53,13 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/vis-4.20.1/vis.css" rel="stylesheet" />
+<script src="libs/vis-4.20.1/vis.min.js"></script>
+<script src="libs/visNetwork-binding-2.0.9/visNetwork.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/tabwid-1.0.0/tabwid.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7NVD1TWMCJ"></script>
 <script>
@@ -225,6 +230,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.7.7" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#rcppparallel"><i class="fa fa-check"></i><b>2.7.7</b> RcppParallel</a></li>
 <li class="chapter" data-level="2.7.8" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#conclusions-sur-loptimisation-de-la-vitesse-du-code"><i class="fa fa-check"></i><b>2.7.8</b> Conclusions sur l’optimisation de la vitesse du code</a></li>
 </ul></li>
+<li class="chapter" data-level="2.8" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#sec:targets"><i class="fa fa-check"></i><b>2.8</b> Flux de travail</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#principe-de-fonctionnement"><i class="fa fa-check"></i><b>2.8.1</b> Principe de fonctionnement</a></li>
+<li class="chapter" data-level="2.8.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#exemple-minimal"><i class="fa fa-check"></i><b>2.8.2</b> Exemple minimal</a></li>
+<li class="chapter" data-level="2.8.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#intérêt-pratique"><i class="fa fa-check"></i><b>2.8.3</b> Intérêt pratique</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="chap-git.html"><a href="chap-git.html"><i class="fa fa-check"></i><b>3</b> Git et GitHub</a><ul>
 <li class="chapter" data-level="3.1" data-path="chap-git.html"><a href="chap-git.html#sec:principes-git"><i class="fa fa-check"></i><b>3.1</b> Principes</a><ul>
@@ -304,6 +314,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.8.1" data-path="chap-rediger.html"><a href="chap-rediger.html#formats-vectoriels-et-raster"><i class="fa fa-check"></i><b>4.8.1</b> Formats vectoriels et raster</a></li>
 <li class="chapter" data-level="4.8.2" data-path="chap-rediger.html"><a href="chap-rediger.html#fonctions"><i class="fa fa-check"></i><b>4.8.2</b> Fonctions</a></li>
 <li class="chapter" data-level="4.8.3" data-path="chap-rediger.html"><a href="chap-rediger.html#package-ragg"><i class="fa fa-check"></i><b>4.8.3</b> Package ragg</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:targetsmd"><i class="fa fa-check"></i><b>4.9</b> Flux de travail</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="chap-rediger.html"><a href="chap-rediger.html#déclaration-du-flux"><i class="fa fa-check"></i><b>4.9.1</b> Déclaration du flux</a></li>
+<li class="chapter" data-level="4.9.2" data-path="chap-rediger.html"><a href="chap-rediger.html#déclaration-des-cibles"><i class="fa fa-check"></i><b>4.9.2</b> Déclaration des cibles</a></li>
+<li class="chapter" data-level="4.9.3" data-path="chap-rediger.html"><a href="chap-rediger.html#exécution-du-flux"><i class="fa fa-check"></i><b>4.9.3</b> Exécution du flux</a></li>
+<li class="chapter" data-level="4.9.4" data-path="chap-rediger.html"><a href="chap-rediger.html#utilisation-des-résultats"><i class="fa fa-check"></i><b>4.9.4</b> Utilisation des résultats</a></li>
+<li class="chapter" data-level="4.9.5" data-path="chap-rediger.html"><a href="chap-rediger.html#contrôle-de-source"><i class="fa fa-check"></i><b>4.9.5</b> Contrôle de source</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="chap-package.html"><a href="chap-package.html"><i class="fa fa-check"></i><b>5</b> Package</a><ul>
@@ -414,14 +431,14 @@ Le travail collaboratif est permis par l’utilisation systématique du contrôl
 La présentation des résultats est assurée par les pages GitHub et des modèles de documents couvrant la majorité des besoins.</p>
 <p>Pour les pauses, R fournit même quelques jeux dans le package <strong>fun</strong>, dont le célèbre démineur:</p>
 
-<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="chap-conclusion.html#cb422-1"></a><span class="co"># Installation du package</span></span>
-<span id="cb422-2"><a href="chap-conclusion.html#cb422-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;fun&quot;</span>)</span>
-<span id="cb422-3"><a href="chap-conclusion.html#cb422-3"></a><span class="co"># Ouverture d&#39;une fenêtre X et exécution</span></span>
-<span id="cb422-4"><a href="chap-conclusion.html#cb422-4"></a><span class="cf">if</span> (<span class="kw">interactive</span>()) {</span>
-<span id="cb422-5"><a href="chap-conclusion.html#cb422-5"></a>    <span class="cf">if</span> (.Platform<span class="op">$</span>OS.type <span class="op">==</span><span class="st"> &quot;windows&quot;</span>) </span>
-<span id="cb422-6"><a href="chap-conclusion.html#cb422-6"></a>        <span class="kw">x11</span>() <span class="cf">else</span> <span class="kw">x11</span>(<span class="dt">type =</span> <span class="st">&quot;Xlib&quot;</span>)</span>
-<span id="cb422-7"><a href="chap-conclusion.html#cb422-7"></a>    fun<span class="op">::</span><span class="kw">mine_sweeper</span>()</span>
-<span id="cb422-8"><a href="chap-conclusion.html#cb422-8"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="chap-conclusion.html#cb457-1"></a><span class="co"># Installation du package</span></span>
+<span id="cb457-2"><a href="chap-conclusion.html#cb457-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;fun&quot;</span>)</span>
+<span id="cb457-3"><a href="chap-conclusion.html#cb457-3"></a><span class="co"># Ouverture d&#39;une fenêtre X et exécution</span></span>
+<span id="cb457-4"><a href="chap-conclusion.html#cb457-4"></a><span class="cf">if</span> (<span class="kw">interactive</span>()) {</span>
+<span id="cb457-5"><a href="chap-conclusion.html#cb457-5"></a>    <span class="cf">if</span> (.Platform<span class="op">$</span>OS.type <span class="op">==</span><span class="st"> &quot;windows&quot;</span>)</span>
+<span id="cb457-6"><a href="chap-conclusion.html#cb457-6"></a>        <span class="kw">x11</span>() <span class="cf">else</span> <span class="kw">x11</span>(<span class="dt">type =</span> <span class="st">&quot;Xlib&quot;</span>)</span>
+<span id="cb457-7"><a href="chap-conclusion.html#cb457-7"></a>    fun<span class="op">::</span><span class="kw">mine_sweeper</span>()</span>
+<span id="cb457-8"><a href="chap-conclusion.html#cb457-8"></a>}</span></code></pre></div>
 
 <p>Ce document n’a pas pour objectif d’être exhaustif sur les possibilités de R mais plutôt de présenter une méthode de travail et des moyens simples de l’appliquer rapidement.
 On se reportera aux ouvrages plus détaillés cités dans le texte pour approfondir tel ou tel point.</p>

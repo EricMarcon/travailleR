@@ -174,6 +174,10 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{multicol}
+\usepackage{hhline}
+\usepackage{hyperref}
 
 % Spacing in lists
 \usepackage{enumitem}
@@ -374,7 +378,7 @@
 
 \author{Eric Marcon}
 
-\date{2021-06-02}
+\date{2021-06-15}
 
 
 % End of preamble
@@ -1189,7 +1193,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7faa900d3400>
+## <bytecode: 0x7faba5157800>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1276,7 +1280,7 @@ Le générique cherche une méthode pour chaque classe, dans l'ordre de leur dé
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{print.PrenomFrancais <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{cat}\NormalTok{(}\StringTok{"Prénom français:"}\NormalTok{, }
+\NormalTok{print.PrenomFrancais <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{cat}\NormalTok{(}\StringTok{"Prénom français:"}\NormalTok{,}
 \NormalTok{    x)}
 \NormalTok{MonPrenom}
 \end{Highlighting}
@@ -1429,7 +1433,7 @@ Une méthode \texttt{initialize()} est utilisée comme constructeur.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(R6)}
-\NormalTok{PersonneR6 <-}\StringTok{ }\KeywordTok{R6Class}\NormalTok{(}\StringTok{"PersonneR6"}\NormalTok{, }\DataTypeTok{public =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{Nom =} \StringTok{"character"}\NormalTok{, }
+\NormalTok{PersonneR6 <-}\StringTok{ }\KeywordTok{R6Class}\NormalTok{(}\StringTok{"PersonneR6"}\NormalTok{, }\DataTypeTok{public =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{Nom =} \StringTok{"character"}\NormalTok{,}
     \DataTypeTok{Prenom =} \StringTok{"character"}\NormalTok{, }\DataTypeTok{initialize =} \ControlFlowTok{function}\NormalTok{(}\DataTypeTok{Nom =} \OtherTok{NA}\NormalTok{, }\DataTypeTok{Prenom =} \OtherTok{NA}\NormalTok{) \{}
 \NormalTok{        self}\OperatorTok{$}\NormalTok{Nom <-}\StringTok{ }\NormalTok{Nom}
 \NormalTok{        self}\OperatorTok{$}\NormalTok{Prenom <-}\StringTok{ }\NormalTok{Prenom}
@@ -1667,7 +1671,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7faa9609b548>
+## <environment: 0x7fab93b36dd8>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1739,7 +1743,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7faa9b297470>
+## <bytecode: 0x7faba94532a8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1928,7 +1932,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.020   0.002   0.023
+##   0.021   0.001   0.022
 \end{verbatim}
 
 \normalsize
@@ -1960,15 +1964,15 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq
-##  f1(X)  37.250  39.2285  54.70470  40.1865  42.7025
-##  f2(X)  45.133  46.7785  63.55072  48.8655  51.2305
-##  f3(X) 268.830 271.8680 309.59996 277.8805 286.7375
-##  f4(X) 398.503 401.8115 429.54388 412.1870 420.5500
+##  f1(X)  36.746  38.3145  53.64574  39.6650  42.4075
+##  f2(X)  44.026  46.1970  64.67248  47.4745  52.6585
+##  f3(X) 274.603 276.6855 303.68636 278.8060 288.9950
+##  f4(X) 406.902 409.2105 439.39292 411.7955 425.7175
 ##       max neval
-##  1275.975   100
-##  1268.938   100
-##  1470.266   100
-##  1870.017   100
+##  1259.640   100
+##  1194.012   100
+##  1450.817   100
+##  1819.680   100
 \end{verbatim}
 
 \normalsize
@@ -1991,10 +1995,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  40.1865
-## 2 f2(X)  48.8655
-## 3 f3(X) 277.8805
-## 4 f4(X) 412.1870
+## 1 f1(X)  39.6650
+## 2 f2(X)  47.4745
+## 3 f3(X) 278.8060
+## 4 f4(X) 411.7955
 \end{verbatim}
 
 \normalsize
@@ -2024,10 +2028,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  40.1865
-## 2 f2(X)  48.8655
-## 3 f3(X) 277.8805
-## 4 f4(X) 412.1870
+## 1 f1(X)  39.6650
+## 2 f2(X)  47.4745
+## 3 f3(X) 278.8060
+## 4 f4(X) 411.7955
 \end{verbatim}
 
 \normalsize
@@ -2154,7 +2158,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7faa7d993af8>
+## <bytecode: 0x7fabaf5635f0>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2199,7 +2203,7 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mb <-}\StringTok{ }\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(x1), }\KeywordTok{lapply}\NormalTok{(x1, }\DataTypeTok{FUN =}\NormalTok{ sqrt), }\KeywordTok{sapply}\NormalTok{(x1, }
+\NormalTok{mb <-}\StringTok{ }\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(x1), }\KeywordTok{lapply}\NormalTok{(x1, }\DataTypeTok{FUN =}\NormalTok{ sqrt), }\KeywordTok{sapply}\NormalTok{(x1,}
     \DataTypeTok{FUN =}\NormalTok{ sqrt), }\KeywordTok{vapply}\NormalTok{(x1, }\DataTypeTok{FUN =}\NormalTok{ sqrt, }\DataTypeTok{FUN.VALUE =} \DecValTok{0}\NormalTok{))}
 \KeywordTok{summary}\NormalTok{(mb)[, }\KeywordTok{c}\NormalTok{(}\StringTok{"expr"}\NormalTok{, }\StringTok{"median"}\NormalTok{)]}
 \end{Highlighting}
@@ -2207,10 +2211,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.6250
-## 2                lapply(x1, FUN = sqrt) 301.3895
-## 3                sapply(x1, FUN = sqrt) 353.0065
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 303.4595
+## 1                              sqrt(x1)   4.6325
+## 2                lapply(x1, FUN = sqrt) 295.6045
+## 3                sapply(x1, FUN = sqrt) 348.8280
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 307.1670
 \end{verbatim}
 
 \normalsize
@@ -2263,8 +2267,8 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \begin{verbatim}
 ##          expr   median
-## 1  Boucle(x1) 846.1475
-## 2 Boucle2(x1)  79.9835
+## 1  Boucle(x1) 852.6350
+## 2 Boucle2(x1)  79.7485
 \end{verbatim}
 
 \begin{Shaded}
@@ -2295,8 +2299,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr  median
-## 1 vapply(x1, FUN = sqrt, 0) 291.620
-## 2                Boucle(x1)  75.797
+## 1 vapply(x1, FUN = sqrt, 0) 301.325
+## 2                Boucle(x1)  78.758
 \end{verbatim}
 
 \normalsize
@@ -2318,9 +2322,12 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  310.604
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3280.224
+##                                               expr
+## 1                        vapply(x1, FUN = sqrt, 0)
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
+##      median
+## 1  305.6405
+## 2 3255.0395
 \end{verbatim}
 
 \normalsize
@@ -2387,8 +2394,8 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 
 \begin{verbatim}
 ##                        expr    median
-## 1 replicate(1000, runif(1)) 4030.5495
-## 2               runif(1000)   34.6295
+## 1 replicate(1000, runif(1)) 3976.5135
+## 2               runif(1000)   34.7945
 \end{verbatim}
 
 \normalsize
@@ -2426,9 +2433,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.573927
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.115097
-## 3       colSums(diamonds[-(2:4)]) 2.387837
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.504995
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.045284
+## 3       colSums(diamonds[-(2:4)]) 2.380937
 \end{verbatim}
 
 \normalsize
@@ -2636,7 +2643,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.666
+##   0.003   0.000   0.530
 \end{verbatim}
 
 \begin{Shaded}
@@ -2648,12 +2655,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.007   0.010   0.277
+##   0.006   0.011   0.397
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.027} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.15} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2668,7 +2675,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.036
+##   0.000   0.000   2.073
 \end{verbatim}
 
 \begin{Shaded}
@@ -2680,7 +2687,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.154
+##   0.004   0.010   1.009
 \end{verbatim}
 
 \normalsize
@@ -2699,7 +2706,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.022
+##   0.001   0.003   1.105
 \end{verbatim}
 
 \begin{Shaded}
@@ -2710,7 +2717,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.005   2.252
+##   0.002   0.006   2.007
 \end{verbatim}
 
 \normalsize
@@ -2893,7 +2900,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 \KeywordTok{library}\NormalTok{(doParallel)}
 \KeywordTok{registerDoParallel}\NormalTok{(}\DataTypeTok{cores =}\NormalTok{ nbCoeurs)}
 \CommentTok{# Série}
-\KeywordTok{system.time}\NormalTok{(}\KeywordTok{foreach}\NormalTok{(}\DataTypeTok{i =} \KeywordTok{icount}\NormalTok{(nbCoeurs), }\DataTypeTok{.combine =} \StringTok{"c"}\NormalTok{) }\OperatorTok{%do%}\StringTok{ }
+\KeywordTok{system.time}\NormalTok{(}\KeywordTok{foreach}\NormalTok{(}\DataTypeTok{i =} \KeywordTok{icount}\NormalTok{(nbCoeurs), }\DataTypeTok{.combine =} \StringTok{"c"}\NormalTok{) }\OperatorTok{%do%}
 \StringTok{    }\NormalTok{\{}
         \KeywordTok{f}\NormalTok{(i)}
 \NormalTok{    \})}
@@ -2902,13 +2909,13 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.581
+##   0.003   0.000   0.668
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# Parallèle}
-\KeywordTok{system.time}\NormalTok{(}\KeywordTok{foreach}\NormalTok{(}\DataTypeTok{i =} \KeywordTok{icount}\NormalTok{(nbCoeurs), }\DataTypeTok{.combine =} \StringTok{"c"}\NormalTok{) }\OperatorTok{%dopar%}\StringTok{ }
+\KeywordTok{system.time}\NormalTok{(}\KeywordTok{foreach}\NormalTok{(}\DataTypeTok{i =} \KeywordTok{icount}\NormalTok{(nbCoeurs), }\DataTypeTok{.combine =} \StringTok{"c"}\NormalTok{) }\OperatorTok{%dopar%}
 \StringTok{    }\NormalTok{\{}
         \KeywordTok{f}\NormalTok{(i)}
 \NormalTok{    \})}
@@ -2917,7 +2924,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.012   0.403
+##   0.008   0.012   0.396
 \end{verbatim}
 
 \normalsize
@@ -2960,7 +2967,7 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mb <-}\StringTok{ }\KeywordTok{microbenchmark}\NormalTok{(d <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{pairdist}\NormalTok{(X))}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }
+\NormalTok{mb <-}\StringTok{ }\KeywordTok{microbenchmark}\NormalTok{(d <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{pairdist}\NormalTok{(X))}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}
 \StringTok{    }\DecValTok{1}\NormalTok{))}
 \CommentTok{# suppressmessages pour éliminer les messages superflus}
 \KeywordTok{suppressMessages}\NormalTok{(}\KeywordTok{autoplot}\NormalTok{(mb))}
@@ -2993,7 +3000,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fsapply1 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{}
-\NormalTok{    distances <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) }\KeywordTok{sapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }
+\NormalTok{    distances <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) }\KeywordTok{sapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints,}
         \ControlFlowTok{function}\NormalTok{(j) }\KeywordTok{sqrt}\NormalTok{((X}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(X}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}\NormalTok{)))}
     \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(distances)}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{))}
 \NormalTok{\}}
@@ -3003,7 +3010,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.245   0.019   5.273
+##   5.715   0.047   6.024
 \end{verbatim}
 
 \begin{Shaded}
@@ -3026,8 +3033,8 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fsapply2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{}
-\NormalTok{    distances <-}\StringTok{ }\KeywordTok{vapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) }\KeywordTok{vapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }
-        \ControlFlowTok{function}\NormalTok{(j) }\KeywordTok{sqrt}\NormalTok{((X}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(X}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}\NormalTok{), }
+\NormalTok{    distances <-}\StringTok{ }\KeywordTok{vapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) }\KeywordTok{vapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints,}
+        \ControlFlowTok{function}\NormalTok{(j) }\KeywordTok{sqrt}\NormalTok{((X}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(X}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}\NormalTok{),}
         \DecValTok{0}\NormalTok{), }\DecValTok{1}\OperatorTok{:}\DecValTok{1000} \OperatorTok{+}\StringTok{ }\DecValTok{0}\NormalTok{)}
     \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(distances)}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{))}
 \NormalTok{\}}
@@ -3037,7 +3044,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.156   0.010   5.169
+##   5.468   0.039   5.761
 \end{verbatim}
 
 \begin{Shaded}
@@ -3068,8 +3075,8 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fsapply3 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{}
-\NormalTok{    distances <-}\StringTok{ }\KeywordTok{vapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) }\KeywordTok{vapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }
-        \ControlFlowTok{function}\NormalTok{(j) (X}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(X}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}\NormalTok{, }
+\NormalTok{    distances <-}\StringTok{ }\KeywordTok{vapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) }\KeywordTok{vapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NbPoints,}
+        \ControlFlowTok{function}\NormalTok{(j) (X}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(X}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}\NormalTok{,}
         \DecValTok{0}\NormalTok{), }\DecValTok{1}\OperatorTok{:}\DecValTok{1000} \OperatorTok{+}\StringTok{ }\DecValTok{0}\NormalTok{)}
     \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(distances))}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{))}
 \NormalTok{\}}
@@ -3079,7 +3086,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.010   0.010   5.021
+##   5.364   0.038   5.724
 \end{verbatim}
 
 \begin{Shaded}
@@ -3118,7 +3125,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.893   0.003   2.897
+##   3.268   0.020   3.401
 \end{verbatim}
 
 \begin{Shaded}
@@ -3150,7 +3157,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 \NormalTok{            \}}
 \NormalTok{        \}, }\DecValTok{0}\NormalTok{)}
 \NormalTok{    \})}
-    \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{simplify2array}\NormalTok{(distances)))}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{simplify2array}\NormalTok{(distances)))}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}
 \StringTok{        }\DecValTok{1}\NormalTok{) }\OperatorTok{*}\StringTok{ }\DecValTok{2}\NormalTok{)}
 \NormalTok{\}}
 \KeywordTok{system.time}\NormalTok{(d <-}\StringTok{ }\KeywordTok{fsapply5}\NormalTok{())}
@@ -3159,7 +3166,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.261   0.332   1.817
+##   3.379   0.317   2.276
 \end{verbatim}
 
 \begin{Shaded}
@@ -3187,7 +3194,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 \NormalTok{ffor <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{}
     \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{)) \{}
         \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in}\NormalTok{ (i }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{)}\OperatorTok{:}\NormalTok{NbPoints) \{}
-\NormalTok{            distance <-}\StringTok{ }\NormalTok{distance }\OperatorTok{+}\StringTok{ }\KeywordTok{sqrt}\NormalTok{((X}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }
+\NormalTok{            distance <-}\StringTok{ }\NormalTok{distance }\OperatorTok{+}\StringTok{ }\KeywordTok{sqrt}\NormalTok{((X}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}
 \StringTok{                }\NormalTok{(X}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }\NormalTok{X}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
 \NormalTok{        \}}
 \NormalTok{    \}}
@@ -3200,7 +3207,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.689   0.006   1.695
+##   1.827   0.014   1.901
 \end{verbatim}
 
 \begin{Shaded}
@@ -3229,7 +3236,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 \NormalTok{NbPointsReduit <-}\StringTok{ }\DecValTok{100}
 \NormalTok{Y <-}\StringTok{ }\KeywordTok{runifpoint}\NormalTok{(NbPointsReduit)}
 \NormalTok{fforeach1 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(Y) \{}
-\NormalTok{    distances <-}\StringTok{ }\KeywordTok{foreach}\NormalTok{(}\DataTypeTok{i =} \DecValTok{1}\OperatorTok{:}\NormalTok{NbPointsReduit, }\DataTypeTok{.combine =} \StringTok{"cbind"}\NormalTok{) }\OperatorTok{%:%}\StringTok{ }
+\NormalTok{    distances <-}\StringTok{ }\KeywordTok{foreach}\NormalTok{(}\DataTypeTok{i =} \DecValTok{1}\OperatorTok{:}\NormalTok{NbPointsReduit, }\DataTypeTok{.combine =} \StringTok{"cbind"}\NormalTok{) }\OperatorTok{%:%}
 \StringTok{        }\KeywordTok{foreach}\NormalTok{(}\DataTypeTok{j =} \DecValTok{1}\OperatorTok{:}\NormalTok{NbPointsReduit, }\DataTypeTok{.combine =} \StringTok{"c"}\NormalTok{) }\OperatorTok{%do%}\StringTok{ }\NormalTok{\{}
         \ControlFlowTok{if}\NormalTok{ (j }\OperatorTok{>}\StringTok{ }\NormalTok{i) \{}
 \NormalTok{            (Y}\OperatorTok{$}\NormalTok{x[i] }\OperatorTok{-}\StringTok{ }\NormalTok{Y}\OperatorTok{$}\NormalTok{x[j])}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(Y}\OperatorTok{$}\NormalTok{y[i] }\OperatorTok{-}\StringTok{ }\NormalTok{Y}\OperatorTok{$}\NormalTok{y[j])}\OperatorTok{^}\DecValTok{2}
@@ -3237,7 +3244,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
             \DecValTok{0}
 \NormalTok{        \}}
 \NormalTok{    \}}
-    \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(distances))}\OperatorTok{/}\NormalTok{NbPointsReduit}\OperatorTok{/}\NormalTok{(NbPointsReduit }\OperatorTok{-}\StringTok{ }
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(distances))}\OperatorTok{/}\NormalTok{NbPointsReduit}\OperatorTok{/}\NormalTok{(NbPointsReduit }\OperatorTok{-}
 \StringTok{        }\DecValTok{1}\NormalTok{) }\OperatorTok{*}\StringTok{ }\DecValTok{2}\NormalTok{)}
 \NormalTok{\}}
 \KeywordTok{system.time}\NormalTok{(d <-}\StringTok{ }\KeywordTok{fforeach1}\NormalTok{(Y))}
@@ -3246,7 +3253,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.617   0.012   2.631
+##   2.725   0.033   2.858
 \end{verbatim}
 
 \begin{Shaded}
@@ -3291,7 +3298,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.125   0.045   0.102
+##   0.126   0.046   0.114
 \end{verbatim}
 
 \begin{Shaded}
@@ -3459,7 +3466,7 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(mb <-}\StringTok{ }\KeywordTok{microbenchmark}\NormalTok{(d <-}\StringTok{ }\KeywordTok{TotalDistance}\NormalTok{(X}\OperatorTok{$}\NormalTok{x, X}\OperatorTok{$}\NormalTok{y)}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }
+\NormalTok{(mb <-}\StringTok{ }\KeywordTok{microbenchmark}\NormalTok{(d <-}\StringTok{ }\KeywordTok{TotalDistance}\NormalTok{(X}\OperatorTok{$}\NormalTok{x, X}\OperatorTok{$}\NormalTok{y)}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}
 \StringTok{    }\DecValTok{1}\NormalTok{) }\OperatorTok{*}\StringTok{ }\DecValTok{2}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -3468,8 +3475,8 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 ## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min       lq     mean  median      uq      max neval
-##  750.478 764.0055 812.1841 782.004 791.197 2400.493   100
+##      min       lq     mean   median       uq      max neval
+##  820.199 1233.101 1761.095 1799.117 2155.446 3892.881   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3509,26 +3516,26 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.105   0.005   7.112
+##   7.387   0.050   7.816
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4237} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4752} secondes.
 
 \scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{system.time}\NormalTok{(d <-}\StringTok{ }\KeywordTok{TotalDistance}\NormalTok{(X}\OperatorTok{$}\NormalTok{x, X}\OperatorTok{$}\NormalTok{y)}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}\StringTok{ }
+\KeywordTok{system.time}\NormalTok{(d <-}\StringTok{ }\KeywordTok{TotalDistance}\NormalTok{(X}\OperatorTok{$}\NormalTok{x, X}\OperatorTok{$}\NormalTok{y)}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints }\OperatorTok{-}
 \StringTok{    }\DecValTok{1}\NormalTok{) }\OperatorTok{*}\StringTok{ }\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.923   0.004   1.648
+##   5.026   0.189   2.935
 \end{verbatim}
 
 \normalsize
@@ -3561,6 +3568,206 @@ Le choix de paralléliser le code doit être évalué selon le temps d'exécutio
 S'il dépasse quelques secondes, la parallélisation se justifie.
 \texttt{mclapply()} remplace \texttt{lapply()} sans aucun effort, mais nécessite un hack (fourni ici) sous Windows.
 \texttt{foreach()} ne remplace pas \texttt{for()} aussi simplement et ne se justifie que pour des tâches très lourdes en termes de mémoire et de temps de calcul, en particulier sur des clusters de calcul.
+
+\hypertarget{sec:targets}{%
+\section{Flux de travail}\label{sec:targets}}
+
+Le package \textbf{targets} permet de gérer un flux de travail (\emph{workflow}), c'est-à dire de décomposer le code en tâches élémentaires appelées \emph{cibles} qui s'enchaînent, dont le résultat est stocké dans une variable, elle-même enregistrée sur le disque.
+En cas de changement dans le code ou les données utilisées, seules les cibles concernées sont réévaluées.
+
+Le fonctionnement du flux est proche de celui d'un cache, mais ne dépend pas de l'ordinateur sur lequel il s'exécute.
+\textbf{targets} permet de visualiser les tâches obsolètes, d'intégrer le flux à un projet de document (voir section \ref{sec:targetsmd}), et même de faire appel à un cluster de calcul pour traiter les tâches en parallèle.
+
+\hypertarget{principe-de-fonctionnement}{%
+\subsection{Principe de fonctionnement}\label{principe-de-fonctionnement}}
+
+La documentation\footnote{\url{https://books.ropensci.org/targets/}} de \textbf{targets} est détaillée et fournit un exemple travaillé pour apprendre à utiliser le package\footnote{\url{https://books.ropensci.org/targets/walkthrough.html}}.
+Elle n'est pas reprise ici, mais les principes du fonctionnement du flux sont expliqués.
+
+Le flux de travail est unique pour un projet donné.
+Il est codé dans le fichier \texttt{\_targets.R} à la racine du projet.
+Il contient:
+
+\begin{itemize}
+\tightlist
+\item
+  des commandes globales, comme le chargement des packages;
+\item
+  une liste de cibles, qui décrivent le code à exécuter et la variable qui stocke leur résultat.
+\end{itemize}
+
+Le flux est exécuté par la fonction \texttt{tar\_make()} qui met à jour les cibles qui le nécessitent.
+Son contenu est placé dans le dossier \texttt{\_targets}.
+Les variables stockées sont lues par \texttt{tar\_read()}.
+
+Si le projet nécessite de longs calculs, \textbf{targets} permet de n'exécuter que ceux qui sont nécessaires.
+Si le projet est partagé ou placé sous contrôle de source (chapitre \ref{chap:git}), le résultat des calcul est intégré l'est aussi.
+Enfin, si le projet est un document (chapitre \ref{chap:rediger}), son formatage est complètement indépendant du calcul de son contenu, pour un gain de temps qui peut être considérable.
+
+\hypertarget{exemple-minimal}{%
+\subsection{Exemple minimal}\label{exemple-minimal}}
+
+L'exemple suivant est encore plus simple que celui du manuel de \textbf{targets}, qui permettra d'aller plus loin.
+Il reprend l'étude de cas précédente: un jeu de points est généré puis la distance moyenne entre les points obtenus est calculée.
+Une carte des points est tracée en plus.
+Chacune de ces trois opérations est une cible dans le vocabulaire de \textbf{targets}.
+
+Le fichier du flux de travail est donc le suivant:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Fichier _targets.R }
+\KeywordTok{library}\NormalTok{(targets)}
+\KeywordTok{tar_option_set}\NormalTok{(}\DataTypeTok{packages =} \KeywordTok{c}\NormalTok{(}\StringTok{"spatstat"}\NormalTok{, }\StringTok{"dbmss"}\NormalTok{))}
+\KeywordTok{list}\NormalTok{(}
+  \CommentTok{# Tirage des points}
+    \KeywordTok{tar_target}\NormalTok{(X,}
+    \KeywordTok{runifpoint}\NormalTok{(NbPoints)}
+\NormalTok{  ),}
+  \CommentTok{# Paramétrage}
+  \KeywordTok{tar_target}\NormalTok{(NbPoints,}
+    \DecValTok{1000}
+\NormalTok{  ),}
+  \CommentTok{# Distance moyenne}
+  \KeywordTok{tar_target}\NormalTok{(d,}
+    \KeywordTok{sum}\NormalTok{(}\KeywordTok{pairdist}\NormalTok{(X))}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints}\DecValTok{-1}\NormalTok{)}
+\NormalTok{  ),}
+  \CommentTok{# Carte}
+  \KeywordTok{tar_target}\NormalTok{(map, }
+    \KeywordTok{autoplot}\NormalTok{(}\KeywordTok{as.wmppp}\NormalTok{(X))}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
+
+Les commandes globales consistent à charger le package \textbf{targets} lui-même puis lister les packages nécessaires au code.
+L'exécution du flux a lieu dans une nouvelle instance de R.
+
+Les cibles sont ensuite listées.
+Chacune est déclarée par la fonction \texttt{tar\_target()} dont le premier argument est le nom de la cible, qui sera celui de la variable qui recevra le résultat.
+Le deuxième argument est le code qui produit le résultat.
+Les cibles sont très simples ici et peuvent être écrites en une seule commande.
+Quand ce n'est pas le cas, chaque cible peut être écrite sous la forme d'une fonction, stockée dans un fichier de code séparé chargé par la fonction \texttt{source()} au début du fichier de flux.
+
+La commande \texttt{tar\_visnetwork} permet d'afficher l'enchaînement des cibles et leur état éventuellement obsolète.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"targets"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'targets'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     if_any
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_visnetwork}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## PhantomJS not found. You can install it with webshot::install_phantomjs(). If it is installed, please make sure the phantomjs executable can be found via the PATH variable.
+\end{verbatim}
+
+\normalsize
+
+L'ordre de déclaration des cibles dans la liste sans importance: elles sont ordonnées automatiquement.
+
+Le flux est exécuté par \texttt{tar\_make()}.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_make}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## • start target NbPoints
+## • built target NbPoints
+## • start target X
+## • built target X
+## • start target d
+## • built target d
+## • start target map
+## • built target map
+## • end pipeline
+\end{verbatim}
+
+\normalsize
+
+Le flux est maintenant à jour et \texttt{tar\_make()} ne refait aucun calcul.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_visnetwork}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_make}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ✔ skip target NbPoints
+## ✔ skip target X
+## ✔ skip target d
+## ✔ skip target map
+## ✔ skip pipeline
+\end{verbatim}
+
+\normalsize
+
+Les résultats sont lus par \texttt{tar\_read()}.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_read}\NormalTok{(d)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5189867
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_read}\NormalTok{(map)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-60-1} \end{center}
+
+\normalsize
+
+\hypertarget{intuxe9ruxeat-pratique}{%
+\subsection{Intérêt pratique}\label{intuxe9ruxeat-pratique}}
+
+Dans cet exemple, \textbf{targets} complique l'écriture du code et \texttt{tar\_make()} est beaucoup plus lent que la simple exécution du code qu'il traite parce qu'il doit vérifier si les cibles sont à jour.
+Dans un projet réel qui nécessite de longs calculs, le traitement du statut des cibles est négligeable et le gain de temps apporté par la seule évaluation des cibles nécessaires est considérable.
+La définition des cibles reste une contrainte, mais force à bien structurer son projet.
 
 \hypertarget{chap:git}{%
 \chapter{Git et GitHub}\label{chap:git}}
@@ -4387,6 +4594,9 @@ Les outils pour le faire sont l'objet de ce chapitre, complété par la producti
 Dans un fichier \texttt{.R}, le code doit toujours être commenté pour faciliter sa lecture.
 Quand l'explication du code nécessite plusieurs lignes de commentaire par ligne ou bloc de code, il est temps d'inverser la logique et de placer le code dans un texte.
 
+Le concept de programmation lettrée (\emph{literate programming}) a été développé par \textcite{Knuth1984}.
+Il s'agit de décrire les objectifs et les méthodes par du texte, dans lequel le code s'intègre.
+
 L'outil le plus simple est le bloc-note Markdown (Menu \enquote{File \textgreater{} New File \textgreater{} R Notebook}).
 Le modèle de document contient son mode d'emploi.
 
@@ -4501,7 +4711,7 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 \begin{verbatim}
-date: "2021-06-02"
+date: "2021-06-15"
 \end{verbatim}
 
 Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
@@ -4659,11 +4869,11 @@ La fonction \texttt{kable} du package \emph{knitr} prépare le tableau pour l'af
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
-\KeywordTok{names}\NormalTok{(iris) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Longueur sépales ($l_s$)"}\NormalTok{, }\StringTok{"Largeur"}\NormalTok{, }\StringTok{"Longueur pétales"}\NormalTok{, }
+\KeywordTok{names}\NormalTok{(iris) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Longueur sépales ($l_s$)"}\NormalTok{, }\StringTok{"Largeur"}\NormalTok{, }\StringTok{"Longueur pétales"}\NormalTok{,}
     \StringTok{"Largeur"}\NormalTok{, }\StringTok{"Espèce"}\NormalTok{)}
-\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(iris), }\DataTypeTok{caption =} \StringTok{"Tableau créé par R"}\NormalTok{, }\DataTypeTok{booktabs =} \OtherTok{TRUE}\NormalTok{, }
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(iris), }\DataTypeTok{caption =} \StringTok{"Tableau créé par R"}\NormalTok{, }\DataTypeTok{booktabs =} \OtherTok{TRUE}\NormalTok{,}
     \DataTypeTok{escape =} \OtherTok{FALSE}\NormalTok{) }\OperatorTok{%>%}
-\StringTok{    }\NormalTok{kableExtra}\OperatorTok{::}\KeywordTok{kable_styling}\NormalTok{(}\DataTypeTok{bootstrap_options =} \StringTok{"striped"}\NormalTok{, }
+\StringTok{    }\NormalTok{kableExtra}\OperatorTok{::}\KeywordTok{kable_styling}\NormalTok{(}\DataTypeTok{bootstrap_options =} \StringTok{"striped"}\NormalTok{,}
         \DataTypeTok{full_width =} \OtherTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -4697,6 +4907,126 @@ Comme le tableau contient des mathématiques (dans le nom de la première colonn
 
 L'option de style \texttt{bootstrap\_options\ =\ "striped"} fournit des tableaux plus lisibles en HTML.
 Enfin, l'option \texttt{full\_width\ =\ FALSE} permet d'ajuster la largeur du tableau à son contenu au lieu d'occuper toute la largeur disponible.
+
+Le package \textbf{flextable} permet de réaliser des tableaux plus élaborés, comme dans l'exemple suivant qui affiche en couleur les longs sépales.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"flextable"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'flextable'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:spatstat.geom':
+## 
+##     border, rotate
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     compose
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:kableExtra':
+## 
+##     as_image, footnote
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Rappel du jeu de données initial iris}
+\NormalTok{datasets}\OperatorTok{::}\NormalTok{iris }\OperatorTok{%>%}
+\StringTok{    }\CommentTok{# Premières lignes}
+\NormalTok{head }\OperatorTok{%>%}
+\StringTok{    }\CommentTok{# Création d'un objet flextable}
+\NormalTok{flextable }\OperatorTok{%>%}
+\StringTok{    }\CommentTok{# Titre des colonnes}
+\KeywordTok{set_header_labels}\NormalTok{(}\DataTypeTok{Sepal.Length =} \StringTok{"Longueur sépales"}\NormalTok{, }\DataTypeTok{Sepal.Width =} \StringTok{"Largeur"}\NormalTok{,}
+    \DataTypeTok{Petal.Length =} \StringTok{"Longueur pétales"}\NormalTok{, }\DataTypeTok{Petal.Width =} \StringTok{"Largeur"}\NormalTok{,}
+    \DataTypeTok{Species =} \StringTok{"Espèce"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{    }\CommentTok{# Sélection des longs sépales (>5) et affichage en}
+\StringTok{    }\CommentTok{# rouge}
+\KeywordTok{color}\NormalTok{(}\OperatorTok{~}\NormalTok{Sepal.Length }\OperatorTok{>}\StringTok{ }\DecValTok{5}\NormalTok{, }\OperatorTok{~}\NormalTok{Sepal.Length, }\DataTypeTok{color =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\providecommand{\docline}[3]{\noalign{\global\setlength{\arrayrulewidth}{#1}}\arrayrulecolor[HTML]{#2}\cline{#3}}
+
+\setlength{\tabcolsep}{2pt}
+
+\renewcommand*{\arraystretch}{1.5}
+
+\begin{longtable}[c]{|p{0.75in}|p{0.75in}|p{0.75in}|p{0.75in}|p{0.75in}}
+
+
+
+\hhline{>{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}-}
+
+\multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}Longueur\ sépales}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}Largeur}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}Longueur\ pétales}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}Largeur}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedright}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}!{\color[HTML]{000000}\vrule width 0pt}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}Espèce}}} \\
+
+\noalign{\global\setlength{\arrayrulewidth}{2pt}}\arrayrulecolor[HTML]{666666}\cline{1-5}
+
+\endfirsthead
+
+\hhline{>{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}-}
+
+\multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}Longueur\ sépales}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}Largeur}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}Longueur\ pétales}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}Largeur}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedright}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}!{\color[HTML]{000000}\vrule width 0pt}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}Espèce}}} \\
+
+\noalign{\global\setlength{\arrayrulewidth}{2pt}}\arrayrulecolor[HTML]{666666}\cline{1-5}\endhead
+
+
+
+\multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{FF0000}{\global\setmainfont{Helvetica}5.1}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}3.5}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}1.4}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}0.2}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedright}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}!{\color[HTML]{000000}\vrule width 0pt}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}setosa}}} \\
+
+
+
+
+
+\multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}4.9}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}3.0}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}1.4}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}0.2}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedright}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}!{\color[HTML]{000000}\vrule width 0pt}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}setosa}}} \\
+
+
+
+
+
+\multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}4.7}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}3.2}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}1.3}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}0.2}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedright}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}!{\color[HTML]{000000}\vrule width 0pt}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}setosa}}} \\
+
+
+
+
+
+\multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}4.6}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}3.1}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}1.5}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}0.2}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedright}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}!{\color[HTML]{000000}\vrule width 0pt}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}setosa}}} \\
+
+
+
+
+
+\multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}5.0}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}3.6}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}1.4}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}0.2}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedright}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}!{\color[HTML]{000000}\vrule width 0pt}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}setosa}}} \\
+
+
+
+
+
+\multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{FF0000}{\global\setmainfont{Helvetica}5.4}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}3.9}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}1.7}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}0.4}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedright}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}!{\color[HTML]{000000}\vrule width 0pt}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}setosa}}} \\
+
+\noalign{\global\setlength{\arrayrulewidth}{2pt}}\arrayrulecolor[HTML]{666666}\cline{1-5}
+
+\end{longtable}
+
+\normalsize
+
+La formule mathématique \(l_s\) a été retirée du titre de la colonne parce que \textbf{flextable} ne l'interprète pas de façon simple (mais une solution existe\footnote{\url{https://ardata-fr.github.io/flextable-gallery/gallery/}}).
+La documentation du package\footnote{\url{https://ardata-fr.github.io/flextable-book/}} est disponible en ligne, ainsi qu'une galerie\footnote{\url{https://ardata-fr.github.io/flextable-gallery/gallery/}}.
+
+Pour un usage occasionnel, \textbf{flextable} est plus difficile à prendre en main que \textbf{kableExtra} mais il est plus puissant si un usage intensif des tableaux est nécessaire.
 
 \hypertarget{maths}{%
 \subsubsection{Maths}\label{maths}}
@@ -5996,7 +6326,7 @@ La figure \ref{fig:volcano} montre le résultat du code suivant:
 \NormalTok{x <-}\StringTok{ }\DecValTok{10} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(volcano))}
 \NormalTok{y <-}\StringTok{ }\DecValTok{10} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{ncol}\NormalTok{(volcano))}
 \KeywordTok{image}\NormalTok{(x, y, volcano, }\DataTypeTok{col =} \KeywordTok{hcl.colors}\NormalTok{(}\DecValTok{100}\NormalTok{, }\StringTok{"terrain"}\NormalTok{), }\DataTypeTok{axes =} \OtherTok{FALSE}\NormalTok{)}
-\KeywordTok{contour}\NormalTok{(x, y, volcano, }\DataTypeTok{levels =} \KeywordTok{seq}\NormalTok{(}\DecValTok{90}\NormalTok{, }\DecValTok{200}\NormalTok{, }\DataTypeTok{by =} \DecValTok{5}\NormalTok{), }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{, }
+\KeywordTok{contour}\NormalTok{(x, y, volcano, }\DataTypeTok{levels =} \KeywordTok{seq}\NormalTok{(}\DecValTok{90}\NormalTok{, }\DecValTok{200}\NormalTok{, }\DataTypeTok{by =} \DecValTok{5}\NormalTok{), }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{,}
     \DataTypeTok{col =} \StringTok{"brown"}\NormalTok{)}
 \KeywordTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DataTypeTok{at =} \KeywordTok{seq}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DecValTok{800}\NormalTok{, }\DataTypeTok{by =} \DecValTok{100}\NormalTok{))}
 \KeywordTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DataTypeTok{at =} \KeywordTok{seq}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DecValTok{600}\NormalTok{, }\DataTypeTok{by =} \DecValTok{100}\NormalTok{))}
@@ -6093,6 +6423,207 @@ Pour ce document, les options déclarées dans \texttt{index.Rmd} sont les suiva
 \normalsize
 
 Enfin, \textbf{ragg} peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la version 1.4 (Menu \enquote{Tools \textgreater{} Global Options \textgreater{} General \textgreater{} Graphics \textgreater{} Backend}).
+
+\hypertarget{sec:targetsmd}{%
+\section{Flux de travail}\label{sec:targetsmd}}
+
+Un flux de travail (voir section \ref{sec:targets}) peut être intégré dans un document R Markdown à partir de la version 0.5 du package \textbf{targets}.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"targets"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
+
+\hypertarget{duxe9claration-du-flux}{%
+\subsection{Déclaration du flux}\label{duxe9claration-du-flux}}
+
+Le flux est géré par des bouts de code de type \texttt{targets}.
+Leur entête minimal est \texttt{\{targets\}} au lieu de \texttt{\{r\}}, et ils doivent être nommés.
+Ces bouts de code permettent de créer le fichier \texttt{\_targets.R} quand ils sont exécutés en mode non interactif, notamment pendant que le document est tricoté.
+S'ils sont lancés en mode interactif, par exemple dans R Studio, leur code est exécuté.
+L'option \texttt{tar\_interactive\ =\ FALSE} dans leur entête permet de les tester sans tricoter tout le document.
+
+Le premier bout de code, avec l'option \texttt{tar\_globals=TRUE}, écrit les options globales du flux.
+Pour créer le flux présenté en section \ref{sec:targets}, le code est simplement:
+
+\begin{verbatim}
+```{targets targets_global, tar_globals=TRUE}
+tar_option_set(packages = c("spatstat", "dbmss"))
+```
+\end{verbatim}
+
+Les fonctions utilisées par les cibles sont déclarées dans ce type de bout de code: elles sont ajoutées à un fichier dans le dossier de travail \texttt{\_targets\_r} (différent du dossier \texttt{\_targets} qui contient les cibles).
+
+\hypertarget{duxe9claration-des-cibles}{%
+\subsection{Déclaration des cibles}\label{duxe9claration-des-cibles}}
+
+Les cibles elles-mêmes sont déclarées dans des bouts de code dont le nom est celui de la variable de destination.
+
+\begin{verbatim}
+```{targets X, tar_simple=TRUE}
+runifpoint(NbPoints)
+```
+\end{verbatim}
+
+Chaque cible nécessite un bout de code construit de cette manière.
+La valeur de la cible est la dernière valeur retournée, à la manière d'une fonction qui n'utiliserait pas \texttt{return()}.
+
+Pendant le tricot, ce code simplifié (\texttt{tar\_simple=TRUE}) est transformé automatiquement en écriture de cible:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_target}\NormalTok{(X, \{}
+  \KeywordTok{runifpoint}\NormalTok{(NbPoints)}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Defined target X automatically from chunk code.
+## Established _targets.R and _targets_r/targets/X.R.
+\end{verbatim}
+
+\normalsize
+
+La lecture du document est alourdie par cette syntaxe particulière: \textbf{targets} n'est pas utile pour des documents dont le code, rapide à exécuter, doit être affiché dans le texte.
+En revanche, si le code est long à exécuter et n'est pas affiché, son intérêt est considérable pour limiter le temps de calcul.
+
+Les autres bouts de code nécessaires pour compléter le flux sont les suivants :
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{NbPoints}:
+\end{itemize}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_target}\NormalTok{(NbPoints, \{}
+    \DecValTok{1000}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Defined target NbPoints automatically from chunk code.
+## Established _targets.R and _targets_r/targets/NbPoints.R.
+\end{verbatim}
+
+\normalsize
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{d}:
+\end{itemize}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_target}\NormalTok{(d, \{}
+    \KeywordTok{sum}\NormalTok{(}\KeywordTok{pairdist}\NormalTok{(X))}\OperatorTok{/}\NormalTok{NbPoints}\OperatorTok{/}\NormalTok{(NbPoints}\DecValTok{-1}\NormalTok{)}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Defined target d automatically from chunk code.
+## Established _targets.R and _targets_r/targets/d.R.
+\end{verbatim}
+
+\normalsize
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{map}:
+\end{itemize}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_target}\NormalTok{(map, \{}
+    \KeywordTok{autoplot}\NormalTok{(}\KeywordTok{as.wmppp}\NormalTok{(X))}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Defined target map automatically from chunk code.
+## Established _targets.R and _targets_r/targets/map.R.
+\end{verbatim}
+
+\normalsize
+
+\hypertarget{exuxe9cution-du-flux}{%
+\subsection{Exécution du flux}\label{exuxe9cution-du-flux}}
+
+Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit appeler \texttt{tar\_make()}:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_visnetwork}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_make}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## • start target NbPoints
+## • built target NbPoints
+## • start target X
+## • built target X
+## • start target d
+## • built target d
+## • start target map
+## • built target map
+## • end pipeline
+\end{verbatim}
+
+\normalsize
+
+\texttt{tar\_visnetwork()} permet de vérifier que le flux est correct avant de l'exécuter.
+Au moment de la production finale du document, l'option \texttt{include=FALSE} peut être ajoutée à l'entête de ce bout de code pour qu'il ne produise aucun affichage.
+
+\hypertarget{utilisation-des-ruxe9sultats}{%
+\subsection{Utilisation des résultats}\label{utilisation-des-ruxe9sultats}}
+
+Les bouts de code qui utilisent les valeurs des cibles doivent les lire avec \texttt{tar\_read()}:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tar_read}\NormalTok{(map)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-73-1} \end{center}
+
+\normalsize
+
+\hypertarget{contruxf4le-de-source}{%
+\subsection{Contrôle de source}\label{contruxf4le-de-source}}
+
+Les fichiers de \textbf{targets} doivent être inclus au contrôle de source.
+De cette façon, les calculs effectués localement ne seront pas répétés par GitHub Actions (chapitre \ref{chap:ci}) et la construction du document sera rapide.
 
 \hypertarget{chap:package}{%
 \chapter{Package}\label{chap:package}}
@@ -6773,7 +7304,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7faa8e013dc8>
+## <bytecode: 0x7faba57b9bb8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -6807,7 +7338,7 @@ Les fonctions peuvent être listées:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 145
+## [1] 150
 \end{verbatim}
 
 \normalsize
@@ -6823,19 +7354,19 @@ Inversement, les méthodes disponibles pour une classe peuvent être affichées:
 
 \begin{verbatim}
 ##  [1] add1           alias          anova         
-##  [4] case.names     coerce         confint       
-##  [7] cooks.distance deviance       dfbeta        
-## [10] dfbetas        drop1          dummy.coef    
-## [13] effects        extractAIC     family        
-## [16] formula        fortify        hatvalues     
-## [19] influence      initialize     kappa         
-## [22] labels         logLik         model.frame   
-## [25] model.matrix   nobs           plot          
-## [28] predict        print          proj          
-## [31] qqnorm         qr             residuals     
-## [34] rstandard      rstudent       show          
-## [37] simulate       slotsFromS3    summary       
-## [40] variable.names vcov          
+##  [4] as_flextable   case.names     coerce        
+##  [7] confint        cooks.distance deviance      
+## [10] dfbeta         dfbetas        drop1         
+## [13] dummy.coef     effects        extractAIC    
+## [16] family         formula        fortify       
+## [19] hatvalues      influence      initialize    
+## [22] kappa          labels         logLik        
+## [25] model.frame    model.matrix   nobs          
+## [28] plot           predict        print         
+## [31] proj           qqnorm         qr            
+## [34] residuals      rstandard      rstudent      
+## [37] show           simulate       slotsFromS3   
+## [40] summary        variable.names vcov          
 ## see '?methods' for accessing help and source code
 \end{verbatim}
 
@@ -7055,7 +7586,7 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# Performance}
-\NormalTok{microbenchmark}\OperatorTok{::}\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{triple.integer}\NormalTok{(2L), }\KeywordTok{triple.numeric}\NormalTok{(}\DecValTok{2}\NormalTok{), }
+\NormalTok{microbenchmark}\OperatorTok{::}\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{triple.integer}\NormalTok{(2L), }\KeywordTok{triple.numeric}\NormalTok{(}\DecValTok{2}\NormalTok{),}
     \KeywordTok{triple}\NormalTok{(2L))}
 \end{Highlighting}
 \end{Shaded}
@@ -7063,13 +7594,13 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 \begin{verbatim}
 ## Unit: nanoseconds
 ##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  313  322.0   363.54    333  351.5
-##   triple.numeric(2)  310  323.0 19424.64    333  351.0
-##          triple(2L) 1252 1287.5 23150.73   1304 1342.5
+##  triple.integer(2L)  318  329.5 21995.58  343.5  375.0
+##   triple.numeric(2)  317  328.0 18835.48  335.5  369.0
+##          triple(2L) 1321 1349.5  1455.77 1368.5 1425.5
 ##      max neval
-##     1313   100
-##  1908102   100
-##  2175298   100
+##  2163598   100
+##  1847141   100
+##     5650   100
 \end{verbatim}
 
 \normalsize
@@ -7207,7 +7738,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-96-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-105-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7215,7 +7746,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-96-2} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-105-2} \end{center}
 
 \normalsize
 
@@ -7688,6 +8219,12 @@ Ils s'appuient sur \textbf{testthat} à intégrer au package:
 \begin{verbatim}
 ## 
 ## Attaching package: 'testthat'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:targets':
+## 
+##     matches
 \end{verbatim}
 
 \begin{verbatim}
@@ -8904,8 +9441,8 @@ La valeur de \texttt{output\$h} est un lien internet, \texttt{\textless{}a\ href
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{output}\OperatorTok{$}\NormalTok{h <-}\StringTok{ }\KeywordTok{renderUI}\NormalTok{(\{}
-    \KeywordTok{a}\NormalTok{(}\DataTypeTok{href =} \KeywordTok{paste0}\NormalTok{(}\StringTok{"https://scholar.google.com/citations?user="}\NormalTok{, }
-\NormalTok{        input}\OperatorTok{$}\NormalTok{AuthorID), }\KeywordTok{paste}\NormalTok{(}\StringTok{"h index:"}\NormalTok{, }\KeywordTok{AuthorProfile}\NormalTok{()}\OperatorTok{$}\NormalTok{h_index), }
+    \KeywordTok{a}\NormalTok{(}\DataTypeTok{href =} \KeywordTok{paste0}\NormalTok{(}\StringTok{"https://scholar.google.com/citations?user="}\NormalTok{,}
+\NormalTok{        input}\OperatorTok{$}\NormalTok{AuthorID), }\KeywordTok{paste}\NormalTok{(}\StringTok{"h index:"}\NormalTok{, }\KeywordTok{AuthorProfile}\NormalTok{()}\OperatorTok{$}\NormalTok{h_index),}
         \DataTypeTok{target =} \StringTok{"_blank"}\NormalTok{)}
 \NormalTok{\})}
 \end{Highlighting}
@@ -8939,7 +9476,7 @@ Pour permettre la gestion des applications en ligne directement depuis RStudio, 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{rsconnect}\OperatorTok{::}\KeywordTok{setAccountInfo}\NormalTok{(}\DataTypeTok{name =} \StringTok{"prenom.nom"}\NormalTok{, }\DataTypeTok{token =} \StringTok{"xxx"}\NormalTok{, }
+\NormalTok{rsconnect}\OperatorTok{::}\KeywordTok{setAccountInfo}\NormalTok{(}\DataTypeTok{name =} \StringTok{"prenom.nom"}\NormalTok{, }\DataTypeTok{token =} \StringTok{"xxx"}\NormalTok{,}
     \DataTypeTok{secret =} \StringTok{"<SECRET>"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -9120,7 +9657,7 @@ Pour les pauses, R fournit même quelques jeux dans le package \textbf{fun}, don
 \KeywordTok{install.packages}\NormalTok{(}\StringTok{"fun"}\NormalTok{)}
 \CommentTok{# Ouverture d'une fenêtre X et exécution}
 \ControlFlowTok{if}\NormalTok{ (}\KeywordTok{interactive}\NormalTok{()) \{}
-    \ControlFlowTok{if}\NormalTok{ (.Platform}\OperatorTok{$}\NormalTok{OS.type }\OperatorTok{==}\StringTok{ "windows"}\NormalTok{) }
+    \ControlFlowTok{if}\NormalTok{ (.Platform}\OperatorTok{$}\NormalTok{OS.type }\OperatorTok{==}\StringTok{ "windows"}\NormalTok{)}
         \KeywordTok{x11}\NormalTok{() }\ControlFlowTok{else} \KeywordTok{x11}\NormalTok{(}\DataTypeTok{type =} \StringTok{"Xlib"}\NormalTok{)}
 \NormalTok{    fun}\OperatorTok{::}\KeywordTok{mine_sweeper}\NormalTok{()}
 \NormalTok{\}}

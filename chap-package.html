@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-06-02" />
+<meta name="date" content="2021-06-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,8 +53,13 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/vis-4.20.1/vis.css" rel="stylesheet" />
+<script src="libs/vis-4.20.1/vis.min.js"></script>
+<script src="libs/visNetwork-binding-2.0.9/visNetwork.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/tabwid-1.0.0/tabwid.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7NVD1TWMCJ"></script>
 <script>
@@ -225,6 +230,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.7.7" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#rcppparallel"><i class="fa fa-check"></i><b>2.7.7</b> RcppParallel</a></li>
 <li class="chapter" data-level="2.7.8" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#conclusions-sur-loptimisation-de-la-vitesse-du-code"><i class="fa fa-check"></i><b>2.7.8</b> Conclusions sur l’optimisation de la vitesse du code</a></li>
 </ul></li>
+<li class="chapter" data-level="2.8" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#sec:targets"><i class="fa fa-check"></i><b>2.8</b> Flux de travail</a><ul>
+<li class="chapter" data-level="2.8.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#principe-de-fonctionnement"><i class="fa fa-check"></i><b>2.8.1</b> Principe de fonctionnement</a></li>
+<li class="chapter" data-level="2.8.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#exemple-minimal"><i class="fa fa-check"></i><b>2.8.2</b> Exemple minimal</a></li>
+<li class="chapter" data-level="2.8.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#intérêt-pratique"><i class="fa fa-check"></i><b>2.8.3</b> Intérêt pratique</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="chap-git.html"><a href="chap-git.html"><i class="fa fa-check"></i><b>3</b> Git et GitHub</a><ul>
 <li class="chapter" data-level="3.1" data-path="chap-git.html"><a href="chap-git.html#sec:principes-git"><i class="fa fa-check"></i><b>3.1</b> Principes</a><ul>
@@ -304,6 +314,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.8.1" data-path="chap-rediger.html"><a href="chap-rediger.html#formats-vectoriels-et-raster"><i class="fa fa-check"></i><b>4.8.1</b> Formats vectoriels et raster</a></li>
 <li class="chapter" data-level="4.8.2" data-path="chap-rediger.html"><a href="chap-rediger.html#fonctions"><i class="fa fa-check"></i><b>4.8.2</b> Fonctions</a></li>
 <li class="chapter" data-level="4.8.3" data-path="chap-rediger.html"><a href="chap-rediger.html#package-ragg"><i class="fa fa-check"></i><b>4.8.3</b> Package ragg</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:targetsmd"><i class="fa fa-check"></i><b>4.9</b> Flux de travail</a><ul>
+<li class="chapter" data-level="4.9.1" data-path="chap-rediger.html"><a href="chap-rediger.html#déclaration-du-flux"><i class="fa fa-check"></i><b>4.9.1</b> Déclaration du flux</a></li>
+<li class="chapter" data-level="4.9.2" data-path="chap-rediger.html"><a href="chap-rediger.html#déclaration-des-cibles"><i class="fa fa-check"></i><b>4.9.2</b> Déclaration des cibles</a></li>
+<li class="chapter" data-level="4.9.3" data-path="chap-rediger.html"><a href="chap-rediger.html#exécution-du-flux"><i class="fa fa-check"></i><b>4.9.3</b> Exécution du flux</a></li>
+<li class="chapter" data-level="4.9.4" data-path="chap-rediger.html"><a href="chap-rediger.html#utilisation-des-résultats"><i class="fa fa-check"></i><b>4.9.4</b> Utilisation des résultats</a></li>
+<li class="chapter" data-level="4.9.5" data-path="chap-rediger.html"><a href="chap-rediger.html#contrôle-de-source"><i class="fa fa-check"></i><b>4.9.5</b> Contrôle de source</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="chap-package.html"><a href="chap-package.html"><i class="fa fa-check"></i><b>5</b> Package</a><ul>
@@ -415,14 +432,14 @@ Un package à usage personnel ou limité à une équipe de travail est simple à
 Ce type de package a vocation à être hébergé sur GitHub.</p>
 <p>Des packages à usage plus large, qui fournissent par exemple le code correspondant à une méthode publiée, sont placés dans le dépôt CRAN, d’où ils pourront être installés par la commande standard <code>install.packages()</code>.
 CRAN effectue des vérifications poussées du code et n’accepte que les packages passant sans aucun avertissement sa batterie de tests.
-Ils doivent respecter la politique<a href="#fn82" class="footnote-ref" id="fnref82"><sup>82</sup></a> du dépôt.</p>
+Ils doivent respecter la politique<a href="#fn87" class="footnote-ref" id="fnref87"><sup>87</sup></a> du dépôt.</p>
 <p>La documentation pour la création de packages est abondante.
 L’ouvrage de référence est celui de <span class="citation">Wickham (<a href="#ref-Wickham2015" role="doc-biblioref">2015</a>)</span>, à consulter en tant que référence.</p>
 <p>L’approche utilisée ici consiste à créer un premier package très rapidement pour comprendre que la démarche est assez simple.
 Il sera ensuite enrichi des éléments nécessaires à un package diffusé à d’autres utilisateurs que son concepteur: une documentation complète et des tests de bon fonctionnement notamment.</p>
 <div id="premier-package" class="section level2">
 <h2><span class="header-section-number">5.1</span> Premier package</h2>
-<p>Cette introduction reprend les recommandations du blog <em>Créer un package en quelques minutes</em><a href="#fn83" class="footnote-ref" id="fnref83"><sup>83</sup></a> de ThinkR.</p>
+<p>Cette introduction reprend les recommandations du blog <em>Créer un package en quelques minutes</em><a href="#fn88" class="footnote-ref" id="fnref88"><sup>88</sup></a> de ThinkR.</p>
 <div id="création" class="section level3">
 <h3><span class="header-section-number">5.1.1</span> Création</h3>
 <p>Les packages ont une organisation stricte dans une structure de fichiers et de répertoires figée.
@@ -434,7 +451,7 @@ Il est possible de créer cette structure manuellement mais des packages spécia
 </ul>
 <p>Les trois sont à installer en premier lieu:</p>
 
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="chap-package.html#cb291-1"></a><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;usethis&quot;</span>, <span class="st">&quot;roxygen2&quot;</span>, <span class="st">&quot;devtools&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="chap-package.html#cb325-1"></a><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;usethis&quot;</span>, <span class="st">&quot;roxygen2&quot;</span>, <span class="st">&quot;devtools&quot;</span>))</span></code></pre></div>
 
 <p>Le package à créer sera un projet RStudio.
 Dans le menu des projets, sélectionner “New Project &gt; New Directory &gt; R package using devtools…”, choisir le nom du projet et son dossier parent.
@@ -470,18 +487,18 @@ Des fichiers regroupant les fonctions similaires ou un seul fichier contenant to
 <h4><span class="header-section-number">5.1.2.2</span> Création</h4>
 <p>La première fonction, <code>double()</code>, est créée et enregistrée dans le fichier <code>fonctions.R</code>:</p>
 
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="chap-package.html#cb292-1"></a>double &lt;-<span class="st"> </span><span class="cf">function</span>(number) {</span>
-<span id="cb292-2"><a href="chap-package.html#cb292-2"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number)</span>
-<span id="cb292-3"><a href="chap-package.html#cb292-3"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="chap-package.html#cb326-1"></a>double &lt;-<span class="st"> </span><span class="cf">function</span>(number) {</span>
+<span id="cb326-2"><a href="chap-package.html#cb326-2"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number)</span>
+<span id="cb326-3"><a href="chap-package.html#cb326-3"></a>}</span></code></pre></div>
 
 <p>A ce stade, la fonction est interne au package et n’est pas accessible depuis l’environnement de travail.
 Pour s’en persuader, construire le package (<em>Install and Restart</em>) et vérifier le bon fonctionnement de la fonction:</p>
 
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="chap-package.html#cb293-1"></a><span class="kw">double</span>(<span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="chap-package.html#cb327-1"></a><span class="kw">double</span>(<span class="dv">2</span>)</span></code></pre></div>
 
 <p>Le résultat est un vecteur composé de deux 0 parce que la fonction appelée est un homonyme du package <strong>base</strong> (voir sa documentation en tapant <code>?double</code>):</p>
 
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="chap-package.html#cb294-1"></a>base<span class="op">::</span><span class="kw">double</span>(<span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="chap-package.html#cb328-1"></a>base<span class="op">::</span><span class="kw">double</span>(<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 0 0</code></pre>
 
 <p>Pour que la fonction de notre package soit visible, elle doit être <em>exportée</em> en la déclarant dans le fichier <code>NAMESPACE</code>.
@@ -489,17 +506,17 @@ C’est le travail de <strong>roxygen2</strong> qui gère en même temps la docu
 Pour l’activer, placer le curseur dans la fonction et appeler le menu “Code &gt; Insert Roxygen Skeleton”.
 Des commentaires sont ajoutés avant la fonction:</p>
 
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="chap-package.html#cb296-1"></a><span class="co">#&#39; Title</span></span>
-<span id="cb296-2"><a href="chap-package.html#cb296-2"></a><span class="co">#&#39;</span></span>
-<span id="cb296-3"><a href="chap-package.html#cb296-3"></a><span class="co">#&#39; @param number </span></span>
-<span id="cb296-4"><a href="chap-package.html#cb296-4"></a><span class="co">#&#39;</span></span>
-<span id="cb296-5"><a href="chap-package.html#cb296-5"></a><span class="co">#&#39; @return</span></span>
-<span id="cb296-6"><a href="chap-package.html#cb296-6"></a><span class="co">#&#39; @export</span></span>
-<span id="cb296-7"><a href="chap-package.html#cb296-7"></a><span class="co">#&#39;</span></span>
-<span id="cb296-8"><a href="chap-package.html#cb296-8"></a><span class="co">#&#39; @examples</span></span>
-<span id="cb296-9"><a href="chap-package.html#cb296-9"></a>double &lt;-<span class="st"> </span><span class="cf">function</span>(number) {</span>
-<span id="cb296-10"><a href="chap-package.html#cb296-10"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number)</span>
-<span id="cb296-11"><a href="chap-package.html#cb296-11"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="chap-package.html#cb330-1"></a><span class="co">#&#39; Title</span></span>
+<span id="cb330-2"><a href="chap-package.html#cb330-2"></a><span class="co">#&#39;</span></span>
+<span id="cb330-3"><a href="chap-package.html#cb330-3"></a><span class="co">#&#39; @param number </span></span>
+<span id="cb330-4"><a href="chap-package.html#cb330-4"></a><span class="co">#&#39;</span></span>
+<span id="cb330-5"><a href="chap-package.html#cb330-5"></a><span class="co">#&#39; @return</span></span>
+<span id="cb330-6"><a href="chap-package.html#cb330-6"></a><span class="co">#&#39; @export</span></span>
+<span id="cb330-7"><a href="chap-package.html#cb330-7"></a><span class="co">#&#39;</span></span>
+<span id="cb330-8"><a href="chap-package.html#cb330-8"></a><span class="co">#&#39; @examples</span></span>
+<span id="cb330-9"><a href="chap-package.html#cb330-9"></a>double &lt;-<span class="st"> </span><span class="cf">function</span>(number) {</span>
+<span id="cb330-10"><a href="chap-package.html#cb330-10"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number)</span>
+<span id="cb330-11"><a href="chap-package.html#cb330-11"></a>}</span></code></pre></div>
 
 <p>Les commentaires à destination de <strong>roxygen2</strong> commencent par <code>#'</code>:</p>
 <ul>
@@ -513,24 +530,24 @@ Des commentaires sont ajoutés avant la fonction:</p>
 </ul>
 <p>La documentation doit être complétée:</p>
 
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="chap-package.html#cb297-1"></a><span class="co">#&#39; double</span></span>
-<span id="cb297-2"><a href="chap-package.html#cb297-2"></a><span class="co">#&#39; </span></span>
-<span id="cb297-3"><a href="chap-package.html#cb297-3"></a><span class="co">#&#39; Double value of numbers.</span></span>
-<span id="cb297-4"><a href="chap-package.html#cb297-4"></a><span class="co">#&#39;</span></span>
-<span id="cb297-5"><a href="chap-package.html#cb297-5"></a><span class="co">#&#39; Calculate the double values of numbers.</span></span>
-<span id="cb297-6"><a href="chap-package.html#cb297-6"></a><span class="co">#&#39; </span></span>
-<span id="cb297-7"><a href="chap-package.html#cb297-7"></a><span class="co">#&#39; @param number a numeric vector.</span></span>
-<span id="cb297-8"><a href="chap-package.html#cb297-8"></a><span class="co">#&#39;</span></span>
-<span id="cb297-9"><a href="chap-package.html#cb297-9"></a><span class="co">#&#39; @return A vector of the same length as `number` containing the </span></span>
-<span id="cb297-10"><a href="chap-package.html#cb297-10"></a><span class="co">#&#39;   transformed values.</span></span>
-<span id="cb297-11"><a href="chap-package.html#cb297-11"></a><span class="co">#&#39; @export</span></span>
-<span id="cb297-12"><a href="chap-package.html#cb297-12"></a><span class="co">#&#39;</span></span>
-<span id="cb297-13"><a href="chap-package.html#cb297-13"></a><span class="co">#&#39; @examples</span></span>
-<span id="cb297-14"><a href="chap-package.html#cb297-14"></a><span class="co">#&#39; double(2)</span></span>
-<span id="cb297-15"><a href="chap-package.html#cb297-15"></a><span class="co">#&#39; double(1:4)</span></span>
-<span id="cb297-16"><a href="chap-package.html#cb297-16"></a>double &lt;-<span class="st"> </span><span class="cf">function</span>(number) {</span>
-<span id="cb297-17"><a href="chap-package.html#cb297-17"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number)</span>
-<span id="cb297-18"><a href="chap-package.html#cb297-18"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="chap-package.html#cb331-1"></a><span class="co">#&#39; double</span></span>
+<span id="cb331-2"><a href="chap-package.html#cb331-2"></a><span class="co">#&#39; </span></span>
+<span id="cb331-3"><a href="chap-package.html#cb331-3"></a><span class="co">#&#39; Double value of numbers.</span></span>
+<span id="cb331-4"><a href="chap-package.html#cb331-4"></a><span class="co">#&#39;</span></span>
+<span id="cb331-5"><a href="chap-package.html#cb331-5"></a><span class="co">#&#39; Calculate the double values of numbers.</span></span>
+<span id="cb331-6"><a href="chap-package.html#cb331-6"></a><span class="co">#&#39; </span></span>
+<span id="cb331-7"><a href="chap-package.html#cb331-7"></a><span class="co">#&#39; @param number a numeric vector.</span></span>
+<span id="cb331-8"><a href="chap-package.html#cb331-8"></a><span class="co">#&#39;</span></span>
+<span id="cb331-9"><a href="chap-package.html#cb331-9"></a><span class="co">#&#39; @return A vector of the same length as `number` containing the </span></span>
+<span id="cb331-10"><a href="chap-package.html#cb331-10"></a><span class="co">#&#39;   transformed values.</span></span>
+<span id="cb331-11"><a href="chap-package.html#cb331-11"></a><span class="co">#&#39; @export</span></span>
+<span id="cb331-12"><a href="chap-package.html#cb331-12"></a><span class="co">#&#39;</span></span>
+<span id="cb331-13"><a href="chap-package.html#cb331-13"></a><span class="co">#&#39; @examples</span></span>
+<span id="cb331-14"><a href="chap-package.html#cb331-14"></a><span class="co">#&#39; double(2)</span></span>
+<span id="cb331-15"><a href="chap-package.html#cb331-15"></a><span class="co">#&#39; double(1:4)</span></span>
+<span id="cb331-16"><a href="chap-package.html#cb331-16"></a>double &lt;-<span class="st"> </span><span class="cf">function</span>(number) {</span>
+<span id="cb331-17"><a href="chap-package.html#cb331-17"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number)</span>
+<span id="cb331-18"><a href="chap-package.html#cb331-18"></a>}</span></code></pre></div>
 
 <p>Ne pas hésiter à s’inspirer de l’aide de fonctions existantes pour respecter les standards de R (ici: <code>?log</code>):</p>
 <ul>
@@ -543,12 +560,12 @@ Des commentaires sont ajoutés avant la fonction:</p>
 Dans la fenêtre <em>Build</em>, le menu “More &gt; Document” permet de le faire.
 Ensuite, construire le package (<em>Install and Restart</em>) et vérifier le résultat en exécutant la fonction et en affichant son aide:</p>
 
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="chap-package.html#cb298-1"></a><span class="kw">double</span>(<span class="dv">2</span>)</span>
-<span id="cb298-2"><a href="chap-package.html#cb298-2"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(double)</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="chap-package.html#cb332-1"></a><span class="kw">double</span>(<span class="dv">2</span>)</span>
+<span id="cb332-2"><a href="chap-package.html#cb332-2"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(double)</span></code></pre></div>
 
 <p>Il est possible d’automatiser la mise à jour de la documentation à chaque construction du package par le menu “Build &gt; Configure Build Tools…”: cliquer sur “Configure” et cocher la case “Automatically reoxygenize when running Install and Restart”.
 C’est un choix efficace pour un petit package mais pénalisant quand le temps de mise à jour de la documentation s’allonge avec la complexité du package. La reconstruction du package est le plus souvent utilisée pour tester des modifications du code: sa rapidité est essentielle.</p>
-<p>La documentation pour <strong>roxygen2</strong> supporte le format Markdown<a href="#fn84" class="footnote-ref" id="fnref84"><sup>84</sup></a>.</p>
+<p>La documentation pour <strong>roxygen2</strong> supporte le format Markdown<a href="#fn89" class="footnote-ref" id="fnref89"><sup>89</sup></a>.</p>
 <p>A ce stade, le package est fonctionnel: il contient une fonction et un début de documentation.
 Il est temps de lancer une vérification de son code: dans la fenêtre <em>Build</em>, cliquer sur “Check” ou utiliser la commande <code>devtools::check()</code>.
 L’opération <em>réoxygène</em> le package (met à jour sa documentation), effectue un grand nombre de tests et renvoie la liste des erreurs, avertissements et notes détectées.
@@ -563,10 +580,10 @@ Par exemple, le retour suivant est un avertissement sur la non-conformité de la
 Erreur : R CMD check found WARNINGs</code></pre>
 <p>Pour la corriger, mettre à jour, exécuter la commande de mise à jour de la licence, en commençant par votre nom:</p>
 
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="chap-package.html#cb300-1"></a><span class="kw">options</span>(<span class="dt">usethis.full_name =</span> <span class="st">&quot;Eric Marcon&quot;</span>)</span>
-<span id="cb300-2"><a href="chap-package.html#cb300-2"></a>usethis<span class="op">::</span><span class="kw">use_gpl3_license</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="chap-package.html#cb334-1"></a><span class="kw">options</span>(<span class="dt">usethis.full_name =</span> <span class="st">&quot;Eric Marcon&quot;</span>)</span>
+<span id="cb334-2"><a href="chap-package.html#cb334-2"></a>usethis<span class="op">::</span><span class="kw">use_gpl3_license</span>()</span></code></pre></div>
 
-<p>La liste des licences valides est fournie par R<a href="#fn85" class="footnote-ref" id="fnref85"><sup>85</sup></a>.</p>
+<p>La liste des licences valides est fournie par R<a href="#fn90" class="footnote-ref" id="fnref90"><sup>90</sup></a>.</p>
 <p>Après correction, relancer les tests jusqu’à la disparition des alertes.</p>
 </div>
 </div>
@@ -651,7 +668,7 @@ Dans ce cas, il faut préciser le rôle de chacun :</p>
 </ul>
 <p>La description du package en un paragraphe permet de donner plus d’informations.</p>
 <p>La licence précise la façon dont le package peut être utilisé et modifié.
-GPL-3 est une bonne valeur par défaut, mais d’autres choix sont possibles<a href="#fn86" class="footnote-ref" id="fnref86"><sup>86</sup></a>.</p>
+GPL-3 est une bonne valeur par défaut, mais d’autres choix sont possibles<a href="#fn91" class="footnote-ref" id="fnref91"><sup>91</sup></a>.</p>
 <p>L’option <code>LazyData</code> signifie que les données d’exemples fournies avec le package peuvent être utilisées sans les appeler au préalable par la fonction <code>data()</code>: c’est le standard actuel.</p>
 <p>Enfin, les deux dernières lignes sont gérées par <strong>roxygen2</strong>.</p>
 </div>
@@ -675,7 +692,7 @@ Ensuite, l’entrée correspondant à cette version reste figée et une nouvelle
 <h2><span class="header-section-number">5.3</span> Vignette et pkgdown</h2>
 <p>Une vignette est indispensable pour documenter correctement le package:</p>
 
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="chap-package.html#cb305-1"></a>usethis<span class="op">::</span><span class="kw">use_vignette</span>(<span class="st">&quot;multiple&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="chap-package.html#cb339-1"></a>usethis<span class="op">::</span><span class="kw">use_vignette</span>(<span class="st">&quot;multiple&quot;</span>)</span></code></pre></div>
 
 <p>Le fichier <code>multiple.Rmd</code> est créé dans le dossier <code>vignettes</code>.
 Ajouter un sous-titre dans son entête: la description courte du package:</p>
@@ -684,15 +701,15 @@ subtitle: &quot;Multiples of numbers&quot;</code></pre>
 <p>Le reste de l’entête permet à R de construire la vignette à partir de code R Markdown.</p>
 <p>Le corps de la vignette contient par défaut du code R pour déclarer les options de présentation des bouts de code et le chargement du package.
 Une introduction à l’utilisation du package doit être écrite dans ce documents, en R Markdown.</p>
-<p>Le package <strong>pkgdown</strong> permet de créer un site d’accompagnement du package<a href="#fn87" class="footnote-ref" id="fnref87"><sup>87</sup></a>, qui reprend le fichier <code>README.md</code> comme page d’accueil, la vignette dans une rubrique “Get Started”, l’ensemble des fichiers d’aide avec leurs exemples exécutés (section “Reference”), le fichier <code>NEWS.md</code> pour un historique du package (section “Changelog”) et des informations du fichier <code>DESCRIPTION</code>.</p>
+<p>Le package <strong>pkgdown</strong> permet de créer un site d’accompagnement du package<a href="#fn92" class="footnote-ref" id="fnref92"><sup>92</sup></a>, qui reprend le fichier <code>README.md</code> comme page d’accueil, la vignette dans une rubrique “Get Started”, l’ensemble des fichiers d’aide avec leurs exemples exécutés (section “Reference”), le fichier <code>NEWS.md</code> pour un historique du package (section “Changelog”) et des informations du fichier <code>DESCRIPTION</code>.</p>
 <p>Créer le site avec <strong>usethis</strong></p>
 
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="chap-package.html#cb307-1"></a>usethis<span class="op">::</span><span class="kw">use_pkgdown</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="chap-package.html#cb341-1"></a>usethis<span class="op">::</span><span class="kw">use_pkgdown</span>()</span></code></pre></div>
 
 <p>Construire ensuite le site.
 Cette commande sera exécutée à nouveau à chaque changement de version du package:</p>
 
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="chap-package.html#cb308-1"></a>pkgdown<span class="op">::</span><span class="kw">build_site</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="chap-package.html#cb342-1"></a>pkgdown<span class="op">::</span><span class="kw">build_site</span>()</span></code></pre></div>
 
 <p>Le site est placé dans le dossier <code>docs</code>.
 Ouvrir le fichier <code>index.htm</code> avec un navigateur web pour le visualiser.
@@ -710,10 +727,10 @@ De cette façon, les utilisateurs d’une version de production du package ont a
 <p>Le site peut être enrichi de plusieurs façons:</p>
 <ul>
 <li>En ajoutant des articles au format R Markdown dans le dossier <code>vignettes/articles</code>;</li>
-<li>En améliorant sa présentation (regroupement des fonctions par thèmes, ajout de badges, d’un sticker<a href="#fn88" class="footnote-ref" id="fnref88"><sup>88</sup></a>…): se référer à la vignette de <strong>pkgdown</strong>.</li>
+<li>En améliorant sa présentation (regroupement des fonctions par thèmes, ajout de badges, d’un sticker<a href="#fn93" class="footnote-ref" id="fnref93"><sup>93</sup></a>…): se référer à la vignette de <strong>pkgdown</strong>.</li>
 </ul>
 <p>Pour enrichir la documentation du package, il est possible d’utiliser un fichier <code>README.Rmd</code> au format R Markdown, à tricoter pour créer le <code>README.md</code> standard de GitHub, utilisé comme page d’accueil du site <strong>pkgdown</strong>, qui peut de cette façon présenter des exemples d’utilisation du code.
-La démarche est détaillée dans <em>R Packages</em><a href="#fn89" class="footnote-ref" id="fnref89"><sup>89</sup></a>.
+La démarche est détaillée dans <em>R Packages</em><a href="#fn94" class="footnote-ref" id="fnref94"><sup>94</sup></a>.
 La complexité ajoutée est à comparer au gain obtenu: une page d’accueil simple (sans code) avec des liens vers la vignette et les articles est plus simple à mettre en oeuvre.</p>
 </div>
 <div id="code-spécifique-aux-packages" class="section level2">
@@ -722,9 +739,9 @@ La complexité ajoutée est à comparer au gain obtenu: une page d’accueil sim
 <h3><span class="header-section-number">5.4.1</span> Importation de fonctions</h3>
 <p>Créons une nouvelle fonction dans <code>fonctions.R</code> qui ajoute un bruit aléatoire à la valeur double:</p>
 
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="chap-package.html#cb311-1"></a>fuzzydouble &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">sd =</span> <span class="dv">1</span>) {</span>
-<span id="cb311-2"><a href="chap-package.html#cb311-2"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(number), <span class="dv">0</span>, sd))</span>
-<span id="cb311-3"><a href="chap-package.html#cb311-3"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="chap-package.html#cb345-1"></a>fuzzydouble &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">sd =</span> <span class="dv">1</span>) {</span>
+<span id="cb345-2"><a href="chap-package.html#cb345-2"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">length</span>(number), <span class="dv">0</span>, sd))</span>
+<span id="cb345-3"><a href="chap-package.html#cb345-3"></a>}</span></code></pre></div>
 
 <p>Le bruit est tiré dans une loi normale centrée d’écart-type <code>sd</code> et ajouté à la valeur calculée.</p>
 <p><code>rnorm()</code> est une fonction du package <strong>stats</strong>.
@@ -737,40 +754,40 @@ Tous les packages utilisés par le code de <strong>multiple</strong> seront list
 Il y a plusieurs façons de remplir cette obligation.
 D’abord, le commentaire suivant pourrait être fourni pour <strong>roxygen2</strong>:</p>
 
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="chap-package.html#cb313-1"></a><span class="co">#&#39; @import stats</span></span></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="chap-package.html#cb347-1"></a><span class="co">#&#39; @import stats</span></span></code></pre></div>
 
 <p>Tout l’espace de nom du package <strong>stats</strong> serait attaché et accessible au package <strong>multiple</strong>.
 Ce n’est pas une bonne pratique parce qu’elle multiplie les risques de conflits de noms (voir section <a href="chap-utiliseR.html#sec:environnements">2.2</a>).
 Notons que la notion d’importation utilisée ici est différente de celle de <code>DESCRIPTION</code>, bien qu’elles aient le même nom.</p>
 <p>Il est préférable d’importer uniquement la fonction <code>rnorm()</code> en la déclarant dans la documentation de la fonction:</p>
 
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="chap-package.html#cb314-1"></a><span class="co">#&#39; @importFrom stats rnorm</span></span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="chap-package.html#cb348-1"></a><span class="co">#&#39; @importFrom stats rnorm</span></span></code></pre></div>
 
 <p>Ce n’est pas une pratique idéale non plus parce que l’origine de la fonction n’apparaîtrait pas clairement dans le code du package.</p>
 <p>La bonne pratique est de ne rien importer (au sens de <strong>roxygen2</strong>) et de qualifier systématiquement les fonctions d’autres packages avec la syntaxe <code>package::fonction()</code>.
 C’est la solution retenue ici parce que la directive <code>@importFrom</code> importerait la fonction dans tout le package <strong>multiple</strong>, pas seulement dans la fonction <code>fuzzydouble()</code>, au risque de créer des effets de bord (modifier le comportement d’une autre fonction du package qui n’assumerait pas l’importation de <code>rnorm()</code>).
 Finalement, le code de la fonction est le suivant:</p>
 
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="chap-package.html#cb315-1"></a><span class="co">#&#39; fuzzydouble</span></span>
-<span id="cb315-2"><a href="chap-package.html#cb315-2"></a><span class="co">#&#39; </span></span>
-<span id="cb315-3"><a href="chap-package.html#cb315-3"></a><span class="co">#&#39; Double value of numbers with an error</span></span>
-<span id="cb315-4"><a href="chap-package.html#cb315-4"></a><span class="co">#&#39; </span></span>
-<span id="cb315-5"><a href="chap-package.html#cb315-5"></a><span class="co">#&#39; Calculate the double values of numbers </span></span>
-<span id="cb315-6"><a href="chap-package.html#cb315-6"></a><span class="co">#&#39; and add a random error to the result.</span></span>
-<span id="cb315-7"><a href="chap-package.html#cb315-7"></a><span class="co">#&#39;</span></span>
-<span id="cb315-8"><a href="chap-package.html#cb315-8"></a><span class="co">#&#39; @param number a numeric vector.</span></span>
-<span id="cb315-9"><a href="chap-package.html#cb315-9"></a><span class="co">#&#39; @param sd the standard deviation of the Gaussian error added.</span></span>
-<span id="cb315-10"><a href="chap-package.html#cb315-10"></a><span class="co">#&#39;</span></span>
-<span id="cb315-11"><a href="chap-package.html#cb315-11"></a><span class="co">#&#39; @return A vector of the same length as `number`</span></span>
-<span id="cb315-12"><a href="chap-package.html#cb315-12"></a><span class="co">#&#39;  containing the transformed values.</span></span>
-<span id="cb315-13"><a href="chap-package.html#cb315-13"></a><span class="co">#&#39; @export</span></span>
-<span id="cb315-14"><a href="chap-package.html#cb315-14"></a><span class="co">#&#39;</span></span>
-<span id="cb315-15"><a href="chap-package.html#cb315-15"></a><span class="co">#&#39; @examples</span></span>
-<span id="cb315-16"><a href="chap-package.html#cb315-16"></a><span class="co">#&#39; fuzzydouble(2)</span></span>
-<span id="cb315-17"><a href="chap-package.html#cb315-17"></a><span class="co">#&#39; fuzzydouble(1:4)</span></span>
-<span id="cb315-18"><a href="chap-package.html#cb315-18"></a>fuzzydouble &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">sd =</span> <span class="dv">1</span>) {</span>
-<span id="cb315-19"><a href="chap-package.html#cb315-19"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number <span class="op">+</span><span class="st"> </span>stats<span class="op">::</span><span class="kw">rnorm</span>(<span class="kw">length</span>(number), <span class="dv">0</span>, sd))</span>
-<span id="cb315-20"><a href="chap-package.html#cb315-20"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="chap-package.html#cb349-1"></a><span class="co">#&#39; fuzzydouble</span></span>
+<span id="cb349-2"><a href="chap-package.html#cb349-2"></a><span class="co">#&#39; </span></span>
+<span id="cb349-3"><a href="chap-package.html#cb349-3"></a><span class="co">#&#39; Double value of numbers with an error</span></span>
+<span id="cb349-4"><a href="chap-package.html#cb349-4"></a><span class="co">#&#39; </span></span>
+<span id="cb349-5"><a href="chap-package.html#cb349-5"></a><span class="co">#&#39; Calculate the double values of numbers </span></span>
+<span id="cb349-6"><a href="chap-package.html#cb349-6"></a><span class="co">#&#39; and add a random error to the result.</span></span>
+<span id="cb349-7"><a href="chap-package.html#cb349-7"></a><span class="co">#&#39;</span></span>
+<span id="cb349-8"><a href="chap-package.html#cb349-8"></a><span class="co">#&#39; @param number a numeric vector.</span></span>
+<span id="cb349-9"><a href="chap-package.html#cb349-9"></a><span class="co">#&#39; @param sd the standard deviation of the Gaussian error added.</span></span>
+<span id="cb349-10"><a href="chap-package.html#cb349-10"></a><span class="co">#&#39;</span></span>
+<span id="cb349-11"><a href="chap-package.html#cb349-11"></a><span class="co">#&#39; @return A vector of the same length as `number`</span></span>
+<span id="cb349-12"><a href="chap-package.html#cb349-12"></a><span class="co">#&#39;  containing the transformed values.</span></span>
+<span id="cb349-13"><a href="chap-package.html#cb349-13"></a><span class="co">#&#39; @export</span></span>
+<span id="cb349-14"><a href="chap-package.html#cb349-14"></a><span class="co">#&#39;</span></span>
+<span id="cb349-15"><a href="chap-package.html#cb349-15"></a><span class="co">#&#39; @examples</span></span>
+<span id="cb349-16"><a href="chap-package.html#cb349-16"></a><span class="co">#&#39; fuzzydouble(2)</span></span>
+<span id="cb349-17"><a href="chap-package.html#cb349-17"></a><span class="co">#&#39; fuzzydouble(1:4)</span></span>
+<span id="cb349-18"><a href="chap-package.html#cb349-18"></a>fuzzydouble &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">sd =</span> <span class="dv">1</span>) {</span>
+<span id="cb349-19"><a href="chap-package.html#cb349-19"></a>    <span class="kw">return</span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>number <span class="op">+</span><span class="st"> </span>stats<span class="op">::</span><span class="kw">rnorm</span>(<span class="kw">length</span>(number), <span class="dv">0</span>, sd))</span>
+<span id="cb349-20"><a href="chap-package.html#cb349-20"></a>}</span></code></pre></div>
 
 </div>
 <div id="méthodes-s3" class="section level3">
@@ -780,11 +797,11 @@ Finalement, le code de la fonction est le suivant:</p>
 <h4><span class="header-section-number">5.4.2.1</span> Classes</h4>
 <p>Les objets appartiennent à des classes:</p>
 
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="chap-package.html#cb316-1"></a><span class="co"># Classe d&#39;un nombre</span></span>
-<span id="cb316-2"><a href="chap-package.html#cb316-2"></a><span class="kw">class</span>(<span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="chap-package.html#cb350-1"></a><span class="co"># Classe d&#39;un nombre</span></span>
+<span id="cb350-2"><a href="chap-package.html#cb350-2"></a><span class="kw">class</span>(<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="chap-package.html#cb318-1"></a><span class="co"># Classe d&#39;une fonction</span></span>
-<span id="cb318-2"><a href="chap-package.html#cb318-2"></a><span class="kw">class</span>(sum)</span></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="chap-package.html#cb352-1"></a><span class="co"># Classe d&#39;une fonction</span></span>
+<span id="cb352-2"><a href="chap-package.html#cb352-2"></a><span class="kw">class</span>(sum)</span></code></pre></div>
 <pre><code>## [1] &quot;function&quot;</code></pre>
 
 <p>En plus des classes de base, les développeurs peuvent en créer d’autres.</p>
@@ -794,10 +811,10 @@ Finalement, le code de la fonction est le suivant:</p>
 <p>L’intérêt de créer de nouvelles classes est de leur adapter des méthodes existantes, le cas le plus courant étant <code>plot()</code>.
 Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction, sans code, à décliner selon la classe d’objet à traiter.</p>
 
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="chap-package.html#cb320-1"></a>plot</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="chap-package.html#cb354-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7fbd501da020&gt;
+## &lt;bytecode: 0x7fda7c0e7ae8&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -805,39 +822,39 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 De nombreux packages créent des classes adaptées à leurs objets et proposent une méthode <code>plot</code> pour chaque classe.
 Les fonctions peuvent être listées:</p>
 
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="chap-package.html#cb322-1"></a><span class="co"># Quelques fonctions plot()</span></span>
-<span id="cb322-2"><a href="chap-package.html#cb322-2"></a><span class="kw">head</span>(<span class="kw">methods</span>(plot))</span></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="chap-package.html#cb356-1"></a><span class="co"># Quelques fonctions plot()</span></span>
+<span id="cb356-2"><a href="chap-package.html#cb356-2"></a><span class="kw">head</span>(<span class="kw">methods</span>(plot))</span></code></pre></div>
 <pre><code>## [1] &quot;plot,ANY-method&quot;   &quot;plot,color-method&quot;
 ## [3] &quot;plot.AccumCurve&quot;   &quot;plot.acf&quot;         
 ## [5] &quot;plot.ACF&quot;          &quot;plot.addvar&quot;</code></pre>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="chap-package.html#cb324-1"></a><span class="co"># Nombre total</span></span>
-<span id="cb324-2"><a href="chap-package.html#cb324-2"></a><span class="kw">length</span>(<span class="kw">methods</span>(plot))</span></code></pre></div>
-<pre><code>## [1] 145</code></pre>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="chap-package.html#cb358-1"></a><span class="co"># Nombre total</span></span>
+<span id="cb358-2"><a href="chap-package.html#cb358-2"></a><span class="kw">length</span>(<span class="kw">methods</span>(plot))</span></code></pre></div>
+<pre><code>## [1] 150</code></pre>
 
 <p>Inversement, les méthodes disponibles pour une classe peuvent être affichées:</p>
 
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="chap-package.html#cb326-1"></a><span class="kw">methods</span>(<span class="dt">class =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="chap-package.html#cb360-1"></a><span class="kw">methods</span>(<span class="dt">class =</span> <span class="st">&quot;lm&quot;</span>)</span></code></pre></div>
 <pre><code>##  [1] add1           alias          anova         
-##  [4] case.names     coerce         confint       
-##  [7] cooks.distance deviance       dfbeta        
-## [10] dfbetas        drop1          dummy.coef    
-## [13] effects        extractAIC     family        
-## [16] formula        fortify        hatvalues     
-## [19] influence      initialize     kappa         
-## [22] labels         logLik         model.frame   
-## [25] model.matrix   nobs           plot          
-## [28] predict        print          proj          
-## [31] qqnorm         qr             residuals     
-## [34] rstandard      rstudent       show          
-## [37] simulate       slotsFromS3    summary       
-## [40] variable.names vcov          
+##  [4] as_flextable   case.names     coerce        
+##  [7] confint        cooks.distance deviance      
+## [10] dfbeta         dfbetas        drop1         
+## [13] dummy.coef     effects        extractAIC    
+## [16] family         formula        fortify       
+## [19] hatvalues      influence      initialize    
+## [22] kappa          labels         logLik        
+## [25] model.frame    model.matrix   nobs          
+## [28] plot           predict        print         
+## [31] proj           qqnorm         qr            
+## [34] residuals      rstandard      rstudent      
+## [37] show           simulate       slotsFromS3   
+## [40] summary        variable.names vcov          
 ## see &#39;?methods&#39; for accessing help and source code</code></pre>
 
 <p>La méthode <code>print</code> est utilisée pour afficher tout objet (elle est implicite quand on saisit seulement le nom d’un objet):</p>
 
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="chap-package.html#cb328-1"></a>my_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(dist <span class="op">~</span><span class="st"> </span>speed, <span class="dt">data =</span> cars)</span>
-<span id="cb328-2"><a href="chap-package.html#cb328-2"></a><span class="co"># Equivalent de &#39;&gt; my_lm&#39;</span></span>
-<span id="cb328-3"><a href="chap-package.html#cb328-3"></a><span class="kw">print</span>(my_lm)</span></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="chap-package.html#cb362-1"></a>my_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(dist <span class="op">~</span><span class="st"> </span>speed, <span class="dt">data =</span> cars)</span>
+<span id="cb362-2"><a href="chap-package.html#cb362-2"></a><span class="co"># Equivalent de &#39;&gt; my_lm&#39;</span></span>
+<span id="cb362-3"><a href="chap-package.html#cb362-3"></a><span class="kw">print</span>(my_lm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = dist ~ speed, data = cars)
@@ -848,7 +865,7 @@ Les fonctions peuvent être listées:</p>
 
 <p>Le méthode <code>summary</code> affiche un résumé lisible de l’objet:</p>
 
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="chap-package.html#cb330-1"></a><span class="kw">summary</span>(my_lm)</span></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="chap-package.html#cb364-1"></a><span class="kw">summary</span>(my_lm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = dist ~ speed, data = cars)
@@ -875,23 +892,23 @@ Les fonctions peuvent être listées:</p>
 <h4><span class="header-section-number">5.4.2.3</span> Attribution d’un objet à une classe</h4>
 <p>Pour qu’un objet appartient à une classe, il suffit de le déclarer:</p>
 
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="chap-package.html#cb332-1"></a>x &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb332-2"><a href="chap-package.html#cb332-2"></a><span class="kw">class</span>(x) &lt;-<span class="st"> &quot;MyClass&quot;</span></span>
-<span id="cb332-3"><a href="chap-package.html#cb332-3"></a><span class="kw">class</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="chap-package.html#cb366-1"></a>x &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb366-2"><a href="chap-package.html#cb366-2"></a><span class="kw">class</span>(x) &lt;-<span class="st"> &quot;MyClass&quot;</span></span>
+<span id="cb366-3"><a href="chap-package.html#cb366-3"></a><span class="kw">class</span>(x)</span></code></pre></div>
 <pre><code>## [1] &quot;MyClass&quot;</code></pre>
 
 <p>Une façon plus élégante de le faire est d’ajouter la nouvelle classe à l’ensemble des classes auquel l’objet appartient déjà:</p>
 
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="chap-package.html#cb334-1"></a>y &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb334-2"><a href="chap-package.html#cb334-2"></a><span class="kw">class</span>(y) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;MyClass&quot;</span>, <span class="kw">class</span>(y))</span>
-<span id="cb334-3"><a href="chap-package.html#cb334-3"></a><span class="kw">class</span>(y)</span></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="chap-package.html#cb368-1"></a>y &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb368-2"><a href="chap-package.html#cb368-2"></a><span class="kw">class</span>(y) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;MyClass&quot;</span>, <span class="kw">class</span>(y))</span>
+<span id="cb368-3"><a href="chap-package.html#cb368-3"></a><span class="kw">class</span>(y)</span></code></pre></div>
 <pre><code>## [1] &quot;MyClass&quot; &quot;numeric&quot;</code></pre>
 
 <p>Il n’y a aucune vérification de cohérence entre la structure réelle de l’objet et une structure de la classe qui serait déclarée ailleurs: le développeur doit s’assurer que les méthodes trouveront bien les bonnes données dans les objets qui déclarent lui appartenir.
 Dans le cas contraire, des erreurs se produisent:</p>
 
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="chap-package.html#cb336-1"></a><span class="kw">class</span>(y) &lt;-<span class="st"> &quot;lm&quot;</span></span>
-<span id="cb336-2"><a href="chap-package.html#cb336-2"></a><span class="kw">tryCatch</span>(<span class="kw">print</span>(y), <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="kw">print</span>(e))</span></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="chap-package.html#cb370-1"></a><span class="kw">class</span>(y) &lt;-<span class="st"> &quot;lm&quot;</span></span>
+<span id="cb370-2"><a href="chap-package.html#cb370-2"></a><span class="kw">tryCatch</span>(<span class="kw">print</span>(y), <span class="dt">error =</span> <span class="cf">function</span>(e) <span class="kw">print</span>(e))</span></code></pre></div>
 <pre><code>## &lt;simpleError: $ operator is invalid for atomic vectors&gt;</code></pre>
 
 </div>
@@ -904,52 +921,52 @@ Dans le cas contraire, des erreurs se produisent:</p>
 <p>A titre d’exemple, créons une méthode générique <code>triple</code> qui calculera le triple des valeurs dans le package <strong>multiple</strong>, déclinée en deux fonctions distinctes: une pour les entiers et une pour les réels.
 Les calculs sur les nombres entiers plus rapides que ceux sur les réels, ce qui justifie l’effort d’écrire deux versions du code.</p>
 
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="chap-package.html#cb338-1"></a><span class="co"># Méthode générique</span></span>
-<span id="cb338-2"><a href="chap-package.html#cb338-2"></a>triple &lt;-<span class="st"> </span><span class="cf">function</span>(x, ...) {</span>
-<span id="cb338-3"><a href="chap-package.html#cb338-3"></a>    <span class="kw">UseMethod</span>(<span class="st">&quot;triple&quot;</span>)</span>
-<span id="cb338-4"><a href="chap-package.html#cb338-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="chap-package.html#cb372-1"></a><span class="co"># Méthode générique</span></span>
+<span id="cb372-2"><a href="chap-package.html#cb372-2"></a>triple &lt;-<span class="st"> </span><span class="cf">function</span>(x, ...) {</span>
+<span id="cb372-3"><a href="chap-package.html#cb372-3"></a>    <span class="kw">UseMethod</span>(<span class="st">&quot;triple&quot;</span>)</span>
+<span id="cb372-4"><a href="chap-package.html#cb372-4"></a>}</span></code></pre></div>
 
 <p>La méthode générique ne contient pas de code au-delà de sa déclaration.
 Sa signature (c’est-à-dire l’ensemble de ses arguments) est importante parce que les fonctions dérivées de cette méthode devront obligatoirement avoir les mêmes arguments dans le même ordre et pourront seulement ajouter des arguments supplémentaires avant <code>...</code> (qui est obligatoire).
 Comme la nature du premier argument dépendra de la classe de chaque objet, l’usage est de l’appeler <code>x</code>.</p>
 <p>La méthode est déclinée en deux fonctions:</p>
 
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="chap-package.html#cb339-1"></a>triple.integer&lt;-<span class="st"> </span><span class="cf">function</span> (x, ...){</span>
-<span id="cb339-2"><a href="chap-package.html#cb339-2"></a>  <span class="kw">return</span>(x <span class="op">*</span><span class="st"> </span>3L)</span>
-<span id="cb339-3"><a href="chap-package.html#cb339-3"></a>}</span>
-<span id="cb339-4"><a href="chap-package.html#cb339-4"></a>triple.numeric&lt;-<span class="st"> </span><span class="cf">function</span> (x, ...){</span>
-<span id="cb339-5"><a href="chap-package.html#cb339-5"></a>  <span class="kw">return</span>(x <span class="op">*</span><span class="st"> </span><span class="fl">3.0</span>)</span>
-<span id="cb339-6"><a href="chap-package.html#cb339-6"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="chap-package.html#cb373-1"></a>triple.integer&lt;-<span class="st"> </span><span class="cf">function</span> (x, ...){</span>
+<span id="cb373-2"><a href="chap-package.html#cb373-2"></a>  <span class="kw">return</span>(x <span class="op">*</span><span class="st"> </span>3L)</span>
+<span id="cb373-3"><a href="chap-package.html#cb373-3"></a>}</span>
+<span id="cb373-4"><a href="chap-package.html#cb373-4"></a>triple.numeric&lt;-<span class="st"> </span><span class="cf">function</span> (x, ...){</span>
+<span id="cb373-5"><a href="chap-package.html#cb373-5"></a>  <span class="kw">return</span>(x <span class="op">*</span><span class="st"> </span><span class="fl">3.0</span>)</span>
+<span id="cb373-6"><a href="chap-package.html#cb373-6"></a>}</span></code></pre></div>
 
 <p>Dans sa version entière, <code>x</code> est multiplié par <code>3L</code>, le suffixe <code>L</code> signifiant que 3 doit être compris comme un entier.
 Dans sa version réelle, 3 est noté <code>3.0</code> pour montrer clairement qu’il s’agit d’un réel.
 Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <p>Le choix de la fonction dépend de la classe de l’objet passé en argument.</p>
 
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="chap-package.html#cb340-1"></a><span class="co"># Argument entier</span></span>
-<span id="cb340-2"><a href="chap-package.html#cb340-2"></a><span class="kw">class</span>(2L)</span></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="chap-package.html#cb374-1"></a><span class="co"># Argument entier</span></span>
+<span id="cb374-2"><a href="chap-package.html#cb374-2"></a><span class="kw">class</span>(2L)</span></code></pre></div>
 <pre><code>## [1] &quot;integer&quot;</code></pre>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="chap-package.html#cb342-1"></a><span class="co"># Résultat entier par la fonction triple.integer</span></span>
-<span id="cb342-2"><a href="chap-package.html#cb342-2"></a><span class="kw">class</span>(<span class="kw">triple</span>(2L))</span></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="chap-package.html#cb376-1"></a><span class="co"># Résultat entier par la fonction triple.integer</span></span>
+<span id="cb376-2"><a href="chap-package.html#cb376-2"></a><span class="kw">class</span>(<span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## [1] &quot;integer&quot;</code></pre>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="chap-package.html#cb344-1"></a><span class="co"># Argument réel</span></span>
-<span id="cb344-2"><a href="chap-package.html#cb344-2"></a><span class="kw">class</span>(<span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="chap-package.html#cb378-1"></a><span class="co"># Argument réel</span></span>
+<span id="cb378-2"><a href="chap-package.html#cb378-2"></a><span class="kw">class</span>(<span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="chap-package.html#cb346-1"></a><span class="co"># Résultat réel par la fonction triple.numeric</span></span>
-<span id="cb346-2"><a href="chap-package.html#cb346-2"></a><span class="kw">class</span>(<span class="kw">triple</span>(<span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="chap-package.html#cb380-1"></a><span class="co"># Résultat réel par la fonction triple.numeric</span></span>
+<span id="cb380-2"><a href="chap-package.html#cb380-2"></a><span class="kw">class</span>(<span class="kw">triple</span>(<span class="dv">2</span>))</span></code></pre></div>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="chap-package.html#cb348-1"></a><span class="co"># Performance</span></span>
-<span id="cb348-2"><a href="chap-package.html#cb348-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>), </span>
-<span id="cb348-3"><a href="chap-package.html#cb348-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="chap-package.html#cb382-1"></a><span class="co"># Performance</span></span>
+<span id="cb382-2"><a href="chap-package.html#cb382-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>),</span>
+<span id="cb382-3"><a href="chap-package.html#cb382-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
 ##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  313  322.0   375.83    331  391.5
-##   triple.numeric(2)  311  322.5 18496.82    353  394.0
-##          triple(2L) 1323 1346.5 23350.94   1364 1454.0
+##  triple.integer(2L)  319  327.5 21922.06  347.5  367.5
+##   triple.numeric(2)  320  332.5 18829.42  342.0  365.0
+##          triple(2L) 1284 1316.5  1421.96 1335.5 1383.5
 ##      max neval
-##     1305   100
-##  1811870   100
-##  2189066   100</code></pre>
+##  2155729   100
+##  1846276   100
+##     5859   100</code></pre>
 
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -963,24 +980,24 @@ Cette recherche prend beaucoup de temps et justifie de réserver l’usage de m�
 Pour toute classe créée, les méthodes <code>print</code>, <code>summary</code> et <code>plot</code> (si une représentation graphique est possible) doivent être écrites.</p>
 <p>Ecrivons une fonction <code>multiple()</code> dont le résultat sera un objet d’une nouvelle classe, “multiple”, qui sera une liste mémorisant les valeurs à multiplier, le multiplicateur et le résultat.</p>
 
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="chap-package.html#cb350-1"></a>multiple &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">times =</span> <span class="dv">1</span>) {</span>
-<span id="cb350-2"><a href="chap-package.html#cb350-2"></a>    <span class="co"># Calculate the multiples</span></span>
-<span id="cb350-3"><a href="chap-package.html#cb350-3"></a>    y &lt;-<span class="st"> </span>number <span class="op">*</span><span class="st"> </span>times</span>
-<span id="cb350-4"><a href="chap-package.html#cb350-4"></a>    <span class="co"># Save in a list</span></span>
-<span id="cb350-5"><a href="chap-package.html#cb350-5"></a>    result &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">x =</span> number, <span class="dt">y =</span> y, <span class="dt">times =</span> times)</span>
-<span id="cb350-6"><a href="chap-package.html#cb350-6"></a>    <span class="co"># Set the class</span></span>
-<span id="cb350-7"><a href="chap-package.html#cb350-7"></a>    <span class="kw">class</span>(result) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;multiple&quot;</span>, <span class="kw">class</span>(result))</span>
-<span id="cb350-8"><a href="chap-package.html#cb350-8"></a>    <span class="kw">return</span>(result)</span>
-<span id="cb350-9"><a href="chap-package.html#cb350-9"></a>}</span>
-<span id="cb350-10"><a href="chap-package.html#cb350-10"></a><span class="co"># Classe du résultat</span></span>
-<span id="cb350-11"><a href="chap-package.html#cb350-11"></a>my_multiple &lt;-<span class="st"> </span><span class="kw">multiple</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">2</span>)</span>
-<span id="cb350-12"><a href="chap-package.html#cb350-12"></a><span class="kw">class</span>(my_multiple)</span></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="chap-package.html#cb384-1"></a>multiple &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">times =</span> <span class="dv">1</span>) {</span>
+<span id="cb384-2"><a href="chap-package.html#cb384-2"></a>    <span class="co"># Calculate the multiples</span></span>
+<span id="cb384-3"><a href="chap-package.html#cb384-3"></a>    y &lt;-<span class="st"> </span>number <span class="op">*</span><span class="st"> </span>times</span>
+<span id="cb384-4"><a href="chap-package.html#cb384-4"></a>    <span class="co"># Save in a list</span></span>
+<span id="cb384-5"><a href="chap-package.html#cb384-5"></a>    result &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">x =</span> number, <span class="dt">y =</span> y, <span class="dt">times =</span> times)</span>
+<span id="cb384-6"><a href="chap-package.html#cb384-6"></a>    <span class="co"># Set the class</span></span>
+<span id="cb384-7"><a href="chap-package.html#cb384-7"></a>    <span class="kw">class</span>(result) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;multiple&quot;</span>, <span class="kw">class</span>(result))</span>
+<span id="cb384-8"><a href="chap-package.html#cb384-8"></a>    <span class="kw">return</span>(result)</span>
+<span id="cb384-9"><a href="chap-package.html#cb384-9"></a>}</span>
+<span id="cb384-10"><a href="chap-package.html#cb384-10"></a><span class="co"># Classe du résultat</span></span>
+<span id="cb384-11"><a href="chap-package.html#cb384-11"></a>my_multiple &lt;-<span class="st"> </span><span class="kw">multiple</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb384-12"><a href="chap-package.html#cb384-12"></a><span class="kw">class</span>(my_multiple)</span></code></pre></div>
 <pre><code>## [1] &quot;multiple&quot; &quot;list&quot;</code></pre>
 
 <p>L’appel à la fonction <code>multiple()</code> renvoie un objet de classe “multiple”, qui est aussi de classe “list”.
 En absence de fonction <code>print.multiple()</code>, R cherche la fonction <code>print.list()</code> qui n’existe pas et se rabat sur la fonction <code>print.default()</code>:</p>
 
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="chap-package.html#cb352-1"></a>my_multiple</span></code></pre></div>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="chap-package.html#cb386-1"></a>my_multiple</span></code></pre></div>
 <pre><code>## $x
 ## [1] 1 2 3
 ## 
@@ -995,45 +1012,45 @@ En absence de fonction <code>print.multiple()</code>, R cherche la fonction <cod
 
 <p>La fonction <code>print.multiple</code> doit donc être écrite pour un affichage lisible, limité au résultat:</p>
 
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="chap-package.html#cb354-1"></a>print.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(x, ...) {</span>
-<span id="cb354-2"><a href="chap-package.html#cb354-2"></a>    <span class="kw">print.default</span>(x<span class="op">$</span>y)</span>
-<span id="cb354-3"><a href="chap-package.html#cb354-3"></a>}</span>
-<span id="cb354-4"><a href="chap-package.html#cb354-4"></a><span class="co"># Nouvel affichage</span></span>
-<span id="cb354-5"><a href="chap-package.html#cb354-5"></a>my_multiple</span></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="chap-package.html#cb388-1"></a>print.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(x, ...) {</span>
+<span id="cb388-2"><a href="chap-package.html#cb388-2"></a>    <span class="kw">print.default</span>(x<span class="op">$</span>y)</span>
+<span id="cb388-3"><a href="chap-package.html#cb388-3"></a>}</span>
+<span id="cb388-4"><a href="chap-package.html#cb388-4"></a><span class="co"># Nouvel affichage</span></span>
+<span id="cb388-5"><a href="chap-package.html#cb388-5"></a>my_multiple</span></code></pre></div>
 <pre><code>## [1] 2 4 6</code></pre>
 
 <p>Les détails peuvent être présentés dans la fonction <code>summary</code>:</p>
 
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="chap-package.html#cb356-1"></a>summary.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(object, ...) {</span>
-<span id="cb356-2"><a href="chap-package.html#cb356-2"></a>    <span class="kw">print.default</span>(object<span class="op">$</span>x)</span>
-<span id="cb356-3"><a href="chap-package.html#cb356-3"></a>    <span class="kw">cat</span>(<span class="st">&quot;multiplied by&quot;</span>, object<span class="op">$</span>times, <span class="st">&quot;is:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb356-4"><a href="chap-package.html#cb356-4"></a>    <span class="kw">print.default</span>(object<span class="op">$</span>y)</span>
-<span id="cb356-5"><a href="chap-package.html#cb356-5"></a>}</span>
-<span id="cb356-6"><a href="chap-package.html#cb356-6"></a><span class="co"># Nouvel affichage</span></span>
-<span id="cb356-7"><a href="chap-package.html#cb356-7"></a><span class="kw">summary</span>(my_multiple)</span></code></pre></div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="chap-package.html#cb390-1"></a>summary.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(object, ...) {</span>
+<span id="cb390-2"><a href="chap-package.html#cb390-2"></a>    <span class="kw">print.default</span>(object<span class="op">$</span>x)</span>
+<span id="cb390-3"><a href="chap-package.html#cb390-3"></a>    <span class="kw">cat</span>(<span class="st">&quot;multiplied by&quot;</span>, object<span class="op">$</span>times, <span class="st">&quot;is:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb390-4"><a href="chap-package.html#cb390-4"></a>    <span class="kw">print.default</span>(object<span class="op">$</span>y)</span>
+<span id="cb390-5"><a href="chap-package.html#cb390-5"></a>}</span>
+<span id="cb390-6"><a href="chap-package.html#cb390-6"></a><span class="co"># Nouvel affichage</span></span>
+<span id="cb390-7"><a href="chap-package.html#cb390-7"></a><span class="kw">summary</span>(my_multiple)</span></code></pre></div>
 <pre><code>## [1] 1 2 3
 ## multiplied by 2 is:
 ## [1] 2 4 6</code></pre>
 
 <p>Enfin, une fonction <code>plot</code> et une fonction <code>autoplot</code> complètent l’ensemble:</p>
 
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="chap-package.html#cb358-1"></a>plot.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(x, y, ...) {</span>
-<span id="cb358-2"><a href="chap-package.html#cb358-2"></a>  <span class="kw">plot.default</span>(<span class="dt">y=</span>x<span class="op">$</span>y, <span class="dt">x=</span>x<span class="op">$</span>x, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>, </span>
-<span id="cb358-3"><a href="chap-package.html#cb358-3"></a>    <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Multiplication by&quot;</span>, x<span class="op">$</span>times), ...)</span>
-<span id="cb358-4"><a href="chap-package.html#cb358-4"></a>}</span>
-<span id="cb358-5"><a href="chap-package.html#cb358-5"></a></span>
-<span id="cb358-6"><a href="chap-package.html#cb358-6"></a>autoplot.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(object, ...) {</span>
-<span id="cb358-7"><a href="chap-package.html#cb358-7"></a>  <span class="kw">data.frame</span>(<span class="dt">x =</span> object<span class="op">$</span>x, <span class="dt">y =</span> object<span class="op">$</span>y) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb358-8"><a href="chap-package.html#cb358-8"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">ggplot</span>() <span class="op">+</span></span>
-<span id="cb358-9"><a href="chap-package.html#cb358-9"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">geom_point</span>(ggplot2<span class="op">::</span><span class="kw">aes_</span>(<span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y)) <span class="op">+</span></span>
-<span id="cb358-10"><a href="chap-package.html#cb358-10"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">&quot;Multiplication by&quot;</span>, </span>
-<span id="cb358-11"><a href="chap-package.html#cb358-11"></a>                                object<span class="op">$</span>times))</span>
-<span id="cb358-12"><a href="chap-package.html#cb358-12"></a>}</span>
-<span id="cb358-13"><a href="chap-package.html#cb358-13"></a></span>
-<span id="cb358-14"><a href="chap-package.html#cb358-14"></a><span class="kw">plot</span>(my_multiple)</span></code></pre></div>
-<p><img src="travailleR_files/figure-html/unnamed-chunk-96-1.png" width="80%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="chap-package.html#cb359-1"></a><span class="kw">autoplot</span>(my_multiple)</span></code></pre></div>
-<p><img src="travailleR_files/figure-html/unnamed-chunk-96-2.png" width="80%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="chap-package.html#cb392-1"></a>plot.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(x, y, ...) {</span>
+<span id="cb392-2"><a href="chap-package.html#cb392-2"></a>  <span class="kw">plot.default</span>(<span class="dt">y=</span>x<span class="op">$</span>y, <span class="dt">x=</span>x<span class="op">$</span>x, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>, </span>
+<span id="cb392-3"><a href="chap-package.html#cb392-3"></a>    <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Multiplication by&quot;</span>, x<span class="op">$</span>times), ...)</span>
+<span id="cb392-4"><a href="chap-package.html#cb392-4"></a>}</span>
+<span id="cb392-5"><a href="chap-package.html#cb392-5"></a></span>
+<span id="cb392-6"><a href="chap-package.html#cb392-6"></a>autoplot.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(object, ...) {</span>
+<span id="cb392-7"><a href="chap-package.html#cb392-7"></a>  <span class="kw">data.frame</span>(<span class="dt">x =</span> object<span class="op">$</span>x, <span class="dt">y =</span> object<span class="op">$</span>y) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb392-8"><a href="chap-package.html#cb392-8"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb392-9"><a href="chap-package.html#cb392-9"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">geom_point</span>(ggplot2<span class="op">::</span><span class="kw">aes_</span>(<span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y)) <span class="op">+</span></span>
+<span id="cb392-10"><a href="chap-package.html#cb392-10"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">&quot;Multiplication by&quot;</span>, </span>
+<span id="cb392-11"><a href="chap-package.html#cb392-11"></a>                                object<span class="op">$</span>times))</span>
+<span id="cb392-12"><a href="chap-package.html#cb392-12"></a>}</span>
+<span id="cb392-13"><a href="chap-package.html#cb392-13"></a></span>
+<span id="cb392-14"><a href="chap-package.html#cb392-14"></a><span class="kw">plot</span>(my_multiple)</span></code></pre></div>
+<p><img src="travailleR_files/figure-html/unnamed-chunk-105-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="chap-package.html#cb393-1"></a><span class="kw">autoplot</span>(my_multiple)</span></code></pre></div>
+<p><img src="travailleR_files/figure-html/unnamed-chunk-105-2.png" width="80%" style="display: block; margin: auto;" /></p>
 
 <p>Pour des raisons techniques liées à l’évaluation non conventionnelle dans le tidyverse, les fonctions <code>aes()</code> doivent être remplacées par <code>aes_()</code> dans les packages et ajouter un <code>~</code> devant les noms des variables.
 Dans le cas contraire, la vérification du package renvoie une note indiquant que les variables <code>x</code> et <code>y</code>, utilisées par les arguments de <code>aes()</code> n’ont pas été déclarées et n’existent peut-être pas dans l’environnement local (voir section <a href="chap-utiliseR.html#sec:environnements">2.2</a>).</p>
@@ -1055,8 +1072,8 @@ Dans le cas contraire, la vérification du package renvoie une note indiquant qu
 <li>Les fonctions dérivées de méthodes génériques venant d’un autre package nécessitent d’importer la méthode générique si elle n’est pas fournie par <strong>base</strong> (<code>print</code> est fourni par <strong>base</strong> et n’est donc pas concerné):</li>
 </ul>
 
-<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="chap-package.html#cb362-1"></a><span class="co">#&#39; @importFrom graphics plot</span></span>
-<span id="cb362-2"><a href="chap-package.html#cb362-2"></a><span class="co">#&#39; @importFrom ggplot2 autoplot</span></span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="chap-package.html#cb396-1"></a><span class="co">#&#39; @importFrom graphics plot</span></span>
+<span id="cb396-2"><a href="chap-package.html#cb396-2"></a><span class="co">#&#39; @importFrom ggplot2 autoplot</span></span></code></pre></div>
 
 <p>Dans <code>DESCRIPTION</code>, le package d’origine de chaque générique doit être listé dans la directive <code>Depends:</code>, pas dans <code>Imports:</code>:</p>
 <pre><code>Depends: R (&gt;= 2.10), ggplot2, graphics</code></pre>
@@ -1071,97 +1088,97 @@ Il doit être importé dans <code>DESCRIPTION</code>.</li>
 <li>Comme il n’est pas possible de les préfixer <code>%&gt;%</code> par le nom du package, il faut importer la fonction en utilisant les délimiteurs prévus pour les fonctions dont le nom contient des caractères spéciaux:</li>
 </ul>
 
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="chap-package.html#cb365-1"></a><span class="co">#&#39; @importFrom magrittr `%&gt;%`</span></span></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="chap-package.html#cb399-1"></a><span class="co">#&#39; @importFrom magrittr `%&gt;%`</span></span></code></pre></div>
 
 <p>Finalement, le code complet est le suivant:</p>
 
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="chap-package.html#cb366-1"></a><span class="co">#&#39; Multiplication of a numeric vector</span></span>
-<span id="cb366-2"><a href="chap-package.html#cb366-2"></a><span class="co">#&#39;</span></span>
-<span id="cb366-3"><a href="chap-package.html#cb366-3"></a><span class="co">#&#39; @param number a numeric vector</span></span>
-<span id="cb366-4"><a href="chap-package.html#cb366-4"></a><span class="co">#&#39; @param times a number to multiply</span></span>
-<span id="cb366-5"><a href="chap-package.html#cb366-5"></a><span class="co">#&#39;</span></span>
-<span id="cb366-6"><a href="chap-package.html#cb366-6"></a><span class="co">#&#39; @return an object of class `multiple`</span></span>
-<span id="cb366-7"><a href="chap-package.html#cb366-7"></a><span class="co">#&#39; @export</span></span>
-<span id="cb366-8"><a href="chap-package.html#cb366-8"></a><span class="co">#&#39;</span></span>
-<span id="cb366-9"><a href="chap-package.html#cb366-9"></a><span class="co">#&#39; @examples</span></span>
-<span id="cb366-10"><a href="chap-package.html#cb366-10"></a><span class="co">#&#39; multiple(1:2,3)</span></span>
-<span id="cb366-11"><a href="chap-package.html#cb366-11"></a>multiple &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">times =</span> <span class="dv">1</span>) {</span>
-<span id="cb366-12"><a href="chap-package.html#cb366-12"></a>  <span class="co"># Calculate the multiples</span></span>
-<span id="cb366-13"><a href="chap-package.html#cb366-13"></a>  y &lt;-<span class="st"> </span>number <span class="op">*</span><span class="st"> </span>times</span>
-<span id="cb366-14"><a href="chap-package.html#cb366-14"></a>  <span class="co"># Save in a list</span></span>
-<span id="cb366-15"><a href="chap-package.html#cb366-15"></a>  result &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">x =</span> number, <span class="dt">y =</span> y, <span class="dt">times =</span> times)</span>
-<span id="cb366-16"><a href="chap-package.html#cb366-16"></a>  <span class="co"># Set the class</span></span>
-<span id="cb366-17"><a href="chap-package.html#cb366-17"></a>  <span class="kw">class</span>(result) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;multiple&quot;</span>, <span class="kw">class</span>(result))</span>
-<span id="cb366-18"><a href="chap-package.html#cb366-18"></a>  <span class="kw">return</span>(result)</span>
-<span id="cb366-19"><a href="chap-package.html#cb366-19"></a>}</span>
-<span id="cb366-20"><a href="chap-package.html#cb366-20"></a></span>
-<span id="cb366-21"><a href="chap-package.html#cb366-21"></a><span class="co">#&#39; Print objects of class multiple</span></span>
-<span id="cb366-22"><a href="chap-package.html#cb366-22"></a><span class="co">#&#39;</span></span>
-<span id="cb366-23"><a href="chap-package.html#cb366-23"></a><span class="co">#&#39; @param x an object of class `multiple`.</span></span>
-<span id="cb366-24"><a href="chap-package.html#cb366-24"></a><span class="co">#&#39; @param ... further arguments passed to the generic method.</span></span>
-<span id="cb366-25"><a href="chap-package.html#cb366-25"></a><span class="co">#&#39;</span></span>
-<span id="cb366-26"><a href="chap-package.html#cb366-26"></a><span class="co">#&#39; @export</span></span>
-<span id="cb366-27"><a href="chap-package.html#cb366-27"></a><span class="co">#&#39;</span></span>
-<span id="cb366-28"><a href="chap-package.html#cb366-28"></a><span class="co">#&#39; @examples</span></span>
-<span id="cb366-29"><a href="chap-package.html#cb366-29"></a><span class="co">#&#39; print(multiple(2,3))</span></span>
-<span id="cb366-30"><a href="chap-package.html#cb366-30"></a>print.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(x, ...) {</span>
-<span id="cb366-31"><a href="chap-package.html#cb366-31"></a>  <span class="kw">print.default</span>(x<span class="op">$</span>y)</span>
-<span id="cb366-32"><a href="chap-package.html#cb366-32"></a>}</span>
-<span id="cb366-33"><a href="chap-package.html#cb366-33"></a></span>
-<span id="cb366-34"><a href="chap-package.html#cb366-34"></a><span class="co">#&#39; Summarize objects of class multiple</span></span>
-<span id="cb366-35"><a href="chap-package.html#cb366-35"></a><span class="co">#&#39;</span></span>
-<span id="cb366-36"><a href="chap-package.html#cb366-36"></a><span class="co">#&#39; @param object an object of class `multiple`.</span></span>
-<span id="cb366-37"><a href="chap-package.html#cb366-37"></a><span class="co">#&#39; @param ... further arguments passed to the generic method.</span></span>
-<span id="cb366-38"><a href="chap-package.html#cb366-38"></a><span class="co">#&#39;</span></span>
-<span id="cb366-39"><a href="chap-package.html#cb366-39"></a><span class="co">#&#39; @export</span></span>
-<span id="cb366-40"><a href="chap-package.html#cb366-40"></a><span class="co">#&#39;</span></span>
-<span id="cb366-41"><a href="chap-package.html#cb366-41"></a><span class="co">#&#39; @examples</span></span>
-<span id="cb366-42"><a href="chap-package.html#cb366-42"></a><span class="co">#&#39; summary(multiple(2,3))</span></span>
-<span id="cb366-43"><a href="chap-package.html#cb366-43"></a>summary.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(object, ...) {</span>
-<span id="cb366-44"><a href="chap-package.html#cb366-44"></a>  <span class="kw">print.default</span>(object<span class="op">$</span>x)</span>
-<span id="cb366-45"><a href="chap-package.html#cb366-45"></a>  <span class="kw">cat</span>(<span class="st">&quot;multiplied by&quot;</span>, object<span class="op">$</span>times, <span class="st">&quot;is:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb366-46"><a href="chap-package.html#cb366-46"></a>  <span class="kw">print.default</span>(object<span class="op">$</span>y)</span>
-<span id="cb366-47"><a href="chap-package.html#cb366-47"></a>}</span>
-<span id="cb366-48"><a href="chap-package.html#cb366-48"></a></span>
-<span id="cb366-49"><a href="chap-package.html#cb366-49"></a></span>
-<span id="cb366-50"><a href="chap-package.html#cb366-50"></a><span class="co">#&#39; Plot objects of class multiple</span></span>
-<span id="cb366-51"><a href="chap-package.html#cb366-51"></a><span class="co">#&#39;</span></span>
-<span id="cb366-52"><a href="chap-package.html#cb366-52"></a><span class="co">#&#39; @param x a vector of numbers</span></span>
-<span id="cb366-53"><a href="chap-package.html#cb366-53"></a><span class="co">#&#39; @param y a vector of multiplied numbers</span></span>
-<span id="cb366-54"><a href="chap-package.html#cb366-54"></a><span class="co">#&#39; @param ... further arguments passed to the generic method.</span></span>
-<span id="cb366-55"><a href="chap-package.html#cb366-55"></a><span class="co">#&#39;</span></span>
-<span id="cb366-56"><a href="chap-package.html#cb366-56"></a><span class="co">#&#39; @importFrom graphics plot</span></span>
-<span id="cb366-57"><a href="chap-package.html#cb366-57"></a><span class="co">#&#39; @export</span></span>
-<span id="cb366-58"><a href="chap-package.html#cb366-58"></a><span class="co">#&#39;</span></span>
-<span id="cb366-59"><a href="chap-package.html#cb366-59"></a><span class="co">#&#39; @examples</span></span>
-<span id="cb366-60"><a href="chap-package.html#cb366-60"></a><span class="co">#&#39; plot(multiple(2,3))</span></span>
-<span id="cb366-61"><a href="chap-package.html#cb366-61"></a>plot.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(x, y, ...) {</span>
-<span id="cb366-62"><a href="chap-package.html#cb366-62"></a>  <span class="kw">plot.default</span>(<span class="dt">y=</span>x<span class="op">$</span>y, <span class="dt">x=</span>x<span class="op">$</span>x, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>, </span>
-<span id="cb366-63"><a href="chap-package.html#cb366-63"></a>               <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Multiplication by&quot;</span>, x<span class="op">$</span>times), ...)</span>
-<span id="cb366-64"><a href="chap-package.html#cb366-64"></a>}</span>
-<span id="cb366-65"><a href="chap-package.html#cb366-65"></a></span>
-<span id="cb366-66"><a href="chap-package.html#cb366-66"></a></span>
-<span id="cb366-67"><a href="chap-package.html#cb366-67"></a><span class="co">#&#39; autoplot</span></span>
-<span id="cb366-68"><a href="chap-package.html#cb366-68"></a><span class="co">#&#39;</span></span>
-<span id="cb366-69"><a href="chap-package.html#cb366-69"></a><span class="co">#&#39; ggplot of the `multiple` objects.</span></span>
-<span id="cb366-70"><a href="chap-package.html#cb366-70"></a><span class="co">#&#39;</span></span>
-<span id="cb366-71"><a href="chap-package.html#cb366-71"></a><span class="co">#&#39; @param object an object of class `multiple`.</span></span>
-<span id="cb366-72"><a href="chap-package.html#cb366-72"></a><span class="co">#&#39; @param ... ignored.</span></span>
-<span id="cb366-73"><a href="chap-package.html#cb366-73"></a><span class="co">#&#39;</span></span>
-<span id="cb366-74"><a href="chap-package.html#cb366-74"></a><span class="co">#&#39; @return a `ggplot` object</span></span>
-<span id="cb366-75"><a href="chap-package.html#cb366-75"></a><span class="co">#&#39; @importFrom ggplot2 autoplot</span></span>
-<span id="cb366-76"><a href="chap-package.html#cb366-76"></a><span class="co">#&#39; @importFrom magrittr `%&gt;%`</span></span>
-<span id="cb366-77"><a href="chap-package.html#cb366-77"></a><span class="co">#&#39; @export</span></span>
-<span id="cb366-78"><a href="chap-package.html#cb366-78"></a><span class="co">#&#39;</span></span>
-<span id="cb366-79"><a href="chap-package.html#cb366-79"></a><span class="co">#&#39; @examples</span></span>
-<span id="cb366-80"><a href="chap-package.html#cb366-80"></a><span class="co">#&#39; autoplot(multiple(2,3))</span></span>
-<span id="cb366-81"><a href="chap-package.html#cb366-81"></a>autoplot.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(object, ...) {</span>
-<span id="cb366-82"><a href="chap-package.html#cb366-82"></a>  <span class="kw">data.frame</span>(<span class="dt">x =</span> object<span class="op">$</span>x, <span class="dt">y =</span> object<span class="op">$</span>y) <span class="op">%&gt;%</span></span>
-<span id="cb366-83"><a href="chap-package.html#cb366-83"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">ggplot</span>() <span class="op">+</span></span>
-<span id="cb366-84"><a href="chap-package.html#cb366-84"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">geom_point</span>(ggplot2<span class="op">::</span><span class="kw">aes_</span>(<span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y)) <span class="op">+</span></span>
-<span id="cb366-85"><a href="chap-package.html#cb366-85"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">&quot;Multiplication by&quot;</span>, </span>
-<span id="cb366-86"><a href="chap-package.html#cb366-86"></a>                                object<span class="op">$</span>times))</span>
-<span id="cb366-87"><a href="chap-package.html#cb366-87"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="chap-package.html#cb400-1"></a><span class="co">#&#39; Multiplication of a numeric vector</span></span>
+<span id="cb400-2"><a href="chap-package.html#cb400-2"></a><span class="co">#&#39;</span></span>
+<span id="cb400-3"><a href="chap-package.html#cb400-3"></a><span class="co">#&#39; @param number a numeric vector</span></span>
+<span id="cb400-4"><a href="chap-package.html#cb400-4"></a><span class="co">#&#39; @param times a number to multiply</span></span>
+<span id="cb400-5"><a href="chap-package.html#cb400-5"></a><span class="co">#&#39;</span></span>
+<span id="cb400-6"><a href="chap-package.html#cb400-6"></a><span class="co">#&#39; @return an object of class `multiple`</span></span>
+<span id="cb400-7"><a href="chap-package.html#cb400-7"></a><span class="co">#&#39; @export</span></span>
+<span id="cb400-8"><a href="chap-package.html#cb400-8"></a><span class="co">#&#39;</span></span>
+<span id="cb400-9"><a href="chap-package.html#cb400-9"></a><span class="co">#&#39; @examples</span></span>
+<span id="cb400-10"><a href="chap-package.html#cb400-10"></a><span class="co">#&#39; multiple(1:2,3)</span></span>
+<span id="cb400-11"><a href="chap-package.html#cb400-11"></a>multiple &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">times =</span> <span class="dv">1</span>) {</span>
+<span id="cb400-12"><a href="chap-package.html#cb400-12"></a>  <span class="co"># Calculate the multiples</span></span>
+<span id="cb400-13"><a href="chap-package.html#cb400-13"></a>  y &lt;-<span class="st"> </span>number <span class="op">*</span><span class="st"> </span>times</span>
+<span id="cb400-14"><a href="chap-package.html#cb400-14"></a>  <span class="co"># Save in a list</span></span>
+<span id="cb400-15"><a href="chap-package.html#cb400-15"></a>  result &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">x =</span> number, <span class="dt">y =</span> y, <span class="dt">times =</span> times)</span>
+<span id="cb400-16"><a href="chap-package.html#cb400-16"></a>  <span class="co"># Set the class</span></span>
+<span id="cb400-17"><a href="chap-package.html#cb400-17"></a>  <span class="kw">class</span>(result) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;multiple&quot;</span>, <span class="kw">class</span>(result))</span>
+<span id="cb400-18"><a href="chap-package.html#cb400-18"></a>  <span class="kw">return</span>(result)</span>
+<span id="cb400-19"><a href="chap-package.html#cb400-19"></a>}</span>
+<span id="cb400-20"><a href="chap-package.html#cb400-20"></a></span>
+<span id="cb400-21"><a href="chap-package.html#cb400-21"></a><span class="co">#&#39; Print objects of class multiple</span></span>
+<span id="cb400-22"><a href="chap-package.html#cb400-22"></a><span class="co">#&#39;</span></span>
+<span id="cb400-23"><a href="chap-package.html#cb400-23"></a><span class="co">#&#39; @param x an object of class `multiple`.</span></span>
+<span id="cb400-24"><a href="chap-package.html#cb400-24"></a><span class="co">#&#39; @param ... further arguments passed to the generic method.</span></span>
+<span id="cb400-25"><a href="chap-package.html#cb400-25"></a><span class="co">#&#39;</span></span>
+<span id="cb400-26"><a href="chap-package.html#cb400-26"></a><span class="co">#&#39; @export</span></span>
+<span id="cb400-27"><a href="chap-package.html#cb400-27"></a><span class="co">#&#39;</span></span>
+<span id="cb400-28"><a href="chap-package.html#cb400-28"></a><span class="co">#&#39; @examples</span></span>
+<span id="cb400-29"><a href="chap-package.html#cb400-29"></a><span class="co">#&#39; print(multiple(2,3))</span></span>
+<span id="cb400-30"><a href="chap-package.html#cb400-30"></a>print.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(x, ...) {</span>
+<span id="cb400-31"><a href="chap-package.html#cb400-31"></a>  <span class="kw">print.default</span>(x<span class="op">$</span>y)</span>
+<span id="cb400-32"><a href="chap-package.html#cb400-32"></a>}</span>
+<span id="cb400-33"><a href="chap-package.html#cb400-33"></a></span>
+<span id="cb400-34"><a href="chap-package.html#cb400-34"></a><span class="co">#&#39; Summarize objects of class multiple</span></span>
+<span id="cb400-35"><a href="chap-package.html#cb400-35"></a><span class="co">#&#39;</span></span>
+<span id="cb400-36"><a href="chap-package.html#cb400-36"></a><span class="co">#&#39; @param object an object of class `multiple`.</span></span>
+<span id="cb400-37"><a href="chap-package.html#cb400-37"></a><span class="co">#&#39; @param ... further arguments passed to the generic method.</span></span>
+<span id="cb400-38"><a href="chap-package.html#cb400-38"></a><span class="co">#&#39;</span></span>
+<span id="cb400-39"><a href="chap-package.html#cb400-39"></a><span class="co">#&#39; @export</span></span>
+<span id="cb400-40"><a href="chap-package.html#cb400-40"></a><span class="co">#&#39;</span></span>
+<span id="cb400-41"><a href="chap-package.html#cb400-41"></a><span class="co">#&#39; @examples</span></span>
+<span id="cb400-42"><a href="chap-package.html#cb400-42"></a><span class="co">#&#39; summary(multiple(2,3))</span></span>
+<span id="cb400-43"><a href="chap-package.html#cb400-43"></a>summary.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(object, ...) {</span>
+<span id="cb400-44"><a href="chap-package.html#cb400-44"></a>  <span class="kw">print.default</span>(object<span class="op">$</span>x)</span>
+<span id="cb400-45"><a href="chap-package.html#cb400-45"></a>  <span class="kw">cat</span>(<span class="st">&quot;multiplied by&quot;</span>, object<span class="op">$</span>times, <span class="st">&quot;is:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb400-46"><a href="chap-package.html#cb400-46"></a>  <span class="kw">print.default</span>(object<span class="op">$</span>y)</span>
+<span id="cb400-47"><a href="chap-package.html#cb400-47"></a>}</span>
+<span id="cb400-48"><a href="chap-package.html#cb400-48"></a></span>
+<span id="cb400-49"><a href="chap-package.html#cb400-49"></a></span>
+<span id="cb400-50"><a href="chap-package.html#cb400-50"></a><span class="co">#&#39; Plot objects of class multiple</span></span>
+<span id="cb400-51"><a href="chap-package.html#cb400-51"></a><span class="co">#&#39;</span></span>
+<span id="cb400-52"><a href="chap-package.html#cb400-52"></a><span class="co">#&#39; @param x a vector of numbers</span></span>
+<span id="cb400-53"><a href="chap-package.html#cb400-53"></a><span class="co">#&#39; @param y a vector of multiplied numbers</span></span>
+<span id="cb400-54"><a href="chap-package.html#cb400-54"></a><span class="co">#&#39; @param ... further arguments passed to the generic method.</span></span>
+<span id="cb400-55"><a href="chap-package.html#cb400-55"></a><span class="co">#&#39;</span></span>
+<span id="cb400-56"><a href="chap-package.html#cb400-56"></a><span class="co">#&#39; @importFrom graphics plot</span></span>
+<span id="cb400-57"><a href="chap-package.html#cb400-57"></a><span class="co">#&#39; @export</span></span>
+<span id="cb400-58"><a href="chap-package.html#cb400-58"></a><span class="co">#&#39;</span></span>
+<span id="cb400-59"><a href="chap-package.html#cb400-59"></a><span class="co">#&#39; @examples</span></span>
+<span id="cb400-60"><a href="chap-package.html#cb400-60"></a><span class="co">#&#39; plot(multiple(2,3))</span></span>
+<span id="cb400-61"><a href="chap-package.html#cb400-61"></a>plot.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(x, y, ...) {</span>
+<span id="cb400-62"><a href="chap-package.html#cb400-62"></a>  <span class="kw">plot.default</span>(<span class="dt">y=</span>x<span class="op">$</span>y, <span class="dt">x=</span>x<span class="op">$</span>x, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>, </span>
+<span id="cb400-63"><a href="chap-package.html#cb400-63"></a>               <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Multiplication by&quot;</span>, x<span class="op">$</span>times), ...)</span>
+<span id="cb400-64"><a href="chap-package.html#cb400-64"></a>}</span>
+<span id="cb400-65"><a href="chap-package.html#cb400-65"></a></span>
+<span id="cb400-66"><a href="chap-package.html#cb400-66"></a></span>
+<span id="cb400-67"><a href="chap-package.html#cb400-67"></a><span class="co">#&#39; autoplot</span></span>
+<span id="cb400-68"><a href="chap-package.html#cb400-68"></a><span class="co">#&#39;</span></span>
+<span id="cb400-69"><a href="chap-package.html#cb400-69"></a><span class="co">#&#39; ggplot of the `multiple` objects.</span></span>
+<span id="cb400-70"><a href="chap-package.html#cb400-70"></a><span class="co">#&#39;</span></span>
+<span id="cb400-71"><a href="chap-package.html#cb400-71"></a><span class="co">#&#39; @param object an object of class `multiple`.</span></span>
+<span id="cb400-72"><a href="chap-package.html#cb400-72"></a><span class="co">#&#39; @param ... ignored.</span></span>
+<span id="cb400-73"><a href="chap-package.html#cb400-73"></a><span class="co">#&#39;</span></span>
+<span id="cb400-74"><a href="chap-package.html#cb400-74"></a><span class="co">#&#39; @return a `ggplot` object</span></span>
+<span id="cb400-75"><a href="chap-package.html#cb400-75"></a><span class="co">#&#39; @importFrom ggplot2 autoplot</span></span>
+<span id="cb400-76"><a href="chap-package.html#cb400-76"></a><span class="co">#&#39; @importFrom magrittr `%&gt;%`</span></span>
+<span id="cb400-77"><a href="chap-package.html#cb400-77"></a><span class="co">#&#39; @export</span></span>
+<span id="cb400-78"><a href="chap-package.html#cb400-78"></a><span class="co">#&#39;</span></span>
+<span id="cb400-79"><a href="chap-package.html#cb400-79"></a><span class="co">#&#39; @examples</span></span>
+<span id="cb400-80"><a href="chap-package.html#cb400-80"></a><span class="co">#&#39; autoplot(multiple(2,3))</span></span>
+<span id="cb400-81"><a href="chap-package.html#cb400-81"></a>autoplot.multiple &lt;-<span class="st"> </span><span class="cf">function</span>(object, ...) {</span>
+<span id="cb400-82"><a href="chap-package.html#cb400-82"></a>  <span class="kw">data.frame</span>(<span class="dt">x =</span> object<span class="op">$</span>x, <span class="dt">y =</span> object<span class="op">$</span>y) <span class="op">%&gt;%</span></span>
+<span id="cb400-83"><a href="chap-package.html#cb400-83"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb400-84"><a href="chap-package.html#cb400-84"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">geom_point</span>(ggplot2<span class="op">::</span><span class="kw">aes_</span>(<span class="dt">x =</span> <span class="op">~</span>x, <span class="dt">y =</span> <span class="op">~</span>y)) <span class="op">+</span></span>
+<span id="cb400-85"><a href="chap-package.html#cb400-85"></a><span class="st">    </span>ggplot2<span class="op">::</span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">&quot;Multiplication by&quot;</span>, </span>
+<span id="cb400-86"><a href="chap-package.html#cb400-86"></a>                                object<span class="op">$</span>times))</span>
+<span id="cb400-87"><a href="chap-package.html#cb400-87"></a>}</span></code></pre></div>
 
 </div>
 </div>
@@ -1174,19 +1191,19 @@ Pour intégrer ces fonctions dans un packages, il faut respecter les règles sui
 <li>le code est commenté pour <strong>roxygen2</strong> de la même façon que les fonctions R, mais avec le marqueur de commentaire du langage C:</li>
 </ul>
 
-<div class="sourceCode" id="cb367"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb367-1"><a href="chap-package.html#cb367-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
-<span id="cb367-2"><a href="chap-package.html#cb367-2"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp;</span>
-<span id="cb367-3"><a href="chap-package.html#cb367-3"></a></span>
-<span id="cb367-4"><a href="chap-package.html#cb367-4"></a><span class="co">//&#39; timesTwo</span></span>
-<span id="cb367-5"><a href="chap-package.html#cb367-5"></a><span class="co">//&#39;</span></span>
-<span id="cb367-6"><a href="chap-package.html#cb367-6"></a><span class="co">//&#39; Calculates the double of a value.</span></span>
-<span id="cb367-7"><a href="chap-package.html#cb367-7"></a><span class="co">//&#39;</span></span>
-<span id="cb367-8"><a href="chap-package.html#cb367-8"></a><span class="co">//&#39; @param x A numeric vector.</span></span>
-<span id="cb367-9"><a href="chap-package.html#cb367-9"></a><span class="co">//&#39; @export</span></span>
-<span id="cb367-10"><a href="chap-package.html#cb367-10"></a><span class="co">// [[Rcpp::export]]</span></span>
-<span id="cb367-11"><a href="chap-package.html#cb367-11"></a>NumericVector timesTwo(NumericVector x) {</span>
-<span id="cb367-12"><a href="chap-package.html#cb367-12"></a>  <span class="cf">return</span> x * <span class="dv">2</span>;</span>
-<span id="cb367-13"><a href="chap-package.html#cb367-13"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb401-1"><a href="chap-package.html#cb401-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
+<span id="cb401-2"><a href="chap-package.html#cb401-2"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp;</span>
+<span id="cb401-3"><a href="chap-package.html#cb401-3"></a></span>
+<span id="cb401-4"><a href="chap-package.html#cb401-4"></a><span class="co">//&#39; timesTwo</span></span>
+<span id="cb401-5"><a href="chap-package.html#cb401-5"></a><span class="co">//&#39;</span></span>
+<span id="cb401-6"><a href="chap-package.html#cb401-6"></a><span class="co">//&#39; Calculates the double of a value.</span></span>
+<span id="cb401-7"><a href="chap-package.html#cb401-7"></a><span class="co">//&#39;</span></span>
+<span id="cb401-8"><a href="chap-package.html#cb401-8"></a><span class="co">//&#39; @param x A numeric vector.</span></span>
+<span id="cb401-9"><a href="chap-package.html#cb401-9"></a><span class="co">//&#39; @export</span></span>
+<span id="cb401-10"><a href="chap-package.html#cb401-10"></a><span class="co">// [[Rcpp::export]]</span></span>
+<span id="cb401-11"><a href="chap-package.html#cb401-11"></a>NumericVector timesTwo(NumericVector x) {</span>
+<span id="cb401-12"><a href="chap-package.html#cb401-12"></a>  <span class="cf">return</span> x * <span class="dv">2</span>;</span>
+<span id="cb401-13"><a href="chap-package.html#cb401-13"></a>}</span></code></pre></div>
 
 <ul>
 <li>dans <code>DESCRIPTION</code>, importer les packages.
@@ -1198,9 +1215,9 @@ LinkingTo: Rcpp, RcppParallel</code></pre>
 <li>les commentaires pour <strong>roxygen2</strong> doivent être ajoutés à <code>package.R</code> (“multiple” est le nom du package):</li>
 </ul>
 
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="chap-package.html#cb369-1"></a><span class="co">#&#39; @importFrom Rcpp sourceCpp</span></span>
-<span id="cb369-2"><a href="chap-package.html#cb369-2"></a><span class="co">#&#39; @importFrom RcppParallel RcppParallelLibs</span></span>
-<span id="cb369-3"><a href="chap-package.html#cb369-3"></a><span class="co">#&#39; @useDynLib multiple, .registration = TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="chap-package.html#cb403-1"></a><span class="co">#&#39; @importFrom Rcpp sourceCpp</span></span>
+<span id="cb403-2"><a href="chap-package.html#cb403-2"></a><span class="co">#&#39; @importFrom RcppParallel RcppParallelLibs</span></span>
+<span id="cb403-3"><a href="chap-package.html#cb403-3"></a><span class="co">#&#39; @useDynLib multiple, .registration = TRUE</span></span></code></pre></div>
 
 <ul>
 <li>les fichiers de travail de C++ sont exclus du contrôle de source dans <code>.gitignore</code>:</li>
@@ -1211,7 +1228,7 @@ src/*.so
 src/*.dll</code></pre>
 <p>Ces modifications sont en partie effectuées automatiquement, pour <strong>Rcpp</strong> seulement, par <strong>usethis</strong>, mais l’insertion manuelle du code est plus rapide et fiable: ne pas utiliser cette commande.</p>
 
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="chap-package.html#cb371-1"></a><span class="co"># usethis::use_rcpp()</span></span></code></pre></div>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="chap-package.html#cb405-1"></a><span class="co"># usethis::use_rcpp()</span></span></code></pre></div>
 
 <p>La construction du package entraînera la compilation du code: les Rtools sont donc indispensables.</p>
 </div>
@@ -1240,7 +1257,7 @@ Ce dossier contient des fichiers qui seront placés à la racine du dossier du p
 <pre><code>Imports: magrittr, stats, Rcpp, Rdpack</code></pre>
 <p>Enfin, importer la fonction <code>reprompt()</code> de <strong>Rdpack</strong> en ajoutant les lignes suivantes à la documentation pour <strong>roxygen2</strong> dans <code>package.R</code>:</p>
 
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="chap-package.html#cb374-1"></a><span class="co">#&#39; @importFrom Rdpack reprompt</span></span></code></pre></div>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="chap-package.html#cb408-1"></a><span class="co">#&#39; @importFrom Rdpack reprompt</span></span></code></pre></div>
 
 </div>
 <div id="citations" class="section level3">
@@ -1248,16 +1265,16 @@ Ce dossier contient des fichiers qui seront placés à la racine du dossier du p
 <p>Les références sont citées par la commande <code>\insertCite{key}{package}</code> dans la documentation destinée à <strong>roxygen2</strong>.
 <code>package</code> est le nom du package dans lequel le fichier <code>REFERENCES.bib</code> doit être cherché: ce sera normalement le package en cours, mais les références d’autres packages sont accessibles, à la seule condition qu’ils utilisent <strong>Rdpack</strong>.</p>
 <p><code>key</code> est l’identifiant de la référence dans le fichier.
-Exemple<a href="#fn90" class="footnote-ref" id="fnref90"><sup>90</sup></a>: documentation du package <strong>SpatDiv</strong> hébergé sur GitHub, fichier <code>.R</code> du package:</p>
+Exemple<a href="#fn95" class="footnote-ref" id="fnref95"><sup>95</sup></a>: documentation du package <strong>SpatDiv</strong> hébergé sur GitHub, fichier <code>.R</code> du package:</p>
 
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="chap-package.html#cb375-1"></a><span class="co">#&#39; SpatDiv</span></span>
-<span id="cb375-2"><a href="chap-package.html#cb375-2"></a><span class="co">#&#39;</span></span>
-<span id="cb375-3"><a href="chap-package.html#cb375-3"></a><span class="co">#&#39; Spatially Explicit Measures of Diversity</span></span>
-<span id="cb375-4"><a href="chap-package.html#cb375-4"></a><span class="co">#&#39; </span></span>
-<span id="cb375-5"><a href="chap-package.html#cb375-5"></a><span class="co">#&#39; This package extends the **entropart** package</span></span>
-<span id="cb375-6"><a href="chap-package.html#cb375-6"></a><span class="co">#&#39; \insertCite{Marcon2014c}{SpatDiv}.</span></span>
-<span id="cb375-7"><a href="chap-package.html#cb375-7"></a><span class="co">#&#39; It provides spatially explicit measures of </span></span>
-<span id="cb375-8"><a href="chap-package.html#cb375-8"></a><span class="co">#&#39; diversity such as the mixing index.</span></span></code></pre></div>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="chap-package.html#cb409-1"></a><span class="co">#&#39; SpatDiv</span></span>
+<span id="cb409-2"><a href="chap-package.html#cb409-2"></a><span class="co">#&#39;</span></span>
+<span id="cb409-3"><a href="chap-package.html#cb409-3"></a><span class="co">#&#39; Spatially Explicit Measures of Diversity</span></span>
+<span id="cb409-4"><a href="chap-package.html#cb409-4"></a><span class="co">#&#39; </span></span>
+<span id="cb409-5"><a href="chap-package.html#cb409-5"></a><span class="co">#&#39; This package extends the **entropart** package</span></span>
+<span id="cb409-6"><a href="chap-package.html#cb409-6"></a><span class="co">#&#39; \insertCite{Marcon2014c}{SpatDiv}.</span></span>
+<span id="cb409-7"><a href="chap-package.html#cb409-7"></a><span class="co">#&#39; It provides spatially explicit measures of </span></span>
+<span id="cb409-8"><a href="chap-package.html#cb409-8"></a><span class="co">#&#39; diversity such as the mixing index.</span></span></code></pre></div>
 
 <p>La référence citée se trouve dans <code>inst/REFERENCES.bib</code>:</p>
 <pre><code>@Article{Marcon2014c,
@@ -1276,8 +1293,8 @@ Pour placer le nom de l’auteur hors de la parenthèse, ajouter la déclaration
 <p>Pour citer plusieurs références (forcément du même package), les séparer par des virgules.</p>
 <p>A la fin de la documentation d’un objet utilisant des citations, ajouter systématiquement une liste des références:</p>
 
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="chap-package.html#cb378-1"></a><span class="co">#&#39; @references</span></span>
-<span id="cb378-2"><a href="chap-package.html#cb378-2"></a><span class="co">#&#39; \insertAllCited{}</span></span></code></pre></div>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="chap-package.html#cb412-1"></a><span class="co">#&#39; @references</span></span>
+<span id="cb412-2"><a href="chap-package.html#cb412-2"></a><span class="co">#&#39; \insertAllCited{}</span></span></code></pre></div>
 
 </div>
 </div>
@@ -1287,22 +1304,22 @@ Pour placer le nom de l’auteur hors de la parenthèse, ajouter la déclaration
 <p>La méthode la plus simple consiste à utiliser <strong>use_this</strong>.
 Créer des variables contenant les données à sauvegarder puis les sauvegarder:</p>
 
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="chap-package.html#cb379-1"></a>seq1_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
-<span id="cb379-2"><a href="chap-package.html#cb379-2"></a>seq1_<span class="dv">100</span> &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span></span>
-<span id="cb379-3"><a href="chap-package.html#cb379-3"></a>usethis<span class="op">::</span><span class="kw">use_data</span>(seq1_<span class="dv">10</span>, seq1_<span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="chap-package.html#cb413-1"></a>seq1_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
+<span id="cb413-2"><a href="chap-package.html#cb413-2"></a>seq1_<span class="dv">100</span> &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span></span>
+<span id="cb413-3"><a href="chap-package.html#cb413-3"></a>usethis<span class="op">::</span><span class="kw">use_data</span>(seq1_<span class="dv">10</span>, seq1_<span class="dv">100</span>)</span></code></pre></div>
 
 <p>Un fichier <code>.rda</code> est créé dans le dossier <code>data</code> pour chaque variable créée.
 Avec l’option <code>LazyData</code> activée dans <code>DESCRIPTION</code>, les variables seront disponibles dès le chargement du package, mais ne seront effectivement chargées en mémoire qu’après leur première utilisation.</p>
 <p>Chaque variable doit être documentée dans le fichier <code>package.R</code>:</p>
 
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="chap-package.html#cb380-1"></a><span class="co">#&#39; seq1_10</span></span>
-<span id="cb380-2"><a href="chap-package.html#cb380-2"></a><span class="co">#&#39;</span></span>
-<span id="cb380-3"><a href="chap-package.html#cb380-3"></a><span class="co">#&#39; A sequence of numbers from 1 to 10</span></span>
-<span id="cb380-4"><a href="chap-package.html#cb380-4"></a><span class="co">#&#39;</span></span>
-<span id="cb380-5"><a href="chap-package.html#cb380-5"></a><span class="co">#&#39; @format A numeric vector.</span></span>
-<span id="cb380-6"><a href="chap-package.html#cb380-6"></a><span class="co">#&#39; @source Values computed by the R software, </span></span>
-<span id="cb380-7"><a href="chap-package.html#cb380-7"></a><span class="co">#&#39;   \url{https://www.r-project.org/}</span></span>
-<span id="cb380-8"><a href="chap-package.html#cb380-8"></a><span class="st">&quot;seq1_10&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="chap-package.html#cb414-1"></a><span class="co">#&#39; seq1_10</span></span>
+<span id="cb414-2"><a href="chap-package.html#cb414-2"></a><span class="co">#&#39;</span></span>
+<span id="cb414-3"><a href="chap-package.html#cb414-3"></a><span class="co">#&#39; A sequence of numbers from 1 to 10</span></span>
+<span id="cb414-4"><a href="chap-package.html#cb414-4"></a><span class="co">#&#39;</span></span>
+<span id="cb414-5"><a href="chap-package.html#cb414-5"></a><span class="co">#&#39; @format A numeric vector.</span></span>
+<span id="cb414-6"><a href="chap-package.html#cb414-6"></a><span class="co">#&#39; @source Values computed by the R software, </span></span>
+<span id="cb414-7"><a href="chap-package.html#cb414-7"></a><span class="co">#&#39;   \url{https://www.r-project.org/}</span></span>
+<span id="cb414-8"><a href="chap-package.html#cb414-8"></a><span class="st">&quot;seq1_10&quot;</span></span></code></pre></div>
 
 <p>Le nom de la variable est donné entre guillemets après le bloc de commentaires (à la place du code R d’une fonction).
 <code>@format</code> décrit le format des données et <code>@source</code> permet d’indiquer leur source.</p>
@@ -1318,11 +1335,14 @@ Avec l’option <code>LazyData</code> activée dans <code>DESCRIPTION</code>, le
 <p>Les tests unitaires sont utilisés dans les deux derniers objectifs.
 Ils s’appuient sur <strong>testthat</strong> à intégrer au package:</p>
 
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="chap-package.html#cb381-1"></a>usethis<span class="op">::</span><span class="kw">use_testthat</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="chap-package.html#cb415-1"></a>usethis<span class="op">::</span><span class="kw">use_testthat</span>()</span></code></pre></div>
 
 
 <pre><code>## 
 ## Attaching package: &#39;testthat&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:targets&#39;:
+## 
+##     matches</code></pre>
 <pre><code>## The following object is masked from &#39;package:dplyr&#39;:
 ## 
 ##     matches</code></pre>
@@ -1336,21 +1356,21 @@ Ils s’appuient sur <strong>testthat</strong> à intégrer au package:</p>
 <p>Les tests doivent être ajoutés sous la forme de fichiers <code>.R</code> dont le nom commence obligatoirement par <code>test</code> dans le dossier <code>tests/testthat</code>.</p>
 <p>Chaque test (donc le contenu de chaque fichier) commence par son contexte, c’est-à-dire ce un ensemble de tests. Exemple, dans un fichier <code>test_double.R</code>:</p>
 
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="chap-package.html#cb386-1"></a><span class="kw">context</span>(<span class="st">&quot;function double&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="chap-package.html#cb421-1"></a><span class="kw">context</span>(<span class="st">&quot;function double&quot;</span>)</span></code></pre></div>
 
 <p>Les tests sont contenus dans des fichiers qui les regroupent par thème, par exemple <code>test_double.R</code>.
 Le nom de chaque test est passé comme argument de la fonction <code>test_that())</code>:</p>
 
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="chap-package.html#cb387-1"></a><span class="kw">test_that</span>(<span class="st">&quot;Double values are correct&quot;</span>, {</span>
-<span id="cb387-2"><a href="chap-package.html#cb387-2"></a>    <span class="kw">skip_on_cran</span>()</span>
-<span id="cb387-3"><a href="chap-package.html#cb387-3"></a>    x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span></span>
-<span id="cb387-4"><a href="chap-package.html#cb387-4"></a>    <span class="co"># 2 x 2 should be 4</span></span>
-<span id="cb387-5"><a href="chap-package.html#cb387-5"></a>    <span class="kw">expect_equal</span>(<span class="kw">double</span>(x), <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>))</span>
-<span id="cb387-6"><a href="chap-package.html#cb387-6"></a>    <span class="co"># The result should be a number (type = &#39;double&#39;)</span></span>
-<span id="cb387-7"><a href="chap-package.html#cb387-7"></a>    <span class="kw">expect_type</span>(<span class="kw">double</span>(x), <span class="st">&quot;double&quot;</span>)</span>
-<span id="cb387-8"><a href="chap-package.html#cb387-8"></a>    <span class="co"># Error management</span></span>
-<span id="cb387-9"><a href="chap-package.html#cb387-9"></a>    <span class="kw">expect_error</span>(<span class="kw">double</span>(<span class="st">&quot;a&quot;</span>))</span>
-<span id="cb387-10"><a href="chap-package.html#cb387-10"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="chap-package.html#cb422-1"></a><span class="kw">test_that</span>(<span class="st">&quot;Double values are correct&quot;</span>, {</span>
+<span id="cb422-2"><a href="chap-package.html#cb422-2"></a>    <span class="kw">skip_on_cran</span>()</span>
+<span id="cb422-3"><a href="chap-package.html#cb422-3"></a>    x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span></span>
+<span id="cb422-4"><a href="chap-package.html#cb422-4"></a>    <span class="co"># 2 x 2 should be 4</span></span>
+<span id="cb422-5"><a href="chap-package.html#cb422-5"></a>    <span class="kw">expect_equal</span>(<span class="kw">double</span>(x), <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>))</span>
+<span id="cb422-6"><a href="chap-package.html#cb422-6"></a>    <span class="co"># The result should be a number (type = &#39;double&#39;)</span></span>
+<span id="cb422-7"><a href="chap-package.html#cb422-7"></a>    <span class="kw">expect_type</span>(<span class="kw">double</span>(x), <span class="st">&quot;double&quot;</span>)</span>
+<span id="cb422-8"><a href="chap-package.html#cb422-8"></a>    <span class="co"># Error management</span></span>
+<span id="cb422-9"><a href="chap-package.html#cb422-9"></a>    <span class="kw">expect_error</span>(<span class="kw">double</span>(<span class="st">&quot;a&quot;</span>))</span>
+<span id="cb422-10"><a href="chap-package.html#cb422-10"></a>})</span></code></pre></div>
 <pre><code>## Test passed 🎊</code></pre>
 
 <p>Toutes les fonctions commençant par <code>expect</code> permettent de comparer leur premier argument à un résultat: dans l’exemple ci-dessus, le résultat de <code>double(1:2)</code> doit être <code>2 4</code> et le type de ce vecteur doit être réel à double précision.
@@ -1406,19 +1426,19 @@ L’analyse de la couverture du code par les tests (quelles parties du codes son
 <div id="sec:package-cran" class="section level2">
 <h2><span class="header-section-number">5.10</span> CRAN</h2>
 <p>Les packages dont l’audience dépasse l’entourage de l’auteur peuvent être déposés sur CRAN.
-Les règles à respecter sur CRAN sont nombreuses<a href="#fn91" class="footnote-ref" id="fnref91"><sup>91</sup></a>. Elles sont vérifiées par la commande de vérification <code>R CMD check</code> avec l’option <code>-- as.cran</code>.
+Les règles à respecter sur CRAN sont nombreuses<a href="#fn96" class="footnote-ref" id="fnref96"><sup>96</sup></a>. Elles sont vérifiées par la commande de vérification <code>R CMD check</code> avec l’option <code>-- as.cran</code>.
 La vérification ne doit renvoyer aucune erreur, aucun avertissement, ni aucune note avant de soumettre le package.</p>
 <div id="test-du-package" class="section level3">
 <h3><span class="header-section-number">5.10.1</span> Test du package</h3>
 <p>La vérification du package par GitHub dans le cadre de l’intégration continue n’est pas suffisante.
 Le package doit être testé sur la version de développement de R.
-Le site <em>R-hub builder</em><a href="#fn92" class="footnote-ref" id="fnref92"><sup>92</sup></a> permet de le faire simplement.</p>
+Le site <em>R-hub builder</em><a href="#fn97" class="footnote-ref" id="fnref97"><sup>97</sup></a> permet de le faire simplement.</p>
 <p>Le package, dont la version ne doit pas être de développement (limitée à trois nombres, voir section <a href="chap-package.html#sec:package-description">5.2.1</a>), doit être construit au format source: dans la fenêtre <em>Build</em> de RStudio, cliquer sur “More &gt; Build Source Package”.
 Sur le site <em>R-hub builder</em>, cliquer sur <em>Advanced</em>, sélectionner le fichier source du package et la plateforme de test: <em>Debian Linux, R-devel, GCC</em>.</p>
 </div>
 <div id="soumission" class="section level3">
 <h3><span class="header-section-number">5.10.2</span> Soumission</h3>
-<p>Quand le package est au point, la soumission à CRAN se fait par le site web dédié<a href="#fn93" class="footnote-ref" id="fnref93"><sup>93</sup></a>.</p>
+<p>Quand le package est au point, la soumission à CRAN se fait par le site web dédié<a href="#fn98" class="footnote-ref" id="fnref98"><sup>98</sup></a>.</p>
 <p>En cas de rejet, traiter les demandes et soumettre à nouveau en incrémentant le numéro de version.</p>
 </div>
 <div id="maintenance" class="section level3">
@@ -1439,19 +1459,19 @@ Dans le cas contraire, le package est archivé.</p>
 </div>
 <div class="footnotes">
 <hr />
-<ol start="82">
-<li id="fn82"><p><a href="https://cran.r-project.org/web/packages/policies.html" class="uri">https://cran.r-project.org/web/packages/policies.html</a><a href="chap-package.html#fnref82" class="footnote-back">↩︎</a></p></li>
-<li id="fn83"><p><a href="https://thinkr.fr/creer-package-r-quelques-minutes/" class="uri">https://thinkr.fr/creer-package-r-quelques-minutes/</a><a href="chap-package.html#fnref83" class="footnote-back">↩︎</a></p></li>
-<li id="fn84"><p><a href="https://roxygen2.r-lib.org/articles/markdown.html" class="uri">https://roxygen2.r-lib.org/articles/markdown.html</a><a href="chap-package.html#fnref84" class="footnote-back">↩︎</a></p></li>
-<li id="fn85"><p><a href="https://svn.r-project.org/R/trunk/share/licenses/license.db" class="uri">https://svn.r-project.org/R/trunk/share/licenses/license.db</a><a href="chap-package.html#fnref85" class="footnote-back">↩︎</a></p></li>
-<li id="fn86"><p><a href="https://r-pkgs.org/description.html#description-license" class="uri">https://r-pkgs.org/description.html#description-license</a><a href="chap-package.html#fnref86" class="footnote-back">↩︎</a></p></li>
-<li id="fn87"><p>Exemple: <a href="https://EricMarcon.github.io/entropart/" class="uri">https://EricMarcon.github.io/entropart/</a><a href="chap-package.html#fnref87" class="footnote-back">↩︎</a></p></li>
-<li id="fn88"><p>L’application Shiny <strong>hexmake</strong> permet de créer facilement un sticker: <a href="https://connect.thinkr.fr/hexmake/" class="uri">https://connect.thinkr.fr/hexmake/</a><a href="chap-package.html#fnref88" class="footnote-back">↩︎</a></p></li>
-<li id="fn89"><p><a href="https://r-pkgs.org/release.html?q=readme#readme-rmd" class="uri">https://r-pkgs.org/release.html?q=readme#readme-rmd</a><a href="chap-package.html#fnref89" class="footnote-back">↩︎</a></p></li>
-<li id="fn90"><p>Package <strong>SpatDiv</strong> sur GitHub: <a href="https://github.com/EricMarcon/SpatDiv/blob/master/R/package.R" class="uri">https://github.com/EricMarcon/SpatDiv/blob/master/R/package.R</a><a href="chap-package.html#fnref90" class="footnote-back">↩︎</a></p></li>
-<li id="fn91"><p><a href="https://cran.r-project.org/web/packages/policies.html" class="uri">https://cran.r-project.org/web/packages/policies.html</a><a href="chap-package.html#fnref91" class="footnote-back">↩︎</a></p></li>
-<li id="fn92"><p><a href="https://builder.r-hub.io/" class="uri">https://builder.r-hub.io/</a><a href="chap-package.html#fnref92" class="footnote-back">↩︎</a></p></li>
-<li id="fn93"><p><a href="https://xmpalantir.wu.ac.at/cransubmit/" class="uri">https://xmpalantir.wu.ac.at/cransubmit/</a><a href="chap-package.html#fnref93" class="footnote-back">↩︎</a></p></li>
+<ol start="87">
+<li id="fn87"><p><a href="https://cran.r-project.org/web/packages/policies.html" class="uri">https://cran.r-project.org/web/packages/policies.html</a><a href="chap-package.html#fnref87" class="footnote-back">↩︎</a></p></li>
+<li id="fn88"><p><a href="https://thinkr.fr/creer-package-r-quelques-minutes/" class="uri">https://thinkr.fr/creer-package-r-quelques-minutes/</a><a href="chap-package.html#fnref88" class="footnote-back">↩︎</a></p></li>
+<li id="fn89"><p><a href="https://roxygen2.r-lib.org/articles/markdown.html" class="uri">https://roxygen2.r-lib.org/articles/markdown.html</a><a href="chap-package.html#fnref89" class="footnote-back">↩︎</a></p></li>
+<li id="fn90"><p><a href="https://svn.r-project.org/R/trunk/share/licenses/license.db" class="uri">https://svn.r-project.org/R/trunk/share/licenses/license.db</a><a href="chap-package.html#fnref90" class="footnote-back">↩︎</a></p></li>
+<li id="fn91"><p><a href="https://r-pkgs.org/description.html#description-license" class="uri">https://r-pkgs.org/description.html#description-license</a><a href="chap-package.html#fnref91" class="footnote-back">↩︎</a></p></li>
+<li id="fn92"><p>Exemple: <a href="https://EricMarcon.github.io/entropart/" class="uri">https://EricMarcon.github.io/entropart/</a><a href="chap-package.html#fnref92" class="footnote-back">↩︎</a></p></li>
+<li id="fn93"><p>L’application Shiny <strong>hexmake</strong> permet de créer facilement un sticker: <a href="https://connect.thinkr.fr/hexmake/" class="uri">https://connect.thinkr.fr/hexmake/</a><a href="chap-package.html#fnref93" class="footnote-back">↩︎</a></p></li>
+<li id="fn94"><p><a href="https://r-pkgs.org/release.html?q=readme#readme-rmd" class="uri">https://r-pkgs.org/release.html?q=readme#readme-rmd</a><a href="chap-package.html#fnref94" class="footnote-back">↩︎</a></p></li>
+<li id="fn95"><p>Package <strong>SpatDiv</strong> sur GitHub: <a href="https://github.com/EricMarcon/SpatDiv/blob/master/R/package.R" class="uri">https://github.com/EricMarcon/SpatDiv/blob/master/R/package.R</a><a href="chap-package.html#fnref95" class="footnote-back">↩︎</a></p></li>
+<li id="fn96"><p><a href="https://cran.r-project.org/web/packages/policies.html" class="uri">https://cran.r-project.org/web/packages/policies.html</a><a href="chap-package.html#fnref96" class="footnote-back">↩︎</a></p></li>
+<li id="fn97"><p><a href="https://builder.r-hub.io/" class="uri">https://builder.r-hub.io/</a><a href="chap-package.html#fnref97" class="footnote-back">↩︎</a></p></li>
+<li id="fn98"><p><a href="https://xmpalantir.wu.ac.at/cransubmit/" class="uri">https://xmpalantir.wu.ac.at/cransubmit/</a><a href="chap-package.html#fnref98" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
