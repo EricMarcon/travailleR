@@ -1352,7 +1352,7 @@ Le flux de travail est unique pour un projet donné.
 Il est codé dans le fichier `_targets.R` à la racine du projet.
 Il contient:
 
-- des commandes globales, comme le chargement des packages,
+- des commandes globales, comme le chargement des packages;
 - une liste de cibles, qui décrivent le code à exécuter et la variable qui stocke leur résultat.
 
 Le flux est exécuté par la fonction `tar_make()` qui met à jour les cibles qui le nécessitent.
@@ -1369,7 +1369,7 @@ Enfin, si le projet est un document (chapitre \@ref(chap:rediger)), son formatag
 L'exemple suivant est encore plus simple que celui du manuel de **targets**, qui permettra d'aller plus loin.
 Il reprend l'étude de cas précédente: un jeu de points est généré puis la distance moyenne entre les points obtenus est calculée.
 Une carte des points est tracée en plus.
-Chacune de ces trois opération est une cible dans le vocabulaire de **targets**. 
+Chacune de ces trois opérations est une cible dans le vocabulaire de **targets**. 
 
 Le fichier du flux de travail est donc le suivant:
 ```{r, eval=FALSE}
@@ -1428,10 +1428,10 @@ Les commandes globales consistent à charger le package **targets** lui-même pu
 L'exécution du flux a lieu dans une nouvelle instance de R.
 
 Les cibles sont ensuite listées. 
-Chacune est déclarée par la fonction `tar-target` dont le premier argument est le nom de la cible, qui sera celui de la variable qui recevra le résultat.
+Chacune est déclarée par la fonction `tar_target()` dont le premier argument est le nom de la cible, qui sera celui de la variable qui recevra le résultat.
 Le deuxième argument est le code qui produit le résultat.
 Les cibles sont très simples ici et peuvent être écrites en une seule commande.
-Quand ce n'est pas le cas, chaque cible peut être écrite sous la forme d'une fonction, stockée dans un fichier de code chargé par la fonction `source()` au début du fichier de flux.
+Quand ce n'est pas le cas, chaque cible peut être écrite sous la forme d'une fonction, stockée dans un fichier de code séparé chargé par la fonction `source()` au début du fichier de flux.
 
 La commande `tar_visnetwork` permet d'afficher l'enchaînement des cibles et leur état éventuellement obsolète.
 
