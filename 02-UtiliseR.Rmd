@@ -1329,3 +1329,139 @@ Le choix de paralléliser le code doit être évalué selon le temps d'exécutio
 S'il dépasse quelques secondes, la parallélisation se justifie.
 `mclapply()` remplace `lapply()` sans aucun effort, mais nécessite un hack (fourni ici) sous Windows.
 `foreach()` ne remplace pas `for()` aussi simplement et ne se justifie que pour des tâches très lourdes en termes de mémoire et de temps de calcul, en particulier sur des clusters de calcul.
+
+
+## Flux de travail {#sec:targets}
+
+Le package **targets** permet de gérer un flux de travail (*workflow*), c'est-à dire de décomposer le code en tâches élémentaires appelées *cibles* qui s'enchaînent, dont le résultat est stocké dans une variable, elle-même enregistrée sur le disque.
+En cas de changement dans le code ou les données utilisées, seules les cibles concernées sont réévaluées.
+
+Le fonctionnement du flux est proche de celui d'un cache, mais ne dépend pas de l'ordinateur sur lequel il s'exécute.
+**targets** permet de visualiser les tâches obsolètes, d'intégrer le flux à un projet de document (voir section \@ref(sec:targetsmd)), et même de faire appel à un cluster de calcul pour traiter les tâches en parallèle.
+
+### Principe de fonctionnement
+
+La documentation[^241] de **targets** est détaillée et fournit un exemple travaillé pour apprendre à utiliser le package[^242].
+Elle n'est pas reprise ici, mais les principes du fonctionnement du flux sont expliqués.
+
+[^241]: <https://books.ropensci.org/targets/>
+
+[^242]: <https://books.ropensci.org/targets/walkthrough.html>
+
+Le flux de travail est unique pour un projet donné.
+Il est codé dans le fichier `_targets.R` à la racine du projet.
+Il contient:
+
+- des commandes globales, comme le chargement des packages;
+- une liste de cibles, qui décrivent le code à exécuter et la variable qui stocke leur résultat.
+
+Le flux est exécuté par la fonction `tar_make()` qui met à jour les cibles qui le nécessitent.
+Son contenu est placé dans le dossier `_targets`.
+Les variables stockées sont lues par `tar_read()`.
+
+Si le projet nécessite de longs calculs, **targets** permet de n'exécuter que ceux qui sont nécessaires.
+Si le projet est partagé ou placé sous contrôle de source (chapitre \@ref(chap:git)), le résultat des calcul est intégré l'est aussi.
+Enfin, si le projet est un document (chapitre \@ref(chap:rediger)), son formatage est complètement indépendant du calcul de son contenu, pour un gain de temps qui peut être considérable.
+
+
+### Exemple minimal
+
+L'exemple suivant est encore plus simple que celui du manuel de **targets**, qui permettra d'aller plus loin.
+Il reprend l'étude de cas précédente: un jeu de points est généré puis la distance moyenne entre les points obtenus est calculée.
+Une carte des points est tracée en plus.
+Chacune de ces trois opérations est une cible dans le vocabulaire de **targets**. 
+
+Le fichier du flux de travail est donc le suivant:
+```{r, eval=FALSE}
+# Fichier _targets.R 
+library(targets)
+tar_option_set(packages = c("spatstat", "dbmss"))
+list(
+  # Tirage des points
+    tar_target(X,
+    runifpoint(NbPoints)
+  ),
+  # Paramétrage
+  tar_target(NbPoints,
+    1000
+  ),
+  # Distance moyenne
+  tar_target(d,
+    sum(pairdist(X))/NbPoints/(NbPoints-1)
+  ),
+  # Carte
+  tar_target(map, 
+    autoplot(as.wmppp(X))
+  )
+)
+```
+
+
+```{r ecrire_targets, include=FALSE}
+# Ecriture sur le disque du fichier _targets.R
+usethis::write_over("_targets.R", c(
+  'library(targets)',
+  'tar_option_set(packages = c("spatstat", "dbmss"))',
+  'list(',
+  '  # Tirage des points',
+  '  tar_target(X,',
+  '    runifpoint(NbPoints)',
+  '  ),',
+  '  # Paramétrage',
+  '  tar_target(NbPoints,',
+  '    1000',
+  '  ),',
+  '  # Distance moyenne',
+  '  tar_target(d,',
+  '    sum(pairdist(X))/NbPoints/(NbPoints-1)',
+  '  ),',
+  '  # Carte',
+  '  tar_target(map,',
+  '    autoplot(as.wmppp(X))',
+  '  )',
+  ')'
+  ),
+  quiet=TRUE)
+```
+
+Les commandes globales consistent à charger le package **targets** lui-même puis lister les packages nécessaires au code.
+L'exécution du flux a lieu dans une nouvelle instance de R.
+
+Les cibles sont ensuite listées. 
+Chacune est déclarée par la fonction `tar_target()` dont le premier argument est le nom de la cible, qui sera celui de la variable qui recevra le résultat.
+Le deuxième argument est le code qui produit le résultat.
+Les cibles sont très simples ici et peuvent être écrites en une seule commande.
+Quand ce n'est pas le cas, chaque cible peut être écrite sous la forme d'une fonction, stockée dans un fichier de code séparé chargé par la fonction `source()` au début du fichier de flux.
+
+La commande `tar_visnetwork` permet d'afficher l'enchaînement des cibles et leur état éventuellement obsolète.
+
+```{r}
+library("targets")
+tar_visnetwork()
+```
+
+L'ordre de déclaration des cibles dans la liste sans importance: elles sont ordonnées automatiquement.
+
+Le flux est exécuté par `tar_make()`.
+```{r}
+tar_make()
+```
+
+Le flux est maintenant à jour et `tar_make()` ne refait aucun calcul.
+```{r}
+tar_visnetwork()
+tar_make()
+```
+
+
+Les résultats sont lus par `tar_read()`.
+```{r}
+tar_read(d)
+tar_read(map)
+```
+
+### Intérêt pratique
+
+Dans cet exemple, **targets** complique l'écriture du code et `tar_make()` est beaucoup plus lent que la simple exécution du code qu'il traite parce qu'il doit vérifier si les cibles sont à jour.
+Dans un projet réel qui nécessite de longs calculs, le traitement du statut des cibles est négligeable et le gain de temps apporté par la seule évaluation des cibles nécessaires est considérable.
+La définition des cibles reste une contrainte, mais force à bien structurer son projet.
