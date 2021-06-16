@@ -21,11 +21,12 @@ jobs:
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
-          install.packages(c("remotes", "bookdown", "tinytex"))
+          install.packages(c("remotes", "bookdown", "tinytex", "webshots"))
           remotes::install_deps(dependencies = TRUE)
           tinytex::install_tinytex()
           tinytex::tlmgr_install(c("tex-gyre", "tex-gyre-math"))
           tinytex::tlmgr_install("hyphen-french")
+          webshots::install_phantomjs()
         shell: Rscript {0}
       - name: Render pdf book
         run: |
