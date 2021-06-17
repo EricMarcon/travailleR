@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Utiliser R {#chap:utiliseR}
 
 La documentation consacrée à l'apprentissage de R est florissante.
@@ -890,7 +895,7 @@ Le temps reste ensuite stable jusqu'au double du nombre de coeurs.
 La figure \@ref(fig:r-parallele) montre l'évolution du temps de calcul en fonction du nombre de tâches.
 
 (ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant une seconde (chaque tâche est une pause d'une seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs utilisés (égal à ```r nbCoeurs```) plus une. 
-```{r r-parallele, fig.cap="(ref:r-parallele)", tidy=FALSE}
+```{r r-parallele, fig.cap="(ref:r-parallele)", fig.scap="Temps d'exécution en parallèle", tidy=FALSE}
 Taches <- 1:(2 * nbCoeurs+1)
 Temps <- sapply(Taches, function(nbTaches) {
       system.time(mclapply(1:nbTaches, f, time=1, mc.cores=nbCoeurs))
