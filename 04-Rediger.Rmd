@@ -1488,11 +1488,17 @@ Ces bouts de code permettent de créer le fichier `_targets.R` quand ils sont ex
 S'ils sont lancés en mode interactif, par exemple dans R Studio, leur code est exécuté.
 L'option `tar_interactive = FALSE` dans leur entête permet de les tester sans tricoter tout le document.
 
+Un ancien flux éventuel doit être supprimé avant d'écrire le nouveau:
+```{r}
+tar_unscript()
+```
+
 Le premier bout de code, avec l'option `tar_globals=TRUE`, écrit les options globales du flux. 
 Pour créer le flux présenté en section \@ref(sec:targets), le code est simplement:
 
 ````
 ```{targets targets_global, tar_globals=TRUE}`r ''`
+# Packages
 tar_option_set(packages = c("spatstat", "dbmss"))
 ```
 ````
@@ -1501,7 +1507,7 @@ tar_option_set(packages = c("spatstat", "dbmss"))
 tar_option_set(packages = c("spatstat", "dbmss"))
 ```
 
-Les fonctions utilisées par les cibles sont déclarées dans ce type de bout de code: elles sont ajoutées à un fichier dans le dossier de travail `_targets_r` (différent du dossier `_targets` qui contient les cibles).
+Les fonctions utilisées par les cibles sont déclarées dans ce type de bout de code: elles sont ajoutées à un fichier dans le dossier de travail `_targets_r` (différent du dossier `_targets` qui contient les fichiers de calcul des cibles).
 
 ### Déclaration des cibles
 
@@ -1528,7 +1534,7 @@ En revanche, si le code est long à exécuter et n'est pas affiché, son intér�
 Les autres bouts de code nécessaires pour compléter le flux sont les suivants :
 
 - `NbPoints`:
-```{targets NbPoints, tar_simple=TRUE, eval=FALSE}
+```{targets NbPoints, tar_simple=TRUE, tar_interactive = FALSE}
   1000
 ```
 
@@ -1546,9 +1552,9 @@ Les autres bouts de code nécessaires pour compléter le flux sont les suivants 
 
 Pour lancer le calcul des cibles, un bout de code standard (`{r}`) doit appeler `tar_make()`:
 
-```{r, include=FALSE}
-# Destruction des cibles déjà calculées pour la démonstration
-tar_unscript()
+```{r include=FALSE}
+# Destruction des cibles pour la démonstration
+tar_destroy()
 ```
 
 ```{r}
