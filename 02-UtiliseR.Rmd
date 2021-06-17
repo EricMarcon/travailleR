@@ -1377,13 +1377,13 @@ Une carte des points est tracée en plus.
 Chacune de ces trois opérations est une cible dans le vocabulaire de **targets**. 
 
 Le fichier du flux de travail est donc le suivant:
-```{r, eval=FALSE}
+```{r, eval=FALSE, tidy=FALSE}
 # Fichier _targets.R 
-library(targets)
+library("targets")
 tar_option_set(packages = c("spatstat", "dbmss"))
 list(
   # Tirage des points
-    tar_target(X,
+  tar_target(X,
     runifpoint(NbPoints)
   ),
   # Paramétrage
@@ -1392,7 +1392,7 @@ list(
   ),
   # Distance moyenne
   tar_target(d,
-    sum(pairdist(X))/NbPoints/(NbPoints-1)
+    sum(pairdist(X)) / NbPoints / (NbPoints - 1)
   ),
   # Carte
   tar_target(map, 
