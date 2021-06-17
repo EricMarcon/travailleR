@@ -587,6 +587,8 @@ Figure 4.3: Titre avec <em>italique</em>, maths (<span class="math inline">\(\sq
 <p></p>
 <p>Le texte de <code>fig.cap</code>, “Titre de la figure” précédemment, est remplacé par <code>(ref:pressure)</code> <em>à l’intérieur des guillemets</em> qui sont conservés et la légende est saisie dans un paragraphe commençant par <code>(ref:pressure)</code> suivi d’un espace.
 Les légendes sont limitées à un paragraphe unique.</p>
+<p>Si une table des figures est utilisée (option <code>lof: true</code> dans l’entête), une légende courte est nécessaire en plus de la légende complète.
+Elle est déclarée dans <code>fig.scap</code>.</p>
 <p>Les figures qui ne sont pas créées par R mais proviennent de fichiers sont intégrées dans un bout de code par la fonction <code>include_graphics()</code> dont l’argument est le fichier contenant l’image à afficher.
 Placer systématiquement ces fichiers dans le dossier <code>images</code> pour une bonne organisation.</p>
 </div>
@@ -598,15 +600,16 @@ Le contenu du tableau est dans un dataframe.
 La fonction <code>kable</code> du package <em>knitr</em> prépare le tableau pour l’affichage et passe le résultat à la fonction <code>kable_styling</code> du package <em>kableExtra</em> pour le formatage final.</p>
 <p></p>
 <div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="chap-rediger.html#cb258-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
-<span id="cb258-2"><a href="chap-rediger.html#cb258-2"></a><span class="kw">names</span>(iris) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Longueur sépales ($l_s$)&quot;</span>, <span class="st">&quot;Largeur&quot;</span>, <span class="st">&quot;Longueur pétales&quot;</span>,</span>
-<span id="cb258-3"><a href="chap-rediger.html#cb258-3"></a>    <span class="st">&quot;Largeur&quot;</span>, <span class="st">&quot;Espèce&quot;</span>)</span>
-<span id="cb258-4"><a href="chap-rediger.html#cb258-4"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(iris), <span class="dt">caption =</span> <span class="st">&quot;Tableau créé par R&quot;</span>, <span class="dt">booktabs =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb258-5"><a href="chap-rediger.html#cb258-5"></a>    <span class="dt">escape =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span></span>
-<span id="cb258-6"><a href="chap-rediger.html#cb258-6"></a><span class="st">    </span>kableExtra<span class="op">::</span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="st">&quot;striped&quot;</span>,</span>
-<span id="cb258-7"><a href="chap-rediger.html#cb258-7"></a>        <span class="dt">full_width =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<span id="cb258-2"><a href="chap-rediger.html#cb258-2"></a>mes_iris &lt;-<span class="st"> </span><span class="kw">head</span>(iris)</span>
+<span id="cb258-3"><a href="chap-rediger.html#cb258-3"></a><span class="kw">names</span>(mes_iris) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Longueur sépales ($l_s$)&quot;</span>, <span class="st">&quot;Largeur&quot;</span>,</span>
+<span id="cb258-4"><a href="chap-rediger.html#cb258-4"></a>    <span class="st">&quot;Longueur pétales&quot;</span>, <span class="st">&quot;Largeur&quot;</span>, <span class="st">&quot;Espèce&quot;</span>)</span>
+<span id="cb258-5"><a href="chap-rediger.html#cb258-5"></a>knitr<span class="op">::</span><span class="kw">kable</span>(mes_iris, <span class="dt">caption =</span> <span class="st">&quot;Tableau créé par kable&quot;</span>,</span>
+<span id="cb258-6"><a href="chap-rediger.html#cb258-6"></a>    <span class="dt">booktabs =</span> <span class="ot">TRUE</span>, <span class="dt">escape =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span></span>
+<span id="cb258-7"><a href="chap-rediger.html#cb258-7"></a><span class="st">    </span>kableExtra<span class="op">::</span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="st">&quot;striped&quot;</span>,</span>
+<span id="cb258-8"><a href="chap-rediger.html#cb258-8"></a>        <span class="dt">full_width =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:kable">Table 4.1: </span>Tableau créé par R
+<span id="tab:kable">Table 4.1: </span>Tableau créé par kable
 </caption>
 <thead>
 <tr>
@@ -734,7 +737,8 @@ setosa
 </table>
 
 <p>La légende est précisée par l’argument <code>caption</code> et le référencement est possible parce que le tableau reçoit une étiquette dont le nom est <code>tab:</code> suivi du nom du bout de code (tableau <a href="chap-rediger.html#tab:kable">4.1</a>).
-Comme pour les figures, une légende améliorée peut être écrite dans un paragraphe séparé.</p>
+Comme pour les figures, une légende améliorée peut être écrite dans un paragraphe séparé.
+Une légende courte pour une éventuelle liste des tableaux (option <code>lot: true</code> dans l’entête) est déclarée dans l’argument <code>caption.short</code> de <code>kable()</code>.</p>
 <p>Utiliser systématiquement l’argument <code>booktabs = TRUE</code> pour que l’épaisseur des lignes de séparation soit optimale en LaTeX.
 Comme le tableau contient des mathématiques (dans le nom de la première colonne), l’option <code>escape = FALSE</code> est nécessaire.</p>
 <p>L’option de style <code>bootstrap_options = "striped"</code> fournit des tableaux plus lisibles en HTML.
@@ -754,11 +758,11 @@ Enfin, l’option <code>full_width = FALSE</code> permet d’ajuster la largeur 
 ## 
 ##     as_image, footnote</code></pre>
 <div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="chap-rediger.html#cb264-1"></a><span class="co"># Rappel du jeu de données initial iris</span></span>
-<span id="cb264-2"><a href="chap-rediger.html#cb264-2"></a>datasets<span class="op">::</span>iris <span class="op">%&gt;%</span></span>
+<span id="cb264-2"><a href="chap-rediger.html#cb264-2"></a>iris <span class="op">%&gt;%</span></span>
 <span id="cb264-3"><a href="chap-rediger.html#cb264-3"></a><span class="st">    </span><span class="co"># Premières lignes</span></span>
-<span id="cb264-4"><a href="chap-rediger.html#cb264-4"></a>head <span class="op">%&gt;%</span></span>
+<span id="cb264-4"><a href="chap-rediger.html#cb264-4"></a><span class="kw">head</span>() <span class="op">%&gt;%</span></span>
 <span id="cb264-5"><a href="chap-rediger.html#cb264-5"></a><span class="st">    </span><span class="co"># Création d&#39;un objet flextable</span></span>
-<span id="cb264-6"><a href="chap-rediger.html#cb264-6"></a>flextable <span class="op">%&gt;%</span></span>
+<span id="cb264-6"><a href="chap-rediger.html#cb264-6"></a><span class="kw">flextable</span>() <span class="op">%&gt;%</span></span>
 <span id="cb264-7"><a href="chap-rediger.html#cb264-7"></a><span class="st">    </span><span class="co"># Titre des colonnes</span></span>
 <span id="cb264-8"><a href="chap-rediger.html#cb264-8"></a><span class="kw">set_header_labels</span>(<span class="dt">Sepal.Length =</span> <span class="st">&quot;Longueur sépales&quot;</span>, <span class="dt">Sepal.Width =</span> <span class="st">&quot;Largeur&quot;</span>,</span>
 <span id="cb264-9"><a href="chap-rediger.html#cb264-9"></a>    <span class="dt">Petal.Length =</span> <span class="st">&quot;Longueur pétales&quot;</span>, <span class="dt">Petal.Width =</span> <span class="st">&quot;Largeur&quot;</span>,</span>
@@ -766,7 +770,7 @@ Enfin, l’option <code>full_width = FALSE</code> permet d’ajuster la largeur 
 <span id="cb264-11"><a href="chap-rediger.html#cb264-11"></a><span class="st">    </span><span class="co"># Sélection des longs sépales (&gt;5) et affichage en</span></span>
 <span id="cb264-12"><a href="chap-rediger.html#cb264-12"></a><span class="st">    </span><span class="co"># rouge</span></span>
 <span id="cb264-13"><a href="chap-rediger.html#cb264-13"></a><span class="kw">color</span>(<span class="op">~</span>Sepal.Length <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>, <span class="op">~</span>Sepal.Length, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<template id="3464eb79-1dc6-4ed7-b264-2346f4e16d84"><style>
+<template id="e1f32b8e-c31f-451b-a502-f77e042642d7"><style>
 .tabwid table{
   border-collapse:collapse;
   line-height:1;
@@ -800,12 +804,12 @@ Enfin, l’option <code>full_width = FALSE</code> permet d’ajuster la largeur 
 .tabwid table tr {
 background-color: transparent;
 }
-</style><div class="tabwid"><style>.cl-9ef351de{border-collapse:collapse;}.cl-9eea66be{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9eea66f0{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(255, 0, 0, 1.00);background-color:transparent;}.cl-9eea8838{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-9eea8856{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-9eeade8c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9eeadeb4{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9eeadebe{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9eeadef0{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9eeadefa{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9eeadf04{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-9ef351de'>
-<thead><tr style="overflow-wrap:break-word;"><td class="cl-9eeadefa"><p class="cl-9eea8838"><span class="cl-9eea66be">Longueur sépales</span></p></td><td class="cl-9eeadefa"><p class="cl-9eea8838"><span class="cl-9eea66be">Largeur</span></p></td><td class="cl-9eeadefa"><p class="cl-9eea8838"><span class="cl-9eea66be">Longueur pétales</span></p></td><td class="cl-9eeadefa"><p class="cl-9eea8838"><span class="cl-9eea66be">Largeur</span></p></td><td class="cl-9eeadf04"><p class="cl-9eea8856"><span class="cl-9eea66be">Espèce</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66f0">5.1</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">3.5</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">1.4</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">0.2</span></p></td><td class="cl-9eeadeb4"><p class="cl-9eea8856"><span class="cl-9eea66be">setosa</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">4.9</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">3.0</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">1.4</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">0.2</span></p></td><td class="cl-9eeadeb4"><p class="cl-9eea8856"><span class="cl-9eea66be">setosa</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">4.7</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">3.2</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">1.3</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">0.2</span></p></td><td class="cl-9eeadeb4"><p class="cl-9eea8856"><span class="cl-9eea66be">setosa</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">4.6</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">3.1</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">1.5</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">0.2</span></p></td><td class="cl-9eeadeb4"><p class="cl-9eea8856"><span class="cl-9eea66be">setosa</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">5.0</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">3.6</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">1.4</span></p></td><td class="cl-9eeade8c"><p class="cl-9eea8838"><span class="cl-9eea66be">0.2</span></p></td><td class="cl-9eeadeb4"><p class="cl-9eea8856"><span class="cl-9eea66be">setosa</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9eeadebe"><p class="cl-9eea8838"><span class="cl-9eea66f0">5.4</span></p></td><td class="cl-9eeadebe"><p class="cl-9eea8838"><span class="cl-9eea66be">3.9</span></p></td><td class="cl-9eeadebe"><p class="cl-9eea8838"><span class="cl-9eea66be">1.7</span></p></td><td class="cl-9eeadebe"><p class="cl-9eea8838"><span class="cl-9eea66be">0.4</span></p></td><td class="cl-9eeadef0"><p class="cl-9eea8856"><span class="cl-9eea66be">setosa</span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="648c7a77-4380-44dd-92fb-9e2bff95d74b"></div>
+</style><div class="tabwid"><style>.cl-29ededbe{border-collapse:collapse;}.cl-29e53ff2{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-29e54024{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(255, 0, 0, 1.00);background-color:transparent;}.cl-29e55fdc{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-29e55ffa{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-29e5b2d4{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-29e5b2fc{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-29e5b306{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-29e5b338{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-29e5b342{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-29e5b34c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-29ededbe'>
+<thead><tr style="overflow-wrap:break-word;"><td class="cl-29e5b342"><p class="cl-29e55fdc"><span class="cl-29e53ff2">Longueur sépales</span></p></td><td class="cl-29e5b342"><p class="cl-29e55fdc"><span class="cl-29e53ff2">Largeur</span></p></td><td class="cl-29e5b342"><p class="cl-29e55fdc"><span class="cl-29e53ff2">Longueur pétales</span></p></td><td class="cl-29e5b342"><p class="cl-29e55fdc"><span class="cl-29e53ff2">Largeur</span></p></td><td class="cl-29e5b34c"><p class="cl-29e55ffa"><span class="cl-29e53ff2">Espèce</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e54024">5.1</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">3.5</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">1.4</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">0.2</span></p></td><td class="cl-29e5b2fc"><p class="cl-29e55ffa"><span class="cl-29e53ff2">setosa</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">4.9</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">3.0</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">1.4</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">0.2</span></p></td><td class="cl-29e5b2fc"><p class="cl-29e55ffa"><span class="cl-29e53ff2">setosa</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">4.7</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">3.2</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">1.3</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">0.2</span></p></td><td class="cl-29e5b2fc"><p class="cl-29e55ffa"><span class="cl-29e53ff2">setosa</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">4.6</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">3.1</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">1.5</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">0.2</span></p></td><td class="cl-29e5b2fc"><p class="cl-29e55ffa"><span class="cl-29e53ff2">setosa</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">5.0</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">3.6</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">1.4</span></p></td><td class="cl-29e5b2d4"><p class="cl-29e55fdc"><span class="cl-29e53ff2">0.2</span></p></td><td class="cl-29e5b2fc"><p class="cl-29e55ffa"><span class="cl-29e53ff2">setosa</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-29e5b306"><p class="cl-29e55fdc"><span class="cl-29e54024">5.4</span></p></td><td class="cl-29e5b306"><p class="cl-29e55fdc"><span class="cl-29e53ff2">3.9</span></p></td><td class="cl-29e5b306"><p class="cl-29e55fdc"><span class="cl-29e53ff2">1.7</span></p></td><td class="cl-29e5b306"><p class="cl-29e55fdc"><span class="cl-29e53ff2">0.4</span></p></td><td class="cl-29e5b338"><p class="cl-29e55ffa"><span class="cl-29e53ff2">setosa</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="2df391ec-76f0-42ee-b28b-41b0483fc3d3"></div>
 <script>
-var dest = document.getElementById("648c7a77-4380-44dd-92fb-9e2bff95d74b");
-var template = document.getElementById("3464eb79-1dc6-4ed7-b264-2346f4e16d84");
+var dest = document.getElementById("2df391ec-76f0-42ee-b28b-41b0483fc3d3");
+var template = document.getElementById("e1f32b8e-c31f-451b-a502-f77e042642d7");
 var caption = template.content.querySelector("caption");
 if(caption) {
   caption.style.cssText = "display:block;text-align:center;";
@@ -819,9 +823,9 @@ fantome.appendChild(templateContent);
 </script>
 
 
-<p>La formule mathématique <span class="math inline">\(l_s\)</span> a été retirée du titre de la colonne parce que <strong>flextable</strong> ne l’interprète pas de façon simple (mais une solution existe<a href="#fn52" class="footnote-ref" id="fnref52"><sup>52</sup></a>).
-La documentation du package<a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a> est disponible en ligne, ainsi qu’une galerie<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a>.</p>
-<p>Pour un usage occasionnel, <strong>flextable</strong> est plus difficile à prendre en main que <strong>kableExtra</strong> mais il est plus puissant si un usage intensif des tableaux est nécessaire.</p>
+<p>La documentation du package<a href="#fn52" class="footnote-ref" id="fnref52"><sup>52</sup></a> est disponible en ligne, ainsi qu’une galerie<a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a>.</p>
+<p><strong>flextable</strong> ne supporte pas la numérotation des légendes hormis dans les documents Word.
+Cette limite est rédhibitoire.</p>
 </div>
 <div id="maths" class="section level4">
 <h4><span class="header-section-number">4.3.1.4</span> Maths</h4>
@@ -854,7 +858,7 @@ La documentation du package<a href="#fn53" class="footnote-ref" id="fnref53"><su
 Le style bibliographique peut être précisé, en ajoutant la ligne</p>
 <pre><code>csl:nom_du_fichier.csl</code></pre>
 <p>dans l’entête du document et en copiant le fichier de style <em>.csl</em> dans le dossier du projet.
-Plus d’un millier de styles sont disponibles.<a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a></p>
+Plus d’un millier de styles sont disponibles.<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a></p>
 <p>Pour les documents PDF, la bibliographie est gérée par LaTeX.</p>
 <p>Pour préparer la soumission d’un manuscrit à une revue, il faudra ouvrir le fichier <em>.tex</em> intermédiaire produit par pandoc et copier le contenu de l’environnement {document} dans le modèle proposé par la revue, qui se chargera du formatage.</p>
 </div>
@@ -871,14 +875,14 @@ otherlangs: [en-US, it]</code></pre>
 <p>La langue en cours n’a d’effet que dans les sorties LaTeX: un espace est ajouté devant les ponctuations doubles en Français, la taille des espaces est plus grande en début de phrase en Anglais, etc.
 La commande <code>\selectlanguage</code> est simplement ignorée en HTML.</p>
 <p>Les noms de langues sont différents dans l’entête (codes IETF) et dans le texte (nom de la langue).
-La correspondance et la liste complète des langues se trouve dans le tableau 3 de la documentation du package <strong>polyglossia</strong><a href="#fn56" class="footnote-ref" id="fnref56"><sup>56</sup></a>.</p>
+La correspondance et la liste complète des langues se trouve dans le tableau 3 de la documentation du package <strong>polyglossia</strong><a href="#fn55" class="footnote-ref" id="fnref55"><sup>55</sup></a>.</p>
 </div>
 </div>
 <div id="sec:memo" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> Modèle Simple Article</h3>
-<p>Le modèle <em>Simple Article</em> de <strong>memoiR</strong> produit un document HTML simple avec une table des matières flottante (voir l’exemple<a href="#fn57" class="footnote-ref" id="fnref57"><sup>57</sup></a>).
-D’autres formats HTML sont disponibles: voir la gallerie<a href="#fn58" class="footnote-ref" id="fnref58"><sup>58</sup></a> du package.
-Le format PDF est proche du modèle <em>article</em> de LaTeX (exemple<a href="#fn59" class="footnote-ref" id="fnref59"><sup>59</sup></a>).</p>
+<p>Le modèle <em>Simple Article</em> de <strong>memoiR</strong> produit un document HTML simple avec une table des matières flottante (voir l’exemple<a href="#fn56" class="footnote-ref" id="fnref56"><sup>56</sup></a>).
+D’autres formats HTML sont disponibles: voir la gallerie<a href="#fn57" class="footnote-ref" id="fnref57"><sup>57</sup></a> du package.
+Le format PDF est proche du modèle <em>article</em> de LaTeX (exemple<a href="#fn58" class="footnote-ref" id="fnref58"><sup>58</sup></a>).</p>
 <p>Le modèle contient sa propre documentation.</p>
 <div id="créer" class="section level4">
 <h4><span class="header-section-number">4.3.2.1</span> Créer</h4>
@@ -927,7 +931,7 @@ Il reste à pousser le dépôt sur GitHub et activer les pages GitHub.</p>
 </div>
 <div id="autres-modèles" class="section level3">
 <h3><span class="header-section-number">4.3.3</span> Autres modèles</h3>
-<p>Le modèle <em>Stylish Article</em> de <strong>memoiR</strong> est destiné à la production d’articles PDF pour l’autoarchivage (typiquement, le dépôt sur HAL) bien formatés, au format A4 en double colonne<a href="#fn60" class="footnote-ref" id="fnref60"><sup>60</sup></a>.</p>
+<p>Le modèle <em>Stylish Article</em> de <strong>memoiR</strong> est destiné à la production d’articles PDF pour l’autoarchivage (typiquement, le dépôt sur HAL) bien formatés, au format A4 en double colonne<a href="#fn59" class="footnote-ref" id="fnref59"><sup>59</sup></a>.</p>
 <p>Le format HTML est le même que celui du modèle <em>Simple Article</em>.</p>
 <p>Le package <strong>rticles</strong> a pour ambition de fournir des modèles pour toutes les revues scientifiques qui acceptent une soumission d’articles en LaTeX.
 Il propose donc des modèles Markdown qui produisent des fichiers PDF conformes aux exigences des revues et la possibilité de récupérer le fichier <code>.tex</code> intermédiaire (pandoc produit un fichier <code>.tex</code> transmis au compilateur LaTeX).
@@ -937,17 +941,17 @@ Il n’est pas possible d’échanger directement du contenu R Markdown standard
 </div>
 <div id="présentation-beamer" class="section level2">
 <h2><span class="header-section-number">4.4</span> Présentation Beamer</h2>
-<p>Le modèle <em>Beamer Presentation</em> de <strong>memoiR</strong> permet de créer des présentations au format HTML et PDF (beamer) simultanément, comme le montre l’exemple<a href="#fn61" class="footnote-ref" id="fnref61"><sup>61</sup></a>.</p>
+<p>Le modèle <em>Beamer Presentation</em> de <strong>memoiR</strong> permet de créer des présentations au format HTML et PDF (beamer) simultanément, comme le montre l’exemple<a href="#fn60" class="footnote-ref" id="fnref60"><sup>60</sup></a>.</p>
 <p>La démarche est identique à celle des articles du même package.
 Les niveaux de titre permettent de séparer les parties de la présentation (<code>#</code>) et les diapositives (<code>##</code>).
-Deux formats sont disponibles en HTML: ioslides<a href="#fn62" class="footnote-ref" id="fnref62"><sup>62</sup></a> et Slidy<a href="#fn63" class="footnote-ref" id="fnref63"><sup>63</sup></a>.
+Deux formats sont disponibles en HTML: ioslides<a href="#fn61" class="footnote-ref" id="fnref61"><sup>61</sup></a> et Slidy<a href="#fn62" class="footnote-ref" id="fnref62"><sup>62</sup></a>.
 Quelques spécificités dans le code permettent d’affiner la présentation des diapositives, pour un affichage sur deux colonnes par exemple: elles sont documentées dans le modèle.</p>
 </div>
 <div id="memoir" class="section level2">
 <h2><span class="header-section-number">4.5</span> memoir</h2>
 <p>Le modèle <em>Memoir</em> du package <strong>memoiR</strong> est destiné aux documents longs, qui présentent une différence importante avec les documents précédents: un document long est composé de plusieurs chapitres, chacun placé dans son fichier <code>.Rmd</code>.</p>
-<p>Le format HTML est gitbook<a href="#fn64" class="footnote-ref" id="fnref64"><sup>64</sup></a>, le standard de la lecture en ligne de documents de ce type.
-Le format PDF est dérivé du modèle LaTeX <em>memoir</em><a href="#fn65" class="footnote-ref" id="fnref65"><sup>65</sup></a>, optimisé aussi pour les documents longs.</p>
+<p>Le format HTML est gitbook<a href="#fn63" class="footnote-ref" id="fnref63"><sup>63</sup></a>, le standard de la lecture en ligne de documents de ce type.
+Le format PDF est dérivé du modèle LaTeX <em>memoir</em><a href="#fn64" class="footnote-ref" id="fnref64"><sup>64</sup></a>, optimisé aussi pour les documents longs.</p>
 <p>Ce document a été écrit avec ce modèle.</p>
 <div id="créer-1" class="section level3">
 <h3><span class="header-section-number">4.5.1</span> Créer</h3>
@@ -1045,7 +1049,7 @@ En production, elle peut être confiée à GitHub (chapitre <a href="chap-ci.htm
 <div id="google-analytics" class="section level3">
 <h3><span class="header-section-number">4.5.7</span> Google Analytics</h3>
 <p>Le suivi de l’audience de l’ouvrage peut être confié à Google Analytics.
-Pour cela, il faut créer un compte et ajouter une <em>propriété</em> Google Analytics, c’est-à-dire un site web, puis un flux de données, ici un flux web<a href="#fn66" class="footnote-ref" id="fnref66"><sup>66</sup></a>.</p>
+Pour cela, il faut créer un compte et ajouter une <em>propriété</em> Google Analytics, c’est-à-dire un site web, puis un flux de données, ici un flux web<a href="#fn65" class="footnote-ref" id="fnref65"><sup>65</sup></a>.</p>
 <p>Google Analytics fournit un script de configuration nommé <code>gtag.js</code> à placer à la racine du dossier du projet.
 Enfin, déclarer le script dans l’entête des pages web en ajoutant une instruction dans <code>_output.yml</code>, dans sa première section.</p>
 <pre><code>bookdown::gitbook:
@@ -1055,7 +1059,7 @@ Enfin, déclarer le script dans l’entête des pages web en ajoutant une instru
 </div>
 <div id="site-web-r-markdown" class="section level2">
 <h2><span class="header-section-number">4.6</span> Site web R Markdown</h2>
-<p>Un site web constitué de pages écrites avec R Markdown (sans les fonctionnalités de <strong>bookdown</strong>) et un menu peut être créé très simplement, avec un résultat de bonne facture<a href="#fn67" class="footnote-ref" id="fnref67"><sup>67</sup></a>.</p>
+<p>Un site web constitué de pages écrites avec R Markdown (sans les fonctionnalités de <strong>bookdown</strong>) et un menu peut être créé très simplement, avec un résultat de bonne facture<a href="#fn66" class="footnote-ref" id="fnref66"><sup>66</sup></a>.</p>
 <div id="modèle" class="section level3">
 <h3><span class="header-section-number">4.6.1</span> Modèle</h3>
 <p>Dans RStudio, dans le menu des projets en haut à droite, cliquer sur <em>New Project…</em> puis “New Directory” puis “Simple R Markdown website”.
@@ -1091,11 +1095,11 @@ output:
     highlight: tango
     toc: true
     toc_float: yes</code></pre>
-<p>L’icône de GitHub fait partie de la collection Font Awesome dont toutes les icônes gratuites<a href="#fn68" class="footnote-ref" id="fnref68"><sup>68</sup></a> sont utilisables avec la même syntaxe: “fa-nom”.</p>
+<p>L’icône de GitHub fait partie de la collection Font Awesome dont toutes les icônes gratuites<a href="#fn67" class="footnote-ref" id="fnref67"><sup>67</sup></a> sont utilisables avec la même syntaxe: “fa-nom”.</p>
 <p>Le lien correspondant à l’icône doit être celui du dépôt GitHub du site web.</p>
 <p>La syntaxe de la section <code>output</code> est la même que celle des documents vus plus haut.
 Elle s’applique à toutes les pages (dont l’entête YAML est réduite au minimum).
-Les thèmes disponibles sont ceux de rmarkdown<a href="#fn69" class="footnote-ref" id="fnref69"><sup>69</sup></a>.</p>
+Les thèmes disponibles sont ceux de rmarkdown<a href="#fn68" class="footnote-ref" id="fnref68"><sup>68</sup></a>.</p>
 <p>L’option <code>highlight</code> indique la façon dont le code R éventuellement affiché sera formaté.
 Enfin, la table des matières est flottante, ce qui signifie que sa position s’ajuste quand la fenêtre défile.</p>
 </div>
@@ -1128,7 +1132,7 @@ Un site Hugo peut être hébergé par exemple sur la page personnelle de tout ut
 <p>Hugo propose de nombreux thèmes, qui sont des modèles de structure de sites, donc le thème <strong>Academic</strong>, destiné aux chercheurs.
 Dans RStudio, le package <strong>blogdown</strong> est prévu pour produire facilement des pages web avec Hugo.
 Ces pages peuvent contenir du code R: elles sont très proches d’un article, vu plus haut, dont le contenu peut être facilement copié et collé.
-Nous utiliserons donc cette solution, pour un site comme celui proposé en exemple<a href="#fn70" class="footnote-ref" id="fnref70"><sup>70</sup></a>.</p>
+Nous utiliserons donc cette solution, pour un site comme celui proposé en exemple<a href="#fn69" class="footnote-ref" id="fnref69"><sup>69</sup></a>.</p>
 <p>La structure du site web est simple:</p>
 <ul>
 <li>une page d’accueil, contenant divers composants paramétrables comme la biographie de l’auteur, une sélection de publications, de billets de blogs ou d’autres éléments et un formulaire de contact;</li>
@@ -1144,15 +1148,15 @@ Nous utiliserons donc cette solution, pour un site comme celui proposé en exemp
 
 <div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="chap-rediger.html#cb279-1"></a>blogdown<span class="op">::</span><span class="kw">install_hugo</span>()</span></code></pre></div>
 
-<p>La documentation complète de <strong>blogdown</strong> est disponible<a href="#fn71" class="footnote-ref" id="fnref71"><sup>71</sup></a>.</p>
+<p>La documentation complète de <strong>blogdown</strong> est disponible<a href="#fn70" class="footnote-ref" id="fnref70"><sup>70</sup></a>.</p>
 <p>Les versions récentes de Hugo utilisent <em>Go</em> (le langage de programmation) pour installer leurs modules à la volée: ici le thème Academic est chargé depuis GitHub au moment de la création du site.
-Go doit donc être installé<a href="#fn72" class="footnote-ref" id="fnref72"><sup>72</sup></a>.</p>
+Go doit donc être installé<a href="#fn71" class="footnote-ref" id="fnref71"><sup>71</sup></a>.</p>
 </div>
 <div id="créer-2" class="section level3">
 <h3><span class="header-section-number">4.7.2</span> Créer</h3>
 <p>La façon la plus simple consiste à créer un dépôt sur GitHub à partir du modèle.
-Sur la page du dépôt <em>starter-academic</em><a href="#fn73" class="footnote-ref" id="fnref73"><sup>73</sup></a>, cliquer sur le bouton <em>Use this template</em>, s’authentifier éventuellement sur GitHub, puis saisir le nom du dépôt qui contiendra le projet, par exemple “MySite”.</p>
-<p>Le dépôt peut être celui du site principal de son compte GitHub (voir section <a href="chap-git.html#sec:github-pages">3.6</a>), à l’adresse <a href="https://GitHubID.github.io" class="uri">https://GitHubID.github.io</a>.<a href="#fn74" class="footnote-ref" id="fnref74"><sup>74</sup></a>
+Sur la page du dépôt <em>starter-academic</em><a href="#fn72" class="footnote-ref" id="fnref72"><sup>72</sup></a>, cliquer sur le bouton <em>Use this template</em>, s’authentifier éventuellement sur GitHub, puis saisir le nom du dépôt qui contiendra le projet, par exemple “MySite”.</p>
+<p>Le dépôt peut être celui du site principal de son compte GitHub (voir section <a href="chap-git.html#sec:github-pages">3.6</a>), à l’adresse <a href="https://GitHubID.github.io" class="uri">https://GitHubID.github.io</a>.<a href="#fn73" class="footnote-ref" id="fnref73"><sup>73</sup></a>
 Le nom à saisir est simplement “GitHubID.github.io” (<em>GitHubID</em> est le nom du compte GitHub).</p>
 <p>Créer le dépôt.
 Copier l’adresse du dépôt en cliquant sur le bouton <em>Code</em> puis sur le bouton à droite de l’adresse (figure <a href="chap-rediger.html#fig:rediger-GitHub-Clone">4.4</a>).</p>
@@ -1314,8 +1318,8 @@ Enfin “Icon Pack Extensions” permet d’activer les icônes Academicons si n
 </div>
 <div id="ecrire-3" class="section level3">
 <h3><span class="header-section-number">4.7.7</span> Ecrire</h3>
-<p>Utiliser la documentation en ligne<a href="#fn75" class="footnote-ref" id="fnref75"><sup>75</sup></a> en complément des informations principales détaillées ici.
-L’exemple utilisé ici est le site personnel de l’auteur<a href="#fn76" class="footnote-ref" id="fnref76"><sup>76</sup></a>.</p>
+<p>Utiliser la documentation en ligne<a href="#fn74" class="footnote-ref" id="fnref74"><sup>74</sup></a> en complément des informations principales détaillées ici.
+L’exemple utilisé ici est le site personnel de l’auteur<a href="#fn75" class="footnote-ref" id="fnref75"><sup>75</sup></a>.</p>
 <p>La méthode de travail consiste à progresser pas à pas en testant puis validant chaque étape:</p>
 <ul>
 <li>Effectuer les modifications;</li>
@@ -1450,8 +1454,8 @@ Les éléments du menu ont un nom affiché, un lien (commençant par <code>#</co
 <h4><span class="header-section-number">4.7.7.3</span> Billets</h4>
 <p>Le site est alimenté par des billets de blog placés dans le dossier <code>/contents/&lt;langue&gt;/post</code>.
 Il doivent être traduits et placés dans le dossier <code>post</code> de chaque langue pour être disponibles dans la langue correspondante.
-L’exemple utilisé ici est un guide pour estimer correctement la densité d’une variable bornée<a href="#fn77" class="footnote-ref" id="fnref77"><sup>77</sup></a>.</p>
-<p>Son code est sur GitHub<a href="#fn78" class="footnote-ref" id="fnref78"><sup>78</sup></a>.</p>
+L’exemple utilisé ici est un guide pour estimer correctement la densité d’une variable bornée<a href="#fn76" class="footnote-ref" id="fnref76"><sup>76</sup></a>.</p>
+<p>Son code est sur GitHub<a href="#fn77" class="footnote-ref" id="fnref77"><sup>77</sup></a>.</p>
 <p>Un billet est placé dans un dossier (<code>/content/fr/post/densite</code>) qui contient son code R Markdown et éventuellement des images, des données pour alimenter le code et d’autres éléments appelés par le code.
 Hugo supporte des fichiers markdown natifs.
 L’apport de <strong>blogdown</strong> relativement à un site Hugo natif est le support de R Markdown, donc la possibilité d’exécuter tout code R comme dans un bloc-note (dont le contenu peut être réutilisé sans modification).</p>
@@ -1504,7 +1508,7 @@ Pour le faire, il faut forcer la commande <code>build_site()</code>.</p>
 <div id="publications" class="section level4">
 <h4><span class="header-section-number">4.7.7.4</span> Publications</h4>
 <p>Les publications sont organisées comme les billets, mais placées dans le dossier <code>/contents/&lt;langue&gt;/publications</code>.</p>
-<p>L’exemple utilisé est un article de revue<a href="#fn79" class="footnote-ref" id="fnref79"><sup>79</sup></a> avec son code<a href="#fn80" class="footnote-ref" id="fnref80"><sup>80</sup></a>.</p>
+<p>L’exemple utilisé est un article de revue<a href="#fn78" class="footnote-ref" id="fnref78"><sup>78</sup></a> avec son code<a href="#fn79" class="footnote-ref" id="fnref79"><sup>79</sup></a>.</p>
 <p>Un fichier <code>cite.bib</code> contenant la référence au format BibTex est placé dans le dossier.
 Le nom du dossier est de préférence celui de l’identifiant de la publication.
 L’entête du fichier <code>index.md</code> (ici au format Markdown, mais <code>.Rmd</code> est possible si du code R est nécessaire) contient les mêmes informations que le fichier BibTex, mais au format approprié (yaml), et les éléments propres à Academic (<code>featured</code>):</p>
@@ -1546,14 +1550,14 @@ Ce lien peut être réutilisé très simplement, en remplaçant simplement le DO
   badge.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</code></pre>
 <p>Enfin, un fichier <code>/contents/&lt;langue&gt;/publications/_index.Rmd</code> permet de présenter la bibliographie complète.
 Il est accessible à partir du composant <code>publications</code> de la page d’accueil qui affiche un lien “Plus de Publications”.</p>
-<p>Le fichier exemple<a href="#fn81" class="footnote-ref" id="fnref81"><sup>81</sup></a> avec son code<a href="#fn82" class="footnote-ref" id="fnref82"><sup>82</sup></a> permet d’interroger Google Scholar pour obtenir le réseau de coauteurs, l’indice h et le nombre de citations annuelles de l’auteur.
+<p>Le fichier exemple<a href="#fn80" class="footnote-ref" id="fnref80"><sup>80</sup></a> avec son code<a href="#fn81" class="footnote-ref" id="fnref81"><sup>81</sup></a> permet d’interroger Google Scholar pour obtenir le réseau de coauteurs, l’indice h et le nombre de citations annuelles de l’auteur.
 Il est réutilisable en modifiant simplement l’identifiant Google Scholar à la ligne 30.</p>
 <p>En faisant exécuter le code régulièrement, par exemple par GitHub (voir ci-dessous), les statistiques affichées sont maintenues à jour sans intervention humaine.</p>
 </div>
 <div id="communications" class="section level4">
 <h4><span class="header-section-number">4.7.7.5</span> Communications</h4>
 <p>Les communications sont organisées comme les publications, dans le dossier <code>/contents/&lt;langue&gt;/talk</code>.</p>
-<p>L’exemple utilisé est une communication en Français, donc dans <code>/contents/fr/talk</code><a href="#fn83" class="footnote-ref" id="fnref83"><sup>83</sup></a> avec son code<a href="#fn84" class="footnote-ref" id="fnref84"><sup>84</sup></a>.</p>
+<p>L’exemple utilisé est une communication en Français, donc dans <code>/contents/fr/talk</code><a href="#fn82" class="footnote-ref" id="fnref82"><sup>82</sup></a> avec son code<a href="#fn83" class="footnote-ref" id="fnref83"><sup>83</sup></a>.</p>
 <p>Une image peut être utilisée plus facilement que pour une publication.</p>
 <p>L’entête contient des lignes particulières adaptées aux communications:</p>
 <pre><code>---
@@ -1640,7 +1644,7 @@ Pour utiliser la dernière version officielle, exécuter dans la console R la co
 <div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="chap-rediger.html#cb304-1"></a>blogdown<span class="op">::</span><span class="kw">hugo_cmd</span>(<span class="st">&quot;mod get -u&quot;</span>)</span></code></pre></div>
 
 <p>Les fichiers <code>go.mod</code> et <code>go.sum</code>, qui contient les codes de hachage des fichiers du module, sont mis à jour.</p>
-<p>Chaque changement de version peut nécessiter des adaptations du contenu du site, référencées dans la documentation en ligne du thème<a href="#fn85" class="footnote-ref" id="fnref85"><sup>85</sup></a>.</p>
+<p>Chaque changement de version peut nécessiter des adaptations du contenu du site, référencées dans la documentation en ligne du thème<a href="#fn84" class="footnote-ref" id="fnref84"><sup>84</sup></a>.</p>
 <p>Mettre Hugo à jour en même temps:</p>
 
 <div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="chap-rediger.html#cb305-1"></a>blogdown<span class="op">::</span><span class="kw">update_hugo</span>()</span></code></pre></div>
@@ -1707,7 +1711,7 @@ Si nécessaire, la fonction <code>embedFonts()</code> permet d’y remédier, à
 </div>
 <div id="package-ragg" class="section level3">
 <h3><span class="header-section-number">4.8.3</span> Package ragg</h3>
-<p>Le package <strong>ragg</strong><a href="#fn86" class="footnote-ref" id="fnref86"><sup>86</sup></a> améliore la qualité des fichiers PNG, JPEG et TIFF.
+<p>Le package <strong>ragg</strong><a href="#fn85" class="footnote-ref" id="fnref85"><sup>85</sup></a> améliore la qualité des fichiers PNG, JPEG et TIFF.
 Les fonctions optimisées sont <code>agg_png()</code>, <code>agg_jpeg()</code>et <code>agg_tiff()</code>. Leur usage est le même que celui des fonctions de <strong>grDevices</strong>.</p>
 <p>Les documents R Markdown produisent des images au format PNG pour leur version HTML.
 <strong>ragg</strong> améliore leur qualité: le package doit être installé et <code>dev = "ragg_png"</code> doit être ajoutée aux options de <strong>knitr</strong>.
@@ -1870,41 +1874,40 @@ De cette façon, les calculs effectués localement ne seront pas répétés par 
 <li id="fn49"><p><a href="https://bookdown.org/yihui/rmarkdown/beamer-presentation.html" class="uri">https://bookdown.org/yihui/rmarkdown/beamer-presentation.html</a><a href="chap-rediger.html#fnref49" class="footnote-back">↩︎</a></p></li>
 <li id="fn50"><p><a href="https://bookdown.org/yihui/rmarkdown/powerpoint-presentation.html" class="uri">https://bookdown.org/yihui/rmarkdown/powerpoint-presentation.html</a><a href="chap-rediger.html#fnref50" class="footnote-back">↩︎</a></p></li>
 <li id="fn51"><p><a href="https://rmarkdown.rstudio.com/lesson-1.html" class="uri">https://rmarkdown.rstudio.com/lesson-1.html</a><a href="chap-rediger.html#fnref51" class="footnote-back">↩︎</a></p></li>
-<li id="fn52"><p><a href="https://ardata-fr.github.io/flextable-gallery/gallery/" class="uri">https://ardata-fr.github.io/flextable-gallery/gallery/</a><a href="chap-rediger.html#fnref52" class="footnote-back">↩︎</a></p></li>
-<li id="fn53"><p><a href="https://ardata-fr.github.io/flextable-book/" class="uri">https://ardata-fr.github.io/flextable-book/</a><a href="chap-rediger.html#fnref53" class="footnote-back">↩︎</a></p></li>
-<li id="fn54"><p><a href="https://ardata-fr.github.io/flextable-gallery/gallery/" class="uri">https://ardata-fr.github.io/flextable-gallery/gallery/</a><a href="chap-rediger.html#fnref54" class="footnote-back">↩︎</a></p></li>
-<li id="fn55"><p><a href="https://github.com/citation-style-language/styles" class="uri">https://github.com/citation-style-language/styles</a><a href="chap-rediger.html#fnref55" class="footnote-back">↩︎</a></p></li>
-<li id="fn56"><p><a href="http://mirrors.ctan.org/macros/unicodetex/latex/polyglossia/polyglossia.pdf" class="uri">http://mirrors.ctan.org/macros/unicodetex/latex/polyglossia/polyglossia.pdf</a><a href="chap-rediger.html#fnref56" class="footnote-back">↩︎</a></p></li>
-<li id="fn57"><p><a href="https://EricMarcon.github.io/Krigeage/Krigeage.html" class="uri">https://EricMarcon.github.io/Krigeage/Krigeage.html</a><a href="chap-rediger.html#fnref57" class="footnote-back">↩︎</a></p></li>
-<li id="fn58"><p><a href="https://ericmarcon.github.io/memoiR/" class="uri">https://ericmarcon.github.io/memoiR/</a><a href="chap-rediger.html#fnref58" class="footnote-back">↩︎</a></p></li>
-<li id="fn59"><p><a href="https://EricMarcon.github.io/Krigeage/Krigeage.pdf" class="uri">https://EricMarcon.github.io/Krigeage/Krigeage.pdf</a><a href="chap-rediger.html#fnref59" class="footnote-back">↩︎</a></p></li>
-<li id="fn60"><p>Exemple: <a href="https://EricMarcon.github.io/Rochebrune2018/Entropie.pdf" class="uri">https://EricMarcon.github.io/Rochebrune2018/Entropie.pdf</a><a href="chap-rediger.html#fnref60" class="footnote-back">↩︎</a></p></li>
-<li id="fn61"><p><a href="https://EricMarcon.github.io/Chao1/" class="uri">https://EricMarcon.github.io/Chao1/</a>, choisir Lecture (HTML) ou Téléchargement (PDF).<a href="chap-rediger.html#fnref61" class="footnote-back">↩︎</a></p></li>
-<li id="fn62"><p><a href="https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html" class="uri">https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html</a><a href="chap-rediger.html#fnref62" class="footnote-back">↩︎</a></p></li>
-<li id="fn63"><p><a href="https://bookdown.org/yihui/rmarkdown/slidy-presentation.html" class="uri">https://bookdown.org/yihui/rmarkdown/slidy-presentation.html</a><a href="chap-rediger.html#fnref63" class="footnote-back">↩︎</a></p></li>
-<li id="fn64"><p><a href="https://www.gitbook.com/" class="uri">https://www.gitbook.com/</a><a href="chap-rediger.html#fnref64" class="footnote-back">↩︎</a></p></li>
-<li id="fn65"><p><a href="https://www.ctan.org/pkg/memoir" class="uri">https://www.ctan.org/pkg/memoir</a><a href="chap-rediger.html#fnref65" class="footnote-back">↩︎</a></p></li>
-<li id="fn66"><p><a href="https://support.google.com/analytics/answer/9304153?hl=fr&amp;ref_topic=9303319" class="uri">https://support.google.com/analytics/answer/9304153?hl=fr&amp;ref_topic=9303319</a><a href="chap-rediger.html#fnref66" class="footnote-back">↩︎</a></p></li>
-<li id="fn67"><p><a href="https://rstudio.github.io/learnr/" class="uri">https://rstudio.github.io/learnr/</a> par exemple.<a href="chap-rediger.html#fnref67" class="footnote-back">↩︎</a></p></li>
-<li id="fn68"><p><a href="https://fontawesome.com/icons?d=gallery&amp;m=free" class="uri">https://fontawesome.com/icons?d=gallery&amp;m=free</a><a href="chap-rediger.html#fnref68" class="footnote-back">↩︎</a></p></li>
-<li id="fn69"><p><a href="https://bookdown.org/yihui/rmarkdown/html-document.html#appearance-and-style" class="uri">https://bookdown.org/yihui/rmarkdown/html-document.html#appearance-and-style</a><a href="chap-rediger.html#fnref69" class="footnote-back">↩︎</a></p></li>
-<li id="fn70"><p><a href="https://EricMarcon.github.io/" class="uri">https://EricMarcon.github.io/</a><a href="chap-rediger.html#fnref70" class="footnote-back">↩︎</a></p></li>
-<li id="fn71"><p><a href="https://bookdown.org/yihui/blogdown/" class="uri">https://bookdown.org/yihui/blogdown/</a><a href="chap-rediger.html#fnref71" class="footnote-back">↩︎</a></p></li>
-<li id="fn72"><p><a href="https://golang.org/doc/install" class="uri">https://golang.org/doc/install</a><a href="chap-rediger.html#fnref72" class="footnote-back">↩︎</a></p></li>
-<li id="fn73"><p><a href="https://github.com/wowchemy/starter-academic" class="uri">https://github.com/wowchemy/starter-academic</a><a href="chap-rediger.html#fnref73" class="footnote-back">↩︎</a></p></li>
-<li id="fn74"><p>Exemple: <a href="https://EricMarcon.github.io/Krigeage/" class="uri">https://EricMarcon.github.io/Krigeage/</a><a href="chap-rediger.html#fnref74" class="footnote-back">↩︎</a></p></li>
-<li id="fn75"><p><a href="https://wowchemy.com/docs/page-builder/" class="uri">https://wowchemy.com/docs/page-builder/</a><a href="chap-rediger.html#fnref75" class="footnote-back">↩︎</a></p></li>
-<li id="fn76"><p><a href="https://EricMarcon.github.io/" class="uri">https://EricMarcon.github.io/</a><a href="chap-rediger.html#fnref76" class="footnote-back">↩︎</a></p></li>
-<li id="fn77"><p><a href="https://EricMarcon.github.io/post/densite/" class="uri">https://EricMarcon.github.io/post/densite/</a><a href="chap-rediger.html#fnref77" class="footnote-back">↩︎</a></p></li>
-<li id="fn78"><p><a href="https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/post/densite" class="uri">https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/post/densite</a><a href="chap-rediger.html#fnref78" class="footnote-back">↩︎</a></p></li>
-<li id="fn79"><p><a href="https://EricMarcon.github.io/publication/marcon-2003-a/" class="uri">https://EricMarcon.github.io/publication/marcon-2003-a/</a><a href="chap-rediger.html#fnref79" class="footnote-back">↩︎</a></p></li>
-<li id="fn80"><p><a href="https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a" class="uri">https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a</a><a href="chap-rediger.html#fnref80" class="footnote-back">↩︎</a></p></li>
-<li id="fn81"><p><a href="https://EricMarcon.github.io/publication/" class="uri">https://EricMarcon.github.io/publication/</a><a href="chap-rediger.html#fnref81" class="footnote-back">↩︎</a></p></li>
-<li id="fn82"><p><a href="https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a" class="uri">https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a</a><a href="chap-rediger.html#fnref82" class="footnote-back">↩︎</a></p></li>
-<li id="fn83"><p><a href="https://EricMarcon.github.io/talk/chao1/" class="uri">https://EricMarcon.github.io/talk/chao1/</a><a href="chap-rediger.html#fnref83" class="footnote-back">↩︎</a></p></li>
-<li id="fn84"><p><a href="https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/talk/chao1" class="uri">https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/talk/chao1</a><a href="chap-rediger.html#fnref84" class="footnote-back">↩︎</a></p></li>
-<li id="fn85"><p><a href="https://wowchemy.com/updates/" class="uri">https://wowchemy.com/updates/</a><a href="chap-rediger.html#fnref85" class="footnote-back">↩︎</a></p></li>
-<li id="fn86"><p><a href="https://ragg.r-lib.org/" class="uri">https://ragg.r-lib.org/</a><a href="chap-rediger.html#fnref86" class="footnote-back">↩︎</a></p></li>
+<li id="fn52"><p><a href="https://ardata-fr.github.io/flextable-book/" class="uri">https://ardata-fr.github.io/flextable-book/</a><a href="chap-rediger.html#fnref52" class="footnote-back">↩︎</a></p></li>
+<li id="fn53"><p><a href="https://ardata-fr.github.io/flextable-gallery/gallery/" class="uri">https://ardata-fr.github.io/flextable-gallery/gallery/</a><a href="chap-rediger.html#fnref53" class="footnote-back">↩︎</a></p></li>
+<li id="fn54"><p><a href="https://github.com/citation-style-language/styles" class="uri">https://github.com/citation-style-language/styles</a><a href="chap-rediger.html#fnref54" class="footnote-back">↩︎</a></p></li>
+<li id="fn55"><p><a href="http://mirrors.ctan.org/macros/unicodetex/latex/polyglossia/polyglossia.pdf" class="uri">http://mirrors.ctan.org/macros/unicodetex/latex/polyglossia/polyglossia.pdf</a><a href="chap-rediger.html#fnref55" class="footnote-back">↩︎</a></p></li>
+<li id="fn56"><p><a href="https://EricMarcon.github.io/Krigeage/Krigeage.html" class="uri">https://EricMarcon.github.io/Krigeage/Krigeage.html</a><a href="chap-rediger.html#fnref56" class="footnote-back">↩︎</a></p></li>
+<li id="fn57"><p><a href="https://ericmarcon.github.io/memoiR/" class="uri">https://ericmarcon.github.io/memoiR/</a><a href="chap-rediger.html#fnref57" class="footnote-back">↩︎</a></p></li>
+<li id="fn58"><p><a href="https://EricMarcon.github.io/Krigeage/Krigeage.pdf" class="uri">https://EricMarcon.github.io/Krigeage/Krigeage.pdf</a><a href="chap-rediger.html#fnref58" class="footnote-back">↩︎</a></p></li>
+<li id="fn59"><p>Exemple: <a href="https://EricMarcon.github.io/Rochebrune2018/Entropie.pdf" class="uri">https://EricMarcon.github.io/Rochebrune2018/Entropie.pdf</a><a href="chap-rediger.html#fnref59" class="footnote-back">↩︎</a></p></li>
+<li id="fn60"><p><a href="https://EricMarcon.github.io/Chao1/" class="uri">https://EricMarcon.github.io/Chao1/</a>, choisir Lecture (HTML) ou Téléchargement (PDF).<a href="chap-rediger.html#fnref60" class="footnote-back">↩︎</a></p></li>
+<li id="fn61"><p><a href="https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html" class="uri">https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html</a><a href="chap-rediger.html#fnref61" class="footnote-back">↩︎</a></p></li>
+<li id="fn62"><p><a href="https://bookdown.org/yihui/rmarkdown/slidy-presentation.html" class="uri">https://bookdown.org/yihui/rmarkdown/slidy-presentation.html</a><a href="chap-rediger.html#fnref62" class="footnote-back">↩︎</a></p></li>
+<li id="fn63"><p><a href="https://www.gitbook.com/" class="uri">https://www.gitbook.com/</a><a href="chap-rediger.html#fnref63" class="footnote-back">↩︎</a></p></li>
+<li id="fn64"><p><a href="https://www.ctan.org/pkg/memoir" class="uri">https://www.ctan.org/pkg/memoir</a><a href="chap-rediger.html#fnref64" class="footnote-back">↩︎</a></p></li>
+<li id="fn65"><p><a href="https://support.google.com/analytics/answer/9304153?hl=fr&amp;ref_topic=9303319" class="uri">https://support.google.com/analytics/answer/9304153?hl=fr&amp;ref_topic=9303319</a><a href="chap-rediger.html#fnref65" class="footnote-back">↩︎</a></p></li>
+<li id="fn66"><p><a href="https://rstudio.github.io/learnr/" class="uri">https://rstudio.github.io/learnr/</a> par exemple.<a href="chap-rediger.html#fnref66" class="footnote-back">↩︎</a></p></li>
+<li id="fn67"><p><a href="https://fontawesome.com/icons?d=gallery&amp;m=free" class="uri">https://fontawesome.com/icons?d=gallery&amp;m=free</a><a href="chap-rediger.html#fnref67" class="footnote-back">↩︎</a></p></li>
+<li id="fn68"><p><a href="https://bookdown.org/yihui/rmarkdown/html-document.html#appearance-and-style" class="uri">https://bookdown.org/yihui/rmarkdown/html-document.html#appearance-and-style</a><a href="chap-rediger.html#fnref68" class="footnote-back">↩︎</a></p></li>
+<li id="fn69"><p><a href="https://EricMarcon.github.io/" class="uri">https://EricMarcon.github.io/</a><a href="chap-rediger.html#fnref69" class="footnote-back">↩︎</a></p></li>
+<li id="fn70"><p><a href="https://bookdown.org/yihui/blogdown/" class="uri">https://bookdown.org/yihui/blogdown/</a><a href="chap-rediger.html#fnref70" class="footnote-back">↩︎</a></p></li>
+<li id="fn71"><p><a href="https://golang.org/doc/install" class="uri">https://golang.org/doc/install</a><a href="chap-rediger.html#fnref71" class="footnote-back">↩︎</a></p></li>
+<li id="fn72"><p><a href="https://github.com/wowchemy/starter-academic" class="uri">https://github.com/wowchemy/starter-academic</a><a href="chap-rediger.html#fnref72" class="footnote-back">↩︎</a></p></li>
+<li id="fn73"><p>Exemple: <a href="https://EricMarcon.github.io/Krigeage/" class="uri">https://EricMarcon.github.io/Krigeage/</a><a href="chap-rediger.html#fnref73" class="footnote-back">↩︎</a></p></li>
+<li id="fn74"><p><a href="https://wowchemy.com/docs/page-builder/" class="uri">https://wowchemy.com/docs/page-builder/</a><a href="chap-rediger.html#fnref74" class="footnote-back">↩︎</a></p></li>
+<li id="fn75"><p><a href="https://EricMarcon.github.io/" class="uri">https://EricMarcon.github.io/</a><a href="chap-rediger.html#fnref75" class="footnote-back">↩︎</a></p></li>
+<li id="fn76"><p><a href="https://EricMarcon.github.io/post/densite/" class="uri">https://EricMarcon.github.io/post/densite/</a><a href="chap-rediger.html#fnref76" class="footnote-back">↩︎</a></p></li>
+<li id="fn77"><p><a href="https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/post/densite" class="uri">https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/post/densite</a><a href="chap-rediger.html#fnref77" class="footnote-back">↩︎</a></p></li>
+<li id="fn78"><p><a href="https://EricMarcon.github.io/publication/marcon-2003-a/" class="uri">https://EricMarcon.github.io/publication/marcon-2003-a/</a><a href="chap-rediger.html#fnref78" class="footnote-back">↩︎</a></p></li>
+<li id="fn79"><p><a href="https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a" class="uri">https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a</a><a href="chap-rediger.html#fnref79" class="footnote-back">↩︎</a></p></li>
+<li id="fn80"><p><a href="https://EricMarcon.github.io/publication/" class="uri">https://EricMarcon.github.io/publication/</a><a href="chap-rediger.html#fnref80" class="footnote-back">↩︎</a></p></li>
+<li id="fn81"><p><a href="https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a" class="uri">https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a</a><a href="chap-rediger.html#fnref81" class="footnote-back">↩︎</a></p></li>
+<li id="fn82"><p><a href="https://EricMarcon.github.io/talk/chao1/" class="uri">https://EricMarcon.github.io/talk/chao1/</a><a href="chap-rediger.html#fnref82" class="footnote-back">↩︎</a></p></li>
+<li id="fn83"><p><a href="https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/talk/chao1" class="uri">https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/talk/chao1</a><a href="chap-rediger.html#fnref83" class="footnote-back">↩︎</a></p></li>
+<li id="fn84"><p><a href="https://wowchemy.com/updates/" class="uri">https://wowchemy.com/updates/</a><a href="chap-rediger.html#fnref84" class="footnote-back">↩︎</a></p></li>
+<li id="fn85"><p><a href="https://ragg.r-lib.org/" class="uri">https://ragg.r-lib.org/</a><a href="chap-rediger.html#fnref85" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
