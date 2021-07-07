@@ -215,6 +215,9 @@ plot(pressure)
 Le texte de `fig.cap`, "Titre de la figure" précédemment, est remplacé par `(ref:pressure)` _à l'intérieur des guillemets_ qui sont conservés et la légende est saisie dans un paragraphe commençant par `(ref:pressure)` suivi d'un espace.
 Les légendes sont limitées à un paragraphe unique.
 
+Si une table des figures est utilisée (option `lof: true` dans l'entête), une légende courte est nécessaire en plus de la légende complète.
+Elle est déclarée dans `fig.scap`.
+
 Les figures qui ne sont pas créées par R mais proviennent de fichiers sont intégrées dans un bout de code par la fonction `include_graphics()` dont l'argument est le fichier contenant l'image à afficher.
 Placer systématiquement ces fichiers dans le dossier `images` pour une bonne organisation.
 
@@ -228,13 +231,15 @@ La fonction `kable` du package _knitr_ prépare le tableau pour l'affichage et p
 
 ```{r kable, echo=TRUE, warning=FALSE}
 library("tidyverse")
-names(iris) <- c("Longueur sépales ($l_s$)", "Largeur", "Longueur pétales", "Largeur", "Espèce")
-knitr::kable(head(iris), caption="Tableau créé par R", booktabs = TRUE, escape = FALSE) %>%
-kableExtra::kable_styling(bootstrap_options = "striped", full_width = FALSE)
+mes_iris <- head(iris)
+names(mes_iris) <- c("Longueur sépales ($l_s$)", "Largeur", "Longueur pétales", "Largeur", "Espèce")
+knitr::kable(mes_iris, caption="Tableau créé par kable", booktabs = TRUE, escape = FALSE) %>%
+  kableExtra::kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
 
 La légende est précisée par l'argument `caption` et le référencement est possible parce que le tableau reçoit une étiquette dont le nom est `tab:` suivi du nom du bout de code (tableau \@ref(tab:kable)).
 Comme pour les figures, une légende améliorée peut être écrite dans un paragraphe séparé.
+Une légende courte pour une éventuelle liste des tableaux (option `lot: true` dans l'entête) est déclarée dans l'argument `caption.short` de `kable()`.
 
 Utiliser systématiquement l'argument `booktabs = TRUE` pour que l'épaisseur des lignes de séparation soit optimale en LaTeX.
 Comme le tableau contient des mathématiques (dans le nom de la première colonne), l'option `escape = FALSE` est nécessaire.
@@ -246,11 +251,11 @@ Le package **flextable** permet de réaliser des tableaux plus élaborés, comme
 ```{r}
 library("flextable")
 # Rappel du jeu de données initial iris
-datasets::iris %>%
+iris %>%
   # Premières lignes
-  head %>% 
+  head() %>% 
   # Création d'un objet flextable
-  flextable %>%
+  flextable() %>%
   # Titre des colonnes
   set_header_labels(Sepal.Length="Longueur sépales",
                     Sepal.Width="Largeur", 
@@ -261,16 +266,15 @@ datasets::iris %>%
   color(~Sepal.Length > 5, ~Sepal.Length, color="red")
 ```
 
-La formule mathématique $l_s$ a été retirée du titre de la colonne parce que **flextable** ne l'interprète pas de façon simple (mais une solution existe[^413]).
 La documentation du package[^411] est disponible en ligne, ainsi qu'une galerie[^412].
 
 [^411]: https://ardata-fr.github.io/flextable-book/
 
 [^412]: https://ardata-fr.github.io/flextable-gallery/gallery/
 
-[^413]: https://ardata-fr.github.io/flextable-gallery/gallery/
+**flextable** ne supporte pas la numérotation des légendes hormis dans les documents Word.
+Cette limite est rédhibitoire.
 
-Pour un usage occasionnel, **flextable** est plus difficile à prendre en main que **kableExtra** mais il est plus puissant si un usage intensif des tableaux est nécessaire.
 
 #### Maths
 
@@ -1496,11 +1500,17 @@ Ces bouts de code permettent de créer le fichier `_targets.R` quand ils sont ex
 S'ils sont lancés en mode interactif, par exemple dans R Studio, leur code est exécuté.
 L'option `tar_interactive = FALSE` dans leur entête permet de les tester sans tricoter tout le document.
 
+Un ancien flux éventuel doit être supprimé avant d'écrire le nouveau:
+```{r}
+tar_unscript()
+```
+
 Le premier bout de code, avec l'option `tar_globals=TRUE`, écrit les options globales du flux. 
 Pour créer le flux présenté en section \@ref(sec:targets), le code est simplement:
 
 ````
 ```{targets targets_global, tar_globals=TRUE}`r ''`
+# Packages
 tar_option_set(packages = c("spatstat", "dbmss"))
 ```
 ````
@@ -1509,7 +1519,7 @@ tar_option_set(packages = c("spatstat", "dbmss"))
 tar_option_set(packages = c("spatstat", "dbmss"))
 ```
 
-Les fonctions utilisées par les cibles sont déclarées dans ce type de bout de code: elles sont ajoutées à un fichier dans le dossier de travail `_targets_r` (différent du dossier `_targets` qui contient les cibles).
+Les fonctions utilisées par les cibles sont déclarées dans ce type de bout de code: elles sont ajoutées à un fichier dans le dossier de travail `_targets_r` (différent du dossier `_targets` qui contient les fichiers de calcul des cibles).
 
 ### Déclaration des cibles
 
@@ -1536,7 +1546,7 @@ En revanche, si le code est long à exécuter et n'est pas affiché, son intér�
 Les autres bouts de code nécessaires pour compléter le flux sont les suivants :
 
 - `NbPoints`:
-```{targets NbPoints, tar_simple=TRUE, eval=FALSE}
+```{targets NbPoints, tar_simple=TRUE, tar_interactive = FALSE}
   1000
 ```
 
@@ -1553,6 +1563,11 @@ Les autres bouts de code nécessaires pour compléter le flux sont les suivants 
 ### Exécution du flux
 
 Pour lancer le calcul des cibles, un bout de code standard (`{r}`) doit appeler `tar_make()`:
+
+```{r include=FALSE}
+# Destruction des cibles pour la démonstration
+tar_destroy()
+```
 
 ```{r}
 tar_visnetwork()
