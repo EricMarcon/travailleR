@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-07-08" />
+<meta name="date" content="2021-07-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -814,7 +814,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="chap-package.html#cb352-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7feb27ccef10&gt;
+## &lt;bytecode: 0x7ffc84659de8&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -959,14 +959,14 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb380-2"><a href="chap-package.html#cb380-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>),</span>
 <span id="cb380-3"><a href="chap-package.html#cb380-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min   lq     mean median     uq
-##  triple.integer(2L)  311  323 21197.23  333.5  361.5
-##   triple.numeric(2)  312  323 18788.15  340.0  371.5
-##          triple(2L) 1267 1298  1405.25 1333.0 1384.5
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  319  329.5 22855.28  335.5  362.0
+##   triple.numeric(2)  316  330.5 50773.47  337.5  356.0
+##          triple(2L) 1296 1321.5  1427.19 1334.5 1375.5
 ##      max neval
-##  2085029   100
-##  1842851   100
-##     6445   100</code></pre>
+##  2250364   100
+##  5041758   100
+##     7147   100</code></pre>
 
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -1434,7 +1434,7 @@ La vérification ne doit renvoyer aucune erreur, aucun avertissement, ni aucune 
 Le package doit être testé sur la version de développement de R.
 Le site <em>R-hub builder</em><a href="#fn96" class="footnote-ref" id="fnref96"><sup>96</sup></a> permet de le faire simplement.</p>
 <p>Le package, dont la version ne doit pas être de développement (limitée à trois nombres, voir section <a href="chap-package.html#sec:package-description">5.2.1</a>), doit être construit au format source: dans la fenêtre <em>Build</em> de RStudio, cliquer sur “More &gt; Build Source Package”.
-Sur le site <em>R-hub builder</em>, cliquer sur <em>Advanced</em>, sélectionner le fichier source du package et la plateforme de test: <em>Debian Linux, R-devel, GCC</em>.</p>
+Sur le site <em>R-hub builder</em>, cliquer sur “Advanced”, sélectionner le fichier source du package et la plateforme de test: <em>Debian Linux, R-devel, GCC</em>.</p>
 </div>
 <div id="soumission" class="section level3">
 <h3><span class="header-section-number">5.10.2</span> Soumission</h3>

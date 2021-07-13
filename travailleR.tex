@@ -123,7 +123,211 @@
 \def\fps@figure{htbp}
 \makeatother
 
+% Spacing in lists
+\usepackage{enumitem}
+
+% Polyglossia
+\usepackage{polyglossia}
+\setmainlanguage{fr-FR}
+\setotherlanguage{en-US}
+
+% BibLaTeX
+\usepackage[backend=biber,style=verbose-inote,pageref=true,isbn=false,backref=true,giveninits=true,uniquename=init,maxcitenames=2,maxbibnames=150,sorting=nyt,sortcites=false]{biblatex}
+\addbibresource{references.bib}
+
+% cslreferences environment required by pandoc > 2.7
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% memoiR format
+
+% Chapter Summary environment 
+\usepackage[tikz]{bclogo}
+\newenvironment{Summary}
+  {\begin{bclogo}[logo=\bctrombone, noborder=true, couleur=lightgray!50]{L'essentiel}\parindent0pt}
+  {\end{bclogo}}
+% Syntax:
+%
+%```{block, type='Summary'}
+% Deliver message here.
+% ```
+
+% scriptsize code 
+\let\oldverbatim\verbatim
+\def\verbatim{\oldverbatim\scriptsize}
+% Applies to code blocks and R code results
+% code chunk options size='scriptsize' applies only to R code and results
+% if the code chunk sets a different size, \def\verbatim{...} is prioritary for code results 
+
+
+% Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Based on memoir, style companion
+\newcommand{\MemoirChapStyle}{daleif1}
+\newcommand{\MemoirPageStyle}{Ruled}
+
+% Space between paragraphs
+\usepackage{parskip}
+  \abnormalparskip{3pt}
+
+% Adjust margin paragraphs vertical position
+\usepackage{marginfix}
+
+
+% Margins
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% allow use of '-',+','/' ans '*' to make simple length computation
+\usepackage{calc}
+
+% Full-width figures utilities
+\newlength\widthw % full width
+\newlength{\rf}
+\newcommand*{\definesHSpace}{
+  \strictpagecheck % slower but efficient detection of odd/even pages
+  \checkoddpage
+  \ifoddpage
+  \setlength{\rf}{0mm}
+  \else
+  \setlength{\rf}{\marginparsep+\marginparwidth}
+  \fi
+}
+
+\makeatletter
+% 1" margins for the front matter.
+\newcommand*{\SmallMargins}{
+  \setlrmarginsandblock{1.5in}{1.5in}{*}
+  \setmarginnotes{0.1in}{0.1in}{0.1in}
+ \setulmarginsandblock{1.5in}{1in}{*}
+  \checkandfixthelayout
+  \ch@ngetext
+  \clearpage
+  \setlength{\widthw}{\textwidth+\marginparsep+\marginparwidth}
+  \footnotesatfoot
+  \chapterstyle{\MemoirChapStyle}  % Chapter and page styles must be recalled
+  \pagestyle{\MemoirPageStyle}
+}
+
+% 3" outer margin for the main matter
+\newcommand{\LargeMargins}{\SmallMargins}
+\makeatother
+
+% Figure captions and footnotes in outer margins
+
+
+% Main title page with filigrane
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Text blocks
+\usepackage[absolute,overlay]{textpos}
+  \setlength{\TPHorizModule}{1mm}
+  \setlength{\TPVertModule}{1mm}
+
+\newcommand{\MainTitlePage}[2]{
+  \SmallMargins % Margins
+  \pagestyle{empty} % No header/footer
+  \textblockorigin{\stockwidth-\paperwidth-\trimedge}{\trimtop} % recto
+  \begin{textblock*}{2mm}(\spinemargin/2,\uppermargin/2)
+    \rule{1pt}{\paperheight-\uppermargin}
+  \end{textblock*}
+  \begin{textblock*}{\paperwidth*2/3}(\paperwidth/5, \paperheight/4)
+    \flushright
+    \begin{Spacing}{3}
+      {\fontfamily{qtm}\selectfont\fontsize{45}{45}\selectfont\textsc{\thetitle}}
+    \end{Spacing}
+  \end{textblock*}
+    \begin{textblock*}{\paperwidth/2}[1, 1](\paperwidth, \paperheight)
+    \includegraphics[width=\paperwidth/2]{filigrane}
+  \end{textblock*}
+  \begin{textblock*}{\paperwidth*2/3}(\spinemargin, \paperheight/2)
+    {\fontfamily{qtm}\Huge \theauthor}
+  \end{textblock*}
+    \begin{textblock*}{\paperwidth*2/3}[0, 1](\spinemargin, \uppermargin+\textheight)
+    \normalfont \thedate
+  \end{textblock*}
+  ~\\ % Print a character or the page will not exist
+  \newpage
+  \textblockorigin{\trimedge}{\trimtop} % verso
+  \begin{textblock*}{\textwidth}(\paperwidth-\spinemargin-\textwidth, \uppermargin)
+    #1
+  \end{textblock*}
+  \begin{textblock*}{\textwidth}[0,1](\paperwidth-\spinemargin-\textwidth, \uppermargin+\textheight+\footskip)
+    \centering
+    \includegraphics[width=\paperwidth/4]{logo}\\ \bigskip
+    #2
+  \end{textblock*}
+  ~\\ % Print a character or the page will not exist
+  \newpage
+}
+
+% Clear page and open an even one (\clearpage opens an odd one)
+\newcommand{\evenpage}{
+  \clearpage
+  \strictpagecheck % slower but efficient detection of odd/even pages
+  \checkoddpage
+  \ifoddpage
+    \thispagestyle{empty}
+    ~\\ % Print a character or the page will not exist
+    \newpage
+  \else
+    % do nothing
+  \fi
+}
+
+
+%% PDF title page to insert
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[strict,autostyle]{csquotes}
+% Repeated citation as author-year-title instead of author-title (modification of footcite:note in verbose-inote.cbx)
+
+%% Table of Contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% fix the typesetting of the part number
+\renewcommand\partnumberlinebox[2]{#2\ ---\ }
+
+
+% Fonts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Hyperref comes last
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle={Travailler avec R},
+  pdfauthor={Eric Marcon},
+  colorlinks=true,
+  linkcolor=Maroon,
+  citecolor=Blue,
+  urlcolor=Blue,
+  breaklinks=true}
+
+% Don't use monospace font for urls
+\urlstyle{same}
+
+
+% Title, author, date from YAML to LaTeX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Travailler avec R}
+
+\author{Eric Marcon}
+
+\date{2021-07-13}
+
+
 % Include headers (preamble.tex) here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % memoiR dalef3 chapter style 
 % https://ctan.crest.fr/tex-archive/info/latex-samples/MemoirChapStyles/MemoirChapStyles.pdf
@@ -178,207 +382,6 @@
 \usepackage{multicol}
 \usepackage{hhline}
 \usepackage{hyperref}
-
-% Spacing in lists
-\usepackage{enumitem}
-
-% Polyglossia
-\usepackage{polyglossia}
-\setmainlanguage{fr-FR}
-\setotherlanguage{en-US}
-
-% BibLaTeX
-\usepackage[backend=biber,style=verbose-inote,pageref=true,isbn=false,backref=true,giveninits=true,uniquename=init,maxcitenames=2,maxbibnames=150,sorting=nyt,sortcites=false]{biblatex}
-\addbibresource{references.bib}
-
-% cslreferences environment required by pandoc > 2.7
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% memoiR format
-
-% Chapter Summary environment 
-\usepackage[tikz]{bclogo}
-\newenvironment{Summary}
-  {\begin{bclogo}[logo=\bctrombone, noborder=true, couleur=lightgray!50]{L'essentiel}\parindent0pt}
-  {\end{bclogo}}
-% Syntax:
-%
-%```{block, type='Summary'}
-% Deliver message here.
-% ```
-
-% scriptsize code 
-\let\oldverbatim\verbatim
-\def\verbatim{\oldverbatim\scriptsize}
-% Applies to code blocks and R code results
-% code chunk options size='scriptsize' applies only to R code and results
-% if the code chunk sets a different size, \def\verbatim{...} is prioritary for code results 
-
-
-% Layout
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Based on memoir, style companion
-\newcommand{\MemoirChapStyle}{daleif1}
-\newcommand{\MemoirPageStyle}{Ruled}
-
-% Space between paragraphs
-\usepackage{parskip}
-	\abnormalparskip{3pt}
-
-% Adjust margin paragraphs vertical position
-\usepackage{marginfix}
-
-
-% Margins
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% allow use of '-',+','/' ans '*' to make simple length computation
-\usepackage{calc}
-
-% Full-width figures utilities
-\newlength\widthw % full width
-\newlength{\rf}
-\newcommand*{\definesHSpace}{
-  \strictpagecheck % slower but efficient detection of odd/even pages
-  \checkoddpage
-  \ifoddpage
-  \setlength{\rf}{0mm}
-  \else
-  \setlength{\rf}{\marginparsep+\marginparwidth}
-  \fi
-}
-
-\makeatletter
-% 1" margins for the front matter.
-\newcommand*{\SmallMargins}{
-  \setlrmarginsandblock{1.5in}{1.5in}{*}
-  \setmarginnotes{0.1in}{0.1in}{0.1in}
- \setulmarginsandblock{1.5in}{1in}{*}
-  \checkandfixthelayout
-  \ch@ngetext
-  \clearpage
-  \setlength{\widthw}{\textwidth+\marginparsep+\marginparwidth}
-  \footnotesatfoot
-  \chapterstyle{\MemoirChapStyle}	% Chapter and page styles must be recalled
-  \pagestyle{\MemoirPageStyle}
-}
-
-% 3" outer margin for the main matter
-\newcommand{\LargeMargins}{\SmallMargins}
-\makeatother
-
-% Figure captions and footnotes in outer margins
-
-
-% Main title page with filigrane
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newcommand{\MainTitlePage}[2]{
-	\SmallMargins % Margins
-	\pagestyle{empty} % No header/footer
-	~\\ % Print a character or the page will not exist
-	\begin{textblock}{2}(30,10)
-		\rule{1pt}{\paperheight-20mm}
-	\end{textblock}
-	\begin{textblock}{140}(50, 45)
-		\flushright
-		\begin{Spacing}{3}
-			{\fontfamily{qtm}\selectfont\fontsize{45}{45}\selectfont \textsc{\thetitle}}
-		\end{Spacing}
-	\end{textblock}
-	\begin{textblock}{140}(50, 125)
-		\flushright
-		{\fontfamily{qtm}\Large \theauthor}
-	\end{textblock}
-		\begin{textblock}{120}[1, 1](225, 297)
-		\includegraphics[width=10cm]{filigrane}
-	 \end{textblock}
-		\begin{textblock}{140}[0, 1](50, 262)
-		\normalfont	Version: \thedate
-	\end{textblock}
-	\newpage
-	~\\ % Print a character or the page will not exist
-	\begin{textblock}{140}(40, 40)
-		#1
-	\end{textblock}
-	\begin{textblock}{140}[0,1](40, 270)
-		\centering
-    \includegraphics[width=5cm]{logo}\\ \bigskip
-    #2
-	\end{textblock}
-	\newpage
-}
-
-% Clear page and open an even one (\clearpage opens an odd one)
-\newcommand{\evenpage}{
-  \clearpage
-	\strictpagecheck % slower but efficient detection of odd/even pages
-  \checkoddpage
-  \ifoddpage
-    \thispagestyle{empty}
-    ~\\ % Print a character or the page will not exist
-    \newpage
-  \else
-    % do nothing
-  \fi
-}
-
-% Text blocks
-\usepackage[absolute,overlay]{textpos}
-	\setlength{\TPHorizModule}{1mm}
-	\setlength{\TPVertModule}{1mm}
-
-
-%% PDF title page to insert
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%% Bibliography
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage[strict,autostyle]{csquotes}
-% Repeated citation as author-year-title instead of author-title (modification of footcite:note in verbose-inote.cbx)
-
-%% Table of Contents
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% fix the typesetting of the part number
-\renewcommand\partnumberlinebox[2]{#2\ ---\ }
-
-
-% Fonts
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-% Hyperref comes last
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage{hyperref}
-\hypersetup{
-  pdftitle={Travailler avec R},
-  pdfauthor={Eric Marcon},
-  colorlinks=true,
-  linkcolor=Maroon,
-  citecolor=Blue,
-  urlcolor=Blue,
-  breaklinks=true}
-
-% Don't use monospace font for urls
-\urlstyle{same}
-
-
-% Title, author, date from YAML to LaTeX
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\title{Travailler avec R}
-
-\author{Eric Marcon}
-
-\date{2021-07-08}
 
 
 % End of preamble
@@ -705,7 +708,7 @@ Sous Windows, une organisation optimale est la suivante:
 \subsection{Installation depuis CRAN}\label{installation-depuis-cran}}
 
 L'installation classique des packages fait appel à CRAN.
-Un bouton \emph{Install} se trouve dans la fenêtre \emph{Packages} de RStudio.
+Un bouton \enquote{Install} se trouve dans la fenêtre \emph{Packages} de RStudio.
 
 Les packages sont déposés sur CRAN par leurs auteur sous forme de code source, compressé dans une fichier \texttt{.tar.gz}.
 Ils sont disponibles pour le téléchargement dès leur validation.
@@ -746,7 +749,7 @@ Sauf si une version précise d'un package est nécessaire, il est donc préféra
 
 Les packages peuvent être mis à jour un peu plus tard, après leur compilation par CRAN.
 
-Le bouton \emph{Update} dans la fente \emph{Packages} de RStudio permet de mettre à jour tous les packages installés.
+Le bouton \enquote{Update} dans la fenêtre \emph{Packages} de RStudio permet de mettre à jour tous les packages installés.
 
 \hypertarget{installation-depuis-github}{%
 \subsection{Installation depuis GitHub}\label{installation-depuis-github}}
@@ -1193,7 +1196,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fb55a642ea8>
+## <bytecode: 0x7f9c171772a8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1671,7 +1674,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7fb56002da88>
+## <environment: 0x7f9c2203d2a8>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1743,7 +1746,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fb55fd33350>
+## <bytecode: 0x7f9c1d043858>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1932,7 +1935,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.021   0.000   0.034
+##   0.019   0.001   0.020
 \end{verbatim}
 
 \normalsize
@@ -1964,15 +1967,15 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq
-##  f1(X)  35.756  39.0835  53.86901  40.0215  41.4290
-##  f2(X)  42.843  46.4310  62.15868  47.6245  48.9755
-##  f3(X) 268.188 276.3720 299.00896 278.1800 282.7230
-##  f4(X) 397.877 410.3310 428.78500 412.1195 415.9410
+##  f1(X)  36.002  37.5845  51.33206  38.1120  40.0490
+##  f2(X)  43.311  45.1065  58.77057  45.7585  47.4625
+##  f3(X) 273.924 275.7620 290.16639 276.8965 279.1465
+##  f4(X) 406.203 408.4615 425.50323 409.4740 412.9260
 ##       max neval
-##  1329.167   100
-##  1376.008   100
-##  1700.180   100
-##  1950.774   100
+##  1234.852   100
+##  1178.179   100
+##  1470.786   100
+##  1834.986   100
 \end{verbatim}
 
 \normalsize
@@ -1995,10 +1998,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  40.0215
-## 2 f2(X)  47.6245
-## 3 f3(X) 278.1800
-## 4 f4(X) 412.1195
+## 1 f1(X)  38.1120
+## 2 f2(X)  45.7585
+## 3 f3(X) 276.8965
+## 4 f4(X) 409.4740
 \end{verbatim}
 
 \normalsize
@@ -2028,10 +2031,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  40.0215
-## 2 f2(X)  47.6245
-## 3 f3(X) 278.1800
-## 4 f4(X) 412.1195
+## 1 f1(X)  38.1120
+## 2 f2(X)  45.7585
+## 3 f3(X) 276.8965
+## 4 f4(X) 409.4740
 \end{verbatim}
 
 \normalsize
@@ -2158,7 +2161,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7fb566e52cf8>
+## <bytecode: 0x7f9c05c8ea88>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2211,10 +2214,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.6920
-## 2                lapply(x1, FUN = sqrt) 296.8490
-## 3                sapply(x1, FUN = sqrt) 350.9935
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 307.4650
+## 1                              sqrt(x1)   4.7865
+## 2                lapply(x1, FUN = sqrt) 307.3950
+## 3                sapply(x1, FUN = sqrt) 361.4165
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 308.3355
 \end{verbatim}
 
 \normalsize
@@ -2267,8 +2270,8 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \begin{verbatim}
 ##          expr  median
-## 1  Boucle(x1) 854.873
-## 2 Boucle2(x1)  79.531
+## 1  Boucle(x1) 838.532
+## 2 Boucle2(x1)  79.778
 \end{verbatim}
 
 \begin{Shaded}
@@ -2299,8 +2302,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 299.6700
-## 2                Boucle(x1)  77.7635
+## 1 vapply(x1, FUN = sqrt, 0) 307.0945
+## 2                Boucle(x1)  78.7265
 \end{verbatim}
 
 \normalsize
@@ -2322,12 +2325,9 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr
-## 1                        vapply(x1, FUN = sqrt, 0)
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
-##      median
-## 1  309.0765
-## 2 3568.7685
+##                                               expr   median
+## 1                        vapply(x1, FUN = sqrt, 0)  302.977
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3230.695
 \end{verbatim}
 
 \normalsize
@@ -2393,9 +2393,9 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr   median
-## 1 replicate(1000, runif(1)) 4109.716
-## 2               runif(1000)   34.493
+##                        expr    median
+## 1 replicate(1000, runif(1)) 4046.3890
+## 2               runif(1000)   34.4705
 \end{verbatim}
 
 \normalsize
@@ -2433,9 +2433,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.733164
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.444744
-## 3       colSums(diamonds[-(2:4)]) 2.551616
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.568095
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.055384
+## 3       colSums(diamonds[-(2:4)]) 2.417275
 \end{verbatim}
 
 \normalsize
@@ -2643,7 +2643,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.652
+##   0.003   0.000   0.503
 \end{verbatim}
 
 \begin{Shaded}
@@ -2655,12 +2655,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.005   0.007   0.406
+##   0.006   0.019   0.349
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.16} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.099} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2675,7 +2675,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.283
+##   0.000   0.000   2.001
 \end{verbatim}
 
 \begin{Shaded}
@@ -2687,7 +2687,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.007   1.138
+##   0.001   0.003   1.007
 \end{verbatim}
 
 \normalsize
@@ -2706,7 +2706,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.008   1.013
+##   0.001   0.003   1.119
 \end{verbatim}
 
 \begin{Shaded}
@@ -2717,7 +2717,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.005   2.008
+##   0.003   0.005   2.215
 \end{verbatim}
 
 \normalsize
@@ -2909,7 +2909,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.758
+##   0.003   0.000   0.551
 \end{verbatim}
 
 \begin{Shaded}
@@ -2924,7 +2924,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.015   0.373
+##   0.007   0.013   0.358
 \end{verbatim}
 
 \normalsize
@@ -3010,7 +3010,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.595   0.027   7.288
+##   5.504   0.022   5.660
 \end{verbatim}
 
 \begin{Shaded}
@@ -3044,7 +3044,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.370   0.025   6.975
+##   5.367   0.024   5.566
 \end{verbatim}
 
 \begin{Shaded}
@@ -3086,7 +3086,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.253   0.026   5.876
+##   5.270   0.021   5.627
 \end{verbatim}
 
 \begin{Shaded}
@@ -3125,7 +3125,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.259   0.021   3.612
+##   3.246   0.018   3.384
 \end{verbatim}
 
 \begin{Shaded}
@@ -3166,7 +3166,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.348   0.282   3.132
+##   3.283   0.268   1.901
 \end{verbatim}
 
 \begin{Shaded}
@@ -3207,7 +3207,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.783   0.009   2.000
+##   1.832   0.009   1.896
 \end{verbatim}
 
 \begin{Shaded}
@@ -3253,7 +3253,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.701   0.019   2.852
+##   2.648   0.020   2.741
 \end{verbatim}
 
 \begin{Shaded}
@@ -3298,7 +3298,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.126   0.048   0.107
+##   0.122   0.043   0.099
 \end{verbatim}
 
 \begin{Shaded}
@@ -3472,13 +3472,11 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: milliseconds
+## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##       min       lq     mean   median       uq      max
-##  2.094517 2.137704 3.667692 2.158936 2.294216 46.50302
-##  neval
-##    100
+##      min       lq     mean  median       uq      max neval
+##  770.883 776.2955 1027.319 781.761 1029.917 3771.849   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3518,13 +3516,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.233   0.023   8.297
+##   7.358   0.031   7.645
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5000} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4740} secondes.
 
 \scriptsize
 
@@ -3537,7 +3535,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.948   0.017   3.759
+##   4.996   0.035   2.339
 \end{verbatim}
 
 \normalsize
@@ -3877,7 +3875,7 @@ Les fichiers pris en compte font partie de l'\emph{index} de git.
 
 \normalsize
 
-Les fichiers pris en compte peuvent être validés (\emph{Commit}) en cliquant sur le bouton \emph{Commit} dans la fenêtre \emph{Git}.
+Les fichiers pris en compte peuvent être validés (\emph{Commit}) en cliquant sur le bouton \enquote{Commit} dans la fenêtre \emph{Git}.
 Une nouvelle fenêtre s'ouvre (figure \ref{fig:git-Commit}), qui permet de visualiser toutes les modifications par fichier (ajouts en verts, suppressions en rouge).
 Le grain de modification traité par git est la ligne de texte, terminée par un retour à la ligne.
 Les fichiers binaires comme les images sont traités en bloc.
@@ -3977,7 +3975,7 @@ Un dépôt vide sur GitHub doit être créé (figure \ref{fig:CreateRepo}):
 \begin{itemize}
 \tightlist
 \item
-  Sur GitHub, cliquer sur le bouton vert \emph{New repository}.
+  Sur GitHub, cliquer sur le bouton vert \enquote{New repository}.
 \item
   Saisir le nom du dépôt, identique à celui du projet R local.
 \item
@@ -4024,7 +4022,7 @@ Saisir le nom de la branche \enquote{master}, cliquer sur \enquote{Add Remotes} 
 \item
   Remote URL: coller l'adresse du dépôt GitHub;
 \item
-  Cliquer sur \emph{Add}.
+  Cliquer sur \enquote{Add}.
 \end{itemize}
 
 Cocher la case \enquote{Sync with Remote}.
@@ -4081,12 +4079,12 @@ Si l'authentification SSH est choisie et a été configurée à l'installation d
 \subsection{Pousser les premières modifications}\label{pousser-les-premiuxe8res-modifications}}
 
 La manipulation précédente a automatiquement poussé (\emph{Push}) les modifications validées sur GitHub.
-Par la suite, il faudra cliquer sur le bouton \emph{Push} de la fenêtre \emph{Git} pour le faire.
+Par la suite, il faudra cliquer sur le bouton \enquote{Push} de la fenêtre \emph{Git} pour le faire.
 
 Sur GitHub, les fichiers résultant des modifications enregistrées par git sont maintenant visibles.
 
 Chaque \emph{commit} réalisé localement est compté par git et un message \enquote{Your branch is ahead of \enquote{origin/master} by \emph{n} commits} affiché dans en haut de la fenêtre \emph{Git} indique qu'il est temps de mettre à jour GitHub en poussant l'ensemble de ces \emph{commits}.
-Cliquer sur le bouton \emph{Push} pour le faire.
+Cliquer sur le bouton \enquote{Push} pour le faire.
 
 A ce stade, le projet doit disposer d'un fichier \texttt{README.md} qui présente son contenu sur GitHub.
 Son contenu minimal est un titre et quelques lignes de description:
@@ -4154,7 +4152,7 @@ Les collaborateurs sont invités par un message envoyé par \emph{GitHub}.
 \hypertarget{tirer-modifier-valider-pousser}{%
 \subsection{Tirer, modifier, valider, pousser}\label{tirer-modifier-valider-pousser}}
 
-Toute séance de travail sur un projet commence en tirant (Bouton \emph{Pull}) de la fenêtre \emph{Git} pour intégrer au dépôt local les mises à jour effectuées sur GitHub par d'autres collaborateurs.
+Toute séance de travail sur un projet commence en tirant (Bouton \enquote{Pull}) de la fenêtre \emph{Git} pour intégrer au dépôt local les mises à jour effectuées sur GitHub par d'autres collaborateurs.
 
 Les modifications apportées aux fichiers du projet sont ensuite prises en compte (cocher les cases \emph{Staged}) et validées (\emph{Commit}) avec un message explicatif.
 Une bonne pratique consiste à valider les modifications à chaque fois qu'une tâche élémentaire, qui peut être décrite dans le message explicatif, est terminée plutôt que d'effectuer des \emph{commits} regroupant de nombreux changements avec une description vague.
@@ -4252,8 +4250,8 @@ Le changement de convention pour le nom de la branche \enquote{master} fait qu'�
 \hypertarget{cruxe9er-une-nouvelle-branche}{%
 \subsection{Créer une nouvelle branche}\label{cruxe9er-une-nouvelle-branche}}
 
-Cliquer sur le bouton violet \emph{New Branch} dans la fenêtre \emph{git} de RStudio.
-Saisir son nom et cliquer sur \emph{Create}.
+Cliquer sur le bouton violet \enquote{New Branch} dans la fenêtre \emph{git} de RStudio.
+Saisir son nom et cliquer sur \enquote{Create}.
 
 La nouvelle branche est maintenant active.
 
@@ -4337,13 +4335,13 @@ Ce processus est décrit en détail dans la documentation de git .
 
 Dans le cadre plus simple d'une branche de son propre projet comme dans le cas d'un \emph{fork}, la branche de développement est prête à être fusionnée.
 Elle doit avoir être poussée sur GitHub.
-Sur la page GitHub du projet, un bouton \emph{Create Pull Request} permet de demander la fusion.
+Sur la page GitHub du projet, un bouton \enquote{Create Pull Request} permet de demander la fusion.
 Un message décrivant les modifications proposées avec leur argumentaire doit être ajouté.
 
 Le propriétaire du projet (les membres de l'équipe dans le cadre d'un projet collaboratif, ou soi-même si l'équipe se réduit à une personne) est averti de la requête de tirage.
 Sur la page du projet original, il est possible de voir le message, la liste des modifications (chronologie des \emph{commits} ou comparaison des fichiers), d'engager un discussion avec l'auteur de la requête\ldots{}
 Si la requête n'est pas retenue, elle peut être fermée.
-Si elle est validée, le bouton \emph{Merge Pull Request} permet de fusionner la branche de développement avec la branche \enquote{master} (ou une autre) du projet source.
+Si elle est validée, le bouton \enquote{Merge Pull Request} permet de fusionner la branche de développement avec la branche \enquote{master} (ou une autre) du projet source.
 
 Les requêtes de tirage sont le seul moyen de contribuer à un dépôt sur lequel on ne dispose pas de droits d'écriture.
 C'est aussi le moyen de fusionner une branche de développement dans sont propre projet en en gardant une trace explicite (dans la rubrique \emph{Pull requests} de la page GitHub du projet).
@@ -4639,10 +4637,10 @@ La chaîne de production est la suivante :
   LaTeX produit un fichier PDF quand ce format est demandé.
 \end{itemize}
 
-RStudio permet de lancer le tricot par des boutons plutôt que par des commandes: dans la fenêtre source (celle du haut à gauche), un bouton \emph{Knit} accompagne les documents R Markdown.
-Pour les bloc-notes R Markdown, il est remplacé par un bouton \emph{Preview} avec les mêmes fonctions.
-Il peut être déroulé pour choisir le format de sortie: HTML, Word, PDF (en passant par LaTeX) et, pour les bloc-notes, une commande \emph{Preview} qui affiche le document en HTML sans exécuter les bouts de code pour gagner du temps.
-Dès le premier tricot au format Word ou HTML, on remarquera que le bouton \emph{Preview} disparaît.
+RStudio permet de lancer le tricot par des boutons plutôt que par des commandes: dans la fenêtre source (celle du haut à gauche), un bouton \enquote{Knit} accompagne les documents R Markdown.
+Pour les bloc-notes R Markdown, il est remplacé par un bouton \enquote{Preview} avec les mêmes fonctions.
+Il peut être déroulé pour choisir le format de sortie: HTML, Word, PDF (en passant par LaTeX) et, pour les bloc-notes, une commande \enquote{Preview} qui affiche le document en HTML sans exécuter les bouts de code pour gagner du temps.
+Dès le premier tricot au format Word ou HTML, on remarquera que le bouton \enquote{Preview} disparaît.
 
 Au final, l'utilisation de R Markdown combine plusieurs avantages:
 
@@ -4697,7 +4695,7 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 \begin{verbatim}
-date: "2021-07-08"
+date: "2021-07-13"
 \end{verbatim}
 
 Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
@@ -5237,8 +5235,8 @@ Les niveaux de plan commencent par \texttt{\#} pour les chapitres (un seul par f
 La compilation au format PDF est faite par XeLaTeX, qui doit être installé.
 
 Pendant la rédaction, il est fortement conseillé de ne créer que le fichier HTML, ce qui est beaucoup plus rapide qu'une compilation LaTeX.
-Chaque chapitre peut être visualisé très rapidement en cliquant sur le bouton \emph{Knit} au-dessus de la fenêtre de source.
-Le livre entier est créé en cliquant sur le bouton \emph{Build Book} de la fenêtre \emph{Build} de RStudio.
+Chaque chapitre peut être visualisé très rapidement en cliquant sur le bouton \enquote{Knit} au-dessus de la fenêtre de source.
+Le livre entier est créé en cliquant sur le bouton \enquote{Build Book} de la fenêtre \emph{Build} de RStudio.
 La liste déroulante du bouton permet de créer tous les documents ou de se limiter à un format.
 
 Les fichiers produits sont placés directement dans le dossier \texttt{docs}, qui sera utilisé par les pages GitHub pour permettre la lecture en ligne et le téléchargement du PDF.
@@ -5370,7 +5368,7 @@ Un site web constitué de pages écrites avec R Markdown (sans les fonctionnalit
 \hypertarget{moduxe8le}{%
 \subsection{Modèle}\label{moduxe8le}}
 
-Dans RStudio, dans le menu des projets en haut à droite, cliquer sur \emph{New Project\ldots{}} puis \enquote{New Directory} puis \enquote{Simple R Markdown website}.
+Dans RStudio, dans le menu des projets en haut à droite, cliquer sur \enquote{New Project\ldots{}} puis \enquote{New Directory} puis \enquote{Simple R Markdown website}.
 Saisir le nom du projet, sélectionner le dossier dans lequel le projet sera créé en cliquant sur \enquote{Browse} et enfin cliquer sur \enquote{Create Project}.
 
 Le site par défaut contient deux pages: \texttt{index}, la page d'accueil, et \texttt{about}, la page \enquote{A propos}.
@@ -5512,13 +5510,13 @@ Go doit donc être installé\footnote{\url{https://golang.org/doc/install}}.
 \subsection{Créer}\label{cruxe9er-2}}
 
 La façon la plus simple consiste à créer un dépôt sur GitHub à partir du modèle.
-Sur la page du dépôt \emph{starter-academic}\footnote{\url{https://github.com/wowchemy/starter-academic}}, cliquer sur le bouton \emph{Use this template}, s'authentifier éventuellement sur GitHub, puis saisir le nom du dépôt qui contiendra le projet, par exemple \enquote{MySite}.
+Sur la page du dépôt \emph{starter-academic}\footnote{\url{https://github.com/wowchemy/starter-academic}}, cliquer sur le bouton \enquote{Use this template}, s'authentifier éventuellement sur GitHub, puis saisir le nom du dépôt qui contiendra le projet, par exemple \enquote{MySite}.
 
 Le dépôt peut être celui du site principal de son compte GitHub (voir section \ref{sec:github-pages}), à l'adresse \url{https://GitHubID.github.io} \footnote{Exemple: \url{https://EricMarcon.github.io/Krigeage/}}.
 Le nom à saisir est simplement \enquote{GitHubID.github.io} (\emph{GitHubID} est le nom du compte GitHub).
 
 Créer le dépôt.
-Copier l'adresse du dépôt en cliquant sur le bouton \emph{Code} puis sur le bouton à droite de l'adresse (figure \ref{fig:rediger-GitHub-Clone}).
+Copier l'adresse du dépôt en cliquant sur le bouton \enquote{Code} puis sur le bouton à droite de l'adresse (figure \ref{fig:rediger-GitHub-Clone}).
 
 
 
@@ -5535,7 +5533,7 @@ Copier l'adresse du dépôt en cliquant sur le bouton \emph{Code} puis sur le bo
 
 \normalsize
 
-Dans RStudio, créer un nouveau projet à partir de GitHub: dans le menu des projets en haut à droite, cliquer sur \emph{New Project\ldots{}} puis \emph{Version Control} puis \emph{Git} puis coller l'adresse dans le champ \enquote{Repository URL} (figure \ref{fig:rediger-Projet-GitHub}).
+Dans RStudio, créer un nouveau projet à partir de GitHub: dans le menu des projets en haut à droite, cliquer sur \enquote{New Project\ldots{}} puis \enquote{Version Control} puis \enquote{Git} puis coller l'adresse dans le champ \enquote{Repository URL} (figure \ref{fig:rediger-Projet-GitHub}).
 Sélectionner le dossier dans lequel le projet sera créé en cliquant sur \enquote{Browse} et enfin cliquer sur \enquote{Create Project}.
 
 
@@ -7315,7 +7313,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fb55dccb270>
+## <bytecode: 0x7f9c1ad6fb00>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7604,14 +7602,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median   uq
-##  triple.integer(2L)  321  331.5 22685.68  340.5  366
-##   triple.numeric(2)  320  333.0 42666.58  344.5  366
-##          triple(2L) 1282 1319.0  1516.99 1340.5 1438
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  320  330.0 24617.13    337  359.5
+##   triple.numeric(2)  318  331.0 22710.14    344  371.5
+##          triple(2L) 1264 1302.5  1582.77   1321 1403.5
 ##      max neval
-##  2231993   100
-##  4230007   100
-##     7751   100
+##  2426372   100
+##  2233674   100
+##    15748   100
 \end{verbatim}
 
 \normalsize
@@ -8374,7 +8372,7 @@ Le package doit être testé sur la version de développement de R.
 Le site \emph{R-hub builder}\footnote{\url{https://builder.r-hub.io/}} permet de le faire simplement.
 
 Le package, dont la version ne doit pas être de développement (limitée à trois nombres, voir section \ref{sec:package-description}), doit être construit au format source: dans la fenêtre \emph{Build} de RStudio, cliquer sur \enquote{More \textgreater{} Build Source Package}.
-Sur le site \emph{R-hub builder}, cliquer sur \emph{Advanced}, sélectionner le fichier source du package et la plateforme de test: \emph{Debian Linux, R-devel, GCC}.
+Sur le site \emph{R-hub builder}, cliquer sur \enquote{Advanced}, sélectionner le fichier source du package et la plateforme de test: \emph{Debian Linux, R-devel, GCC}.
 
 \hypertarget{soumission}{%
 \subsection{Soumission}\label{soumission}}
@@ -8454,10 +8452,10 @@ Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard: 
 \subsection{Secrets du projet}\label{sec:secrets-ci}}
 
 Sur GitHub, afficher les paramètres du projet et sélectionner \enquote{Secrets}.
-Le bouton \emph{New Repository Secret} permet de stocker des variables utilisées dans les scripts des Actions GitHub (visibles publiquement) sans en diffuser la valeur.
+Le bouton \enquote{New Repository Secret} permet de stocker des variables utilisées dans les scripts des Actions GitHub (visibles publiquement) sans en diffuser la valeur.
 Le jeton d'accès personnel est indispensable pour que les Actions GitHub puissent écrire leur production dans le projet.
 Créer un secret nommé \enquote{GH\_PAT} et saisir la valeur du jeton sauvegardée précédemment.
-Après avoir cliqué sur \emph{Add Secret}, le jeton ne pourra plus être lu.
+Après avoir cliqué sur \enquote{Add Secret}, le jeton ne pourra plus être lu.
 
 Pour permettre l'envoi de messages de succès ou d'échec sans diffuser son adresse de messagerie, créer un secret nommé \enquote{EMAIL} qui la contient.
 
@@ -9127,7 +9125,7 @@ Ces tests poussés sont à effectuer avant de soumettre à CRAN (section \ref{se
 
 Le succès des Actions GitHub est visible en ajoutant un badge dans le fichier \texttt{README.md}, juste après le titre du fichier.
 Sur la page du projet, choisir \enquote{Actions} puis sélectionner l'action (dans \enquote{Workflows}).
-Cliquer sur le bouton \emph{\ldots{}} puis sur \emph{Create Status Badge}.
+Cliquer sur le bouton \enquote{\ldots{}} puis sur \enquote{Create Status Badge}.
 Coller le code Markdown:
 
 \begin{verbatim}
@@ -9495,7 +9493,7 @@ Pour permettre la gestion des applications en ligne directement depuis RStudio, 
 \normalsize
 
 Le code exact, avec le nom d'utilisateur et le jeton à utiliser, sont affichés sur la page d'accueil de Shinyapps.io: cliquer sur \enquote{Show Secret}, copier le code et le coller dans la console de RStudio pour l'exécuter.
-Un bouton \emph{Publish} est disponible juste à droite du bouton \emph{Run App}.
+Un bouton \enquote{Publish} est disponible juste à droite du bouton \enquote{Run App}.
 Cliquer dessus et valider la publication (figure \ref{fig:shiny-publish}).
 
 
@@ -9540,7 +9538,7 @@ La documentation sur le site de RStudio\footnote{\url{https://rstudio.github.io/
 Utiliser comme pour tous les documents le menu \enquote{File \textgreater{} New File \textgreater{} RMarkdown\ldots{}} et créer un nouveau document à partir d'un modèle \enquote{Interactive Tutorial}.
 L'assistant crée un dossier du nom choisi, à transformer en projet R et passer sous contrôle de source, comme pour tous les documents vus précédemment (voir section \ref{sec:memo}).
 
-Pour exécuter le tutoriel, cliquer sur le bouton \emph{Run Document} qui se trouve à place habituelle du bouton \emph{Tricoter}.
+Pour exécuter le tutoriel, cliquer sur le bouton \enquote{Run Document} qui se trouve à place habituelle du bouton \enquote{Tricoter}.
 
 Les tutoriels peuvent inclure des exercices, qui sont des bouts de code avec l'option \texttt{exercise=TRUE}.
 Ces exercices sont affichés sous la forme d'une fenêtre de code modifiable et exécutable par l'utilisateur.
@@ -9601,12 +9599,12 @@ La classe est créée.
 
 Toutes les salles de classe sont visibles depuis la page d'accueil de GitHub Classrooms\footnote{\url{https://classroom.github.com/classrooms}}.
 Cliquer sur un nom pour en ouvrir une.
-Le bouton \emph{Settings} permet de changer son nom ou de la supprimer.
-Le bouton \emph{TAs and Admins} permet d'ajouter des collaborateurs, c'est-à-dire d'autres utilisateurs GitHub qui pourront administrer la salle de classe.
+Le bouton \enquote{Settings} permet de changer son nom ou de la supprimer.
+Le bouton \enquote{TAs and Admins} permet d'ajouter des collaborateurs, c'est-à-dire d'autres utilisateurs GitHub qui pourront administrer la salle de classe.
 
-Le bouton \emph{Students} permet d'ajouter des étudiants.
+Le bouton \enquote{Students} permet d'ajouter des étudiants.
 La liste de nom est libre, sans format obligatoire.
-Cliquer sur \emph{Create Roster} pour l'activer.
+Cliquer sur \enquote{Create Roster} pour l'activer.
 Les noms doivent ensuite être liés à des comptes GitHub: ce travail peut être fait par l'administrateur ou par les étudiants eux-mêmes quand ils recevront la première tâche à effectuer.
 Chaque étudiant doit avoir un compte sur GitHub.
 
@@ -9622,18 +9620,18 @@ Ouvrir les propriétés du dépôt sur GitHub et cocher la case \emph{Template R
 \hypertarget{assigner-une-tuxe2che}{%
 \subsubsection{Assigner une tâche}\label{assigner-une-tuxe2che}}
 
-Ouvrir une salle de classe et cliquer sur \emph{New Assignment}.
+Ouvrir une salle de classe et cliquer sur \enquote{New Assignment}.
 
-Saisir un titre explicite pour les étudiants, une date limite optionnelle et choisir *Individual Assignment".
+Saisir un titre explicite pour les étudiants, une date limite optionnelle et choisir \enquote{Individual Assignment}.
 
 Par défaut, le nom de la tâche sert de préfixe pour le nom des dépôts des étudiants mais il peut être remplacé par un préfixe choisi.
 Quand les étudiants rendront leur travail, tous les dépôts de toutes les tâches seront stockés dans l'organisation.
 
 Le dépôt crée sur le compte de chaque étudiant peut être privé ou public, selon que l'on souhaite que les étudiants puissent voir le travail des autres ou non.
 Donner le droit d'administration et rendre le site public si les étudiants doivent pouvoir activer les pages GitHub pour présenter le résultat de leur travail.
-Cliquer sur \emph{Continue}.
+Cliquer sur \enquote{Continue}.
 
-Sélectionner le dépôt modèle (\emph{starter code}) puis cliquer sur \emph{Continue} puis \emph{Create Assignment}.
+Sélectionner le dépôt modèle (\emph{starter code}) puis cliquer sur \enquote{Continue} puis \enquote{Create Assignment}.
 
 La nouvelle tâche est créée.
 Elle est associée à un lien d'invitation qu'il faut copier et envoyer aux étudiants.
@@ -9730,6 +9728,5 @@ Cet ouvrage propose une organisation du travail autour de R et RStudio pour, au-
 
 \end{normalsize}
 
-\vspace*{\fill}
-\centering\includegraphics[width=.3\textwidth]{images/logo}
+
 \end{document}
