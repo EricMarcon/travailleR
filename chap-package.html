@@ -813,7 +813,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="chap-package.html#cb352-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7fdeda4ed2d0&gt;
+## &lt;bytecode: 0x7fbd0eec2350&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -844,9 +844,10 @@ Les fonctions peuvent être listées:</p>
 ## [25] model.frame    model.matrix   nobs          
 ## [28] plot           predict        print         
 ## [31] proj           qqnorm         qr            
-## [34] residuals      rstandard      rstudent      
-## [37] show           simulate       slotsFromS3   
-## [40] summary        variable.names vcov          
+## [34] residuals      response       rstandard     
+## [37] rstudent       show           simulate      
+## [40] slotsFromS3    summary        variable.names
+## [43] vcov          
 ## see &#39;?methods&#39; for accessing help and source code</code></pre>
 
 <p>La méthode <code>print</code> est utilisée pour afficher tout objet (elle est implicite quand on saisit seulement le nom d’un objet):</p>
@@ -958,14 +959,14 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb380-2"><a href="chap-package.html#cb380-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>),</span>
 <span id="cb380-3"><a href="chap-package.html#cb380-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min     lq     mean median   uq
-##  triple.integer(2L)  317  331.5 23365.05  339.0  363
-##   triple.numeric(2)  316  332.0 27555.35  342.0  363
-##          triple(2L) 1308 1343.5  1453.79 1368.5 1414
+##                expr  min   lq     mean median     uq
+##  triple.integer(2L)  323  333 21693.50  344.0  374.0
+##   triple.numeric(2)  321  335 18778.10  351.5  383.0
+##          triple(2L) 1286 1317  1744.97 1335.5 1394.5
 ##      max neval
-##  2300815   100
-##  2718751   100
-##     6026   100</code></pre>
+##  2133538   100
+##  1839593   100
+##    31486   100</code></pre>
 
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -1348,6 +1349,9 @@ Ils s’appuient sur <strong>testthat</strong> à intégrer au package:</p>
 <pre><code>## The following object is masked from &#39;package:purrr&#39;:
 ## 
 ##     is_null</code></pre>
+<pre><code>## The following objects are masked from &#39;package:readr&#39;:
+## 
+##     edition_get, local_edition</code></pre>
 <pre><code>## The following object is masked from &#39;package:tidyr&#39;:
 ## 
 ##     matches</code></pre>
@@ -1355,21 +1359,21 @@ Ils s’appuient sur <strong>testthat</strong> à intégrer au package:</p>
 <p>Les tests doivent être ajoutés sous la forme de fichiers <code>.R</code> dont le nom commence obligatoirement par <code>test</code> dans le dossier <code>tests/testthat</code>.</p>
 <p>Chaque test (donc le contenu de chaque fichier) commence par son contexte, c’est-à-dire ce un ensemble de tests. Exemple, dans un fichier <code>test_double.R</code>:</p>
 
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="chap-package.html#cb419-1"></a><span class="kw">context</span>(<span class="st">&quot;function double&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="chap-package.html#cb420-1"></a><span class="kw">context</span>(<span class="st">&quot;function double&quot;</span>)</span></code></pre></div>
 
 <p>Les tests sont contenus dans des fichiers qui les regroupent par thème, par exemple <code>test_double.R</code>.
 Le nom de chaque test est passé comme argument de la fonction <code>test_that())</code>:</p>
 
-<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="chap-package.html#cb420-1"></a><span class="kw">test_that</span>(<span class="st">&quot;Double values are correct&quot;</span>, {</span>
-<span id="cb420-2"><a href="chap-package.html#cb420-2"></a>    <span class="kw">skip_on_cran</span>()</span>
-<span id="cb420-3"><a href="chap-package.html#cb420-3"></a>    x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span></span>
-<span id="cb420-4"><a href="chap-package.html#cb420-4"></a>    <span class="co"># 2 x 2 should be 4</span></span>
-<span id="cb420-5"><a href="chap-package.html#cb420-5"></a>    <span class="kw">expect_equal</span>(<span class="kw">double</span>(x), <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>))</span>
-<span id="cb420-6"><a href="chap-package.html#cb420-6"></a>    <span class="co"># The result should be a number (type = &#39;double&#39;)</span></span>
-<span id="cb420-7"><a href="chap-package.html#cb420-7"></a>    <span class="kw">expect_type</span>(<span class="kw">double</span>(x), <span class="st">&quot;double&quot;</span>)</span>
-<span id="cb420-8"><a href="chap-package.html#cb420-8"></a>    <span class="co"># Error management</span></span>
-<span id="cb420-9"><a href="chap-package.html#cb420-9"></a>    <span class="kw">expect_error</span>(<span class="kw">double</span>(<span class="st">&quot;a&quot;</span>))</span>
-<span id="cb420-10"><a href="chap-package.html#cb420-10"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="chap-package.html#cb421-1"></a><span class="kw">test_that</span>(<span class="st">&quot;Double values are correct&quot;</span>, {</span>
+<span id="cb421-2"><a href="chap-package.html#cb421-2"></a>    <span class="kw">skip_on_cran</span>()</span>
+<span id="cb421-3"><a href="chap-package.html#cb421-3"></a>    x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">2</span></span>
+<span id="cb421-4"><a href="chap-package.html#cb421-4"></a>    <span class="co"># 2 x 2 should be 4</span></span>
+<span id="cb421-5"><a href="chap-package.html#cb421-5"></a>    <span class="kw">expect_equal</span>(<span class="kw">double</span>(x), <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>))</span>
+<span id="cb421-6"><a href="chap-package.html#cb421-6"></a>    <span class="co"># The result should be a number (type = &#39;double&#39;)</span></span>
+<span id="cb421-7"><a href="chap-package.html#cb421-7"></a>    <span class="kw">expect_type</span>(<span class="kw">double</span>(x), <span class="st">&quot;double&quot;</span>)</span>
+<span id="cb421-8"><a href="chap-package.html#cb421-8"></a>    <span class="co"># Error management</span></span>
+<span id="cb421-9"><a href="chap-package.html#cb421-9"></a>    <span class="kw">expect_error</span>(<span class="kw">double</span>(<span class="st">&quot;a&quot;</span>))</span>
+<span id="cb421-10"><a href="chap-package.html#cb421-10"></a>})</span></code></pre></div>
 <pre><code>## Test passed 🎊</code></pre>
 
 <p>Toutes les fonctions commençant par <code>expect</code> permettent de comparer leur premier argument à un résultat: dans l’exemple ci-dessus, le résultat de <code>double(1:2)</code> doit être <code>2 4</code> et le type de ce vecteur doit être réel à double précision.
