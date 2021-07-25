@@ -813,7 +813,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="chap-package.html#cb352-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7fbd0eec2350&gt;
+## &lt;bytecode: 0x7fbfc9d72230&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -959,14 +959,14 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb380-2"><a href="chap-package.html#cb380-2"></a>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(<span class="kw">triple.integer</span>(2L), <span class="kw">triple.numeric</span>(<span class="dv">2</span>),</span>
 <span id="cb380-3"><a href="chap-package.html#cb380-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min   lq     mean median     uq
-##  triple.integer(2L)  323  333 21693.50  344.0  374.0
-##   triple.numeric(2)  321  335 18778.10  351.5  383.0
-##          triple(2L) 1286 1317  1744.97 1335.5 1394.5
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  303  318.0 20492.34  337.0  363.0
+##   triple.numeric(2)  297  323.5 17539.83  339.5  379.0
+##          triple(2L) 1198 1283.5  1487.63 1308.5 1355.5
 ##      max neval
-##  2133538   100
-##  1839593   100
-##    31486   100</code></pre>
+##  2014786   100
+##  1718300   100
+##    12198   100</code></pre>
 
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
