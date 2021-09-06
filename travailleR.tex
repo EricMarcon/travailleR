@@ -323,7 +323,7 @@
 
 \author{Eric Marcon}
 
-\date{29/07/2021}
+\date{06/09/2021}
 
 
 % Include headers (preamble.tex) here
@@ -960,6 +960,17 @@ Le serveur est ajouté automatiquement à la liste des serveurs connus, dans le 
 
 Si la clé est compromise (perte ou prêt de l'ordinateur qui la contient), la supprimer sur GitHub et en créer une nouvelle.
 
+\hypertarget{sec:pat}{%
+\subsection{Obtention d'un jeton d'accès personnel}\label{sec:pat}}
+
+L'authentification HTTPS est l'alternative à l'authentification SSL: il faut choisir une méthode et s'y tenir par la suite.
+Pour utiliser l'authentification HTTPS, la création d'un jeton d'accès personnel est nécessaire.
+
+Les jetons sont créés sur GitHub, dans les paramètres de son compte d'utilisateur, dans \enquote{Developer Settings \textgreater{} Personal Access Tokens}\footnote{\url{https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line}}.
+
+Générer un nouveau jeton, le décrire en tant que \enquote{git-RStudio} et lui donner l'autorisation \enquote{repo}, c'est-à-dire modifier \emph{tous} les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
+Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard: elle doit être sauvegardée comme un mot de passe.
+
 \hypertarget{miktex}{%
 \section{MiKTeX}\label{miktex}}
 
@@ -1190,7 +1201,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7f9f49d980a8>
+## <bytecode: 0x7fd81d181400>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1668,7 +1679,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7f9f4c5eed20>
+## <environment: 0x7fd8252aaf98>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1740,7 +1751,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7f9f542b14c0>
+## <bytecode: 0x7fd8260b0358>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1929,7 +1940,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.021   0.001   0.023
+##   0.020   0.002   0.022
 \end{verbatim}
 
 \normalsize
@@ -1960,16 +1971,16 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 
 \begin{verbatim}
 ## Unit: microseconds
-##   expr     min       lq      mean   median      uq      max
-##  f1(X)  37.248  38.6330  53.45040  39.8170  41.409 1227.162
-##  f2(X)  45.409  46.4585  61.77604  47.1475  50.986 1187.792
-##  f3(X) 275.286 276.8925 297.10776 278.5690 284.253 1440.150
-##  f4(X) 407.522 409.6520 429.22055 410.8725 416.625 1803.084
-##  neval
-##    100
-##    100
-##    100
-##    100
+##   expr     min       lq      mean   median       uq
+##  f1(X)  36.994  39.2355  54.72178  41.2190  43.5075
+##  f2(X)  45.111  46.9635  62.74108  48.9830  52.8195
+##  f3(X) 275.643 280.1725 302.96269 291.0075 293.5460
+##  f4(X) 408.948 418.3620 439.44996 425.5095 429.7320
+##       max neval
+##  1255.215   100
+##  1204.571   100
+##  1553.225   100
+##  1915.167   100
 \end{verbatim}
 
 \normalsize
@@ -1992,10 +2003,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  39.8170
-## 2 f2(X)  47.1475
-## 3 f3(X) 278.5690
-## 4 f4(X) 410.8725
+## 1 f1(X)  41.2190
+## 2 f2(X)  48.9830
+## 3 f3(X) 291.0075
+## 4 f4(X) 425.5095
 \end{verbatim}
 
 \normalsize
@@ -2025,10 +2036,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  39.8170
-## 2 f2(X)  47.1475
-## 3 f3(X) 278.5690
-## 4 f4(X) 410.8725
+## 1 f1(X)  41.2190
+## 2 f2(X)  48.9830
+## 3 f3(X) 291.0075
+## 4 f4(X) 425.5095
 \end{verbatim}
 
 \normalsize
@@ -2155,7 +2166,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7f9f56d87bf8>
+## <bytecode: 0x7fd8280cde40>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2208,10 +2219,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.8550
-## 2                lapply(x1, FUN = sqrt) 304.9520
-## 3                sapply(x1, FUN = sqrt) 358.6900
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 307.9855
+## 1                              sqrt(x1)   4.6505
+## 2                lapply(x1, FUN = sqrt) 303.1825
+## 3                sapply(x1, FUN = sqrt) 359.8465
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 306.3140
 \end{verbatim}
 
 \normalsize
@@ -2264,8 +2275,8 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \begin{verbatim}
 ##          expr   median
-## 1  Boucle(x1) 835.6205
-## 2 Boucle2(x1)  79.3305
+## 1  Boucle(x1) 755.6825
+## 2 Boucle2(x1)  75.8235
 \end{verbatim}
 
 \begin{Shaded}
@@ -2280,7 +2291,7 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{verbatim}
 
 \normalsize
-Le gain est considérable: de 1 à \texttt{11}.
+Le gain est considérable: de 1 à \texttt{10}.
 
 Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
@@ -2295,9 +2306,9 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 299.9750
-## 2                Boucle(x1)  78.1645
+##                        expr  median
+## 1 vapply(x1, FUN = sqrt, 0) 305.065
+## 2                Boucle(x1)  80.368
 \end{verbatim}
 
 \normalsize
@@ -2319,9 +2330,12 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  304.298
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3205.122
+##                                               expr
+## 1                        vapply(x1, FUN = sqrt, 0)
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
+##      median
+## 1  288.0105
+## 2 3128.0525
 \end{verbatim}
 
 \normalsize
@@ -2388,8 +2402,8 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 
 \begin{verbatim}
 ##                        expr    median
-## 1 replicate(1000, runif(1)) 4182.8890
-## 2               runif(1000)   32.6605
+## 1 replicate(1000, runif(1)) 4066.6945
+## 2               runif(1000)   34.6605
 \end{verbatim}
 
 \normalsize
@@ -2427,9 +2441,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.616883
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.228221
-## 3       colSums(diamonds[-(2:4)]) 2.420815
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.568269
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.145195
+## 3       colSums(diamonds[-(2:4)]) 2.413821
 \end{verbatim}
 
 \normalsize
@@ -2637,7 +2651,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.604
+##   0.002   0.000   0.600
 \end{verbatim}
 
 \begin{Shaded}
@@ -2649,12 +2663,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.005   0.261
+##   0.004   0.011   0.360
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.011} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.11} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2669,7 +2683,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##       0       0       2
+##   0.000   0.000   2.106
 \end{verbatim}
 
 \begin{Shaded}
@@ -2681,7 +2695,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.013   1.011
+##   0.001   0.003   1.035
 \end{verbatim}
 
 \normalsize
@@ -2700,7 +2714,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.084
+##   0.001   0.002   1.131
 \end{verbatim}
 
 \begin{Shaded}
@@ -2711,7 +2725,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.006   2.016
+##   0.003   0.005   2.278
 \end{verbatim}
 
 \normalsize
@@ -2903,7 +2917,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.584
+##   0.003   0.001   0.574
 \end{verbatim}
 
 \begin{Shaded}
@@ -2918,7 +2932,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.014   0.266
+##   0.007   0.013   0.412
 \end{verbatim}
 
 \normalsize
@@ -3004,7 +3018,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.542   0.033   5.843
+##   5.590   0.038   5.762
 \end{verbatim}
 
 \begin{Shaded}
@@ -3038,7 +3052,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.413   0.033   5.758
+##   5.382   0.042   5.775
 \end{verbatim}
 
 \begin{Shaded}
@@ -3080,7 +3094,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.348   0.034   5.557
+##   5.205   0.028   5.467
 \end{verbatim}
 
 \begin{Shaded}
@@ -3119,7 +3133,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.273   0.019   3.403
+##   3.216   0.022   3.345
 \end{verbatim}
 
 \begin{Shaded}
@@ -3160,7 +3174,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.317   0.266   1.911
+##   3.339   0.272   2.552
 \end{verbatim}
 
 \begin{Shaded}
@@ -3201,7 +3215,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.777   0.010   1.872
+##   1.810   0.011   1.919
 \end{verbatim}
 
 \begin{Shaded}
@@ -3247,7 +3261,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.679   0.024   2.789
+##   2.641   0.022   2.727
 \end{verbatim}
 
 \begin{Shaded}
@@ -3292,7 +3306,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.126   0.051   0.112
+##   0.118   0.043   0.098
 \end{verbatim}
 
 \begin{Shaded}
@@ -3466,11 +3480,11 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: milliseconds
+## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##       min       lq     mean   median       uq     max neval
-##  2.088087 2.149492 2.979104 2.209188 2.362252 44.5001   100
+##      min       lq     mean   median       uq     max neval
+##  810.212 1235.832 1453.412 1441.527 1605.863 2942.99   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3510,13 +3524,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.711   0.078   7.864
+##   7.316   0.047   7.857
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4680} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4797} secondes.
 
 \scriptsize
 
@@ -3529,7 +3543,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.033   0.059   2.174
+##   4.992   0.050   2.193
 \end{verbatim}
 
 \normalsize
@@ -4038,6 +4052,7 @@ git push -u origin master
 La première commande déclare le dépôt GitHub comme dépôt distant.
 Le nom \emph{origin} est une convention de git.
 Il peut être modifié mais l'organisation du projet sera plus lisible en respectant la convention.
+L'adresse du dépôt est \texttt{https://github.com/GitHubID/NomDuDepot.git} si l'authentification HTTPS est choisie.
 
 Les commandes suivantes activent la branche principale du projet et poussent son contenu vers GitHub.
 
@@ -4064,8 +4079,7 @@ Si l'authentification HTTPS est choisie, à la première connexion de RStudio à
 
 \normalsize
 
-GitHub délivre un jeton d'accès personnel (PAT) à git (voir section \ref{sec:pat} pour plus de détails) pour éviter de répéter la saisie des informations d'authentification à chaque opération.
-Un message électronique est envoyé au titulaire du compte GitHub pour l'en avertir.
+Depuis août 2021, GitHub n'accepte plus le mot de passe du compte de l'utilisateur pour cette authentification: le jeton personnel (PAT) créé en section \ref{sec:pat} doit être saisi à sa place.
 
 Si l'authentification SSH est choisie et a été configurée à l'installation de git (section \ref{sec:SSH}), aucune action n'est nécessaire.
 
@@ -4689,7 +4703,7 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 \begin{verbatim}
-date: "2021-07-29"
+date: "2021-09-06"
 \end{verbatim}
 
 Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
@@ -6489,8 +6503,8 @@ Pendant le tricot, ce code simplifié (\texttt{tar\_simple=TRUE}) est transform�
 \end{Shaded}
 
 \begin{verbatim}
-## Defined target X automatically from chunk code.
-## Established _targets.R and _targets_r/targets/X.R.
+## Define target X from chunk code.
+## Establish _targets.R and _targets_r/targets/X.R.
 \end{verbatim}
 
 \normalsize
@@ -6517,8 +6531,8 @@ Les autres bouts de code nécessaires pour compléter le flux sont les suivants 
 \end{Shaded}
 
 \begin{verbatim}
-## Defined target NbPoints automatically from chunk code.
-## Established _targets.R and _targets_r/targets/NbPoints.R.
+## Define target NbPoints from chunk code.
+## Establish _targets.R and _targets_r/targets/NbPoints.R.
 \end{verbatim}
 
 \normalsize
@@ -6540,8 +6554,8 @@ Les autres bouts de code nécessaires pour compléter le flux sont les suivants 
 \end{Shaded}
 
 \begin{verbatim}
-## Defined target d automatically from chunk code.
-## Established _targets.R and _targets_r/targets/d.R.
+## Define target d from chunk code.
+## Establish _targets.R and _targets_r/targets/d.R.
 \end{verbatim}
 
 \normalsize
@@ -6563,8 +6577,8 @@ Les autres bouts de code nécessaires pour compléter le flux sont les suivants 
 \end{Shaded}
 
 \begin{verbatim}
-## Defined target map automatically from chunk code.
-## Established _targets.R and _targets_r/targets/map.R.
+## Define target map from chunk code.
+## Establish _targets.R and _targets_r/targets/map.R.
 \end{verbatim}
 
 \normalsize
@@ -7309,7 +7323,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7f9f4e3c8f28>
+## <bytecode: 0x7fd81ace9ce0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7599,14 +7613,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median   uq
-##  triple.integer(2L)  320  327.0 26051.84  338.0  397
-##   triple.numeric(2)  318  325.0 20615.77  340.5  401
-##          triple(2L) 1337 1361.5  1512.40 1379.0 1419
+##                expr  min   lq     mean median     uq
+##  triple.integer(2L)  320  328 22650.44    336  347.5
+##   triple.numeric(2)  318  327 20949.16    334  349.0
+##          triple(2L) 1319 1343  1475.50   1353 1399.5
 ##      max neval
-##  2569051   100
-##  2024308   100
-##     7307   100
+##  2230916   100
+##  2060504   100
+##     7383   100
 \end{verbatim}
 
 \normalsize
@@ -8444,12 +8458,9 @@ Pour que GitHub s'en charge, quelques réglages sont nécessaires.
 \hypertarget{sec:pat}{%
 \subsection{Obtention d'un jeton d'accès personnel}\label{sec:pat}}
 
-Pour écrire sur GitHub, le service d'intégration continue devra s'authentifier au moyen d'une clé privée, appelée \emph{Personal Access Token} (PAT).
-
-Les jetons sont créés sur GitHub, dans les paramètres de son compte d'utilisateur, dans \enquote{Developer Settings \textgreater{} Personal Access Tokens}\footnote{\url{https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line}}.
+Pour écrire sur GitHub, le service d'intégration continue devra s'authentifier au moyen d'un jeton d'accès personnel (\emph{Personal Access Token}: PAT) dont la création est décrite en section \ref{sec:pat}.
 
 Générer un nouveau jeton, le décrire en tant que \enquote{GitHub Actions} et lui donner l'autorisation \enquote{repo}, c'est-à-dire modifier \emph{tous} les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
-Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard: elle doit être sauvegardée comme un mot de passe.
 
 \hypertarget{sec:secrets-ci}{%
 \subsection{Secrets du projet}\label{sec:secrets-ci}}
