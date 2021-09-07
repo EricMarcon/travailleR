@@ -132,7 +132,7 @@
 \setotherlanguage{en-US}
 
 % BibLaTeX
-\usepackage[backend=biber,style=verbose-inote,pageref=true,isbn=false,backref=true,giveninits=true,uniquename=init,maxcitenames=2,maxbibnames=150,sorting=nyt,sortcites=false]{biblatex}
+\usepackage[backend=biber,style=authoryear-ibid,isbn=false,backref=true,giveninits=true,uniquename=init,maxcitenames=2,maxbibnames=150,sorting=nyt,sortcites=false]{biblatex}
 \addbibresource{references.bib}
 
 % cslreferences environment required by pandoc > 2.7
@@ -447,16 +447,16 @@ Il complète \emph{Reproducible Research with R and R Studio} \autocite{Gandrud2
 L'optimisation de l'utilisation des nombreux outils disponibles est traitée en détail: \textbf{rmarkdown}, \textbf{bookdown} et \textbf{blogdown} pour la rédaction, \textbf{roxygen2}, \textbf{testthat} et \textbf{pkgdown} pour les packages, le contrôle de source avec git et GitHub, l'intégration continue avec les Actions GitHub et Codecov.
 Des exemples sont présentés à chaque étape, et le code nécessaire est fourni.
 
-Le chapitre \ref{chap:logiciels} est consacré à l'installation des outils nécessaires : R, git et LaTeX.
-Le chapitre \ref{chap:utiliseR} détaille quelques aspects avancés de l'utilisation de R: les différents langages, les environnements, la performance du code.
+Le chapitre \ref{chap-logiciels} est consacré à l'installation des outils nécessaires : R, git et LaTeX.
+Le chapitre \ref{chap-utiliseR} détaille quelques aspects avancés de l'utilisation de R: les différents langages, les environnements, la performance du code.
 L'utilisation de base de R n'est pas reprise ici: de bons cours sont suggérés.
-Le chapitre \ref{chap:git} présente le contrôle de source avec git et GitHub.
+Le chapitre \ref{chap-git} présente le contrôle de source avec git et GitHub.
 
-Le chapitre \ref{chap:rediger} montre comment rédiger des documents simples (articles) ou complexes (ouvrages) avec R Markdown, intégrant les données, le code pour les traiter et le texte pour les présenter.
-Le chapitre \ref{chap:package} présente une méthode pas à pas pour créer efficacement un package.
-Le chapitre \ref{chap:ci} introduit l'utilisation de l'intégration continue pour produire automatiquement des documents, vérifier le code des packages et produire leurs vignettes.
-Le chapitre \ref{chap:shiny} présente Shiny, l'outil de mise en ligne d'applications R.
-Enfin, le chapitre \ref{chap:enseigner} introduit les outils destinés à l'enseignement de et avec R.
+Le chapitre \ref{chap-rediger} montre comment rédiger des documents simples (articles) ou complexes (ouvrages) avec R Markdown, intégrant les données, le code pour les traiter et le texte pour les présenter.
+Le chapitre \ref{chap-package} présente une méthode pas à pas pour créer efficacement un package.
+Le chapitre \ref{chap-ci} introduit l'utilisation de l'intégration continue pour produire automatiquement des documents, vérifier le code des packages et produire leurs vignettes.
+Le chapitre \ref{chap-shiny} présente Shiny, l'outil de mise en ligne d'applications R.
+Enfin, le chapitre \ref{chap-enseigner} introduit les outils destinés à l'enseignement de et avec R.
 
 \hypertarget{conventions}{%
 \section*{Conventions}\label{conventions}}
@@ -467,13 +467,13 @@ Les noms des packages sont en gras dans le texte, exemple: \textbf{ggplot2}.
 L'identifiant utilisé sur GitHub est noté \emph{GitHubID}.
 
 Le signe \texttt{\textbar{}\textgreater{}} dans le code des exemples indique que la suite du code devrait se trouver sur la même ligne, mais est coupée pour le formatage de ce document.
-Son usage est limité aux fichiers de configuration YAML, surtout utilisés dans le chapitre \ref{chap:ci}.
+Son usage est limité aux fichiers de configuration YAML, surtout utilisés dans le chapitre \ref{chap-ci}.
 Dans tous les autres cas, le code peut être utilisé directement.
 
 \mainmatter
 
-\hypertarget{chap:logiciels}{%
-\chapter{Logiciels}\label{chap:logiciels}}
+\hypertarget{chap-logiciels}{%
+\chapter{Logiciels}\label{chap-logiciels}}
 
 L'outil central est évidemment R, mais son fonctionnement est aujourd'hui difficilement envisageable sans son environnement de développement RStudio.
 Pour le contrôle de source, git et GitHub sont de fait les standards.
@@ -662,7 +662,7 @@ Le dossier de travail en cours est obtenu par la commande \texttt{getwd()}.
 
 \normalsize
 
-L'utilisation du contrôle de source (voir chapitre \ref{chap:git}) crée de nombreux fichiers de travail.
+L'utilisation du contrôle de source (voir chapitre \ref{chap-git}) crée de nombreux fichiers de travail.
 Les projets sous contrôle de source ne devraient pas se trouver dans un dossier déjà sauvegardé par un autre moyen, comme un lecteur OneDrive sous Windows, sous peine d'une utilisation excessive des ressources: chaque validation de modifications engendre la sauvegarde des fichiers modifiés, mais aussi des fichiers de contrôle qui peuvent être de grande taille.
 
 \hypertarget{sec:solution-dossiers}{%
@@ -872,7 +872,7 @@ Ce script est à exécuter à chaque mise à jour de R, après avoir éventuelle
 \subsection{git}\label{git}}
 
 git est le logiciel de contrôle de source utilisé ici.
-Son utilisation est détaillée dans le chapitre \ref{chap:git}.
+Son utilisation est détaillée dans le chapitre \ref{chap-git}.
 
 Pour Windows et Mac, l'installation a lieu à partir du site\footnote{\url{https://git-scm.com/}}.
 
@@ -920,7 +920,7 @@ Chaque dépôt peut disposer d'un site web à l'adresse \url{https://GitHubID.gi
 Enfin, un site web global est prévu pour chaque utilisateur à l'adresse \url{https://GitHubID.github.io/} \footnote{Exemple: \url{https://EricMarcon.github.io/}}.
 
 \hypertarget{sec:SSH}{%
-\subsection{Authenthification SSH}\label{sec:SSH}}
+\subsection{Authentification SSH}\label{sec:SSH}}
 
 La communication entre git (installé sur l'ordinateur local) et GitHub (plateforme en ligne) nécessite de s'authentifier.
 
@@ -1024,8 +1024,8 @@ A la fin de l'installation, exécuter la commande \texttt{go\ version} dans un t
 
 Les mises à jour se font en installant la nouvelle version par dessus la précédente.
 
-\hypertarget{chap:utiliseR}{%
-\chapter{Utiliser R}\label{chap:utiliseR}}
+\hypertarget{chap-utiliseR}{%
+\chapter{Utiliser R}\label{chap-utiliseR}}
 
 La documentation consacrée à l'apprentissage de R est florissante.
 Les ouvrages suivants sont une sélection arbitraire mais utile pour progresser:
@@ -1201,7 +1201,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7f8df7a8c400>
+## <bytecode: 0x7fbb3844c670>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1679,7 +1679,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7f8de582f698>
+## <environment: 0x7fbb29273a18>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1751,7 +1751,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7f8dfb52ee80>
+## <bytecode: 0x7fbb3d5b8d60>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1940,7 +1940,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.020   0.001   0.021
+##   0.022   0.001   0.022
 \end{verbatim}
 
 \normalsize
@@ -1971,16 +1971,16 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 
 \begin{verbatim}
 ## Unit: microseconds
-##   expr     min       lq      mean   median       uq
-##  f1(X)  36.353  38.6455  52.59937  39.2970  40.4385
-##  f2(X)  44.622  45.9165  59.85204  46.8900  48.1155
-##  f3(X) 278.055 286.3920 301.32665 287.3515 290.9340
-##  f4(X) 413.528 427.0325 453.29303 428.7115 435.7290
-##       max neval
-##  1291.350   100
-##  1218.351   100
-##  1494.385   100
-##  2257.187   100
+##   expr     min      lq      mean   median       uq      max
+##  f1(X)  36.817  38.802  56.59371  40.1535  43.7935 1316.711
+##  f2(X)  44.734  46.467  65.14558  47.8925  50.4395 1561.447
+##  f3(X) 276.422 278.309 327.76298 280.1130 292.9330 2508.913
+##  f4(X) 410.064 412.127 498.35294 419.4055 442.3450 2573.264
+##  neval
+##    100
+##    100
+##    100
+##    100
 \end{verbatim}
 
 \normalsize
@@ -2003,10 +2003,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  39.2970
-## 2 f2(X)  46.8900
-## 3 f3(X) 287.3515
-## 4 f4(X) 428.7115
+## 1 f1(X)  40.1535
+## 2 f2(X)  47.8925
+## 3 f3(X) 280.1130
+## 4 f4(X) 419.4055
 \end{verbatim}
 
 \normalsize
@@ -2036,10 +2036,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  39.2970
-## 2 f2(X)  46.8900
-## 3 f3(X) 287.3515
-## 4 f4(X) 428.7115
+## 1 f1(X)  40.1535
+## 2 f2(X)  47.8925
+## 3 f3(X) 280.1130
+## 4 f4(X) 419.4055
 \end{verbatim}
 
 \normalsize
@@ -2166,7 +2166,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7f8e02608818>
+## <bytecode: 0x7fbb46ed2198>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2219,10 +2219,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.6010
-## 2                lapply(x1, FUN = sqrt) 292.5990
-## 3                sapply(x1, FUN = sqrt) 341.2245
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 292.8585
+## 1                              sqrt(x1)   4.8715
+## 2                lapply(x1, FUN = sqrt) 302.3885
+## 3                sapply(x1, FUN = sqrt) 359.5600
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 301.5520
 \end{verbatim}
 
 \normalsize
@@ -2274,9 +2274,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr   median
-## 1  Boucle(x1) 775.8905
-## 2 Boucle2(x1)  75.6475
+##          expr  median
+## 1  Boucle(x1) 798.173
+## 2 Boucle2(x1)  78.237
 \end{verbatim}
 
 \begin{Shaded}
@@ -2307,8 +2307,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 283.5375
-## 2                Boucle(x1)  74.9495
+## 1 vapply(x1, FUN = sqrt, 0) 290.5815
+## 2                Boucle(x1)  77.1140
 \end{verbatim}
 
 \normalsize
@@ -2334,8 +2334,8 @@ Attention, le test de performance peut être trompeur:
 ## 1                        vapply(x1, FUN = sqrt, 0)
 ## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
 ##      median
-## 1  287.3815
-## 2 3145.2430
+## 1  296.1675
+## 2 3351.4385
 \end{verbatim}
 
 \normalsize
@@ -2402,8 +2402,8 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 
 \begin{verbatim}
 ##                        expr    median
-## 1 replicate(1000, runif(1)) 3957.2220
-## 2               runif(1000)   33.9635
+## 1 replicate(1000, runif(1)) 4072.2480
+## 2               runif(1000)   35.8245
 \end{verbatim}
 
 \normalsize
@@ -2441,9 +2441,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.471463
-## 2 apply(diamonds[-(2:4)], 2, sum) 8.762839
-## 3       colSums(diamonds[-(2:4)]) 2.313098
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.714660
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.716895
+## 3       colSums(diamonds[-(2:4)]) 2.576465
 \end{verbatim}
 
 \normalsize
@@ -2651,7 +2651,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.652
+##   0.002   0.000   0.503
 \end{verbatim}
 
 \begin{Shaded}
@@ -2663,12 +2663,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.007   0.332
+##   0.004   0.009   0.411
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.082} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.16} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2683,7 +2683,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.222
+##   0.001   0.000   2.014
 \end{verbatim}
 
 \begin{Shaded}
@@ -2695,7 +2695,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.006   1.010
+##   0.001   0.004   1.128
 \end{verbatim}
 
 \normalsize
@@ -2714,7 +2714,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.002   1.013
+##   0.001   0.003   1.127
 \end{verbatim}
 
 \begin{Shaded}
@@ -2725,7 +2725,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.005   2.014
+##   0.003   0.006   2.138
 \end{verbatim}
 
 \normalsize
@@ -2917,7 +2917,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.636
+##   0.003   0.000   0.600
 \end{verbatim}
 
 \begin{Shaded}
@@ -2932,7 +2932,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.006   0.009   0.270
+##   0.009   0.013   0.304
 \end{verbatim}
 
 \normalsize
@@ -3018,7 +3018,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.652   0.011   5.672
+##   5.935   0.048   6.410
 \end{verbatim}
 
 \begin{Shaded}
@@ -3052,7 +3052,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.372   0.006   5.382
+##   5.607   0.027   5.819
 \end{verbatim}
 
 \begin{Shaded}
@@ -3094,7 +3094,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.312   0.007   5.321
+##   5.622   0.042   5.907
 \end{verbatim}
 
 \begin{Shaded}
@@ -3133,7 +3133,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.247   0.004   3.252
+##   3.403   0.017   3.588
 \end{verbatim}
 
 \begin{Shaded}
@@ -3174,7 +3174,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.297   0.310   1.841
+##   3.492   0.286   2.054
 \end{verbatim}
 
 \begin{Shaded}
@@ -3215,7 +3215,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.803   0.004   1.808
+##   1.956   0.023   2.288
 \end{verbatim}
 
 \begin{Shaded}
@@ -3261,7 +3261,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.641   0.010   2.653
+##   2.785   0.025   2.883
 \end{verbatim}
 
 \begin{Shaded}
@@ -3306,7 +3306,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.120   0.045   0.099
+##   0.130   0.050   0.114
 \end{verbatim}
 
 \begin{Shaded}
@@ -3480,11 +3480,11 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: microseconds
+## Unit: milliseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min      lq     mean   median       uq      max neval
-##  742.263 765.063 803.4397 770.2235 777.1775 2427.941   100
+##       min       lq     mean  median       uq      max neval
+##  1.097505 2.106375 2.133046 2.13058 2.155784 3.962656   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3524,13 +3524,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.238   0.006   7.246
+##   7.432   0.035   7.526
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4520} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5719} secondes.
 
 \scriptsize
 
@@ -3543,7 +3543,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.872   0.005   1.637
+##   5.118   0.022   1.823
 \end{verbatim}
 
 \normalsize
@@ -3609,8 +3609,8 @@ Son contenu est placé dans le dossier \texttt{\_targets}.
 Les variables stockées sont lues par \texttt{tar\_read()}.
 
 Si le projet nécessite de longs calculs, \textbf{targets} permet de n'exécuter que ceux qui sont nécessaires.
-Si le projet est partagé ou placé sous contrôle de source (chapitre \ref{chap:git}), le résultat des calcul est intégré l'est aussi.
-Enfin, si le projet est un document (chapitre \ref{chap:rediger}), son formatage est complètement indépendant du calcul de son contenu, pour un gain de temps qui peut être considérable.
+Si le projet est partagé ou placé sous contrôle de source (chapitre \ref{chap-git}), le résultat des calcul est intégré l'est aussi.
+Enfin, si le projet est un document (chapitre \ref{chap-rediger}), son formatage est complètement indépendant du calcul de son contenu, pour un gain de temps qui peut être considérable.
 
 \hypertarget{exemple-minimal}{%
 \subsection{Exemple minimal}\label{exemple-minimal}}
@@ -3761,8 +3761,8 @@ Dans cet exemple, \textbf{targets} complique l'écriture du code et \texttt{tar\
 Dans un projet réel qui nécessite de longs calculs, le traitement du statut des cibles est négligeable et le gain de temps apporté par la seule évaluation des cibles nécessaires est considérable.
 La définition des cibles reste une contrainte, mais force à bien structurer son projet.
 
-\hypertarget{chap:git}{%
-\chapter{Git et GitHub}\label{chap:git}}
+\hypertarget{chap-git}{%
+\chapter{Git et GitHub}\label{chap-git}}
 
 Le contrôle de source consiste à enregistrer l'ensemble des modifications apportées sur les fichiers suivis.
 Les avantages sont nombreux: traçabilité et sécurité du projet, possibilité de collaborer efficacement, de revenir en arrière, de tenter de nouveaux développements sans mettre en péril la version stable\ldots{}
@@ -4435,13 +4435,13 @@ Il peut être utile d'en supprimer dans quelques cas particuliers:
   si un fichier contenant des informations confidentielles a été validé par mégarde.
   La validation de sa suppression ne le retire pas de l'historique, et les informations confidentielles restent visibles en consultant l'historique.
 \item
-  si des fichiers volumineux ne sont plus nécessaires, par exemple des fichiers PDF produits par R Markdown (chapitre \ref{chap:rediger}), binaires (donc inadaptés à git) et reproductibles à partir du code.
+  si des fichiers volumineux ne sont plus nécessaires, par exemple des fichiers PDF produits par R Markdown (chapitre \ref{chap-rediger}), binaires (donc inadaptés à git) et reproductibles à partir du code.
 \end{itemize}
 
 Typiquement, le dossier \texttt{docs} est utilisé pour stocker les documents produits à partir de code R Markdown.
 Les fichiers HTML et PDF doivent s'y trouver pour constituer les pages GitHub du projet.
 Chaque modification du dépôt génère une nouvelle version de ces fichiers dont le volume de l'historique devient rapidement considérable.
-Une solution efficace consiste à déléguer la création de ces fichiers à un système d'intégration continue (chapitre \ref{chap:ci}) et à retirer le dossier \texttt{docs} de la branche principale (\emph{master}) du dépôt.
+Une solution efficace consiste à déléguer la création de ces fichiers à un système d'intégration continue (chapitre \ref{chap-ci}) et à retirer le dossier \texttt{docs} de la branche principale (\emph{master}) du dépôt.
 Il faut alors supprimer tout son historique pour récupérer la place qu'il occupe, qui peut être l'essentiel de la taille du dépôt.
 
 Les commandes de suppression complète d'un dossier d'un dépôt son présentées ici\footnote{\url{https://stackoverflow.com/questions/10067848/remove-folder-and-its-contents-from-git-githubs-history}}.
@@ -4574,8 +4574,8 @@ Il suffit ensuite de le coller dans le fichier.
 
 \normalsize
 
-\hypertarget{chap:rediger}{%
-\chapter{Rédiger}\label{chap:rediger}}
+\hypertarget{chap-rediger}{%
+\chapter{Rédiger}\label{chap-rediger}}
 
 R et RStudio permettent de rédiger efficacement des documents de tous formats, du simple bloc-note à la thèse, en passant par des diaporamas.
 Les outils pour le faire sont l'objet de ce chapitre, complété par la production de sites web (y compris un site personnel).
@@ -4671,7 +4671,7 @@ Elle a aussi quelques inconvénients:
 \item
   Les erreurs de tricot sont parfois difficiles à corriger, notamment quand elles interviennent à l'étape de la compilation LaTeX;
 \item
-  La reproductibilité consomme du temps de calcul. Pour limiter ce problème, un système de cache permet de ne pas réévaluer tous les bouts de code R à chaque modification du texte. La production de gros documents peut aussi être déléguée à un système d'intégration continue (chapitre \ref{chap:ci}).
+  La reproductibilité consomme du temps de calcul. Pour limiter ce problème, un système de cache permet de ne pas réévaluer tous les bouts de code R à chaque modification du texte. La production de gros documents peut aussi être déléguée à un système d'intégration continue (chapitre \ref{chap-ci}).
 \end{itemize}
 
 \hypertarget{moduxe8les-r-markdown}{%
@@ -5056,6 +5056,10 @@ Les figures et tableaux ont une étiquette générée automatiquement, identique
 Pour les équations, l'étiquette est ajoutée manuellement par le code \texttt{(\textbackslash{}\#eq:xxx)} avant la fin de l'équation.
 
 Les sections peuvent recevoir une étiquette en terminant leur titre par \texttt{\{\#yyy\}}.
+Les sections reçoivent par défaut une étiquette implicite \footnote{\url{https://pandoc.org/MANUAL.html\#extension-implicit_header_references}} correspondant à leur texte, en minuscules, où les caractères spéciaux sont remplacés par des tirets.
+Les étiquettes implicites sont instables (elles changent avec le titre de la section) et difficiles à prévoir: c'est pourquoi il est conseillé d'ajouter une étiquette explicite à chaque section faisant l'objet d'un renvoi.
+C'est le cas des chapitres, pour lesquels le nom du fichier HMTL produit est identique à l'étiquette.
+Les étiquettes de chapitres doivent respecter les règles de nomenclature des fichiers en ne contenant pas de caractères spéciaux.
 
 Des signets peuvent aussi être placés librement dans le texte avec la commande \texttt{(ref:zzz)}.
 
@@ -5174,7 +5178,7 @@ Le projet doit être lié à un dépôt GitHub (section \ref{sec:creerdepot}).
 
 Deux stratégies de publications sont possible.
 Dans la première, les documents sont tricotés localement et placés dans le dossier \texttt{docs}, qui sera le support des pages GitHub.
-Dans la seconde, les documents sont tricotés par GitHub Actions à chaque fois que des modifications sont poussées sur le dépôt: on parle d'intégration continue (section \ref{chap:ci}).
+Dans la seconde, les documents sont tricotés par GitHub Actions à chaque fois que des modifications sont poussées sur le dépôt: on parle d'intégration continue (section \ref{chap-ci}).
 
 La stratégie de production locale est traitée ici; l'intégration continue le sera dans la section \ref{sec:memoiR-ci}.
 
@@ -5437,7 +5441,7 @@ Enfin, la table des matières est flottante, ce qui signifie que sa position s'a
 \hypertarget{contuxf4le-de-source}{%
 \subsection{Contôle de source}\label{contuxf4le-de-source}}
 
-Le projet doit être placé sous contrôle de source et poussé sur GitHub (chapitre \ref{chap:git}).
+Le projet doit être placé sous contrôle de source et poussé sur GitHub (chapitre \ref{chap-git}).
 Le fichier \texttt{.gitignore} est le suivant:
 
 \begin{verbatim}
@@ -6642,10 +6646,10 @@ Les bouts de code qui utilisent les valeurs des cibles doivent les lire avec \te
 \subsection{Contrôle de source}\label{contruxf4le-de-source}}
 
 Les fichiers de \textbf{targets} doivent être inclus au contrôle de source.
-De cette façon, les calculs effectués localement ne seront pas répétés par GitHub Actions (chapitre \ref{chap:ci}) et la construction du document sera rapide.
+De cette façon, les calculs effectués localement ne seront pas répétés par GitHub Actions (chapitre \ref{chap-ci}) et la construction du document sera rapide.
 
-\hypertarget{chap:package}{%
-\chapter{Package}\label{chap:package}}
+\hypertarget{chap-package}{%
+\chapter{Package}\label{chap-package}}
 
 Les packages de R permettent d'étendre les fonctionnalités du logiciel par du code fourni par la communauté des développeurs.
 Ils sont la clé du succès de R parce qu'ils permettent de diffuser rapidement de nouvelles méthodes issues de la recherche ou d'ajouter de nouveaux outils qui peuvent devenir des standards, comme le \textbf{tidyverse}.
@@ -6938,7 +6942,7 @@ Il est temps de placer le code sous contrôle de source.
 Activer le contrôle de source dans les options du projet (figure \ref{fig:git-Project}).
 Redémarrer RStudio à la demande.
 
-Créer un dépôt sur GitHub et y pousser le dépôt local, comme expliqué dans le chapitre \ref{chap:git}.
+Créer un dépôt sur GitHub et y pousser le dépôt local, comme expliqué dans le chapitre \ref{chap-git}.
 
 Créer le fichier \texttt{README.md}:
 
@@ -7323,7 +7327,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7f8df5b73da8>
+## <bytecode: 0x7fbb3987a0d8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7614,13 +7618,13 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 \begin{verbatim}
 ## Unit: nanoseconds
 ##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  313  325.0 22139.47  333.0  348.5
-##   triple.numeric(2)  313  324.0 18716.14  335.5  352.0
-##          triple(2L) 1291 1317.5  1442.01 1334.5 1366.0
+##  triple.integer(2L)  325  332.5 26649.73    341  360.5
+##   triple.numeric(2)  321  332.0 20386.65    338  367.0
+##          triple(2L) 1318 1354.5  1483.18   1367 1427.5
 ##      max neval
-##  2179348   100
-##  1836294   100
-##     6144   100
+##  2629526   100
+##  2002253   100
+##     6870   100
 \end{verbatim}
 
 \normalsize
@@ -8407,8 +8411,8 @@ Dans le cas contraire, le package est archivé.
 
 Les nouvelles versions du package sont soumises de la même façon que la première.
 
-\hypertarget{chap:ci}{%
-\chapter{Intégration continue}\label{chap:ci}}
+\hypertarget{chap-ci}{%
+\chapter{Intégration continue}\label{chap-ci}}
 
 L'intégration continue consiste à confier à un service externe la tâche de vérifier un package, produire des documents Markdown pour les pages web d'un dépôt GitHub ou tricoter entièrement un site web à partir du code.
 
@@ -9157,8 +9161,8 @@ Le taux de couverture mesuré par Codecov peut aussi être affiché par un badge
   (https://codecov.io/github/<GitHubID>/<Depot>)
 \end{verbatim}
 
-\hypertarget{chap:shiny}{%
-\chapter{Shiny}\label{chap:shiny}}
+\hypertarget{chap-shiny}{%
+\chapter{Shiny}\label{chap-shiny}}
 
 Shiny permet de publier sous la forme d'un site web une application interactive utilisant du code R.
 Le site peut fonctionner localement, sur le poste de travail d'un utilisateur qui le lance à partir de RStudio, ou en ligne, sur un serveur dédié exécutant Shiny Server\footnote{\url{https://rstudio.com/products/shiny/download-server/}}.
@@ -9530,8 +9534,8 @@ L'application est maintenant accessible à l'adresse \url{https://prenom-nom.shi
 L'application \enquote{Bibliometrics} ne fonctionne pas sur Shinyapps.io parce que la façon dont le package \textbf{Scholar} interroge Google Scholar n'est pas supportée.
 La plupart des applications Shiny fonctionnent sans difficulté, tant qu'elles ne nécessitent pas de fonctionnalités réseau complexes.
 
-\hypertarget{chap:enseigner}{%
-\chapter{Enseigner avec R}\label{chap:enseigner}}
+\hypertarget{chap-enseigner}{%
+\chapter{Enseigner avec R}\label{chap-enseigner}}
 
 R, RStudio et GitHub fournissent des outils pour enseigner.
 
@@ -9661,8 +9665,8 @@ Si le travail à produire est un document rédigé, demander aux étudiants de l
 
 L'assistant GitHub Classrooms\footnote{\url{https://classroom.github.com/assistant}} permet de télécharger en une fois tous les dépôts des étudiants pour les corriger sur son poste de travail.
 
-\hypertarget{chap:conclusion}{%
-\chapter{Conclusion}\label{chap:conclusion}}
+\hypertarget{chap-conclusion}{%
+\chapter{Conclusion}\label{chap-conclusion}}
 
 L'environnement de travail de R et RStudio permet de produire tous types de documents avec un langage unique.
 
