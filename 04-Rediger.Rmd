@@ -1,4 +1,4 @@
-# Rédiger {#chap:rediger}
+# Rédiger {#chap-rediger}
 
 R et RStudio permettent de rédiger efficacement des documents de tous formats, du simple bloc-note à la thèse, en passant par des diaporamas.
 Les outils pour le faire sont l'objet de ce chapitre, complété par la production de sites web (y compris un site personnel).
@@ -78,7 +78,7 @@ Elle a aussi quelques inconvénients:
 
 -   Le formatage dépend de modèles, et developper de nouveaux modèles n'est pas simple;
 -   Les erreurs de tricot sont parfois difficiles à corriger, notamment quand elles interviennent à l'étape de la compilation LaTeX;
--   La reproductibilité consomme du temps de calcul. Pour limiter ce problème, un système de cache permet de ne pas réévaluer tous les bouts de code R à chaque modification du texte. La production de gros documents peut aussi être déléguée à un système d'intégration continue (chapitre \@ref(chap:ci)).
+-   La reproductibilité consomme du temps de calcul. Pour limiter ce problème, un système de cache permet de ne pas réévaluer tous les bouts de code R à chaque modification du texte. La production de gros documents peut aussi être déléguée à un système d'intégration continue (chapitre \@ref(chap-ci)).
 
 ## Modèles R Markdown
 
@@ -303,6 +303,12 @@ Les figures et tableaux ont une étiquette générée automatiquement, identique
 Pour les équations, l'étiquette est ajoutée manuellement par le code `(\#eq:xxx)` avant la fin de l'équation.
 
 Les sections peuvent recevoir une étiquette en terminant leur titre par `{#yyy}`.
+Les sections reçoivent par défaut une étiquette implicite [^405] correspondant à leur texte, en minuscules, où les caractères spéciaux sont remplacés par des tirets.
+Les étiquettes implicites sont instables (elles changent avec le titre de la section) et difficiles à prévoir: c'est pourquoi il est conseillé d'ajouter une étiquette explicite à chaque section faisant l'objet d'un renvoi.
+C'est le cas des chapitres, pour lesquels le nom du fichier HMTL produit est identique à l'étiquette.
+Les étiquettes de chapitres doivent respecter les règles de nomenclature des fichiers en ne contenant pas de caractères spéciaux.
+
+[^405]: https://pandoc.org/MANUAL.html#extension-implicit_header_references
 
 Des signets peuvent aussi être placés librement dans le texte avec la commande `(ref:zzz)`.
 
@@ -419,7 +425,7 @@ Le projet doit être lié à un dépôt GitHub (section \@ref(sec:creerdepot)).
 
 Deux stratégies de publications sont possible. 
 Dans la première, les documents sont tricotés localement et placés dans le dossier `docs`, qui sera le support des pages GitHub.
-Dans la seconde, les documents sont tricotés par GitHub Actions à chaque fois que des modifications sont poussées sur le dépôt: on parle d'intégration continue (section \@ref(chap:ci)).
+Dans la seconde, les documents sont tricotés par GitHub Actions à chaque fois que des modifications sont poussées sur le dépôt: on parle d'intégration continue (section \@ref(chap-ci)).
 
 La stratégie de production locale est traitée ici; l'intégration continue le sera dans la section \@ref(sec:memoiR-ci).
 
@@ -675,7 +681,7 @@ Enfin, la table des matières est flottante, ce qui signifie que sa position s'a
 
 ### Contôle de source
 
-Le projet doit être placé sous contrôle de source et poussé sur GitHub (chapitre \@ref(chap:git)).
+Le projet doit être placé sous contrôle de source et poussé sur GitHub (chapitre \@ref(chap-git)).
 Le fichier `.gitignore` est le suivant:
 
 ```
@@ -1588,4 +1594,4 @@ tar_read(map)
 ### Contrôle de source
 
 Les fichiers de **targets** doivent être inclus au contrôle de source.
-De cette façon, les calculs effectués localement ne seront pas répétés par GitHub Actions (chapitre \@ref(chap:ci)) et la construction du document sera rapide.
+De cette façon, les calculs effectués localement ne seront pas répétés par GitHub Actions (chapitre \@ref(chap-ci)) et la construction du document sera rapide.
