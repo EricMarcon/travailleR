@@ -323,7 +323,7 @@
 
 \author{Eric Marcon}
 
-\date{07/09/2021}
+\date{08/09/2021}
 
 
 % Include headers (preamble.tex) here
@@ -528,7 +528,7 @@ Copier ensuite le contenu du dossier \texttt{bin} dans le dossier \texttt{usr/bi
 \hypertarget{mise-uxe0-jour}{%
 \subsection{Mise à jour}\label{mise-uxe0-jour}}
 
-Il est conseillé d'utiliser la dernière version mineure de R: 4.0.x jusqu'à la sortie de la version 4.1.
+Il est conseillé d'utiliser la dernière version mineure de R: par exemple, 4.0.x jusqu'à la sortie de la version 4.1.
 Il est obligatoire d'utiliser la toute dernière version pour préparer un package soumis à CRAN.
 
 Des changements importants ont lieu entre les versions majeures (la version 4 ne permet pas d'utiliser un package compilé pour la version 3) mais aussi parfois entre versions mineures (un fichier de données binaires \texttt{.rda} enregistré sous la version 3.3 ne peut pas être lu par la version 3.6).
@@ -552,7 +552,7 @@ Les packages de R se trouvent dans deux dossiers:
   Elle se trouve dans le dossier personnel de l'utilisateur, dans un sous-dossier \texttt{R\textbackslash{}win-library\textbackslash{}4.0\textbackslash{}}).
 \end{itemize}
 
-Si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), il n'est pas optimal d'y placer les packages.
+Si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), il n'est pas optimal d'y placer les packages: le trafic généré par leur sauvegarde serait lourd et inutile.
 Pour que les packages soient installés automatiquement dans la bibliothèque système, il suffit que l'utilisateur y ait le droit d'écrire.
 Sous Windows, donner le droit \enquote{Modifier} au groupe des utilisateurs de l'ordinateur sur le dossier de la bibliothèque, en plus du droit de lecture par défaut \ref{fig:R-library}).
 
@@ -614,7 +614,7 @@ Dès la première utilisation de RStudio, créer un nouveau fichier R (menu \enq
 Supprimer le fichier après l'avoir enregistré.
 
 Les nouveaux fichiers seront codés au format UTF8.
-Les fichiers codés sous un autre format ne s'afficheront pas correctement: ils pourront être réouverts avec leur codage d'origine (\enquote{File \textgreater{} Reopen with Encoding\ldots{}}), en essayant éventuellement plusieurs codages jusqu'à obtenir un affichage correct et sauvegardés au format UTF8 ensuite.
+Les fichiers codés sous un autre format ne s'afficheront pas correctement: ils pourront être réouverts avec leur codage d'origine (\enquote{File \textgreater{} Reopen with Encoding\ldots{}}), en essayant éventuellement plusieurs codages jusqu'à obtenir un affichage correct, et sauvegardés au format UTF8 ensuite.
 
 \hypertarget{dossier-de-travail}{%
 \subsection{Dossier de travail}\label{dossier-de-travail}}
@@ -643,7 +643,7 @@ Le dossier de travail par défaut est le dossier personnel de l'utilisateur, app
   \texttt{Home} sous Mac ou Linux.
 \end{itemize}
 
-Il faut systématiquement travailler dans des sous-dossier de \texttt{\textasciitilde{}}, par exemple : \texttt{\textasciitilde{}\textbackslash{}Formation}.
+Il faut systématiquement travailler dans des sous-dossiers de \texttt{\textasciitilde{}}, par exemple : \texttt{\textasciitilde{}\textbackslash{}Formation}.
 
 Pour le bon fonctionnement des \emph{RTools}, le nom complet du répertoire de travail ne doit pas contenir d'espace (utiliser les tirets bas \texttt{\_}) ni de caractère spécial.
 Le dossier de travail en cours est obtenu par la commande \texttt{getwd()}.
@@ -874,7 +874,7 @@ Ce script est à exécuter à chaque mise à jour de R, après avoir éventuelle
 git est le logiciel de contrôle de source utilisé ici.
 Son utilisation est détaillée dans le chapitre \ref{chap-git}.
 
-Pour Windows et Mac, l'installation a lieu à partir du site\footnote{\url{https://git-scm.com/}}.
+Pour Windows et Mac, l'installation a lieu à partir du site web de git\footnote{\url{https://git-scm.com/}}.
 
 git est intégré dans les distributions Linux.
 Pour Ubuntu, le package apt est \texttt{git-all}.
@@ -930,7 +930,7 @@ SSH est la plus robuste mais nécessite la création d'une clé privée.
 Dans le terminal de RStudio, exécuter:
 
 \begin{verbatim}
-ssh-keygen -t ed25519 -C "nom@compagnie.com"
+ssh-keygen -t ed25519 -C "user.email"
 \end{verbatim}
 
 L'adresse de messagerie doit être celle enregistrée dans la configuration de git et le compte GitHub.
@@ -1201,7 +1201,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fbb3844c670>
+## <bytecode: 0x7fd20dacbe70>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1613,6 +1613,8 @@ La figure \ref{fig:diamonds} montre le résultat du code suivant:
 
 \normalsize
 
+Dans cette figure, deux géométries (nuage de points et régression linéaire) partagent la même esthétique (prix en fonction du poids en carats) qui est donc déclarée en amont, dans la fonction \texttt{ggplot()}.
+
 Le tidyverse est documenté en détail dans \textcite{Wickham2016} et \textbf{ggplot2} dans \textcite{Wickham2017}.
 
 \hypertarget{sec:environnements}{%
@@ -1679,7 +1681,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7fbb29273a18>
+## <environment: 0x7fd1fb8c7628>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1751,7 +1753,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fbb3d5b8d60>
+## <bytecode: 0x7fd20fe248f0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1940,7 +1942,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.022   0.001   0.022
+##   0.022   0.001   0.025
 \end{verbatim}
 
 \normalsize
@@ -1971,16 +1973,16 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 
 \begin{verbatim}
 ## Unit: microseconds
-##   expr     min      lq      mean   median       uq      max
-##  f1(X)  36.817  38.802  56.59371  40.1535  43.7935 1316.711
-##  f2(X)  44.734  46.467  65.14558  47.8925  50.4395 1561.447
-##  f3(X) 276.422 278.309 327.76298 280.1130 292.9330 2508.913
-##  f4(X) 410.064 412.127 498.35294 419.4055 442.3450 2573.264
-##  neval
-##    100
-##    100
-##    100
-##    100
+##   expr     min       lq      mean   median       uq
+##  f1(X)  36.206  38.2215  54.64782  39.3525  42.5585
+##  f2(X)  44.031  45.8435  67.64459  46.8940  48.9510
+##  f3(X) 275.845 277.8090 302.41424 280.2305 293.5675
+##  f4(X) 409.330 410.6775 438.23556 413.0420 423.3025
+##       max neval
+##  1365.942   100
+##  1346.689   100
+##  1578.011   100
+##  1893.079   100
 \end{verbatim}
 
 \normalsize
@@ -2003,10 +2005,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  40.1535
-## 2 f2(X)  47.8925
-## 3 f3(X) 280.1130
-## 4 f4(X) 419.4055
+## 1 f1(X)  39.3525
+## 2 f2(X)  46.8940
+## 3 f3(X) 280.2305
+## 4 f4(X) 413.0420
 \end{verbatim}
 
 \normalsize
@@ -2036,10 +2038,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  40.1535
-## 2 f2(X)  47.8925
-## 3 f3(X) 280.1130
-## 4 f4(X) 419.4055
+## 1 f1(X)  39.3525
+## 2 f2(X)  46.8940
+## 3 f3(X) 280.2305
+## 4 f4(X) 413.0420
 \end{verbatim}
 
 \normalsize
@@ -2166,7 +2168,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7fbb46ed2198>
+## <bytecode: 0x7fd21845ffa8>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2218,11 +2220,11 @@ Elle est déclinée sous plusieurs versions:
 \end{Shaded}
 
 \begin{verbatim}
-##                                    expr   median
-## 1                              sqrt(x1)   4.8715
-## 2                lapply(x1, FUN = sqrt) 302.3885
-## 3                sapply(x1, FUN = sqrt) 359.5600
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 301.5520
+##                                    expr  median
+## 1                              sqrt(x1)   4.728
+## 2                lapply(x1, FUN = sqrt) 298.345
+## 3                sapply(x1, FUN = sqrt) 363.686
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 304.236
 \end{verbatim}
 
 \normalsize
@@ -2274,9 +2276,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr  median
-## 1  Boucle(x1) 798.173
-## 2 Boucle2(x1)  78.237
+##          expr   median
+## 1  Boucle(x1) 805.2975
+## 2 Boucle2(x1)  78.1715
 \end{verbatim}
 
 \begin{Shaded}
@@ -2306,9 +2308,9 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 290.5815
-## 2                Boucle(x1)  77.1140
+##                        expr  median
+## 1 vapply(x1, FUN = sqrt, 0) 296.421
+## 2                Boucle(x1)  78.142
 \end{verbatim}
 
 \normalsize
@@ -2330,12 +2332,9 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr
-## 1                        vapply(x1, FUN = sqrt, 0)
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
-##      median
-## 1  296.1675
-## 2 3351.4385
+##                                               expr   median
+## 1                        vapply(x1, FUN = sqrt, 0)  297.705
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3373.035
 \end{verbatim}
 
 \normalsize
@@ -2401,9 +2400,9 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr    median
-## 1 replicate(1000, runif(1)) 4072.2480
-## 2               runif(1000)   35.8245
+##                        expr   median
+## 1 replicate(1000, runif(1)) 4075.701
+## 2               runif(1000)   33.863
 \end{verbatim}
 
 \normalsize
@@ -2441,9 +2440,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.714660
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.716895
-## 3       colSums(diamonds[-(2:4)]) 2.576465
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.661493
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.348074
+## 3       colSums(diamonds[-(2:4)]) 2.516616
 \end{verbatim}
 
 \normalsize
@@ -2651,7 +2650,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.503
+##   0.003   0.000   0.621
 \end{verbatim}
 
 \begin{Shaded}
@@ -2663,12 +2662,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.009   0.411
+##   0.006   0.011   0.333
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.16} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.083} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2683,7 +2682,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.000   2.014
+##   0.000   0.000   2.001
 \end{verbatim}
 
 \begin{Shaded}
@@ -2695,7 +2694,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.004   1.128
+##   0.002   0.003   1.107
 \end{verbatim}
 
 \normalsize
@@ -2714,7 +2713,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.127
+##   0.003   0.006   1.041
 \end{verbatim}
 
 \begin{Shaded}
@@ -2725,7 +2724,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.006   2.138
+##   0.003   0.005   2.007
 \end{verbatim}
 
 \normalsize
@@ -2917,7 +2916,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.600
+##   0.003   0.000   0.695
 \end{verbatim}
 
 \begin{Shaded}
@@ -2932,7 +2931,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.009   0.013   0.304
+##   0.008   0.014   0.375
 \end{verbatim}
 
 \normalsize
@@ -3018,7 +3017,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.935   0.048   6.410
+##   6.013   0.054   6.879
 \end{verbatim}
 
 \begin{Shaded}
@@ -3052,7 +3051,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.607   0.027   5.819
+##   5.670   0.058   6.212
 \end{verbatim}
 
 \begin{Shaded}
@@ -3094,7 +3093,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.622   0.042   5.907
+##   5.438   0.038   5.730
 \end{verbatim}
 
 \begin{Shaded}
@@ -3133,7 +3132,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.403   0.017   3.588
+##   3.313   0.019   3.457
 \end{verbatim}
 
 \begin{Shaded}
@@ -3174,7 +3173,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.492   0.286   2.054
+##   3.536   0.306   2.332
 \end{verbatim}
 
 \begin{Shaded}
@@ -3215,7 +3214,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.956   0.023   2.288
+##   1.881   0.016   1.948
 \end{verbatim}
 
 \begin{Shaded}
@@ -3261,7 +3260,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.785   0.025   2.883
+##   2.822   0.033   3.003
 \end{verbatim}
 
 \begin{Shaded}
@@ -3306,7 +3305,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.130   0.050   0.114
+##   0.140   0.052   0.130
 \end{verbatim}
 
 \begin{Shaded}
@@ -3480,11 +3479,11 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: milliseconds
+## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##       min       lq     mean  median       uq      max neval
-##  1.097505 2.106375 2.133046 2.13058 2.155784 3.962656   100
+##      min      lq     mean median      uq      max neval
+##  774.929 789.722 846.0242 804.05 825.611 2603.508   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3524,13 +3523,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.432   0.035   7.526
+##   7.579   0.051   8.007
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5719} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4870} secondes.
 
 \scriptsize
 
@@ -3543,7 +3542,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.118   0.022   1.823
+##   5.200   0.065   2.660
 \end{verbatim}
 
 \normalsize
@@ -3804,7 +3803,8 @@ RStudio intègre une interface graphique pour git suffisante pour se passer de l
 \emph{GitHub} est une plateforme, accessible par le web\footnote{\url{https://github.com/}}, qui permet de partager le contenu des dépôts git (pour travailler à plusieurs) et de partager de la documentation sous la forme d'un site web (\emph{GitHub Pages}).
 
 Comme GitHub permet au minimum la sauvegarde des dépôts git, les deux sont toujours utilisés ensemble.
-GitHub n'est pas la seule plateforme utilisable mais la principale. Les alternatives sont Bitbucket\footnote{\url{https://bitbucket.org/}} et GitLab\footnote{\url{https://about.gitlab.com/}} par exemple.
+GitHub n'est pas la seule plateforme utilisable mais la principale.
+Les alternatives sont Bitbucket\footnote{\url{https://bitbucket.org/}} et GitLab\footnote{\url{https://about.gitlab.com/}} par exemple.
 
 \hypertarget{sec:creerdepot}{%
 \section{Créer un nouveau dépôt}\label{sec:creerdepot}}
@@ -3923,8 +3923,14 @@ git config user.email
 Dès la première validation, la branche principale du dépôt, appelée \enquote{master}, est créée.
 Une branche est une version du dépôt, avec son propre historique et donc ses propres fichiers.
 Les branches permettent:
-* de développer de nouvelles fonctionnalités dans un projet, sans perturber la branche principale qui peut contenir une version stable. Si le développement est retenu, sa branche pourra être fusionnée avec la branche \emph{master} pour constituer une nouvelle version stable.
-* de contenir des fichiers totalement différents de ceux de la branche principale, pour d'autres objectifs. Sur GitHub, les pages web de présentation du projet peuvent être placés dans une branche appelée \enquote{gh-pages} qui ne sera jamais fusionnée.
+
+\begin{itemize}
+\tightlist
+\item
+  de développer de nouvelles fonctionnalités dans un projet, sans perturber la branche principale qui peut contenir une version stable. Si le développement est retenu, sa branche pourra être fusionnée avec la branche \emph{master} pour constituer une nouvelle version stable.
+\item
+  de contenir des fichiers totalement différents de ceux de la branche principale, pour d'autres objectifs. Sur GitHub, les pages web de présentation du projet peuvent être placés dans une branche appelée \enquote{gh-pages} qui ne sera jamais fusionnée.
+\end{itemize}
 
 Le dépôt git est complètement constitué.
 Dans le vocabulaire de git, il comprend trois \emph{arbres} (figure \ref{fig:git-Trees}):
@@ -4703,7 +4709,7 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 \begin{verbatim}
-date: "2021-09-07"
+date: "2021-09-08"
 \end{verbatim}
 
 Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
@@ -7327,7 +7333,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fbb3987a0d8>
+## <bytecode: 0x7fd20ae827c8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7617,14 +7623,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  325  332.5 26649.73    341  360.5
-##   triple.numeric(2)  321  332.0 20386.65    338  367.0
-##          triple(2L) 1318 1354.5  1483.18   1367 1427.5
+##                expr  min     lq     mean median   uq
+##  triple.integer(2L)  319  325.0 23724.13    335  349
+##   triple.numeric(2)  317  324.5 20639.85    336  352
+##          triple(2L) 1295 1321.0  1461.52   1331 1384
 ##      max neval
-##  2629526   100
-##  2002253   100
-##     6870   100
+##  2337718   100
+##  2028906   100
+##     6510   100
 \end{verbatim}
 
 \normalsize
@@ -8536,6 +8542,8 @@ on:
   schedule:
     - cron: '0 22 * * 0'
 \end{verbatim}
+
+Actuellement, la planification n'est prise en compte que dans la branche \emph{master}.
 
 \hypertarget{nom-du-flux-de-travail}{%
 \subsubsection{Nom du flux de travail}\label{nom-du-flux-de-travail}}

@@ -24,7 +24,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2021-07-09" />
+<meta name="date" content="2021-08-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -460,7 +460,7 @@ Copier ensuite le contenu du dossier <code>bin</code> dans le dossier <code>usr/
 </div>
 <div id="mise-à-jour" class="section level3">
 <h3><span class="header-section-number">1.1.3</span> Mise à jour</h3>
-<p>Il est conseillé d’utiliser la dernière version mineure de R: 4.0.x jusqu’à la sortie de la version 4.1.
+<p>Il est conseillé d’utiliser la dernière version mineure de R: par exemple, 4.0.x jusqu’à la sortie de la version 4.1.
 Il est obligatoire d’utiliser la toute dernière version pour préparer un package soumis à CRAN.</p>
 <p>Des changements importants ont lieu entre les versions majeures (la version 4 ne permet pas d’utiliser un package compilé pour la version 3) mais aussi parfois entre versions mineures (un fichier de données binaires <code>.rda</code> enregistré sous la version 3.3 ne peut pas être lu par la version 3.6).
 Il est donc utile de mettre R à jour régulièrement.</p>
@@ -476,7 +476,7 @@ Elle se trouve dans un sous-répertoire du programme d’installation (<code>C:\
 <li>La bibliothèque utilisateur (<em>User Library</em>) contient ceux installés par l’utilisateur.
 Elle se trouve dans le dossier personnel de l’utilisateur, dans un sous-dossier <code>R\win-library\4.0\</code>).</li>
 </ul>
-<p>Si le dossier personnel de l’utilisateur est sauvegardé (par exemple, s’il est répliqué dans le cloud par OneDrive sous Windows), il n’est pas optimal d’y placer les packages.
+<p>Si le dossier personnel de l’utilisateur est sauvegardé (par exemple, s’il est répliqué dans le cloud par OneDrive sous Windows), il n’est pas optimal d’y placer les packages: le trafic généré par leur sauvegarde serait lourd et inutile.
 Pour que les packages soient installés automatiquement dans la bibliothèque système, il suffit que l’utilisateur y ait le droit d’écrire.
 Sous Windows, donner le droit “Modifier” au groupe des utilisateurs de l’ordinateur sur le dossier de la bibliothèque, en plus du droit de lecture par défaut <a href="chap-logiciels.html#fig:R-library">1.1</a>).</p>
 
@@ -514,7 +514,7 @@ Le codage UTF8 est devenu le standard parce qu’il est universellement reconnu 
 <p>Dès la première utilisation de RStudio, créer un nouveau fichier R (menu “File &gt; New File &gt; R Script”), l’enregistrer au format UTF8 (“File &gt; Save with Encoding…”), choisir UTF8 dans la liste des formats et cocher la case “Set as default encoding for source files”.
 Supprimer le fichier après l’avoir enregistré.</p>
 <p>Les nouveaux fichiers seront codés au format UTF8.
-Les fichiers codés sous un autre format ne s’afficheront pas correctement: ils pourront être réouverts avec leur codage d’origine (“File &gt; Reopen with Encoding…”), en essayant éventuellement plusieurs codages jusqu’à obtenir un affichage correct et sauvegardés au format UTF8 ensuite.</p>
+Les fichiers codés sous un autre format ne s’afficheront pas correctement: ils pourront être réouverts avec leur codage d’origine (“File &gt; Reopen with Encoding…”), en essayant éventuellement plusieurs codages jusqu’à obtenir un affichage correct, et sauvegardés au format UTF8 ensuite.</p>
 </div>
 <div id="dossier-de-travail" class="section level3">
 <h3><span class="header-section-number">1.2.3</span> Dossier de travail</h3>
@@ -527,7 +527,7 @@ Les fichiers codés sous un autre format ne s’afficheront pas correctement: il
 <li><code>Mes Documents</code> sous Windows;</li>
 <li><code>Home</code> sous Mac ou Linux.</li>
 </ul>
-<p>Il faut systématiquement travailler dans des sous-dossier de <code>~</code>, par exemple : <code>~\Formation</code>.</p>
+<p>Il faut systématiquement travailler dans des sous-dossiers de <code>~</code>, par exemple : <code>~\Formation</code>.</p>
 <p>Pour le bon fonctionnement des <em>RTools</em>, le nom complet du répertoire de travail ne doit pas contenir d’espace (utiliser les tirets bas <code>_</code>) ni de caractère spécial.
 Le dossier de travail en cours est obtenu par la commande <code>getwd()</code>.</p>
 <p></p>
@@ -686,7 +686,7 @@ Il contient une fonction qui vérifie si chaque package est déjà installé pou
 <h3><span class="header-section-number">1.4.1</span> git</h3>
 <p>git est le logiciel de contrôle de source utilisé ici.
 Son utilisation est détaillée dans le chapitre <a href="chap-git.html#chap-git">3</a>.</p>
-<p>Pour Windows et Mac, l’installation a lieu à partir du site<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>.</p>
+<p>Pour Windows et Mac, l’installation a lieu à partir du site web de git<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>.</p>
 <p>git est intégré dans les distributions Linux.
 Pour Ubuntu, le package apt est <code>git-all</code>.</p>
 <p>git est installé sans interface graphique, fournie par RStudio.</p>
@@ -721,7 +721,7 @@ Enfin, un site web global est prévu pour chaque utilisateur à l’adresse <a h
 <p>Deux méthodes sont disponibles: HTTPS (aussi appelée SSL) et SSH.
 SSH est la plus robuste mais nécessite la création d’une clé privée.</p>
 <p>Dans le terminal de RStudio, exécuter:</p>
-<pre><code>ssh-keygen -t ed25519 -C &quot;nom@compagnie.com&quot;</code></pre>
+<pre><code>ssh-keygen -t ed25519 -C &quot;user.email&quot;</code></pre>
 <p>L’adresse de messagerie doit être celle enregistrée dans la configuration de git et le compte GitHub.
 La clé est enregistrée dans le dossier <code>.ssh</code> du répertoire personnel de l’utilisateur.
 Il est possible d’ajouter un mot de passe (<em>passphrase</em>) à la clé, qui devra être tapé à la première utilisation de chaque session de travail.
