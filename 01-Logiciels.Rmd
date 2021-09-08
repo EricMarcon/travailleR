@@ -53,7 +53,7 @@ Copier ensuite le contenu du dossier `bin` dans le dossier `usr/bin` de `Rtools`
 
 ### Mise à jour
 
-Il est conseillé d'utiliser la dernière version mineure de R: 4.0.x jusqu'à la sortie de la version 4.1.
+Il est conseillé d'utiliser la dernière version mineure de R: par exemple, 4.0.x jusqu'à la sortie de la version 4.1.
 Il est obligatoire d'utiliser la toute dernière version pour préparer un package soumis à CRAN.
 
 Des changements importants ont lieu entre les versions majeures (la version 4 ne permet pas d'utiliser un package compilé pour la version 3) mais aussi parfois entre versions mineures (un fichier de données binaires `.rda` enregistré sous la version 3.3 ne peut pas être lu par la version 3.6).
@@ -72,7 +72,7 @@ Elle se trouve dans un sous-répertoire du programme d'installation (`C:\Program
 * La bibliothèque utilisateur (*User Library*) contient ceux installés par l'utilisateur.
 Elle se trouve dans le dossier personnel de l'utilisateur, dans un sous-dossier `R\win-library\4.0\`).
 
-Si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), il n'est pas optimal d'y placer les packages.
+Si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), il n'est pas optimal d'y placer les packages: le trafic généré par leur sauvegarde serait lourd et inutile.
 Pour que les packages soient installés automatiquement dans la bibliothèque système, il suffit que l'utilisateur y ait le droit d'écrire.
 Sous Windows, donner le droit "Modifier" au groupe des utilisateurs de l'ordinateur sur le dossier de la bibliothèque, en plus du droit de lecture par défaut \@ref(fig:R-library)).
 
@@ -112,7 +112,7 @@ Dès la première utilisation de RStudio, créer un nouveau fichier R (menu "Fil
 Supprimer le fichier après l'avoir enregistré.
 
 Les nouveaux fichiers seront codés au format UTF8.
-Les fichiers codés sous un autre format ne s'afficheront pas correctement: ils pourront être réouverts avec leur codage d'origine ("File > Reopen with Encoding..."), en essayant éventuellement plusieurs codages jusqu'à obtenir un affichage correct et sauvegardés au format UTF8 ensuite.
+Les fichiers codés sous un autre format ne s'afficheront pas correctement: ils pourront être réouverts avec leur codage d'origine ("File > Reopen with Encoding..."), en essayant éventuellement plusieurs codages jusqu'à obtenir un affichage correct, et sauvegardés au format UTF8 ensuite.
 
 ### Dossier de travail
 
@@ -125,7 +125,7 @@ Sys.getenv("R_USER")
 - `Mes Documents` sous Windows;
 - `Home` sous Mac ou Linux.
 
-Il faut systématiquement travailler dans des sous-dossier de `~`, par exemple : `~\Formation`. 
+Il faut systématiquement travailler dans des sous-dossiers de `~`, par exemple : `~\Formation`. 
 
 Pour le bon fonctionnement des *RTools*, le nom complet du répertoire de travail ne doit pas contenir d'espace (utiliser les tirets bas `_`) ni de caractère spécial.
 Le dossier de travail en cours est obtenu par la commande `getwd()`.
@@ -299,7 +299,7 @@ Ce script est à exécuter à chaque mise à jour de R, après avoir éventuelle
 git est le logiciel de contrôle de source utilisé ici.
 Son utilisation est détaillée dans le chapitre \@ref(chap-git).
 
-Pour Windows et Mac, l'installation a lieu à partir du site[^104].
+Pour Windows et Mac, l'installation a lieu à partir du site web de git[^104].
 
 [^104]: https://git-scm.com/
 
@@ -357,7 +357,7 @@ SSH est la plus robuste mais nécessite la création d'une clé privée.
 
 Dans le terminal de RStudio, exécuter:
 ```
-ssh-keygen -t ed25519 -C "nom@compagnie.com"
+ssh-keygen -t ed25519 -C "user.email"
 ```
 L'adresse de messagerie doit être celle enregistrée dans la configuration de git et le compte GitHub.
 La clé est enregistrée dans le dossier `.ssh` du répertoire personnel de l'utilisateur.
