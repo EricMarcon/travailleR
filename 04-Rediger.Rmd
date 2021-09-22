@@ -99,11 +99,13 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 ```
-date: "`r Sys.Date()`"
+date: "|r format(Sys.Date(), '%d/%m/%Y')|"
 ```
 
-Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
-Il commence par un guillemet inversé suivi de `r`et se termine par un autre guillement inversé.
+Remplacer les barres verticales `|` de l'exemple ci-dessus par des guillemets inversés: ce document étant écrit avec R Markdown, la date serait calculée et affichée à la place du code si les guillemets inversés étaient utilisés directement.
+
+Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown, y compris dans l'entête pour l'affichage de la date.
+Il commence par un guillemet inversé suivi de `r` et se termine par un autre guillemet inversé.
 
 Les documents peuvent être tricotés au format HTML, PDF (via LaTeX) ou Word.
 L'entête du fichier R Markdown est réécrit quand le tricot est lancé par le bouton de RStudio qui place en premier le format de sortie utilisé et l'ajoute si nécessaire.
