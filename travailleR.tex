@@ -29,7 +29,7 @@
 \usepackage{lmodern}
 \usepackage{fontspec}
 % Main font
-\setmainfont[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,BoldItalicFont=*-bolditalic]{texgyretermes}
+\setmainfont[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,BoldItalicFont=*-bolditalic,ItalicFont=*-italic]{texgyretermes}
 % Specific sanserif font
 % Specific monotype font
 % Specific math font
@@ -323,7 +323,7 @@
 
 \author{Eric Marcon}
 
-\date{08/09/2021}
+\date{22/09/2021}
 
 
 % Include headers (preamble.tex) here
@@ -1201,7 +1201,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fd20dacbe70>
+## <bytecode: 0x7fabc959a768>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1681,7 +1681,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7fd1fb8c7628>
+## <environment: 0x7fabd643b9a8>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1753,7 +1753,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fd20fe248f0>
+## <bytecode: 0x7fabcec47628>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1942,7 +1942,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.022   0.001   0.025
+##   0.020   0.001   0.022
 \end{verbatim}
 
 \normalsize
@@ -1974,15 +1974,15 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq
-##  f1(X)  36.206  38.2215  54.64782  39.3525  42.5585
-##  f2(X)  44.031  45.8435  67.64459  46.8940  48.9510
-##  f3(X) 275.845 277.8090 302.41424 280.2305 293.5675
-##  f4(X) 409.330 410.6775 438.23556 413.0420 423.3025
+##  f1(X)  36.478  37.9930  62.33855  39.1500  41.4940
+##  f2(X)  44.474  46.2775  77.09898  46.8990  49.3000
+##  f3(X) 275.144 277.3015 325.37503 279.3095 284.9035
+##  f4(X) 409.195 411.2385 523.86542 416.7510 436.4435
 ##       max neval
-##  1365.942   100
-##  1346.689   100
-##  1578.011   100
-##  1893.079   100
+##  2049.489   100
+##  2512.489   100
+##  2788.715   100
+##  4220.747   100
 \end{verbatim}
 
 \normalsize
@@ -2005,10 +2005,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  39.3525
-## 2 f2(X)  46.8940
-## 3 f3(X) 280.2305
-## 4 f4(X) 413.0420
+## 1 f1(X)  39.1500
+## 2 f2(X)  46.8990
+## 3 f3(X) 279.3095
+## 4 f4(X) 416.7510
 \end{verbatim}
 
 \normalsize
@@ -2038,10 +2038,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  39.3525
-## 2 f2(X)  46.8940
-## 3 f3(X) 280.2305
-## 4 f4(X) 413.0420
+## 1 f1(X)  39.1500
+## 2 f2(X)  46.8990
+## 3 f3(X) 279.3095
+## 4 f4(X) 416.7510
 \end{verbatim}
 
 \normalsize
@@ -2168,7 +2168,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7fd21845ffa8>
+## <bytecode: 0x7fabd8696ef0>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2220,11 +2220,11 @@ Elle est déclinée sous plusieurs versions:
 \end{Shaded}
 
 \begin{verbatim}
-##                                    expr  median
-## 1                              sqrt(x1)   4.728
-## 2                lapply(x1, FUN = sqrt) 298.345
-## 3                sapply(x1, FUN = sqrt) 363.686
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 304.236
+##                                    expr   median
+## 1                              sqrt(x1)   4.5920
+## 2                lapply(x1, FUN = sqrt) 293.0840
+## 3                sapply(x1, FUN = sqrt) 348.8230
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 296.6725
 \end{verbatim}
 
 \normalsize
@@ -2276,9 +2276,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr   median
-## 1  Boucle(x1) 805.2975
-## 2 Boucle2(x1)  78.1715
+##          expr  median
+## 1  Boucle(x1) 814.071
+## 2 Boucle2(x1)  78.069
 \end{verbatim}
 
 \begin{Shaded}
@@ -2309,8 +2309,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr  median
-## 1 vapply(x1, FUN = sqrt, 0) 296.421
-## 2                Boucle(x1)  78.142
+## 1 vapply(x1, FUN = sqrt, 0) 306.450
+## 2                Boucle(x1)  80.844
 \end{verbatim}
 
 \normalsize
@@ -2333,8 +2333,8 @@ Attention, le test de performance peut être trompeur:
 
 \begin{verbatim}
 ##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  297.705
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3373.035
+## 1                        vapply(x1, FUN = sqrt, 0)  294.434
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3184.010
 \end{verbatim}
 
 \normalsize
@@ -2400,9 +2400,9 @@ est équivalent à \texttt{runif(3)}, avec des performances similaires à celles
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr   median
-## 1 replicate(1000, runif(1)) 4075.701
-## 2               runif(1000)   33.863
+##                        expr    median
+## 1 replicate(1000, runif(1)) 3801.8905
+## 2               runif(1000)   32.6095
 \end{verbatim}
 
 \normalsize
@@ -2440,9 +2440,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.661493
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.348074
-## 3       colSums(diamonds[-(2:4)]) 2.516616
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.480975
+## 2 apply(diamonds[-(2:4)], 2, sum) 8.894807
+## 3       colSums(diamonds[-(2:4)]) 2.326875
 \end{verbatim}
 
 \normalsize
@@ -2650,7 +2650,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.621
+##   0.002   0.000   0.536
 \end{verbatim}
 
 \begin{Shaded}
@@ -2662,12 +2662,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.006   0.011   0.333
+##   0.006   0.010   0.277
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.083} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.027} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2682,7 +2682,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.001
+##   0.000   0.000   2.073
 \end{verbatim}
 
 \begin{Shaded}
@@ -2694,7 +2694,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.003   1.107
+##   0.001   0.003   1.080
 \end{verbatim}
 
 \normalsize
@@ -2713,7 +2713,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.006   1.041
+##   0.005   0.008   1.130
 \end{verbatim}
 
 \begin{Shaded}
@@ -2724,7 +2724,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.005   2.007
+##   0.002   0.005   2.084
 \end{verbatim}
 
 \normalsize
@@ -2916,7 +2916,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.695
+##   0.003   0.000   0.585
 \end{verbatim}
 
 \begin{Shaded}
@@ -2931,7 +2931,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.014   0.375
+##   0.008   0.013   0.292
 \end{verbatim}
 
 \normalsize
@@ -3017,7 +3017,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   6.013   0.054   6.879
+##   5.656   0.036   6.069
 \end{verbatim}
 
 \begin{Shaded}
@@ -3051,7 +3051,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.670   0.058   6.212
+##   5.415   0.027   5.670
 \end{verbatim}
 
 \begin{Shaded}
@@ -3093,7 +3093,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.438   0.038   5.730
+##   5.398   0.036   5.744
 \end{verbatim}
 
 \begin{Shaded}
@@ -3132,7 +3132,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.313   0.019   3.457
+##   3.249   0.020   3.469
 \end{verbatim}
 
 \begin{Shaded}
@@ -3173,7 +3173,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.536   0.306   2.332
+##   3.341   0.292   2.024
 \end{verbatim}
 
 \begin{Shaded}
@@ -3214,7 +3214,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.881   0.016   1.948
+##   1.834   0.018   2.023
 \end{verbatim}
 
 \begin{Shaded}
@@ -3260,7 +3260,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.822   0.033   3.003
+##   2.698   0.026   2.793
 \end{verbatim}
 
 \begin{Shaded}
@@ -3305,7 +3305,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.140   0.052   0.130
+##   0.129   0.049   0.108
 \end{verbatim}
 
 \begin{Shaded}
@@ -3479,11 +3479,11 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: microseconds
+## Unit: milliseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min      lq     mean median      uq      max neval
-##  774.929 789.722 846.0242 804.05 825.611 2603.508   100
+##      min       lq     mean   median       uq      max neval
+##  2.09416 2.124682 2.504402 2.151012 2.188851 33.69927   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3523,13 +3523,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.579   0.051   8.007
+##   7.370   0.035   7.673
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4870} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5057} secondes.
 
 \scriptsize
 
@@ -3542,7 +3542,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.200   0.065   2.660
+##   5.089   0.043   1.908
 \end{verbatim}
 
 \normalsize
@@ -4709,11 +4709,13 @@ La syntaxe est la même que celle du bloc-note.
 Dans l'entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:
 
 \begin{verbatim}
-date: "2021-09-08"
+date: "|r format(Sys.Date(), '%d/%m/%Y')|"
 \end{verbatim}
 
-Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown.
-Il commence par un guillemet inversé suivi de \texttt{r}et se termine par un autre guillement inversé.
+Remplacer les barres verticales \texttt{\textbar{}} de l'exemple ci-dessus par des guillemets inversés: ce document étant écrit avec R Markdown, la date serait calculée et affichée à la place du code si les guillemets inversés étaient utilisés directement.
+
+Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown, y compris dans l'entête pour l'affichage de la date.
+Il commence par un guillemet inversé suivi de \texttt{r} et se termine par un autre guillemet inversé.
 
 Les documents peuvent être tricotés au format HTML, PDF (via LaTeX) ou Word.
 L'entête du fichier R Markdown est réécrit quand le tricot est lancé par le bouton de RStudio qui place en premier le format de sortie utilisé et l'ajoute si nécessaire.
@@ -5706,16 +5708,10 @@ Le fichier \texttt{config.toml} contient les paramètres généraux du site.
 Les lignes à mettre à jour sont celle du titre du site (le nom du propriétaire puisqu'il s'agit d'un site personnel) et son adresse publique.
 Pour le site exemple :
 
-\scriptsize
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{title =}\StringTok{ "Eric Marcon"}
-\NormalTok{baseurl =}\StringTok{ "https://EricMarcon.github.io/"}
-\end{Highlighting}
-\end{Shaded}
-
-\normalsize
+\begin{verbatim}
+title = "Eric Marcon"
+baseurl = "https://EricMarcon.github.io/"
+\end{verbatim}
 
 Il contient aussi la ligne de sélection de la langue par défaut (\enquote{en} ou \enquote{fr} au choix) et celle qui permet de placer les fichiers produits par Hugo dans chaque dossier de langue (\enquote{true} obligatoirement pour un site multilingue):
 
@@ -6606,7 +6602,7 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-75-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-74-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6644,7 +6640,7 @@ Les bouts de code qui utilisent les valeurs des cibles doivent les lire avec \te
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-76-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-75-1} \end{center}
 
 \normalsize
 
@@ -7333,7 +7329,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fd20ae827c8>
+## <bytecode: 0x7fabcbc1de88>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7623,14 +7619,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median   uq
-##  triple.integer(2L)  319  325.0 23724.13    335  349
-##   triple.numeric(2)  317  324.5 20639.85    336  352
-##          triple(2L) 1295 1321.0  1461.52   1331 1384
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  318  328.0 23172.81  338.0  354.5
+##   triple.numeric(2)  320  331.5 19120.84  339.0  354.0
+##          triple(2L) 1309 1352.5  1568.26 1375.5 1457.0
 ##      max neval
-##  2337718   100
-##  2028906   100
-##     6510   100
+##  2274354   100
+##  1875943   100
+##     6597   100
 \end{verbatim}
 
 \normalsize
@@ -7768,7 +7764,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-108-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-107-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7776,7 +7772,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-108-2} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-107-2} \end{center}
 
 \normalsize
 
