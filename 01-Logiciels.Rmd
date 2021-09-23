@@ -3,6 +3,7 @@
 L'outil central est évidemment R, mais son fonctionnement est aujourd'hui difficilement envisageable sans son environnement de développement RStudio.
 Pour le contrôle de source, git et GitHub sont de fait les standards.
 L'ensemble doit être complété par une distribution LaTeX pour la production de documents au format PDF.
+Un outil de gestion bibliographique est indispensable: Zotero et son extension Better BibTeX sont parfaitement adaptés au cadre de travail présenté ici.
 Enfin, d'autres logiciels d'usage plus ponctuel peuvent être nécessaires, comme Go.
 
 Leur installation et leur organisation cohérente sont présentées dans ce chapitre.
@@ -437,6 +438,36 @@ Dans les paramètres (*Settings*), vérifier que les packages s'installent toujo
 Dans le menu des mises à jour (*Updates*), cliquer sur "Check for updates" puis "Update now".
 
 Si l'installation automatique est défaillante, il est possible d'installer manuellement un package dans le menu "Packages".
+
+
+## Zotero {#sec:Zotero}
+
+Zotero[^120] est le logiciel de gestion bibliographique le plus utilisé.
+Ses extensions permettent de compléter ses fonctionnalités selon les besoins de chacun.
+Better BibTeX permet d'exporter et de maintenir à jour une sélection des références bibliographiques (une collection de Zotero) sous la forme d'un fichier BibTeX dans un projet R, où il pourra être utilisé dans la rédaction de documents ou la documentation de packages.
+
+Télécharger le fichier d'installation et l'exécuter.
+Créer un compte utilisateur sur le site web de Zotero.
+Lier l'installation locale au compte: dans le menu "Edition > Préférences", sélectionner "Synchronisation > Paramètres" et s'authentifier dans la zone "Synchronisation des données".
+Cocher ensuite la case "Synchroniser automatiquement" mais pas "Synchroniser le texte intégral des pièces jointes indexées" parce que la taille totale des textes intégraux synchronisés de cette manière entre le compte Zotero en ligne et le poste de travail est limitée à 300 Mo.
+
+Télécharger l'extension Better BibTeX[^121] et l'installer avec le menu "Outils > Extensions": cliquer sur le bouton des paramètres en haut à droite de la fenêtre, puis "Install Add-on From File..." et sélectionner le fichier qui vient d'être téléchargé.
+
+Paramétrer Better BibTeX à partir du menu "Edition > Préférences > Better BibTeX".
+Les options à modifier sont les suivantes:
+
+- "Clés de citation > Format de clé": `[auth:capitalize][year]` pour que les citations disposent d'un identifiant unique de la forme "Nom2021";
+- "Clés de citation > Conserver les clés de citation unique dans": "Toutes les collections" pour que les identifiants des citations ne soient pas ambigus.
+- "Exportation > Gestion des Champs > Champs à exclure de l'exportation": "abstract, file" pour ne pas générer des fichiers bibliographiques surchargés d'informations inutiles dans les projets R.
+
+Il est conseillé d'utiliser l'extension ZotFile[^122] pour mieux contrôler l'emplacement du texte intégral (les fichiers PDF liés au références bibliographiques).
+L'installer puis la paramétrer dans "Outils > Préférences de ZotFile...> Paramètres généraux > Emplacement des fichiers > Dossier personnalisé": choisir le dossier de stockage des textes intégraux.
+Si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), y placer ce dossier de stockage permet à la fois de sauvegarder les textes intégraux mais aussi d'y accéder à partir de plusieurs postes de travail ou directement en ligne.
+Cette solution est bien plus efficace que la synchronisation par défaut de Zotero, limitée en volume.
+
+[^120]: https://www.zotero.org/
+[^121]: https://retorque.re/zotero-better-bibtex/installation/
+[^122]: http://zotfile.com/
 
 
 ## Go
