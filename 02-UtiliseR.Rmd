@@ -382,7 +382,7 @@ L'appel de la fonction retourne la valeur locale de la fonction parce qu'elle se
 La fonction `qGlobalEnv` retourne la variable `q` qu'elle ne définit pas localement.
 Elle la recherche donc dans son environnement parent et trouve la variable définie dans l'environnement global.
 En supprimant la variable de l'environnement global par `rm(q)`, la fonction `qGlobalEnv()` parcourt la pile des environnements jusqu'à trouver un objet nommé `q` dans le package **base**, qui est la fonction permettant de quitter R.
-Elle aurait pu trouver un autre objet si un package contenant un objet `q`avait été chargé.
+Elle aurait pu trouver un autre objet si un package contenant un objet `q` avait été chargé.
 
 Pour éviter ce comportement erratique, une fonction ne doit *jamais* appeler un objet non défini dans son propre environnement.
 
@@ -415,14 +415,13 @@ isNamespaceLoaded("entropart")
 search()
 # Diversity() est introuvable
 tryCatch(Diversity(1), error = function(e) print(e))
-# mais peut être appelée avec son nom complet.
-# L'appel exécute implicitement
+# mais peut être appelée avec son nom complet
 entropart::Diversity(1, CheckArguments=FALSE)
 ```
 
 L'appel de `entropart::Diversity()` charge le package (c'est-à-dire, exécute implicitement `loadNamespace("entropart")`) mais ne l'attache pas.
 
-En pratique, il faut limiter le nombre de package attachés pour limiter le risque d'appeler une fonction non désirée homonyme de la fonction recherchée.
+En pratique, il faut limiter le nombre de package attachés pour limiter le risque d'appeler une fonction non désirée, homonyme de la fonction recherchée.
 Dans les cas critiques, il faut utiliser le nom complet de la fonction: `package::fonction()`.
 
 Un problème fréquent concerne la `filter()` de **dplyr** homonyme de celle de **stats**. 
@@ -676,7 +675,7 @@ BoucleSuivie()
 replicate(3, runif(1))
 ```
 
-est équivalent à `runif(3)`, avec des performances similaires à celles de `vapply`: de 50 à 100 fois plus lent qu'une fonction vectorielle.
+Ce code est équivalent à `runif(3)`, avec des performances similaires à celles de `vapply`: de 50 à 100 fois plus lent qu'une fonction vectorielle.
 
 ```{r}
 mb <- microbenchmark(replicate(1E3, runif(1)), runif(1E3))
@@ -749,7 +748,7 @@ Les performances sont deux ordres de grandeur plus rapides que le code R (voir l
 
 Lorsque des calculs longs peuvent être découpés en tâches indépendantes, l'exécution simultanée (*parallèle*) de ces tâches permet de réduire le temps de calcul total à celui de la tâche la plus longue, auquel s'ajoute le coût de la mise en place de la parallélisation (création des tâches, récupération des résultats...).
 
-Lire l'excellente introduction de Josh Errickson[^203] détaille les enjeux et les contraintes de la parallélisation.
+Lire l'excellente introduction de Josh Errickson[^203] qui détaille les enjeux et les contraintes de la parallélisation.
 
 [^203]: <http://dept.stat.lsa.umich.edu/~jerrick/courses/stat701/notes/parallel.html>
 
@@ -869,7 +868,7 @@ f <- function(x, time=.25) {
 
 # Série : temps théorique = nbCoeurs/4 secondes
 (tserie <- system.time(lapply(1:nbCoeurs, f)))
-# Parallèle : temps théorique = 1/4 secondes
+# Parallèle : temps théorique = 1/4 seconde
 (tparallele <- system.time(mclapply(1:nbCoeurs, f, mc.cores=nbCoeurs)))
 ```
 
