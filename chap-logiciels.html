@@ -185,7 +185,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.5.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-2"><i class="fa fa-check"></i><b>1.5.1</b> Installation</a></li>
 <li class="chapter" data-level="1.5.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#mises-à-jour"><i class="fa fa-check"></i><b>1.5.2</b> Mises à jour</a></li>
 </ul></li>
-<li class="chapter" data-level="1.6" data-path="chap-logiciels.html"><a href="chap-logiciels.html#go"><i class="fa fa-check"></i><b>1.6</b> Go</a></li>
+<li class="chapter" data-level="1.6" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:Zotero"><i class="fa fa-check"></i><b>1.6</b> Zotero</a></li>
+<li class="chapter" data-level="1.7" data-path="chap-logiciels.html"><a href="chap-logiciels.html#go"><i class="fa fa-check"></i><b>1.7</b> Go</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html"><i class="fa fa-check"></i><b>2</b> Utiliser R</a><ul>
 <li class="chapter" data-level="2.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#les-langages-de-r"><i class="fa fa-check"></i><b>2.1</b> Les langages de R</a><ul>
@@ -428,6 +429,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>L’outil central est évidemment R, mais son fonctionnement est aujourd’hui difficilement envisageable sans son environnement de développement RStudio.
 Pour le contrôle de source, git et GitHub sont de fait les standards.
 L’ensemble doit être complété par une distribution LaTeX pour la production de documents au format PDF.
+Un outil de gestion bibliographique est indispensable: Zotero et son extension Better BibTeX sont parfaitement adaptés au cadre de travail présenté ici.
 Enfin, d’autres logiciels d’usage plus ponctuel peuvent être nécessaires, comme Go.</p>
 <p>Leur installation et leur organisation cohérente sont présentées dans ce chapitre.</p>
 <div id="r" class="section level2">
@@ -778,9 +780,31 @@ Cliquer sur “Switch to Administrator mode”.</p>
 <p>Si l’installation automatique est défaillante, il est possible d’installer manuellement un package dans le menu “Packages”.</p>
 </div>
 </div>
+<div id="sec:Zotero" class="section level2">
+<h2><span class="header-section-number">1.6</span> Zotero</h2>
+<p>Zotero<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> est le logiciel de gestion bibliographique le plus utilisé.
+Ses extensions permettent de compléter ses fonctionnalités selon les besoins de chacun.
+Better BibTeX permet d’exporter et de maintenir à jour une sélection des références bibliographiques (une collection de Zotero) sous la forme d’un fichier BibTeX dans un projet R, où il pourra être utilisé dans la rédaction de documents ou la documentation de packages.</p>
+<p>Télécharger le fichier d’installation et l’exécuter.
+Créer un compte utilisateur sur le site web de Zotero.
+Lier l’installation locale au compte: dans le menu “Edition &gt; Préférences”, sélectionner “Synchronisation &gt; Paramètres” et s’authentifier dans la zone “Synchronisation des données”.
+Cocher ensuite la case “Synchroniser automatiquement” mais pas “Synchroniser le texte intégral des pièces jointes indexées” parce que la taille totale des textes intégraux synchronisés de cette manière entre le compte Zotero en ligne et le poste de travail est limitée à 300 Mo.</p>
+<p>Télécharger l’extension Better BibTeX<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> et l’installer avec le menu “Outils &gt; Extensions”: cliquer sur le bouton des paramètres en haut à droite de la fenêtre, puis “Install Add-on From File…” et sélectionner le fichier qui vient d’être téléchargé.</p>
+<p>Paramétrer Better BibTeX à partir du menu “Edition &gt; Préférences &gt; Better BibTeX”.
+Les options à modifier sont les suivantes:</p>
+<ul>
+<li>“Clés de citation &gt; Format de clé”: <code>[auth:capitalize][year]</code> pour que les citations disposent d’un identifiant unique de la forme “Nom2021”;</li>
+<li>“Clés de citation &gt; Conserver les clés de citation unique dans”: “Toutes les collections” pour que les identifiants des citations ne soient pas ambigus.</li>
+<li>“Exportation &gt; Gestion des Champs &gt; Champs à exclure de l’exportation”: “abstract, file” pour ne pas générer des fichiers bibliographiques surchargés d’informations inutiles dans les projets R.</li>
+</ul>
+<p>Il est conseillé d’utiliser l’extension ZotFile<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a> pour mieux contrôler l’emplacement du texte intégral (les fichiers PDF liés au références bibliographiques).
+L’installer puis la paramétrer dans “Outils &gt; Préférences de ZotFile…&gt; Paramètres généraux &gt; Emplacement des fichiers &gt; Dossier personnalisé”: choisir le dossier de stockage des textes intégraux.
+Si le dossier personnel de l’utilisateur est sauvegardé (par exemple, s’il est répliqué dans le cloud par OneDrive sous Windows), y placer ce dossier de stockage permet à la fois de sauvegarder les textes intégraux mais aussi d’y accéder à partir de plusieurs postes de travail ou directement en ligne.
+Cette solution est bien plus efficace que la synchronisation par défaut de Zotero, limitée en volume.</p>
+</div>
 <div id="go" class="section level2">
-<h2><span class="header-section-number">1.6</span> Go</h2>
-<p>Go<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> n’est utilisé que par le générateur de sites web Hugo (voir section <a href="chap-rediger.html#sec:blogdown">4.7</a>).</p>
+<h2><span class="header-section-number">1.7</span> Go</h2>
+<p>Go<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a> n’est utilisé que par le générateur de sites web Hugo (voir section <a href="chap-rediger.html#sec:blogdown">4.7</a>).</p>
 <p>Télécharger le fichier d’installation et l’exécuter.
 A la fin de l’installation, exécuter la commande <code>go version</code> dans un terminal pour vérifier son bon fonctionnement.</p>
 <p>Les mises à jour se font en installant la nouvelle version par dessus la précédente.</p>
@@ -802,7 +826,10 @@ A la fin de l’installation, exécuter la commande <code>go version</code> dans
 <li id="fn10"><p><a href="https://docs.github.com/en/github/authenticating-to-github/githubs-ssh-key-fingerprints" class="uri">https://docs.github.com/en/github/authenticating-to-github/githubs-ssh-key-fingerprints</a><a href="chap-logiciels.html#fnref10" class="footnote-back">↩︎</a></p></li>
 <li id="fn11"><p><a href="https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line" class="uri">https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line</a><a href="chap-logiciels.html#fnref11" class="footnote-back">↩︎</a></p></li>
 <li id="fn12"><p><a href="https://miktex.org/download" class="uri">https://miktex.org/download</a><a href="chap-logiciels.html#fnref12" class="footnote-back">↩︎</a></p></li>
-<li id="fn13"><p><a href="https://golang.org/" class="uri">https://golang.org/</a><a href="chap-logiciels.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p><a href="https://www.zotero.org/" class="uri">https://www.zotero.org/</a><a href="chap-logiciels.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p><a href="https://retorque.re/zotero-better-bibtex/installation/" class="uri">https://retorque.re/zotero-better-bibtex/installation/</a><a href="chap-logiciels.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p><a href="http://zotfile.com/" class="uri">http://zotfile.com/</a><a href="chap-logiciels.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p><a href="https://golang.org/" class="uri">https://golang.org/</a><a href="chap-logiciels.html#fnref16" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

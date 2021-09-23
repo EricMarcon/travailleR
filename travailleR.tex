@@ -478,6 +478,7 @@ Dans tous les autres cas, le code peut être utilisé directement.
 L'outil central est évidemment R, mais son fonctionnement est aujourd'hui difficilement envisageable sans son environnement de développement RStudio.
 Pour le contrôle de source, git et GitHub sont de fait les standards.
 L'ensemble doit être complété par une distribution LaTeX pour la production de documents au format PDF.
+Un outil de gestion bibliographique est indispensable: Zotero et son extension Better BibTeX sont parfaitement adaptés au cadre de travail présenté ici.
 Enfin, d'autres logiciels d'usage plus ponctuel peuvent être nécessaires, comme Go.
 
 Leur installation et leur organisation cohérente sont présentées dans ce chapitre.
@@ -1014,6 +1015,38 @@ Dans le menu des mises à jour (\emph{Updates}), cliquer sur \enquote{Check for 
 
 Si l'installation automatique est défaillante, il est possible d'installer manuellement un package dans le menu \enquote{Packages}.
 
+\hypertarget{sec:Zotero}{%
+\section{Zotero}\label{sec:Zotero}}
+
+Zotero\footnote{\url{https://www.zotero.org/}} est le logiciel de gestion bibliographique le plus utilisé.
+Ses extensions permettent de compléter ses fonctionnalités selon les besoins de chacun.
+Better BibTeX permet d'exporter et de maintenir à jour une sélection des références bibliographiques (une collection de Zotero) sous la forme d'un fichier BibTeX dans un projet R, où il pourra être utilisé dans la rédaction de documents ou la documentation de packages.
+
+Télécharger le fichier d'installation et l'exécuter.
+Créer un compte utilisateur sur le site web de Zotero.
+Lier l'installation locale au compte: dans le menu \enquote{Edition \textgreater{} Préférences}, sélectionner \enquote{Synchronisation \textgreater{} Paramètres} et s'authentifier dans la zone \enquote{Synchronisation des données}.
+Cocher ensuite la case \enquote{Synchroniser automatiquement} mais pas \enquote{Synchroniser le texte intégral des pièces jointes indexées} parce que la taille totale des textes intégraux synchronisés de cette manière entre le compte Zotero en ligne et le poste de travail est limitée à 300 Mo.
+
+Télécharger l'extension Better BibTeX\footnote{\url{https://retorque.re/zotero-better-bibtex/installation/}} et l'installer avec le menu \enquote{Outils \textgreater{} Extensions}: cliquer sur le bouton des paramètres en haut à droite de la fenêtre, puis \enquote{Install Add-on From File\ldots{}} et sélectionner le fichier qui vient d'être téléchargé.
+
+Paramétrer Better BibTeX à partir du menu \enquote{Edition \textgreater{} Préférences \textgreater{} Better BibTeX}.
+Les options à modifier sont les suivantes:
+
+\begin{itemize}
+\tightlist
+\item
+  \enquote{Clés de citation \textgreater{} Format de clé}: \texttt{{[}auth:capitalize{]}{[}year{]}} pour que les citations disposent d'un identifiant unique de la forme \enquote{Nom2021};
+\item
+  \enquote{Clés de citation \textgreater{} Conserver les clés de citation unique dans}: \enquote{Toutes les collections} pour que les identifiants des citations ne soient pas ambigus.
+\item
+  \enquote{Exportation \textgreater{} Gestion des Champs \textgreater{} Champs à exclure de l'exportation}: \enquote{abstract, file} pour ne pas générer des fichiers bibliographiques surchargés d'informations inutiles dans les projets R.
+\end{itemize}
+
+Il est conseillé d'utiliser l'extension ZotFile\footnote{\url{http://zotfile.com/}} pour mieux contrôler l'emplacement du texte intégral (les fichiers PDF liés au références bibliographiques).
+L'installer puis la paramétrer dans \enquote{Outils \textgreater{} Préférences de ZotFile\ldots\textgreater{} Paramètres généraux \textgreater{} Emplacement des fichiers \textgreater{} Dossier personnalisé}: choisir le dossier de stockage des textes intégraux.
+Si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), y placer ce dossier de stockage permet à la fois de sauvegarder les textes intégraux mais aussi d'y accéder à partir de plusieurs postes de travail ou directement en ligne.
+Cette solution est bien plus efficace que la synchronisation par défaut de Zotero, limitée en volume.
+
 \hypertarget{go}{%
 \section{Go}\label{go}}
 
@@ -1201,7 +1234,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fc673799568>
+## <bytecode: 0x7f927cc1e968>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1681,7 +1714,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7fc664248a90>
+## <environment: 0x7f926ca6ab00>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1753,7 +1786,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fc67a01f890>
+## <bytecode: 0x7f9280916978>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1941,7 +1974,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.021   0.000   0.021
+##   0.020   0.001   0.021
 \end{verbatim}
 
 \normalsize
@@ -1972,16 +2005,16 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 
 \begin{verbatim}
 ## Unit: microseconds
-##   expr     min       lq      mean   median       uq
-##  f1(X)  35.871  38.1645  52.97788  39.5485  41.3630
-##  f2(X)  44.406  46.3110  62.23715  47.4505  50.8435
-##  f3(X) 274.681 277.9815 296.64802 279.9975 285.7205
-##  f4(X) 408.275 411.3005 435.11486 412.9820 419.5595
-##       max neval
-##  1292.633   100
-##  1329.570   100
-##  1599.519   100
-##  2025.077   100
+##   expr     min      lq      mean   median       uq      max
+##  f1(X)  36.115  37.313  51.52918  38.6395  39.7705 1252.813
+##  f2(X)  44.149  45.559  59.67894  46.4670  47.8250 1216.829
+##  f3(X) 275.372 276.863 295.06125 278.1515 283.4895 1443.766
+##  f4(X) 408.555 410.517 429.37272 412.0900 418.2170 1857.541
+##  neval
+##    100
+##    100
+##    100
+##    100
 \end{verbatim}
 
 \normalsize
@@ -2004,10 +2037,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  39.5485
-## 2 f2(X)  47.4505
-## 3 f3(X) 279.9975
-## 4 f4(X) 412.9820
+## 1 f1(X)  38.6395
+## 2 f2(X)  46.4670
+## 3 f3(X) 278.1515
+## 4 f4(X) 412.0900
 \end{verbatim}
 
 \normalsize
@@ -2037,10 +2070,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  39.5485
-## 2 f2(X)  47.4505
-## 3 f3(X) 279.9975
-## 4 f4(X) 412.9820
+## 1 f1(X)  38.6395
+## 2 f2(X)  46.4670
+## 3 f3(X) 278.1515
+## 4 f4(X) 412.0900
 \end{verbatim}
 
 \normalsize
@@ -2167,7 +2200,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7fc6631a2d18>
+## <bytecode: 0x7f928a527f88>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2220,10 +2253,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.6565
-## 2                lapply(x1, FUN = sqrt) 298.0075
-## 3                sapply(x1, FUN = sqrt) 353.1345
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 299.6030
+## 1                              sqrt(x1)   4.6710
+## 2                lapply(x1, FUN = sqrt) 295.4260
+## 3                sapply(x1, FUN = sqrt) 346.9825
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 299.9955
 \end{verbatim}
 
 \normalsize
@@ -2275,9 +2308,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr   median
-## 1  Boucle(x1) 807.9785
-## 2 Boucle2(x1)  78.2160
+##          expr  median
+## 1  Boucle(x1) 774.522
+## 2 Boucle2(x1)  77.242
 \end{verbatim}
 
 \begin{Shaded}
@@ -2308,8 +2341,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 292.1805
-## 2                Boucle(x1)  77.3610
+## 1 vapply(x1, FUN = sqrt, 0) 289.5735
+## 2                Boucle(x1)  76.7545
 \end{verbatim}
 
 \normalsize
@@ -2332,8 +2365,8 @@ Attention, le test de performance peut être trompeur:
 
 \begin{verbatim}
 ##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  298.229
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3445.041
+## 1                        vapply(x1, FUN = sqrt, 0)  297.354
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3303.815
 \end{verbatim}
 
 \normalsize
@@ -2399,9 +2432,9 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr    median
-## 1 replicate(1000, runif(1)) 4085.9530
-## 2               runif(1000)   35.2095
+##                        expr   median
+## 1 replicate(1000, runif(1)) 4077.325
+## 2               runif(1000)   34.441
 \end{verbatim}
 
 \normalsize
@@ -2439,9 +2472,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.946981
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.818953
-## 3       colSums(diamonds[-(2:4)]) 2.527478
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.615229
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.235526
+## 3       colSums(diamonds[-(2:4)]) 2.445276
 \end{verbatim}
 
 \normalsize
@@ -2649,7 +2682,7 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.503
+##   0.003   0.000   0.535
 \end{verbatim}
 
 \begin{Shaded}
@@ -2661,12 +2694,12 @@ Ce document est tricoté avec \texttt{3} coeurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.005   0.015   0.398
+##   0.004   0.011   0.266
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.15} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.016} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2681,7 +2714,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    0.00    0.00    2.18
+##   0.000   0.000   2.062
 \end{verbatim}
 
 \begin{Shaded}
@@ -2693,7 +2726,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.008
+##   0.001   0.003   1.034
 \end{verbatim}
 
 \normalsize
@@ -2712,7 +2745,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.125
+##   0.001   0.003   1.022
 \end{verbatim}
 
 \begin{Shaded}
@@ -2723,7 +2756,7 @@ Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.005   2.203
+##   0.002   0.007   2.027
 \end{verbatim}
 
 \normalsize
@@ -2915,7 +2948,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.506
+##   0.003   0.000   0.608
 \end{verbatim}
 
 \begin{Shaded}
@@ -2930,7 +2963,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.015   0.268
+##   0.008   0.011   0.293
 \end{verbatim}
 
 \normalsize
@@ -3016,7 +3049,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.755   0.059   6.282
+##   5.546   0.015   5.652
 \end{verbatim}
 
 \begin{Shaded}
@@ -3050,7 +3083,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.570   0.031   5.794
+##   5.334   0.016   5.476
 \end{verbatim}
 
 \begin{Shaded}
@@ -3092,7 +3125,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.605   0.042   6.113
+##   5.260   0.014   5.338
 \end{verbatim}
 
 \begin{Shaded}
@@ -3131,7 +3164,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.340   0.020   3.528
+##   3.206   0.009   3.275
 \end{verbatim}
 
 \begin{Shaded}
@@ -3172,7 +3205,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.451   0.279   2.218
+##   3.256   0.250   1.855
 \end{verbatim}
 
 \begin{Shaded}
@@ -3213,7 +3246,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.833   0.010   1.898
+##   1.798   0.007   1.857
 \end{verbatim}
 
 \begin{Shaded}
@@ -3259,7 +3292,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.749   0.029   2.952
+##   2.667   0.018   2.783
 \end{verbatim}
 
 \begin{Shaded}
@@ -3304,7 +3337,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.128   0.050   0.113
+##   0.122   0.041   0.101
 \end{verbatim}
 
 \begin{Shaded}
@@ -3478,11 +3511,13 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: microseconds
+## Unit: milliseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min      lq     mean  median       uq      max neval
-##  777.984 853.318 932.2621 898.728 945.3415 2609.547   100
+##       min       lq     mean   median       uq      max
+##  1.105261 1.116837 1.206784 1.224944 1.244429 2.377263
+##  neval
+##    100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3522,13 +3557,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.354   0.046   7.780
+##   7.399   0.021   7.652
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4744} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4642} secondes.
 
 \scriptsize
 
@@ -3541,7 +3576,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.016   0.044   2.320
+##   5.047   0.018   2.084
 \end{verbatim}
 
 \normalsize
@@ -5081,7 +5116,21 @@ Les références bibliographiques au format bibtex doivent être incluses dans l
 bibliography: references.bib
 \end{verbatim}
 
-Elles peuvent être appelées dans le texte, entre parenthèses par le code \texttt{{[}@Reference{]}}, ou dans le texte, en supprimant les crochets.
+Ce fichier peut être créé et maintenu à jour par Zotero installé avec l'extension Better BibTeX (voir section \ref{sec:Zotero}).
+Il suffit pour cela de créer une collection Zotero correspondant au projet et d'y glisser les références pertinentes.
+Utiliser ensuite le menu contextuel \enquote{Exporter la collection\ldots{}} et sélectionner:
+
+\begin{itemize}
+\tightlist
+\item
+  Format: \enquote{Better BibTeX} pour les articles et présentations ou \enquote{Better BibLaTeX} pour les mémoires, selon que la bibliographie est gérée par bibtex et natbib ou biber et biblatex pour la production de documents PDF.
+\item
+  Cocher la case \enquote{Garder à jour} pour que toute modification dans Zotero soit exportée automatiquement.
+\item
+  Cliquer sur \enquote{OK} puis choisir le nom du fichier (\texttt{references.bib}) et son emplacement (le dossier du projet R).
+\end{itemize}
+
+Les références peuvent être appelées dans le texte, entre parenthèses par le code \texttt{{[}@Reference{]}}, ou dans le texte, en supprimant les crochets.
 
 La bibliographie est traitée par pandoc lors de la production de documents Word ou HTML.
 Le style bibliographique peut être précisé, en ajoutant la ligne
@@ -7328,7 +7377,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fc676d85ae0>
+## <bytecode: 0x7f927f134298>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7618,14 +7667,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  315  323.5 21583.03  333.5  342.5
-##   triple.numeric(2)  314  325.0 18918.14  335.0  348.0
-##          triple(2L) 1322 1339.0  1447.45 1349.0 1401.0
+##                expr  min   lq     mean median     uq
+##  triple.integer(2L)  319  328 21734.90    338  354.5
+##   triple.numeric(2)  320  330 19480.19    339  357.0
+##          triple(2L) 1324 1336  1488.92   1353 1434.5
 ##      max neval
-##  2124904   100
-##  1857311   100
-##     5773   100
+##  2138203   100
+##  1911915   100
+##     6069   100
 \end{verbatim}
 
 \normalsize

@@ -185,7 +185,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.5.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-2"><i class="fa fa-check"></i><b>1.5.1</b> Installation</a></li>
 <li class="chapter" data-level="1.5.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#mises-à-jour"><i class="fa fa-check"></i><b>1.5.2</b> Mises à jour</a></li>
 </ul></li>
-<li class="chapter" data-level="1.6" data-path="chap-logiciels.html"><a href="chap-logiciels.html#go"><i class="fa fa-check"></i><b>1.6</b> Go</a></li>
+<li class="chapter" data-level="1.6" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:Zotero"><i class="fa fa-check"></i><b>1.6</b> Zotero</a></li>
+<li class="chapter" data-level="1.7" data-path="chap-logiciels.html"><a href="chap-logiciels.html#go"><i class="fa fa-check"></i><b>1.7</b> Go</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html"><i class="fa fa-check"></i><b>2</b> Utiliser R</a><ul>
 <li class="chapter" data-level="2.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#les-langages-de-r"><i class="fa fa-check"></i><b>2.1</b> Les langages de R</a><ul>
@@ -440,7 +441,7 @@ Enfin, l’optimisation des performances du code est traitée en détail (boucle
 <div id="les-langages-de-r" class="section level2">
 <h2><span class="header-section-number">2.1</span> Les langages de R</h2>
 <p>R comprend plusieurs langages de programmation.
-Le plus courant est S3, mais ce n’est pas le seul<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>.</p>
+Le plus courant est S3, mais ce n’est pas le seul<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a>.</p>
 <div id="base" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> Base</h3>
 <p>Le coeur de R est constitué des fonctions primitives et structures de données de base comme la fonction <code>sum</code> et les données de type <code>matrix</code>:</p>
@@ -473,7 +474,7 @@ Leur usage est donc à privilégier.</p>
 <span id="cb24-2"><a href="chap-utiliseR.html#cb24-2"></a><span class="kw">class</span>(MonPrenom) &lt;-<span class="st"> &quot;Prenom&quot;</span></span></code></pre></div>
 <p></p>
 <p>La variable <code>MonPrenom</code> est ici de classe “Prenom” par une simple déclaration.</p>
-<p>Contrairement au fonctionnement d’un langage orienté objet classique<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>, les méthodes S3 sont liées aux fonctions, pas aux objets.</p>
+<p>Contrairement au fonctionnement d’un langage orienté objet classique<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a>, les méthodes S3 sont liées aux fonctions, pas aux objets.</p>
 <p></p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="chap-utiliseR.html#cb25-1"></a><span class="co"># Affichage par défaut</span></span>
 <span id="cb25-2"><a href="chap-utiliseR.html#cb25-2"></a>MonPrenom</span></code></pre></div>
@@ -498,7 +499,7 @@ Dans R, les méthodes sont définies à partir de méthodes génériques.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="chap-utiliseR.html#cb31-1"></a>print</span></code></pre></div>
 <pre><code>## function (x, ...) 
 ## UseMethod(&quot;print&quot;)
-## &lt;bytecode: 0x7fa551a314c8&gt;
+## &lt;bytecode: 0x7ff6589352c8&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe beaucoup de méthodes S3 pour <code>print</code>:</p>
@@ -602,7 +603,7 @@ Quelques packages sur CRAN : <strong>Matrix</strong>, <strong>sp</strong>, <stro
 </div>
 <div id="s6" class="section level3">
 <h3><span class="header-section-number">2.1.5</span> S6</h3>
-<p>S6<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a> perfectionne RC mais n’est pas inclus dans R: il nécessite d’installer son package.</p>
+<p>S6<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a> perfectionne RC mais n’est pas inclus dans R: il nécessite d’installer son package.</p>
 <p>Les attributs et les méthodes peuvent être publics ou privés.
 Une méthode <code>initialize()</code> est utilisée comme constructeur.</p>
 <p></p>
@@ -617,7 +618,7 @@ Une méthode <code>initialize()</code> est utilisée comme constructeur.</p>
 <pre><code>## Eric Marcon</code></pre>
 <p></p>
 <p>S6 permet de programmer rigoureusement en objet mais est très peu utilisé.
-Les performances de S6 sont bien supérieures à celles de RC mais sont inférieures à celles de S3<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a>.</p>
+Les performances de S6 sont bien supérieures à celles de RC mais sont inférieures à celles de S3<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>.</p>
 <p>La non-inclusion de R6 à R est montrée par <strong>pryr</strong>:</p>
 <p></p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="chap-utiliseR.html#cb57-1"></a>pryr<span class="op">::</span><span class="kw">otype</span>(MoiR6)</span></code></pre></div>
@@ -631,8 +632,8 @@ L’ensemble des packages indispensables peut être chargé par le package <stro
 <p></p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="chap-utiliseR.html#cb59-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
 <p></p>
-<p>Il ne s’agit pas d’un nouveau langage à proprement parler mais plutôt d’une extension de S3, avec de profondes modifications techniques, notamment l’évaluation non conventionnelle des expressions<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a>, qu’il n’est pas essentiel de maîtriser en détail.</p>
-<p>Ses principes sont inscrits dans un manifeste<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a>.
+<p>Il ne s’agit pas d’un nouveau langage à proprement parler mais plutôt d’une extension de S3, avec de profondes modifications techniques, notamment l’évaluation non conventionnelle des expressions<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a>, qu’il n’est pas essentiel de maîtriser en détail.</p>
+<p>Ses principes sont inscrits dans un manifeste<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>.
 Son apport le plus visible pour l’utilisateur sont l’enchaînement des commandes dans un flux (pipeline de code).</p>
 <p>En programmation standard, l’enchaînement des fonctions s’écrit par emboîtements successifs, ce qui en rend la lecture difficile, surtout quand des arguments sont nécessaires:</p>
 <p></p>
@@ -738,7 +739,7 @@ Chaque package chargé crée un environnement fils pour former une pile des envi
 <span id="cb70-2"><a href="chap-utiliseR.html#cb70-2"></a>f &lt;-<span class="st"> </span><span class="cf">function</span>() <span class="kw">environment</span>()</span>
 <span id="cb70-3"><a href="chap-utiliseR.html#cb70-3"></a><span class="co"># Affichage de l&#39;environnement de la fonction</span></span>
 <span id="cb70-4"><a href="chap-utiliseR.html#cb70-4"></a><span class="kw">f</span>()</span></code></pre></div>
-<pre><code>## &lt;environment: 0x7fa55bf82758&gt;</code></pre>
+<pre><code>## &lt;environment: 0x7ff6605d6788&gt;</code></pre>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="chap-utiliseR.html#cb72-1"></a><span class="co"># Environnement parent de celui de la fonction</span></span>
 <span id="cb72-2"><a href="chap-utiliseR.html#cb72-2"></a><span class="kw">parent.env</span>(<span class="kw">f</span>())</span></code></pre></div>
 <pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
@@ -774,7 +775,7 @@ S’il n’est pas trouvé, il est cherché dans l’environnement parent, puis 
 <span id="cb78-4"><a href="chap-utiliseR.html#cb78-4"></a><span class="kw">qGlobalEnv</span>()</span></code></pre></div>
 <pre><code>## function (save = &quot;default&quot;, status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## &lt;bytecode: 0x7fa55df81548&gt;
+## &lt;bytecode: 0x7ff664e55778&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>La variable <code>q</code> est définie dans l’environnement global.
@@ -871,7 +872,7 @@ Pour des temps d’exécution très courts, il est nécessaire de répéter la m
 <span id="cb95-2"><a href="chap-utiliseR.html#cb95-2"></a><span class="co"># répété 100 fois</span></span>
 <span id="cb95-3"><a href="chap-utiliseR.html#cb95-3"></a><span class="kw">system.time</span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>) <span class="kw">mad</span>(<span class="kw">runif</span>(<span class="dv">1000</span>)))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    0.02    0.00    0.02</code></pre>
+##   0.021   0.000   0.021</code></pre>
 <p></p>
 </div>
 <div id="microbenchmark" class="section level3">
@@ -891,15 +892,15 @@ Pour des temps d’exécution très courts, il est nécessaire de répéter la m
 <span id="cb97-10"><a href="chap-utiliseR.html#cb97-10"></a>(mb &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="kw">f1</span>(X), <span class="kw">f2</span>(X), <span class="kw">f3</span>(X), <span class="kw">f4</span>(X)))</span></code></pre></div>
 <pre><code>## Unit: microseconds
 ##   expr     min       lq      mean   median       uq
-##  f1(X)  36.529  38.9180  53.59687  40.1600  41.7585
-##  f2(X)  44.639  46.3945  62.40260  48.2515  51.4585
-##  f3(X) 276.175 278.1190 295.90735 279.7300 287.2385
-##  f4(X) 409.483 412.1020 436.28706 417.7730 429.0225
+##  f1(X)  36.728  38.2965  52.82929  38.9770  41.5330
+##  f2(X)  44.730  46.2980  61.55176  46.9200  49.4245
+##  f3(X) 276.365 277.3360 294.24706 278.8305 284.2650
+##  f4(X) 409.679 411.3315 435.66947 413.3015 423.4820
 ##       max neval
-##  1283.567   100
-##  1263.871   100
-##  1488.298   100
-##  1928.254   100</code></pre>
+##  1285.388   100
+##  1292.814   100
+##  1505.682   100
+##  2024.440   100</code></pre>
 <p></p>
 <p>Le tableau retourné contient les temps minimum, médian, moyen, max et les premiers et troisièmes quartiles, ainsi que le nombre de répétitions.
 La valeur médiane est à comparer.
@@ -910,10 +911,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:</p>
 <p></p>
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="chap-utiliseR.html#cb99-1"></a><span class="kw">summary</span>(mb)[, <span class="kw">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
 <pre><code>##    expr   median
-## 1 f1(X)  40.1600
-## 2 f2(X)  48.2515
-## 3 f3(X) 279.7300
-## 4 f4(X) 417.7730</code></pre>
+## 1 f1(X)  38.9770
+## 2 f2(X)  46.9200
+## 3 f3(X) 278.8305
+## 4 f4(X) 413.3015</code></pre>
 <p></p>
 <p>Pour faire des calculs sur ces résultats, il faut les stocker dans une variable.
 Pour empêcher l’affichage dans la console, la solution la plus simple est d’utiliser la fonction <code>capture.output</code> en affectant son résultat à une variable.</p>
@@ -924,10 +925,10 @@ Pour empêcher l’affichage dans la console, la solution la plus simple est d�
 <p></p>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="chap-utiliseR.html#cb102-1"></a><span class="kw">summary</span>(mb)[, <span class="kw">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
 <pre><code>##    expr   median
-## 1 f1(X)  40.1600
-## 2 f2(X)  48.2515
-## 3 f3(X) 279.7300
-## 4 f4(X) 417.7730</code></pre>
+## 1 f1(X)  38.9770
+## 2 f2(X)  46.9200
+## 3 f3(X) 278.8305
+## 4 f4(X) 413.3015</code></pre>
 <p></p>
 <p>Le temps de calcul est à peu près identique entre <span class="math inline">\(x \times x\)</span> et <span class="math inline">\(x^2\)</span>.
 Le calcul de puissance est nettement plus long, surtout si la puissance n’est pas entière, parce qu’il nécessite un calcul de logarithme.
@@ -956,9 +957,9 @@ L’objectif est de détecter les portions de code lentes, à améliorer.</p>
 <span id="cb106-7"><a href="chap-utiliseR.html#cb106-7"></a>})</span>
 <span id="cb106-8"><a href="chap-utiliseR.html#cb106-8"></a>htmlwidgets<span class="op">::</span><span class="kw">saveWidget</span>(p, <span class="st">&quot;docs/profile.html&quot;</span>)</span></code></pre></div>
 <p></p>
-<p>Le résultat est un fichier HTML contenant le rapport de profilage<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>.
+<p>Le résultat est un fichier HTML contenant le rapport de profilage<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>.
 On peut observer que le temps de tirage des nombres aléatoires est similaire à celui du calcul des cosinus.</p>
-<p>Lire la documentation complète<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a> sur le site de RStudio.</p>
+<p>Lire la documentation complète<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a> sur le site de RStudio.</p>
 </div>
 </div>
 <div id="boucles" class="section level2">
@@ -996,7 +997,7 @@ La fonction <code>lnq</code> du package <strong>entropart</strong> retourne le l
 ##         return(Log)
 ##     }
 ## }
-## &lt;bytecode: 0x7fa53f5b8ef0&gt;
+## &lt;bytecode: 0x7ff6468b4720&gt;
 ## &lt;environment: namespace:entropart&gt;</code></pre>
 <p></p>
 <p>Pour qu’une fonction soit vectorielle, chaque ligne de son code doit permettre que le premier argument soit traité comme un vecteur.
@@ -1023,10 +1024,10 @@ Elle est déclinée sous plusieurs versions:</p>
 <span id="cb115-2"><a href="chap-utiliseR.html#cb115-2"></a>    <span class="dt">FUN =</span> sqrt), <span class="kw">vapply</span>(x1, <span class="dt">FUN =</span> sqrt, <span class="dt">FUN.VALUE =</span> <span class="dv">0</span>))</span>
 <span id="cb115-3"><a href="chap-utiliseR.html#cb115-3"></a><span class="kw">summary</span>(mb)[, <span class="kw">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
 <pre><code>##                                    expr   median
-## 1                              sqrt(x1)   4.9855
-## 2                lapply(x1, FUN = sqrt) 319.1040
-## 3                sapply(x1, FUN = sqrt) 370.5965
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 310.9370</code></pre>
+## 1                              sqrt(x1)   4.7275
+## 2                lapply(x1, FUN = sqrt) 301.7205
+## 3                sapply(x1, FUN = sqrt) 356.6710
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 302.8750</code></pre>
 <p>
 <code>lapply()</code> est beaucoup plus lent qu’une fonction vectorielle.
 <code>sapply()</code> nécessite plus de temps pour <code>simplify2array()</code>, qui doit détecter comment rassembler les résultats.
@@ -1058,9 +1059,9 @@ Le niveau par défaut est 3: les fonctions sont toutes compilées, et les boucle
 <span id="cb119-11"><a href="chap-utiliseR.html#cb119-11"></a><span class="co"># Comparaison</span></span>
 <span id="cb119-12"><a href="chap-utiliseR.html#cb119-12"></a>mb &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="kw">Boucle</span>(x1), <span class="kw">Boucle2</span>(x1))</span>
 <span id="cb119-13"><a href="chap-utiliseR.html#cb119-13"></a>(mbs &lt;-<span class="st"> </span><span class="kw">summary</span>(mb)[, <span class="kw">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)])</span></code></pre></div>
-<pre><code>##          expr  median
-## 1  Boucle(x1) 762.557
-## 2 Boucle2(x1)  78.839</code></pre>
+<pre><code>##          expr   median
+## 1  Boucle(x1) 757.3005
+## 2 Boucle2(x1)  75.8345</code></pre>
 <div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="chap-utiliseR.html#cb121-1"></a><span class="co"># Compilation automatique par défaut depuis la version 3.5</span></span>
 <span id="cb121-2"><a href="chap-utiliseR.html#cb121-2"></a><span class="kw">enableJIT</span>(<span class="dt">level =</span> <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
@@ -1071,9 +1072,9 @@ Le gain est considérable: de 1 à <code>10</code>.</p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="chap-utiliseR.html#cb123-1"></a><span class="co"># Test</span></span>
 <span id="cb123-2"><a href="chap-utiliseR.html#cb123-2"></a>mb &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="kw">vapply</span>(x1, <span class="dt">FUN =</span> sqrt, <span class="dv">0</span>), <span class="kw">Boucle</span>(x1))</span>
 <span id="cb123-3"><a href="chap-utiliseR.html#cb123-3"></a><span class="kw">summary</span>(mb)[, <span class="kw">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
-<pre><code>##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 292.0085
-## 2                Boucle(x1)  76.9060</code></pre>
+<pre><code>##                        expr  median
+## 1 vapply(x1, FUN = sqrt, 0) 291.886
+## 2                Boucle(x1)  77.222</code></pre>
 <p></p>
 <p>Attention, le test de performance peut être trompeur:</p>
 <p></p>
@@ -1085,8 +1086,8 @@ Le gain est considérable: de 1 à <code>10</code>.</p>
 <span id="cb125-6"><a href="chap-utiliseR.html#cb125-6"></a>                       Racine[i] &lt;-<span class="st"> </span><span class="kw">sqrt</span>(x1[i]))</span>
 <span id="cb125-7"><a href="chap-utiliseR.html#cb125-7"></a><span class="kw">summary</span>(mb)[, <span class="kw">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
 <pre><code>##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  306.720
-## 2 for (i in 1:length(x1)) Racine[i] &lt;- sqrt(x1[i]) 3352.146</code></pre>
+## 1                        vapply(x1, FUN = sqrt, 0)  300.263
+## 2 for (i in 1:length(x1)) Racine[i] &lt;- sqrt(x1[i]) 3294.423</code></pre>
 <p></p>
 <p>Dans ce code, la boucle for n’est pas compilée donc elle est beaucoup plus lente que dans le cadre normal de son utilisation (dans une fonction ou au niveau supérieur du code).</p>
 <p>Les boucles longues permettent un suivi de leur progression par une barre de texte, ce qui est un autre avantage.
@@ -1118,9 +1119,9 @@ La fonction suivante exécute des pauses d’un dixième de seconde pendant le t
 <p></p>
 <div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="chap-utiliseR.html#cb131-1"></a>mb &lt;-<span class="st"> </span><span class="kw">microbenchmark</span>(<span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">runif</span>(<span class="dv">1</span>)), <span class="kw">runif</span>(<span class="dv">1000</span>))</span>
 <span id="cb131-2"><a href="chap-utiliseR.html#cb131-2"></a><span class="kw">summary</span>(mb)[, <span class="kw">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
-<pre><code>##                        expr   median
-## 1 replicate(1000, runif(1)) 4079.059
-## 2               runif(1000)   35.480</code></pre>
+<pre><code>##                        expr    median
+## 1 replicate(1000, runif(1)) 2797.5455
+## 2               runif(1000)   32.1875</code></pre>
 <p></p>
 </div>
 <div id="vectorize" class="section level3">
@@ -1145,9 +1146,9 @@ Ecrire plutôt les boucles.</p>
 <span id="cb133-10"><a href="chap-utiliseR.html#cb133-10"></a>                     <span class="kw">colSums</span>(diamonds[<span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>)]))</span>
 <span id="cb133-11"><a href="chap-utiliseR.html#cb133-11"></a><span class="kw">summary</span>(mb)[, <span class="kw">c</span>(<span class="st">&quot;expr&quot;</span>, <span class="st">&quot;median&quot;</span>)]</span></code></pre></div>
 <pre><code>##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.556295
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.120271
-## 3       colSums(diamonds[-(2:4)]) 2.389812</code></pre>
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.569193
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.165484
+## 3       colSums(diamonds[-(2:4)]) 2.402842</code></pre>
 <p></p>
 <p><code>apply</code> clarifie le code mais est plus lent que la boucle, qui est à peine plus lente que <code>colSums</code>.</p>
 </div>
@@ -1181,7 +1182,7 @@ La préparation des données et leur vérification doivent être exécutées sou
 <div id="paralléliser-r" class="section level2">
 <h2><span class="header-section-number">2.6</span> Paralléliser R</h2>
 <p>Lorsque des calculs longs peuvent être découpés en tâches indépendantes, l’exécution simultanée (<em>parallèle</em>) de ces tâches permet de réduire le temps de calcul total à celui de la tâche la plus longue, auquel s’ajoute le coût de la mise en place de la parallélisation (création des tâches, récupération des résultats…).</p>
-<p>Lire l’excellente introduction de Josh Errickson<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a> qui détaille les enjeux et les contraintes de la parallélisation.</p>
+<p>Lire l’excellente introduction de Josh Errickson<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a> qui détaille les enjeux et les contraintes de la parallélisation.</p>
 <p>Deux mécanismes sont disponibles pour l’exécution de code en parallèle:</p>
 <ul>
 <li><em>fork</em>: le processus en cours d’exécution est dupliqué sur plusieurs coeurs du processeur de l’ordinateur de calcul.
@@ -1293,34 +1294,34 @@ Ce document est tricoté avec <code>3</code> coeurs, qui sont tous utilisés sau
 <span id="cb141-7"><a href="chap-utiliseR.html#cb141-7"></a><span class="co"># Série : temps théorique = nbCoeurs/4 secondes</span></span>
 <span id="cb141-8"><a href="chap-utiliseR.html#cb141-8"></a>(tserie &lt;-<span class="st"> </span><span class="kw">system.time</span>(<span class="kw">lapply</span>(<span class="dv">1</span><span class="op">:</span>nbCoeurs, f)))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.002   0.000   0.651</code></pre>
+##   0.003   0.000   0.507</code></pre>
 <div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="chap-utiliseR.html#cb143-1"></a><span class="co"># Parallèle : temps théorique = 1/4 seconde</span></span>
 <span id="cb143-2"><a href="chap-utiliseR.html#cb143-2"></a>(tparallele &lt;-<span class="st"> </span><span class="kw">system.time</span>(<span class="kw">mclapply</span>(<span class="dv">1</span><span class="op">:</span>nbCoeurs, f, <span class="dt">mc.cores =</span> nbCoeurs)))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.006   0.010   0.320</code></pre>
+##   0.003   0.008   0.391</code></pre>
 <p></p>
-<p>La mise en place de la parallélisation a un coût d’environ <code>0.07</code> secondes ici.
+<p>La mise en place de la parallélisation a un coût d’environ <code>0.14</code> secondes ici.
 Le temps d’exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n’en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d’un seconde.</p>
 <p></p>
 <div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="chap-utiliseR.html#cb145-1"></a><span class="co"># Série</span></span>
 <span id="cb145-2"><a href="chap-utiliseR.html#cb145-2"></a><span class="kw">system.time</span>(<span class="kw">lapply</span>(<span class="dv">1</span><span class="op">:</span>nbCoeurs, f, <span class="dt">time =</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.000   0.000   2.024</code></pre>
+##   0.000   0.000   2.007</code></pre>
 <div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="chap-utiliseR.html#cb147-1"></a><span class="co"># Parallèle</span></span>
 <span id="cb147-2"><a href="chap-utiliseR.html#cb147-2"></a><span class="kw">system.time</span>(<span class="kw">mclapply</span>(<span class="dv">1</span><span class="op">:</span>nbCoeurs, f, <span class="dt">time =</span> <span class="dv">1</span>, <span class="dt">mc.cores =</span> nbCoeurs))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.001   0.003   1.010</code></pre>
+##   0.001   0.003   1.056</code></pre>
 <p></p>
 <p>Le temps additionnel nécessaire pour l’exécution parallèle du nouveau code est relativement plus faible: les coûts deviennent inférieurs à l’économie quand le temps de chaque tâche s’allonge.</p>
 <p>Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les performances s’effondrent parce que la tâche supplémentaire doit être exécutée après les premières.</p>
 <p></p>
 <div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="chap-utiliseR.html#cb149-1"></a><span class="kw">system.time</span>(<span class="kw">mclapply</span>(<span class="dv">1</span><span class="op">:</span>nbCoeurs, f, <span class="dt">time =</span> <span class="dv">1</span>, <span class="dt">mc.cores =</span> nbCoeurs))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.001   0.003   1.062</code></pre>
+##   0.001   0.003   1.015</code></pre>
 <div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="chap-utiliseR.html#cb151-1"></a><span class="kw">system.time</span>(<span class="kw">mclapply</span>(<span class="dv">1</span><span class="op">:</span>(nbCoeurs <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), f, <span class="dt">time =</span> <span class="dv">1</span>, <span class="dt">mc.cores =</span> nbCoeurs))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.003   0.005   2.228</code></pre>
+##   0.003   0.005   2.025</code></pre>
 <p></p>
 <p>Le temps reste ensuite stable jusqu’au double du nombre de coeurs.
 La figure <a href="chap-utiliseR.html#fig:r-parallele">2.2</a> montre l’évolution du temps de calcul en fonction du nombre de tâches.</p>
@@ -1426,14 +1427,14 @@ Ici, l’itérateur <code>icount</code> passe les valeurs 1, 2 et 3 individuelle
 <span id="cb164-6"><a href="chap-utiliseR.html#cb164-6"></a>        <span class="kw">f</span>(i)</span>
 <span id="cb164-7"><a href="chap-utiliseR.html#cb164-7"></a>    })</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.003   0.000   0.504</code></pre>
+##   0.003   0.000   0.575</code></pre>
 <div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="chap-utiliseR.html#cb166-1"></a><span class="co"># Parallèle</span></span>
 <span id="cb166-2"><a href="chap-utiliseR.html#cb166-2"></a><span class="kw">system.time</span>(<span class="kw">foreach</span>(<span class="dt">i =</span> <span class="kw">icount</span>(nbCoeurs), <span class="dt">.combine =</span> <span class="st">&quot;c&quot;</span>) <span class="op">%dopar%</span></span>
 <span id="cb166-3"><a href="chap-utiliseR.html#cb166-3"></a><span class="st">    </span>{</span>
 <span id="cb166-4"><a href="chap-utiliseR.html#cb166-4"></a>        <span class="kw">f</span>(i)</span>
 <span id="cb166-5"><a href="chap-utiliseR.html#cb166-5"></a>    })</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.007   0.011   0.350</code></pre>
+##   0.008   0.014   0.313</code></pre>
 <p></p>
 <p>Le coût fixe de la parallélisation est faible.</p>
 </div>
@@ -1443,7 +1444,7 @@ Ici, l’itérateur <code>icount</code> passe les valeurs 1, 2 et 3 individuelle
 <h2><span class="header-section-number">2.7</span> Etude de cas</h2>
 <p>Cette étude de cas permet de tester les différentes techniques vues plus haut pour résoudre un problème concret.
 L’objectif est de calculer la distance moyenne entre deux points d’un semis aléatoire de 1000 points dans une fenêtre carrée de côté 1.</p>
-<p>Son espérance est calculable<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>.
+<p>Son espérance est calculable<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>.
 Elle est égale à <span class="math inline">\(\frac{2+\sqrt{2}+5\ln{(1+\sqrt{2})}}{15} \approx 0,5214\)</span>.</p>
 <div id="création-des-données" class="section level3">
 <h3><span class="header-section-number">2.7.1</span> Création des données</h3>
@@ -1480,7 +1481,7 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 <span id="cb172-5"><a href="chap-utiliseR.html#cb172-5"></a>}</span>
 <span id="cb172-6"><a href="chap-utiliseR.html#cb172-6"></a><span class="kw">system.time</span>(d &lt;-<span class="st"> </span><span class="kw">fsapply1</span>())</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.409   0.030   5.453</code></pre>
+##   5.526   0.045   6.069</code></pre>
 <div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="chap-utiliseR.html#cb174-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5154062</code></pre>
 <p></p>
@@ -1495,7 +1496,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 <span id="cb176-6"><a href="chap-utiliseR.html#cb176-6"></a>}</span>
 <span id="cb176-7"><a href="chap-utiliseR.html#cb176-7"></a><span class="kw">system.time</span>(d &lt;-<span class="st"> </span><span class="kw">fsapply2</span>())</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.501   0.033   5.579</code></pre>
+##   5.546   0.035   5.772</code></pre>
 <div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="chap-utiliseR.html#cb178-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5154062</code></pre>
 <p>
@@ -1514,7 +1515,7 @@ Le format de sortie n’est pas toujours évident à écrire:</p>
 <span id="cb180-6"><a href="chap-utiliseR.html#cb180-6"></a>}</span>
 <span id="cb180-7"><a href="chap-utiliseR.html#cb180-7"></a><span class="kw">system.time</span>(d &lt;-<span class="st"> </span><span class="kw">fsapply3</span>())</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.253   0.017   5.272</code></pre>
+##   5.395   0.043   5.801</code></pre>
 <div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="chap-utiliseR.html#cb182-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5154062</code></pre>
 <p></p>
@@ -1534,7 +1535,7 @@ Le format de sortie n’est pas toujours évident à écrire:</p>
 <span id="cb184-12"><a href="chap-utiliseR.html#cb184-12"></a>}</span>
 <span id="cb184-13"><a href="chap-utiliseR.html#cb184-13"></a><span class="kw">system.time</span>(d &lt;-<span class="st"> </span><span class="kw">fsapply4</span>())</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   3.064   0.016   3.107</code></pre>
+##   3.100   0.017   3.193</code></pre>
 <div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="chap-utiliseR.html#cb186-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5154062</code></pre>
 <p></p>
@@ -1556,7 +1557,7 @@ Sous MacOS ou Linux, le calcul est accéléré.</p>
 <span id="cb188-13"><a href="chap-utiliseR.html#cb188-13"></a>}</span>
 <span id="cb188-14"><a href="chap-utiliseR.html#cb188-14"></a><span class="kw">system.time</span>(d &lt;-<span class="st"> </span><span class="kw">fsapply5</span>())</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   3.268   0.276   1.796</code></pre>
+##   3.340   0.287   2.021</code></pre>
 <div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="chap-utiliseR.html#cb190-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5154062</code></pre>
 <p></p>
@@ -1578,7 +1579,7 @@ Sous MacOS ou Linux, le calcul est accéléré.</p>
 <span id="cb192-11"><a href="chap-utiliseR.html#cb192-11"></a><span class="co"># Temps de calcul, mémorisé</span></span>
 <span id="cb192-12"><a href="chap-utiliseR.html#cb192-12"></a>(for_time &lt;-<span class="st"> </span><span class="kw">system.time</span>(d &lt;-<span class="st"> </span><span class="kw">ffor</span>()))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.812   0.018   1.831</code></pre>
+##   1.850   0.017   1.972</code></pre>
 <div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="chap-utiliseR.html#cb194-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5154062</code></pre>
 <p>
@@ -1605,7 +1606,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 <span id="cb196-14"><a href="chap-utiliseR.html#cb196-14"></a>}</span>
 <span id="cb196-15"><a href="chap-utiliseR.html#cb196-15"></a><span class="kw">system.time</span>(d &lt;-<span class="st"> </span><span class="kw">fforeach1</span>(Y))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.614   0.025   2.640</code></pre>
+##   2.742   0.031   2.880</code></pre>
 <div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="chap-utiliseR.html#cb198-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5181951</code></pre>
 <p></p>
@@ -1630,7 +1631,7 @@ La performance reste très inférieure à celle d’une simple boucle for (rappe
 <span id="cb200-14"><a href="chap-utiliseR.html#cb200-14"></a>}</span>
 <span id="cb200-15"><a href="chap-utiliseR.html#cb200-15"></a><span class="kw">system.time</span>(d &lt;-<span class="st"> </span><span class="kw">fforeach3</span>(Y))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.128   0.051   0.109</code></pre>
+##   0.129   0.052   0.109</code></pre>
 <div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="chap-utiliseR.html#cb202-1"></a>d</span></code></pre></div>
 <pre><code>## [1] 0.5181951</code></pre>
 <p></p>
@@ -1673,7 +1674,7 @@ Le temps d’exécution est très court.</p>
 <div id="rcppparallel" class="section level3">
 <h3><span class="header-section-number">2.7.7</span> RcppParallel</h3>
 <p><strong>RcppParallel</strong> permet d’interfacer du code C++ parallélisé, au prix d’une syntaxe plus complexe qu’avec <strong>RCpp</strong>.
-Une documentation est disponible<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>.</p>
+Une documentation est disponible<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a>.</p>
 <p>La fonction C++ exportée dans R ne réalise pas les calculs mais organise seulement l’exécution en parallèle d’une autre fonction, non exportée, de type <code>Worker</code>.</p>
 <p>Deux fonctions (C++) de parallélisation sont disponibles pour deux types de tâches:</p>
 <ul>
@@ -1747,8 +1748,8 @@ Une documentation est disponible<a href="#fn24" class="footnote-ref" id="fnref24
 <pre><code>## Unit: microseconds
 ##                                                      expr
 ##  d &lt;- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min      lq     mean  median      uq      max neval
-##  775.821 852.906 921.1727 893.443 932.117 2474.254   100</code></pre>
+##     min      lq     mean  median       uq      max neval
+##  790.97 889.505 1699.888 1099.82 1305.033 27899.63   100</code></pre>
 <div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="chap-utiliseR.html#cb211-1"></a><span class="co"># suppressmessages pour éliminer les messages superflus</span></span>
 <span id="cb211-2"><a href="chap-utiliseR.html#cb211-2"></a><span class="kw">suppressMessages</span>(<span class="kw">autoplot</span>(mb))</span></code></pre></div>
 <p><img src="travailleR_files/figure-html/unnamed-chunk-53-1.png" width="80%" style="display: block; margin: auto;" /></p>
@@ -1762,15 +1763,15 @@ Une documentation est disponible<a href="#fn24" class="footnote-ref" id="fnref24
 <span id="cb214-2"><a href="chap-utiliseR.html#cb214-2"></a>X &lt;-<span class="st"> </span><span class="kw">runifpoint</span>(NbPoints)</span>
 <span id="cb214-3"><a href="chap-utiliseR.html#cb214-3"></a><span class="kw">system.time</span>(d &lt;-<span class="st"> </span><span class="kw">MeanDistance</span>(X<span class="op">$</span>x, X<span class="op">$</span>y))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   7.361   0.018   7.392</code></pre>
+##   7.448   0.046   8.194</code></pre>
 <p></p>
 <p>En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit <code>4577</code> secondes.</p>
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit <code>4930</code> secondes.</p>
 <p></p>
 <div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="chap-utiliseR.html#cb216-1"></a><span class="kw">system.time</span>(d &lt;-<span class="st"> </span><span class="kw">TotalDistance</span>(X<span class="op">$</span>x, X<span class="op">$</span>y)<span class="op">/</span>NbPoints<span class="op">/</span>(NbPoints <span class="op">-</span></span>
 <span id="cb216-2"><a href="chap-utiliseR.html#cb216-2"></a><span class="st">    </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.003   0.049   2.091</code></pre>
+##   5.039   0.040   2.482</code></pre>
 <p></p>
 </div>
 <div id="conclusions-sur-loptimisation-de-la-vitesse-du-code" class="section level3">
@@ -1801,7 +1802,7 @@ En cas de changement dans le code ou les données utilisées, seules les cibles 
 <strong>targets</strong> permet de visualiser les tâches obsolètes, d’intégrer le flux à un projet de document (voir section <a href="chap-rediger.html#sec:targetsmd">4.9</a>), et même de faire appel à un cluster de calcul pour traiter les tâches en parallèle.</p>
 <div id="principe-de-fonctionnement" class="section level3">
 <h3><span class="header-section-number">2.8.1</span> Principe de fonctionnement</h3>
-<p>La documentation<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a> de <strong>targets</strong> est détaillée et fournit un exemple travaillé pour apprendre à utiliser le package<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>.
+<p>La documentation<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a> de <strong>targets</strong> est détaillée et fournit un exemple travaillé pour apprendre à utiliser le package<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a>.
 Elle n’est pas reprise ici, mais les principes du fonctionnement du flux sont expliqués.</p>
 <p>Le flux de travail est unique pour un projet donné.
 Il est codé dans le fichier <code>_targets.R</code> à la racine du projet.
@@ -1879,7 +1880,7 @@ Quand ce n’est pas le cas, chaque cible peut être écrite sous la forme d’u
 <p></p>
 <div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="chap-utiliseR.html#cb222-1"></a><span class="kw">tar_visnetwork</span>()</span></code></pre></div>
 <div id="htmlwidget-c5409db81165a82e2db3" style="width:80%;height:504px;" class="visNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c5409db81165a82e2db3">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"status":["uptodate","uptodate","uptodate","uptodate"],"seconds":[0.021,0.019,1.667,0.005],"bytes":[55,99930,53,11044],"branches":[null,null,null,null],"id":["d","map","NbPoints","X"],"label":["d","map","NbPoints","X"],"level":[3,3,1,2],"color":["#354823","#354823","#354823","#354823"],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-c5409db81165a82e2db3">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"status":["uptodate","uptodate","uptodate","uptodate"],"seconds":[0.024,0.019,1.892,0.004],"bytes":[55,99930,53,11044],"branches":[null,null,null,null],"id":["d","map","NbPoints","X"],"label":["d","map","NbPoints","X"],"level":[3,3,1,2],"color":["#354823","#354823","#354823","#354823"],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true}},"evals":[],"jsHooks":[]}</script>
 <div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="chap-utiliseR.html#cb223-1"></a><span class="kw">tar_make</span>()</span></code></pre></div>
 <pre><code>## ✔ skip target NbPoints
 ## ✔ skip target X
@@ -1927,20 +1928,20 @@ La définition des cibles reste une contrainte, mais force à bien structurer so
 </div>
 <div class="footnotes">
 <hr />
-<ol start="14">
-<li id="fn14"><p><a href="https://adv-r.had.co.nz/OO-essentials.html" class="uri">https://adv-r.had.co.nz/OO-essentials.html</a><a href="chap-utiliseR.html#fnref14" class="footnote-back">↩︎</a></p></li>
-<li id="fn15"><p><a href="https://www.troispointzero.fr/le-blog/introduction-a-la-programmation-orientee-objet-poo/" class="uri">https://www.troispointzero.fr/le-blog/introduction-a-la-programmation-orientee-objet-poo/</a><a href="chap-utiliseR.html#fnref15" class="footnote-back">↩︎</a></p></li>
-<li id="fn16"><p><a href="https://r6.r-lib.org/" class="uri">https://r6.r-lib.org/</a><a href="chap-utiliseR.html#fnref16" class="footnote-back">↩︎</a></p></li>
-<li id="fn17"><p><a href="https://r6.r-lib.org/articles/Performance.html" class="uri">https://r6.r-lib.org/articles/Performance.html</a><a href="chap-utiliseR.html#fnref17" class="footnote-back">↩︎</a></p></li>
-<li id="fn18"><p><a href="https://dplyr.tidyverse.org/articles/programming.html" class="uri">https://dplyr.tidyverse.org/articles/programming.html</a><a href="chap-utiliseR.html#fnref18" class="footnote-back">↩︎</a></p></li>
-<li id="fn19"><p><a href="https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html" class="uri">https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html</a><a href="chap-utiliseR.html#fnref19" class="footnote-back">↩︎</a></p></li>
-<li id="fn20"><p><a href="https://EricMarcon.github.io/travailleR/profile.html" class="uri">https://EricMarcon.github.io/travailleR/profile.html</a><a href="chap-utiliseR.html#fnref20" class="footnote-back">↩︎</a></p></li>
-<li id="fn21"><p><a href="https://rstudio.github.io/profvis/" class="uri">https://rstudio.github.io/profvis/</a><a href="chap-utiliseR.html#fnref21" class="footnote-back">↩︎</a></p></li>
-<li id="fn22"><p><a href="http://dept.stat.lsa.umich.edu/~jerrick/courses/stat701/notes/parallel.html" class="uri">http://dept.stat.lsa.umich.edu/~jerrick/courses/stat701/notes/parallel.html</a><a href="chap-utiliseR.html#fnref22" class="footnote-back">↩︎</a></p></li>
-<li id="fn23"><p><a href="https://mindyourdecisions.com/blog/2016/07/03/distance-between-two-random-points-in-a-square-sunday-puzzle/" class="uri">https://mindyourdecisions.com/blog/2016/07/03/distance-between-two-random-points-in-a-square-sunday-puzzle/</a><a href="chap-utiliseR.html#fnref23" class="footnote-back">↩︎</a></p></li>
-<li id="fn24"><p><a href="http://rcppcore.github.io/RcppParallel/" class="uri">http://rcppcore.github.io/RcppParallel/</a><a href="chap-utiliseR.html#fnref24" class="footnote-back">↩︎</a></p></li>
-<li id="fn25"><p><a href="https://books.ropensci.org/targets/" class="uri">https://books.ropensci.org/targets/</a><a href="chap-utiliseR.html#fnref25" class="footnote-back">↩︎</a></p></li>
-<li id="fn26"><p><a href="https://books.ropensci.org/targets/walkthrough.html" class="uri">https://books.ropensci.org/targets/walkthrough.html</a><a href="chap-utiliseR.html#fnref26" class="footnote-back">↩︎</a></p></li>
+<ol start="17">
+<li id="fn17"><p><a href="https://adv-r.had.co.nz/OO-essentials.html" class="uri">https://adv-r.had.co.nz/OO-essentials.html</a><a href="chap-utiliseR.html#fnref17" class="footnote-back">↩︎</a></p></li>
+<li id="fn18"><p><a href="https://www.troispointzero.fr/le-blog/introduction-a-la-programmation-orientee-objet-poo/" class="uri">https://www.troispointzero.fr/le-blog/introduction-a-la-programmation-orientee-objet-poo/</a><a href="chap-utiliseR.html#fnref18" class="footnote-back">↩︎</a></p></li>
+<li id="fn19"><p><a href="https://r6.r-lib.org/" class="uri">https://r6.r-lib.org/</a><a href="chap-utiliseR.html#fnref19" class="footnote-back">↩︎</a></p></li>
+<li id="fn20"><p><a href="https://r6.r-lib.org/articles/Performance.html" class="uri">https://r6.r-lib.org/articles/Performance.html</a><a href="chap-utiliseR.html#fnref20" class="footnote-back">↩︎</a></p></li>
+<li id="fn21"><p><a href="https://dplyr.tidyverse.org/articles/programming.html" class="uri">https://dplyr.tidyverse.org/articles/programming.html</a><a href="chap-utiliseR.html#fnref21" class="footnote-back">↩︎</a></p></li>
+<li id="fn22"><p><a href="https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html" class="uri">https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html</a><a href="chap-utiliseR.html#fnref22" class="footnote-back">↩︎</a></p></li>
+<li id="fn23"><p><a href="https://EricMarcon.github.io/travailleR/profile.html" class="uri">https://EricMarcon.github.io/travailleR/profile.html</a><a href="chap-utiliseR.html#fnref23" class="footnote-back">↩︎</a></p></li>
+<li id="fn24"><p><a href="https://rstudio.github.io/profvis/" class="uri">https://rstudio.github.io/profvis/</a><a href="chap-utiliseR.html#fnref24" class="footnote-back">↩︎</a></p></li>
+<li id="fn25"><p><a href="http://dept.stat.lsa.umich.edu/~jerrick/courses/stat701/notes/parallel.html" class="uri">http://dept.stat.lsa.umich.edu/~jerrick/courses/stat701/notes/parallel.html</a><a href="chap-utiliseR.html#fnref25" class="footnote-back">↩︎</a></p></li>
+<li id="fn26"><p><a href="https://mindyourdecisions.com/blog/2016/07/03/distance-between-two-random-points-in-a-square-sunday-puzzle/" class="uri">https://mindyourdecisions.com/blog/2016/07/03/distance-between-two-random-points-in-a-square-sunday-puzzle/</a><a href="chap-utiliseR.html#fnref26" class="footnote-back">↩︎</a></p></li>
+<li id="fn27"><p><a href="http://rcppcore.github.io/RcppParallel/" class="uri">http://rcppcore.github.io/RcppParallel/</a><a href="chap-utiliseR.html#fnref27" class="footnote-back">↩︎</a></p></li>
+<li id="fn28"><p><a href="https://books.ropensci.org/targets/" class="uri">https://books.ropensci.org/targets/</a><a href="chap-utiliseR.html#fnref28" class="footnote-back">↩︎</a></p></li>
+<li id="fn29"><p><a href="https://books.ropensci.org/targets/walkthrough.html" class="uri">https://books.ropensci.org/targets/walkthrough.html</a><a href="chap-utiliseR.html#fnref29" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
