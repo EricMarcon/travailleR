@@ -29,7 +29,7 @@ Le plus courant est S3, mais ce n'est pas le seul[^206].
 
 ### Base
 
-Le coeur de R est constitué des fonctions primitives et structures de données de base comme la fonction `sum` et les données de type `matrix`:
+Le cœur de R est constitué des fonctions primitives et structures de données de base comme la fonction `sum` et les données de type `matrix`:
 
 ```{r Core}
 pryr::otype(sum)
@@ -42,7 +42,7 @@ Le package **pryr** permet d'afficher le langage dans lequel des objets sont dé
 La fonction `typeof()` affiche le type de stockage interne des objets: 
 
 - la fonction `sum()` appartient au langage de base de R et est une fonction primitive (*builtin*); 
-- les éléments de la matrice numérique contenant un seul 1 des réels à double précision, et la matrice elle-même est définie dans le langage de base. 
+- les éléments de la matrice numérique contenant un seul 1 sont des réels à double précision, et la matrice elle-même est définie dans le langage de base. 
 
 Les fonctions primitives sont codées en C et sont très rapides.
 Elles sont toujours disponibles, quels que soient les packages chargés.
@@ -754,12 +754,12 @@ Lire l'excellente introduction de Josh Errickson[^203] qui détaille les enjeux 
 
 Deux mécanismes sont disponibles pour l'exécution de code en parallèle:
 
-- _fork_: le processus en cours d'exécution est dupliqué sur plusieurs coeurs du processeur de l'ordinateur de calcul.
+- _fork_: le processus en cours d'exécution est dupliqué sur plusieurs cœurs du processeur de l'ordinateur de calcul.
 C'est la méthode la plus simple mais elle ne fonctionne pas sous Windows (limite du système d'exploitation).
-- _socket_: un cluster est constitué, soit physiquement (un ensemble d'ordinateurs exécutant R est nécessaire) soit logiquement (une instance de R sur chaque coeur de l'ordinateur utilisé). 
+- _socket_: un cluster est constitué, soit physiquement (un ensemble d'ordinateurs exécutant R est nécessaire) soit logiquement (une instance de R sur chaque cœur de l'ordinateur utilisé). 
 Les membres du cluster communiquent par le réseau (le réseau interne de l'ordinateur utilisé pour un cluster logique).
 
-Différents packages de R permettent de mettre en oeuvre ces mécanismes.
+Différents packages de R permettent de mettre en œuvre ces mécanismes.
 
 ### mclapply (fork)
 
@@ -855,7 +855,7 @@ mclapply <- switch( Sys.info()[['sysname']],
 ```
 
 Le code suivant teste la parallélisation d'une fonction qui renvoie son argument inchangé après une pause d'un quart de seconde.
-Ce document est tricoté avec ```r  parallel::detectCores()``` coeurs, qui sont tous utilisés sauf un pour ne pas saturer le système.
+Ce document est tricoté avec ```r  parallel::detectCores()``` cœurs, qui sont tous utilisés sauf un pour ne pas saturer le système.
 
 ```{r}
 f <- function(x, time=.25) {
@@ -885,17 +885,17 @@ system.time(mclapply(1:nbCoeurs, f, time=1, mc.cores=nbCoeurs))
 
 Le temps additionnel nécessaire pour l'exécution parallèle du nouveau code est relativement plus faible: les coûts deviennent inférieurs à l'économie quand le temps de chaque tâche s'allonge.
 
-Si le nombre de tâches parallèles dépasse le nombre de coeurs utilisés, les performances s'effondrent parce que la tâche supplémentaire doit être exécutée après les premières.
+Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les performances s'effondrent parce que la tâche supplémentaire doit être exécutée après les premières.
 
 ```{r}
 system.time(mclapply(1:nbCoeurs, f, time=1, mc.cores=nbCoeurs))
 system.time(mclapply(1:(nbCoeurs+1), f, time=1, mc.cores=nbCoeurs))
 ```
 
-Le temps reste ensuite stable jusqu'au double du nombre de coeurs.
+Le temps reste ensuite stable jusqu'au double du nombre de cœurs.
 La figure \@ref(fig:r-parallele) montre l'évolution du temps de calcul en fonction du nombre de tâches.
 
-(ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant une seconde (chaque tâche est une pause d'une seconde). Le nombre de tâches varie de 1 à deux fois le nombre de coeurs utilisés (égal à ```r nbCoeurs```) plus une. 
+(ref:r-parallele) Temps d'exécution en parallèle de tâches nécessitant une seconde (chaque tâche est une pause d'une seconde). Le nombre de tâches varie de 1 à deux fois le nombre de cœurs utilisés (égal à ```r nbCoeurs```) plus une. 
 ```{r r-parallele, fig.cap="(ref:r-parallele)", fig.scap="Temps d'exécution en parallèle", tidy=FALSE}
 Taches <- 1:(2 * nbCoeurs+1)
 Temps <- sapply(Taches, function(nbTaches) {
@@ -912,11 +912,11 @@ tibble(Taches, Temps=Temps["elapsed", ]) %>%
 La forme théorique de cette courbe est la suivante:
 
 - pour une tâche, le temps est égal à une seconde plus le temps de mise en place de la parallélisation;
-- le temps devrait rester stable jusqu'au nombre de coeurs utilisés;
-- quand les coeurs sont tous utilisés (pointillés rouges), le temps devrait augmenter d'une seconde puis rester stable jusqu'à la limite suivante.
+- le temps devrait rester stable jusqu'au nombre de cœurs utilisés;
+- quand les cœurs sont tous utilisés (pointillés rouges), le temps devrait augmenter d'une seconde puis rester stable jusqu'à la limite suivante.
 
 En pratique, le temps de calcul est déterminé par d'autres facteurs difficilement prévisibles.
-La bonne pratique est d'adapter le nombre de tâches au nombre de coeurs sous peine de perte de performance.
+La bonne pratique est d'adapter le nombre de tâches au nombre de cœurs sous peine de perte de performance.
 
 ### parLapply (socket)
 
@@ -1022,7 +1022,7 @@ suppressMessages(autoplot(mb))
 d
 ```
 
-La fonction est rapide parce qu'elle est codée en langage C dans le package **spatstat** pour le coeur de ses calculs.
+La fonction est rapide parce qu'elle est codée en langage C dans le package **spatstat** pour le cœur de ses calculs.
 
 
 ### apply
@@ -1322,7 +1322,7 @@ De cette étude de cas, plusieurs enseignements peuvent être retirés:
 - une boucle for est une bonne base pour des calculs répétitifs, plus rapide que `vapply()`, simple à lire et à écrire;
 - des fonctions optimisées peuvent exister dans les packages de R pour des tâches courantes (ici, la fonction `pairdist()` de **spatstat** est deux ordres de grandeur plus rapide que la boucle for);
 - le recours au code C++ permet d'accélérer significativement les calculs, de trois ordres de grandeur ici;
-- la parallélisation du code C++ divise encore le temps de calcul par environ la moitié du nombre de coeurs pour de longs calculs.
+- la parallélisation du code C++ divise encore le temps de calcul par environ la moitié du nombre de cœurs pour de longs calculs.
 
 Au-delà de cet exemple, l'optimisation du temps de calcul sous R peut être compliquée si elle passe par la parallélisation et l'écriture de code C++.
 L'effort doit donc être concentré sur les calculs réellement long alors que la lisibilité du code doit rester la priorité pour le code courant.
