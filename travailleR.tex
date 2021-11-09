@@ -323,7 +323,7 @@
 
 \author{Eric Marcon}
 
-\date{29/09/2021}
+\date{09/11/2021}
 
 
 % Include headers (preamble.tex) here
@@ -1234,7 +1234,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fbcf5b18a50>
+## <bytecode: 0x7fb96087be70>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1714,7 +1714,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7fbce5897dd0>
+## <environment: 0x7fb94f112518>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1786,7 +1786,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fbcf97c76f8>
+## <bytecode: 0x7fb968fdb808>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1974,7 +1974,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.021   0.000   0.022
+##   0.023   0.001   0.038
 \end{verbatim}
 
 \normalsize
@@ -2005,16 +2005,16 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 
 \begin{verbatim}
 ## Unit: microseconds
-##   expr     min       lq      mean   median       uq
-##  f1(X)  36.185  37.8070  54.15777  38.7085  40.0905
-##  f2(X)  44.055  45.8630  60.72092  46.4785  48.5655
-##  f3(X) 274.269 275.9485 293.36622 277.1145 281.7405
-##  f4(X) 406.292 408.6035 429.44898 410.9705 416.8540
-##       max neval
-##  1453.438   100
-##  1282.990   100
-##  1689.222   100
-##  1926.981   100
+##   expr     min       lq     mean   median       uq
+##  f1(X)  35.973  39.0520  71.7438  40.5860  45.8385
+##  f2(X)  43.235  46.5980 101.9562  48.3035  53.2040
+##  f3(X) 274.708 278.1590 359.2396 283.7235 296.0250
+##  f4(X) 405.062 409.7395 984.4271 422.0775 465.0235
+##        max neval
+##   2290.368   100
+##   4662.877   100
+##   3611.548   100
+##  42369.653   100
 \end{verbatim}
 
 \normalsize
@@ -2037,10 +2037,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  38.7085
-## 2 f2(X)  46.4785
-## 3 f3(X) 277.1145
-## 4 f4(X) 410.9705
+## 1 f1(X)  40.5860
+## 2 f2(X)  48.3035
+## 3 f3(X) 283.7235
+## 4 f4(X) 422.0775
 \end{verbatim}
 
 \normalsize
@@ -2070,10 +2070,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  38.7085
-## 2 f2(X)  46.4785
-## 3 f3(X) 277.1145
-## 4 f4(X) 410.9705
+## 1 f1(X)  40.5860
+## 2 f2(X)  48.3035
+## 3 f3(X) 283.7235
+## 4 f4(X) 422.0775
 \end{verbatim}
 
 \normalsize
@@ -2200,7 +2200,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7fbd038f4748>
+## <bytecode: 0x7fb96ca95d70>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2253,10 +2253,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.8095
-## 2                lapply(x1, FUN = sqrt) 304.1305
-## 3                sapply(x1, FUN = sqrt) 352.3250
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 302.6150
+## 1                              sqrt(x1)   4.6340
+## 2                lapply(x1, FUN = sqrt) 305.7350
+## 3                sapply(x1, FUN = sqrt) 357.9410
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 312.7325
 \end{verbatim}
 
 \normalsize
@@ -2308,9 +2308,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr   median
-## 1  Boucle(x1) 782.3355
-## 2 Boucle2(x1)  78.1295
+##          expr  median
+## 1  Boucle(x1) 871.743
+## 2 Boucle2(x1)  79.586
 \end{verbatim}
 
 \begin{Shaded}
@@ -2325,7 +2325,7 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{verbatim}
 
 \normalsize
-Le gain est considérable: de 1 à \texttt{10}.
+Le gain est considérable: de 1 à \texttt{11}.
 
 Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
@@ -2341,8 +2341,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 297.7925
-## 2                Boucle(x1)  77.6355
+## 1 vapply(x1, FUN = sqrt, 0) 319.5745
+## 2                Boucle(x1)  78.0415
 \end{verbatim}
 
 \normalsize
@@ -2368,8 +2368,8 @@ Attention, le test de performance peut être trompeur:
 ## 1                        vapply(x1, FUN = sqrt, 0)
 ## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
 ##      median
-## 1  304.6805
-## 2 3400.3075
+## 1  313.0655
+## 2 3453.2005
 \end{verbatim}
 
 \normalsize
@@ -2436,8 +2436,8 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 
 \begin{verbatim}
 ##                        expr    median
-## 1 replicate(1000, runif(1)) 4243.5390
-## 2               runif(1000)   34.0095
+## 1 replicate(1000, runif(1)) 4120.5985
+## 2               runif(1000)   34.1215
 \end{verbatim}
 
 \normalsize
@@ -2475,9 +2475,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.582678
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.182220
-## 3       colSums(diamonds[-(2:4)]) 2.409010
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.623145
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.483909
+## 3       colSums(diamonds[-(2:4)]) 2.468891
 \end{verbatim}
 
 \normalsize
@@ -2685,7 +2685,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.770
+##   0.003   0.000   0.563
 \end{verbatim}
 
 \begin{Shaded}
@@ -2697,12 +2697,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.005   0.010   0.265
+##   0.004   0.006   0.394
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.015} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.14} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2717,7 +2717,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.004
+##   0.000   0.000   2.023
 \end{verbatim}
 
 \begin{Shaded}
@@ -2729,7 +2729,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.002   1.067
+##   0.006   0.012   1.011
 \end{verbatim}
 
 \normalsize
@@ -2748,7 +2748,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.007   1.011
+##   0.001   0.003   1.152
 \end{verbatim}
 
 \begin{Shaded}
@@ -2759,7 +2759,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.005   2.288
+##   0.003   0.005   2.010
 \end{verbatim}
 
 \normalsize
@@ -2951,7 +2951,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.504
+##   0.003   0.000   0.567
 \end{verbatim}
 
 \begin{Shaded}
@@ -2966,7 +2966,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.007   0.013   0.374
+##   0.007   0.015   0.349
 \end{verbatim}
 
 \normalsize
@@ -3052,7 +3052,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.650   0.041   5.958
+##   5.838   0.048   6.086
 \end{verbatim}
 
 \begin{Shaded}
@@ -3086,7 +3086,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.573   0.029   5.831
+##   5.669   0.052   6.196
 \end{verbatim}
 
 \begin{Shaded}
@@ -3128,7 +3128,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.413   0.049   6.086
+##   5.531   0.037   5.716
 \end{verbatim}
 
 \begin{Shaded}
@@ -3167,7 +3167,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.290   0.031   3.644
+##   3.183   0.022   3.737
 \end{verbatim}
 
 \begin{Shaded}
@@ -3208,7 +3208,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.405   0.448   2.464
+##   3.392   0.280   2.093
 \end{verbatim}
 
 \begin{Shaded}
@@ -3249,7 +3249,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.858   0.023   2.093
+##   2.055   0.014   2.153
 \end{verbatim}
 
 \begin{Shaded}
@@ -3295,7 +3295,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.704   0.033   3.001
+##   2.734   0.029   2.894
 \end{verbatim}
 
 \begin{Shaded}
@@ -3340,7 +3340,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.126   0.049   0.134
+##   0.137   0.050   0.115
 \end{verbatim}
 
 \begin{Shaded}
@@ -3514,11 +3514,13 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: microseconds
+## Unit: milliseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min       lq     mean   median       uq      max neval
-##  751.917 767.9015 806.1511 775.3875 777.6945 2545.453   100
+##       min       lq     mean   median       uq      max
+##  2.102378 2.134068 2.297498 2.167352 2.246771 3.860908
+##  neval
+##    100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3558,13 +3560,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.429   0.031   7.852
+##   7.479   0.042   8.220
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5232} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5382} secondes.
 
 \scriptsize
 
@@ -3577,7 +3579,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.115   0.040   2.457
+##   5.029   0.040   2.792
 \end{verbatim}
 
 \normalsize
@@ -5013,7 +5015,7 @@ Le package \textbf{flextable} permet de réaliser des tableaux plus élaborés, 
 
 \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{Longueur\ sépales}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{Largeur}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{Longueur\ pétales}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{Largeur}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedright}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}!{\color[HTML]{000000}\vrule width 0pt}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{Espèce}}}} \\
 
-\noalign{\global\setlength{\arrayrulewidth}{2pt}}\arrayrulecolor[HTML]{666666}\cline{1-5}
+\hhline{>{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}-}
 
 \endfirsthead
 
@@ -5021,7 +5023,7 @@ Le package \textbf{flextable} permet de réaliser des tableaux plus élaborés, 
 
 \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{Longueur\ sépales}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{Largeur}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{Longueur\ pétales}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{Largeur}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedright}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}!{\color[HTML]{000000}\vrule width 0pt}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{Espèce}}}} \\
 
-\noalign{\global\setlength{\arrayrulewidth}{2pt}}\arrayrulecolor[HTML]{666666}\cline{1-5}\endhead
+\hhline{>{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}-}\endhead
 
 
 
@@ -5057,7 +5059,7 @@ Le package \textbf{flextable} permet de réaliser des tableaux plus élaborés, 
 
 \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{FF0000}{\global\setmainfont{Helvetica}{5.4}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{3.9}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{1.7}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedleft}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{0.4}}}} & \multicolumn{1}{!{\color[HTML]{000000}\vrule width 0pt}>{\raggedright}p{\dimexpr 0.75in+0\tabcolsep+0\arrayrulewidth}!{\color[HTML]{000000}\vrule width 0pt}}{\fontsize{11}{11}\selectfont{\textcolor[HTML]{000000}{\global\setmainfont{Helvetica}{setosa}}}} \\
 
-\noalign{\global\setlength{\arrayrulewidth}{2pt}}\arrayrulecolor[HTML]{666666}\cline{1-5}
+\hhline{>{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}->{\arrayrulecolor[HTML]{666666}\global\arrayrulewidth=2pt}-}
 
 
 
@@ -5193,7 +5195,7 @@ Sélectionner le modèle \emph{Simple Article} du package \textbf{memoiR}, chois
 Dans l'organisation proposée en section \ref{sec:solution-dossiers}, le dossier parent est \texttt{\%LOCALAPPDATA\%\textbackslash{}ProjetsR}.
 Le nom du projet ne doit contenir aucun caractère spécial (accent, espace\ldots) pour assurer sa portabilité sur tous les systèmes d'exploitation (Windows, Linux, MacOS).
 
-Les modèles élaborés créent un dossier avec de nombreux fichiers (bibliographie, styles, modèle LaTex\ldots), contrairement aux modèles simples qui créent seulement un fichier.
+Les modèles élaborés créent un dossier avec de nombreux fichiers (bibliographie, styles, modèle LaTeX\ldots), contrairement aux modèles simples qui créent seulement un fichier.
 
 Quand un dossier est créé, par exemple par le modèle \emph{Simple Article}, il faut en faire un projet RStudio: dans le menu des projets (en haut à droite de la fenêtre de RStudio), utiliser le menu \enquote{New Project\ldots{}} puis \enquote{Existing Directory} et sélectionner le dossier qui vient d'être créé.
 
@@ -7378,7 +7380,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fbcf9426618>
+## <bytecode: 0x7fb961a3e408>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7669,13 +7671,13 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 \begin{verbatim}
 ## Unit: nanoseconds
 ##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  319  327.5 22352.79    337  357.5
-##   triple.numeric(2)  317  328.0 20664.15    342  358.5
-##          triple(2L) 1310 1346.0  1514.59   1381 1462.5
+##  triple.integer(2L)  321  333.5 23454.95  339.0  370.5
+##   triple.numeric(2)  319  334.0 20240.53  344.5  377.5
+##          triple(2L) 1318 1347.0  1485.69 1368.0 1406.5
 ##      max neval
-##  2198579   100
-##  2030519   100
-##     6480   100
+##  2310322   100
+##  1987677   100
+##     6811   100
 \end{verbatim}
 
 \normalsize
