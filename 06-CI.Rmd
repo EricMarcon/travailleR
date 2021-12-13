@@ -540,6 +540,26 @@ La fonction `build_githubpages()` (voir section \@ref(sec:memo)) place les résu
 
 La tâche de déploiement indique aux pages GitHub d'utiliser Jekyll, c'est-à-dire d'utiliser le fichier `README.md` comme page d'accueil.
 
+Si l'étape de tricot nécessite de modifier la langue utilisée par R, par exemple pour afficher correctement la date de production des documents, elle peut être modifiée comme ceci:
+```
+      - name: Render Rmarkdown files
+        run: |
+          Sys.setlocale("LC_TIME", "fr_FR")
+          lapply(list.files(pattern="*.Rmd"), function(file) rmarkdown::render(file, "all"))
+          memoiR::build_githubpages()
+        shell: Rscript {0}
+```
+
+La sélection des fichiers est ici réalisée par un script R, qui inclut une commande de localisation, ici en Français.
+
+Cette étape peut être complétée par la sélection d'un thème GitHub Pages pour que la page d'accueil contienne un lien vers le code:
+```
+        run: |
+          echo 'theme: jekyll-theme-slate' > docs/_config.yml
+```
+
+Le thème est ici "Slate", un des choix proposés par les pages GitHub.
+
 
 ### Site web blogdown {#sec:blogdown-ci}
 
