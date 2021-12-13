@@ -848,6 +848,18 @@ jobs:
 <p>L’étape chargée du tricot utilise un script pour lister tous les fichiers <code>.Rmd</code>, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits).
 La fonction <code>build_githubpages()</code> (voir section <a href="chap-rediger.html#sec:memo">4.3.2</a>) place les résultat dans <code>docs</code>.</p>
 <p>La tâche de déploiement indique aux pages GitHub d’utiliser Jekyll, c’est-à-dire d’utiliser le fichier <code>README.md</code> comme page d’accueil.</p>
+<p>Si l’étape de tricot nécessite de modifier la langue utilisée par R, par exemple pour afficher correctement la date de production des documents, elle peut être modifiée comme ceci:</p>
+<pre><code>      - name: Render Rmarkdown files
+        run: |
+          Sys.setlocale(&quot;LC_TIME&quot;, &quot;fr_FR&quot;)
+          lapply(list.files(pattern=&quot;*.Rmd&quot;), function(file) rmarkdown::render(file, &quot;all&quot;))
+          memoiR::build_githubpages()
+        shell: Rscript {0}</code></pre>
+<p>La sélection des fichiers est ici réalisée par un script R, qui inclut une commande de localisation, ici en Français.</p>
+<p>Cette étape peut être complétée par la sélection d’un thème GitHub Pages pour que la page d’accueil contienne un lien vers le code:</p>
+<pre><code>        run: |
+          echo &#39;theme: jekyll-theme-slate&#39; &gt; docs/_config.yml</code></pre>
+<p>Le thème est ici “Slate”, un des choix proposés par les pages GitHub.</p>
 </div>
 <div id="sec:blogdown-ci" class="section level3">
 <h3><span class="header-section-number">6.3.4</span> Site web blogdown</h3>

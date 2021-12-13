@@ -701,7 +701,7 @@ Ajouter un sous-titre dans son entête: la description courte du package:</p>
 subtitle: &quot;Multiples of numbers&quot;</code></pre>
 <p>Le reste de l’entête permet à R de construire la vignette à partir de code R Markdown.</p>
 <p>Le corps de la vignette contient par défaut du code R pour déclarer les options de présentation des bouts de code et le chargement du package.
-Une introduction à l’utilisation du package doit être écrite dans ce documents, en R Markdown.</p>
+Une introduction à l’utilisation du package doit être écrite dans ce document, en R Markdown.</p>
 <p>Le package <strong>pkgdown</strong> permet de créer un site d’accompagnement du package<a href="#fn96" class="footnote-ref" id="fnref96"><sup>96</sup></a>, qui reprend le fichier <code>README.md</code> comme page d’accueil, la vignette dans une rubrique “Get Started”, l’ensemble des fichiers d’aide avec leurs exemples exécutés (section “Reference”), le fichier <code>NEWS.md</code> pour un historique du package (section “Changelog”) et des informations du fichier <code>DESCRIPTION</code>.</p>
 <p>Créer le site avec <strong>usethis</strong></p>
 
@@ -815,7 +815,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="chap-package.html#cb351-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7f9780f6c710&gt;
+## &lt;bytecode: 0x7ffd8013f748&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -962,13 +962,13 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb379-3"><a href="chap-package.html#cb379-3"></a>    <span class="kw">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
 ##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  324  335.0 27086.02    352  389.5
-##   triple.numeric(2)  324  337.0 23376.28    352  395.0
-##          triple(2L) 1306 1341.5  1967.55   1378 1445.5
+##  triple.integer(2L)  316  326.0 21957.52  336.0  370.5
+##   triple.numeric(2)  314  328.5 18749.92  337.5  386.0
+##          triple(2L) 1279 1309.5  1409.66 1334.0 1392.0
 ##      max neval
-##  2667049   100
-##  2299345   100
-##    49769   100</code></pre>
+##  2160145   100
+##  1838588   100
+##     5510   100</code></pre>
 
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -1440,6 +1440,9 @@ Le package doit être testé sur la version de développement de R.
 Le site <em>R-hub builder</em><a href="#fn101" class="footnote-ref" id="fnref101"><sup>101</sup></a> permet de le faire simplement.</p>
 <p>Le package, dont la version ne doit pas être de développement (limitée à trois nombres, voir section <a href="chap-package.html#sec:package-description">5.2.1</a>), doit être construit au format source: dans la fenêtre <em>Build</em> de RStudio, cliquer sur “More &gt; Build Source Package”.
 Sur le site <em>R-hub builder</em>, cliquer sur “Advanced”, sélectionner le fichier source du package et la plateforme de test: <em>Debian Linux, R-devel, GCC</em>.</p>
+<p>Le package <strong>rhub</strong> permet d’utiliser la même plateforme de vérification que le site <em>R-hub builder</em> depuis RStudio.
+La première étape consiste à valider son adresse de messagerie avec la commande <code>validate_email()</code>.
+Ensuite, il suffit d’appeler la fonction <code>check_for_cran()</code> pour lancer une vérification complète.</p>
 </div>
 <div id="soumission" class="section level3">
 <h3><span class="header-section-number">5.10.2</span> Soumission</h3>
