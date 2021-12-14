@@ -1,6 +1,7 @@
 # Travailler avec R
 
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![DOI](https://zenodo.org/badge/259333555.svg)](https://zenodo.org/badge/latestdoi/259333555)
 ![BuildStatus](https://github.com/EricMarcon/travailleR/workflows/bookdown/badge.svg)
 
 
@@ -8,3 +9,7 @@ Cet ouvrage propose une organisation du travail autour de R et RStudio pour, au-
 
 Il est mis à jour en continu [pour la lecture en ligne](https://EricMarcon.github.io/travailleR/).
 Ses versions d'étape sont téléchargeables sur [HAL](https://hal.archives-ouvertes.fr/hal-03022820).
+
+Citation:
+
+Marcon, Eric. Travailler avec R. Montpellier, France: UMR Amap, 2021. https://ericmarcon.github.io/travailleR/. DOI:10.5281/zenodo.5778902
