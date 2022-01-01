@@ -343,12 +343,10 @@ Après sa dernière étape, la machine virtuelle utilisée pour cette étape est
 La publication de l'artefact dans la branche `gh-pages` du projet nécessite une autre tâche.
 
 ```
-  checkout-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     needs: renderbook
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Download artifact
         uses: actions/download-artifact@v1
         with:
@@ -366,12 +364,11 @@ La publication de l'artefact dans la branche `gh-pages` du projet nécessite une
           jekyll: no
 ```
 
-La tâche est nommée "checkout-and-deploy" (le nom est libre).
+La tâche est nommée "deploy" (le nom est libre).
 Elle s'exécute sur une machine virtuelle sous Ubuntu.
 Elle ne peut se lancer que si la tâche "renderbook" a réussi.
 Ses étapes sont les suivantes:
 
-- *Checkout*: Placement dans la branche principale du projet;
 - *Download artifact*: Restauration du dossier `docs`;
 - *Deploy to GitHub Pages*: copie du dossier `docs` dans la branche `gh-pages`.
 
@@ -452,12 +449,10 @@ jobs:
         with:
           name: ghpages
           path: docs
-  checkout-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     needs: render
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Download artifact
         uses: actions/download-artifact@v1
         with:
@@ -514,12 +509,10 @@ jobs:
         with:
           name: ghpages
           path: docs
-  checkout-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     needs: render
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Download artifact
         uses: actions/download-artifact@v1
         with:
@@ -603,12 +596,10 @@ jobs:
         with:
           name: _website
           path: public/
-  checkout-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     needs: buildsite
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Download artifact
         uses: actions/download-artifact@v1
         with:
