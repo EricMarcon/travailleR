@@ -721,7 +721,7 @@ touch docs/.nojekyll
 
 Pour créer une page web personnelle, *Hugo* est un générateur de site statique capable de produire des pages HTML à partir de code Markdown.
 Les sites statiques ont l'avantage, en comparaison aux sites dynamiques gérés par un système de gestion de contenu (CMS, par exemple: Wordpress, Joomla, SPIP), d'être portables sur n'importe quel serveur web sans support de base de données ni de code à exécuter côté le serveur (tel que PHP) et d'être très rapides puisque les pages sont créées une seule fois et non à chaque consultation.
-Un site Hugo peut être hébergé par exemple sur la page personnelle de tout utilisateur de GitHub dont l'adresse est de la forme "NomUtilisateur.github.io".
+Un site Hugo peut être hébergé par exemple sur la page personnelle de tout utilisateur de GitHub dont l'adresse est de la forme "GitHubID.github.io".
 
 Hugo propose de nombreux thèmes, qui sont des modèles de structure de sites, donc le thème **Academic**, destiné aux chercheurs.
 Dans RStudio, le package **blogdown** est prévu pour produire facilement des pages web avec Hugo.
@@ -819,24 +819,6 @@ Un bug de **blogdown** nécessite de déplacer le fichier `config.toml` du dossi
 
 Prendre en compte ces modification dans git en faisant un commit.
 
-
-### Site personnel sur GitHub
-
-Si le site doit être le site principal de son compte GitHub (voir section \@ref(sec:github-pages)), son code doit être placé dans une autre branche que `master`, qui est destinée à l'affichage des pages produites.
-Quelques manipulations supplémentaires sont nécessaires à ce stade.
-
-La première consiste à créer une branche `source` pour le code (voir section \@ref(sec:branches)).
-Exécuter dans le terminal de RStudio:
-```
-git branch source
-git checkout source
-```
-Si l'interface graphique de RStudio ne reflète pas le changement de branche, il faut quitter et relancer l'application.
-
-A partir de cette étape, tous les développements auront lieu dans la branche `source`.
-Elle n'a pas pour objectif d'être fusionnée avec la branche `master`.
-
-
 ### Construction du site
 
 Exécuter
@@ -860,19 +842,9 @@ blogdown:::stop_server()
 ```
 
 Le site produit par **blogdown** se trouve dans le dossier `public` qui peut être copié directement sur un serveur web qui l'hébergera.
-Une solution simple pour un site autre que le site principal du dépôt GitHub consiste à déclarer ce dossier comme racine des pages GitHub du projet 
+Une solution simple consiste à déclarer ce dossier comme racine des pages GitHub du projet 
 (section \@ref(sec:github-pages)).
-
-Pour le site principal, le contenu de public doit être copié à la racine de la branche `master`.
-Cette opération sera réalisée par intégration continue: voir section \@ref(sec:blogdown-ci).
-Pour le faire manuellement, suivre les étapes suivantes:
-
-- afficher la branche `master`. Le répertoire `public` est ignoré par `gitignore` donc il n'est pas modifié;
-- dans la branche `master`, supprimer tout le contenu original devenu inutile puisque le code est traité dans la branche `source`. Conserver les fichiers et dossiers commençant par un point (paramètres de git, GitHub et RStudio), les dossiers ignorés (`public`, `ressources` et `static`)  et supprimer le reste;
-- déplacer le contenu de `public` vers la racine du projet;
-- valider par un *commit*;
-- pousser le projet sur GitHub;
-- vérifier le bon affichage du site sur https://GitHubID.github.io.
+La méthode optimale consiste à utiliser l'intégration continue (voir section \@ref(sec:blogdown-ci)) pour le copier à la racine de la branche `gh-pages` qui sera déclarée comme emplacement du site sur GitHub.
 
 
 ### Site multilingue
