@@ -24,7 +24,6 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2022-01-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -316,10 +315,18 @@ div.csl-indent {
 <li class="chapter" data-level="3.5.3" data-path="chap-git.html"><a href="chap-git.html#supprimer-un-dossier"><i class="fa fa-check"></i><b>3.5.3</b> Supprimer un dossier</a></li>
 <li class="chapter" data-level="3.5.4" data-path="chap-git.html"><a href="chap-git.html#revenir-en-arrière-1"><i class="fa fa-check"></i><b>3.5.4</b> Revenir en arrière</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="chap-git.html"><a href="chap-git.html#sec:github-pages"><i class="fa fa-check"></i><b>3.6</b> Pages GitHub</a>
+<li class="chapter" data-level="3.6" data-path="chap-git.html"><a href="chap-git.html#sec:confidentiel"><i class="fa fa-check"></i><b>3.6</b> Données confidentielles dans un dépôt public</a>
 <ul>
-<li class="chapter" data-level="3.6.1" data-path="chap-git.html"><a href="chap-git.html#activation"><i class="fa fa-check"></i><b>3.6.1</b> Activation</a></li>
-<li class="chapter" data-level="3.6.2" data-path="chap-git.html"><a href="chap-git.html#badges"><i class="fa fa-check"></i><b>3.6.2</b> Badges</a></li>
+<li class="chapter" data-level="3.6.1" data-path="chap-git.html"><a href="chap-git.html#génération-dune-paire-de-clés-pour-le-propriétaire-du-projet"><i class="fa fa-check"></i><b>3.6.1</b> Génération d’une paire de clés pour le propriétaire du projet</a></li>
+<li class="chapter" data-level="3.6.2" data-path="chap-git.html"><a href="chap-git.html#génération-dune-paire-de-clés-pour-le-projet"><i class="fa fa-check"></i><b>3.6.2</b> Génération d’une paire de clés pour le projet</a></li>
+<li class="chapter" data-level="3.6.3" data-path="chap-git.html"><a href="chap-git.html#création-dun-coffre-fort"><i class="fa fa-check"></i><b>3.6.3</b> Création d’un coffre-fort</a></li>
+<li class="chapter" data-level="3.6.4" data-path="chap-git.html"><a href="chap-git.html#ajout-des-utilisateurs"><i class="fa fa-check"></i><b>3.6.4</b> Ajout des utilisateurs</a></li>
+<li class="chapter" data-level="3.6.5" data-path="chap-git.html"><a href="chap-git.html#stockage-des-données"><i class="fa fa-check"></i><b>3.6.5</b> Stockage des données</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="chap-git.html"><a href="chap-git.html#sec:github-pages"><i class="fa fa-check"></i><b>3.7</b> Pages GitHub</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="chap-git.html"><a href="chap-git.html#activation"><i class="fa fa-check"></i><b>3.7.1</b> Activation</a></li>
+<li class="chapter" data-level="3.7.2" data-path="chap-git.html"><a href="chap-git.html#badges"><i class="fa fa-check"></i><b>3.7.2</b> Badges</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="chap-rediger.html"><a href="chap-rediger.html"><i class="fa fa-check"></i><b>4</b> Rédiger</a>
@@ -428,6 +435,7 @@ div.csl-indent {
 <li class="chapter" data-level="6.2.2" data-path="chap-ci.html"><a href="chap-ci.html#sec:secrets-ci"><i class="fa fa-check"></i><b>6.2.2</b> Secrets du projet</a></li>
 <li class="chapter" data-level="6.2.3" data-path="chap-ci.html"><a href="chap-ci.html#activation-du-dépôt-sur-codecov"><i class="fa fa-check"></i><b>6.2.3</b> Activation du dépôt sur CodeCov</a></li>
 <li class="chapter" data-level="6.2.4" data-path="chap-ci.html"><a href="chap-ci.html#scripter-les-actions-de-github"><i class="fa fa-check"></i><b>6.2.4</b> Scripter les actions de GitHub</a></li>
+<li class="chapter" data-level="6.2.5" data-path="chap-ci.html"><a href="chap-ci.html#sec:confidentielCI"><i class="fa fa-check"></i><b>6.2.5</b> Données confidentielles dans un dépôt public</a></li>
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="chap-ci.html"><a href="chap-ci.html#modèles-de-scripts"><i class="fa fa-check"></i><b>6.3</b> Modèles de scripts</a>
 <ul>
@@ -498,14 +506,14 @@ Le travail collaboratif est permis par l’utilisation systématique du contrôl
 La présentation des résultats est assurée par les pages GitHub et des modèles de documents couvrant la majorité des besoins.</p>
 <p>Pour les pauses, R fournit même quelques jeux dans le package <strong>fun</strong>, dont le célèbre démineur:</p>
 <p></p>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="chap-conclusion.html#cb456-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Installation du package</span></span>
-<span id="cb456-2"><a href="chap-conclusion.html#cb456-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;fun&quot;</span>)</span>
-<span id="cb456-3"><a href="chap-conclusion.html#cb456-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ouverture d&#39;une fenêtre X et exécution</span></span>
-<span id="cb456-4"><a href="chap-conclusion.html#cb456-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
-<span id="cb456-5"><a href="chap-conclusion.html#cb456-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (.Platform<span class="sc">$</span>OS.type <span class="sc">==</span> <span class="st">&quot;windows&quot;</span>)</span>
-<span id="cb456-6"><a href="chap-conclusion.html#cb456-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">x11</span>() <span class="cf">else</span> <span class="fu">x11</span>(<span class="at">type =</span> <span class="st">&quot;Xlib&quot;</span>)</span>
-<span id="cb456-7"><a href="chap-conclusion.html#cb456-7" aria-hidden="true" tabindex="-1"></a>    fun<span class="sc">::</span><span class="fu">mine_sweeper</span>()</span>
-<span id="cb456-8"><a href="chap-conclusion.html#cb456-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="chap-conclusion.html#cb475-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Installation du package</span></span>
+<span id="cb475-2"><a href="chap-conclusion.html#cb475-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;fun&quot;</span>)</span>
+<span id="cb475-3"><a href="chap-conclusion.html#cb475-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ouverture d&#39;une fenêtre X et exécution</span></span>
+<span id="cb475-4"><a href="chap-conclusion.html#cb475-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
+<span id="cb475-5"><a href="chap-conclusion.html#cb475-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (.Platform<span class="sc">$</span>OS.type <span class="sc">==</span> <span class="st">&quot;windows&quot;</span>)</span>
+<span id="cb475-6"><a href="chap-conclusion.html#cb475-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">x11</span>() <span class="cf">else</span> <span class="fu">x11</span>(<span class="at">type =</span> <span class="st">&quot;Xlib&quot;</span>)</span>
+<span id="cb475-7"><a href="chap-conclusion.html#cb475-7" aria-hidden="true" tabindex="-1"></a>    fun<span class="sc">::</span><span class="fu">mine_sweeper</span>()</span>
+<span id="cb475-8"><a href="chap-conclusion.html#cb475-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p></p>
 <p>Ce document n’a pas pour objectif d’être exhaustif sur les possibilités de R mais plutôt de présenter une méthode de travail et des moyens simples de l’appliquer rapidement.
 On se reportera aux ouvrages plus détaillés cités dans le texte pour approfondir tel ou tel point.</p>

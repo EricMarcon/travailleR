@@ -323,7 +323,7 @@
 
 \author{Eric Marcon}
 
-\date{01/01/2022}
+\date{17/01/2022}
 
 
 % Include headers (preamble.tex) here
@@ -935,7 +935,7 @@ Dans le terminal de RStudio, exécuter:
 ssh-keygen -t ed25519 -C "user.email"
 \end{verbatim}
 
-L'adresse de messagerie doit être celle enregistrée dans la configuration de git et le compte GitHub.
+L'adresse de messagerie (qui remplace ``user.email'') doit être celle enregistrée dans la configuration de git et le compte GitHub.
 La clé est enregistrée dans le dossier \texttt{.ssh} du répertoire personnel de l'utilisateur.
 Il est possible d'ajouter un mot de passe (\emph{passphrase}) à la clé, qui devra être tapé à la première utilisation de chaque session de travail.
 Si l'ordinateur est correctement sécurisé (pas d'accès physique par des tiers), la laisser vide permet de gagner en fluidité.
@@ -943,12 +943,7 @@ Si l'ordinateur est correctement sécurisé (pas d'accès physique par des tiers
 Attention: la clé privée est strictement confidentielle et ne doit être copiée nulle part où elle pourrait être lue par un tiers (attention aux sauvegardes automatiques notamment).
 Elle n'a pas besoin d'être bien sauvegardée: en cas de perte, elle sera remplacée facilement.
 
-Dans le dossier \texttt{.ssh}, deux fichiers sont créés: l'un contient la clé privée, l'autre, avec l'extension \texttt{.pub}, la clé publique correspondante.
-Ouvrir le second avec un éditeur de texte et copier la clé publique dans le presse-papier.
-Sur GitHub, afficher les réglages de son compte (menu ``Settings''), sélectionner ``SSH and GPG Keys'', cliquer sur ``New SSH Key'' et coller la clé dans le champ ``Key''.
-Donner un nom à la clé dans le champ ``Title''.
-Le nom peut être celui de l'ordinateur sur lequel la clé a été créée.
-La clé ne doit pas être copiée sur plusieurs ordinateurs: en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.
+Les clés sont normalement stockées dans le dossier \texttt{\textasciitilde{}/.ssh}, quel que soit le système d'exploitation, mais l'emplacement du dossier personnel \texttt{\textasciitilde{}} est ambiguë sous Windows : pour R, c'est le dossier \texttt{Documents}, mais pour d'autres logiciels, c'est le dossier racine de l'utilisateur, parent de \texttt{Documents}.
 
 Dans le terminal de RStudio, vérifier le bon fonctionnement de la clé:
 
@@ -956,9 +951,26 @@ Dans le terminal de RStudio, vérifier le bon fonctionnement de la clé:
 ssh -T git@github.com
 \end{verbatim}
 
-Un message indique que l'authenticité du serveur GitHub ne peut pas être vérifiée: un contrôle manuel est nécessaire pour la première connexion.
+Si un message d'erreur indique qu'aucune clé n'est trouvée, deux solutions sont possibles:
+
+\begin{itemize}
+\tightlist
+\item
+  Dupliquer le dossier \texttt{.ssh} (avec l'explorateur de fichiers) dans \texttt{Documents};
+\item
+  Dupliquer le dossier \texttt{.ssh} dans le dossier du programme RStudio (généralement \texttt{C:\textbackslash{}Program\ Files\textbackslash{}RStudio\textbackslash{}}), dans \texttt{resources\textbackslash{}terminal\textbackslash{}bash\textbackslash{}}.
+\end{itemize}
+
+En cas de succès, un message indique que l'authenticité du serveur GitHub ne peut pas être vérifiée: un contrôle manuel est nécessaire pour la première connexion.
 Vérifier auprès de GitHub que l'empreinte du serveur est correcte\footnote{\url{https://docs.github.com/en/github/authenticating-to-github/githubs-ssh-key-fingerprints}} et taper \texttt{yes}.
 Le serveur est ajouté automatiquement à la liste des serveurs connus, dans le fichier \texttt{known\_hosts}.
+
+Dans le dossier \texttt{.ssh}, deux fichiers sont créés: l'un contient la clé privée, l'autre, avec l'extension \texttt{.pub}, la clé publique correspondante.
+Ouvrir le second avec un éditeur de texte et copier la clé publique dans le presse-papier.
+Sur GitHub, afficher les réglages de son compte (menu ``Settings''), sélectionner ``SSH and GPG Keys'', cliquer sur ``New SSH Key'' et coller la clé dans le champ ``Key''.
+Donner un nom à la clé dans le champ ``Title''.
+Le nom peut être celui de l'ordinateur sur lequel la clé a été créée.
+La clé ne doit pas être copiée sur plusieurs ordinateurs: en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.
 
 Si la clé est compromise (perte ou prêt de l'ordinateur qui la contient), la supprimer sur GitHub et en créer une nouvelle.
 
@@ -1235,7 +1247,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fbba48e0028>
+## <bytecode: 0x7ffa2370c7a8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1715,7 +1727,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7fbb93a1ca90>
+## <environment: 0x7ffa11863468>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1787,7 +1799,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fbbac871730>
+## <bytecode: 0x7ffa2c94d350>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1975,7 +1987,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.021   0.002   0.023
+##   0.020   0.002   0.021
 \end{verbatim}
 
 \normalsize
@@ -2007,15 +2019,15 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq
-##  f1(X)  40.521  43.3415  60.85403  44.6750  48.1620
-##  f2(X)  49.170  51.2890  71.62341  52.3990  55.2720
-##  f3(X) 280.856 283.7600 308.18557 285.4355 295.3845
-##  f4(X) 411.265 415.7865 443.22138 420.4685 426.6085
+##  f1(X)  40.773  43.9460  61.41874  45.0390  48.8110
+##  f2(X)  49.639  51.7440  71.18809  53.0065  56.2560
+##  f3(X) 282.276 285.4755 307.38346 289.6260 299.5635
+##  f4(X) 412.273 415.6545 439.50582 419.8730 431.2210
 ##       max neval
-##  1314.204   100
-##  1389.629   100
-##  1695.222   100
-##  1870.968   100
+##  1447.984   100
+##  1597.604   100
+##  1625.892   100
+##  1917.249   100
 \end{verbatim}
 
 \normalsize
@@ -2038,10 +2050,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  44.6750
-## 2 f2(X)  52.3990
-## 3 f3(X) 285.4355
-## 4 f4(X) 420.4685
+## 1 f1(X)  45.0390
+## 2 f2(X)  53.0065
+## 3 f3(X) 289.6260
+## 4 f4(X) 419.8730
 \end{verbatim}
 
 \normalsize
@@ -2071,10 +2083,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  44.6750
-## 2 f2(X)  52.3990
-## 3 f3(X) 285.4355
-## 4 f4(X) 420.4685
+## 1 f1(X)  45.0390
+## 2 f2(X)  53.0065
+## 3 f3(X) 289.6260
+## 4 f4(X) 419.8730
 \end{verbatim}
 
 \normalsize
@@ -2201,7 +2213,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7fbbb0c15728>
+## <bytecode: 0x7ffa2d0aebe0>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2254,10 +2266,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.6685
-## 2                lapply(x1, FUN = sqrt) 298.0965
-## 3                sapply(x1, FUN = sqrt) 349.7435
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 308.8420
+## 1                              sqrt(x1)   4.7370
+## 2                lapply(x1, FUN = sqrt) 297.4555
+## 3                sapply(x1, FUN = sqrt) 349.4520
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 307.6030
 \end{verbatim}
 
 \normalsize
@@ -2309,9 +2321,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr   median
-## 1  Boucle(x1) 809.6650
-## 2 Boucle2(x1)  77.8375
+##          expr  median
+## 1  Boucle(x1) 872.886
+## 2 Boucle2(x1)  83.788
 \end{verbatim}
 
 \begin{Shaded}
@@ -2341,9 +2353,9 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr  median
-## 1 vapply(x1, FUN = sqrt, 0) 303.729
-## 2                Boucle(x1)  77.459
+##                        expr   median
+## 1 vapply(x1, FUN = sqrt, 0) 300.8145
+## 2                Boucle(x1)  77.3400
 \end{verbatim}
 
 \normalsize
@@ -2365,9 +2377,12 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  311.769
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3394.682
+##                                               expr
+## 1                        vapply(x1, FUN = sqrt, 0)
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
+##      median
+## 1  313.3495
+## 2 4458.9305
 \end{verbatim}
 
 \normalsize
@@ -2434,8 +2449,8 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 
 \begin{verbatim}
 ##                        expr   median
-## 1 replicate(1000, runif(1)) 4460.756
-## 2               runif(1000)   34.779
+## 1 replicate(1000, runif(1)) 4657.162
+## 2               runif(1000)   33.254
 \end{verbatim}
 
 \normalsize
@@ -2473,9 +2488,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.773492
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.776792
-## 3       colSums(diamonds[-(2:4)]) 2.610888
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.805960
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.824594
+## 3       colSums(diamonds[-(2:4)]) 2.614542
 \end{verbatim}
 
 \normalsize
@@ -2683,7 +2698,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.560
+##   0.003   0.000   0.669
 \end{verbatim}
 
 \begin{Shaded}
@@ -2695,12 +2710,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.007   0.022   0.409
+##   0.007   0.013   0.371
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.16} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.12} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2715,7 +2730,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.000   2.208
+##   0.000   0.000   2.021
 \end{verbatim}
 
 \begin{Shaded}
@@ -2727,7 +2742,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.078
+##   0.002   0.004   1.137
 \end{verbatim}
 
 \normalsize
@@ -2746,7 +2761,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.008   1.012
+##   0.004   0.014   1.033
 \end{verbatim}
 
 \begin{Shaded}
@@ -2757,7 +2772,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.006   2.228
+##   0.003   0.007   2.100
 \end{verbatim}
 
 \normalsize
@@ -2949,7 +2964,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.572
+##   0.003   0.000   0.601
 \end{verbatim}
 
 \begin{Shaded}
@@ -2964,7 +2979,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.019   0.342
+##   0.008   0.016   0.357
 \end{verbatim}
 
 \normalsize
@@ -3050,7 +3065,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.980   0.051   6.315
+##   5.995   0.058   7.537
 \end{verbatim}
 
 \begin{Shaded}
@@ -3084,7 +3099,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.698   0.037   5.914
+##   5.856   0.036   6.321
 \end{verbatim}
 
 \begin{Shaded}
@@ -3126,7 +3141,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.513   0.029   6.116
+##   5.678   0.042   6.929
 \end{verbatim}
 
 \begin{Shaded}
@@ -3165,7 +3180,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.256   0.022   3.392
+##   3.281   0.026   3.595
 \end{verbatim}
 
 \begin{Shaded}
@@ -3206,7 +3221,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.079   0.998   3.055
+##   4.070   0.824   2.849
 \end{verbatim}
 
 \begin{Shaded}
@@ -3247,7 +3262,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.150   0.025   2.311
+##   2.194   0.032   2.849
 \end{verbatim}
 
 \begin{Shaded}
@@ -3293,7 +3308,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.786   0.026   2.966
+##   2.814   0.031   3.220
 \end{verbatim}
 
 \begin{Shaded}
@@ -3338,7 +3353,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.128   0.055   0.109
+##   0.135   0.065   0.125
 \end{verbatim}
 
 \begin{Shaded}
@@ -3512,11 +3527,11 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: milliseconds
+## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##       min       lq    mean   median       uq      max neval
-##  2.080646 2.123753 3.47048 2.224111 2.398504 59.64358   100
+##      min       lq     mean   median      uq      max neval
+##  751.242 756.2265 885.8272 765.8185 786.207 3705.189   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3556,13 +3571,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.204   0.045   7.470
+##   7.175   0.049   7.662
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5777} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{7122} secondes.
 
 \scriptsize
 
@@ -3575,7 +3590,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.006   0.048   2.000
+##   4.970   0.065   3.264
 \end{verbatim}
 
 \normalsize
@@ -4555,6 +4570,226 @@ git revert HEAD
 
 Utiliser \texttt{HEAD} évite simplement de rechercher l'identifiant correspondant.
 
+\hypertarget{sec:confidentiel}{%
+\section{Données confidentielles dans un dépôt public}\label{sec:confidentiel}}
+
+Un dépôt public sur GitHub pose problème quand des données utilisées dans le projet ne le sont pas.
+
+Une solution peu satisfaisante consiste à ne pas inclure les données au projet, ce qui le rend non reproductible.
+Une meilleure solution est de les crypter, en permettant à certains utilisateurs de les décrypter.
+C'est l'objet du package \textbf{secret}.
+
+Un coffre-fort (dossier \texttt{vault}) est créé dans le projet.
+Il contient une liste d'utilisateurs autorisés: chacun d'entre eux doit disposer d'une paire de clés de cryptage, une clé publique incluse dans le coffre-fort et une clé privée, gardée secrète.
+Les données sont cryptées avec toutes les clés publiques disponibles (et donc dupliquées).
+Les utilisateurs utilisent ensuite chacun sa clé privée pour le décryptage.
+
+Pour ne pas multiplier les copies des données, le propriétaire du dépôt a intérêt à créer un utilisateur générique pour le projet, dont il communiquera la clé privée hors de GitHub.
+Le coffre contiendra les clés du propriétaire du projet et de l'utilisateur générique seulement.
+En cas de compromission de la clé privée de l'utilisateur générique, il suffira de le retirer du coffre-fort et d'en créer un nouveau.
+
+\hypertarget{guxe9nuxe9ration-dune-paire-de-cluxe9s-pour-le-propriuxe9taire-du-projet}{%
+\subsection{Génération d'une paire de clés pour le propriétaire du projet}\label{guxe9nuxe9ration-dune-paire-de-cluxe9s-pour-le-propriuxe9taire-du-projet}}
+
+Les clés sont générées par le logiciel \emph{ssh}, installé avec \emph{git} ou par défaut sous Linux.
+
+La procédure est identique à celle de la section \ref{sec:SSH}, mais la clé utilisée doit être au format RSA (pris en charge par le package \textbf{secret}, contrairement au format ed25519, plus sûr, utilisé pour l'authenfication sur GitHub).
+
+Exécuter la commande suivante dans le terminal de RStudio pour créer une clé RSA:
+
+\begin{verbatim}
+ssh-keygen -t rsa -b 4096 -C "user.email"
+\end{verbatim}
+
+Stocker la clé publique sur GitHub dans ``Settings \textgreater{} SSH and GPG Keys''.
+Repérer la position de la clé: si une clé d'authentification a déjà été enregistrée pour deux postes de travail par exemple, la clé RSA sera la troisième.
+
+\hypertarget{guxe9nuxe9ration-dune-paire-de-cluxe9s-pour-le-projet}{%
+\subsection{Génération d'une paire de clés pour le projet}\label{guxe9nuxe9ration-dune-paire-de-cluxe9s-pour-le-projet}}
+
+Générer une clé au format RSA dans le terminal de RStudio:
+
+\begin{verbatim}
+ssh-keygen -t rsa -b 4096" 
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Entrer le nom de la clé: \texttt{NomDuProjet.rsa}.
+\item
+  Ne pas saisir de phrase de validation (mot de passe) pour permettre l'utilisation de la clé sans interaction.
+\end{itemize}
+
+La clé privée \texttt{NomDuProjet.rsa} ne doit être diffusée qu'aux ayant-droits du projet.
+Il faut donc ajouter la ligne \texttt{*.rsa} au fichier \texttt{.gitignore} du projet pour ne pas pousser la clé sur GitHub.
+
+Pour permettre l'intégration continue du projet (chapitre \ref{chap-ci}), la clé privée doit être stockée comme un secret du dépôt GitHub contenant le projet.
+Appliquer la procédure de la section \ref{sec:secrets-ci} pour créer un secret nommé ``RSA'' et coller le contenu du fichier \texttt{NomDuProjet.rsa} dans le champ ``Value'' du formulaire.
+
+L'utilisation du secret est décrite dans la section \ref{sec:confidentielCI}.
+
+\hypertarget{cruxe9ation-dun-coffre-fort}{%
+\subsection{Création d'un coffre-fort}\label{cruxe9ation-dun-coffre-fort}}
+
+Exécuter:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"secret"}\NormalTok{)}
+\NormalTok{vault }\OtherTok{\textless{}{-}} \StringTok{"vault"}
+\FunctionTok{create\_vault}\NormalTok{(vault)}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
+
+\hypertarget{ajout-des-utilisateurs}{%
+\subsection{Ajout des utilisateurs}\label{ajout-des-utilisateurs}}
+
+Le propriétaire du projet est ajouté à partir de sa clé publique stockée sur GitHub, qui est la troisième dans notre exemple.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Identifiant GitHub du propriétaire du projet}
+\NormalTok{github\_user }\OtherTok{\textless{}{-}} \StringTok{"EricMarcon"}
+\CommentTok{\# Lecture et stockage de la clé, i est le numéro de la clé}
+\FunctionTok{add\_github\_user}\NormalTok{(github\_user, }\AttributeTok{vault =}\NormalTok{ vault, }\AttributeTok{i =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
+
+La clé de l'utilisateur générique du projet est ajoutée par:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"openssl"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linking to: OpenSSL 1.1.1l  24 Aug 2021
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{project\_id }\OtherTok{\textless{}{-}} \StringTok{"NomDuProjet"}
+\CommentTok{\# Lecture de la clé}
+\NormalTok{rsa\_project }\OtherTok{\textless{}{-}} \FunctionTok{read\_pubkey}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(project\_id, }\StringTok{".rsa.pub"}\NormalTok{))}
+\CommentTok{\# Ajout au coffre{-}fort}
+\FunctionTok{add\_user}\NormalTok{(project\_id, }\AttributeTok{public\_key =}\NormalTok{ rsa\_project, }\AttributeTok{vault =}\NormalTok{ vault)}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
+
+\hypertarget{stockage-des-donnuxe9es}{%
+\subsection{Stockage des données}\label{stockage-des-donnuxe9es}}
+
+Les données, stockées dans des variables de R, sont stockées une à une par la fonction \texttt{add\_secret()}.
+Dans l'exemple suivant, la variable s'appelle \texttt{X} et vaut 1.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X }\OtherTok{\textless{}{-}} \DecValTok{1}
+\FunctionTok{add\_secret}\NormalTok{(}
+  \CommentTok{\# Nom de la donnée}
+  \StringTok{"X"}\NormalTok{, }
+  \CommentTok{\# Valeur}
+  \AttributeTok{value =}\NormalTok{ X, }
+  \CommentTok{\# Utilisateurs autorisés: propriétaire et générique}
+  \AttributeTok{users =} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(}\StringTok{"github{-}"}\NormalTok{, github\_user), project\_id), }
+  \CommentTok{\# Coffre{-}fort}
+  \AttributeTok{vault =}\NormalTok{ vault)}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
+
+Le contenu du coffre-fort peut être vérifié:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Liste des données du coffre}
+\FunctionTok{list\_secrets}\NormalTok{(}\AttributeTok{vault =}\NormalTok{ vault)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   secret        email
+## 1      X github-E....
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Liste des propriétaire de la donnée \textquotesingle{}X\textquotesingle{}}
+\FunctionTok{list\_owners}\NormalTok{(}\StringTok{"X"}\NormalTok{, }\AttributeTok{vault =}\NormalTok{ vault)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "github-EricMarcon" "NomDuProjet"
+\end{verbatim}
+
+\normalsize
+
+Les données seront lues dans le code du projet par la commande \texttt{get\_secret()}.
+La clé privée de l'utilisateur générique du projet, communiquée par un moyen sécurisé aux ayant-droits, doit se trouver dans le dossier du projet.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Sélection de la clé privée}
+\FunctionTok{Sys.setenv}\NormalTok{(}\AttributeTok{USER\_KEY =}\NormalTok{ usethis}\SpecialCharTok{::}\FunctionTok{proj\_path}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(project\_id, }\StringTok{".rsa"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## v Setting active project to '/Users/runner/work/travailleR/travailleR'
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Lecture de la donnée \textquotesingle{}X\textquotesingle{}}
+\FunctionTok{get\_secret}\NormalTok{(}\StringTok{"X"}\NormalTok{, }\AttributeTok{vault =}\NormalTok{ vault)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+\normalsize
+
+La clé peut être vérifiée:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{local\_key}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [4096-bit rsa private key]
+## md5: e81dcb0745a755286c2dc1fc4c6ad117
+\end{verbatim}
+
+\normalsize
+
 \hypertarget{sec:github-pages}{%
 \section{Pages GitHub}\label{sec:github-pages}}
 
@@ -4563,7 +4798,7 @@ Ce fichier est écrit au format Markdown.
 
 Le fichier peut être placé dans le dossier \texttt{docs} pour fournir à fois la page d'accueil du dépôt et de son site web.
 Le package \textbf{memoiR} fournit des commandes permettant d'automatiser ces tâches dans les projets de documents.
-Un dépôt contenant un mémo écrit en R Markdown (voir section \ref{sec:memo}) est utilisé comme exemple\footnote{\url{https://github.com/EricMarcon/Krigeage}}.
+Un dépôt contenant un article écrit en R Markdown (voir section \ref{sec:memo}) est utilisé comme exemple\footnote{\url{https://github.com/EricMarcon/Krigeage}}.
 
 Son fichier \texttt{README.md} existe aux deux emplacements: il est écrit par le développeur à la racine du projet et dupliqué par \texttt{GitHubPages.R}.
 
@@ -6611,7 +6846,7 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-74-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-82-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6649,7 +6884,7 @@ Les bouts de code qui utilisent les valeurs des cibles doivent les lire avec \te
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-75-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-83-1} \end{center}
 
 \normalsize
 
@@ -7338,7 +7573,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fbbaab5ec50>
+## <bytecode: 0x7ffa202fabf0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7629,13 +7864,13 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 \begin{verbatim}
 ## Unit: nanoseconds
 ##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  324  337.0 23562.03  346.0  368.0
-##   triple.numeric(2)  320  336.5 20368.67  349.5  400.5
-##          triple(2L) 1315 1357.5  1755.77 1394.5 1523.5
+##  triple.integer(2L)  324  331.5 22809.04  341.0  354.0
+##   triple.numeric(2)  321  334.0 19678.49  342.0  362.0
+##          triple(2L) 1310 1341.0  1476.47 1368.5 1419.5
 ##      max neval
-##  2318814   100
-##  1997642   100
-##    21738   100
+##  2246122   100
+##  1932207   100
+##     6232   100
 \end{verbatim}
 
 \normalsize
@@ -7773,7 +8008,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-107-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-115-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7781,7 +8016,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-107-2} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-115-2} \end{center}
 
 \normalsize
 
@@ -8832,6 +9067,21 @@ Elle utilise une variable d'environnement, \texttt{GITHUB\_TOKEN}, pour s'authen
   \emph{jekyll:no} pour créer un fichier vide nommé \texttt{.nojekyll} qui indique aux pages GitHub de ne pas essayer de traiter leur contenu comme un site web Jekyll.
 \end{itemize}
 
+\hypertarget{sec:confidentielCI}{%
+\subsection{Données confidentielles dans un dépôt public}\label{sec:confidentielCI}}
+
+Si le projet contient des données confidentielles (section \ref{sec:confidentiel}), GitHub Actions doit utiliser la clé privée du projet pour les extraire de leur coffre-fort.
+
+La clé privée doit être stockée dans un secret du projet, nommé ``RSA''.
+L'étape suivante, à insérer avant l'étape de tricot, écrit la clé dans un fichier pour que le code du projet y ait accès.
+
+\begin{verbatim}
+      - name: Private key
+        run: |
+          cat("${{ secrets.rsa }}", file="NomDuProjet.rsa"
+        shell: Rscript {0}
+\end{verbatim}
+
 \hypertarget{moduxe8les-de-scripts}{%
 \section{Modèles de scripts}\label{moduxe8les-de-scripts}}
 
@@ -9645,7 +9895,6 @@ Chaque étudiant doit avoir un compte sur GitHub.
 
 Une tâche est un dépôt GitHub à modifier.
 Par exemple\footnote{\url{https://github.com/EricMarcon/Cours-R-Memo/settings}}, créer un dépôt contenant un projet R avec un fichier Markdown décrivant le travail à faire et éventuellement une partie du code nécessaire pour y parvenir, les autres fichiers du modèle R Markdown utilisé et un fichier de données.
-Si le modèle est par exemple Memo (section \ref{sec:memo}), le script \texttt{GitHubPages.R} est fourni.
 
 Ouvrir les propriétés du dépôt sur GitHub et cocher la case \emph{Template Repository} pour en faire un modèle.
 

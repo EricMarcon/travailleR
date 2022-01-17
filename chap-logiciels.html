@@ -24,7 +24,6 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2022-01-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -316,10 +315,18 @@ div.csl-indent {
 <li class="chapter" data-level="3.5.3" data-path="chap-git.html"><a href="chap-git.html#supprimer-un-dossier"><i class="fa fa-check"></i><b>3.5.3</b> Supprimer un dossier</a></li>
 <li class="chapter" data-level="3.5.4" data-path="chap-git.html"><a href="chap-git.html#revenir-en-arrière-1"><i class="fa fa-check"></i><b>3.5.4</b> Revenir en arrière</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="chap-git.html"><a href="chap-git.html#sec:github-pages"><i class="fa fa-check"></i><b>3.6</b> Pages GitHub</a>
+<li class="chapter" data-level="3.6" data-path="chap-git.html"><a href="chap-git.html#sec:confidentiel"><i class="fa fa-check"></i><b>3.6</b> Données confidentielles dans un dépôt public</a>
 <ul>
-<li class="chapter" data-level="3.6.1" data-path="chap-git.html"><a href="chap-git.html#activation"><i class="fa fa-check"></i><b>3.6.1</b> Activation</a></li>
-<li class="chapter" data-level="3.6.2" data-path="chap-git.html"><a href="chap-git.html#badges"><i class="fa fa-check"></i><b>3.6.2</b> Badges</a></li>
+<li class="chapter" data-level="3.6.1" data-path="chap-git.html"><a href="chap-git.html#génération-dune-paire-de-clés-pour-le-propriétaire-du-projet"><i class="fa fa-check"></i><b>3.6.1</b> Génération d’une paire de clés pour le propriétaire du projet</a></li>
+<li class="chapter" data-level="3.6.2" data-path="chap-git.html"><a href="chap-git.html#génération-dune-paire-de-clés-pour-le-projet"><i class="fa fa-check"></i><b>3.6.2</b> Génération d’une paire de clés pour le projet</a></li>
+<li class="chapter" data-level="3.6.3" data-path="chap-git.html"><a href="chap-git.html#création-dun-coffre-fort"><i class="fa fa-check"></i><b>3.6.3</b> Création d’un coffre-fort</a></li>
+<li class="chapter" data-level="3.6.4" data-path="chap-git.html"><a href="chap-git.html#ajout-des-utilisateurs"><i class="fa fa-check"></i><b>3.6.4</b> Ajout des utilisateurs</a></li>
+<li class="chapter" data-level="3.6.5" data-path="chap-git.html"><a href="chap-git.html#stockage-des-données"><i class="fa fa-check"></i><b>3.6.5</b> Stockage des données</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="chap-git.html"><a href="chap-git.html#sec:github-pages"><i class="fa fa-check"></i><b>3.7</b> Pages GitHub</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="chap-git.html"><a href="chap-git.html#activation"><i class="fa fa-check"></i><b>3.7.1</b> Activation</a></li>
+<li class="chapter" data-level="3.7.2" data-path="chap-git.html"><a href="chap-git.html#badges"><i class="fa fa-check"></i><b>3.7.2</b> Badges</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="chap-rediger.html"><a href="chap-rediger.html"><i class="fa fa-check"></i><b>4</b> Rédiger</a>
@@ -428,6 +435,7 @@ div.csl-indent {
 <li class="chapter" data-level="6.2.2" data-path="chap-ci.html"><a href="chap-ci.html#sec:secrets-ci"><i class="fa fa-check"></i><b>6.2.2</b> Secrets du projet</a></li>
 <li class="chapter" data-level="6.2.3" data-path="chap-ci.html"><a href="chap-ci.html#activation-du-dépôt-sur-codecov"><i class="fa fa-check"></i><b>6.2.3</b> Activation du dépôt sur CodeCov</a></li>
 <li class="chapter" data-level="6.2.4" data-path="chap-ci.html"><a href="chap-ci.html#scripter-les-actions-de-github"><i class="fa fa-check"></i><b>6.2.4</b> Scripter les actions de GitHub</a></li>
+<li class="chapter" data-level="6.2.5" data-path="chap-ci.html"><a href="chap-ci.html#sec:confidentielCI"><i class="fa fa-check"></i><b>6.2.5</b> Données confidentielles dans un dépôt public</a></li>
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="chap-ci.html"><a href="chap-ci.html#modèles-de-scripts"><i class="fa fa-check"></i><b>6.3</b> Modèles de scripts</a>
 <ul>
@@ -789,23 +797,29 @@ Enfin, un site web global est prévu pour chaque utilisateur à l’adresse <a h
 SSH est la plus robuste mais nécessite la création d’une clé privée.</p>
 <p>Dans le terminal de RStudio, exécuter:</p>
 <pre><code>ssh-keygen -t ed25519 -C &quot;user.email&quot;</code></pre>
-<p>L’adresse de messagerie doit être celle enregistrée dans la configuration de git et le compte GitHub.
+<p>L’adresse de messagerie (qui remplace “user.email”) doit être celle enregistrée dans la configuration de git et le compte GitHub.
 La clé est enregistrée dans le dossier <code>.ssh</code> du répertoire personnel de l’utilisateur.
 Il est possible d’ajouter un mot de passe (<em>passphrase</em>) à la clé, qui devra être tapé à la première utilisation de chaque session de travail.
 Si l’ordinateur est correctement sécurisé (pas d’accès physique par des tiers), la laisser vide permet de gagner en fluidité.</p>
 <p>Attention: la clé privée est strictement confidentielle et ne doit être copiée nulle part où elle pourrait être lue par un tiers (attention aux sauvegardes automatiques notamment).
 Elle n’a pas besoin d’être bien sauvegardée: en cas de perte, elle sera remplacée facilement.</p>
+<p>Les clés sont normalement stockées dans le dossier <code>~/.ssh</code>, quel que soit le système d’exploitation, mais l’emplacement du dossier personnel <code>~</code> est ambiguë sous Windows : pour R, c’est le dossier <code>Documents</code>, mais pour d’autres logiciels, c’est le dossier racine de l’utilisateur, parent de <code>Documents</code>.</p>
+<p>Dans le terminal de RStudio, vérifier le bon fonctionnement de la clé:</p>
+<pre><code>ssh -T git@github.com</code></pre>
+<p>Si un message d’erreur indique qu’aucune clé n’est trouvée, deux solutions sont possibles:</p>
+<ul>
+<li>Dupliquer le dossier <code>.ssh</code> (avec l’explorateur de fichiers) dans <code>Documents</code>;</li>
+<li>Dupliquer le dossier <code>.ssh</code> dans le dossier du programme RStudio (généralement <code>C:\Program Files\RStudio\</code>), dans <code>resources\terminal\bash\</code>.</li>
+</ul>
+<p>En cas de succès, un message indique que l’authenticité du serveur GitHub ne peut pas être vérifiée: un contrôle manuel est nécessaire pour la première connexion.
+Vérifier auprès de GitHub que l’empreinte du serveur est correcte<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> et taper <code>yes</code>.
+Le serveur est ajouté automatiquement à la liste des serveurs connus, dans le fichier <code>known_hosts</code>.</p>
 <p>Dans le dossier <code>.ssh</code>, deux fichiers sont créés: l’un contient la clé privée, l’autre, avec l’extension <code>.pub</code>, la clé publique correspondante.
 Ouvrir le second avec un éditeur de texte et copier la clé publique dans le presse-papier.
 Sur GitHub, afficher les réglages de son compte (menu “Settings”), sélectionner “SSH and GPG Keys”, cliquer sur “New SSH Key” et coller la clé dans le champ “Key”.
 Donner un nom à la clé dans le champ “Title”.
 Le nom peut être celui de l’ordinateur sur lequel la clé a été créée.
 La clé ne doit pas être copiée sur plusieurs ordinateurs: en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.</p>
-<p>Dans le terminal de RStudio, vérifier le bon fonctionnement de la clé:</p>
-<pre><code>ssh -T git@github.com</code></pre>
-<p>Un message indique que l’authenticité du serveur GitHub ne peut pas être vérifiée: un contrôle manuel est nécessaire pour la première connexion.
-Vérifier auprès de GitHub que l’empreinte du serveur est correcte<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> et taper <code>yes</code>.
-Le serveur est ajouté automatiquement à la liste des serveurs connus, dans le fichier <code>known_hosts</code>.</p>
 <p>Si la clé est compromise (perte ou prêt de l’ordinateur qui la contient), la supprimer sur GitHub et en créer une nouvelle.</p>
 </div>
 <div id="sec:pat" class="section level3" number="1.4.4">

@@ -24,7 +24,6 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2022-01-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -316,10 +315,18 @@ div.csl-indent {
 <li class="chapter" data-level="3.5.3" data-path="chap-git.html"><a href="chap-git.html#supprimer-un-dossier"><i class="fa fa-check"></i><b>3.5.3</b> Supprimer un dossier</a></li>
 <li class="chapter" data-level="3.5.4" data-path="chap-git.html"><a href="chap-git.html#revenir-en-arrière-1"><i class="fa fa-check"></i><b>3.5.4</b> Revenir en arrière</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="chap-git.html"><a href="chap-git.html#sec:github-pages"><i class="fa fa-check"></i><b>3.6</b> Pages GitHub</a>
+<li class="chapter" data-level="3.6" data-path="chap-git.html"><a href="chap-git.html#sec:confidentiel"><i class="fa fa-check"></i><b>3.6</b> Données confidentielles dans un dépôt public</a>
 <ul>
-<li class="chapter" data-level="3.6.1" data-path="chap-git.html"><a href="chap-git.html#activation"><i class="fa fa-check"></i><b>3.6.1</b> Activation</a></li>
-<li class="chapter" data-level="3.6.2" data-path="chap-git.html"><a href="chap-git.html#badges"><i class="fa fa-check"></i><b>3.6.2</b> Badges</a></li>
+<li class="chapter" data-level="3.6.1" data-path="chap-git.html"><a href="chap-git.html#génération-dune-paire-de-clés-pour-le-propriétaire-du-projet"><i class="fa fa-check"></i><b>3.6.1</b> Génération d’une paire de clés pour le propriétaire du projet</a></li>
+<li class="chapter" data-level="3.6.2" data-path="chap-git.html"><a href="chap-git.html#génération-dune-paire-de-clés-pour-le-projet"><i class="fa fa-check"></i><b>3.6.2</b> Génération d’une paire de clés pour le projet</a></li>
+<li class="chapter" data-level="3.6.3" data-path="chap-git.html"><a href="chap-git.html#création-dun-coffre-fort"><i class="fa fa-check"></i><b>3.6.3</b> Création d’un coffre-fort</a></li>
+<li class="chapter" data-level="3.6.4" data-path="chap-git.html"><a href="chap-git.html#ajout-des-utilisateurs"><i class="fa fa-check"></i><b>3.6.4</b> Ajout des utilisateurs</a></li>
+<li class="chapter" data-level="3.6.5" data-path="chap-git.html"><a href="chap-git.html#stockage-des-données"><i class="fa fa-check"></i><b>3.6.5</b> Stockage des données</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="chap-git.html"><a href="chap-git.html#sec:github-pages"><i class="fa fa-check"></i><b>3.7</b> Pages GitHub</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="chap-git.html"><a href="chap-git.html#activation"><i class="fa fa-check"></i><b>3.7.1</b> Activation</a></li>
+<li class="chapter" data-level="3.7.2" data-path="chap-git.html"><a href="chap-git.html#badges"><i class="fa fa-check"></i><b>3.7.2</b> Badges</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="chap-rediger.html"><a href="chap-rediger.html"><i class="fa fa-check"></i><b>4</b> Rédiger</a>
@@ -428,6 +435,7 @@ div.csl-indent {
 <li class="chapter" data-level="6.2.2" data-path="chap-ci.html"><a href="chap-ci.html#sec:secrets-ci"><i class="fa fa-check"></i><b>6.2.2</b> Secrets du projet</a></li>
 <li class="chapter" data-level="6.2.3" data-path="chap-ci.html"><a href="chap-ci.html#activation-du-dépôt-sur-codecov"><i class="fa fa-check"></i><b>6.2.3</b> Activation du dépôt sur CodeCov</a></li>
 <li class="chapter" data-level="6.2.4" data-path="chap-ci.html"><a href="chap-ci.html#scripter-les-actions-de-github"><i class="fa fa-check"></i><b>6.2.4</b> Scripter les actions de GitHub</a></li>
+<li class="chapter" data-level="6.2.5" data-path="chap-ci.html"><a href="chap-ci.html#sec:confidentielCI"><i class="fa fa-check"></i><b>6.2.5</b> Données confidentielles dans un dépôt public</a></li>
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="chap-ci.html"><a href="chap-ci.html#modèles-de-scripts"><i class="fa fa-check"></i><b>6.3</b> Modèles de scripts</a>
 <ul>
@@ -847,7 +855,7 @@ Les changements peuvent être observés hors de RStudio, dans l’explorateur de
 <p>Les fichiers ignorés par <code>.gitignore</code> ne sont pas modifiés.
 Il est donc indispensable que les fichiers <code>.gitignore</code> des différentes branches soit identiques, sinon des fichiers ignorés dans une branche apparaîtront comme ajoutés dans la branche affichée après un changement.</p>
 <p>Les branches de développement ont un contenu proche de celui de la branche principale.
-Ce n’est pas le cas de branches spécialisées vues plus loin, comme <code>gh-pages</code> (voir section <a href="chap-git.html#sec:github-pages">3.6</a>) qui contient le site web de présentation du dépôt.
+Ce n’est pas le cas de branches spécialisées vues plus loin, comme <code>gh-pages</code> (voir section <a href="chap-git.html#sec:github-pages">3.7</a>) qui contient le site web de présentation du dépôt.
 Il est préférable de ne pas tenter d’afficher ces branches dans RStudio: leur contenu est produit automatiquement et ne doit pas être modifié manuellement.
 Si c’est indispensable, il faudra y copier le fichier <code>.gitignore</code> de la branche principale et garder à l’esprit que les fichiers ignorés appartiennent en réalité à une autre branche que celle affichée.</p>
 </div>
@@ -990,16 +998,125 @@ Dans le terminal de RStudio, exécuter:</p>
 <p>Utiliser <code>HEAD</code> évite simplement de rechercher l’identifiant correspondant.</p>
 </div>
 </div>
-<div id="sec:github-pages" class="section level2" number="3.6">
-<h2><span class="header-section-number">3.6</span> Pages GitHub</h2>
+<div id="sec:confidentiel" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Données confidentielles dans un dépôt public</h2>
+<p>Un dépôt public sur GitHub pose problème quand des données utilisées dans le projet ne le sont pas.</p>
+<p>Une solution peu satisfaisante consiste à ne pas inclure les données au projet, ce qui le rend non reproductible.
+Une meilleure solution est de les crypter, en permettant à certains utilisateurs de les décrypter.
+C’est l’objet du package <strong>secret</strong>.</p>
+<p>Un coffre-fort (dossier <code>vault</code>) est créé dans le projet.
+Il contient une liste d’utilisateurs autorisés: chacun d’entre eux doit disposer d’une paire de clés de cryptage, une clé publique incluse dans le coffre-fort et une clé privée, gardée secrète.
+Les données sont cryptées avec toutes les clés publiques disponibles (et donc dupliquées).
+Les utilisateurs utilisent ensuite chacun sa clé privée pour le décryptage.</p>
+<p>Pour ne pas multiplier les copies des données, le propriétaire du dépôt a intérêt à créer un utilisateur générique pour le projet, dont il communiquera la clé privée hors de GitHub.
+Le coffre contiendra les clés du propriétaire du projet et de l’utilisateur générique seulement.
+En cas de compromission de la clé privée de l’utilisateur générique, il suffira de le retirer du coffre-fort et d’en créer un nouveau.</p>
+<div id="génération-dune-paire-de-clés-pour-le-propriétaire-du-projet" class="section level3" number="3.6.1">
+<h3><span class="header-section-number">3.6.1</span> Génération d’une paire de clés pour le propriétaire du projet</h3>
+<p>Les clés sont générées par le logiciel <em>ssh</em>, installé avec <em>git</em> ou par défaut sous Linux.</p>
+<p>La procédure est identique à celle de la section <a href="chap-logiciels.html#sec:SSH">1.4.3</a>, mais la clé utilisée doit être au format RSA (pris en charge par le package <strong>secret</strong>, contrairement au format ed25519, plus sûr, utilisé pour l’authenfication sur GitHub).</p>
+<p>Exécuter la commande suivante dans le terminal de RStudio pour créer une clé RSA:</p>
+<pre><code>ssh-keygen -t rsa -b 4096 -C &quot;user.email&quot;</code></pre>
+<p>Stocker la clé publique sur GitHub dans “Settings &gt; SSH and GPG Keys”.
+Repérer la position de la clé: si une clé d’authentification a déjà été enregistrée pour deux postes de travail par exemple, la clé RSA sera la troisième.</p>
+</div>
+<div id="génération-dune-paire-de-clés-pour-le-projet" class="section level3" number="3.6.2">
+<h3><span class="header-section-number">3.6.2</span> Génération d’une paire de clés pour le projet</h3>
+<p>Générer une clé au format RSA dans le terminal de RStudio:</p>
+<pre><code>ssh-keygen -t rsa -b 4096&quot; </code></pre>
+<ul>
+<li>Entrer le nom de la clé: <code>NomDuProjet.rsa</code>.</li>
+<li>Ne pas saisir de phrase de validation (mot de passe) pour permettre l’utilisation de la clé sans interaction.</li>
+</ul>
+<p>La clé privée <code>NomDuProjet.rsa</code> ne doit être diffusée qu’aux ayant-droits du projet.
+Il faut donc ajouter la ligne <code>*.rsa</code> au fichier <code>.gitignore</code> du projet pour ne pas pousser la clé sur GitHub.</p>
+<p>Pour permettre l’intégration continue du projet (chapitre <a href="chap-ci.html#chap-ci">6</a>), la clé privée doit être stockée comme un secret du dépôt GitHub contenant le projet.
+Appliquer la procédure de la section <a href="chap-ci.html#sec:secrets-ci">6.2.2</a> pour créer un secret nommé “RSA” et coller le contenu du fichier <code>NomDuProjet.rsa</code> dans le champ “Value” du formulaire.</p>
+<p>L’utilisation du secret est décrite dans la section <a href="chap-ci.html#sec:confidentielCI">6.2.5</a>.</p>
+</div>
+<div id="création-dun-coffre-fort" class="section level3" number="3.6.3">
+<h3><span class="header-section-number">3.6.3</span> Création d’un coffre-fort</h3>
+<p>Exécuter:</p>
+<p></p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="chap-git.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;secret&quot;</span>)</span>
+<span id="cb249-2"><a href="chap-git.html#cb249-2" aria-hidden="true" tabindex="-1"></a>vault <span class="ot">&lt;-</span> <span class="st">&quot;vault&quot;</span></span>
+<span id="cb249-3"><a href="chap-git.html#cb249-3" aria-hidden="true" tabindex="-1"></a><span class="fu">create_vault</span>(vault)</span></code></pre></div>
+<p></p>
+</div>
+<div id="ajout-des-utilisateurs" class="section level3" number="3.6.4">
+<h3><span class="header-section-number">3.6.4</span> Ajout des utilisateurs</h3>
+<p>Le propriétaire du projet est ajouté à partir de sa clé publique stockée sur GitHub, qui est la troisième dans notre exemple.</p>
+<p></p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="chap-git.html#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identifiant GitHub du propriétaire du projet</span></span>
+<span id="cb250-2"><a href="chap-git.html#cb250-2" aria-hidden="true" tabindex="-1"></a>github_user <span class="ot">&lt;-</span> <span class="st">&quot;EricMarcon&quot;</span></span>
+<span id="cb250-3"><a href="chap-git.html#cb250-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Lecture et stockage de la clé, i est le numéro de la clé</span></span>
+<span id="cb250-4"><a href="chap-git.html#cb250-4" aria-hidden="true" tabindex="-1"></a><span class="fu">add_github_user</span>(github_user, <span class="at">vault =</span> vault, <span class="at">i =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p></p>
+<p>La clé de l’utilisateur générique du projet est ajoutée par:</p>
+<p></p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="chap-git.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;openssl&quot;</span>)</span></code></pre></div>
+<pre><code>## Linking to: OpenSSL 1.1.1l  24 Aug 2021</code></pre>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="chap-git.html#cb253-1" aria-hidden="true" tabindex="-1"></a>project_id <span class="ot">&lt;-</span> <span class="st">&quot;NomDuProjet&quot;</span></span>
+<span id="cb253-2"><a href="chap-git.html#cb253-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Lecture de la clé</span></span>
+<span id="cb253-3"><a href="chap-git.html#cb253-3" aria-hidden="true" tabindex="-1"></a>rsa_project <span class="ot">&lt;-</span> <span class="fu">read_pubkey</span>(<span class="fu">paste0</span>(project_id, <span class="st">&quot;.rsa.pub&quot;</span>))</span>
+<span id="cb253-4"><a href="chap-git.html#cb253-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajout au coffre-fort</span></span>
+<span id="cb253-5"><a href="chap-git.html#cb253-5" aria-hidden="true" tabindex="-1"></a><span class="fu">add_user</span>(project_id, <span class="at">public_key =</span> rsa_project, <span class="at">vault =</span> vault)</span></code></pre></div>
+<p></p>
+</div>
+<div id="stockage-des-données" class="section level3" number="3.6.5">
+<h3><span class="header-section-number">3.6.5</span> Stockage des données</h3>
+<p>Les données, stockées dans des variables de R, sont stockées une à une par la fonction <code>add_secret()</code>.
+Dans l’exemple suivant, la variable s’appelle <code>X</code> et vaut 1.</p>
+<p></p>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="chap-git.html#cb254-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb254-2"><a href="chap-git.html#cb254-2" aria-hidden="true" tabindex="-1"></a><span class="fu">add_secret</span>(</span>
+<span id="cb254-3"><a href="chap-git.html#cb254-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Nom de la donnée</span></span>
+<span id="cb254-4"><a href="chap-git.html#cb254-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;X&quot;</span>, </span>
+<span id="cb254-5"><a href="chap-git.html#cb254-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Valeur</span></span>
+<span id="cb254-6"><a href="chap-git.html#cb254-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> X, </span>
+<span id="cb254-7"><a href="chap-git.html#cb254-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Utilisateurs autorisés: propriétaire et générique</span></span>
+<span id="cb254-8"><a href="chap-git.html#cb254-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">users =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;github-&quot;</span>, github_user), project_id), </span>
+<span id="cb254-9"><a href="chap-git.html#cb254-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Coffre-fort</span></span>
+<span id="cb254-10"><a href="chap-git.html#cb254-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">vault =</span> vault)</span></code></pre></div>
+<p></p>
+<p>Le contenu du coffre-fort peut être vérifié:</p>
+<p></p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="chap-git.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Liste des données du coffre</span></span>
+<span id="cb255-2"><a href="chap-git.html#cb255-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list_secrets</span>(<span class="at">vault =</span> vault)</span></code></pre></div>
+<pre><code>##   secret        email
+## 1      X github-E....</code></pre>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="chap-git.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Liste des propriétaire de la donnée &#39;X&#39;</span></span>
+<span id="cb257-2"><a href="chap-git.html#cb257-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list_owners</span>(<span class="st">&quot;X&quot;</span>, <span class="at">vault =</span> vault)</span></code></pre></div>
+<pre><code>## [1] &quot;github-EricMarcon&quot; &quot;NomDuProjet&quot;</code></pre>
+<p></p>
+<p>Les données seront lues dans le code du projet par la commande <code>get_secret()</code>.
+La clé privée de l’utilisateur générique du projet, communiquée par un moyen sécurisé aux ayant-droits, doit se trouver dans le dossier du projet.</p>
+<p></p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="chap-git.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sélection de la clé privée</span></span>
+<span id="cb259-2"><a href="chap-git.html#cb259-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">USER_KEY =</span> usethis<span class="sc">::</span><span class="fu">proj_path</span>(<span class="fu">paste0</span>(project_id, <span class="st">&quot;.rsa&quot;</span>)))</span></code></pre></div>
+<pre><code>## ✔ Setting active project to &#39;/Users/runner/work/travailleR/travailleR&#39;</code></pre>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="chap-git.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lecture de la donnée &#39;X&#39;</span></span>
+<span id="cb261-2"><a href="chap-git.html#cb261-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_secret</span>(<span class="st">&quot;X&quot;</span>, <span class="at">vault =</span> vault)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p></p>
+<p>La clé peut être vérifiée:</p>
+<p></p>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="chap-git.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">local_key</span>()</span></code></pre></div>
+<pre><code>## [4096-bit rsa private key]
+## md5: e81dcb0745a755286c2dc1fc4c6ad117</code></pre>
+<p></p>
+</div>
+</div>
+<div id="sec:github-pages" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Pages GitHub</h2>
 <p>Tout projet sur GitHub doit avoir contenir un fichier <code>README.md</code> pour le présenter.
 Ce fichier est écrit au format Markdown.</p>
 <p>Le fichier peut être placé dans le dossier <code>docs</code> pour fournir à fois la page d’accueil du dépôt et de son site web.
 Le package <strong>memoiR</strong> fournit des commandes permettant d’automatiser ces tâches dans les projets de documents.
-Un dépôt contenant un mémo écrit en R Markdown (voir section <a href="chap-rediger.html#sec:memo">4.3.2</a>) est utilisé comme exemple<a href="#fn42" class="footnote-ref" id="fnref42"><sup>42</sup></a>.</p>
+Un dépôt contenant un article écrit en R Markdown (voir section <a href="chap-rediger.html#sec:memo">4.3.2</a>) est utilisé comme exemple<a href="#fn42" class="footnote-ref" id="fnref42"><sup>42</sup></a>.</p>
 <p>Son fichier <code>README.md</code> existe aux deux emplacements: il est écrit par le développeur à la racine du projet et dupliqué par <code>GitHubPages.R</code>.</p>
-<div id="activation" class="section level3" number="3.6.1">
-<h3><span class="header-section-number">3.6.1</span> Activation</h3>
+<div id="activation" class="section level3" number="3.7.1">
+<h3><span class="header-section-number">3.7.1</span> Activation</h3>
 <p>Pour activer les pages GitHub, il faut ouvrir les propriétés du dépôt (<em>Settings</em>) et modifier la rubrique “GitHub Pages” (dans “Options”).
 Sélectionner la branche du projet et le dossier contenant les pages web, ici: <code>master</code> et <code>/docs</code>.
 En option, le choix d’un thème personnalise l’apparence des pages.</p>
@@ -1010,8 +1127,8 @@ Ces contenus seront présentés dans le chapitre suivant.</p>
 <p>Un site web principal est proposé avec chaque compte GitHub, à l’adresse <a href="https://GitHubID.github.io" class="uri">https://GitHubID.github.io</a><a href="#fn44" class="footnote-ref" id="fnref44"><sup>44</sup></a>.
 Il sera utilisé pour héberger un site web personnel produit par <strong>blogdown</strong>.</p>
 </div>
-<div id="badges" class="section level3" number="3.6.2">
-<h3><span class="header-section-number">3.6.2</span> Badges</h3>
+<div id="badges" class="section level3" number="3.7.2">
+<h3><span class="header-section-number">3.7.2</span> Badges</h3>
 <p>Les badges sont de petites images, éventuellement mises à jour dynamiquement, qui renseignent rapidement sur le statut d’un projet.
 Ils doivent être placés immédiatement après le titre du fichier <code>README.md</code>.</p>
 <p>Une bonne pratique consiste à indiquer l’avancement dans le cycle de vie du projet.
@@ -1022,7 +1139,7 @@ Les badges correspondants sont listés sur le site du Tidyverse<a href="#fn45" c
 <p>Le package <strong>usethis</strong> simplifie leur création en plaçant le code nécessaire dans le presse-papier.
 Il suffit ensuite de le coller dans le fichier.</p>
 <p></p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="chap-git.html#cb248-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_lifecycle_badge</span>(<span class="st">&quot;maturing&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="chap-git.html#cb266-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_lifecycle_badge</span>(<span class="st">&quot;maturing&quot;</span>)</span></code></pre></div>
 <p></p>
 
 </div>

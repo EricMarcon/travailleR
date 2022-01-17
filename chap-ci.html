@@ -24,7 +24,6 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2022-01-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -316,10 +315,18 @@ div.csl-indent {
 <li class="chapter" data-level="3.5.3" data-path="chap-git.html"><a href="chap-git.html#supprimer-un-dossier"><i class="fa fa-check"></i><b>3.5.3</b> Supprimer un dossier</a></li>
 <li class="chapter" data-level="3.5.4" data-path="chap-git.html"><a href="chap-git.html#revenir-en-arrière-1"><i class="fa fa-check"></i><b>3.5.4</b> Revenir en arrière</a></li>
 </ul></li>
-<li class="chapter" data-level="3.6" data-path="chap-git.html"><a href="chap-git.html#sec:github-pages"><i class="fa fa-check"></i><b>3.6</b> Pages GitHub</a>
+<li class="chapter" data-level="3.6" data-path="chap-git.html"><a href="chap-git.html#sec:confidentiel"><i class="fa fa-check"></i><b>3.6</b> Données confidentielles dans un dépôt public</a>
 <ul>
-<li class="chapter" data-level="3.6.1" data-path="chap-git.html"><a href="chap-git.html#activation"><i class="fa fa-check"></i><b>3.6.1</b> Activation</a></li>
-<li class="chapter" data-level="3.6.2" data-path="chap-git.html"><a href="chap-git.html#badges"><i class="fa fa-check"></i><b>3.6.2</b> Badges</a></li>
+<li class="chapter" data-level="3.6.1" data-path="chap-git.html"><a href="chap-git.html#génération-dune-paire-de-clés-pour-le-propriétaire-du-projet"><i class="fa fa-check"></i><b>3.6.1</b> Génération d’une paire de clés pour le propriétaire du projet</a></li>
+<li class="chapter" data-level="3.6.2" data-path="chap-git.html"><a href="chap-git.html#génération-dune-paire-de-clés-pour-le-projet"><i class="fa fa-check"></i><b>3.6.2</b> Génération d’une paire de clés pour le projet</a></li>
+<li class="chapter" data-level="3.6.3" data-path="chap-git.html"><a href="chap-git.html#création-dun-coffre-fort"><i class="fa fa-check"></i><b>3.6.3</b> Création d’un coffre-fort</a></li>
+<li class="chapter" data-level="3.6.4" data-path="chap-git.html"><a href="chap-git.html#ajout-des-utilisateurs"><i class="fa fa-check"></i><b>3.6.4</b> Ajout des utilisateurs</a></li>
+<li class="chapter" data-level="3.6.5" data-path="chap-git.html"><a href="chap-git.html#stockage-des-données"><i class="fa fa-check"></i><b>3.6.5</b> Stockage des données</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="chap-git.html"><a href="chap-git.html#sec:github-pages"><i class="fa fa-check"></i><b>3.7</b> Pages GitHub</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="chap-git.html"><a href="chap-git.html#activation"><i class="fa fa-check"></i><b>3.7.1</b> Activation</a></li>
+<li class="chapter" data-level="3.7.2" data-path="chap-git.html"><a href="chap-git.html#badges"><i class="fa fa-check"></i><b>3.7.2</b> Badges</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="chap-rediger.html"><a href="chap-rediger.html"><i class="fa fa-check"></i><b>4</b> Rédiger</a>
@@ -428,6 +435,7 @@ div.csl-indent {
 <li class="chapter" data-level="6.2.2" data-path="chap-ci.html"><a href="chap-ci.html#sec:secrets-ci"><i class="fa fa-check"></i><b>6.2.2</b> Secrets du projet</a></li>
 <li class="chapter" data-level="6.2.3" data-path="chap-ci.html"><a href="chap-ci.html#activation-du-dépôt-sur-codecov"><i class="fa fa-check"></i><b>6.2.3</b> Activation du dépôt sur CodeCov</a></li>
 <li class="chapter" data-level="6.2.4" data-path="chap-ci.html"><a href="chap-ci.html#scripter-les-actions-de-github"><i class="fa fa-check"></i><b>6.2.4</b> Scripter les actions de GitHub</a></li>
+<li class="chapter" data-level="6.2.5" data-path="chap-ci.html"><a href="chap-ci.html#sec:confidentielCI"><i class="fa fa-check"></i><b>6.2.5</b> Données confidentielles dans un dépôt public</a></li>
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="chap-ci.html"><a href="chap-ci.html#modèles-de-scripts"><i class="fa fa-check"></i><b>6.3</b> Modèles de scripts</a>
 <ul>
@@ -670,7 +678,7 @@ Imports:
   (...)</code></pre>
 <p>Avant de déclencher le flux de travail, il est nécessaire de créer la liste des packages dans leur version en cours sur le poste de travail:</p>
 <p></p>
-<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="chap-ci.html#cb432-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>(<span class="at">type =</span> <span class="st">&quot;explicit&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="chap-ci.html#cb450-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>(<span class="at">type =</span> <span class="st">&quot;explicit&quot;</span>)</span></code></pre></div>
 <p></p>
 <p>A sa première utilisation, le package <strong>renv</strong> informe de quelques adaptations de l’environnement de travail, qu’il faut accepter.</p>
 <p>Cette commande crée le fichier <code>renv.lock</code> qui est utilisé par GitHub Actions pour installer les packages pendant l’intégration continue.
@@ -770,6 +778,16 @@ Pour ne pas exposer l’adresse publiquement, elle a été stockée dans un secr
 </ul>
 </div>
 </div>
+<div id="sec:confidentielCI" class="section level3" number="6.2.5">
+<h3><span class="header-section-number">6.2.5</span> Données confidentielles dans un dépôt public</h3>
+<p>Si le projet contient des données confidentielles (section <a href="chap-git.html#sec:confidentiel">3.6</a>), GitHub Actions doit utiliser la clé privée du projet pour les extraire de leur coffre-fort.</p>
+<p>La clé privée doit être stockée dans un secret du projet, nommé “RSA”.
+L’étape suivante, à insérer avant l’étape de tricot, écrit la clé dans un fichier pour que le code du projet y ait accès.</p>
+<pre><code>      - name: Private key
+        run: |
+          cat(&quot;${{ secrets.rsa }}&quot;, file=&quot;NomDuProjet.rsa&quot;
+        shell: Rscript {0}</code></pre>
+</div>
 </div>
 <div id="modèles-de-scripts" class="section level2" number="6.3">
 <h2><span class="header-section-number">6.3</span> Modèles de scripts</h2>
@@ -781,7 +799,7 @@ Tous nécessitent même préparation:</p>
 <li>un instantané des packages installés (<code>renv.lock</code>) doit être réalisé si <strong>renv</strong> (section <a href="chap-ci.html#sec:packages-ci">6.2.4.6</a>) est utilisé.</li>
 </ul>
 <p>La branche <code>gh-pages</code> est créée automatiquement par les scripts.
-Vérifier après la première exécution que les pages GitHub sont bien activées sur cette branche (section <a href="chap-git.html#sec:github-pages">3.6</a>).
+Vérifier après la première exécution que les pages GitHub sont bien activées sur cette branche (section <a href="chap-git.html#sec:github-pages">3.7</a>).
 Supprimer ensuite le dossier <code>docs</code> s’il existait, pousser la modification sur GitHub et enfin ajouter la ligne suivante au fichier <code>.gitignore</code> pour pouvoir tricoter localement les projets sans perturber GitHub:</p>
 <pre><code>docs/</code></pre>
 <div id="sec:memoiR-ci" class="section level3" number="6.3.1">
