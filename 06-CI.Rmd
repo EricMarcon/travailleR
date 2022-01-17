@@ -381,6 +381,20 @@ Pour ne pas exposer l'adresse publiquement, elle a été stockée dans un secret
 - *jekyll:no* pour créer un fichier vide nommé `.nojekyll` qui indique aux pages GitHub de ne pas essayer de traiter leur contenu comme un site web Jekyll.
 
 
+### Données confidentielles dans un dépôt public {#sec:confidentielCI}
+
+Si le projet contient des données confidentielles (section \@ref(sec:confidentiel)), GitHub Actions doit utiliser la clé privée du projet pour les extraire de leur coffre-fort.
+
+La clé privée doit être stockée dans un secret du projet, nommé "RSA".
+L'étape suivante, à insérer avant l'étape de tricot, écrit la clé dans un fichier pour que le code du projet y ait accès.
+```
+      - name: Private key
+        run: |
+          cat("${{ secrets.rsa }}", file="NomDuProjet.rsa"
+        shell: Rscript {0}
+```
+
+
 ## Modèles de scripts
 
 Des modèles de scripts pour tous les types de projets sont présentés ici.
