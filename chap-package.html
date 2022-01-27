@@ -824,7 +824,9 @@ development:
 De cette façon, les utilisateurs d’une version de production du package ont accès au site sans qu’il soit perturbé par les versions de développement.</p>
 <p>Le site peut être enrichi de plusieurs façons:</p>
 <ul>
-<li>En ajoutant des articles au format R Markdown dans le dossier <code>vignettes/articles</code>;</li>
+<li>En ajoutant des articles au format R Markdown dans le dossier <code>vignettes/articles</code>.
+La vignette ne peut pas mobiliser d’importantes ressources de calcul pour présenter des exemples parce qu’elle est construite en même temps que le package.
+Les articles sont générés par <strong>pkgdown</strong>, indépendamment, et peuvent donc être plus ambitieux;</li>
 <li>En améliorant sa présentation (regroupement des fonctions par thèmes, ajout de badges, d’un sticker<a href="#fn97" class="footnote-ref" id="fnref97"><sup>97</sup></a>…): se référer à la vignette de <strong>pkgdown</strong>.</li>
 </ul>
 <p>Pour enrichir la documentation du package, il est possible d’utiliser un fichier <code>README.Rmd</code> au format R Markdown, à tricoter pour créer le <code>README.md</code> standard de GitHub, utilisé comme page d’accueil du site <strong>pkgdown</strong>, qui peut de cette façon présenter des exemples d’utilisation du code.
@@ -912,7 +914,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="chap-package.html#cb371-1" aria-hidden="true" tabindex="-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7ff9ea88b568&gt;
+## &lt;bytecode: 0x7fea79dd64a8&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -1058,14 +1060,14 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb399-2"><a href="chap-package.html#cb399-2" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="fu">triple.integer</span>(2L), <span class="fu">triple.numeric</span>(<span class="dv">2</span>),</span>
 <span id="cb399-3"><a href="chap-package.html#cb399-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  322  330.5 27042.04  339.5  358.5
-##   triple.numeric(2)  324  335.0 25834.01  344.5  362.0
-##          triple(2L) 1327 1354.5  1896.26 1385.0 1468.0
+##                expr  min   lq     mean median     uq
+##  triple.integer(2L)  324  335 26345.77  344.0  378.5
+##   triple.numeric(2)  320  334 23654.90  344.5  362.5
+##          triple(2L) 1310 1334  2020.03 1352.0 1485.0
 ##      max neval
-##  2668084   100
-##  2520395   100
-##    43490   100</code></pre>
+##  2597847   100
+##  2328529   100
+##    25065   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
