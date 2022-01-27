@@ -349,6 +349,7 @@ Enfin, un site web global est prévu pour chaque utilisateur à l'adresse https:
 
 [^109]: Exemple: https://EricMarcon.github.io/
 
+
 ### Authentification SSH {#sec:SSH}
 
 La communication entre git (installé sur l'ordinateur local) et GitHub (plateforme en ligne) nécessite de s'authentifier.
@@ -360,7 +361,7 @@ Dans le terminal de RStudio, exécuter:
 ```
 ssh-keygen -t ed25519 -C "user.email"
 ```
-L'adresse de messagerie doit être celle enregistrée dans la configuration de git et le compte GitHub.
+L'adresse de messagerie (qui remplace "user.email") doit être celle enregistrée dans la configuration de git et le compte GitHub.
 La clé est enregistrée dans le dossier `.ssh` du répertoire personnel de l'utilisateur.
 Il est possible d'ajouter un mot de passe (*passphrase*) à la clé, qui devra être tapé à la première utilisation de chaque session de travail.
 Si l'ordinateur est correctement sécurisé (pas d'accès physique par des tiers), la laisser vide permet de gagner en fluidité.
@@ -368,23 +369,30 @@ Si l'ordinateur est correctement sécurisé (pas d'accès physique par des tiers
 Attention: la clé privée est strictement confidentielle et ne doit être copiée nulle part où elle pourrait être lue par un tiers (attention aux sauvegardes automatiques notamment).
 Elle n'a pas besoin d'être bien sauvegardée: en cas de perte, elle sera remplacée facilement.
 
-Dans le dossier `.ssh`, deux fichiers sont créés: l'un contient la clé privée, l'autre, avec l'extension `.pub`, la clé publique correspondante.
-Ouvrir le second avec un éditeur de texte et copier la clé publique dans le presse-papier.
-Sur GitHub, afficher les réglages de son compte (menu "Settings"), sélectionner "SSH and GPG Keys", cliquer sur "New SSH Key" et coller la clé dans le champ "Key".
-Donner un nom à la clé dans le champ "Title".
-Le nom peut être celui de l'ordinateur sur lequel la clé a été créée.
-La clé ne doit pas être copiée sur plusieurs ordinateurs: en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.
+Les clés sont normalement stockées dans le dossier `~/.ssh`, quel que soit le système d'exploitation, mais l'emplacement du dossier personnel `~` est ambiguë sous Windows : pour R, c'est le dossier `Documents`, mais pour d'autres logiciels, c'est le dossier racine de l'utilisateur, parent de `Documents`.
 
 Dans le terminal de RStudio, vérifier le bon fonctionnement de la clé:
 ```
 ssh -T git@github.com
 ```
 
-Un message indique que l'authenticité du serveur GitHub ne peut pas être vérifiée: un contrôle manuel est nécessaire pour la première connexion.
+Si un message d'erreur indique qu'aucune clé n'est trouvée, deux solutions sont possibles:
+
+- Dupliquer le dossier `.ssh` (avec l'explorateur de fichiers) dans `Documents`;
+- Dupliquer le dossier `.ssh` dans le dossier du programme RStudio (généralement `C:\Program Files\RStudio\`), dans `resources\terminal\bash\`.
+
+En cas de succès, un message indique que l'authenticité du serveur GitHub ne peut pas être vérifiée: un contrôle manuel est nécessaire pour la première connexion.
 Vérifier auprès de GitHub que l'empreinte du serveur est correcte[^112] et taper `yes`.
 Le serveur est ajouté automatiquement à la liste des serveurs connus, dans le fichier `known_hosts`.
 
 [^112]: https://docs.github.com/en/github/authenticating-to-github/githubs-ssh-key-fingerprints
+
+Dans le dossier `.ssh`, deux fichiers sont créés: l'un contient la clé privée, l'autre, avec l'extension `.pub`, la clé publique correspondante.
+Ouvrir le second avec un éditeur de texte et copier la clé publique dans le presse-papier.
+Sur GitHub, afficher les réglages de son compte (menu "Settings"), sélectionner "SSH and GPG Keys", cliquer sur "New SSH Key" et coller la clé dans le champ "Key".
+Donner un nom à la clé dans le champ "Title".
+Le nom peut être celui de l'ordinateur sur lequel la clé a été créée.
+La clé ne doit pas être copiée sur plusieurs ordinateurs: en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.
 
 Si la clé est compromise (perte ou prêt de l'ordinateur qui la contient), la supprimer sur GitHub et en créer une nouvelle.
 

@@ -343,12 +343,10 @@ Après sa dernière étape, la machine virtuelle utilisée pour cette étape est
 La publication de l'artefact dans la branche `gh-pages` du projet nécessite une autre tâche.
 
 ```
-  checkout-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     needs: renderbook
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Download artifact
         uses: actions/download-artifact@v1
         with:
@@ -366,12 +364,11 @@ La publication de l'artefact dans la branche `gh-pages` du projet nécessite une
           jekyll: no
 ```
 
-La tâche est nommée "checkout-and-deploy" (le nom est libre).
+La tâche est nommée "deploy" (le nom est libre).
 Elle s'exécute sur une machine virtuelle sous Ubuntu.
 Elle ne peut se lancer que si la tâche "renderbook" a réussi.
 Ses étapes sont les suivantes:
 
-- *Checkout*: Placement dans la branche principale du projet;
 - *Download artifact*: Restauration du dossier `docs`;
 - *Deploy to GitHub Pages*: copie du dossier `docs` dans la branche `gh-pages`.
 
@@ -382,6 +379,20 @@ Elle utilise une variable d'environnement, `GITHUB_TOKEN`, pour s'authentifier e
 Pour ne pas exposer l'adresse publiquement, elle a été stockée dans un secret du projet;
 - *buid_dir*: le répertoire à publier,
 - *jekyll:no* pour créer un fichier vide nommé `.nojekyll` qui indique aux pages GitHub de ne pas essayer de traiter leur contenu comme un site web Jekyll.
+
+
+### Données confidentielles dans un dépôt public {#sec:confidentielCI}
+
+Si le projet contient des données confidentielles (section \@ref(sec:confidentiel)), GitHub Actions doit utiliser la clé privée du projet pour les extraire de leur coffre-fort.
+
+La clé privée doit être stockée dans un secret du projet, nommé "RSA".
+L'étape suivante, à insérer avant l'étape de tricot, écrit la clé dans un fichier pour que le code du projet y ait accès.
+```
+      - name: Private key
+        run: |
+          cat("${{ secrets.rsa }}", file="NomDuProjet.rsa"
+        shell: Rscript {0}
+```
 
 
 ## Modèles de scripts
@@ -452,12 +463,10 @@ jobs:
         with:
           name: ghpages
           path: docs
-  checkout-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     needs: render
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Download artifact
         uses: actions/download-artifact@v1
         with:
@@ -514,12 +523,10 @@ jobs:
         with:
           name: ghpages
           path: docs
-  checkout-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     needs: render
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Download artifact
         uses: actions/download-artifact@v1
         with:
@@ -563,14 +570,14 @@ Le thème est ici "Slate", un des choix proposés par les pages GitHub.
 
 ### Site web blogdown {#sec:blogdown-ci}
 
-Le fichier appelé `blogkdown.yml` est très similaire, mais le contexte est différent: le code du site web est ici dans la branche `source` du dépôt (voir section \@ref(sec:blogdown)).
+Le fichier appelé `blogdown.yml` est très similaire.
 Le nom du flux de travail est `blogdown` et celui de la tâche de production est `buildsite`.
 
 ```
 on:
   push:
      branches:
-       - source
+       - master
   schedule:
     - cron: '0 22 * * 0'
 
@@ -582,41 +589,31 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-        with:
-          ref: 'source'
       - name: Setup R
         uses: r-lib/actions/setup-r@v1
       - name: Install pandoc
         uses: r-lib/actions/setup-pandoc@v1
-      - name: Cache Renv packages
-        uses: actions/cache@v2
-        with:
-          path: $HOME/.local/share/renv
-          key: r-${{ hashFiles('renv.lock') }}
-          restore-keys: r-
       - name: Install packages
         run: |
-          install.packages("renv")
-          renv::restore()
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("remotes", "blogdown", "formatR"))
+          remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Build website
         run: |
-          blogdown::install_hugo(force=TRUE)
+          blogdown::install_hugo(force = TRUE)
           blogdown::build_site(local = TRUE, build_rmd = TRUE)
         shell: Rscript {0}
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: _website
           path: public/
-  checkout-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     needs: buildsite
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: 'source'
       - name: Download artifact
         uses: actions/download-artifact@v1
         with:
@@ -629,7 +626,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         with:
-          branch: 'master'
           build_dir: public
           email: ${{ secrets.EMAIL }}
           jekyll: no
@@ -637,13 +633,7 @@ jobs:
 
 L'action `checkout` se place dans la branche `source` avec sa variable `ref`.
 
-Il n'est pas possible de mettre en cache les résultats des bouts de code parce qu'ils se trouvent dans les pages `.Rmd` du projet, dont l'emplacement n'est pas prévisible.
-Le cache se limite aux packages.
-L'utilisation de **Renv** se justifie parce que le site est reconstruit régulièrement sans intervention de l'auteur: la stabilité de son environnement permet d'éviter un échec dû à une mise à jour incompatible d'un package.
-
 La tâche `Build website` utilise le package **blogdown** pour installer Hugo (le générateur de sites web) et ensuite construire le site.
-
-Enfin, la tâche de déploiement se place dans la branche `source` pour récupérer le dossier `public` produit par la tâche de production et la déploie dans la branche `master` au lieu de la branche `gh-pages` habituelle pour respecter l'organisation de GitHub.
 
 Si le site web utilise des données en ligne qui justifient de le mettre à jour périodiquement, GitHub Actions peut être lancé tous les jours, toutes les semaines ou tous les mois en plus des reconstruction déclenchées par une modification du dépôt (voir section \@ref(sec:declenchement)).
 Ici, le site est reconstruit tous les dimanches à 22h.

@@ -598,6 +598,138 @@ git revert HEAD
 Utiliser `HEAD` évite simplement de rechercher l'identifiant correspondant.
 
 
+## Données confidentielles dans un dépôt public {#sec:confidentiel}
+
+Un dépôt public sur GitHub pose problème quand des données utilisées dans le projet ne le sont pas.
+
+Une solution peu satisfaisante consiste à ne pas inclure les données au projet, ce qui le rend non reproductible.
+Une meilleure solution est de les crypter, en permettant à certains utilisateurs de les décrypter.
+C'est l'objet du package **secret**.
+
+Un coffre-fort (dossier `vault`) est créé dans le projet.
+Il contient une liste d'utilisateurs autorisés: chacun d'entre eux doit disposer d'une paire de clés de cryptage, une clé publique incluse dans le coffre-fort et une clé privée, gardée secrète.
+Les données sont cryptées avec toutes les clés publiques disponibles (et donc dupliquées).
+Les utilisateurs utilisent ensuite chacun sa clé privée pour le décryptage.
+
+Pour ne pas multiplier les copies des données, le propriétaire du dépôt a intérêt à créer un utilisateur générique pour le projet, dont il communiquera la clé privée hors de GitHub.
+Le coffre contiendra les clés du propriétaire du projet et de l'utilisateur générique seulement.
+En cas de compromission de la clé privée de l'utilisateur générique, il suffira de le retirer du coffre-fort et d'en créer un nouveau.
+
+
+### Génération d'une paire de clés pour le propriétaire du projet
+
+Les clés sont générées par le logiciel _ssh_, installé avec _git_ ou par défaut sous Linux.
+
+La procédure est identique à celle de la section \@ref(sec:SSH), mais la clé utilisée doit être au format RSA (pris en charge par le package **secret**, contrairement au format ed25519, plus sûr, utilisé pour l'authenfication sur GitHub).
+
+Exécuter la commande suivante dans le terminal de RStudio pour créer une clé RSA:
+```
+ssh-keygen -t rsa -b 4096 -C "user.email"
+```
+
+Stocker la clé publique sur GitHub dans "Settings > SSH and GPG Keys".
+Repérer la position de la clé: si une clé d'authentification a déjà été enregistrée pour deux postes de travail par exemple, la clé RSA sera la troisième.
+
+
+### Génération d'une paire de clés pour le projet
+
+Générer une clé au format RSA dans le terminal de RStudio:
+```
+ssh-keygen -t rsa -b 4096" 
+``` 
+
+- Entrer le nom de la clé: `NomDuProjet.rsa`.
+- Ne pas saisir de phrase de validation (mot de passe) pour permettre l'utilisation de la clé sans interaction.
+
+La clé privée `NomDuProjet.rsa` ne doit être diffusée qu'aux ayant-droits du projet.
+Il faut donc ajouter la ligne `*.rsa` au fichier `.gitignore` du projet pour ne pas pousser la clé sur GitHub.
+
+Pour permettre l'intégration continue du projet (chapitre \@ref(chap-ci)), la clé privée doit être stockée comme un secret du dépôt GitHub contenant le projet.
+Appliquer la procédure de la section \@ref(sec:secrets-ci) pour créer un secret nommé "RSA" et coller le contenu du fichier `NomDuProjet.rsa` dans le champ "Value" du formulaire.
+
+L'utilisation du secret est décrite dans la section \@ref(sec:confidentielCI).
+
+
+### Création d'un coffre-fort
+
+```{r, include=FALSE}
+# Suppression du coffre-fort préexistant
+unlink("vault", recursive = TRUE, force = TRUE)
+```
+
+Exécuter:
+
+```{r}
+library("secret")
+vault <- "vault"
+create_vault(vault)
+```
+
+
+### Ajout des utilisateurs
+
+Le propriétaire du projet est ajouté à partir de sa clé publique stockée sur GitHub, qui est la troisième dans notre exemple.
+
+```{r}
+# Identifiant GitHub du propriétaire du projet
+github_user <- "EricMarcon"
+# Lecture et stockage de la clé, i est le numéro de la clé
+add_github_user(github_user, vault = vault, i = 3)
+```
+
+La clé de l'utilisateur générique du projet est ajoutée par:
+
+```{r}
+library("openssl")
+project_id <- "NomDuProjet"
+# Lecture de la clé
+rsa_project <- read_pubkey(paste0(project_id, ".rsa.pub"))
+# Ajout au coffre-fort
+add_user(project_id, public_key = rsa_project, vault = vault)
+```
+
+### Stockage des données
+
+Les données, stockées dans des variables de R, sont stockées une à une par la fonction `add_secret()`.
+Dans l'exemple suivant, la variable s'appelle `X` et vaut 1.
+
+```{r, tidy=FALSE}
+X <- 1
+add_secret(
+  # Nom de la donnée
+  "X", 
+  # Valeur
+  value = X, 
+  # Utilisateurs autorisés: propriétaire et générique
+  users = c(paste0("github-", github_user), project_id), 
+  # Coffre-fort
+  vault = vault)
+```
+
+Le contenu du coffre-fort peut être vérifié:
+
+```{r}
+# Liste des données du coffre
+list_secrets(vault = vault)
+# Liste des propriétaire de la donnée "X"
+list_owners("X", vault = vault)
+```
+
+Les données seront lues dans le code du projet par la commande `get_secret()`.
+La clé privée de l'utilisateur générique du projet, communiquée par un moyen sécurisé aux ayant-droits, doit se trouver dans le dossier du projet.
+
+```{r}
+# Sélection de la clé privée
+Sys.setenv(USER_KEY = usethis::proj_path(paste0(project_id, ".rsa")))
+# Lecture de la donnée "X"
+get_secret("X", vault = vault)
+```
+
+La clé peut être vérifiée:
+```{r}
+local_key()
+```
+
 
 ## Pages GitHub  {#sec:github-pages}
 
@@ -606,7 +738,7 @@ Ce fichier est écrit au format Markdown.
 
 Le fichier peut être placé dans le dossier `docs` pour fournir à fois la page d'accueil du dépôt et de son site web.
 Le package **memoiR** fournit des commandes permettant d'automatiser ces tâches dans les projets de documents.
-Un dépôt contenant un mémo écrit en R Markdown (voir section \@ref(sec:memo)) est utilisé comme exemple[^306].
+Un dépôt contenant un article écrit en R Markdown (voir section \@ref(sec:memo)) est utilisé comme exemple[^306].
 
 [^306]: https://github.com/EricMarcon/Krigeage
 

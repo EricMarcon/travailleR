@@ -328,7 +328,7 @@ Pour ne pas multiplier les versions décrites, il est conseillé de modifier la 
 Ensuite, l'entrée correspondant à cette version reste figée et une nouvelle entrée est ajoutée.
 
 
-## Vignette et pkgdown
+## Vignette
 
 Une vignette est indispensable pour documenter correctement le package:
 ```{r, eval=FALSE}
@@ -346,6 +346,31 @@ Le reste de l'entête permet à R de construire la vignette à partir de code R 
 
 Le corps de la vignette contient par défaut du code R pour déclarer les options de présentation des bouts de code et le chargement du package.
 Une introduction à l'utilisation du package doit être écrite dans ce document, en R Markdown.
+
+Pendant le développement du package, la vignette peut être construite manuellement en exécutant:
+```{r, eval=FALSE}
+devtools::build_vignettes("multiple") 
+```
+
+Les fichiers produits sont placés dans `doc/`: ouvrir le fichier `.html` pour contrôler le résultat.
+
+RStudio ne crée pas la vignette du package quand la commande "Install and Restart" de la fenêtre Build est appelée.
+Pour une installation complète, deux solutions sont possibles:
+
+- Construire le fichier source du package ("Build > More > Build Source Package") puis l'installer ("Packages > Install > Install from >  Package Archive file").
+Le fichier source se trouve à côté de celui du projet.
+- Pousser le code du package sur GitHub puis exécuter:
+```{r, eval=FALSE}
+remotes::install_github("multiple", build_vignettes = TRUE)
+```
+
+La vignette peut ensuite être affichée par la commande:
+```{r, eval=FALSE}
+vignette("multiple")
+```
+
+
+## pkgdown
 
 Le package **pkgdown** permet de créer un site d'accompagnement du package[^505], qui reprend le fichier `README.md` comme page d'accueil, la vignette dans une rubrique "Get Started", l'ensemble des fichiers d'aide avec leurs exemples exécutés (section "Reference"), le fichier `NEWS.md` pour un historique du package (section "Changelog") et des informations du fichier `DESCRIPTION`.
 
