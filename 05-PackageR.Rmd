@@ -526,24 +526,26 @@ Il existe dans R de nombreuses déclinaisons de `plot` qui sont des fonctions do
 **stats** fournit une fonction `plot.lm()` pour créer une figure à partir d'un modèle linéaire.
 De nombreux packages créent des classes adaptées à leurs objets et proposent une méthode `plot` pour chaque classe.
 Les fonctions peuvent être listées:
-
 ```{r}
 # Quelques fonctions plot()
 head(methods(plot))
 # Nombre total
 length(methods(plot))
 ```
+
 Inversement, les méthodes disponibles pour une classe peuvent être affichées:
 ```{r}
 methods(class = "lm")
 ```
+
 La méthode `print` est utilisée pour afficher tout objet (elle est implicite quand on saisit seulement le nom d'un objet):
 ```{r}
 my_lm <- lm(dist~speed, data=cars)
 # Equivalent de "> my_lm"
 print(my_lm)
 ```
-Le méthode `summary` affiche un résumé lisible de l'objet:
+
+La méthode `summary` affiche un résumé lisible de l'objet:
 ```{r}
 summary(my_lm)
 ```
@@ -559,6 +561,7 @@ x <- 1
 class(x) <- "MyClass"
 class(x)
 ```
+
 Une façon plus élégante de le faire est d'ajouter la nouvelle classe à l'ensemble des classes auquel l'objet appartient déjà:
 ```{r}
 y <- 1
@@ -606,7 +609,7 @@ triple.numeric<- function (x, ...){
 ```
 
 Dans sa version entière, `x` est multiplié par `3L`, le suffixe `L` signifiant que 3 doit être compris comme un entier.
-Dans sa version réelle, 3 est noté `3.0` pour montrer clairement qu'il s'agit d'un réel.
+Dans sa version réelle, 3 peut être noté `3.0` pour montrer clairement qu'il s'agit d'un réel.
 Sous R, `3` sans autre précision est compris comme un réel.
 
 Le choix de la fonction dépend de la classe de l'objet passé en argument.
@@ -681,7 +684,6 @@ summary(my_multiple)
 ```
 
 Enfin, une fonction `plot` et une fonction `autoplot` complètent l'ensemble:
-
 ```{r, tidy=FALSE}
 plot.multiple <- function(x, y, ...) {
   plot.default(y=x$y, x=x$x, type = "p", 
@@ -714,21 +716,37 @@ La gestion de l'espace des noms est un peu plus complexe:
 #' @export
 ```
 
-- Les fonctions dérivées de méthodes génériques ne doivent pas l'être mais être déclarées comme méthode, avec le nom de la méthode générique et la classe traitée. Etrangement, **roxygen2** demande qu'une directive d'exportation soit ajoutée mais ne l'applique pas (comme il se doit) dans le fichier `NAMESPACE` qui est utilisé par R:
+- Les fonctions dérivées de méthodes génériques ne doivent pas être exportées mais être déclarées comme méthodes, avec le nom de la méthode générique et la classe traitée. 
+**roxygen2** demande qu'une directive d'exportation soit ajoutée mais ne l'applique pas (comme il se doit) dans le fichier `NAMESPACE` qui est utilisé par R:
 ```
 #' @method plot multiple
 #' @export
 ```
 
-- Les fonctions dérivées de méthodes génériques venant d'un autre package nécessitent d'importer la méthode générique si elle n'est pas fournie par **base** (`print` est fourni par **base** et n'est donc pas concerné):
-```{r}
+- Depuis la version 3 de **roxygen2**, la déclaration ` @method` est inutile tant que le nom de la fonction est décomposable sans ambiguïté, comme `plot.multiple`: `@export` suffit.
+Si le nom de la fonction dérivée comporte plusieurs points, **roxygen2** peut ne pas détecter automatiquement le générique et l'objet et ` @method` doit être maintenu.
+
+- Les fonctions dérivées de méthodes génériques venant d'un autre package nécessitent d'importer la méthode générique, sauf si elle est fournie par **base** (`print` est fourni par **base** et n'est donc pas concerné):
+```
 #' @importFrom graphics plot
 #' @importFrom ggplot2 autoplot
 ```
 
-Dans `DESCRIPTION`, le package d'origine de chaque générique doit être listé dans la directive `Depends:`, pas dans `Imports:`:
+- Les génériques importés de cette manière doivent être réexportés par une directive à placer par exemple juste après le code de la fonction dérivée:
 ```
-Depends: R (>= 2.10), ggplot2, graphics
+#' @export
+graphics::plot
+
+#' @export
+ggplot2::autoplot
+```
+
+- **roxygen2** crée automatiquement un fichier d'aide `reexports.Rd` dans lequel se trouve un lien vers la documentation originale des génériques réexportés.
+
+
+Dans `DESCRIPTION`, le package d'origine de chaque générique doit être listé dans la directive `Imports:`:
+```
+Imports: ggplot2, graphics
 ```
 
 Enfin, l'importation de fonctions du tidyverse nécessite aussi quelques précautions:
@@ -740,7 +758,7 @@ Il doit être importé dans `DESCRIPTION`.
 Imports: magrittr, stats
 ```
 
-- Comme il n'est pas possible de les préfixer `%>%` par le nom du package, il faut importer la fonction en utilisant les délimiteurs prévus pour les fonctions dont le nom contient des caractères spéciaux:
+- Comme il n'est pas possible de préfixer les `%>%` par le nom du package, il faut importer la fonction en utilisant les délimiteurs prévus pour les fonctions dont le nom contient des caractères spéciaux:
 ```{r}
 #' @importFrom magrittr `%>%`
 ```
@@ -796,7 +814,6 @@ summary.multiple <- function(object, ...) {
   print.default(object$y)
 }
 
-
 #' Plot objects of class multiple
 #'
 #' @param x a vector of numbers
@@ -812,7 +829,8 @@ plot.multiple <- function(x, y, ...) {
   plot.default(y=x$y, x=x$x, type = "p", 
                main = paste("Multiplication by", x$times), ...)
 }
-
+#' @export
+graphics::plot
 
 #' autoplot
 #'
@@ -835,6 +853,8 @@ autoplot.multiple <- function(object, ...) {
     ggplot2::labs(title = paste("Multiplication by", 
                                 object$times))
 }
+#' @export
+ggplot2::autoplot
 ```
 
 
