@@ -693,7 +693,7 @@ plot.multiple <- function(x, y, ...) {
 autoplot.multiple <- function(object, ...) {
   data.frame(x = object$x, y = object$y) %>% 
     ggplot2::ggplot() +
-    ggplot2::geom_point(ggplot2::aes_(x = ~x, y = ~y)) +
+    ggplot2::geom_point(ggplot2::aes(x = .data$x, y = .data$y)) +
     ggplot2::labs(title = paste("Multiplication by", 
                                 object$times))
 }
@@ -702,7 +702,7 @@ plot(my_multiple)
 autoplot(my_multiple)
 ```
 
-Pour des raisons techniques liées à l'évaluation non conventionnelle dans le tidyverse, les fonctions `aes()` doivent être remplacées par `aes_()` dans les packages et ajouter un `~` devant les noms des variables.
+Pour des raisons techniques liées à l'évaluation non conventionnelle dans le tidyverse, les noms de variables utilisées par `aes()` doivent être préfixées par `.data$` dans les packages et `rlang::.data` doit être importé.
 Dans le cas contraire, la vérification du package renvoie une note indiquant que les variables `x` et `y`, utilisées par les arguments de `aes()` n'ont pas été déclarées et n'existent peut-être pas dans l'environnement local (voir section \@ref(sec:environnements)).
 
 #### Documentation
@@ -751,16 +751,24 @@ Imports: ggplot2, graphics
 
 Enfin, l'importation de fonctions du tidyverse nécessite aussi quelques précautions:
 
-- le package **tidyverse** est réservé à l'usage interactif de R: il n'est pas question de l'importer dans `DESCRIPTION` parce que ses dépendances peuvent changer et aboutir à des résultats imprévisibles;
-- Le package **magrittr** fournit les tuyaux, principalement `%>%`.
-Il doit être importé dans `DESCRIPTION`.
+- le package **tidyverse** est réservé à l'usage interactif de R: il n'est pas question de l'importer dans `DESCRIPTION` parce que ses dépendances peuvent changer et aboutir à des résultats imprévisibles.
+Le package **magrittr** fournit les tuyaux, principalement `%>%`.
+Le package **rlang** fournit l'objet `.data` présenté ci-dessous.
+Il doivent être importés dans `DESCRIPTION`.
 ```
-Imports: magrittr, stats
+Imports: magrittr, rlang, stats
 ```
 
 - Comme il n'est pas possible de préfixer les `%>%` par le nom du package, il faut importer la fonction en utilisant les délimiteurs prévus pour les fonctions dont le nom contient des caractères spéciaux:
 ```{r}
 #' @importFrom magrittr `%>%`
+```
+
+- Les fonctions du tidyverse qui utilisent des noms de colonnes de tibbles ou dataframes génèrent des avertissements au moment de la vérification du package parce que ces noms sont confondus avec des noms de variables non définies.
+Pour éviter cette confusions, l'objet `.data` du package **rlang** est utilisé (par exemple dans `aes()` vu plus haut).
+Il doit être importé:
+```{r}
+#' @importFrom rlang .data
 ```
 
 
@@ -842,6 +850,7 @@ graphics::plot
 #' @return a `ggplot` object
 #' @importFrom ggplot2 autoplot
 #' @importFrom magrittr `%>%`
+#' @importFrom rlang .data
 #' @export
 #'
 #' @examples
@@ -849,7 +858,7 @@ graphics::plot
 autoplot.multiple <- function(object, ...) {
   data.frame(x = object$x, y = object$y) %>%
     ggplot2::ggplot() +
-    ggplot2::geom_point(ggplot2::aes_(x = ~x, y = ~y)) +
+    ggplot2::geom_point(ggplot2::aes(x = .data$x, y = .data$y)) +
     ggplot2::labs(title = paste("Multiplication by", 
                                 object$times))
 }
