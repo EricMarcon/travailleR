@@ -323,7 +323,7 @@
 
 \author{Eric Marcon}
 
-\date{01/02/2022}
+\date{18/03/2022}
 
 
 % Include headers (preamble.tex) here
@@ -1247,7 +1247,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fb1340849f8>
+## <bytecode: 0x7fad5e9c3920>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1264,9 +1264,8 @@ Il existe beaucoup de méthodes S3 pour \texttt{print}:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "print.acf"         "print.AES"        
-## [3] "print.all_vars"    "print.anova"      
-## [5] "print.ansi_string" "print.ansi_style"
+## [1] "print.acf"      "print.AES"      "print.all_vars"
+## [4] "print.anova"    "print.any_vars" "print.aov"
 \end{verbatim}
 
 \normalsize
@@ -1727,7 +1726,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7fb1217f0710>
+## <environment: 0x7fad4c7ddcb8>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1799,7 +1798,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fb13be127d8>
+## <bytecode: 0x7fad4d7d0c50>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1987,7 +1986,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    0.02    0.00    0.02
+##   0.019   0.000   0.019
 \end{verbatim}
 
 \normalsize
@@ -2018,16 +2017,16 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 
 \begin{verbatim}
 ## Unit: microseconds
-##   expr     min       lq      mean  median       uq      max
-##  f1(X)  40.071  41.3900  56.41962  42.269  44.5775 1310.105
-##  f2(X)  47.106  49.3030  66.26494  50.237  52.9030 1401.975
-##  f3(X) 279.424 281.3325 302.88923 282.802 287.8030 1668.806
-##  f4(X) 410.175 412.4385 434.94212 415.636 421.3430 1891.433
-##  neval
-##    100
-##    100
-##    100
-##    100
+##   expr     min       lq      mean   median       uq
+##  f1(X)  40.487  42.8680  57.45628  43.7645  45.3825
+##  f2(X)  48.761  50.4045  67.30099  51.5625  53.5780
+##  f3(X) 277.214 283.2680 301.50265 284.5800 289.6905
+##  f4(X) 403.229 414.4580 433.07611 415.9845 420.3635
+##       max neval
+##  1305.940   100
+##  1423.930   100
+##  1711.957   100
+##  1926.937   100
 \end{verbatim}
 
 \normalsize
@@ -2049,11 +2048,11 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 \end{Shaded}
 
 \begin{verbatim}
-##    expr  median
-## 1 f1(X)  42.269
-## 2 f2(X)  50.237
-## 3 f3(X) 282.802
-## 4 f4(X) 415.636
+##    expr   median
+## 1 f1(X)  43.7645
+## 2 f2(X)  51.5625
+## 3 f3(X) 284.5800
+## 4 f4(X) 415.9845
 \end{verbatim}
 
 \normalsize
@@ -2082,11 +2081,11 @@ Le test précédent est affiché à nouveau.
 \end{Shaded}
 
 \begin{verbatim}
-##    expr  median
-## 1 f1(X)  42.269
-## 2 f2(X)  50.237
-## 3 f3(X) 282.802
-## 4 f4(X) 415.636
+##    expr   median
+## 1 f1(X)  43.7645
+## 2 f2(X)  51.5625
+## 3 f3(X) 284.5800
+## 4 f4(X) 415.9845
 \end{verbatim}
 
 \normalsize
@@ -2213,7 +2212,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7fb122c9dec8>
+## <bytecode: 0x7fad4c92f350>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2266,10 +2265,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr  median
-## 1                              sqrt(x1)   4.625
-## 2                lapply(x1, FUN = sqrt) 303.034
-## 3                sapply(x1, FUN = sqrt) 362.372
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 310.469
+## 1                              sqrt(x1)   4.623
+## 2                lapply(x1, FUN = sqrt) 299.600
+## 3                sapply(x1, FUN = sqrt) 352.261
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 301.039
 \end{verbatim}
 
 \normalsize
@@ -2322,8 +2321,8 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \begin{verbatim}
 ##          expr   median
-## 1  Boucle(x1) 789.7770
-## 2 Boucle2(x1)  79.1985
+## 1  Boucle(x1) 812.0060
+## 2 Boucle2(x1)  78.9485
 \end{verbatim}
 
 \begin{Shaded}
@@ -2354,8 +2353,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 301.1055
-## 2                Boucle(x1)  76.1700
+## 1 vapply(x1, FUN = sqrt, 0) 294.3375
+## 2                Boucle(x1)  76.3565
 \end{verbatim}
 
 \normalsize
@@ -2381,8 +2380,8 @@ Attention, le test de performance peut être trompeur:
 ## 1                        vapply(x1, FUN = sqrt, 0)
 ## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
 ##      median
-## 1  308.2745
-## 2 3312.6760
+## 1  301.9035
+## 2 3272.5465
 \end{verbatim}
 
 \normalsize
@@ -2449,8 +2448,8 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 
 \begin{verbatim}
 ##                        expr    median
-## 1 replicate(1000, runif(1)) 2743.1375
-## 2               runif(1000)   33.2045
+## 1 replicate(1000, runif(1)) 2880.0805
+## 2               runif(1000)   32.2365
 \end{verbatim}
 
 \normalsize
@@ -2488,9 +2487,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.599959
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.266012
-## 3       colSums(diamonds[-(2:4)]) 2.463216
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.728036
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.672621
+## 3       colSums(diamonds[-(2:4)]) 2.602394
 \end{verbatim}
 
 \normalsize
@@ -2698,7 +2697,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.529
+##   0.002   0.000   0.543
 \end{verbatim}
 
 \begin{Shaded}
@@ -2710,12 +2709,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.005   0.011   0.265
+##   0.003   0.005   0.268
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.015} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.018} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2730,7 +2729,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.053
+##   0.000   0.000   2.081
 \end{verbatim}
 
 \begin{Shaded}
@@ -2742,7 +2741,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.047
+##   0.000   0.004   1.057
 \end{verbatim}
 
 \normalsize
@@ -2761,7 +2760,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.009   1.027
+##   0.002   0.005   1.015
 \end{verbatim}
 
 \begin{Shaded}
@@ -2772,7 +2771,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.007   2.011
+##   0.003   0.007   2.084
 \end{verbatim}
 
 \normalsize
@@ -2964,7 +2963,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.521
+##   0.003   0.001   0.551
 \end{verbatim}
 
 \begin{Shaded}
@@ -2979,7 +2978,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.009   0.017   0.325
+##   0.008   0.015   0.333
 \end{verbatim}
 
 \normalsize
@@ -3065,7 +3064,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   6.061   0.050   6.180
+##   5.676   0.028   6.091
 \end{verbatim}
 
 \begin{Shaded}
@@ -3099,7 +3098,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.688   0.031   5.805
+##   5.285   0.017   5.426
 \end{verbatim}
 
 \begin{Shaded}
@@ -3141,7 +3140,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.574   0.025   5.637
+##   5.238   0.022   5.407
 \end{verbatim}
 
 \begin{Shaded}
@@ -3180,7 +3179,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.329   0.023   3.395
+##   3.056   0.012   3.300
 \end{verbatim}
 
 \begin{Shaded}
@@ -3221,7 +3220,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.860   0.446   2.246
+##   3.265   0.300   1.959
 \end{verbatim}
 
 \begin{Shaded}
@@ -3262,7 +3261,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.007   0.017   2.039
+##   1.857   0.017   2.185
 \end{verbatim}
 
 \begin{Shaded}
@@ -3308,7 +3307,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.735   0.026   2.789
+##   3.003   0.044   4.750
 \end{verbatim}
 
 \begin{Shaded}
@@ -3353,7 +3352,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.143   0.076   0.132
+##   0.128   0.057   0.132
 \end{verbatim}
 
 \begin{Shaded}
@@ -3527,11 +3526,13 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: microseconds
+## Unit: milliseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min     lq     mean  median       uq      max neval
-##  772.344 859.95 1168.127 1109.72 1270.409 2717.324   100
+##       min       lq     mean   median       uq      max
+##  1.014941 2.103101 3.094128 2.359673 2.738062 43.70594
+##  neval
+##    100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3571,13 +3572,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.209   0.039   7.364
+##   7.281   0.065   8.922
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5097} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5462} secondes.
 
 \scriptsize
 
@@ -3590,7 +3591,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.988   0.038   1.897
+##   5.137   0.056   2.405
 \end{verbatim}
 
 \normalsize
@@ -3796,24 +3797,6 @@ Les résultats sont lus par \texttt{tar\_read()}.
 \FunctionTok{tar\_read}\NormalTok{(map)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Registered S3 methods overwritten by 'spatstat.random':
-##   method                  from         
-##   as.owin.rmhmodel        spatstat.core
-##   domain.rmhmodel         spatstat.core
-##   print.rmhcontrol        spatstat.core
-##   print.rmhexpand         spatstat.core
-##   print.rmhInfoList       spatstat.core
-##   print.rmhmodel          spatstat.core
-##   print.rmhstart          spatstat.core
-##   print.summary.rmhexpand spatstat.core
-##   rjitter.psp             spatstat.core
-##   summary.rmhexpand       spatstat.core
-##   update.rmhcontrol       spatstat.core
-##   update.rmhstart         spatstat.core
-##   Window.rmhmodel         spatstat.core
-\end{verbatim}
 
 \begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-60-1} \end{center}
 
@@ -4805,6 +4788,7 @@ La clé peut être vérifiée:
 \begin{verbatim}
 ## [4096-bit rsa private key]
 ## md5: e81dcb0745a755286c2dc1fc4c6ad117
+## sha256: cca11ef82e17c3b77b699e7f3c23e083e8f0f79cb70be8274799f076c44b0c2d
 \end{verbatim}
 
 \normalsize
@@ -7645,7 +7629,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fb13430cbb0>
+## <bytecode: 0x7fad5d32f9c8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7939,14 +7923,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  324  335.0 25402.44    342  361.5
-##   triple.numeric(2)  320  334.5 19296.02    349  367.0
-##          triple(2L) 1309 1347.0  1470.04   1372 1418.0
-##      max neval
-##  2505084   100
-##  1893688   100
-##     5804   100
+##                expr  min     lq      mean median     uq
+##  triple.integer(2L)  319  326.0  25925.74  339.5  361.0
+##   triple.numeric(2)  319  328.5 176648.37  342.0  356.5
+##          triple(2L) 1307 1348.0   1749.26 1364.5 1450.5
+##       max neval
+##   2528102   100
+##  17628588   100
+##     15149   100
 \end{verbatim}
 
 \normalsize
@@ -8075,7 +8059,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \NormalTok{autoplot.multiple }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(object, ...) \{}
   \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{x =}\NormalTok{ object}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y =}\NormalTok{ object}\SpecialCharTok{$}\NormalTok{y) }\SpecialCharTok{\%\textgreater{}\%} 
 \NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
-\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{geom\_point}\NormalTok{(ggplot2}\SpecialCharTok{::}\FunctionTok{aes\_}\NormalTok{(}\AttributeTok{x =} \SpecialCharTok{\textasciitilde{}}\NormalTok{x, }\AttributeTok{y =} \SpecialCharTok{\textasciitilde{}}\NormalTok{y)) }\SpecialCharTok{+}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{geom\_point}\NormalTok{(ggplot2}\SpecialCharTok{::}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .data}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y =}\NormalTok{ .data}\SpecialCharTok{$}\NormalTok{y)) }\SpecialCharTok{+}
 \NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Multiplication by"}\NormalTok{, }
 \NormalTok{                                object}\SpecialCharTok{$}\NormalTok{times))}
 \NormalTok{\}}
@@ -8096,7 +8080,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 
 \normalsize
 
-Pour des raisons techniques liées à l'évaluation non conventionnelle dans le tidyverse, les fonctions \texttt{aes()} doivent être remplacées par \texttt{aes\_()} dans les packages et ajouter un \texttt{\textasciitilde{}} devant les noms des variables.
+Pour des raisons techniques liées à l'évaluation non conventionnelle dans le tidyverse, les noms de variables utilisées par \texttt{aes()} doivent être préfixées par \texttt{.data\$} dans les packages et \texttt{rlang::.data} doit être importé.
 Dans le cas contraire, la vérification du package renvoie une note indiquant que les variables \texttt{x} et \texttt{y}, utilisées par les arguments de \texttt{aes()} n'ont pas été déclarées et n'existent peut-être pas dans l'environnement local (voir section \ref{sec:environnements}).
 
 \hypertarget{documentation}{%
@@ -8172,14 +8156,14 @@ Enfin, l'importation de fonctions du tidyverse nécessite aussi quelques précau
 \begin{itemize}
 \tightlist
 \item
-  le package \textbf{tidyverse} est réservé à l'usage interactif de R: il n'est pas question de l'importer dans \texttt{DESCRIPTION} parce que ses dépendances peuvent changer et aboutir à des résultats imprévisibles;
-\item
+  le package \textbf{tidyverse} est réservé à l'usage interactif de R: il n'est pas question de l'importer dans \texttt{DESCRIPTION} parce que ses dépendances peuvent changer et aboutir à des résultats imprévisibles.
   Le package \textbf{magrittr} fournit les tuyaux, principalement \texttt{\%\textgreater{}\%}.
-  Il doit être importé dans \texttt{DESCRIPTION}.
+  Le package \textbf{rlang} fournit l'objet \texttt{.data} présenté ci-dessous.
+  Il doivent être importés dans \texttt{DESCRIPTION}.
 \end{itemize}
 
 \begin{verbatim}
-Imports: magrittr, stats
+Imports: magrittr, rlang, stats
 \end{verbatim}
 
 \begin{itemize}
@@ -8193,6 +8177,24 @@ Imports: magrittr, stats
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\#\textquotesingle{} @importFrom magrittr \textasciigrave{}\%\textgreater{}\%\textasciigrave{}}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
+
+\begin{itemize}
+\tightlist
+\item
+  Les fonctions du tidyverse qui utilisent des noms de colonnes de tibbles ou dataframes génèrent des avertissements au moment de la vérification du package parce que ces noms sont confondus avec des noms de variables non définies.
+  Pour éviter cette confusions, l'objet \texttt{.data} du package \textbf{rlang} est utilisé (par exemple dans \texttt{aes()} vu plus haut).
+  Il doit être importé:
+\end{itemize}
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#\textquotesingle{} @importFrom rlang .data}
 \end{Highlighting}
 \end{Shaded}
 
@@ -8275,7 +8277,7 @@ Finalement, le code complet est le suivant:
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fb13430cbb0>
+## <bytecode: 0x7fad5d32f9c8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -8291,6 +8293,7 @@ Finalement, le code complet est le suivant:
 \CommentTok{\#\textquotesingle{} @return a \textasciigrave{}ggplot\textasciigrave{} object}
 \CommentTok{\#\textquotesingle{} @importFrom ggplot2 autoplot}
 \CommentTok{\#\textquotesingle{} @importFrom magrittr \textasciigrave{}\%\textgreater{}\%\textasciigrave{}}
+\CommentTok{\#\textquotesingle{} @importFrom rlang .data}
 \CommentTok{\#\textquotesingle{} @export}
 \CommentTok{\#\textquotesingle{}}
 \CommentTok{\#\textquotesingle{} @examples}
@@ -8298,7 +8301,7 @@ Finalement, le code complet est le suivant:
 \NormalTok{autoplot.multiple }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(object, ...) \{}
   \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{x =}\NormalTok{ object}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y =}\NormalTok{ object}\SpecialCharTok{$}\NormalTok{y) }\SpecialCharTok{\%\textgreater{}\%}
 \NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
-\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{geom\_point}\NormalTok{(ggplot2}\SpecialCharTok{::}\FunctionTok{aes\_}\NormalTok{(}\AttributeTok{x =} \SpecialCharTok{\textasciitilde{}}\NormalTok{x, }\AttributeTok{y =} \SpecialCharTok{\textasciitilde{}}\NormalTok{y)) }\SpecialCharTok{+}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{geom\_point}\NormalTok{(ggplot2}\SpecialCharTok{::}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .data}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y =}\NormalTok{ .data}\SpecialCharTok{$}\NormalTok{y)) }\SpecialCharTok{+}
 \NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Multiplication by"}\NormalTok{, }
 \NormalTok{                                object}\SpecialCharTok{$}\NormalTok{times))}
 \NormalTok{\}}
@@ -8312,7 +8315,7 @@ Finalement, le code complet est le suivant:
 ## {
 ##     UseMethod("autoplot")
 ## }
-## <bytecode: 0x7fb134aefc08>
+## <bytecode: 0x7fad621dd9c0>
 ## <environment: namespace:ggplot2>
 \end{verbatim}
 
