@@ -624,7 +624,7 @@ mb <- microbenchmark(Boucle(x1), Boucle2(x1))
 # Compilation automatique par défaut depuis la version 3.5
 enableJIT(level=3)
 ```
-Le gain est considérable: de 1 à ```r format(mbs[1,2]/mbs[2,2], digits=0)```.
+Le gain est considérable: de 1 à ```r format(mbs[1,2]/mbs[2,2], digits=1)```.
 
 Les boucles for sont maintenant nettement plus rapides que `vapply`.
 
@@ -1309,7 +1309,7 @@ system.time(d <- MeanDistance(X$x, X$y))
 ```
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit ```r format(as.integer(for_time["elapsed"]*2500), digits=0)``` secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit ```r format(as.integer(for_time["elapsed"]*2500), digits=1)``` secondes.
 
 ```{r}
 system.time(d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints-1)*2)
