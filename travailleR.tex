@@ -323,7 +323,7 @@
 
 \author{Eric Marcon}
 
-\date{18/03/2022}
+\date{02/05/2022}
 
 
 % Include headers (preamble.tex) here
@@ -504,7 +504,7 @@ Sur Mac, l'installation de R est suffisante à partir de la version 4.0.0.
 
 Sous Windows, l'installation doit être complétée par les ``Rtools'', qui contiennent les outils de développement dont ceux nécessaires à la compilation des packages contenant du code C++.
 
-Le chemin des Rtools doit être déclaré à R, en exécutant dans la console de RStudio la commande suivante (adaptée à la version 4.0 des Rtools):
+Le chemin des Rtools (avant la version 4.2) doit être déclaré à R, en exécutant dans la console de RStudio la commande suivante (adaptée à la version 4.0 des Rtools):
 
 \scriptsize
 
@@ -519,10 +519,12 @@ Le chemin des Rtools doit être déclaré à R, en exécutant dans la console de
 
 \normalsize
 
+Depuis la version 4.2, cette action est inutile.
+
 Les Rtools doivent être complétés par quelques utilitaires manquants, à installer quand le besoin apparaît (en général, un avertissement de R indiquant que le logiciel n'est pas installé).
 
 La vérification des packages renvoie un avertissement si \emph{qpdf}\footnote{\url{https://sourceforge.net/projects/qpdf/}} n'est pas installé.
-Télécharger le fichier zip et coller tout le contenu du dossier \texttt{bin} dans le dossier \texttt{usr/bin} de \texttt{Rtools} (\texttt{C:\textbackslash{}Rtools40\textbackslash{}usr\textbackslash{}bin} pour la version 4.0).
+Télécharger le fichier zip et coller tout le contenu du dossier \texttt{bin} dans le dossier \texttt{usr/bin} de \texttt{Rtools} (\texttt{C:\textbackslash{}Rtools42\textbackslash{}usr\textbackslash{}bin} pour la version 4.2).
 
 Un autre avertissement est renvoyé en absence de \emph{Ghostscript}\footnote{\url{https://www.ghostscript.com/}} à télécharger et installer.
 Copier ensuite le contenu du dossier \texttt{bin} dans le dossier \texttt{usr/bin} de \texttt{Rtools}.
@@ -548,15 +550,17 @@ Les packages de R se trouvent dans deux dossiers:
 \tightlist
 \item
   la bibliothèque système (\emph{System Library}) contient les packages fournis avec R : \textbf{base}, \textbf{utils}, \textbf{graphics} par exemple.
-  Elle se trouve dans un sous-répertoire du programme d'installation (\texttt{C:\textbackslash{}Program\ Files\textbackslash{}R\textbackslash{}R-4.0.0\textbackslash{}library} pour R version 4.0.0 sous Windows 10).
+  Elle se trouve dans un sous-répertoire du programme d'installation (\texttt{C:\textbackslash{}Program\ Files\textbackslash{}R\textbackslash{}R-4.1.0\textbackslash{}library} pour R version 4.1.0 sous Windows 10).
 \item
   La bibliothèque utilisateur (\emph{User Library}) contient ceux installés par l'utilisateur.
-  Elle se trouve dans le dossier personnel de l'utilisateur, dans un sous-dossier \texttt{R\textbackslash{}win-library\textbackslash{}4.0\textbackslash{}}).
+  Jusqu'à la version 4.1, elle se trouve dans le dossier personnel de l'utilisateur, dans un sous-dossier \texttt{R\textbackslash{}win-library\textbackslash{}4.1\textbackslash{}}).
+  Depuis la version 4.2, ce dossier se trouve dans les paramètres locaux de l'utilisateur dont l'emplacement du dossier se trouve dans la variable d'environnement \texttt{\%LOCALAPPDATA\%}.
 \end{itemize}
 
-Si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), il n'est pas optimal d'y placer les packages: le trafic généré par leur sauvegarde serait lourd et inutile.
+Jusqu'à la version 4.1, si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), il n'est pas optimal d'y placer les packages: le trafic généré par leur sauvegarde serait lourd et inutile.
 Pour que les packages soient installés automatiquement dans la bibliothèque système, il suffit que l'utilisateur y ait le droit d'écrire.
 Sous Windows, donner le droit ``Modifier'' au groupe des utilisateurs de l'ordinateur sur le dossier de la bibliothèque, en plus du droit de lecture par défaut \ref{fig:R-library}).
+A partir de la version 4.2, il n'y a plus de raison de modifier le fonctionnement par défaut: les paramètres locaux ne sont pas sauvegardés.
 
 
 
@@ -587,7 +591,7 @@ L'emplacement des librairies est donné par la fonction \texttt{.libPaths()}:
 
 \begin{verbatim}
 ## [1] "/Users/runner/work/_temp/Library"                              
-## [2] "/Library/Frameworks/R.framework/Versions/4.1/Resources/library"
+## [2] "/Library/Frameworks/R.framework/Versions/4.2/Resources/library"
 \end{verbatim}
 
 \normalsize
@@ -851,13 +855,6 @@ Il contient une fonction qui vérifie si chaque package est déjà installé pou
 
 \CommentTok{\# Tidyverse \#\#\#\#}
 \FunctionTok{InstallPackages}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
-
-
-\CommentTok{\# Mes packages \#\#\#\#}
-
-\CommentTok{\# EcoFoG}
-\NormalTok{remotes}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"EcoFoG/EcoFoG"}\NormalTok{, }
-                        \AttributeTok{build\_vignettes =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1247,7 +1244,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fad5e9c3920>
+## <bytecode: 0x7fc287b0ee08>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1726,7 +1723,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7fad4c7ddcb8>
+## <environment: 0x7fc294d64650>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1798,7 +1795,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fad4d7d0c50>
+## <bytecode: 0x7fc276863a18>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1986,7 +1983,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.019   0.000   0.019
+##   0.023   0.000   0.023
 \end{verbatim}
 
 \normalsize
@@ -2018,15 +2015,15 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq
-##  f1(X)  40.487  42.8680  57.45628  43.7645  45.3825
-##  f2(X)  48.761  50.4045  67.30099  51.5625  53.5780
-##  f3(X) 277.214 283.2680 301.50265 284.5800 289.6905
-##  f4(X) 403.229 414.4580 433.07611 415.9845 420.3635
+##  f1(X)  38.321  41.6150  57.95106  43.6350  46.2780
+##  f2(X)  47.596  49.8990  67.90378  51.4305  56.2845
+##  f3(X) 276.623 281.2775 304.26661 285.8795 292.2925
+##  f4(X) 411.144 415.0140 443.44620 421.8570 433.9420
 ##       max neval
-##  1305.940   100
-##  1423.930   100
-##  1711.957   100
-##  1926.937   100
+##  1286.237   100
+##  1420.475   100
+##  1851.762   100
+##  1993.775   100
 \end{verbatim}
 
 \normalsize
@@ -2049,10 +2046,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  43.7645
-## 2 f2(X)  51.5625
-## 3 f3(X) 284.5800
-## 4 f4(X) 415.9845
+## 1 f1(X)  43.6350
+## 2 f2(X)  51.4305
+## 3 f3(X) 285.8795
+## 4 f4(X) 421.8570
 \end{verbatim}
 
 \normalsize
@@ -2082,10 +2079,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  43.7645
-## 2 f2(X)  51.5625
-## 3 f3(X) 284.5800
-## 4 f4(X) 415.9845
+## 1 f1(X)  43.6350
+## 2 f2(X)  51.4305
+## 3 f3(X) 285.8795
+## 4 f4(X) 421.8570
 \end{verbatim}
 
 \normalsize
@@ -2212,7 +2209,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7fad4c92f350>
+## <bytecode: 0x7fc276ac29e8>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2264,11 +2261,11 @@ Elle est déclinée sous plusieurs versions:
 \end{Shaded}
 
 \begin{verbatim}
-##                                    expr  median
-## 1                              sqrt(x1)   4.623
-## 2                lapply(x1, FUN = sqrt) 299.600
-## 3                sapply(x1, FUN = sqrt) 352.261
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 301.039
+##                                    expr   median
+## 1                              sqrt(x1)   4.6025
+## 2                lapply(x1, FUN = sqrt) 305.9085
+## 3                sapply(x1, FUN = sqrt) 366.0535
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 297.8595
 \end{verbatim}
 
 \normalsize
@@ -2321,8 +2318,8 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \begin{verbatim}
 ##          expr   median
-## 1  Boucle(x1) 812.0060
-## 2 Boucle2(x1)  78.9485
+## 1  Boucle(x1) 851.7015
+## 2 Boucle2(x1)  78.6525
 \end{verbatim}
 
 \begin{Shaded}
@@ -2337,7 +2334,7 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{verbatim}
 
 \normalsize
-Le gain est considérable: de 1 à \texttt{10}.
+Le gain est considérable: de 1 à \texttt{11}.
 
 Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
@@ -2352,9 +2349,9 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 294.3375
-## 2                Boucle(x1)  76.3565
+##                        expr  median
+## 1 vapply(x1, FUN = sqrt, 0) 303.924
+## 2                Boucle(x1)  76.568
 \end{verbatim}
 
 \normalsize
@@ -2376,12 +2373,9 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr
-## 1                        vapply(x1, FUN = sqrt, 0)
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
-##      median
-## 1  301.9035
-## 2 3272.5465
+##                                               expr   median
+## 1                        vapply(x1, FUN = sqrt, 0)  308.978
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3610.893
 \end{verbatim}
 
 \normalsize
@@ -2447,9 +2441,9 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr    median
-## 1 replicate(1000, runif(1)) 2880.0805
-## 2               runif(1000)   32.2365
+##                        expr   median
+## 1 replicate(1000, runif(1)) 4297.887
+## 2               runif(1000)   33.781
 \end{verbatim}
 
 \normalsize
@@ -2487,9 +2481,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.728036
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.672621
-## 3       colSums(diamonds[-(2:4)]) 2.602394
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.824472
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.798455
+## 3       colSums(diamonds[-(2:4)]) 2.578881
 \end{verbatim}
 
 \normalsize
@@ -2697,7 +2691,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.543
+##   0.003   0.000   0.762
 \end{verbatim}
 
 \begin{Shaded}
@@ -2709,12 +2703,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.005   0.268
+##   0.006   0.013   0.395
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.018} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.14} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2729,7 +2723,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.081
+##    0.00    0.00    2.24
 \end{verbatim}
 
 \begin{Shaded}
@@ -2741,7 +2735,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.004   1.057
+##   0.005   0.011   1.125
 \end{verbatim}
 
 \normalsize
@@ -2760,7 +2754,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.005   1.015
+##   0.001   0.003   1.141
 \end{verbatim}
 
 \begin{Shaded}
@@ -2771,7 +2765,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.007   2.084
+##   0.004   0.012   2.200
 \end{verbatim}
 
 \normalsize
@@ -2963,7 +2957,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.001   0.551
+##   0.003   0.000   0.643
 \end{verbatim}
 
 \begin{Shaded}
@@ -2978,7 +2972,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.015   0.333
+##   0.007   0.016   0.310
 \end{verbatim}
 
 \normalsize
@@ -3064,7 +3058,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.676   0.028   6.091
+##   5.447   0.032   5.514
 \end{verbatim}
 
 \begin{Shaded}
@@ -3098,7 +3092,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.285   0.017   5.426
+##   5.315   0.033   5.448
 \end{verbatim}
 
 \begin{Shaded}
@@ -3140,7 +3134,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.238   0.022   5.407
+##   5.209   0.024   5.258
 \end{verbatim}
 
 \begin{Shaded}
@@ -3179,7 +3173,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.056   0.012   3.300
+##   3.058   0.029   3.208
 \end{verbatim}
 
 \begin{Shaded}
@@ -3220,7 +3214,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.265   0.300   1.959
+##   3.391   0.401   2.000
 \end{verbatim}
 
 \begin{Shaded}
@@ -3261,7 +3255,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.857   0.017   2.185
+##   1.974   0.013   2.010
 \end{verbatim}
 
 \begin{Shaded}
@@ -3307,7 +3301,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.003   0.044   4.750
+##   2.761   0.024   2.800
 \end{verbatim}
 
 \begin{Shaded}
@@ -3352,7 +3346,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.128   0.057   0.132
+##   0.129   0.063   0.121
 \end{verbatim}
 
 \begin{Shaded}
@@ -3526,13 +3520,11 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: milliseconds
+## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##       min       lq     mean   median       uq      max
-##  1.014941 2.103101 3.094128 2.359673 2.738062 43.70594
-##  neval
-##    100
+##      min       lq     mean  median      uq      max neval
+##  779.633 885.3555 1127.122 915.284 1281.08 2573.438   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3572,13 +3564,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.281   0.065   8.922
+##   7.104   0.036   7.179
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5462} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5024} secondes.
 
 \scriptsize
 
@@ -3591,7 +3583,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.137   0.056   2.405
+##   4.957   0.052   2.224
 \end{verbatim}
 
 \normalsize
@@ -3745,7 +3737,7 @@ Le flux est exécuté par \texttt{tar\_make()}.
 ## • built target d
 ## • start target map
 ## • built target map
-## • end pipeline
+## • end pipeline: 3.877 seconds
 \end{verbatim}
 
 \normalsize
@@ -3773,7 +3765,7 @@ Le flux est maintenant à jour et \texttt{tar\_make()} ne refait aucun calcul.
 ## ✔ skip target X
 ## ✔ skip target d
 ## ✔ skip target map
-## ✔ skip pipeline
+## ✔ skip pipeline: 0.314 seconds
 \end{verbatim}
 
 \normalsize
@@ -4676,7 +4668,7 @@ La clé de l'utilisateur générique du projet est ajoutée par:
 \end{Shaded}
 
 \begin{verbatim}
-## Linking to: OpenSSL 1.1.1l  24 Aug 2021
+## Linking to: OpenSSL 1.1.1m  14 Dec 2021
 \end{verbatim}
 
 \begin{Shaded}
@@ -6866,7 +6858,7 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 ## • built target d
 ## • start target map
 ## • built target map
-## • end pipeline
+## • end pipeline: 3.423 seconds
 \end{verbatim}
 
 \normalsize
@@ -7629,7 +7621,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fad5d32f9c8>
+## <bytecode: 0x7fc28a75ac30>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7923,14 +7915,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq      mean median     uq
-##  triple.integer(2L)  319  326.0  25925.74  339.5  361.0
-##   triple.numeric(2)  319  328.5 176648.37  342.0  356.5
-##          triple(2L) 1307 1348.0   1749.26 1364.5 1450.5
-##       max neval
-##   2528102   100
-##  17628588   100
-##     15149   100
+##                expr  min   lq     mean median     uq
+##  triple.integer(2L)  333  346 23799.26  357.5  380.0
+##   triple.numeric(2)  336  346 21341.21  366.0  393.5
+##          triple(2L) 1353 1375  1506.29 1384.5 1435.0
+##      max neval
+##  2342942   100
+##  2095442   100
+##     6063   100
 \end{verbatim}
 
 \normalsize
@@ -8277,7 +8269,7 @@ Finalement, le code complet est le suivant:
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fad5d32f9c8>
+## <bytecode: 0x7fc28a75ac30>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -8315,7 +8307,7 @@ Finalement, le code complet est le suivant:
 ## {
 ##     UseMethod("autoplot")
 ## }
-## <bytecode: 0x7fad621dd9c0>
+## <bytecode: 0x7fc289b9cd90>
 ## <environment: namespace:ggplot2>
 \end{verbatim}
 
