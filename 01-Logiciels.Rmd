@@ -31,7 +31,7 @@ Sur Mac, l'installation de R est suffisante à partir de la version 4.0.0.
 
 Sous Windows, l'installation doit être complétée par les "Rtools", qui contiennent les outils de développement dont ceux nécessaires à la compilation des packages contenant du code C++.
 
-Le chemin des Rtools doit être déclaré à R, en exécutant dans la console de RStudio la commande suivante (adaptée à la version 4.0 des Rtools):
+Le chemin des Rtools (avant la version 4.2) doit être déclaré à R, en exécutant dans la console de RStudio la commande suivante (adaptée à la version 4.0 des Rtools):
 ```{r, tidy=FALSE}
 # Rtools : déclaration du chemin, 
 # nécessite de redémarrer RStudio
@@ -39,10 +39,12 @@ writeLines('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"',
            con = "~/.Renviron")
 ```
 
+Depuis la version 4.2, cette action est inutile.
+
 Les Rtools doivent être complétés par quelques utilitaires manquants, à installer quand le besoin apparaît (en général, un avertissement de R indiquant que le logiciel n'est pas installé).
 
 La vérification des packages renvoie un avertissement si *qpdf*[^110] n'est pas installé.
-Télécharger le fichier zip et coller tout le contenu du dossier `bin` dans le dossier `usr/bin` de `Rtools` (`C:\Rtools40\usr\bin` pour la version 4.0).
+Télécharger le fichier zip et coller tout le contenu du dossier `bin` dans le dossier `usr/bin` de `Rtools` (`C:\Rtools42\usr\bin` pour la version 4.2).
 
 [^110]: https://sourceforge.net/projects/qpdf/
 
@@ -69,13 +71,15 @@ En usage courant, il est préférable de désinstaller manuellement les ancienne
 Les packages de R se trouvent dans deux dossiers:
 
 * la bibliothèque système (*System Library*) contient les packages fournis avec R : **base**, **utils**, **graphics** par exemple.
-Elle se trouve dans un sous-répertoire du programme d'installation (`C:\Program Files\R\R-4.0.0\library` pour R version 4.0.0 sous Windows 10).
+Elle se trouve dans un sous-répertoire du programme d'installation (`C:\Program Files\R\R-4.1.0\library` pour R version 4.1.0 sous Windows 10).
 * La bibliothèque utilisateur (*User Library*) contient ceux installés par l'utilisateur.
-Elle se trouve dans le dossier personnel de l'utilisateur, dans un sous-dossier `R\win-library\4.0\`).
+Jusqu'à la version 4.1, elle se trouve dans le dossier personnel de l'utilisateur, dans un sous-dossier `R\win-library\4.1\`).
+Depuis la version 4.2, ce dossier se trouve dans les paramètres locaux de l'utilisateur dont l'emplacement du dossier se trouve dans la variable d'environnement `%LOCALAPPDATA%`.
 
-Si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), il n'est pas optimal d'y placer les packages: le trafic généré par leur sauvegarde serait lourd et inutile.
+Jusqu'à la version 4.1, si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), il n'est pas optimal d'y placer les packages: le trafic généré par leur sauvegarde serait lourd et inutile.
 Pour que les packages soient installés automatiquement dans la bibliothèque système, il suffit que l'utilisateur y ait le droit d'écrire.
 Sous Windows, donner le droit "Modifier" au groupe des utilisateurs de l'ordinateur sur le dossier de la bibliothèque, en plus du droit de lecture par défaut \@ref(fig:R-library)).
+A partir de la version 4.2, il n'y a plus de raison de modifier le fonctionnement par défaut: les paramètres locaux ne sont pas sauvegardés.
 
 (ref:R-library) Activation du droit de modifier la bibliothèque système sous Windows.
 ```{r R-library, fig.cap="(ref:R-library)", echo=FALSE}
@@ -279,13 +283,6 @@ InstallPackages(c(
 
 # Tidyverse ####
 InstallPackages("tidyverse")
-
-
-# Mes packages ####
-
-# EcoFoG
-remotes::install_github("EcoFoG/EcoFoG", 
-                        build_vignettes = TRUE)
 ```
 
 La dernière partie du script est à compléter avec les packages utilisés régulièrement.
