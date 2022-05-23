@@ -265,6 +265,8 @@ Il pourra être mis à jour à tout moment pour prendre en compte leur mise à j
 Alternativement, les packages nécessaires peuvent être installés sans l'aide de **Renv**:
 ```
       - name: Install packages
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
@@ -291,6 +293,9 @@ Les packages ne contenant que du code R ou du code C++ sans référence à des l
 En revanche, si le package nécessite des librairies externes à R ou une compilation de code Fortran, l'installation échoue.
 Il serait donc nécessaire d'installer préalablement les librairies nécessaires (et éventuellement un compilateur Fortran) à l'ensemble des packages dont le projet dépend: cette solution n'est pas réaliste parce qu'elle implique l'inventaire de l'ensemble des dépendances, qui peuvent changer, et un nombre important d'installations chronophages et inutiles la plupart du temps, quand les packages binaires sont à jour.
 Une meilleure solution est de forcer l'installation des packages binaires même si le code source est plus récent: c'est l'objet des deux options de R définies avant l'appel à `install.packages()`.
+
+Enfin, le secret `GH_PAT` est passé à R dans une variable d'environnement, `GITHUB_PAT`, nécessaire pour installer des packages à partir leur code source sur GitHub.
+GitHub limite le rythme des accès anonymes pour l'ensemble des actions GitHub (tous comptes confondus) et peut rejeter la demande: en pratique, utiliser `install_github()` dans une action GitHub n'est envisageable qu'avec cette variable d'environnement.
 
 Dans cette approche, les packages ne sont pas mis en cache.
 
