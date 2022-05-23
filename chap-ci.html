@@ -23,7 +23,6 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2022-02-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -686,6 +685,8 @@ Imports:
 Il pourra être mis à jour à tout moment pour prendre en compte leur mise à jour.</p>
 <p>Alternativement, les packages nécessaires peuvent être installés sans l’aide de <strong>Renv</strong>:</p>
 <pre><code>      - name: Install packages
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
         run: |
           options(pkgType = &quot;binary&quot;)
           options(install.packages.check.source = &quot;no&quot;)
@@ -708,6 +709,8 @@ Les packages ne contenant que du code R ou du code C++ sans référence à des l
 En revanche, si le package nécessite des librairies externes à R ou une compilation de code Fortran, l’installation échoue.
 Il serait donc nécessaire d’installer préalablement les librairies nécessaires (et éventuellement un compilateur Fortran) à l’ensemble des packages dont le projet dépend: cette solution n’est pas réaliste parce qu’elle implique l’inventaire de l’ensemble des dépendances, qui peuvent changer, et un nombre important d’installations chronophages et inutiles la plupart du temps, quand les packages binaires sont à jour.
 Une meilleure solution est de forcer l’installation des packages binaires même si le code source est plus récent: c’est l’objet des deux options de R définies avant l’appel à <code>install.packages()</code>.</p>
+<p>Enfin, le secret <code>GH_PAT</code> est passé à R dans une variable d’environnement, <code>GITHUB_PAT</code>, nécessaire pour installer des packages à partir leur code source sur GitHub.
+GitHub limite le rythme des accès anonymes pour l’ensemble des actions GitHub (tous comptes confondus) et peut rejeter la demande: en pratique, utiliser <code>install_github()</code> dans une action GitHub n’est envisageable qu’avec cette variable d’environnement.</p>
 <p>Dans cette approche, les packages ne sont pas mis en cache.</p>
 </div>
 <div id="tricot" class="section level4 hasAnchor" number="6.2.4.7">
