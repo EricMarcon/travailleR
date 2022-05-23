@@ -552,6 +552,8 @@ La fonction `build_githubpages()` (voir section \@ref(sec:memo)) place les résu
 
 La tâche de déploiement indique aux pages GitHub d'utiliser Jekyll, c'est-à-dire d'utiliser le fichier `README.md` comme page d'accueil.
 
+#### Internationalisation
+
 Si l'étape de tricot nécessite de modifier la langue utilisée par R, par exemple pour afficher correctement la date de production des documents, elle peut être modifiée comme ceci:
 ```
       - name: Render Rmarkdown files
@@ -571,6 +573,44 @@ Cette étape peut être complétée par la sélection d'un thème GitHub Pages p
 ```
 
 Le thème est ici "Slate", un des choix proposés par les pages GitHub.
+
+#### Débogage
+
+Il peut arriver que  la compilation du fichier `.tex` pour produire le fichier PDF échoue, bien que le tricot en HTML ne génère pas d'erreur.
+Le compilateur LaTeX est en effet plus exigeant que pandoc (qui produit le fichier HTML).
+
+La première vérification consiste à tricoter en PDF localement, sur son poste de travail, le document qui pose problème, avec **tinytex**.
+Les packages LaTeX doivent être mis à jour pour être les mêmes que ceux utilisés par les actions GitHub: pour cela, exécuter:
+
+```{r, eval=FALSE}
+tinytex::tlmgr_update()
+```
+
+Si la compilation fonctionne localement mais pas sur Github, il faut inspecter le fichier `.log` qui enregistre tous les évènements générés par le compilateur, mais ce fichier n'est pas conservé après l'échec de GitHub Actions. 
+Il faut donc modifier le script pour copier le fichier dans `docs` puis créer sauvegarder le résultat malgré l'erreur.
+
+L'étape "Upload artifact" est modifiée pour s'exécuter malgré l'échec de l'étape  précédente en ajoutant la ligne `if:`:
+
+```
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: _book
+          path: docs/
+```
+
+Une étape est ajoutée avant "Upload artifact" pour copier le résultat du tricot et le fichier `.log`:
+```
+      - name: Move files to docs
+        if: always()
+        run: |
+          Rscript -e 'memoiR::build_githubpages()'
+          cp *.log docs
+```
+
+Après l'échec de l'action, l’artéfact sauvegardé peut être téléchargé à partir de GitHub: il se trouve sur la page de résumé de l'action.
+Il s'agit d'un fichier compressé qui contient tout le dossier `docs`.
 
 
 ### Site web blogdown {#sec:blogdown-ci}
