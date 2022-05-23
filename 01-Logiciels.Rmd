@@ -406,20 +406,37 @@ Générer un nouveau jeton, le décrire en tant que "git-RStudio" et lui donner 
 Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard: elle doit être sauvegardée comme un mot de passe.
 
 
-## MiKTeX
+## Compilateur LaTeX
 
-Pour produire des documents au format PDF, une distribution Latex est nécessaire.
-La solution légère consiste à installer le package **tinytex**: sa fonction `install_tinytex()` installe une distribution LaTeX optimisée pour R Markdown.
+Pour produire des documents au format PDF, une distribution LaTeX est nécessaire.
+La solution légère consiste à installer le package **tinytex** qui installe à son tour une distribution LaTeX optimisée pour R Markdown.
 
-Une distribution complète est préférée ici parce qu'elle permet l'utilisation de Latex au-delà de RStudio.
-MiKTeX[^105] est une très bonne solution pour Windows et Mac.
-
-[^105]: https://miktex.org/download
+Une distribution complète permet l'utilisation de Latex au-delà de RStudio mais est inutile si l'usage de LaTeX se limite au tricot de documents R Markdown.
+MiKTeX est une très bonne solution pour Windows et Mac.
 
 
-### Installation
+### tinytex
 
-Télécharger le fichier d'installation et l'exécuter.
+Installer le package puis exécuter:
+
+```{r, eval=FALSE}
+install_tinytex()
+```
+
+L'ajout de packages LaTeX non inclus dans la distribution minimale de départ est automatique mais peut être lente.
+
+La distribution peut être mise à jour par la commande:
+
+```{r, eval=FALSE}
+tinytex::tlmgr_update()
+```
+
+
+### MiKTeX
+
+#### Installation
+
+Télécharger le fichier d'installation[^105] et l'exécuter.
 Plusieurs choix sont à faire pendant l'installation:
 
 * Installer le programme pour tous les utilisateurs (avec des droits d'administrateur);
@@ -428,8 +445,9 @@ Plusieurs choix sont à faire pendant l'installation:
 
 Pour Linux, suivre les instructions sur le site de MiKTeX.
 
+[^105]: https://miktex.org/download
 
-### Mises à jour
+#### Mises à jour
 
 MiKTeX est installé avec les packages LaTeX les plus utilisés.
 Si un document nécessite un package manquant, il est chargé automatiquement.
