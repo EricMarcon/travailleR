@@ -40,7 +40,7 @@ Il est possible de créer cette structure manuellement mais des packages spécia
 
 
 Les trois sont à installer en premier lieu:
-```{r, eval=FALSE}
+```{r install_pkg, eval=FALSE}
 install.packages(c("usethis", "roxygen2", "devtools"))
 ```
 
@@ -83,7 +83,7 @@ Le choix fait ici est le suivant:
 #### Création
 
 La première fonction, `double()`, est créée et enregistrée dans le fichier `fonctions.R`:
-```{r}
+```{r double}
 double <- function(number) {
   return(2*number)
 }
@@ -91,12 +91,12 @@ double <- function(number) {
 
 A ce stade, la fonction est interne au package et n'est pas accessible depuis l'environnement de travail. 
 Pour s'en persuader, construire le package (*Install and Restart*) et vérifier le bon fonctionnement de la fonction:
-```{r, eval=FALSE}
+```{r double2, eval=FALSE}
 double(2)
 ```
 
 Le résultat est un vecteur composé de deux 0 parce que la fonction appelée est un homonyme du package **base** (voir sa documentation en tapant `?double`):
-```{r}
+```{r base_double}
 base::double(2)
 ```
 
@@ -104,7 +104,7 @@ Pour que la fonction de notre package soit visible, elle doit être *exportée* 
 C'est le travail de **roxygen2** qui gère en même temps la documentation de chaque fonction.
 Pour l'activer, placer le curseur dans la fonction et appeler le menu "Code > Insert Roxygen Skeleton".
 Des commentaires sont ajoutés avant la fonction:
-```{r, eval=FALSE}
+```{r double_f, eval=FALSE}
 #' Title
 #'
 #' @param number 
@@ -129,7 +129,7 @@ Les commentaires à destination de **roxygen2** commencent par `#'`:
 * des exemples peuvent être ajoutés.
 
 La documentation doit être complétée:
-```{r, eval=FALSE}
+```{r double_roxy, eval=FALSE}
 #' double
 #' 
 #' Double value of numbers.
@@ -160,7 +160,7 @@ Ne pas hésiter à s'inspirer de l'aide de fonctions existantes pour respecter l
 La prise en compte des changements dans la documentation nécessitent d'appeler la fonction `roxygenize()`.
 Dans la fenêtre *Build*, le menu "More > Document" permet de le faire.
 Ensuite, construire le package (*Install and Restart*) et vérifier le résultat en exécutant la fonction et en affichant son aide:
-```{r, eval=FALSE}
+```{r double_help, eval=FALSE}
 double(2)
 ?double
 ```
@@ -187,7 +187,7 @@ Par exemple, le retour suivant est un avertissement sur la non-conformité de la
 Erreur : R CMD check found WARNINGs
 ```
 Pour la corriger, mettre à jour, exécuter la commande de  mise à jour de la licence, en commençant par votre nom:
-```{r, eval=FALSE}
+```{r use_gpl3_license, eval=FALSE}
 options(usethis.full_name = "Eric Marcon")
 usethis::use_gpl3_license()
 ```
@@ -333,7 +333,7 @@ Ensuite, l'entrée correspondant à cette version reste figée et une nouvelle e
 ## Vignette
 
 Une vignette est indispensable pour documenter correctement le package:
-```{r, eval=FALSE}
+```{r use_vignette, eval=FALSE}
 usethis::use_vignette("multiple")
 ```
 
@@ -350,7 +350,7 @@ Le corps de la vignette contient par défaut du code R pour déclarer les option
 Une introduction à l'utilisation du package doit être écrite dans ce document, en R Markdown.
 
 Pendant le développement du package, la vignette peut être construite manuellement en exécutant:
-```{r, eval=FALSE}
+```{r build_vignettes, eval=FALSE}
 devtools::build_vignettes("multiple") 
 ```
 
@@ -362,12 +362,12 @@ Pour une installation complète, deux solutions sont possibles:
 - Construire le fichier source du package ("Build > More > Build Source Package") puis l'installer ("Packages > Install > Install from >  Package Archive file").
 Le fichier source se trouve à côté de celui du projet.
 - Pousser le code du package sur GitHub puis exécuter:
-```{r, eval=FALSE}
+```{r install_github_5, eval=FALSE}
 remotes::install_github("multiple", build_vignettes = TRUE)
 ```
 
 La vignette peut ensuite être affichée par la commande:
-```{r, eval=FALSE}
+```{r vignette_multiple, eval=FALSE}
 vignette("multiple")
 ```
 
@@ -379,13 +379,13 @@ Le package **pkgdown** permet de créer un site d'accompagnement du package[^505
 [^505]: Exemple: https://EricMarcon.github.io/entropart/
 
 Créer le site avec **usethis**
-```{r, eval=FALSE}
+```{r use_pkgdown, eval=FALSE}
 usethis::use_pkgdown()
 ```
 
 Construire ensuite le site.
 Cette commande sera exécutée à nouveau à chaque changement de version du package:
-```{r, eval=FALSE}
+```{r build_site_5, eval=FALSE}
 pkgdown::build_site()
 ```
 
@@ -432,7 +432,7 @@ La complexité ajoutée est à comparer au gain obtenu: une page d'accueil simpl
 ### Importation de fonctions
 
 Créons une nouvelle fonction dans `fonctions.R` qui ajoute un bruit aléatoire à la valeur double:
-```{r}
+```{r fuzzydouble}
 fuzzydouble <- function(number, sd=1) {
   return(2*number + rnorm(length(number), 0, sd))
 }
@@ -455,7 +455,7 @@ Cette "importation" signifie simplement que le package **stats** doit être char
 Ensuite, la fonction `rnorm()` doit être trouvable dans l'environnement du package **multiple**.
 Il y a plusieurs façons de remplir cette obligation.
 D'abord, le commentaire suivant pourrait être fourni pour **roxygen2**:
-```{r}
+```{r stats}
 #' @import stats
 ```
 
@@ -464,7 +464,7 @@ Ce n'est pas une bonne pratique parce qu'elle multiplie les risques de conflits 
 Notons que la notion d'importation utilisée ici est différente de celle de `DESCRIPTION`, bien qu'elles aient le même nom.
  
 Il est préférable d'importer uniquement la fonction `rnorm()` en la déclarant dans la documentation de la fonction:
-```{r}
+```{r rnorm}
 #' @importFrom stats rnorm
 ```
 
@@ -473,7 +473,7 @@ Ce n'est pas une pratique idéale non plus parce que l'origine de la fonction n'
 La bonne pratique est de ne rien importer (au sens de **roxygen2**) et de qualifier systématiquement les fonctions d'autres packages avec la syntaxe `package::fonction()`.
 C'est la solution retenue ici parce que la directive `@importFrom` importerait la fonction dans tout le package **multiple**, pas seulement dans la fonction `fuzzydouble()`, au risque de créer des effets de bord (modifier le comportement d'une autre fonction du package qui n'assumerait pas l'importation de `rnorm()`).
 Finalement, le code de la fonction est le suivant:
-```{r, eval=FALSE}
+```{r fuzzydouble_roxy, eval=FALSE}
 #' fuzzydouble
 #' 
 #' Double value of numbers with an error
@@ -506,7 +506,7 @@ Les méthodes S3 sont présentées en section \@ref(sec:S3).
 #### Classes
 
 Les objets appartiennent à des classes:
-```{r}
+```{r class}
 # Classe d'un nombre
 class(2)
 # Classe d'une fonction
@@ -520,7 +520,7 @@ En plus des classes de base, les développeurs peuvent en créer d'autres.
 
 L'intérêt de créer de nouvelles classes est de leur adapter des méthodes existantes, le cas le plus courant étant `plot()`.
 Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans code, à décliner selon la classe d'objet à traiter.
-```{r}
+```{r plot}
 plot
 ```
 
@@ -528,7 +528,7 @@ Il existe dans R de nombreuses déclinaisons de `plot` qui sont des fonctions do
 **stats** fournit une fonction `plot.lm()` pour créer une figure à partir d'un modèle linéaire.
 De nombreux packages créent des classes adaptées à leurs objets et proposent une méthode `plot` pour chaque classe.
 Les fonctions peuvent être listées:
-```{r}
+```{r methods}
 # Quelques fonctions plot()
 head(methods(plot))
 # Nombre total
@@ -541,14 +541,14 @@ methods(class = "lm")
 ```
 
 La méthode `print` est utilisée pour afficher tout objet (elle est implicite quand on saisit seulement le nom d'un objet):
-```{r}
+```{r print}
 my_lm <- lm(dist~speed, data=cars)
 # Equivalent de "> my_lm"
 print(my_lm)
 ```
 
 La méthode `summary` affiche un résumé lisible de l'objet:
-```{r}
+```{r summary}
 summary(my_lm)
 ```
 
@@ -558,14 +558,14 @@ Les autres méthodes ont été créées spécifiquement pour les besoins du pack
 #### Attribution d'un objet à une classe
 
 Pour qu'un objet appartient à une classe, il suffit de le déclarer:
-```{r}
+```{r MyClass}
 x <- 1
 class(x) <- "MyClass"
 class(x)
 ```
 
 Une façon plus élégante de le faire est d'ajouter la nouvelle classe à l'ensemble des classes auquel l'objet appartient déjà:
-```{r}
+```{r MyClass2}
 y <- 1
 class(y) <- c("MyClass", class(y))
 class(y)
@@ -573,7 +573,7 @@ class(y)
 
 Il n'y a aucune vérification de cohérence entre la structure réelle de l'objet et une structure de la classe qui serait déclarée ailleurs: le développeur doit s'assurer que les méthodes trouveront bien les bonnes données dans les objets qui déclarent lui appartenir.
 Dans le cas contraire, des erreurs se produisent:
-```{r}
+```{r tryCatch}
 class(y) <- "lm"
 tryCatch(print(y), error= function(e) print(e))
 ```
@@ -588,7 +588,7 @@ De nouvelles méthodes génériques peuvent être créées et déclinées selon 
 A titre d'exemple, créons une méthode générique `triple` qui calculera le triple des valeurs dans le package **multiple**, déclinée en deux fonctions distinctes: une pour les entiers et une pour les réels.
 Les calculs sur les nombres entiers plus rapides que ceux sur les réels, ce qui justifie l'effort d'écrire deux versions du code.
 
-```{r}
+```{r UseMethod}
 # Méthode générique
 triple <- function (x, ...) {
   UseMethod("triple")
@@ -600,7 +600,7 @@ Sa signature (c'est-à-dire l'ensemble de ses arguments) est importante parce qu
 Comme la nature du premier argument dépendra de la classe de chaque objet, l'usage est de l'appeler `x`.
 
 La méthode est déclinée en deux fonctions:
-```{r, tidy=FALSE}
+```{r triple, tidy=FALSE}
 triple.integer<- function (x, ...){
   return(x * 3L)
 }
@@ -615,7 +615,7 @@ Dans sa version réelle, 3 peut être noté `3.0` pour montrer clairement qu'il 
 Sous R, `3` sans autre précision est compris comme un réel.
 
 Le choix de la fonction dépend de la classe de l'objet passé en argument.
-```{r}
+```{r triple.x}
 # Argument entier
 class(2L)
 # Résultat entier par la fonction triple.integer
@@ -642,7 +642,7 @@ Pour toute classe créée, les méthodes `print`, `summary` et `plot` (si une re
 
 Ecrivons une fonction `multiple()` dont le résultat sera un objet d'une nouvelle classe, "multiple", qui sera une liste mémorisant les valeurs à multiplier, le multiplicateur et le résultat.
 
-```{r}
+```{r multiple}
 multiple <- function(number, times=1) {
   # Calculate the multiples
   y <- number * times
@@ -659,12 +659,12 @@ class(my_multiple)
 
 L'appel à la fonction `multiple()` renvoie un objet de classe "multiple", qui est aussi de classe "list".
 En absence de fonction `print.multiple()`, R cherche la fonction `print.list()` qui n'existe pas et se rabat sur la fonction `print.default()`:
-```{r}
+```{r my_multiple}
 my_multiple
 ```
 
 La fonction `print.multiple` doit donc être écrite pour un affichage lisible, limité au résultat:
-```{r}
+```{r print.multiple}
 print.multiple <- function(x, ...) {
   print.default(x$y)
 }
@@ -674,7 +674,7 @@ my_multiple
 ```
 
 Les détails peuvent être présentés dans la fonction `summary`:
-```{r}
+```{r summary.multiple}
 summary.multiple <- function(object, ...) {
   print.default(object$x)
   cat("multiplied by", object$times, "is:\n")
@@ -686,7 +686,7 @@ summary(my_multiple)
 ```
 
 Enfin, une fonction `plot` et une fonction `autoplot` complètent l'ensemble:
-```{r, tidy=FALSE}
+```{r plot.multiple, tidy=FALSE}
 plot.multiple <- function(x, y, ...) {
   plot.default(y=x$y, x=x$x, type = "p", 
     main = paste("Multiplication by", x$times), ...)
@@ -762,20 +762,20 @@ Imports: magrittr, rlang, stats
 ```
 
 - Comme il n'est pas possible de préfixer les `%>%` par le nom du package, il faut importer la fonction en utilisant les délimiteurs prévus pour les fonctions dont le nom contient des caractères spéciaux:
-```{r}
+```{r importFrom1}
 #' @importFrom magrittr `%>%`
 ```
 
 - Les fonctions du tidyverse qui utilisent des noms de colonnes de tibbles ou dataframes génèrent des avertissements au moment de la vérification du package parce que ces noms sont confondus avec des noms de variables non définies.
 Pour éviter cette confusions, l'objet `.data` du package **rlang** est utilisé (par exemple dans `aes()` vu plus haut).
 Il doit être importé:
-```{r}
+```{r importFrom2}
 #' @importFrom rlang .data
 ```
 
 
 Finalement, le code complet est le suivant:
-```{r, tidy=FALSE}
+```{r multiple_roxy, tidy=FALSE}
 #' Multiplication of a numeric vector
 #'
 #' @param number a numeric vector
@@ -876,7 +876,7 @@ Pour intégrer ces fonctions dans un packages, il faut respecter les règles sui
 
 - les fichiers `.cpp` contenant le code sont placés dans le dossier `/src` du projet;
 - le code est commenté pour **roxygen2** de la même façon que les fonctions R, mais avec le marqueur de commentaire du langage C:
-```{Rcpp, eval=FALSE}
+```{Rcpp Rcpp_timesTwo, eval=FALSE}
 #include <Rcpp.h>
 using namespace Rcpp;
 
@@ -899,7 +899,7 @@ Imports: Rcpp, RcppParallel
 LinkingTo: Rcpp, RcppParallel
 ```
 - les commentaires pour **roxygen2** doivent être ajoutés à `package.R` ("multiple" est le nom du package):
-```{r}
+```{r useDynLib}
 #' @importFrom Rcpp sourceCpp
 #' @importFrom RcppParallel RcppParallelLibs
 #' @useDynLib multiple, .registration = TRUE
@@ -914,7 +914,7 @@ src/*.dll
 ```
 
 Ces modifications sont en partie effectuées automatiquement, pour **Rcpp** seulement, par **usethis**, mais l'insertion manuelle du code est plus rapide et fiable: ne pas utiliser cette commande.
-```{r, eval=FALSE}
+```{r use_rcpp, eval=FALSE}
 # usethis::use_rcpp()
 ```
 
@@ -952,7 +952,7 @@ Imports: magrittr, stats, Rcpp, Rdpack
 ```
 
 Enfin, importer la fonction `reprompt()` de **Rdpack** en ajoutant les lignes suivantes à la documentation pour **roxygen2** dans `package.R`:
-```{r}
+```{r importFrom3}
 #' @importFrom Rdpack reprompt
 ```
 
@@ -963,7 +963,7 @@ Les références sont citées par la commande `\insertCite{key}{package}` dans l
 
 `key` est l'identifiant de la référence dans le fichier.
 Exemple[^507]: documentation du package **SpatDiv** hébergé sur GitHub, fichier `.R` du package:
-```{r}
+```{r Citations}
 #' SpatDiv
 #'
 #' Spatially Explicit Measures of Diversity
@@ -998,7 +998,7 @@ Pour placer le nom de l'auteur hors de la parenthèse, ajouter la déclaration `
 Pour citer plusieurs références (forcément du même package), les séparer par des virgules.
 
 A la fin de la documentation d'un objet utilisant des citations, ajouter systématiquement une liste des références:
-```{r}
+```{r insertAllCited}
 #' @references
 #' \insertAllCited{}
 ```
@@ -1010,7 +1010,7 @@ Des données peuvent être intégrées à un package, notamment pour la clarté 
 
 La méthode la plus simple consiste à utiliser **usethis**.
 Créer des variables contenant les données à sauvegarder puis les sauvegarder:
-```{r, eval=FALSE}
+```{r use_data, eval=FALSE}
 seq1_10 <- 1:10
 seq1_100 <- 1:100
 usethis::use_data(seq1_10, seq1_100)
@@ -1020,7 +1020,7 @@ Un fichier `.rda` est créé dans le dossier `data` pour chaque variable créée
 Avec l'option `LazyData` activée dans `DESCRIPTION`, les variables seront disponibles dès le chargement du package, mais ne seront effectivement chargées en mémoire qu'après leur première utilisation.
 
 Chaque variable doit être documentée dans le fichier `package.R`:
-```{r, eval=FALSE}
+```{r use_data_roxy, eval=FALSE}
 #' seq1_10
 #'
 #' A sequence of numbers from 1 to 10
@@ -1045,11 +1045,11 @@ Dans l'idéal, tout le code inclus dans un package devrait être testé de multi
 
 Les tests unitaires sont utilisés dans les deux derniers objectifs.
 Ils s'appuient sur **testthat** à intégrer au package:
-```{r, eval=FALSE}
+```{r use_testthat, eval=FALSE}
 usethis::use_testthat()
 ```
 
-```{r, echo=FALSE}
+```{r testthat, echo=FALSE}
 # Chargement de testthat nécessaire pour les exemples suivants
 library("testthat")
 ```
@@ -1057,13 +1057,13 @@ library("testthat")
 Les tests doivent être ajoutés sous la forme de fichiers `.R` dont le nom commence obligatoirement par `test` dans le dossier `tests/testthat`.
 
 Chaque test (donc le contenu de chaque fichier) commence par son contexte, c'est-à-dire ce un ensemble de tests. Exemple, dans un fichier `test_double.R`:
-```{r, eval=FALSE}
+```{r context, eval=FALSE}
 context("function double")
 ```
 
 Les tests sont contenus dans des fichiers qui les regroupent par thème, par exemple `test_double.R`.
 Le nom de chaque test est passé comme argument de la fonction `test_that())`:
-```{r}
+```{r test_that2}
 test_that("Double values are correct", {
   skip_on_cran()
 

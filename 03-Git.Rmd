@@ -654,14 +654,14 @@ L'utilisation du secret est décrite dans la section \@ref(sec:confidentielCI).
 
 ### Création d'un coffre-fort
 
-```{r, include=FALSE}
+```{r unlink_vault, include=FALSE}
 # Suppression du coffre-fort préexistant
 unlink("vault", recursive = TRUE, force = TRUE)
 ```
 
 Exécuter:
 
-```{r}
+```{r create_vault}
 library("secret")
 vault <- "vault"
 create_vault(vault)
@@ -672,7 +672,7 @@ create_vault(vault)
 
 Le propriétaire du projet est ajouté à partir de sa clé publique stockée sur GitHub, qui est la troisième dans notre exemple.
 
-```{r}
+```{r add_github_user}
 # Identifiant GitHub du propriétaire du projet
 github_user <- "EricMarcon"
 # Lecture et stockage de la clé, i est le numéro de la clé
@@ -681,7 +681,7 @@ add_github_user(github_user, vault = vault, i = 3)
 
 La clé de l'utilisateur générique du projet est ajoutée par:
 
-```{r}
+```{r add_user}
 library("openssl")
 project_id <- "NomDuProjet"
 # Lecture de la clé
@@ -695,7 +695,7 @@ add_user(project_id, public_key = rsa_project, vault = vault)
 Les données, stockées dans des variables de R, sont stockées une à une par la fonction `add_secret()`.
 Dans l'exemple suivant, la variable s'appelle `X` et vaut 1.
 
-```{r, tidy=FALSE}
+```{r add_secret, tidy=FALSE}
 X <- 1
 add_secret(
   # Nom de la donnée
@@ -710,7 +710,7 @@ add_secret(
 
 Le contenu du coffre-fort peut être vérifié:
 
-```{r}
+```{r list_secrets}
 # Liste des données du coffre
 list_secrets(vault = vault)
 # Liste des propriétaire de la donnée "X"
@@ -720,7 +720,7 @@ list_owners("X", vault = vault)
 Les données seront lues dans le code du projet par la commande `get_secret()`.
 La clé privée de l'utilisateur générique du projet, communiquée par un moyen sécurisé aux ayant-droits, doit se trouver dans le dossier du projet.
 
-```{r}
+```{r get_secret}
 # Sélection de la clé privée
 Sys.setenv(USER_KEY = usethis::proj_path(paste0(project_id, ".rsa")))
 # Lecture de la donnée "X"
@@ -728,7 +728,7 @@ get_secret("X", vault = vault)
 ```
 
 La clé peut être vérifiée:
-```{r}
+```{r local_key}
 local_key()
 ```
 
@@ -786,6 +786,6 @@ Leur code Markdown est le suivant:
 Le package **usethis** simplifie leur création en plaçant le code nécessaire dans le presse-papier.
 Il suffit ensuite de le coller dans le fichier.
 
-```{r, eval=FALSE}
+```{r use_lifecycle_badge, eval=FALSE}
 usethis::use_lifecycle_badge("maturing")
 ```

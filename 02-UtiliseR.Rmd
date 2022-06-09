@@ -220,7 +220,7 @@ Les performances de S6 sont bien supérieures à celles de RC mais sont inférie
 [^212]: https://r6.r-lib.org/articles/Performance.html
 
 La non-inclusion de R6 à R est montrée par **pryr**:
-```{r}
+```{r otype}
 pryr::otype(MoiR6)
 ```
 
@@ -229,7 +229,7 @@ pryr::otype(MoiR6)
 
 Le tidyverse est un ensemble de packages cohérents qui ont fait évoluer la façon de programmer R.
 L'ensemble des packages indispensables peut être chargé par le package **tidyverse** qui n'a pas d'autre utilité:
-```{r}
+```{r tidyverse}
 library("tidyverse")
 ```
 
@@ -243,13 +243,13 @@ Son apport le plus visible pour l'utilisateur sont l'enchaînement des commandes
 [^221]: https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html
 
 En programmation standard, l'enchaînement des fonctions s'écrit par emboîtements successifs, ce qui en rend la lecture difficile, surtout quand des arguments sont nécessaires:
-```{r}
+```{r log_mean_runif}
 # Logarithme de base 2 de la moyenne de 100 tirages aléatoires dans une loi uniforme
 log(mean(runif(100)), base=2)
 ```
 
 Dans le tidyverse, les fonctions s'enchaînent, ce qui correspond souvent mieux à la réflexion du programmeur sur le traitement des données:
-```{r, tidy=FALSE}
+```{r tidylog, tidy=FALSE}
 # 100 tirages aléatoires dans une loi uniforme
 runif(100) %>% 
   # Moyenne
@@ -327,12 +327,12 @@ Chaque package chargé crée un environnement fils pour former une pile des envi
 
 La console se trouve dans l'environnement global, fils du dernier package chargé.
 
-```{r}
+```{r search}
 search()
 ```
 
 Le code d'une fonction appelée de la console s'exécute dans un environnement fils de l'environnement global:
-```{r}
+```{r environment}
 # Environnement actuel
 environment()
 # La fonction f affiche son environnement
@@ -350,7 +350,7 @@ La recherche des objets commence dans l'environnement local.
 S'il n'est pas trouvé, il est cherché dans l'environnement parent, puis dans le parent du parent, jusqu'à l'épuisement des environnements qui génère une erreur indiquant que l'objet n'a pas été trouvé.
 
 Exemple:
-```{r}
+```{r GlobalEnv}
 # Variable q définie dans l'environnement global
 q <- "GlobalEnv"
 # Fonction définissant q dans son environnement
@@ -395,7 +395,7 @@ Ils sont habituellement appelés par la fonction `library()` qui effectue deux o
 
 Il est possible de détacher un package avec la fonction `unloadNamespace()` pour le retirer de la pile des environnements.
 Exemple:
-```{r}
+```{r unloadNamespace}
 # entropart chargé et attaché
 library("entropart")
 # Est-il attaché ?
@@ -426,7 +426,7 @@ Le package **stats** est habituellement chargé avant **dplyr**, un package du t
 `stats::filter()` doit donc être appelée explicitement.
 
 Cependant, le package **dplyr** ou **tidyverse** (qui attache tous les packages du tidyverse) peut être chargé systématiquement en créant un fichier `.RProfile` à la racine du projet contenant la commande:
-```{r, eval=FALSE}
+```{r tidyverse2, eval=FALSE}
 library("tidyverse")
 ```
 
@@ -444,7 +444,7 @@ Pour des temps d'exécution très courts, il est nécessaire de répéter la mes
 
 La fonction retourne le temps d'exécution du code.
 
-```{r}
+```{r system.time}
 # Ecart absolu moyen de 1000 valeurs dans une loi uniforme, répété 100 fois
 system.time(for(i in 1:100) mad(runif(1000)))
 ```
@@ -456,7 +456,7 @@ Le package **microbenchmark** est le plus avancé.
 
 L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un nombre) en le multipliant par lui-même ($x \times x$) ou en l'élevant à la puissance 2 ($x^2$).
 
-```{r}
+```{r microbenchmark}
 # Fonctions à tester
 f1 <- function(x) x*x
 f2 <- function(x) x^2
@@ -477,20 +477,20 @@ Le résultat du test, un objet de type `microbenchmark`, est un tableau brut des
 L'analyse statistique est faite par les méthodes `print` et `summary`.
 Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
-```{r}
+```{r mb_summary}
 summary(mb)[, c("expr", "median")]
 ```
 
 Pour faire des calculs sur ces résultats, il faut les stocker dans une variable.
 Pour empêcher l'affichage dans la console, la solution la plus simple est d'utiliser la fonction `capture.output` en affectant son résultat à une variable.
 
-```{r}
+```{r capture.output}
 dummy <- capture.output(mbs <- summary(mb))
 ```
 
 Le test précédent est affiché à nouveau.
 
-```{r}
+```{r mb_summary2}
 summary(mb)[, c("expr", "median")]
 ```
 
@@ -500,7 +500,7 @@ Le calcul de la puissance 2 est donc optimisé par R pour éviter l'usage du log
 
 Deux représentations graphiques sont disponibles: les violons représentent la densité de probabilité du temps d'exécution; les boîtes à moustache sont classiques.
 
-```{r, message=FALSE}
+```{r boxplot, message=FALSE}
 library("ggplot2")
 autoplot(mb)
 boxplot(mb)
@@ -514,7 +514,7 @@ boxplot(mb)
 Il permet de suivre le temps d'exécution de chaque ligne de code et la mémoire utilisée.
 L'objectif est de détecter les portions de code lentes, à améliorer.
 
-```{r}
+```{r profvis}
 library(profvis)
 p <- profvis({
   # Calculs de cosinus 
@@ -545,7 +545,7 @@ Le cas le plus fréquent de code long à exécuter est celui des boucles: le mê
 La plupart des fonctions de R sont vectorielles: les boucles sont traitées de façon interne, extrêmement rapide.
 Il faut donc raisonner en termes de vecteurs plutôt que de scalaires.
 
-```{r}
+```{r vecteur}
 # Tirage de deux vecteurs de trois nombres aléatoires entre 0 et 1
 x1 <- runif(3)
 x2 <- runif(3)
@@ -558,7 +558,7 @@ x1+x2
 Il faut aussi écrire des fonctions vectorielles sur leur premier argument.
 La fonction `lnq` du package **entropart** retourne le logarithme déformé d'ordre $q$ d'un nombre $x$.
 
-```{r}
+```{r lnq}
 # Code de la fonction
 entropart::lnq
 ```
@@ -578,7 +578,7 @@ Elle est déclinée sous plusieurs versions:
 - `sapply()` renvoie un dataframe en rassemblant les listes par `simplify2array()`;
 - `vapply()` est presque identique mais demande que le type de données du résultat soit fourni.
 
-```{r}
+```{r l_s_v_apply}
 # Tirage de 1000 valeurs dans une loi uniforme
 x1 <- runif(1000)
 # La racine carrée peut être calculée pour le vecteur ou chaque valeur 
@@ -586,6 +586,7 @@ identical(sqrt(x1), sapply(x1, FUN=sqrt))
 mb <- microbenchmark(sqrt(x1), lapply(x1, FUN=sqrt), sapply(x1, FUN=sqrt), vapply(x1, FUN=sqrt, FUN.VALUE = 0))
 summary(mb)[, c("expr", "median")]
 ```
+
 `lapply()` est beaucoup plus lent qu'une fonction vectorielle.
 `sapply()` nécessite plus de temps pour `simplify2array()`, qui doit détecter comment rassembler les résultats.
 Enfin, `vapply()` économise le temps de détermination du type de données du résultat et permet d'accélérer le calcul avec peu d'efforts. 
@@ -601,7 +602,7 @@ Le niveau par défaut est 3: les fonctions sont toutes compilées, et les boucle
 
 Pour évaluer le gain de performance, le code suivant supprime toute compilation automatique, et compare la même boucle compilée ou non.
 
-```{r}
+```{r compiler}
 library("compiler")
 # Pas de compilation automatique
 enableJIT(level=0)
@@ -621,11 +622,12 @@ mb <- microbenchmark(Boucle(x1), Boucle2(x1))
 # Compilation automatique par défaut depuis la version 3.5
 enableJIT(level=3)
 ```
+
 Le gain est considérable: de 1 à ```r format(mbs[1,2]/mbs[2,2], digits=1)```.
 
 Les boucles for sont maintenant nettement plus rapides que `vapply`.
 
-```{r}
+```{r for_mb}
 # Test
 mb <- microbenchmark(vapply(x1, FUN=sqrt, 0), Boucle(x1))
 summary(mb)[, c("expr", "median")]
@@ -633,7 +635,7 @@ summary(mb)[, c("expr", "median")]
 
 Attention, le test de performance peut être trompeur:
 
-```{r, tidy=FALSE}
+```{r deceptive, tidy=FALSE}
 # Préparation du vecteur de résultat
 Racine <- vector("numeric", length = length(x1))
 # Test
@@ -648,7 +650,7 @@ Dans ce code, la boucle for n'est pas compilée donc elle est beaucoup plus lent
 Les boucles longues permettent un suivi de leur progression par une barre de texte, ce qui est un autre avantage.
 La fonction suivante exécute des pauses d'un dixième de seconde pendant le temps passé en paramètre (en secondes).
 
-```{r}
+```{r BoucleSuivie}
 BoucleSuivie <- function(duree=1) {
   # Barre de progression
   pgb <- txtProgressBar(min = 0, max = duree*10)
@@ -668,13 +670,13 @@ BoucleSuivie()
 
 `replicate()` répète une instruction.
 
-```{r}
+```{r replicate}
 replicate(3, runif(1))
 ```
 
 Ce code est équivalent à `runif(3)`, avec des performances similaires à celles de `vapply`: de 50 à 100 fois plus lent qu'une fonction vectorielle.
 
-```{r}
+```{r replicate_mb}
 mb <- microbenchmark(replicate(1E3, runif(1)), runif(1E3))
 summary(mb)[, c("expr", "median")]
 
@@ -693,7 +695,7 @@ Ecrire plutôt les boucles.
 
 `colSums` et ses semblables (`rowSums`, `colMeans`, `rowMeans`) sont optimisées.
 
-```{r, tidy=FALSE}
+```{r BoucleSomme, tidy=FALSE}
 # Somme des colonnes numériques du jeu de données diamonds de ggplot()
 # Boucle identique à l'action de apply(, 2, )
 BoucleSomme <- function(Table) {
@@ -734,7 +736,7 @@ NumericVector timesTwo(NumericVector x) {
   
 Une fonction R du même nom que la fonction C++ est maintenant disponible.
 
-```{r}
+```{r timesTwo}
 timesTwo(1:5)
 ```
 
@@ -854,7 +856,7 @@ mclapply <- switch( Sys.info()[['sysname']],
 Le code suivant teste la parallélisation d'une fonction qui renvoie son argument inchangé après une pause d'un quart de seconde.
 Ce document est tricoté avec ```r  parallel::detectCores()``` cœurs, qui sont tous utilisés sauf un pour ne pas saturer le système.
 
-```{r}
+```{r detectCores}
 f <- function(x, time=.25) {
   Sys.sleep(time)
   return(x)
@@ -873,7 +875,7 @@ La mise en place de la parallélisation a un coût d'environ ```r format(tparall
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
-```{r}
+```{r serie_parallele}
 # Série
 system.time(lapply(1:nbCoeurs, f, time=1))
 # Parallèle
@@ -884,7 +886,7 @@ Le temps additionnel nécessaire pour l'exécution parallèle du nouveau code es
 
 Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les performances s'effondrent parce que la tâche supplémentaire doit être exécutée après les premières.
 
-```{r}
+```{r nbCoeurs}
 system.time(mclapply(1:nbCoeurs, f, time=1, mc.cores=nbCoeurs))
 system.time(mclapply(1:(nbCoeurs+1), f, time=1, mc.cores=nbCoeurs))
 ```
@@ -929,7 +931,7 @@ Pour un usage courant, `mclapply` est plus rapide, sauf sous Windows, et plus si
 
 Le package **foreach** permet un usage avancé de la parallélisation.
 Lire ses vignettes.
-```{r, eval=FALSE}
+```{r foreach_v, eval=FALSE}
 # Manuel
 vignette("foreach", "foreach")
 # Boucles imbriquées
@@ -938,7 +940,7 @@ vignette("nested", "foreach")
 
 Indépendamment de la parallélisation, **foreach** redéfinit les boucles *for*.
 
-```{r}
+```{r foreach}
 for (i in 1:3) {
   f(i)
 }
@@ -952,7 +954,7 @@ foreach (i=1:3) %do% {
 La fonction `foreach` retourne une liste contenant les résultats de chaque boucle.
 Les éléments de la liste peuvent être combinés par une fonction quelconque, comme `c`.
 
-```{r}
+```{r foreach2}
 foreach (i=1:3, .combine="c") %do% {
   f(i)
 }
@@ -961,7 +963,7 @@ foreach (i=1:3, .combine="c") %do% {
 La fonction `foreach` est capable d'utiliser des itérateurs, c'est-à-dire des fonctions qui ne passent à la boucle que les données dont elle a besoin sans charger les autres en mémoire.
 Ici, l'itérateur `icount` passe les valeurs 1, 2 et 3 individuellement, sans charger le vecteur 1:3 en mémoire.
 
-```{r}
+```{r iterators}
 library("iterators")
 foreach (i=icount(3), .combine="c") %do% {
   f(i)
@@ -976,7 +978,7 @@ Elle est donc très utile quand chaque objet de la boucle utilise une grande qua
 Remplacer l'opérateur `%do%` par `%dopar%` parallélise les boucles, à condition qu'un adaptateur, c'est-à-dire un package intermédiaire entre `foreach` et un package chargé de l'implémentation de la parallélisation, soit chargé.
 **doParallel** est un adaptateur pour utiliser le package **parallel** livré avec R.
 
-```{r}
+```{r doParallel}
 library(doParallel)
 registerDoParallel(cores = nbCoeurs)
 # Série
@@ -1001,7 +1003,7 @@ Elle est égale à $\frac{2+\sqrt{2}+5\ln{(1+\sqrt{2})}}{15} \approx 0,5214$.
 ### Création des données
 
 Le semis de points est créé avec le package **spatstat**. 
-```{r, message=FALSE}
+```{r spatstat, message=FALSE}
 NbPoints <- 1000
 library("spatstat")
 X <- runifpoint(NbPoints)
@@ -1012,7 +1014,7 @@ X <- runifpoint(NbPoints)
 La fonction `pairdist()` de **spatstat** retourne la matrice des distances entre les points.
 La distance moyenne est calculée en divisant la somme par le nombre de paires de points distincts.
 
-```{r, message=FALSE}
+```{r pairdist, message=FALSE}
 mb <- microbenchmark(d <- sum(pairdist(X))/NbPoints/(NbPoints-1))
 # suppressmessages pour éliminer les messages superflus
 suppressMessages(autoplot(mb))
@@ -1025,7 +1027,7 @@ La fonction est rapide parce qu'elle est codée en langage C dans le package **s
 ### apply
 
 La distance peut être calculée par deux `sapply()` imbriqués.
-```{r}
+```{r fsapply1}
 fsapply1 <- function() {
   distances <- sapply(1:NbPoints, function(i) sapply(1:NbPoints, function(j) sqrt((X$x[i]-X$x[j])^2 + (X$y[i]-X$y[j])^2)))
   return(sum(distances)/NbPoints/(NbPoints-1))
@@ -1037,7 +1039,7 @@ d
 Un peu de temps peut être gagnée en remplaçant `sapply` par `vapply`: le format des résultats n'a pas à être déterminé par la fonction.
 Le gain est négligeable sur un long calcul comme celui-ci mais important pour des calculs courts.
 
-```{r}
+```{r fsapply2}
 fsapply2 <- function() {
   distances <- vapply(1:NbPoints, function(i) vapply(1:NbPoints, function(j) sqrt((X$x[i]-X$x[j])^2 + (X$y[i]-X$y[j])^2), 0.0), 1:1000+0.0)
   return(sum(distances)/NbPoints/(NbPoints-1))
@@ -1052,7 +1054,7 @@ Le format de sortie n'est pas toujours évident à écrire:
 
 Une amélioration plus significative consiste à ne calculer les racines carrées qu'à la fin de la boucle, pour profiter de la vectorisation de la fonction.
 
-```{r}
+```{r fsapply3}
 fsapply3 <- function() {
   distances <- vapply(1:NbPoints, function(i) vapply(1:NbPoints, function(j) (X$x[i]-X$x[j])^2 + (X$y[i]-X$y[j])^2, 0.0), 1:1000+0.0)
   return(sum(sqrt(distances))/NbPoints/(NbPoints-1))
@@ -1063,7 +1065,7 @@ d
 
 Les calculs sont effectués deux fois (distance entre les points $i$ et $j$, mais aussi entre les points $j$ et $i$): un test sur les indices permet de diviser presque le temps par 2 (pas tout à fait parce que les boucles sans calcul, qui retournent $0$, prennent du temps).
 
-```{r}
+```{r fsapply4}
 fsapply4 <- function() {
   distances <- vapply(1:NbPoints, function(i) {
     vapply(1:NbPoints, function(j) {
@@ -1083,7 +1085,7 @@ d
 En parallèle, le temps de calcul n'est pas amélioré sous Windows parce que les tâches individuelles sont trop courtes.
 Sous MacOS ou Linux, le calcul est accéléré.
 
-```{r}
+```{r fsapply5}
 fsapply5 <- function() {
   distances <- mclapply(1:NbPoints, function(i) {
     vapply(1:NbPoints, function(j) {
@@ -1105,7 +1107,7 @@ d
 
 Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne stocke pas la matrice de distances.
 
-```{r}
+```{r distance}
 distance <- 0.0
 ffor <- function() {
   for (i in 1:(NbPoints-1)) {
@@ -1119,6 +1121,7 @@ ffor <- function() {
 (for_time <- system.time(d <- ffor()))
 d
 ```
+
 C'est la façon la plus simple et efficace d'écrire ce code sans parallélisation et en se limitant au langage de R.
 
 ### boucle foreach
@@ -1150,7 +1153,7 @@ La parallélisation est efficace dans le code ci-dessous, notamment parce qu'ell
 En revanche, les distances sont calculées deux fois.
 La performance reste très inférieure à celle d'une simple boucle for (rappel: 100 fois moins de distances sont calculées).
  
-```{r, tidy=FALSE}
+```{r registerDoParallel, tidy=FALSE}
 registerDoParallel(cores = detectCores())
 fforeach3 <- function(Y) {
   distances <- 
@@ -1200,7 +1203,7 @@ double MeanDistance(NumericVector x, NumericVector y) {
 Elle est appelée dans R très simplement. 
 Le temps d'exécution est très court.
 
-```{r}
+```{r RCpp}
 mb <- microbenchmark(d <- MeanDistance(X$x, X$y))
 # suppressmessages pour éliminer les messages superflus
 suppressMessages(autoplot(mb))
@@ -1288,7 +1291,7 @@ double TotalDistance(NumericVector x, NumericVector y) {
 
 L'usage dans R est identique à celui des fonctions C++ interfacées par **RCpp**. 
 
-```{r}
+```{r RcppParallel}
 (mb <- microbenchmark(d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints-1)*2))
 # suppressmessages pour éliminer les messages superflus
 suppressMessages(autoplot(mb))
@@ -1299,7 +1302,7 @@ Le temps de mise en place des tâches parallèles est bien plus long que le temp
 
 En multipliant le nombre de points par 50, le temps de calcul en série doit être multiplié par 2500 environ.
 
-```{r, message=FALSE}
+```{r Rcpp50, message=FALSE}
 NbPoints <- 50000
 X <- runifpoint(NbPoints)
 system.time(d <- MeanDistance(X$x, X$y))
@@ -1308,7 +1311,7 @@ system.time(d <- MeanDistance(X$x, X$y))
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
 Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit ```r format(as.integer(for_time["elapsed"]*2500), digits=1)``` secondes.
 
-```{r}
+```{r RcppParallel50}
 system.time(d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints-1)*2)
 ```
 
@@ -1375,7 +1378,7 @@ Une carte des points est tracée en plus.
 Chacune de ces trois opérations est une cible dans le vocabulaire de **targets**. 
 
 Le fichier du flux de travail est donc le suivant:
-```{r, eval=FALSE, tidy=FALSE}
+```{r targets, eval=FALSE, tidy=FALSE}
 # Fichier _targets.R 
 library("targets")
 tar_option_set(packages = c("spatstat", "dbmss"))
@@ -1441,7 +1444,7 @@ Quand ce n'est pas le cas, chaque cible peut être écrite sous la forme d'une f
 
 La commande `tar_visnetwork` permet d'afficher l'enchaînement des cibles et leur état éventuellement obsolète.
 
-```{r}
+```{r tar_visnetwork}
 library("targets")
 tar_visnetwork()
 ```
@@ -1449,19 +1452,19 @@ tar_visnetwork()
 L'ordre de déclaration des cibles dans la liste sans importance: elles sont ordonnées automatiquement.
 
 Le flux est exécuté par `tar_make()`.
-```{r}
+```{r tar_make}
 tar_make()
 ```
 
 Le flux est maintenant à jour et `tar_make()` ne refait aucun calcul.
-```{r}
+```{r tar_visnetwork2}
 tar_visnetwork()
 tar_make()
 ```
 
 
 Les résultats sont lus par `tar_read()`.
-```{r}
+```{r tar_read}
 tar_read(d)
 tar_read(map)
 ```

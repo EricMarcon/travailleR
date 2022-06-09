@@ -255,7 +255,7 @@ L'option de style `bootstrap_options = "striped"` fournit des tableaux plus lisi
 Enfin, l'option `full_width = FALSE` permet d'ajuster la largeur du tableau à son contenu au lieu d'occuper toute la largeur disponible.
 
 Le package **flextable** permet de réaliser des tableaux plus élaborés, comme dans l'exemple suivant qui affiche en couleur les longs sépales.
-```{r}
+```{r flextable}
 library("flextable")
 # Rappel du jeu de données initial iris
 iris %>%
@@ -548,7 +548,7 @@ En HTML, un espace sera ajouté entre les deux portions de code.
 Les bouts de code R sont formatés automatiquement par **knitr** quand l'option `tidy=TRUE` leur est appliquée.
 Le comportement par défaut est indiqué dans les options de **knitr**, dans un bout de code au début du fichier `index.Rmd`:
 
-```{r, eval=FALSE, tidy=FALSE}
+```{r opts_chunk, eval=FALSE, tidy=FALSE}
 # knitr options
 knitr::opts_chunk$set(
   cache=TRUE, warning=FALSE, echo = TRUE,
@@ -827,14 +827,14 @@ Prendre en compte ces modification dans git en faisant un commit.
 ### Construction du site
 
 Exécuter
-```{r, eval=FALSE}
+```{r build_site, eval=FALSE}
 blogdown::build_site(build_rmd = TRUE)
 ```
 
 pour construire le site web, y compris ses futures pages R Markdown.
 
 Pour afficher le site, exécuter :
-```{r, eval=FALSE}
+```{r serve_site, eval=FALSE}
 blogdown:::serve_site()
 ```
 
@@ -842,7 +842,7 @@ Il apparaît dans la fenêtre *Viewer* de RStudio, dont le bouton d'agrandisseme
 
 Pour modifier le contenu du site, il est préférable d'arrêter le serveur web par la commande:
 
-```{r, eval=FALSE}
+```{r stop_server, eval=FALSE}
 blogdown:::stop_server()
 ```
 
@@ -1195,7 +1195,7 @@ La commande `blogdown::new_post()` peut aussi être utilisée mais ne gère pas 
 La reconstruction du site ne met par défaut pas à jour les pages basées sur un fichier `.Rmd`.
 Pour le faire, il faut forcer la commande `build_site()`.
 
-```{r, eval=FALSE}
+```{r blog, eval=FALSE}
 blogdown::build_site(build_rmd = TRUE)
 blogdown::serve_site()
 ```
@@ -1423,7 +1423,7 @@ Si nécessaire, des images peuvent être produites aux formats BMP (bitmap, sans
 La fonction `postscript()` produit un fichier EPS.
 Le code R doit appeler la fonction pour créer le fichier, produire la figure, puis fermer le fichier, par exemple:
 
-```{r}
+```{r postscript}
 # Ouverture du fichier
 postscript("Fig1.eps", width = 6, height = 4, horizontal = FALSE)
 # Création de la figure
@@ -1455,7 +1455,7 @@ Les documents R Markdown produisent des images au format PNG pour leur version H
 **ragg** améliore leur qualité: le package doit être installé et `dev = "ragg_png"` doit être ajoutée aux options de **knitr**.
 Pour ce document, les options déclarées dans `index.Rmd` sont les suivantes:
 
-```{r, eval=FALSE, tidy=FALSE}
+```{r ragg, eval=FALSE, tidy=FALSE}
 knitr::opts_chunk$set(
   cache=FALSE, # Cache chunk results
   echo = TRUE, # Show/Hide R chunks
@@ -1478,7 +1478,7 @@ Enfin, **ragg** peut être utilisé comme moteur de rendu graphique par défaut 
 
 Un flux de travail (voir section \@ref(sec:targets)) peut être intégré dans un document R Markdown à partir de la version 0.5 du package **targets**.
 
-```{r}
+```{r targets_41}
 library("targets")
 ```
 
@@ -1490,13 +1490,13 @@ Ces bouts de code permettent de créer le fichier `_targets.R` quand ils sont ex
 S'ils sont lancés en mode interactif, par exemple dans R Studio, leur code est exécuté.
 L'option `tar_interactive = FALSE` dans leur entête permet de les tester sans tricoter tout le document.
 
-```{r, include=FALSE}
+```{r targets_42, include=FALSE}
 # Suppression de _targets.R produit par le chapitre 2
 file.remove(usethis::proj_path("_targets.R"))
 ```
 
 Un ancien flux éventuel doit être supprimé avant d'écrire le nouveau:
-```{r}
+```{r tar_unscript}
 tar_unscript()
 ```
 
@@ -1558,12 +1558,12 @@ Les autres bouts de code nécessaires pour compléter le flux sont les suivants 
 
 Pour lancer le calcul des cibles, un bout de code standard (`{r}`) doit appeler `tar_make()`:
 
-```{r include=FALSE}
+```{r tar_destroy_4, include=FALSE}
 # Destruction des cibles pour la démonstration
 tar_destroy()
 ```
 
-```{r}
+```{r tar_visnetwork_4}
 tar_visnetwork()
 tar_make()
 ```
@@ -1574,7 +1574,7 @@ Au moment de la production finale du document, l'option `include=FALSE` peut êt
 ### Utilisation des résultats
 
 Les bouts de code qui utilisent les valeurs des cibles doivent les lire avec `tar_read()`:
-```{r}
+```{r tar_read_4}
 tar_read(map)
 ```
 
