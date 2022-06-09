@@ -323,7 +323,7 @@
 
 \author{Eric Marcon}
 
-\date{23/05/2022}
+\date{09/06/2022}
 
 
 % Include headers (preamble.tex) here
@@ -364,6 +364,14 @@
   \renewcommand\printchaptertitle[1]{\chaptitlefont\raggedleft ##1\par}
 }
 \makeatother
+
+% Local toc
+\usepackage{titletoc}
+\newcommand{\toc}[1]{%
+  \startcontents[chapters]%
+  \printcontents[chapters]{}{1}[#1]{}%
+  ~\newline%
+}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -475,6 +483,8 @@ Dans tous les autres cas, le code peut être utilisé directement.
 
 \hypertarget{chap-logiciels}{%
 \chapter{Logiciels}\label{chap-logiciels}}
+
+\toc{1}
 
 L'outil central est évidemment R, mais son fonctionnement est aujourd'hui difficilement envisageable sans son environnement de développement RStudio.
 Pour le contrôle de source, git et GitHub sont de fait les standards.
@@ -982,19 +992,51 @@ Les jetons sont créés sur GitHub, dans les paramètres de son compte d'utilisa
 Générer un nouveau jeton, le décrire en tant que ``git-RStudio'' et lui donner l'autorisation ``repo'', c'est-à-dire modifier \emph{tous} les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
 Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard: elle doit être sauvegardée comme un mot de passe.
 
+\hypertarget{compilateur-latex}{%
+\section{Compilateur LaTeX}\label{compilateur-latex}}
+
+Pour produire des documents au format PDF, une distribution LaTeX est nécessaire.
+La solution légère consiste à installer le package \textbf{tinytex} qui installe à son tour une distribution LaTeX optimisée pour R Markdown.
+
+Une distribution complète permet l'utilisation de Latex au-delà de RStudio mais est inutile si l'usage de LaTeX se limite au tricot de documents R Markdown.
+MiKTeX est une très bonne solution pour Windows et Mac.
+
+\hypertarget{tinytex}{%
+\subsection{tinytex}\label{tinytex}}
+
+Installer le package puis exécuter:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{install\_tinytex}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
+
+L'ajout de packages LaTeX non inclus dans la distribution minimale de départ est automatique mais peut être lente.
+
+La distribution peut être mise à jour par la commande:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tinytex}\SpecialCharTok{::}\FunctionTok{tlmgr\_update}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
+
 \hypertarget{miktex}{%
-\section{MiKTeX}\label{miktex}}
-
-Pour produire des documents au format PDF, une distribution Latex est nécessaire.
-La solution légère consiste à installer le package \textbf{tinytex}: sa fonction \texttt{install\_tinytex()} installe une distribution LaTeX optimisée pour R Markdown.
-
-Une distribution complète est préférée ici parce qu'elle permet l'utilisation de Latex au-delà de RStudio.
-MiKTeX\footnote{\url{https://miktex.org/download}} est une très bonne solution pour Windows et Mac.
+\subsection{MiKTeX}\label{miktex}}
 
 \hypertarget{installation-2}{%
-\subsection{Installation}\label{installation-2}}
+\subsubsection{Installation}\label{installation-2}}
 
-Télécharger le fichier d'installation et l'exécuter.
+Télécharger le fichier d'installation\footnote{\url{https://miktex.org/download}} et l'exécuter.
 Plusieurs choix sont à faire pendant l'installation:
 
 \begin{itemize}
@@ -1010,7 +1052,7 @@ Plusieurs choix sont à faire pendant l'installation:
 Pour Linux, suivre les instructions sur le site de MiKTeX.
 
 \hypertarget{mises-uxe0-jour}{%
-\subsection{Mises à jour}\label{mises-uxe0-jour}}
+\subsubsection{Mises à jour}\label{mises-uxe0-jour}}
 
 MiKTeX est installé avec les packages LaTeX les plus utilisés.
 Si un document nécessite un package manquant, il est chargé automatiquement.
@@ -1069,6 +1111,8 @@ Les mises à jour se font en installant la nouvelle version par dessus la préc�
 
 \hypertarget{chap-utiliseR}{%
 \chapter{Utiliser R}\label{chap-utiliseR}}
+
+\toc{1}
 
 La documentation consacrée à l'apprentissage de R est florissante.
 Les ouvrages suivants sont une sélection arbitraire mais utile pour progresser:
@@ -1244,7 +1288,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7ff3b03c0bb0>
+## <bytecode: 0x7fa976f50cc8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1723,7 +1767,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7ff3be1e97b0>
+## <environment: 0x7fa965a95c28>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1795,7 +1839,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7ff39f4916d0>
+## <bytecode: 0x7fa96645a000>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1983,7 +2027,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.020   0.000   0.021
+##   0.020   0.001   0.022
 \end{verbatim}
 
 \normalsize
@@ -2015,15 +2059,15 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq
-##  f1(X)  39.158  41.7820  61.00912  43.3690  49.6020
-##  f2(X)  47.544  49.6860  67.41903  51.0075  55.0050
-##  f3(X) 277.737 280.6285 311.75218 286.0985 301.6400
-##  f4(X) 410.708 414.4230 456.33617 421.8310 443.2305
+##  f1(X)  40.939  43.5520  59.65316  45.5060  48.7445
+##  f2(X)  47.588  51.2930  67.11952  52.4020  54.9805
+##  f3(X) 279.584 282.9865 308.89160 284.7130 291.7925
+##  f4(X) 412.673 416.9155 450.17382 419.8965 429.0305
 ##       max neval
-##  1425.046   100
-##  1410.647   100
-##  1987.076   100
-##  2070.588   100
+##  1325.719   100
+##  1398.770   100
+##  1799.519   100
+##  1900.702   100
 \end{verbatim}
 
 \normalsize
@@ -2046,10 +2090,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  43.3690
-## 2 f2(X)  51.0075
-## 3 f3(X) 286.0985
-## 4 f4(X) 421.8310
+## 1 f1(X)  45.5060
+## 2 f2(X)  52.4020
+## 3 f3(X) 284.7130
+## 4 f4(X) 419.8965
 \end{verbatim}
 
 \normalsize
@@ -2079,10 +2123,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  43.3690
-## 2 f2(X)  51.0075
-## 3 f3(X) 286.0985
-## 4 f4(X) 421.8310
+## 1 f1(X)  45.5060
+## 2 f2(X)  52.4020
+## 3 f3(X) 284.7130
+## 4 f4(X) 419.8965
 \end{verbatim}
 
 \normalsize
@@ -2102,7 +2146,7 @@ Deux représentations graphiques sont disponibles: les violons représentent la 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-17-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/boxplot-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2110,7 +2154,7 @@ Deux représentations graphiques sont disponibles: les violons représentent la 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-17-2} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/boxplot-2} \end{center}
 
 \normalsize
 
@@ -2209,7 +2253,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7ff3a08fca58>
+## <bytecode: 0x7fa966fed7e8>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2262,13 +2306,14 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.6560
-## 2                lapply(x1, FUN = sqrt) 306.6700
-## 3                sapply(x1, FUN = sqrt) 370.9440
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 300.1085
+## 1                              sqrt(x1)   4.7745
+## 2                lapply(x1, FUN = sqrt) 308.6985
+## 3                sapply(x1, FUN = sqrt) 372.5685
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 304.6100
 \end{verbatim}
 
 \normalsize
+
 \texttt{lapply()} est beaucoup plus lent qu'une fonction vectorielle.
 \texttt{sapply()} nécessite plus de temps pour \texttt{simplify2array()}, qui doit détecter comment rassembler les résultats.
 Enfin, \texttt{vapply()} économise le temps de détermination du type de données du résultat et permet d'accélérer le calcul avec peu d'efforts.
@@ -2318,8 +2363,8 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \begin{verbatim}
 ##          expr   median
-## 1  Boucle(x1) 823.3660
-## 2 Boucle2(x1)  77.3045
+## 1  Boucle(x1) 832.1550
+## 2 Boucle2(x1)  77.1935
 \end{verbatim}
 
 \begin{Shaded}
@@ -2334,6 +2379,7 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{verbatim}
 
 \normalsize
+
 Le gain est considérable: de 1 à \texttt{11}.
 
 Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
@@ -2350,8 +2396,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 309.4625
-## 2                Boucle(x1)  77.9700
+## 1 vapply(x1, FUN = sqrt, 0) 291.9255
+## 2                Boucle(x1)  76.0670
 \end{verbatim}
 
 \normalsize
@@ -2377,8 +2423,8 @@ Attention, le test de performance peut être trompeur:
 ## 1                        vapply(x1, FUN = sqrt, 0)
 ## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
 ##      median
-## 1  299.3895
-## 2 3644.8105
+## 1  296.0985
+## 2 3220.4360
 \end{verbatim}
 
 \normalsize
@@ -2445,8 +2491,8 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 
 \begin{verbatim}
 ##                        expr    median
-## 1 replicate(1000, runif(1)) 3406.9410
-## 2               runif(1000)   33.6485
+## 1 replicate(1000, runif(1)) 3011.7740
+## 2               runif(1000)   33.8005
 \end{verbatim}
 
 \normalsize
@@ -2483,10 +2529,10 @@ Ecrire plutôt les boucles.
 \end{Shaded}
 
 \begin{verbatim}
-##                              expr    median
-## 1   BoucleSomme(diamonds[-(2:4)])  4.004901
-## 2 apply(diamonds[-(2:4)], 2, sum) 10.319459
-## 3       colSums(diamonds[-(2:4)])  2.658103
+##                              expr   median
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.746955
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.679460
+## 3       colSums(diamonds[-(2:4)]) 2.570198
 \end{verbatim}
 
 \normalsize
@@ -2694,7 +2740,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.709
+##   0.002   0.000   0.649
 \end{verbatim}
 
 \begin{Shaded}
@@ -2706,12 +2752,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.006   0.016   0.358
+##   0.007   0.022   0.386
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.11} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.14} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2726,7 +2772,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.058
+##   0.000   0.000   2.272
 \end{verbatim}
 
 \begin{Shaded}
@@ -2738,7 +2784,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.004   1.089
+##   0.001   0.003   1.087
 \end{verbatim}
 
 \normalsize
@@ -2757,7 +2803,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.004   1.114
+##   0.001   0.003   1.139
 \end{verbatim}
 
 \begin{Shaded}
@@ -2768,7 +2814,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.007   2.230
+##   0.002   0.007   2.278
 \end{verbatim}
 
 \normalsize
@@ -2960,7 +3006,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.626
+##   0.003   0.000   0.717
 \end{verbatim}
 
 \begin{Shaded}
@@ -2975,7 +3021,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.019   0.322
+##   0.008   0.019   0.418
 \end{verbatim}
 
 \normalsize
@@ -3025,7 +3071,7 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-41-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/pairdist-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3061,7 +3107,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.501   0.027   5.544
+##   5.679   0.046   5.916
 \end{verbatim}
 
 \begin{Shaded}
@@ -3095,7 +3141,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.420   0.038   5.560
+##   5.332   0.035   5.553
 \end{verbatim}
 
 \begin{Shaded}
@@ -3137,7 +3183,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.144   0.024   5.175
+##   5.259   0.030   5.416
 \end{verbatim}
 
 \begin{Shaded}
@@ -3176,7 +3222,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.063   0.028   3.235
+##   3.162   0.071   4.348
 \end{verbatim}
 
 \begin{Shaded}
@@ -3217,7 +3263,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.341   0.355   1.895
+##   3.332   0.416   3.098
 \end{verbatim}
 
 \begin{Shaded}
@@ -3258,7 +3304,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.975   0.006   1.984
+##   2.053   0.021   2.531
 \end{verbatim}
 
 \begin{Shaded}
@@ -3272,6 +3318,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 \end{verbatim}
 
 \normalsize
+
 C'est la façon la plus simple et efficace d'écrire ce code sans parallélisation et en se limitant au langage de R.
 
 \hypertarget{boucle-foreach}{%
@@ -3304,7 +3351,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.732   0.025   2.761
+##   2.926   0.039   3.231
 \end{verbatim}
 
 \begin{Shaded}
@@ -3349,7 +3396,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.134   0.064   0.122
+##   0.129   0.062   0.121
 \end{verbatim}
 
 \begin{Shaded}
@@ -3411,7 +3458,7 @@ Le temps d'exécution est très court.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-51-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/RCpp-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3523,11 +3570,13 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: microseconds
+## Unit: milliseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min      lq    mean   median       uq      max neval
-##  778.174 887.279 1085.17 914.5235 1051.795 2447.865   100
+##       min       lq     mean   median       uq      max
+##  2.074905 2.129105 2.323001 2.171333 2.214298 12.50891
+##  neval
+##    100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3537,7 +3586,7 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-53-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/RcppParallel-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3567,13 +3616,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.131   0.042   7.262
+##   7.147   0.051   7.403
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4959} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{6327} secondes.
 
 \scriptsize
 
@@ -3586,7 +3635,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.999   0.041   1.820
+##   5.025   0.059   4.080
 \end{verbatim}
 
 \normalsize
@@ -3715,7 +3764,7 @@ La commande \texttt{tar\_visnetwork} permet d'afficher l'enchaînement des cible
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-57-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/tar_visnetwork-1} \end{center}
 
 \normalsize
 
@@ -3740,7 +3789,7 @@ Le flux est exécuté par \texttt{tar\_make()}.
 ## • built target d
 ## • start target map
 ## • built target map
-## • end pipeline: 2.131 seconds
+## • end pipeline: 2.692 seconds
 \end{verbatim}
 
 \normalsize
@@ -3755,7 +3804,7 @@ Le flux est maintenant à jour et \texttt{tar\_make()} ne refait aucun calcul.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-59-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/tar_visnetwork2-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3768,7 +3817,7 @@ Le flux est maintenant à jour et \texttt{tar\_make()} ne refait aucun calcul.
 ## ✔ skip target X
 ## ✔ skip target d
 ## ✔ skip target map
-## ✔ skip pipeline: 0.067 seconds
+## ✔ skip pipeline: 0.072 seconds
 \end{verbatim}
 
 \normalsize
@@ -3793,7 +3842,7 @@ Les résultats sont lus par \texttt{tar\_read()}.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-60-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/tar_read-1} \end{center}
 
 \normalsize
 
@@ -3806,6 +3855,8 @@ La définition des cibles reste une contrainte, mais force à bien structurer so
 
 \hypertarget{chap-git}{%
 \chapter{Git et GitHub}\label{chap-git}}
+
+\toc{1}
 
 Le contrôle de source consiste à enregistrer l'ensemble des modifications apportées sur les fichiers suivis.
 Les avantages sont nombreux: traçabilité et sécurité du projet, possibilité de collaborer efficacement, de revenir en arrière, de tenter de nouveaux développements sans mettre en péril la version stable\ldots{}
@@ -4849,6 +4900,8 @@ Il suffit ensuite de le coller dans le fichier.
 \hypertarget{chap-rediger}{%
 \chapter{Rédiger}\label{chap-rediger}}
 
+\toc{1}
+
 R et RStudio permettent de rédiger efficacement des documents de tous formats, du simple bloc-note à la thèse, en passant par des diaporamas.
 Les outils pour le faire sont l'objet de ce chapitre, complété par la production de sites web (y compris un site personnel).
 
@@ -5059,7 +5112,9 @@ Les options les plus utiles sont :
 \end{itemize}
 
 Les options par défaut sont déclarées dans le bout de code nommé ``Options'' au début du document Markdown, dans la fonction \texttt{opts\_chunk\$set()}.
-L'option \texttt{echo} doit être mise à \texttt{FALSE} par défaut pour un article scientifique par exemple.
+
+L'option \texttt{include=FALSE} supprime tout affichage lié au bout de code.
+Dans un document tel qu'un article scientifique, qui n'affiche pas son code, elle doit être utilisée pour tous les bouts de code sauf ceux qui produisent les figures.
 
 \hypertarget{figures}{%
 \subsubsection{Figures}\label{figures}}
@@ -6844,7 +6899,7 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-82-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/tar_visnetwork_4-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6861,7 +6916,7 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 ## • built target d
 ## • start target map
 ## • built target map
-## • end pipeline: 2.051 seconds
+## • end pipeline: 2.214 seconds
 \end{verbatim}
 
 \normalsize
@@ -6882,7 +6937,7 @@ Les bouts de code qui utilisent les valeurs des cibles doivent les lire avec \te
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-83-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/tar_read_4-1} \end{center}
 
 \normalsize
 
@@ -6894,6 +6949,8 @@ De cette façon, les calculs effectués localement ne seront pas répétés par 
 
 \hypertarget{chap-package}{%
 \chapter{Package}\label{chap-package}}
+
+\toc{1}
 
 Les packages de R permettent d'étendre les fonctionnalités du logiciel par du code fourni par la communauté des développeurs.
 Ils sont la clé du succès de R parce qu'ils permettent de diffuser rapidement de nouvelles méthodes issues de la recherche ou d'ajouter de nouveaux outils qui peuvent devenir des standards, comme le \textbf{tidyverse}.
@@ -7624,7 +7681,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7ff3b00af840>
+## <bytecode: 0x7fa977de1f68>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7918,14 +7975,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq    mean median     uq
-##  triple.integer(2L)  343  352.0 24010.3  361.0  391.0
-##   triple.numeric(2)  334  347.5 20818.6  363.5  394.5
-##          triple(2L) 1337 1367.5  1641.0 1407.0 1478.0
+##                expr  min   lq     mean median     uq
+##  triple.integer(2L)  336  346 32859.51  361.0  386.5
+##   triple.numeric(2)  335  348 28442.99  363.0  397.0
+##          triple(2L) 1351 1377  1574.29 1404.5 1473.0
 ##      max neval
-##  2363482   100
-##  2043058   100
-##     9683   100
+##  3248138   100
+##  2804556   100
+##     7970   100
 \end{verbatim}
 
 \normalsize
@@ -8063,7 +8120,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-118-1} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/plot.multiple-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -8071,7 +8128,7 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/unnamed-chunk-118-2} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/plot.multiple-2} \end{center}
 
 \normalsize
 
@@ -8272,7 +8329,7 @@ Finalement, le code complet est le suivant:
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7ff3b00af840>
+## <bytecode: 0x7fa977de1f68>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -8310,7 +8367,7 @@ Finalement, le code complet est le suivant:
 ## {
 ##     UseMethod("autoplot")
 ## }
-## <bytecode: 0x7ff3b0f0d208>
+## <bytecode: 0x7fa97b0ff238>
 ## <environment: namespace:ggplot2>
 \end{verbatim}
 
@@ -8776,6 +8833,8 @@ Les nouvelles versions du package sont soumises de la même façon que la premi�
 
 \hypertarget{chap-ci}{%
 \chapter{Intégration continue}\label{chap-ci}}
+
+\toc{1}
 
 L'intégration continue consiste à confier à un service externe la tâche de vérifier un package, produire des documents Markdown pour les pages web d'un dépôt GitHub ou tricoter entièrement un site web à partir du code.
 
@@ -9360,6 +9419,9 @@ La fonction \texttt{build\_githubpages()} (voir section \ref{sec:memo}) place le
 
 La tâche de déploiement indique aux pages GitHub d'utiliser Jekyll, c'est-à-dire d'utiliser le fichier \texttt{README.md} comme page d'accueil.
 
+\hypertarget{internationalisation}{%
+\subsubsection{Internationalisation}\label{internationalisation}}
+
 Si l'étape de tricot nécessite de modifier la langue utilisée par R, par exemple pour afficher correctement la date de production des documents, elle peut être modifiée comme ceci:
 
 \begin{verbatim}
@@ -9381,6 +9443,52 @@ Cette étape peut être complétée par la sélection d'un thème GitHub Pages p
 \end{verbatim}
 
 Le thème est ici ``Slate'', un des choix proposés par les pages GitHub.
+
+\hypertarget{duxe9bogage}{%
+\subsubsection{Débogage}\label{duxe9bogage}}
+
+Il peut arriver que la compilation du fichier \texttt{.tex} pour produire le fichier PDF échoue, bien que le tricot en HTML ne génère pas d'erreur.
+Le compilateur LaTeX est en effet plus exigeant que pandoc (qui produit le fichier HTML).
+
+La première vérification consiste à tricoter en PDF localement, sur son poste de travail, le document qui pose problème, avec \textbf{tinytex}.
+Les packages LaTeX doivent être mis à jour pour être les mêmes que ceux utilisés par les actions GitHub: pour cela, exécuter:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tinytex}\SpecialCharTok{::}\FunctionTok{tlmgr\_update}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
+
+Si la compilation fonctionne localement mais pas sur Github, il faut inspecter le fichier \texttt{.log} qui enregistre tous les évènements générés par le compilateur, mais ce fichier n'est pas conservé après l'échec de GitHub Actions.
+Il faut donc modifier le script pour copier le fichier dans \texttt{docs} puis créer sauvegarder le résultat malgré l'erreur.
+
+L'étape ``Upload artifact'' est modifiée pour s'exécuter malgré l'échec de l'étape précédente en ajoutant la ligne \texttt{if:}:
+
+\begin{verbatim}
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: _book
+          path: docs/
+\end{verbatim}
+
+Une étape est ajoutée avant ``Upload artifact'' pour copier le résultat du tricot et le fichier \texttt{.log}:
+
+\begin{verbatim}
+      - name: Move files to docs
+        if: always()
+        run: |
+          Rscript -e 'memoiR::build_githubpages()'
+          cp *.log docs
+\end{verbatim}
+
+Après l'échec de l'action, l'artéfact sauvegardé peut être téléchargé à partir de GitHub: il se trouve sur la page de résumé de l'action.
+Il s'agit d'un fichier compressé qui contient tout le dossier \texttt{docs}.
 
 \hypertarget{sec:blogdown-ci}{%
 \subsection{Site web blogdown}\label{sec:blogdown-ci}}
@@ -9545,6 +9653,8 @@ Le taux de couverture mesuré par Codecov peut aussi être affiché par un badge
 
 \hypertarget{chap-shiny}{%
 \chapter{Shiny}\label{chap-shiny}}
+
+\toc{1}
 
 Shiny permet de publier sous la forme d'un site web une application interactive utilisant du code R.
 Le site peut fonctionner localement, sur le poste de travail d'un utilisateur qui le lance à partir de RStudio, ou en ligne, sur un serveur dédié exécutant Shiny Server\footnote{\url{https://rstudio.com/products/shiny/download-server/}}.
@@ -9918,6 +10028,8 @@ La plupart des applications Shiny fonctionnent sans difficulté, tant qu'elles n
 
 \hypertarget{chap-enseigner}{%
 \chapter{Enseigner avec R}\label{chap-enseigner}}
+
+\toc{1}
 
 R, RStudio et GitHub fournissent des outils pour enseigner.
 

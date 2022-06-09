@@ -23,6 +23,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
+<meta name="date" content="2022-09-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -58,6 +59,7 @@
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/tabwid-1.0.0/tabwid.css" rel="stylesheet" />
+<link href="libs/tabwid-1.0.0/scrool.css" rel="stylesheet" />
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7NVD1TWMCJ"></script>
 <script>
@@ -208,10 +210,10 @@ div.csl-indent {
 <li class="chapter" data-level="1.4.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:SSH"><i class="fa fa-check"></i><b>1.4.3</b> Authentification SSH</a></li>
 <li class="chapter" data-level="1.4.4" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:pat"><i class="fa fa-check"></i><b>1.4.4</b> Obtention d’un jeton d’accès personnel</a></li>
 </ul></li>
-<li class="chapter" data-level="1.5" data-path="chap-logiciels.html"><a href="chap-logiciels.html#miktex"><i class="fa fa-check"></i><b>1.5</b> MiKTeX</a>
+<li class="chapter" data-level="1.5" data-path="chap-logiciels.html"><a href="chap-logiciels.html#compilateur-latex"><i class="fa fa-check"></i><b>1.5</b> Compilateur LaTeX</a>
 <ul>
-<li class="chapter" data-level="1.5.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-2"><i class="fa fa-check"></i><b>1.5.1</b> Installation</a></li>
-<li class="chapter" data-level="1.5.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#mises-à-jour"><i class="fa fa-check"></i><b>1.5.2</b> Mises à jour</a></li>
+<li class="chapter" data-level="1.5.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#tinytex"><i class="fa fa-check"></i><b>1.5.1</b> tinytex</a></li>
+<li class="chapter" data-level="1.5.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#miktex"><i class="fa fa-check"></i><b>1.5.2</b> MiKTeX</a></li>
 </ul></li>
 <li class="chapter" data-level="1.6" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:Zotero"><i class="fa fa-check"></i><b>1.6</b> Zotero</a></li>
 <li class="chapter" data-level="1.7" data-path="chap-logiciels.html"><a href="chap-logiciels.html#go"><i class="fa fa-check"></i><b>1.7</b> Go</a></li>
@@ -827,15 +829,29 @@ Pour utiliser l’authentification HTTPS, la création d’un jeton d’accès p
 Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard: elle doit être sauvegardée comme un mot de passe.</p>
 </div>
 </div>
-<div id="miktex" class="section level2 hasAnchor" number="1.5">
-<h2><span class="header-section-number">1.5</span> MiKTeX<a href="chap-logiciels.html#miktex" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Pour produire des documents au format PDF, une distribution Latex est nécessaire.
-La solution légère consiste à installer le package <strong>tinytex</strong>: sa fonction <code>install_tinytex()</code> installe une distribution LaTeX optimisée pour R Markdown.</p>
-<p>Une distribution complète est préférée ici parce qu’elle permet l’utilisation de Latex au-delà de RStudio.
-MiKTeX<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> est une très bonne solution pour Windows et Mac.</p>
-<div id="installation-2" class="section level3 hasAnchor" number="1.5.1">
-<h3><span class="header-section-number">1.5.1</span> Installation<a href="chap-logiciels.html#installation-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Télécharger le fichier d’installation et l’exécuter.
+<div id="compilateur-latex" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Compilateur LaTeX<a href="chap-logiciels.html#compilateur-latex" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Pour produire des documents au format PDF, une distribution LaTeX est nécessaire.
+La solution légère consiste à installer le package <strong>tinytex</strong> qui installe à son tour une distribution LaTeX optimisée pour R Markdown.</p>
+<p>Une distribution complète permet l’utilisation de Latex au-delà de RStudio mais est inutile si l’usage de LaTeX se limite au tricot de documents R Markdown.
+MiKTeX est une très bonne solution pour Windows et Mac.</p>
+<div id="tinytex" class="section level3 hasAnchor" number="1.5.1">
+<h3><span class="header-section-number">1.5.1</span> tinytex<a href="chap-logiciels.html#tinytex" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Installer le package puis exécuter:</p>
+<p></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="chap-logiciels.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install_tinytex</span>()</span></code></pre></div>
+<p></p>
+<p>L’ajout de packages LaTeX non inclus dans la distribution minimale de départ est automatique mais peut être lente.</p>
+<p>La distribution peut être mise à jour par la commande:</p>
+<p></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="chap-logiciels.html#cb17-1" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">tlmgr_update</span>()</span></code></pre></div>
+<p></p>
+</div>
+<div id="miktex" class="section level3 hasAnchor" number="1.5.2">
+<h3><span class="header-section-number">1.5.2</span> MiKTeX<a href="chap-logiciels.html#miktex" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="installation-2" class="section level4 hasAnchor" number="1.5.2.1">
+<h4><span class="header-section-number">1.5.2.1</span> Installation<a href="chap-logiciels.html#installation-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Télécharger le fichier d’installation<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> et l’exécuter.
 Plusieurs choix sont à faire pendant l’installation:</p>
 <ul>
 <li>Installer le programme pour tous les utilisateurs (avec des droits d’administrateur);</li>
@@ -844,8 +860,8 @@ Plusieurs choix sont à faire pendant l’installation:</p>
 </ul>
 <p>Pour Linux, suivre les instructions sur le site de MiKTeX.</p>
 </div>
-<div id="mises-à-jour" class="section level3 hasAnchor" number="1.5.2">
-<h3><span class="header-section-number">1.5.2</span> Mises à jour<a href="chap-logiciels.html#mises-à-jour" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="mises-à-jour" class="section level4 hasAnchor" number="1.5.2.2">
+<h4><span class="header-section-number">1.5.2.2</span> Mises à jour<a href="chap-logiciels.html#mises-à-jour" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>MiKTeX est installé avec les packages LaTeX les plus utilisés.
 Si un document nécessite un package manquant, il est chargé automatiquement.
 Les mises à jour de packages doivent être faites périodiquement avec la console MiKTeX, accessible dans le menu Démarrer.</p>
@@ -854,6 +870,7 @@ Cliquer sur “Switch to Administrator mode”.</p>
 <p>Dans les paramètres (<em>Settings</em>), vérifier que les packages s’installent toujours automatiquement et que le format du papier est bien A4.</p>
 <p>Dans le menu des mises à jour (<em>Updates</em>), cliquer sur “Check for updates” puis “Update now”.</p>
 <p>Si l’installation automatique est défaillante, il est possible d’installer manuellement un package dans le menu “Packages”.</p>
+</div>
 </div>
 </div>
 <div id="sec:Zotero" class="section level2 hasAnchor" number="1.6">
