@@ -131,6 +131,10 @@
 \setmainlanguage{fr-FR}
 \setotherlanguage{en-US}
 
+% localized quotes
+\usepackage[strict,autostyle]{csquotes}
+\MakeOuterQuote{"}
+
 % BibLaTeX
 \usepackage[backend=biber,style=authoryear-ibid,isbn=false,backref=true,giveninits=true,uniquename=init,maxcitenames=2,maxbibnames=150,sorting=nyt,sortcites=false]{biblatex}
 \addbibresource{references.bib}
@@ -159,6 +163,43 @@
 % Applies to code blocks and R code results
 % code chunk options size='scriptsize' applies only to R code and results
 % if the code chunk sets a different size, \def\verbatim{...} is prioritary for code results 
+
+
+% memoiR dalef3 chapter style 
+% https://ctan.crest.fr/tex-archive/info/latex-samples/MemoirChapStyles/MemoirChapStyles.pdf
+\usepackage{soul}
+\definecolor{nicered}{rgb}{.647,.129,.149}
+\makeatletter
+\newlength\dlf@normtxtw
+\setlength\dlf@normtxtw{\textwidth}
+\def\myhelvetfont{\def\sfdefault{mdput}}
+\newsavebox{\feline@chapter}
+\newcommand\feline@chapter@marker[1][4cm]{%
+  \sbox\feline@chapter{%
+    \resizebox{!}{#1}{\fboxsep=1pt%
+	  \colorbox{nicered}{\color{white}\bfseries\sffamily\thechapter}%
+	}}%
+  \rotatebox{90}{%
+    \resizebox{%
+	  \heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}%
+	{!}{\scshape\so\@chapapp}}\quad%
+  \raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
+ }
+\newcommand\feline@chm[1][4cm]{%
+  \sbox\feline@chapter{\feline@chapter@marker[#1]}%
+  \makebox[0pt][l]{% aka \rlap
+    \makebox[1cm][r]{\usebox\feline@chapter}%
+  }}
+\makechapterstyle{daleif1}{
+  \renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so}
+  \renewcommand\chaptitlefont{\normalfont\huge\bfseries\scshape\color{nicered}}
+  \renewcommand\chapternamenum{}
+  \renewcommand\printchaptername{}
+  \renewcommand\printchapternum{\null\hfill\feline@chm[2.5cm]\par}
+  \renewcommand\afterchapternum{\par\vskip\midchapskip}
+  \renewcommand\printchaptertitle[1]{\chaptitlefont\raggedleft ##1\par}
+}
+\makeatother
 
 
 % Layout
@@ -215,6 +256,17 @@
 \makeatother
 
 % Figure captions and footnotes in outer margins
+
+
+% Local toc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{titletoc}
+\newcommand{\toc}[1]{%
+  \startcontents[chapters]%
+  \printcontents[chapters]{}{1}[#1]{}%
+  ~\newline%
+}
 
 
 % Main title page with filigrane
@@ -285,7 +337,6 @@
 %% Bibliography
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage[strict,autostyle]{csquotes}
 % Repeated citation as author-year-title instead of author-title (modification of footcite:note in verbose-inote.cbx)
 
 %% Table of Contents
@@ -323,55 +374,12 @@
 
 \author{Eric Marcon}
 
-\date{09/06/2022}
+\date{10/06/2022}
 
 
 % Include headers (preamble.tex) here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% memoiR dalef3 chapter style 
-% https://ctan.crest.fr/tex-archive/info/latex-samples/MemoirChapStyles/MemoirChapStyles.pdf
-\usepackage{soul}
-\definecolor{nicered}{rgb}{.647,.129,.149}
-\makeatletter
-\newlength\dlf@normtxtw
-\setlength\dlf@normtxtw{\textwidth}
-\def\myhelvetfont{\def\sfdefault{mdput}}
-\newsavebox{\feline@chapter}
-\newcommand\feline@chapter@marker[1][4cm]{%
-  \sbox\feline@chapter{%
-    \resizebox{!}{#1}{\fboxsep=1pt%
-	  \colorbox{nicered}{\color{white}\bfseries\sffamily\thechapter}%
-	}}%
-  \rotatebox{90}{%
-    \resizebox{%
-	  \heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}%
-	{!}{\scshape\so\@chapapp}}\quad%
-  \raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
- }
-\newcommand\feline@chm[1][4cm]{%
-  \sbox\feline@chapter{\feline@chapter@marker[#1]}%
-  \makebox[0pt][l]{% aka \rlap
-    \makebox[1cm][r]{\usebox\feline@chapter}%
-  }}
-\makechapterstyle{daleif1}{
-  \renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so}
-  \renewcommand\chaptitlefont{\normalfont\huge\bfseries\scshape\color{nicered}}
-  \renewcommand\chapternamenum{}
-  \renewcommand\printchaptername{}
-  \renewcommand\printchapternum{\null\hfill\feline@chm[2.5cm]\par}
-  \renewcommand\afterchapternum{\par\vskip\midchapskip}
-  \renewcommand\printchaptertitle[1]{\chaptitlefont\raggedleft ##1\par}
-}
-\makeatother
 
-% Local toc
-\usepackage{titletoc}
-\newcommand{\toc}[1]{%
-  \startcontents[chapters]%
-  \printcontents[chapters]{}{1}[#1]{}%
-  ~\newline%
-}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -512,7 +520,7 @@ Sous Windows ou Mac, installer R après l'avoir téléchargé depuis CRAN\footno
 
 Sur Mac, l'installation de R est suffisante à partir de la version 4.0.0.
 
-Sous Windows, l'installation doit être complétée par les ``Rtools'', qui contiennent les outils de développement dont ceux nécessaires à la compilation des packages contenant du code C++.
+Sous Windows, l'installation doit être complétée par les \enquote{Rtools}, qui contiennent les outils de développement dont ceux nécessaires à la compilation des packages contenant du code C++.
 
 Le chemin des Rtools (avant la version 4.2) doit être déclaré à R, en exécutant dans la console de RStudio la commande suivante (adaptée à la version 4.0 des Rtools):
 
@@ -569,7 +577,7 @@ Les packages de R se trouvent dans deux dossiers:
 
 Jusqu'à la version 4.1, si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), il n'est pas optimal d'y placer les packages: le trafic généré par leur sauvegarde serait lourd et inutile.
 Pour que les packages soient installés automatiquement dans la bibliothèque système, il suffit que l'utilisateur y ait le droit d'écrire.
-Sous Windows, donner le droit ``Modifier'' au groupe des utilisateurs de l'ordinateur sur le dossier de la bibliothèque, en plus du droit de lecture par défaut \ref{fig:R-library}).
+Sous Windows, donner le droit \enquote{Modifier} au groupe des utilisateurs de l'ordinateur sur le dossier de la bibliothèque, en plus du droit de lecture par défaut \ref{fig:R-library}).
 A partir de la version 4.2, il n'y a plus de raison de modifier le fonctionnement par défaut: les paramètres locaux ne sont pas sauvegardés.
 
 
@@ -616,7 +624,7 @@ RStudio est une interface graphique pour R et bien plus: il est conçu pour simp
 
 Installer la dernière version de \emph{RStudio Desktop} à partir du site de RStudio\footnote{\url{https://rstudio.com/products/rstudio/download/}}.
 
-Une commande est disponible dans le menu ``Help'' de RStudio pour vérifier l'existence d'une version plus récente, à installer.
+Une commande est disponible dans le menu \enquote{Help} de RStudio pour vérifier l'existence d'une version plus récente, à installer.
 
 \hypertarget{encodage-des-fichiers}{%
 \subsection{Encodage des fichiers}\label{encodage-des-fichiers}}
@@ -626,11 +634,11 @@ Les caractères spéciaux, notamment les accents, peuvent être codés de divers
 Le codage par défaut dépend du système d'exploitation, ce qui pose régulièrement des problèmes de lisibilité des fichiers partagés.
 Le codage UTF8 est devenu le standard parce qu'il est universellement reconnu et supporte tous les alphabets sans ambiguïtés.
 
-Dès la première utilisation de RStudio, créer un nouveau fichier R (menu ``File \textgreater{} New File \textgreater{} R Script''), l'enregistrer au format UTF8 (``File \textgreater{} Save with Encoding\ldots{}''), choisir UTF8 dans la liste des formats et cocher la case ``Set as default encoding for source files''.
+Dès la première utilisation de RStudio, créer un nouveau fichier R (menu \enquote{File \textgreater{} New File \textgreater{} R Script}), l'enregistrer au format UTF8 (\enquote{File \textgreater{} Save with Encoding\ldots{}}), choisir UTF8 dans la liste des formats et cocher la case \enquote{Set as default encoding for source files}.
 Supprimer le fichier après l'avoir enregistré.
 
 Les nouveaux fichiers seront codés au format UTF8.
-Les fichiers codés sous un autre format ne s'afficheront pas correctement: ils pourront être réouverts avec leur codage d'origine (``File \textgreater{} Reopen with Encoding\ldots{}''), en essayant éventuellement plusieurs codages jusqu'à obtenir un affichage correct, et sauvegardés au format UTF8 ensuite.
+Les fichiers codés sous un autre format ne s'afficheront pas correctement: ils pourront être réouverts avec leur codage d'origine (\enquote{File \textgreater{} Reopen with Encoding\ldots{}}), en essayant éventuellement plusieurs codages jusqu'à obtenir un affichage correct, et sauvegardés au format UTF8 ensuite.
 
 \hypertarget{dossier-de-travail}{%
 \subsection{Dossier de travail}\label{dossier-de-travail}}
@@ -699,7 +707,7 @@ Sous Windows, une organisation optimale est la suivante:
   L'utilisateur doit y avoir le droit d'écrire.
   Dans l'organisation de Windows, le dossier correspondant à ces critères est \texttt{\%LOCALAPPDATA\%}, typiquement \texttt{C:\textbackslash{}Users\textbackslash{}NomUtilisateur\textbackslash{}AppData}\break\texttt{\textbackslash{}Local}.
   Le dossier sera donc \texttt{\%LOCALAPPDATA\%\textbackslash{}ProjetsR} à créer: exécuter \texttt{md\ \%LOCALAPPDATA\%\textbackslash{}ProjetsR} dans une invite de commande.
-  Epingler ce dossier à l'accès rapide de l'explorateur de fichiers (figure \ref{fig:R-ProjetsR}): coller \texttt{\%LOCALAPPDATA\%\textbackslash{}ProjetsR} dans la barre d'adresse de l'explorateur de fichiers, valider, puis faire un clic droit sur ``Accès Rapide'' et épingler le dossier.
+  Epingler ce dossier à l'accès rapide de l'explorateur de fichiers (figure \ref{fig:R-ProjetsR}): coller \texttt{\%LOCALAPPDATA\%\textbackslash{}ProjetsR} dans la barre d'adresse de l'explorateur de fichiers, valider, puis faire un clic droit sur \enquote{Accès Rapide} et épingler le dossier.
 \end{itemize}
 
 
@@ -724,7 +732,7 @@ Sous Windows, une organisation optimale est la suivante:
 \subsection{Installation depuis CRAN}\label{installation-depuis-cran}}
 
 L'installation classique des packages fait appel à CRAN.
-Un bouton ``Install'' se trouve dans la fenêtre \emph{Packages} de RStudio.
+Un bouton \enquote{Install} se trouve dans la fenêtre \emph{Packages} de RStudio.
 
 Les packages sont déposés sur CRAN par leurs auteur sous forme de code source, compressé dans une fichier \texttt{.tar.gz}.
 Ils sont disponibles pour le téléchargement dès leur validation.
@@ -765,7 +773,7 @@ Sauf si une version précise d'un package est nécessaire, il est donc préféra
 
 Les packages peuvent être mis à jour un peu plus tard, après leur compilation par CRAN.
 
-Le bouton ``Update'' dans la fenêtre \emph{Packages} de RStudio permet de mettre à jour tous les packages installés.
+Le bouton \enquote{Update} dans la fenêtre \emph{Packages} de RStudio permet de mettre à jour tous les packages installés.
 
 \hypertarget{installation-depuis-github}{%
 \subsection{Installation depuis GitHub}\label{installation-depuis-github}}
@@ -786,7 +794,7 @@ L'argument \texttt{build\_vignettes} est nécessaire pour créer les vignettes d
 
 \normalsize
 
-Le nom du package est entré sous la forme ``GitHubID/NomduPackage''.
+Le nom du package est entré sous la forme \enquote{GitHubID/NomduPackage}.
 L'installation est faite à partir du code source et nécessite donc les \emph{Rtools} si une compilation est nécessaire.
 \texttt{install\_github()} vérifie que la version sur GitHub est plus récente que l'éventuelle version installée sur le poste de travail et ne fait rien si elles sont identiques.
 
@@ -890,7 +898,7 @@ Pour Ubuntu, le package apt est \texttt{git-all}.
 
 git est installé sans interface graphique, fournie par RStudio.
 
-Dans RStudio, modifier les options globales (menu ``Tools \textgreater{} Global Options\ldots{}'').
+Dans RStudio, modifier les options globales (menu \enquote{Tools \textgreater{} Global Options\ldots{}}).
 Sélectionner \emph{Terminal} et l'option \emph{New Terminals open with}: GitBash.
 
 Vérifier la bonne installation de git en tapant la commande \texttt{git\ -h} dans le terminal de RStudio: l'aide doit s'afficher.
@@ -915,7 +923,7 @@ git config user.name
 git config user.email
 \end{verbatim}
 
-Le nom d'utilisateur est libre, de préférence ``Prénom Nom''.
+Le nom d'utilisateur est libre, de préférence \enquote{Prénom Nom}.
 
 \hypertarget{github}{%
 \subsection{GitHub}\label{github}}
@@ -942,7 +950,7 @@ Dans le terminal de RStudio, exécuter:
 ssh-keygen -t ed25519 -C "user.email"
 \end{verbatim}
 
-L'adresse de messagerie (qui remplace ``user.email'') doit être celle enregistrée dans la configuration de git et le compte GitHub.
+L'adresse de messagerie (qui remplace \enquote{user.email}) doit être celle enregistrée dans la configuration de git et le compte GitHub.
 La clé est enregistrée dans le dossier \texttt{.ssh} du répertoire personnel de l'utilisateur.
 Il est possible d'ajouter un mot de passe (\emph{passphrase}) à la clé, qui devra être tapé à la première utilisation de chaque session de travail.
 Si l'ordinateur est correctement sécurisé (pas d'accès physique par des tiers), la laisser vide permet de gagner en fluidité.
@@ -974,8 +982,8 @@ Le serveur est ajouté automatiquement à la liste des serveurs connus, dans le 
 
 Dans le dossier \texttt{.ssh}, deux fichiers sont créés: l'un contient la clé privée, l'autre, avec l'extension \texttt{.pub}, la clé publique correspondante.
 Ouvrir le second avec un éditeur de texte et copier la clé publique dans le presse-papier.
-Sur GitHub, afficher les réglages de son compte (menu ``Settings''), sélectionner ``SSH and GPG Keys'', cliquer sur ``New SSH Key'' et coller la clé dans le champ ``Key''.
-Donner un nom à la clé dans le champ ``Title''.
+Sur GitHub, afficher les réglages de son compte (menu \enquote{Settings}), sélectionner \enquote{SSH and GPG Keys}, cliquer sur \enquote{New SSH Key} et coller la clé dans le champ \enquote{Key}.
+Donner un nom à la clé dans le champ \enquote{Title}.
 Le nom peut être celui de l'ordinateur sur lequel la clé a été créée.
 La clé ne doit pas être copiée sur plusieurs ordinateurs: en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.
 
@@ -987,9 +995,9 @@ Si la clé est compromise (perte ou prêt de l'ordinateur qui la contient), la s
 L'authentification HTTPS est l'alternative à l'authentification SSL: il faut choisir une méthode et s'y tenir par la suite.
 Pour utiliser l'authentification HTTPS, la création d'un jeton d'accès personnel est nécessaire.
 
-Les jetons sont créés sur GitHub, dans les paramètres de son compte d'utilisateur, dans ``Developer Settings \textgreater{} Personal Access Tokens''\footnote{\url{https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line}}.
+Les jetons sont créés sur GitHub, dans les paramètres de son compte d'utilisateur, dans \enquote{Developer Settings \textgreater{} Personal Access Tokens}\footnote{\url{https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line}}.
 
-Générer un nouveau jeton, le décrire en tant que ``git-RStudio'' et lui donner l'autorisation ``repo'', c'est-à-dire modifier \emph{tous} les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
+Générer un nouveau jeton, le décrire en tant que \enquote{git-RStudio} et lui donner l'autorisation \enquote{repo}, c'est-à-dire modifier \emph{tous} les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
 Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard: elle doit être sauvegardée comme un mot de passe.
 
 \hypertarget{compilateur-latex}{%
@@ -1046,7 +1054,7 @@ Plusieurs choix sont à faire pendant l'installation:
 \item
   Le format par défaut du papier: choisir A4;
 \item
-  Le mode d'installation des packages manquants: choisir ``Always Install'' pour qu'ils soient téléchargés automatiquement en cas de besoin.
+  Le mode d'installation des packages manquants: choisir \enquote{Always Install} pour qu'ils soient téléchargés automatiquement en cas de besoin.
 \end{itemize}
 
 Pour Linux, suivre les instructions sur le site de MiKTeX.
@@ -1059,13 +1067,13 @@ Si un document nécessite un package manquant, il est chargé automatiquement.
 Les mises à jour de packages doivent être faites périodiquement avec la console MiKTeX, accessible dans le menu Démarrer.
 
 Quand elle est lancée sans élévation des privilèges, la console propose de passer en mode administrateur.
-Cliquer sur ``Switch to Administrator mode''.
+Cliquer sur \enquote{Switch to Administrator mode}.
 
 Dans les paramètres (\emph{Settings}), vérifier que les packages s'installent toujours automatiquement et que le format du papier est bien A4.
 
-Dans le menu des mises à jour (\emph{Updates}), cliquer sur ``Check for updates'' puis ``Update now''.
+Dans le menu des mises à jour (\emph{Updates}), cliquer sur \enquote{Check for updates} puis \enquote{Update now}.
 
-Si l'installation automatique est défaillante, il est possible d'installer manuellement un package dans le menu ``Packages''.
+Si l'installation automatique est défaillante, il est possible d'installer manuellement un package dans le menu \enquote{Packages}.
 
 \hypertarget{sec:Zotero}{%
 \section{Zotero}\label{sec:Zotero}}
@@ -1076,26 +1084,26 @@ Better BibTeX permet d'exporter et de maintenir à jour une sélection des réf�
 
 Télécharger le fichier d'installation et l'exécuter.
 Créer un compte utilisateur sur le site web de Zotero.
-Lier l'installation locale au compte: dans le menu ``Edition \textgreater{} Préférences'', sélectionner ``Synchronisation \textgreater{} Paramètres'' et s'authentifier dans la zone ``Synchronisation des données''.
-Cocher ensuite la case ``Synchroniser automatiquement'' mais pas ``Synchroniser le texte intégral des pièces jointes indexées'' parce que la taille totale des textes intégraux synchronisés de cette manière entre le compte Zotero en ligne et le poste de travail est limitée à 300 Mo.
+Lier l'installation locale au compte: dans le menu \enquote{Edition \textgreater{} Préférences}, sélectionner \enquote{Synchronisation \textgreater{} Paramètres} et s'authentifier dans la zone \enquote{Synchronisation des données}.
+Cocher ensuite la case \enquote{Synchroniser automatiquement} mais pas \enquote{Synchroniser le texte intégral des pièces jointes indexées} parce que la taille totale des textes intégraux synchronisés de cette manière entre le compte Zotero en ligne et le poste de travail est limitée à 300 Mo.
 
-Télécharger l'extension Better BibTeX\footnote{\url{https://retorque.re/zotero-better-bibtex/installation/}} et l'installer avec le menu ``Outils \textgreater{} Extensions'': cliquer sur le bouton des paramètres en haut à droite de la fenêtre, puis ``Install Add-on From File\ldots{}'' et sélectionner le fichier qui vient d'être téléchargé.
+Télécharger l'extension Better BibTeX\footnote{\url{https://retorque.re/zotero-better-bibtex/installation/}} et l'installer avec le menu \enquote{Outils \textgreater{} Extensions}: cliquer sur le bouton des paramètres en haut à droite de la fenêtre, puis \enquote{Install Add-on From File\ldots{}} et sélectionner le fichier qui vient d'être téléchargé.
 
-Paramétrer Better BibTeX à partir du menu ``Edition \textgreater{} Préférences \textgreater{} Better BibTeX''.
+Paramétrer Better BibTeX à partir du menu \enquote{Edition \textgreater{} Préférences \textgreater{} Better BibTeX}.
 Les options à modifier sont les suivantes:
 
 \begin{itemize}
 \tightlist
 \item
-  ``Clés de citation \textgreater{} Format de clé'': \texttt{{[}auth:capitalize{]}{[}year{]}} pour que les citations disposent d'un identifiant unique de la forme ``Nom2021'';
+  \enquote{Clés de citation \textgreater{} Format de clé}: \texttt{{[}auth:capitalize{]}{[}year{]}} pour que les citations disposent d'un identifiant unique de la forme \enquote{Nom2021};
 \item
-  ``Clés de citation \textgreater{} Conserver les clés de citation unique dans'': ``Toutes les collections'' pour que les identifiants des citations ne soient pas ambigus.
+  \enquote{Clés de citation \textgreater{} Conserver les clés de citation unique dans}: \enquote{Toutes les collections} pour que les identifiants des citations ne soient pas ambigus.
 \item
-  ``Exportation \textgreater{} Gestion des Champs \textgreater{} Champs à exclure de l'exportation'': ``abstract, file'' pour ne pas générer des fichiers bibliographiques surchargés d'informations inutiles dans les projets R.
+  \enquote{Exportation \textgreater{} Gestion des Champs \textgreater{} Champs à exclure de l'exportation}: \enquote{abstract, file} pour ne pas générer des fichiers bibliographiques surchargés d'informations inutiles dans les projets R.
 \end{itemize}
 
 Il est conseillé d'utiliser l'extension ZotFile\footnote{\url{http://zotfile.com/}} pour mieux contrôler l'emplacement du texte intégral (les fichiers PDF liés au références bibliographiques).
-L'installer puis la paramétrer dans ``Outils \textgreater{} Préférences de ZotFile\ldots\textgreater{} Paramètres généraux \textgreater{} Emplacement des fichiers \textgreater{} Dossier personnalisé'': choisir le dossier de stockage des textes intégraux.
+L'installer puis la paramétrer dans \enquote{Outils \textgreater{} Préférences de ZotFile\ldots\textgreater{} Paramètres généraux \textgreater{} Emplacement des fichiers \textgreater{} Dossier personnalisé}: choisir le dossier de stockage des textes intégraux.
 Si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), y placer ce dossier de stockage permet à la fois de sauvegarder les textes intégraux mais aussi d'y accéder à partir de plusieurs postes de travail ou directement en ligne.
 Cette solution est bien plus efficace que la synchronisation par défaut de Zotero, limitée en volume.
 
@@ -1222,7 +1230,7 @@ C'est un langage orienté objet dans lequel les classes, c'est-à-dire le type d
 
 \normalsize
 
-La variable \texttt{MonPrenom} est ici de classe ``Prenom'' par une simple déclaration.
+La variable \texttt{MonPrenom} est ici de classe \enquote{Prenom} par une simple déclaration.
 
 Contrairement au fonctionnement d'un langage orienté objet classique\footnote{\url{https://www.troispointzero.fr/le-blog/introduction-a-la-programmation-orientee-objet-poo/}}, les méthodes S3 sont liées aux fonctions, pas aux objets.
 
@@ -1255,11 +1263,11 @@ Contrairement au fonctionnement d'un langage orienté objet classique\footnote{\
 
 \normalsize
 
-Dans cet exemple, la méthode \texttt{print()} appliquée à la classe ``Prenom'' est modifiée.
+Dans cet exemple, la méthode \texttt{print()} appliquée à la classe \enquote{Prenom} est modifiée.
 Dans un langage orienté objet classique, la méthode serait définie dans la classe \texttt{Prenom}.
 Dans R, les méthodes sont définies à partir de méthodes génériques.
 
-\texttt{print} est une méthode générique (``un générique'') déclaré dans \textbf{base}.
+\texttt{print} est une méthode générique (\enquote{un générique}) déclaré dans \textbf{base}.
 
 \scriptsize
 
@@ -1288,7 +1296,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7fa976f50cc8>
+## <bytecode: 0x7f8824667040>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1338,7 +1346,7 @@ Chacune s'applique à une classe. \texttt{print.default} est utilisée en dernie
 \normalsize
 
 Un objet peut appartenir à plusieurs classes, ce qui permet une forme d'héritage des méthodes.
-Dans un langage orienté objet classique, l'héritage permet de définir des classes plus précises (``PrenomFrancais'') qui héritent de classes plus générales (``Prenom'') et bénéficient de cette façon de leurs méthodes sans avoir à les redéfinir.
+Dans un langage orienté objet classique, l'héritage permet de définir des classes plus précises (\enquote{PrenomFrancais}) qui héritent de classes plus générales (\enquote{Prenom}) et bénéficient de cette façon de leurs méthodes sans avoir à les redéfinir.
 Dans R, l'héritage consiste simplement à déclarer un vecteur de classes de plus en plus larges pour un objet:
 
 \scriptsize
@@ -1512,7 +1520,7 @@ Les méthodes appartiennent aux classes, comme en C++: elles sont déclarées da
 
 \normalsize
 
-RC est un langage confidentiel, bien que ce soit le premier ``vrai'' langage orienté objet de R.
+RC est un langage confidentiel, bien que ce soit le premier \enquote{vrai} langage orienté objet de R.
 
 \hypertarget{s6}{%
 \subsection{S6}\label{s6}}
@@ -1653,10 +1661,10 @@ ggplot(data = <DATA>) +
 \item
   l'esthétique (fonction \texttt{aes()}) désigne ce qui est représenté: c'est la correspondance entre les colonnes du dataframe et les éléments nécessaires à la géométrie;
 \item
-  la statistique est le traitement appliqué aux données avant de les transmettre à la géométrie (souvent ``identity'', c'est-à-dire aucune transformation mais ``boxplot'' pour une boîte à moustache).
+  la statistique est le traitement appliqué aux données avant de les transmettre à la géométrie (souvent \enquote{identity}, c'est-à-dire aucune transformation mais \enquote{boxplot} pour une boîte à moustache).
   Les données peuvent être transformées par une fonction d'échelle, comme \texttt{scale\_y\_log10()};
 \item
-  la position est l'emplacement des objets sur le graphique (souvent ``identity''; ``stack'' pour un histogramme empilé, ``jitter'' pour déplacer légèrement les points superposés dans un \texttt{geom\_point});
+  la position est l'emplacement des objets sur le graphique (souvent \enquote{identity}; \enquote{stack} pour un histogramme empilé, \enquote{jitter} pour déplacer légèrement les points superposés dans un \texttt{geom\_point});
 \item
   les coordonnées définissent l'affichage du graphique (\texttt{coord\_fixed()} pour ne pas déformer une carte par exemple) ;
 \item
@@ -1714,7 +1722,7 @@ Pour les régler, R dispose d'un système rigoureux de précédence des noms: le
 \subsection{Organisation}\label{organisation}}
 
 R démarre dans un environnement vide.
-Chaque package chargé crée un environnement fils pour former une pile des environnements, dont chaque nouvel élément est appelé ``fils'' du précédent, qui est son ``parent''.
+Chaque package chargé crée un environnement fils pour former une pile des environnements, dont chaque nouvel élément est appelé \enquote{fils} du précédent, qui est son \enquote{parent}.
 
 La console se trouve dans l'environnement global, fils du dernier package chargé.
 
@@ -1767,7 +1775,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7fa965a95c28>
+## <environment: 0x7f8831cae910>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1839,7 +1847,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7fa96645a000>
+## <bytecode: 0x7f8813533f90>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -2027,7 +2035,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.020   0.001   0.022
+##   0.022   0.001   0.050
 \end{verbatim}
 
 \normalsize
@@ -2059,15 +2067,15 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq
-##  f1(X)  40.939  43.5520  59.65316  45.5060  48.7445
-##  f2(X)  47.588  51.2930  67.11952  52.4020  54.9805
-##  f3(X) 279.584 282.9865 308.89160 284.7130 291.7925
-##  f4(X) 412.673 416.9155 450.17382 419.8965 429.0305
+##  f1(X)  38.856  42.9055  70.70604  44.3080  50.4020
+##  f2(X)  46.940  51.7890  85.26256  55.5310  58.0535
+##  f3(X) 278.877 282.9520 380.49036 297.5225 333.6480
+##  f4(X) 409.701 422.2470 536.77176 450.6655 492.4345
 ##       max neval
-##  1325.719   100
-##  1398.770   100
-##  1799.519   100
-##  1900.702   100
+##  1456.129   100
+##  1622.038   100
+##  2181.725   100
+##  2364.765   100
 \end{verbatim}
 
 \normalsize
@@ -2090,10 +2098,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  45.5060
-## 2 f2(X)  52.4020
-## 3 f3(X) 284.7130
-## 4 f4(X) 419.8965
+## 1 f1(X)  44.3080
+## 2 f2(X)  55.5310
+## 3 f3(X) 297.5225
+## 4 f4(X) 450.6655
 \end{verbatim}
 
 \normalsize
@@ -2123,10 +2131,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  45.5060
-## 2 f2(X)  52.4020
-## 3 f3(X) 284.7130
-## 4 f4(X) 419.8965
+## 1 f1(X)  44.3080
+## 2 f2(X)  55.5310
+## 3 f3(X) 297.5225
+## 4 f4(X) 450.6655
 \end{verbatim}
 
 \normalsize
@@ -2253,7 +2261,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7fa966fed7e8>
+## <bytecode: 0x7f8812b59778>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2306,10 +2314,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.7745
-## 2                lapply(x1, FUN = sqrt) 308.6985
-## 3                sapply(x1, FUN = sqrt) 372.5685
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 304.6100
+## 1                              sqrt(x1)   4.8035
+## 2                lapply(x1, FUN = sqrt) 322.5160
+## 3                sapply(x1, FUN = sqrt) 402.6935
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 325.2120
 \end{verbatim}
 
 \normalsize
@@ -2324,7 +2332,7 @@ Enfin, \texttt{vapply()} économise le temps de détermination du type de donné
 Les boucles sont gérées par la fonction \texttt{for}.
 Elles ont la réputation d'être lentes dans R parce que le code à l'intérieur de la boucle doit être interprété à chaque exécution.
 Ce n'est plus le cas depuis la version 3.5 de R: les boucles sont compilées systématiquement avant leur exécution.
-Le comportement du compilateur ``juste à temps'' est défini par la fonction \texttt{enableJIT}.
+Le comportement du compilateur \enquote{juste à temps} est défini par la fonction \texttt{enableJIT}.
 Le niveau par défaut est 3: les fonctions sont toutes compilées, et les boucles dans le code aussi.
 
 Pour évaluer le gain de performance, le code suivant supprime toute compilation automatique, et compare la même boucle compilée ou non.
@@ -2362,9 +2370,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr   median
-## 1  Boucle(x1) 832.1550
-## 2 Boucle2(x1)  77.1935
+##          expr  median
+## 1  Boucle(x1) 833.952
+## 2 Boucle2(x1)  77.820
 \end{verbatim}
 
 \begin{Shaded}
@@ -2396,8 +2404,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 291.9255
-## 2                Boucle(x1)  76.0670
+## 1 vapply(x1, FUN = sqrt, 0) 292.6065
+## 2                Boucle(x1)  75.9765
 \end{verbatim}
 
 \normalsize
@@ -2419,12 +2427,9 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr
-## 1                        vapply(x1, FUN = sqrt, 0)
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
-##      median
-## 1  296.0985
-## 2 3220.4360
+##                                               expr   median
+## 1                        vapply(x1, FUN = sqrt, 0)  309.811
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 4115.958
 \end{verbatim}
 
 \normalsize
@@ -2490,9 +2495,9 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr    median
-## 1 replicate(1000, runif(1)) 3011.7740
-## 2               runif(1000)   33.8005
+##                        expr   median
+## 1 replicate(1000, runif(1)) 4003.795
+## 2               runif(1000)   33.628
 \end{verbatim}
 
 \normalsize
@@ -2530,9 +2535,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.746955
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.679460
-## 3       colSums(diamonds[-(2:4)]) 2.570198
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.852963
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.900164
+## 3       colSums(diamonds[-(2:4)]) 2.604627
 \end{verbatim}
 
 \normalsize
@@ -2740,7 +2745,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.649
+##   0.003   0.000   0.642
 \end{verbatim}
 
 \begin{Shaded}
@@ -2752,12 +2757,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.007   0.022   0.386
+##   0.005   0.021   0.396
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.14} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.15} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2772,7 +2777,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.272
+##   0.000   0.000   2.169
 \end{verbatim}
 
 \begin{Shaded}
@@ -2784,7 +2789,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.087
+##   0.001   0.004   1.149
 \end{verbatim}
 
 \normalsize
@@ -2803,7 +2808,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.003   1.139
+##   0.001   0.003   1.124
 \end{verbatim}
 
 \begin{Shaded}
@@ -2814,7 +2819,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.007   2.278
+##   0.006   0.012   2.136
 \end{verbatim}
 
 \normalsize
@@ -3006,7 +3011,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.717
+##   0.003   0.001   0.616
 \end{verbatim}
 
 \begin{Shaded}
@@ -3021,7 +3026,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.019   0.418
+##   0.008   0.018   0.406
 \end{verbatim}
 
 \normalsize
@@ -3107,7 +3112,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.679   0.046   5.916
+##   5.571   0.044   5.631
 \end{verbatim}
 
 \begin{Shaded}
@@ -3141,7 +3146,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.332   0.035   5.553
+##   5.292   0.025   5.355
 \end{verbatim}
 
 \begin{Shaded}
@@ -3183,7 +3188,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.259   0.030   5.416
+##   5.286   0.032   5.384
 \end{verbatim}
 
 \begin{Shaded}
@@ -3222,7 +3227,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.162   0.071   4.348
+##   3.116   0.021   3.159
 \end{verbatim}
 
 \begin{Shaded}
@@ -3263,7 +3268,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.332   0.416   3.098
+##   3.484   0.367   1.971
 \end{verbatim}
 
 \begin{Shaded}
@@ -3304,7 +3309,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.053   0.021   2.531
+##   2.011   0.010   2.029
 \end{verbatim}
 
 \begin{Shaded}
@@ -3351,7 +3356,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.926   0.039   3.231
+##   2.805   0.029   2.869
 \end{verbatim}
 
 \begin{Shaded}
@@ -3396,7 +3401,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.129   0.062   0.121
+##   0.123   0.054   0.116
 \end{verbatim}
 
 \begin{Shaded}
@@ -3570,13 +3575,11 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: milliseconds
+## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##       min       lq     mean   median       uq      max
-##  2.074905 2.129105 2.323001 2.171333 2.214298 12.50891
-##  neval
-##    100
+##      min       lq     mean   median       uq      max neval
+##  784.078 788.3865 913.8448 793.5315 912.6985 2507.326   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3616,13 +3619,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.147   0.051   7.403
+##   7.117   0.033   7.323
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{6327} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5072} secondes.
 
 \scriptsize
 
@@ -3635,7 +3638,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.025   0.059   4.080
+##   5.075   0.028   1.885
 \end{verbatim}
 
 \normalsize
@@ -3789,7 +3792,7 @@ Le flux est exécuté par \texttt{tar\_make()}.
 ## • built target d
 ## • start target map
 ## • built target map
-## • end pipeline: 2.692 seconds
+## • end pipeline: 3.502 seconds
 \end{verbatim}
 
 \normalsize
@@ -3921,7 +3924,7 @@ Redémarrer RStudio à la demande.
 
 }
 
-\caption{Activation du contrôle de source dans le menu ``Tools \textgreater{} Project Options\ldots{}''.}\label{fig:git-Project}
+\caption{Activation du contrôle de source dans le menu \enquote{Tools \textgreater{} Project Options\ldots{}}.}\label{fig:git-Project}
 \end{figure}
 
 \normalsize
@@ -3956,7 +3959,7 @@ En règle générale, utiliser un fichier existant: les modèles de documents no
 
 Dans la fenêtre git, cocher la case \emph{Staged} permet de prendre en compte (\emph{Stage}) chaque fichier.
 La commande exécutée est \texttt{git\ add\ \textless{}NomDeFichier\textgreater{}}.
-Les fichiers pris en compte une première fois ont le statut ``A'' pour ``Added''.
+Les fichiers pris en compte une première fois ont le statut \enquote{A} pour \enquote{Added}.
 
 Les fichiers pris en compte font partie de l'\emph{index} de git.
 
@@ -3978,7 +3981,7 @@ Les fichiers pris en compte font partie de l'\emph{index} de git.
 
 \normalsize
 
-Les fichiers pris en compte peuvent être validés (\emph{Commit}) en cliquant sur le bouton ``Commit'' dans la fenêtre \emph{Git}.
+Les fichiers pris en compte peuvent être validés (\emph{Commit}) en cliquant sur le bouton \enquote{Commit} dans la fenêtre \emph{Git}.
 Une nouvelle fenêtre s'ouvre (figure \ref{fig:git-Commit}), qui permet de visualiser toutes les modifications par fichier (ajouts en verts, suppressions en rouge).
 Le grain de modification traité par git est la ligne de texte, terminée par un retour à la ligne.
 Les fichiers binaires comme les images sont traités en bloc.
@@ -4015,7 +4018,7 @@ git config user.name
 git config user.email
 \end{verbatim}
 
-Dès la première validation, la branche principale du dépôt, appelée ``master'', est créée.
+Dès la première validation, la branche principale du dépôt, appelée \enquote{master}, est créée.
 Une branche est une version du dépôt, avec son propre historique et donc ses propres fichiers.
 Les branches permettent:
 
@@ -4024,7 +4027,7 @@ Les branches permettent:
 \item
   de développer de nouvelles fonctionnalités dans un projet, sans perturber la branche principale qui peut contenir une version stable. Si le développement est retenu, sa branche pourra être fusionnée avec la branche \emph{master} pour constituer une nouvelle version stable.
 \item
-  de contenir des fichiers totalement différents de ceux de la branche principale, pour d'autres objectifs. Sur GitHub, les pages web de présentation du projet peuvent être placés dans une branche appelée ``gh-pages'' qui ne sera jamais fusionnée.
+  de contenir des fichiers totalement différents de ceux de la branche principale, pour d'autres objectifs. Sur GitHub, les pages web de présentation du projet peuvent être placés dans une branche appelée \enquote{gh-pages} qui ne sera jamais fusionnée.
 \end{itemize}
 
 Le dépôt git est complètement constitué.
@@ -4084,7 +4087,7 @@ Un dépôt vide sur GitHub doit être créé (figure \ref{fig:CreateRepo}):
 \begin{itemize}
 \tightlist
 \item
-  Sur GitHub, cliquer sur le bouton vert ``New repository''.
+  Sur GitHub, cliquer sur le bouton vert \enquote{New repository}.
 \item
   Saisir le nom du dépôt, identique à celui du projet R local.
 \item
@@ -4102,7 +4105,7 @@ Un dépôt vide sur GitHub doit être créé (figure \ref{fig:CreateRepo}):
 \item
   Ne pas ajouter de \texttt{README}, \texttt{.gitignore} ou licence: le projet doit être vide.
 \item
-  Cliquer sur ``create Repository''.
+  Cliquer sur \enquote{create Repository}.
 \item
   Copier l'adresse du dépôt (\url{https://github.com/}\ldots{} ou \href{mailto:git@github.com}{\nolinkurl{git@github.com}}:\ldots)
 \end{itemize}
@@ -4113,16 +4116,16 @@ L'authentification SSH (voir section \ref{sec:SSH}) est à privilégier.
 \hypertarget{lier-git-et-github}{%
 \subsection{Lier git et GitHub}\label{lier-git-et-github}}
 
-Dans RStudio, un premier \emph{commit} doit au moins avoir eu lieu pour que la branche principale du projet, nommée ``master'', existe.
-En haut à droite de la fenêtre \emph{Git} (figure \ref{fig:git-Fichiers}), il est affiché ``(no branch)'' avant cela.
-Ensuite, il est affiché ``master'', le nom par défaut de la branche principale du projet.
+Dans RStudio, un premier \emph{commit} doit au moins avoir eu lieu pour que la branche principale du projet, nommée \enquote{master}, existe.
+En haut à droite de la fenêtre \emph{Git} (figure \ref{fig:git-Fichiers}), il est affiché \enquote{(no branch)} avant cela.
+Ensuite, il est affiché \enquote{master}, le nom par défaut de la branche principale du projet.
 Le projet peut alors être lié au dépôt GitHub.
 
 \hypertarget{muxe9thode-graphique}{%
 \subsubsection{Méthode graphique}\label{muxe9thode-graphique}}
 
-Cliquer sur le bouton violet à côté de ``master'': une fenêtre apparaît (habituellement utilisée pour la création d'une nouvelle branche, voir section \ref{sec:branches}).
-Saisir le nom de la branche ``master'', cliquer sur ``Add Remotes'' et compléter:
+Cliquer sur le bouton violet à côté de \enquote{master}: une fenêtre apparaît (habituellement utilisée pour la création d'une nouvelle branche, voir section \ref{sec:branches}).
+Saisir le nom de la branche \enquote{master}, cliquer sur \enquote{Add Remotes} et compléter:
 
 \begin{itemize}
 \tightlist
@@ -4131,12 +4134,12 @@ Saisir le nom de la branche ``master'', cliquer sur ``Add Remotes'' et compléte
 \item
   Remote URL: coller l'adresse du dépôt GitHub;
 \item
-  Cliquer sur ``Add''.
+  Cliquer sur \enquote{Add}.
 \end{itemize}
 
-Cocher la case ``Sync with Remote''.
+Cocher la case \enquote{Sync with Remote}.
 
-Au message indiquant qu'une branche \emph{master} existe déjà, cliquer sur ``Overwrite''.
+Au message indiquant qu'une branche \emph{master} existe déjà, cliquer sur \enquote{Overwrite}.
 
 \hypertarget{en-ligne-de-commande}{%
 \subsubsection{En ligne de commande}\label{en-ligne-de-commande}}
@@ -4157,7 +4160,7 @@ L'adresse du dépôt est \texttt{https://github.com/GitHubID/NomDuDepot.git} si 
 
 Les commandes suivantes activent la branche principale du projet et poussent son contenu vers GitHub.
 
-Attention au nom de la branche principale (voir section \ref{sec:branches}): par défaut, elle s'appelle ``master'' dans un projet créé dans RStudio mais ``main'' sur GitHub.
+Attention au nom de la branche principale (voir section \ref{sec:branches}): par défaut, elle s'appelle \enquote{master} dans un projet créé dans RStudio mais \enquote{main} sur GitHub.
 Les lignes de commande ci-dessus fournies par GitHub remplacent donc \texttt{master} par \texttt{main} et doivent être corrigées pour correspondre au nom de la branche créée par RStudio.
 
 \hypertarget{authentification}{%
@@ -4188,12 +4191,12 @@ Si l'authentification SSH est choisie et a été configurée à l'installation d
 \subsection{Pousser les premières modifications}\label{pousser-les-premiuxe8res-modifications}}
 
 La manipulation précédente a automatiquement poussé (\emph{Push}) les modifications validées sur GitHub.
-Par la suite, il faudra cliquer sur le bouton ``Push'' de la fenêtre \emph{Git} pour le faire.
+Par la suite, il faudra cliquer sur le bouton \enquote{Push} de la fenêtre \emph{Git} pour le faire.
 
 Sur GitHub, les fichiers résultant des modifications enregistrées par git sont maintenant visibles.
 
-Chaque \emph{commit} réalisé localement est compté par git et un message ``Your branch is ahead of `origin/master' by \emph{n} commits'' affiché dans en haut de la fenêtre \emph{Git} indique qu'il est temps de mettre à jour GitHub en poussant l'ensemble de ces \emph{commits}.
-Cliquer sur le bouton ``Push'' pour le faire.
+Chaque \emph{commit} réalisé localement est compté par git et un message \enquote{Your branch is ahead of \enquote*{origin/master} by \emph{n} commits} affiché dans en haut de la fenêtre \emph{Git} indique qu'il est temps de mettre à jour GitHub en poussant l'ensemble de ces \emph{commits}.
+Cliquer sur le bouton \enquote{Push} pour le faire.
 
 A ce stade, le projet doit disposer d'un fichier \texttt{README.md} qui présente son contenu sur GitHub.
 Son contenu minimal est un titre et quelques lignes de description:
@@ -4231,9 +4234,9 @@ stability-work_in_progress-lightgrey.svg)
 
 Tout dépôt sur GitHub peut être installé (on dit \emph{cloné}) sur le poste de travail en copiant son adresse qui apparaît en cliquant sur le bouton vert (figure \ref{fig:git-Clone}).
 
-Dans RStudio, créer un nouveau projet et, dans l'assistant, choisir ``Version Control'', ``Git'' et coller l'adresse dans le champ ``Repository URL''.
+Dans RStudio, créer un nouveau projet et, dans l'assistant, choisir \enquote{Version Control}, \enquote{Git} et coller l'adresse dans le champ \enquote{Repository URL}.
 Le nom répertoire à créer pour le projet est déduit automatiquement de l'adresse.
-Choisir le répertoire dans lequel celui du projet va être créé et cliquer sur ``Create Project''.
+Choisir le répertoire dans lequel celui du projet va être créé et cliquer sur \enquote{Create Project}.
 Le projet créé est lié au dépôt distant sur GitHub.
 
 Pour travailler à plusieurs sur le même projet, le propriétaire du projet doit donner l'accès au projet à des collaborateurs (figure \ref{fig:git-Access}), c'est-à-dire d'autres utilisateurs GitHub dans les réglages du dépôt (\emph{Settings}).
@@ -4261,7 +4264,7 @@ Les collaborateurs sont invités par un message envoyé par \emph{GitHub}.
 \hypertarget{tirer-modifier-valider-pousser}{%
 \subsection{Tirer, modifier, valider, pousser}\label{tirer-modifier-valider-pousser}}
 
-Toute séance de travail sur un projet commence en tirant (Bouton ``Pull'') de la fenêtre \emph{Git} pour intégrer au dépôt local les mises à jour effectuées sur GitHub par d'autres collaborateurs.
+Toute séance de travail sur un projet commence en tirant (Bouton \enquote{Pull}) de la fenêtre \emph{Git} pour intégrer au dépôt local les mises à jour effectuées sur GitHub par d'autres collaborateurs.
 
 Les modifications apportées aux fichiers du projet sont ensuite prises en compte (cocher les cases \emph{Staged}) et validées (\emph{Commit}) avec un message explicatif.
 Une bonne pratique consiste à valider les modifications à chaque fois qu'une tâche élémentaire, qui peut être décrite dans le message explicatif, est terminée plutôt que d'effectuer des \emph{commits} regroupant de nombreux changements avec une description vague.
@@ -4295,7 +4298,7 @@ Pour limiter les conflits dans un document contenant du texte (typiquement, un d
 \hypertarget{voir-les-diffuxe9rences}{%
 \subsection{Voir les différences}\label{voir-les-diffuxe9rences}}
 
-Dans la fenêtre \emph{Git} de RStudio, le menu contextuel (affiché par un clic droit) ``Diff'' peut être utilisé pour afficher les modifications apportées à chaque fichier (figure \ref{fig:git-diff}).
+Dans la fenêtre \emph{Git} de RStudio, le menu contextuel (affiché par un clic droit) \enquote{Diff} peut être utilisé pour afficher les modifications apportées à chaque fichier (figure \ref{fig:git-diff}).
 
 
 
@@ -4315,7 +4318,7 @@ Dans la fenêtre \emph{Git} de RStudio, le menu contextuel (affiché par un clic
 \hypertarget{revenir-en-arriuxe8re}{%
 \subsection{Revenir en arrière}\label{revenir-en-arriuxe8re}}
 
-Le menu contextuel ``Revert'' permet d'annuler toutes les modifications apportées à un fichier (affichées par \emph{Diff}) et de rétablir son contenu validé la dernière fois (son état dans la tête).
+Le menu contextuel \enquote{Revert} permet d'annuler toutes les modifications apportées à un fichier (affichées par \emph{Diff}) et de rétablir son contenu validé la dernière fois (son état dans la tête).
 
 Il n'est pas simple de revenir en arrière au-delà de la dernière validation parce que les modifications ont pu être prises en compte par des collaborateurs: leur suppression rendrait le projet incohérent.
 
@@ -4351,16 +4354,16 @@ Si son écriture prend du temps, le projet est perturbé par le chantier en cour
 Si le développement s'avère impossible ou inutile, il faut pouvoir l'abandonner sans dommage.
 Pour l'isoler pendant sa réalisation et se permettre de le valider ou de l'abandonner à la fin, il faut le placer dans une branche.
 
-La branche principale du projet s'appelle ``master'' ou ``main'' à partir de novembre 2020\footnote{\url{https://github.com/github/renaming}}.
+La branche principale du projet s'appelle \enquote{master} ou \enquote{main} à partir de novembre 2020\footnote{\url{https://github.com/github/renaming}}.
 Elle doit toujours être dans un état stable: c'est elle qui est clonée à partir de GitHub par d'autres utilisateurs éventuels.
 
-Le changement de convention pour le nom de la branche ``master'' fait qu'à partir de novembre 2020, les projets créés sur GitHub clonés dans RStudio ont pour branche principale ``main'' alors que les projets créés sur RStudio puis liés à GitHub conservent le nom ``master''.
+Le changement de convention pour le nom de la branche \enquote{master} fait qu'à partir de novembre 2020, les projets créés sur GitHub clonés dans RStudio ont pour branche principale \enquote{main} alors que les projets créés sur RStudio puis liés à GitHub conservent le nom \enquote{master}.
 
 \hypertarget{cruxe9er-une-nouvelle-branche}{%
 \subsection{Créer une nouvelle branche}\label{cruxe9er-une-nouvelle-branche}}
 
-Cliquer sur le bouton violet ``New Branch'' dans la fenêtre \emph{git} de RStudio.
-Saisir son nom et cliquer sur ``Create''.
+Cliquer sur le bouton violet \enquote{New Branch} dans la fenêtre \emph{git} de RStudio.
+Saisir son nom et cliquer sur \enquote{Create}.
 
 La nouvelle branche est maintenant active.
 
@@ -4384,7 +4387,7 @@ Attention: pour éviter la confusion, sauvegarder les modifications, prendre en 
 \hypertarget{pousser-la-nouvelle-branche}{%
 \subsection{Pousser la nouvelle branche}\label{pousser-la-nouvelle-branche}}
 
-Les premières modifications de la nouvelle branche doivent être poussées en ligne de commande parce que les boutons ``Push'' et ``Pull'' de la fenêtre \emph{Git} ne fonctionnent pas tant que la branche n'existe pas sur le dépôt distant.
+Les premières modifications de la nouvelle branche doivent être poussées en ligne de commande parce que les boutons \enquote{Push} et \enquote{Pull} de la fenêtre \emph{Git} ne fonctionnent pas tant que la branche n'existe pas sur le dépôt distant.
 
 Exécuter, dans le terminal:
 
@@ -4422,7 +4425,7 @@ Ensuite, fusionner:
 git merge new_branch
 \end{verbatim}
 
-Dans la majorité des situations, la fusion sera automatique (``Fast Forward'').
+Dans la majorité des situations, la fusion sera automatique (\enquote{Fast Forward}).
 Il est possible que des conflits apparaissent: utiliser la commande \texttt{git\ status} pour afficher la liste des fichiers concernés, les ouvrir, régler le confit et effectuer un \emph{commit}.
 
 La branche fusionnée n'est pas supprimée: elles peut être utilisée à nouveau pour d'autres développements ou supprimée manuellement avec la commande suivante:
@@ -4444,13 +4447,13 @@ Ce processus est décrit en détail dans la documentation de git .
 
 Dans le cadre plus simple d'une branche de son propre projet comme dans le cas d'un \emph{fork}, la branche de développement est prête à être fusionnée.
 Elle doit avoir être poussée sur GitHub.
-Sur la page GitHub du projet, un bouton ``Create Pull Request'' permet de demander la fusion.
+Sur la page GitHub du projet, un bouton \enquote{Create Pull Request} permet de demander la fusion.
 Un message décrivant les modifications proposées avec leur argumentaire doit être ajouté.
 
 Le propriétaire du projet (les membres de l'équipe dans le cadre d'un projet collaboratif, ou soi-même si l'équipe se réduit à une personne) est averti de la requête de tirage.
 Sur la page du projet original, il est possible de voir le message, la liste des modifications (chronologie des \emph{commits} ou comparaison des fichiers), d'engager un discussion avec l'auteur de la requête\ldots{}
 Si la requête n'est pas retenue, elle peut être fermée.
-Si elle est validée, le bouton ``Merge Pull Request'' permet de fusionner la branche de développement avec la branche ``master'' (ou une autre) du projet source.
+Si elle est validée, le bouton \enquote{Merge Pull Request} permet de fusionner la branche de développement avec la branche \enquote{master} (ou une autre) du projet source.
 
 Les requêtes de tirage sont le seul moyen de contribuer à un dépôt sur lequel on ne dispose pas de droits d'écriture.
 C'est aussi le moyen de fusionner une branche de développement dans sont propre projet en en gardant une trace explicite (dans la rubrique \emph{Pull requests} de la page GitHub du projet).
@@ -4522,7 +4525,7 @@ Il est généralement inutile d'effectuer la collecte des déchets manuellement:
 
 GitHub limite la taille des dépôts.
 En mai 2020, la limite est de 100 Go.
-La taille de tous les dépôts d'un utilisateur authentifié peut être affichée dans les réglages de son compte (``Personnal Settings'', ``Repositories'')\footnote{\url{https://github.com/settings/repositories}}.
+La taille de tous les dépôts d'un utilisateur authentifié peut être affichée dans les réglages de son compte (\enquote{Personnal Settings}, \enquote{Repositories})\footnote{\url{https://github.com/settings/repositories}}.
 
 \hypertarget{supprimer-un-dossier}{%
 \subsection{Supprimer un dossier}\label{supprimer-un-dossier}}
@@ -4648,7 +4651,7 @@ Exécuter la commande suivante dans le terminal de RStudio pour créer une clé 
 ssh-keygen -t rsa -b 4096 -C "user.email"
 \end{verbatim}
 
-Stocker la clé publique sur GitHub dans ``Settings \textgreater{} SSH and GPG Keys''.
+Stocker la clé publique sur GitHub dans \enquote{Settings \textgreater{} SSH and GPG Keys}.
 Repérer la position de la clé: si une clé d'authentification a déjà été enregistrée pour deux postes de travail par exemple, la clé RSA sera la troisième.
 
 \hypertarget{guxe9nuxe9ration-dune-paire-de-cluxe9s-pour-le-projet}{%
@@ -4672,7 +4675,7 @@ La clé privée \texttt{NomDuProjet.rsa} ne doit être diffusée qu'aux ayant-dr
 Il faut donc ajouter la ligne \texttt{*.rsa} au fichier \texttt{.gitignore} du projet pour ne pas pousser la clé sur GitHub.
 
 Pour permettre l'intégration continue du projet (chapitre \ref{chap-ci}), la clé privée doit être stockée comme un secret du dépôt GitHub contenant le projet.
-Appliquer la procédure de la section \ref{sec:secrets-ci} pour créer un secret nommé ``RSA'' et coller le contenu du fichier \texttt{NomDuProjet.rsa} dans le champ ``Value'' du formulaire.
+Appliquer la procédure de la section \ref{sec:secrets-ci} pour créer un secret nommé \enquote{RSA} et coller le contenu du fichier \texttt{NomDuProjet.rsa} dans le champ \enquote{Value} du formulaire.
 
 L'utilisation du secret est décrite dans la section \ref{sec:confidentielCI}.
 
@@ -4854,7 +4857,7 @@ Son fichier \texttt{README.md} existe aux deux emplacements: il est écrit par l
 \hypertarget{activation}{%
 \subsection{Activation}\label{activation}}
 
-Pour activer les pages GitHub, il faut ouvrir les propriétés du dépôt (\emph{Settings}) et modifier la rubrique ``GitHub Pages'' (dans ``Options'').
+Pour activer les pages GitHub, il faut ouvrir les propriétés du dépôt (\emph{Settings}) et modifier la rubrique \enquote{GitHub Pages} (dans \enquote{Options}).
 Sélectionner la branche du projet et le dossier contenant les pages web, ici: \texttt{master} et \texttt{/docs}.
 En option, le choix d'un thème personnalise l'apparence des pages.
 
@@ -4914,7 +4917,7 @@ Quand l'explication du code nécessite plusieurs lignes de commentaire par ligne
 Le concept de programmation lettrée (\emph{literate programming}) a été développé par \textcite{Knuth1984}.
 Il s'agit de décrire les objectifs et les méthodes par du texte, dans lequel le code s'intègre.
 
-L'outil le plus simple est le bloc-note Markdown (Menu ``File \textgreater{} New File \textgreater{} R Notebook'').
+L'outil le plus simple est le bloc-note Markdown (Menu \enquote{File \textgreater{} New File \textgreater{} R Notebook}).
 Le modèle de document contient son mode d'emploi.
 
 Le langage qui permet de formater le texte est Markdown\footnote{\url{https://fr.wikipedia.org/wiki/Markdown}}, un langage de balisage simple à utiliser:
@@ -4970,10 +4973,10 @@ La chaîne de production est la suivante :
   LaTeX produit un fichier PDF quand ce format est demandé.
 \end{itemize}
 
-RStudio permet de lancer le tricot par des boutons plutôt que par des commandes: dans la fenêtre source (celle du haut à gauche), un bouton ``Knit'' accompagne les documents R Markdown.
-Pour les bloc-notes R Markdown, il est remplacé par un bouton ``Preview'' avec les mêmes fonctions.
-Il peut être déroulé pour choisir le format de sortie: HTML, Word, PDF (en passant par LaTeX) et, pour les bloc-notes, une commande ``Preview'' qui affiche le document en HTML sans exécuter les bouts de code pour gagner du temps.
-Dès le premier tricot au format Word ou HTML, on remarquera que le bouton ``Preview'' disparaît.
+RStudio permet de lancer le tricot par des boutons plutôt que par des commandes: dans la fenêtre source (celle du haut à gauche), un bouton \enquote{Knit} accompagne les documents R Markdown.
+Pour les bloc-notes R Markdown, il est remplacé par un bouton \enquote{Preview} avec les mêmes fonctions.
+Il peut être déroulé pour choisir le format de sortie: HTML, Word, PDF (en passant par LaTeX) et, pour les bloc-notes, une commande \enquote{Preview} qui affiche le document en HTML sans exécuter les bouts de code pour gagner du temps.
+Dès le premier tricot au format Word ou HTML, on remarquera que le bouton \enquote{Preview} disparaît.
 
 Au final, l'utilisation de R Markdown combine plusieurs avantages:
 
@@ -5003,7 +5006,7 @@ Elle a aussi quelques inconvénients:
 \section{Modèles R Markdown}\label{moduxe8les-r-markdown}}
 
 Des modèles de document plus élaborés que le bloc-note sont fournis par des packages, dont \textbf{rmarkdown}.
-Ils sont accessibles par le menu ``File \textgreater{} New File \textgreater{} R Markdown\ldots{}'' (figure \ref{fig:e-rmd1})).
+Ils sont accessibles par le menu \enquote{File \textgreater{} New File \textgreater{} R Markdown\ldots{}} (figure \ref{fig:e-rmd1})).
 
 
 
@@ -5088,7 +5091,7 @@ Dans le texte, les parties en italique sont entourées par une étoile ou un tir
 \hypertarget{code-r}{%
 \subsubsection{Code R}\label{code-r}}
 
-Le code R est inclus dans des bouts de code (\emph{code chunks}) créés facilement en cliquant sur le bouton ``Insert a new code chunk'' au-dessus de la fenêtre du code source dans RStudio.
+Le code R est inclus dans des bouts de code (\emph{code chunks}) créés facilement en cliquant sur le bouton \enquote{Insert a new code chunk} au-dessus de la fenêtre du code source dans RStudio.
 Ils commencent et se terminent par trois guillemets inversés sur une nouvelle ligne.
 Ces bouts de code peuvent contenir du code R mais aussi Python par exemple: le type de code est indiqué dans l'entête sur la première ligne, avant le nom du bout de code, puis une liste d'options séparées par des virgules, par exemple:
 
@@ -5111,7 +5114,7 @@ Les options les plus utiles sont :
   \texttt{warning=FALSE} pour cacher les avertissements.
 \end{itemize}
 
-Les options par défaut sont déclarées dans le bout de code nommé ``Options'' au début du document Markdown, dans la fonction \texttt{opts\_chunk\$set()}.
+Les options par défaut sont déclarées dans le bout de code nommé \enquote{Options} au début du document Markdown, dans la fonction \texttt{opts\_chunk\$set()}.
 
 L'option \texttt{include=FALSE} supprime tout affichage lié au bout de code.
 Dans un document tel qu'un article scientifique, qui n'affiche pas son code, elle doit être utilisée pour tous les bouts de code sauf ceux qui produisent les figures.
@@ -5170,7 +5173,7 @@ La figure \ref{fig:pressure2} bénéficie d'une légende améliorée.
 
 \normalsize
 
-Le texte de \texttt{fig.cap}, ``Titre de la figure'' précédemment, est remplacé par \texttt{(ref:pressure)} \emph{à l'intérieur des guillemets} qui sont conservés et la légende est saisie dans un paragraphe commençant par \texttt{(ref:pressure)} suivi d'un espace.
+Le texte de \texttt{fig.cap}, \enquote{Titre de la figure} précédemment, est remplacé par \texttt{(ref:pressure)} \emph{à l'intérieur des guillemets} qui sont conservés et la légende est saisie dans un paragraphe commençant par \texttt{(ref:pressure)} suivi d'un espace.
 Les légendes sont limitées à un paragraphe unique.
 
 Si une table des figures est utilisée (option \texttt{lof:\ true} dans l'entête), une légende courte est nécessaire en plus de la légende complète.
@@ -5405,16 +5408,16 @@ bibliography: references.bib
 
 Ce fichier peut être créé et maintenu à jour par Zotero installé avec l'extension Better BibTeX (voir section \ref{sec:Zotero}).
 Il suffit pour cela de créer une collection Zotero correspondant au projet et d'y glisser les références pertinentes.
-Utiliser ensuite le menu contextuel ``Exporter la collection\ldots{}'' et sélectionner:
+Utiliser ensuite le menu contextuel \enquote{Exporter la collection\ldots{}} et sélectionner:
 
 \begin{itemize}
 \tightlist
 \item
-  Format: ``Better BibTeX'' pour les articles et présentations ou ``Better BibLaTeX'' pour les mémoires, selon que la bibliographie est gérée par bibtex et natbib ou biber et biblatex pour la production de documents PDF.
+  Format: \enquote{Better BibTeX} pour les articles et présentations ou \enquote{Better BibLaTeX} pour les mémoires, selon que la bibliographie est gérée par bibtex et natbib ou biber et biblatex pour la production de documents PDF.
 \item
-  Cocher la case ``Garder à jour'' pour que toute modification dans Zotero soit exportée automatiquement.
+  Cocher la case \enquote{Garder à jour} pour que toute modification dans Zotero soit exportée automatiquement.
 \item
-  Cliquer sur ``OK'' puis choisir le nom du fichier (\texttt{references.bib}) et son emplacement (le dossier du projet R).
+  Cliquer sur \enquote{OK} puis choisir le nom du fichier (\texttt{references.bib}) et son emplacement (le dossier du projet R).
 \end{itemize}
 
 Les références peuvent être appelées dans le texte, entre parenthèses par le code \texttt{{[}@Reference{]}}, ou dans le texte, en supprimant les crochets.
@@ -5472,16 +5475,16 @@ Le modèle contient sa propre documentation.
 \hypertarget{cruxe9er}{%
 \subsubsection{Créer}\label{cruxe9er}}
 
-Utiliser le menu ``File \textgreater{} New File \textgreater{} R Markdown\ldots{}'' puis sélectionner ``From template'' (figure \ref{fig:e-rmd1}).
+Utiliser le menu \enquote{File \textgreater{} New File \textgreater{} R Markdown\ldots{}} puis sélectionner \enquote{From template} (figure \ref{fig:e-rmd1}).
 La liste des modèles disponible et le package qui les propose est alors affichée.
 
-Sélectionner le modèle \emph{Simple Article} du package \textbf{memoiR}, choisir le nom du projet (``Name:'', qui sera le nom du dossier dans lequel il sera créé, et son dossier parent (``Location:'').
+Sélectionner le modèle \emph{Simple Article} du package \textbf{memoiR}, choisir le nom du projet (\enquote{Name:}, qui sera le nom du dossier dans lequel il sera créé, et son dossier parent (\enquote{Location:}).
 Dans l'organisation proposée en section \ref{sec:solution-dossiers}, le dossier parent est \texttt{\%LOCALAPPDATA\%\textbackslash{}ProjetsR}.
 Le nom du projet ne doit contenir aucun caractère spécial (accent, espace\ldots) pour assurer sa portabilité sur tous les systèmes d'exploitation (Windows, Linux, MacOS).
 
 Les modèles élaborés créent un dossier avec de nombreux fichiers (bibliographie, styles, modèle LaTeX\ldots), contrairement aux modèles simples qui créent seulement un fichier.
 
-Quand un dossier est créé, par exemple par le modèle \emph{Simple Article}, il faut en faire un projet RStudio: dans le menu des projets (en haut à droite de la fenêtre de RStudio), utiliser le menu ``New Project\ldots{}'' puis ``Existing Directory'' et sélectionner le dossier qui vient d'être créé.
+Quand un dossier est créé, par exemple par le modèle \emph{Simple Article}, il faut en faire un projet RStudio: dans le menu des projets (en haut à droite de la fenêtre de RStudio), utiliser le menu \enquote{New Project\ldots{}} puis \enquote{Existing Directory} et sélectionner le dossier qui vient d'être créé.
 
 \hypertarget{ecrire-1}{%
 \subsubsection{Ecrire}\label{ecrire-1}}
@@ -5592,8 +5595,8 @@ Les niveaux de plan commencent par \texttt{\#} pour les chapitres (un seul par f
 La compilation au format PDF est faite par XeLaTeX, qui doit être installé.
 
 Pendant la rédaction, il est fortement conseillé de ne créer que le fichier HTML, ce qui est beaucoup plus rapide qu'une compilation LaTeX.
-Chaque chapitre peut être visualisé très rapidement en cliquant sur le bouton ``Knit'' au-dessus de la fenêtre de source.
-Le livre entier est créé en cliquant sur le bouton ``Build Book'' de la fenêtre \emph{Build} de RStudio.
+Chaque chapitre peut être visualisé très rapidement en cliquant sur le bouton \enquote{Knit} au-dessus de la fenêtre de source.
+Le livre entier est créé en cliquant sur le bouton \enquote{Build Book} de la fenêtre \emph{Build} de RStudio.
 La liste déroulante du bouton permet de créer tous les documents ou de se limiter à un format.
 
 Les fichiers produits sont placés directement dans le dossier \texttt{docs}, qui sera utilisé par les pages GitHub pour permettre la lecture en ligne et le téléchargement du PDF.
@@ -5725,10 +5728,10 @@ Un site web constitué de pages écrites avec R Markdown (sans les fonctionnalit
 \hypertarget{moduxe8le}{%
 \subsection{Modèle}\label{moduxe8le}}
 
-Dans RStudio, dans le menu des projets en haut à droite, cliquer sur ``New Project\ldots{}'' puis ``New Directory'' puis ``Simple R Markdown website''.
-Saisir le nom du projet, sélectionner le dossier dans lequel le projet sera créé en cliquant sur ``Browse'' et enfin cliquer sur ``Create Project''.
+Dans RStudio, dans le menu des projets en haut à droite, cliquer sur \enquote{New Project\ldots{}} puis \enquote{New Directory} puis \enquote{Simple R Markdown website}.
+Saisir le nom du projet, sélectionner le dossier dans lequel le projet sera créé en cliquant sur \enquote{Browse} et enfin cliquer sur \enquote{Create Project}.
 
-Le site par défaut contient deux pages: \texttt{index}, la page d'accueil, et \texttt{about}, la page ``A propos''.
+Le site par défaut contient deux pages: \texttt{index}, la page d'accueil, et \texttt{about}, la page \enquote{A propos}.
 Le fichier \texttt{\_site.yml} contient le nom du site et le contenu de sa barre de navigation: un titre et le fichier correspondant.
 D'autres pages seront ajoutées en créant de nouveaux fichiers \texttt{.Rmd} et en les ajoutant au fichier \texttt{\_site.yml}.
 
@@ -5770,7 +5773,7 @@ output:
     toc_float: yes
 \end{verbatim}
 
-L'icône de GitHub fait partie de la collection Font Awesome dont toutes les icônes gratuites\footnote{\url{https://fontawesome.com/icons?d=gallery\&m=free}} sont utilisables avec la même syntaxe: ``fa-nom''.
+L'icône de GitHub fait partie de la collection Font Awesome dont toutes les icônes gratuites\footnote{\url{https://fontawesome.com/icons?d=gallery\&m=free}} sont utilisables avec la même syntaxe: \enquote{fa-nom}.
 
 Le lien correspondant à l'icône doit être celui du dépôt GitHub du site web.
 
@@ -5814,7 +5817,7 @@ touch docs/.nojekyll
 
 Pour créer une page web personnelle, \emph{Hugo} est un générateur de site statique capable de produire des pages HTML à partir de code Markdown.
 Les sites statiques ont l'avantage, en comparaison aux sites dynamiques gérés par un système de gestion de contenu (CMS, par exemple: Wordpress, Joomla, SPIP), d'être portables sur n'importe quel serveur web sans support de base de données ni de code à exécuter côté le serveur (tel que PHP) et d'être très rapides puisque les pages sont créées une seule fois et non à chaque consultation.
-Un site Hugo peut être hébergé par exemple sur la page personnelle de tout utilisateur de GitHub dont l'adresse est de la forme ``GitHubID.github.io''.
+Un site Hugo peut être hébergé par exemple sur la page personnelle de tout utilisateur de GitHub dont l'adresse est de la forme \enquote{GitHubID.github.io}.
 
 Hugo propose de nombreux thèmes, qui sont des modèles de structure de sites, donc le thème \textbf{Academic}, destiné aux chercheurs.
 Dans RStudio, le package \textbf{blogdown} est prévu pour produire facilement des pages web avec Hugo.
@@ -5867,13 +5870,13 @@ Go doit donc être installé\footnote{\url{https://golang.org/doc/install}}.
 \subsection{Créer}\label{cruxe9er-2}}
 
 La façon la plus simple consiste à créer un dépôt sur GitHub à partir du modèle.
-Sur la page du dépôt \emph{starter-academic}\footnote{\url{https://github.com/wowchemy/starter-academic}}, cliquer sur le bouton ``Use this template'', s'authentifier éventuellement sur GitHub, puis saisir le nom du dépôt qui contiendra le projet, par exemple ``MySite''.
+Sur la page du dépôt \emph{starter-academic}\footnote{\url{https://github.com/wowchemy/starter-academic}}, cliquer sur le bouton \enquote{Use this template}, s'authentifier éventuellement sur GitHub, puis saisir le nom du dépôt qui contiendra le projet, par exemple \enquote{MySite}.
 
 Le dépôt peut être celui du site principal de son compte GitHub (voir section \ref{sec:github-pages}), à l'adresse \url{https://GitHubID.github.io}\footnote{Exemple: \url{https://EricMarcon.github.io/Krigeage/}}.
-Le nom à saisir est simplement ``GitHubID.github.io'' (\emph{GitHubID} est le nom du compte GitHub).
+Le nom à saisir est simplement \enquote{GitHubID.github.io} (\emph{GitHubID} est le nom du compte GitHub).
 
 Créer le dépôt.
-Copier l'adresse du dépôt en cliquant sur le bouton ``Code'' puis sur le bouton à droite de l'adresse (figure \ref{fig:rediger-GitHub-Clone}).
+Copier l'adresse du dépôt en cliquant sur le bouton \enquote{Code} puis sur le bouton à droite de l'adresse (figure \ref{fig:rediger-GitHub-Clone}).
 
 
 
@@ -5890,8 +5893,8 @@ Copier l'adresse du dépôt en cliquant sur le bouton ``Code'' puis sur le bouto
 
 \normalsize
 
-Dans RStudio, créer un nouveau projet à partir de GitHub: dans le menu des projets en haut à droite, cliquer sur ``New Project\ldots{}'' puis ``Version Control'' puis ``Git'' puis coller l'adresse dans le champ ``Repository URL'' (figure \ref{fig:rediger-Projet-GitHub}).
-Sélectionner le dossier dans lequel le projet sera créé en cliquant sur ``Browse'' et enfin cliquer sur ``Create Project''.
+Dans RStudio, créer un nouveau projet à partir de GitHub: dans le menu des projets en haut à droite, cliquer sur \enquote{New Project\ldots{}} puis \enquote{Version Control} puis \enquote{Git} puis coller l'adresse dans le champ \enquote{Repository URL} (figure \ref{fig:rediger-Projet-GitHub}).
+Sélectionner le dossier dans lequel le projet sera créé en cliquant sur \enquote{Browse} et enfin cliquer sur \enquote{Create Project}.
 
 
 
@@ -6010,7 +6013,7 @@ title = "Eric Marcon"
 baseurl = "https://EricMarcon.github.io/"
 \end{verbatim}
 
-Il contient aussi la ligne de sélection de la langue par défaut (``en'' ou ``fr'' au choix) et celle qui permet de placer les fichiers produits par Hugo dans chaque dossier de langue (``true'' obligatoirement pour un site multilingue):
+Il contient aussi la ligne de sélection de la langue par défaut (\enquote{en} ou \enquote{fr} au choix) et celle qui permet de placer les fichiers produits par Hugo dans chaque dossier de langue (\enquote{true} obligatoirement pour un site multilingue):
 
 \begin{verbatim}
 defaultContentLanguage = "fr"
@@ -6056,8 +6059,8 @@ Ces lignes sont commentées dans le modèle et doivent dont être décommentées
 Les menus sont décrits plus bas.
 
 \texttt{params.toml} décrit l'aspect du site.
-Les options sont regroupées par sujet, par exemple ``Theme'' pour l'apparence générale.
-Dans ``Basic Info'', la ligne
+Les options sont regroupées par sujet, par exemple \enquote{Theme} pour l'apparence générale.
+Dans \enquote{Basic Info}, la ligne
 
 \begin{verbatim}
 site_type = "Person"
@@ -6083,7 +6086,7 @@ description = "Eric Marcon's Homepage"
 
 Elle doit être traduite dans le fichier \texttt{languages.toml}, dans chaque langue.
 
-Dans ``Site Features'', nous sélectionnons la coloration du code R, l'activation du formatage des équations et l'avertissement légal pour l'utilisation des cookies.
+Dans \enquote{Site Features}, nous sélectionnons la coloration du code R, l'activation du formatage des équations et l'avertissement légal pour l'utilisation des cookies.
 
 \begin{verbatim}
 highlight_languages = ["r"] 
@@ -6091,18 +6094,18 @@ math = true
 privacy_pack = true
 \end{verbatim}
 
-La ligne \texttt{edit\_page} doit être mise à jour: remplacer le dépôt par défaut ``\url{https://github.com/gcushen/hugo-academic}'' par celui du site.
+La ligne \texttt{edit\_page} doit être mise à jour: remplacer le dépôt par défaut \enquote{\url{https://github.com/gcushen/hugo-academic}} par celui du site.
 
-``Contact details'' contient les informations pour contacter le propriétaire du site.
+\enquote{Contact details} contient les informations pour contacter le propriétaire du site.
 Elles doivent être saisies.
 
-``Regional Settings'' contient les paramètres d'affichage de date pour la langue par défaut (ceux des autres langues sont dans \texttt{languages.toml}).
+\enquote{Regional Settings} contient les paramètres d'affichage de date pour la langue par défaut (ceux des autres langues sont dans \texttt{languages.toml}).
 Ils n'ont normalement pas à être modifiés.
 
-``Comments'' permet d'activer les commentaires des visiteurs en bas de pages, avec Disqus ou Comment.io (un compte est nécessaire chez le fournisseur).
-``Marketing'' permet d'activer le suivi de fréquentation du site en saisissant simplement son identifiant Google Analytics (à créer avec un compte Google).
-``Content Management System'' contient la ligne \texttt{netlify\_cms} dont la valeur doit être \texttt{false} si le site n'est pas hébergé par Netlify.
-Enfin ``Icon Pack Extensions'' permet d'activer les icônes Academicons si nécessaire.
+\enquote{Comments} permet d'activer les commentaires des visiteurs en bas de pages, avec Disqus ou Comment.io (un compte est nécessaire chez le fournisseur).
+\enquote{Marketing} permet d'activer le suivi de fréquentation du site en saisissant simplement son identifiant Google Analytics (à créer avec un compte Google).
+\enquote{Content Management System} contient la ligne \texttt{netlify\_cms} dont la valeur doit être \texttt{false} si le site n'est pas hébergé par Netlify.
+Enfin \enquote{Icon Pack Extensions} permet d'activer les icônes Academicons si nécessaire.
 
 \hypertarget{ecrire-3}{%
 \subsection{Ecrire}\label{ecrire-3}}
@@ -6163,7 +6166,7 @@ Le type de composant (\texttt{type}) indique qu'il s'agit d'une page de composan
 
 \normalsize
 
-Le composant \texttt{demo.md} (figure \ref{fig:rediger-demo}) est un composant de type ``blank'', c'est-à-dire une page de texte libre: il sert ici à présenter le modèle Academic Kickstart et doit donc être désactivé.
+Le composant \texttt{demo.md} (figure \ref{fig:rediger-demo}) est un composant de type \enquote{blank}, c'est-à-dire une page de texte libre: il sert ici à présenter le modèle Academic Kickstart et doit donc être désactivé.
 L'entête contient ses informations de formatage (titre, nombre de colonnes, couleurs\ldots) et le contenu de la page est écrit en markdown.
 Les composants apparaissent par ordre croissant de poids (\texttt{weight} dans l'entête): 15 marque le premier composant dans le modèle Academic.
 Le composant peut être désactivé en supprimant son fichier ou en modifiant sa propriété \texttt{active} dans l'entête:
@@ -6248,11 +6251,11 @@ Le composant \texttt{posts} va chercher son contenu dans le dossier \texttt{/con
 Le fichier \texttt{posts.md} contient des options de mise en page dans son entête.
 
 Le composant \texttt{projects} fonctionne de la même façon.
-La différence entre les deux composants est leur mise en forme: \texttt{posts} est du type ``pages'', qui affiche les éléments les plus récents, alors que \texttt{projects} est de type ``portfolio'', qui affiche les éléments sélectionnés qui contiennent la description \texttt{featured:\ true} dans leur propre entête.
-Il est possible de créer des composants de ces types librement, en spécifiant le dossier contenant les éléments dans ``page-type''.
+La différence entre les deux composants est leur mise en forme: \texttt{posts} est du type \enquote{pages}, qui affiche les éléments les plus récents, alors que \texttt{projects} est de type \enquote{portfolio}, qui affiche les éléments sélectionnés qui contiennent la description \texttt{featured:\ true} dans leur propre entête.
+Il est possible de créer des composants de ces types librement, en spécifiant le dossier contenant les éléments dans \enquote{page-type}.
 Exemple: créer un composant nommé \texttt{software.md} en renommant \texttt{projects.md}, modifier sa ligne \texttt{page\_type\ =\ "software"} et créer un dossier \texttt{/contents/\textless{}langue\textgreater{}/software} pour y placer du contenu.
 
-Les composants \texttt{publications} et \texttt{featured} sont de type ``pages'' et ``portfolio'' respectivement et prennent leur contenu dans le dossier \texttt{publication}.
+Les composants \texttt{publications} et \texttt{featured} sont de type \enquote{pages} et \enquote{portfolio} respectivement et prennent leur contenu dans le dossier \texttt{publication}.
 
 Le composant \texttt{tags} présente un nuage de mots à partir des mots-clés déclarés dans tous les fichiers de contenu (billets de blog, publications\ldots) sous la forme suivante dans leur entête:
 
@@ -6461,7 +6464,7 @@ Ce lien peut être réutilisé très simplement, en remplaçant simplement le DO
 \end{verbatim}
 
 Enfin, un fichier \texttt{/contents/\textless{}langue\textgreater{}/publications/\_index.Rmd} permet de présenter la bibliographie complète.
-Il est accessible à partir du composant \texttt{publications} de la page d'accueil qui affiche un lien ``Plus de Publications''.
+Il est accessible à partir du composant \texttt{publications} de la page d'accueil qui affiche un lien \enquote{Plus de Publications}.
 
 Le fichier exemple\footnote{\url{https://EricMarcon.github.io/publication/}} avec son code\footnote{\url{https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a}} permet d'interroger Google Scholar pour obtenir le réseau de coauteurs, l'indice h et le nombre de citations annuelles de l'auteur.
 Il est réutilisable en modifiant simplement l'identifiant Google Scholar à la ligne 30.
@@ -6548,7 +6551,7 @@ Il est possible d'ajouter librement des éléments supplémentaires sur le site:
 \item
   tous les fichiers nécessaires au tricot (images, données) peuvent être ajoutés dans le même dossier;
 \item
-  dans \texttt{/contents/\textless{}langue\textgreater{}/home}, ajouter un composant de la page d'accueil en copiant-collant un élément existant de type ``pages'' (comme \texttt{publications}) ou ``portfolio'' (comme \texttt{featured}) et le paramétrer pour qu'il pointe sur le bon dossier (dans l'exemple: \texttt{page-type=recette}) et ajuster son apparence (nombre d'éléments par exemple) et sa position (poids);
+  dans \texttt{/contents/\textless{}langue\textgreater{}/home}, ajouter un composant de la page d'accueil en copiant-collant un élément existant de type \enquote{pages} (comme \texttt{publications}) ou \enquote{portfolio} (comme \texttt{featured}) et le paramétrer pour qu'il pointe sur le bon dossier (dans l'exemple: \texttt{page-type=recette}) et ajuster son apparence (nombre d'éléments par exemple) et sa position (poids);
 \item
   ajouter éventuellement une entrée de menu pour pointer sur le composant, avec le même poids que le composant.
 \end{itemize}
@@ -6729,7 +6732,7 @@ Pour ce document, les options déclarées dans \texttt{index.Rmd} sont les suiva
 
 \normalsize
 
-Enfin, \textbf{ragg} peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la version 1.4 (Menu ``Tools \textgreater{} Global Options \textgreater{} General \textgreater{} Graphics \textgreater{} Backend'').
+Enfin, \textbf{ragg} peut être utilisé comme moteur de rendu graphique par défaut dans RStudio à partir de la version 1.4 (Menu \enquote{Tools \textgreater{} Global Options \textgreater{} General \textgreater{} Graphics \textgreater{} Backend}).
 
 \hypertarget{sec:targetsmd}{%
 \section{Flux de travail}\label{sec:targetsmd}}
@@ -6916,7 +6919,7 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 ## • built target d
 ## • start target map
 ## • built target map
-## • end pipeline: 2.214 seconds
+## • end pipeline: 2.568 seconds
 \end{verbatim}
 
 \normalsize
@@ -7003,7 +7006,7 @@ Les trois sont à installer en premier lieu:
 \normalsize
 
 Le package à créer sera un projet RStudio.
-Dans le menu des projets, sélectionner ``New Project \textgreater{} New Directory \textgreater{} R package using devtools\ldots{}'', choisir le nom du projet et son dossier parent.
+Dans le menu des projets, sélectionner \enquote{New Project \textgreater{} New Directory \textgreater{} R package using devtools\ldots{}}, choisir le nom du projet et son dossier parent.
 Le package s'appellera \textbf{multiple}, dans le dossier \texttt{\%LOCALAPPDATA\%\textbackslash{}ProjetsR} en suivant les recommandations de la section \ref{sec:solution-dossiers}.
 
 Le nom du package doit respecter les contraintes des noms de projets: pas de caractères spéciaux, pas d'espaces\ldots{}
@@ -7022,7 +7025,7 @@ La structure minimale est crée:
   un dossier \texttt{R} qui contient le code des fonctions offertes par le package (vide à ce stade).
 \end{itemize}
 
-Le package peut être testé tout de suite: dans la fenêtre \emph{Build} de RStudio, cliquer sur ``Install and Restart'' construit le package et le charge dans R, après avoir redémarré le programme pour éviter tout conflit.
+Le package peut être testé tout de suite: dans la fenêtre \emph{Build} de RStudio, cliquer sur \enquote{Install and Restart} construit le package et le charge dans R, après avoir redémarré le programme pour éviter tout conflit.
 
 Dans la fenêtre \emph{Packages}, \textbf{multiple} est maintenant visible.
 Il est chargé, mais ne contient rien.
@@ -7096,7 +7099,7 @@ Le résultat est un vecteur composé de deux 0 parce que la fonction appelée es
 
 Pour que la fonction de notre package soit visible, elle doit être \emph{exportée} en la déclarant dans le fichier \texttt{NAMESPACE}.
 C'est le travail de \textbf{roxygen2} qui gère en même temps la documentation de chaque fonction.
-Pour l'activer, placer le curseur dans la fonction et appeler le menu ``Code \textgreater{} Insert Roxygen Skeleton''.
+Pour l'activer, placer le curseur dans la fonction et appeler le menu \enquote{Code \textgreater{} Insert Roxygen Skeleton}.
 Des commentaires sont ajoutés avant la fonction:
 
 \scriptsize
@@ -7183,7 +7186,7 @@ Ne pas hésiter à s'inspirer de l'aide de fonctions existantes pour respecter l
 \end{itemize}
 
 La prise en compte des changements dans la documentation nécessitent d'appeler la fonction \texttt{roxygenize()}.
-Dans la fenêtre \emph{Build}, le menu ``More \textgreater{} Document'' permet de le faire.
+Dans la fenêtre \emph{Build}, le menu \enquote{More \textgreater{} Document} permet de le faire.
 Ensuite, construire le package (\emph{Install and Restart}) et vérifier le résultat en exécutant la fonction et en affichant son aide:
 
 \scriptsize
@@ -7197,13 +7200,13 @@ Ensuite, construire le package (\emph{Install and Restart}) et vérifier le rés
 
 \normalsize
 
-Il est possible d'automatiser la mise à jour de la documentation à chaque construction du package par le menu ``Build \textgreater{} Configure Build Tools\ldots{}'': cliquer sur ``Configure'' et cocher la case ``Automatically reoxygenize when running Install and Restart''.
+Il est possible d'automatiser la mise à jour de la documentation à chaque construction du package par le menu \enquote{Build \textgreater{} Configure Build Tools\ldots{}}: cliquer sur \enquote{Configure} et cocher la case \enquote{Automatically reoxygenize when running Install and Restart}.
 C'est un choix efficace pour un petit package mais pénalisant quand le temps de mise à jour de la documentation s'allonge avec la complexité du package. La reconstruction du package est le plus souvent utilisée pour tester des modifications du code: sa rapidité est essentielle.
 
 La documentation pour \textbf{roxygen2} supporte le format Markdown\footnote{\url{https://roxygen2.r-lib.org/articles/markdown.html}}.
 
 A ce stade, le package est fonctionnel: il contient une fonction et un début de documentation.
-Il est temps de lancer une vérification de son code: dans la fenêtre \emph{Build}, cliquer sur ``Check'' ou utiliser la commande \texttt{devtools::check()}.
+Il est temps de lancer une vérification de son code: dans la fenêtre \emph{Build}, cliquer sur \enquote{Check} ou utiliser la commande \texttt{devtools::check()}.
 L'opération \emph{réoxygène} le package (met à jour sa documentation), effectue un grand nombre de tests et renvoie la liste des erreurs, avertissements et notes détectées.
 L'objectif est toujours de n'avoir aucune alerte: elles doivent être traitées immédiatement.
 Par exemple, le retour suivant est un avertissement sur la non-conformité de la licence déclarée:
@@ -7343,11 +7346,11 @@ Dans ce cas, il faut préciser le rôle de chacun :
 \begin{itemize}
 \tightlist
 \item
-  ``cre'' pour le créateur du package
+  \enquote{cre} pour le créateur du package
 \item
-  ``aut'' pour un auteur parmi les autres
+  \enquote{aut} pour un auteur parmi les autres
 \item
-  ``ctb'' pour un contributeur, qui peut avoir signalé un bug ou fourni un peu de code.
+  \enquote{ctb} pour un contributeur, qui peut avoir signalé un bug ou fourni un peu de code.
 \end{itemize}
 
 La description du package en un paragraphe permet de donner plus d'informations.
@@ -7376,7 +7379,7 @@ Créer une première version du fichier:
 \end{verbatim}
 
 Les titres de premier niveau doivent contenir le nom du package et sa version.
-Les titres de niveau 2 sont libres, mais contiennent en général des rubriques comme ``New features'' et ``Bug Fixes''.
+Les titres de niveau 2 sont libres, mais contiennent en général des rubriques comme \enquote{New features} et \enquote{Bug Fixes}.
 
 Pour ne pas multiplier les versions décrites, il est conseillé de modifier la version en cours et de compléter la documentation jusqu'au changement de version de correction (troisième nombre).
 Ensuite, l'entrée correspondant à cette version reste figée et une nouvelle entrée est ajoutée.
@@ -7423,13 +7426,13 @@ Pendant le développement du package, la vignette peut être construite manuelle
 
 Les fichiers produits sont placés dans \texttt{doc/}: ouvrir le fichier \texttt{.html} pour contrôler le résultat.
 
-RStudio ne crée pas la vignette du package quand la commande ``Install and Restart'' de la fenêtre Build est appelée.
+RStudio ne crée pas la vignette du package quand la commande \enquote{Install and Restart} de la fenêtre Build est appelée.
 Pour une installation complète, deux solutions sont possibles:
 
 \begin{itemize}
 \tightlist
 \item
-  Construire le fichier source du package (``Build \textgreater{} More \textgreater{} Build Source Package'') puis l'installer (``Packages \textgreater{} Install \textgreater{} Install from \textgreater{} Package Archive file'').
+  Construire le fichier source du package (\enquote{Build \textgreater{} More \textgreater{} Build Source Package}) puis l'installer (\enquote{Packages \textgreater{} Install \textgreater{} Install from \textgreater{} Package Archive file}).
   Le fichier source se trouve à côté de celui du projet.
 \item
   Pousser le code du package sur GitHub puis exécuter:
@@ -7460,7 +7463,7 @@ La vignette peut ensuite être affichée par la commande:
 \hypertarget{pkgdown}{%
 \section{pkgdown}\label{pkgdown}}
 
-Le package \textbf{pkgdown} permet de créer un site d'accompagnement du package\footnote{Exemple: \url{https://EricMarcon.github.io/entropart/}}, qui reprend le fichier \texttt{README.md} comme page d'accueil, la vignette dans une rubrique ``Get Started'', l'ensemble des fichiers d'aide avec leurs exemples exécutés (section ``Reference''), le fichier \texttt{NEWS.md} pour un historique du package (section ``Changelog'') et des informations du fichier \texttt{DESCRIPTION}.
+Le package \textbf{pkgdown} permet de créer un site d'accompagnement du package\footnote{Exemple: \url{https://EricMarcon.github.io/entropart/}}, qui reprend le fichier \texttt{README.md} comme page d'accueil, la vignette dans une rubrique \enquote{Get Started}, l'ensemble des fichiers d'aide avec leurs exemples exécutés (section \enquote{Reference}), le fichier \texttt{NEWS.md} pour un historique du package (section \enquote{Changelog}) et des informations du fichier \texttt{DESCRIPTION}.
 
 Créer le site avec \textbf{usethis}
 
@@ -7559,7 +7562,7 @@ Tous les packages utilisés par le code de \textbf{multiple} seront listés, sé
 Imports: stats
 \end{verbatim}
 
-Cette ``importation'' signifie simplement que le package \textbf{stats} doit être chargé, mais pas nécessairement attaché (voir section \ref{sec:environnements}), pour que \textbf{multiple} fonctionne.
+Cette \enquote{importation} signifie simplement que le package \textbf{stats} doit être chargé, mais pas nécessairement attaché (voir section \ref{sec:environnements}), pour que \textbf{multiple} fonctionne.
 
 Ensuite, la fonction \texttt{rnorm()} doit être trouvable dans l'environnement du package \textbf{multiple}.
 Il y a plusieurs façons de remplir cette obligation.
@@ -7681,7 +7684,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fa977de1f68>
+## <bytecode: 0x7f8825284548>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7975,14 +7978,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min   lq     mean median     uq
-##  triple.integer(2L)  336  346 32859.51  361.0  386.5
-##   triple.numeric(2)  335  348 28442.99  363.0  397.0
-##          triple(2L) 1351 1377  1574.29 1404.5 1473.0
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  334  345.5 23983.32  356.0  371.5
+##   triple.numeric(2)  329  346.0 20072.43  360.0  383.5
+##          triple(2L) 1346 1363.0  1500.75 1376.5 1435.5
 ##      max neval
-##  3248138   100
-##  2804556   100
-##     7970   100
+##  2361452   100
+##  1969661   100
+##     6370   100
 \end{verbatim}
 
 \normalsize
@@ -7996,10 +7999,10 @@ Cette recherche prend beaucoup de temps et justifie de réserver l'usage de mét
 \hypertarget{cruxe9ation-dune-classe}{%
 \subsubsection{Création d'une classe}\label{cruxe9ation-dune-classe}}
 
-Dans un package, on créera des classes si les résultats des fonctions le justifient: structure de liste et identification de la classe à un objet (``lm'' est la classe des modèles linéaires).
+Dans un package, on créera des classes si les résultats des fonctions le justifient: structure de liste et identification de la classe à un objet (\enquote{lm} est la classe des modèles linéaires).
 Pour toute classe créée, les méthodes \texttt{print}, \texttt{summary} et \texttt{plot} (si une représentation graphique est possible) doivent être écrites.
 
-Ecrivons une fonction \texttt{multiple()} dont le résultat sera un objet d'une nouvelle classe, ``multiple'', qui sera une liste mémorisant les valeurs à multiplier, le multiplicateur et le résultat.
+Ecrivons une fonction \texttt{multiple()} dont le résultat sera un objet d'une nouvelle classe, \enquote{multiple}, qui sera une liste mémorisant les valeurs à multiplier, le multiplicateur et le résultat.
 
 \scriptsize
 
@@ -8026,7 +8029,7 @@ Ecrivons une fonction \texttt{multiple()} dont le résultat sera un objet d'une 
 
 \normalsize
 
-L'appel à la fonction \texttt{multiple()} renvoie un objet de classe ``multiple'', qui est aussi de classe ``list''.
+L'appel à la fonction \texttt{multiple()} renvoie un objet de classe \enquote{multiple}, qui est aussi de classe \enquote{list}.
 En absence de fonction \texttt{print.multiple()}, R cherche la fonction \texttt{print.list()} qui n'existe pas et se rabat sur la fonction \texttt{print.default()}:
 
 \scriptsize
@@ -8329,7 +8332,7 @@ Finalement, le code complet est le suivant:
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7fa977de1f68>
+## <bytecode: 0x7f8825284548>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -8367,7 +8370,7 @@ Finalement, le code complet est le suivant:
 ## {
 ##     UseMethod("autoplot")
 ## }
-## <bytecode: 0x7fa97b0ff238>
+## <bytecode: 0x7f8827a582a0>
 ## <environment: namespace:ggplot2>
 \end{verbatim}
 
@@ -8424,7 +8427,7 @@ LinkingTo: Rcpp, RcppParallel
 \begin{itemize}
 \tightlist
 \item
-  les commentaires pour \textbf{roxygen2} doivent être ajoutés à \texttt{package.R} (``multiple'' est le nom du package):
+  les commentaires pour \textbf{roxygen2} doivent être ajoutés à \texttt{package.R} (\enquote{multiple} est le nom du package):
 \end{itemize}
 
 \scriptsize
@@ -8739,7 +8742,7 @@ Le dernier test vérifie qu'une chaîne de caractère passée comme argument gé
 La commande \texttt{skip\_on\_cran()}, à utiliser systématiquement, évite de lancer les tests sur CRAN quand le package y sera déposé: CRAN dispose de ressources limitées et restreint strictement le temps de vérification des packages sur sa plateforme.
 Les tests devront donc être réalisés sur GitHub, grâce à l'intégration continue, voir section \ref{sec:package-ci5}.
 
-Les tests peuvent être lancés par le menu ``More \textgreater{} Test package'' de la fenêtre \emph{Build} ou par la commande \texttt{devtools::test()}.
+Les tests peuvent être lancés par le menu \enquote{More \textgreater{} Test package} de la fenêtre \emph{Build} ou par la commande \texttt{devtools::test()}.
 
 Il est conseillé d'écrire les tests dès qu'une fonction du package est stabilisée.
 
@@ -8808,8 +8811,8 @@ La vérification du package par GitHub dans le cadre de l'intégration continue 
 Le package doit être testé sur la version de développement de R.
 Le site \emph{R-hub builder}\footnote{\url{https://builder.r-hub.io/}} permet de le faire simplement.
 
-Le package, dont la version ne doit pas être de développement (limitée à trois nombres, voir section \ref{sec:package-description}), doit être construit au format source: dans la fenêtre \emph{Build} de RStudio, cliquer sur ``More \textgreater{} Build Source Package''.
-Sur le site \emph{R-hub builder}, cliquer sur ``Advanced'', sélectionner le fichier source du package et la plateforme de test: \emph{Debian Linux, R-devel, GCC}.
+Le package, dont la version ne doit pas être de développement (limitée à trois nombres, voir section \ref{sec:package-description}), doit être construit au format source: dans la fenêtre \emph{Build} de RStudio, cliquer sur \enquote{More \textgreater{} Build Source Package}.
+Sur le site \emph{R-hub builder}, cliquer sur \enquote{Advanced}, sélectionner le fichier source du package et la plateforme de test: \emph{Debian Linux, R-devel, GCC}.
 
 Le package \textbf{rhub} permet d'utiliser la même plateforme de vérification que le site \emph{R-hub builder} depuis RStudio.
 La première étape consiste à valider son adresse de messagerie avec la commande \texttt{validate\_email()}.
@@ -8886,18 +8889,18 @@ Pour que GitHub s'en charge, quelques réglages sont nécessaires.
 
 Pour écrire sur GitHub, le service d'intégration continue devra s'authentifier au moyen d'un jeton d'accès personnel (\emph{Personal Access Token}: PAT) dont la création est décrite en section \ref{sec:pat}.
 
-Générer un nouveau jeton, le décrire en tant que ``GitHub Actions'' et lui donner l'autorisation ``repo'', c'est-à-dire modifier \emph{tous} les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
+Générer un nouveau jeton, le décrire en tant que \enquote{GitHub Actions} et lui donner l'autorisation \enquote{repo}, c'est-à-dire modifier \emph{tous} les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
 
 \hypertarget{sec:secrets-ci}{%
 \subsection{Secrets du projet}\label{sec:secrets-ci}}
 
-Sur GitHub, afficher les paramètres du projet et sélectionner ``Secrets''.
-Le bouton ``New Repository Secret'' permet de stocker des variables utilisées dans les scripts des Actions GitHub (visibles publiquement) sans en diffuser la valeur.
+Sur GitHub, afficher les paramètres du projet et sélectionner \enquote{Secrets}.
+Le bouton \enquote{New Repository Secret} permet de stocker des variables utilisées dans les scripts des Actions GitHub (visibles publiquement) sans en diffuser la valeur.
 Le jeton d'accès personnel est indispensable pour que les Actions GitHub puissent écrire leur production dans le projet.
-Créer un secret nommé ``GH\_PAT'' et saisir la valeur du jeton sauvegardée précédemment.
-Après avoir cliqué sur ``Add Secret'', le jeton ne pourra plus être lu.
+Créer un secret nommé \enquote{GH\_PAT} et saisir la valeur du jeton sauvegardée précédemment.
+Après avoir cliqué sur \enquote{Add Secret}, le jeton ne pourra plus être lu.
 
-Pour permettre l'envoi de messages de succès ou d'échec sans diffuser son adresse de messagerie, créer un secret nommé ``EMAIL'' qui la contient.
+Pour permettre l'envoi de messages de succès ou d'échec sans diffuser son adresse de messagerie, créer un secret nommé \enquote{EMAIL} qui la contient.
 
 \hypertarget{activation-du-duxe9puxf4t-sur-codecov}{%
 \subsection{Activation du dépôt sur CodeCov}\label{activation-du-duxe9puxf4t-sur-codecov}}
@@ -9015,7 +9018,7 @@ Dans leur projet GitHub respectif, les actions existent dans leur version de dé
 Ces versions d'étape sont préférables parce qu'elles sont stables.
 
 Les actions généralistes sont mises à disposition par GitHub dans l'organisation GitHub Actions\footnote{\url{https://github.com/actions/}}.
-L'action ``actions/checkout'' permet de se placer dans la branche principale du projet traité par le flux de travail: c'est en général la première étape de tous les flux.
+L'action \enquote{actions/checkout} permet de se placer dans la branche principale du projet traité par le flux de travail: c'est en général la première étape de tous les flux.
 
 L'action suivante est l'installation de R, mise à disposition par l'organisation \emph{R infrastructure}\footnote{\url{https://github.com/r-lib/}}.
 
@@ -9217,9 +9220,9 @@ La publication de l'artefact dans la branche \texttt{gh-pages} du projet nécess
           jekyll: no
 \end{verbatim}
 
-La tâche est nommée ``deploy'' (le nom est libre).
+La tâche est nommée \enquote{deploy} (le nom est libre).
 Elle s'exécute sur une machine virtuelle sous Ubuntu.
-Elle ne peut se lancer que si la tâche ``renderbook'' a réussi.
+Elle ne peut se lancer que si la tâche \enquote{renderbook} a réussi.
 Ses étapes sont les suivantes:
 
 \begin{itemize}
@@ -9249,7 +9252,7 @@ Elle utilise une variable d'environnement, \texttt{GITHUB\_TOKEN}, pour s'authen
 
 Si le projet contient des données confidentielles (section \ref{sec:confidentiel}), GitHub Actions doit utiliser la clé privée du projet pour les extraire de leur coffre-fort.
 
-La clé privée doit être stockée dans un secret du projet, nommé ``RSA''.
+La clé privée doit être stockée dans un secret du projet, nommé \enquote{RSA}.
 L'étape suivante, à insérer avant l'étape de tricot, écrit la clé dans un fichier pour que le code du projet y ait accès.
 
 \begin{verbatim}
@@ -9442,7 +9445,7 @@ Cette étape peut être complétée par la sélection d'un thème GitHub Pages p
           echo 'theme: jekyll-theme-slate' > docs/_config.yml
 \end{verbatim}
 
-Le thème est ici ``Slate'', un des choix proposés par les pages GitHub.
+Le thème est ici \enquote{Slate}, un des choix proposés par les pages GitHub.
 
 \hypertarget{duxe9bogage}{%
 \subsubsection{Débogage}\label{duxe9bogage}}
@@ -9466,7 +9469,7 @@ Les packages LaTeX doivent être mis à jour pour être les mêmes que ceux util
 Si la compilation fonctionne localement mais pas sur Github, il faut inspecter le fichier \texttt{.log} qui enregistre tous les évènements générés par le compilateur, mais ce fichier n'est pas conservé après l'échec de GitHub Actions.
 Il faut donc modifier le script pour copier le fichier dans \texttt{docs} puis créer sauvegarder le résultat malgré l'erreur.
 
-L'étape ``Upload artifact'' est modifiée pour s'exécuter malgré l'échec de l'étape précédente en ajoutant la ligne \texttt{if:}:
+L'étape \enquote{Upload artifact} est modifiée pour s'exécuter malgré l'échec de l'étape précédente en ajoutant la ligne \texttt{if:}:
 
 \begin{verbatim}
       - name: Upload artifact
@@ -9477,7 +9480,7 @@ L'étape ``Upload artifact'' est modifiée pour s'exécuter malgré l'échec de 
           path: docs/
 \end{verbatim}
 
-Une étape est ajoutée avant ``Upload artifact'' pour copier le résultat du tricot et le fichier \texttt{.log}:
+Une étape est ajoutée avant \enquote{Upload artifact} pour copier le résultat du tricot et le fichier \texttt{.log}:
 
 \begin{verbatim}
       - name: Move files to docs
@@ -9632,8 +9635,8 @@ Ces tests poussés sont à effectuer avant de soumettre à CRAN (section \ref{se
 \section{Ajouter des badges}\label{sec:ci-badges}}
 
 Le succès des Actions GitHub est visible en ajoutant un badge dans le fichier \texttt{README.md}, juste après le titre du fichier.
-Sur la page du projet, choisir ``Actions'' puis sélectionner l'action (dans ``Workflows'').
-Cliquer sur le bouton ``\ldots{}'' puis sur ``Create Status Badge''.
+Sur la page du projet, choisir \enquote{Actions} puis sélectionner l'action (dans \enquote{Workflows}).
+Cliquer sur le bouton \enquote{\ldots{}} puis sur \enquote{Create Status Badge}.
 Coller le code Markdown:
 
 \begin{verbatim}
@@ -9666,12 +9669,12 @@ L'utilisation d'une application Shiny rend très simple l'exécution du code, y 
 \hypertarget{premiuxe8re-application}{%
 \section{Première application}\label{premiuxe8re-application}}
 
-Dans RStudio, créer une application avec le menu ``File \textgreater{} New File \textgreater{} Shiny Web App\ldots{}'', saisir le nom de l'application ``MonAppShiny'' et sélectionner le dossier où la placer.
+Dans RStudio, créer une application avec le menu \enquote{File \textgreater{} New File \textgreater{} Shiny Web App\ldots{}}, saisir le nom de l'application \enquote{MonAppShiny} et sélectionner le dossier où la placer.
 
-Le nom de l'application a servi à créer un dossier qu'il faut maintenant transformer en projet (menu des projets en haut à droite de RStudio, ``New Project \textgreater{} Existing Directory'', sélectionner le dossier de l'application).
+Le nom de l'application a servi à créer un dossier qu'il faut maintenant transformer en projet (menu des projets en haut à droite de RStudio, \enquote{New Project \textgreater{} Existing Directory}, sélectionner le dossier de l'application).
 
 Le fichier de l'application nommé \texttt{app.R} contient deux fonctions: \texttt{ui()} qui définit l'interface graphique et \texttt{server()} qui contient le code R à exécuter.
-L'application peut être lancée en cliquant sur ``Run App'' dans la fenêtre du code.
+L'application peut être lancée en cliquant sur \enquote{Run App} dans la fenêtre du code.
 
 
 
@@ -9872,7 +9875,7 @@ Le code le plus simple pour le faire serait le suivant:
 
 La difficulté de la programmation d'une application Shiny est que tout calcul se référant à un élément de l'interface d'entrée doit être \emph{réactif}.
 Si ce dernier code était exécuté, le message d'erreur suivant apparaît:
-``Operation not allowed without an active reactive context. (You tried to do something that can only be done from inside a reactive expression or observer.)''.
+\enquote{Operation not allowed without an active reactive context. (You tried to do something that can only be done from inside a reactive expression or observer.)}.
 
 En pratique, l'exécution du code est lancée par la modification d'un contrôle d'entrée (ici: \texttt{intput\$AuthorID}).
 Le code faisant référence à un de ces contrôles doit être en permanence en attente d'une modification: il doit donc placé dans des fonctions particulières comme \texttt{renderPlot} dans l'application \emph{Old Faithful Geyser Data} ou \texttt{renderUI()} ici.
@@ -10002,8 +10005,8 @@ Pour permettre la gestion des applications en ligne directement depuis RStudio, 
 
 \normalsize
 
-Le code exact, avec le nom d'utilisateur et le jeton à utiliser, sont affichés sur la page d'accueil de Shinyapps.io: cliquer sur ``Show Secret'', copier le code et le coller dans la console de RStudio pour l'exécuter.
-Un bouton ``Publish'' est disponible juste à droite du bouton ``Run App''.
+Le code exact, avec le nom d'utilisateur et le jeton à utiliser, sont affichés sur la page d'accueil de Shinyapps.io: cliquer sur \enquote{Show Secret}, copier le code et le coller dans la console de RStudio pour l'exécuter.
+Un bouton \enquote{Publish} est disponible juste à droite du bouton \enquote{Run App}.
 Cliquer dessus et valider la publication (figure \ref{fig:shiny-publish}).
 
 
@@ -10023,7 +10026,7 @@ Cliquer dessus et valider la publication (figure \ref{fig:shiny-publish}).
 
 L'application est maintenant accessible à l'adresse \url{https://prenom-nom.shinyapps.io/MonAppShiny/}
 
-L'application ``Bibliometrics'' ne fonctionne pas sur Shinyapps.io parce que la façon dont le package \textbf{Scholar} interroge Google Scholar n'est pas supportée.
+L'application \enquote{Bibliometrics} ne fonctionne pas sur Shinyapps.io parce que la façon dont le package \textbf{Scholar} interroge Google Scholar n'est pas supportée.
 La plupart des applications Shiny fonctionnent sans difficulté, tant qu'elles ne nécessitent pas de fonctionnalités réseau complexes.
 
 \hypertarget{chap-enseigner}{%
@@ -10047,10 +10050,10 @@ La documentation sur le site de RStudio\footnote{\url{https://rstudio.github.io/
 \hypertarget{premier-tutoriel}{%
 \subsection{Premier tutoriel}\label{premier-tutoriel}}
 
-Utiliser comme pour tous les documents le menu ``File \textgreater{} New File \textgreater{} RMarkdown\ldots{}'' et créer un nouveau document à partir d'un modèle ``Interactive Tutorial''.
+Utiliser comme pour tous les documents le menu \enquote{File \textgreater{} New File \textgreater{} RMarkdown\ldots{}} et créer un nouveau document à partir d'un modèle \enquote{Interactive Tutorial}.
 L'assistant crée un dossier du nom choisi, à transformer en projet R et passer sous contrôle de source, comme pour tous les documents vus précédemment (voir section \ref{sec:memo}).
 
-Pour exécuter le tutoriel, cliquer sur le bouton ``Run Document'' qui se trouve à place habituelle du bouton ``Tricoter''.
+Pour exécuter le tutoriel, cliquer sur le bouton \enquote{Run Document} qui se trouve à place habituelle du bouton \enquote{Tricoter}.
 
 Les tutoriels peuvent inclure des exercices, qui sont des bouts de code avec l'option \texttt{exercise=TRUE}.
 Ces exercices sont affichés sous la forme d'une fenêtre de code modifiable et exécutable par l'utilisateur.
@@ -10081,7 +10084,7 @@ Les applications sont aussi bien l'apprentissage de R que la production de docum
 \subsection{Inscription}\label{inscription}}
 
 Pour commencer à utiliser l'outil, il faut ouvrir un compte.
-Sur le site de GitHub Classrooms\footnote{\url{https://classroom.github.com/}}, cliquer sur ``Sign in'' et utiliser son compte GitHub pour s'authentifier.
+Sur le site de GitHub Classrooms\footnote{\url{https://classroom.github.com/}}, cliquer sur \enquote{Sign in} et utiliser son compte GitHub pour s'authentifier.
 
 \hypertarget{organisations}{%
 \subsection{Organisations}\label{organisations}}
@@ -10090,11 +10093,11 @@ L'étape suivant consiste à créer une organisation GitHub.
 Une organisation GitHub contient essentiellement des membres (titulaires d'un compte GitHub) et des dépôts accessibles à l'adresse \url{https://github.com/Organisation/Depot}.
 
 La façon la plus simple de travailler consiste à créer une organisation par cours mais d'autres approches sont possibles dans des structures utilisant intensivement l'outil.
-L'organisation crée pour l'exemple est ici ``Cours-R''\footnote{\url{https://github.com/Cours-R}}.
+L'organisation crée pour l'exemple est ici \enquote{Cours-R}\footnote{\url{https://github.com/Cours-R}}.
 
 Une adresse de messagerie est nécessaire (utiliser la même que celle de son compte GitHub) et l'organisation doit être déclarée comme appartenant à son compte personnel.
 
-Si l'organisation n'est pas visible sur la page de GitHub Classrooms, cliquer sur ``Grant us access''.
+Si l'organisation n'est pas visible sur la page de GitHub Classrooms, cliquer sur \enquote{Grant us access}.
 
 \hypertarget{nouvelle-salle-de-classe}{%
 \subsection{Nouvelle salle de classe}\label{nouvelle-salle-de-classe}}
@@ -10104,19 +10107,19 @@ Une salle de classe (\emph{classroom}) est peuplée d'étudiants qui recevront d
 Cliquer sur \emph{New Classroom}.
 Sélectionner l'organisation en charge de l'administration de la salle de classe.
 
-Saisir le nom de la salle de classe: une bonne pratique est de la préfixer par le nom du cours et d'ajouter le nom de la session, par exemple ``Cours-R-2020-EdGuyane''.
+Saisir le nom de la salle de classe: une bonne pratique est de la préfixer par le nom du cours et d'ajouter le nom de la session, par exemple \enquote{Cours-R-2020-EdGuyane}.
 
 Ne pas ajouter de collaborateurs (ce sera possible plus tard), et saisir éventuellement la liste des étudiants (un nom par ligne, possible plus tard aussi).
 La classe est créée.
 
 Toutes les salles de classe sont visibles depuis la page d'accueil de GitHub Classrooms\footnote{\url{https://classroom.github.com/classrooms}}.
 Cliquer sur un nom pour en ouvrir une.
-Le bouton ``Settings'' permet de changer son nom ou de la supprimer.
-Le bouton ``TAs and Admins'' permet d'ajouter des collaborateurs, c'est-à-dire d'autres utilisateurs GitHub qui pourront administrer la salle de classe.
+Le bouton \enquote{Settings} permet de changer son nom ou de la supprimer.
+Le bouton \enquote{TAs and Admins} permet d'ajouter des collaborateurs, c'est-à-dire d'autres utilisateurs GitHub qui pourront administrer la salle de classe.
 
-Le bouton ``Students'' permet d'ajouter des étudiants.
+Le bouton \enquote{Students} permet d'ajouter des étudiants.
 La liste de nom est libre, sans format obligatoire.
-Cliquer sur ``Create Roster'' pour l'activer.
+Cliquer sur \enquote{Create Roster} pour l'activer.
 Les noms doivent ensuite être liés à des comptes GitHub: ce travail peut être fait par l'administrateur ou par les étudiants eux-mêmes quand ils recevront la première tâche à effectuer.
 Chaque étudiant doit avoir un compte sur GitHub.
 
@@ -10131,18 +10134,18 @@ Ouvrir les propriétés du dépôt sur GitHub et cocher la case \emph{Template R
 \hypertarget{assigner-une-tuxe2che}{%
 \subsubsection{Assigner une tâche}\label{assigner-une-tuxe2che}}
 
-Ouvrir une salle de classe et cliquer sur ``New Assignment''.
+Ouvrir une salle de classe et cliquer sur \enquote{New Assignment}.
 
-Saisir un titre explicite pour les étudiants, une date limite optionnelle et choisir ``Individual Assignment''.
+Saisir un titre explicite pour les étudiants, une date limite optionnelle et choisir \enquote{Individual Assignment}.
 
 Par défaut, le nom de la tâche sert de préfixe pour le nom des dépôts des étudiants mais il peut être remplacé par un préfixe choisi.
 Quand les étudiants rendront leur travail, tous les dépôts de toutes les tâches seront stockés dans l'organisation.
 
 Le dépôt crée sur le compte de chaque étudiant peut être privé ou public, selon que l'on souhaite que les étudiants puissent voir le travail des autres ou non.
 Donner le droit d'administration et rendre le site public si les étudiants doivent pouvoir activer les pages GitHub pour présenter le résultat de leur travail.
-Cliquer sur ``Continue''.
+Cliquer sur \enquote{Continue}.
 
-Sélectionner le dépôt modèle (\emph{starter code}) puis cliquer sur ``Continue'' puis ``Create Assignment''.
+Sélectionner le dépôt modèle (\emph{starter code}) puis cliquer sur \enquote{Continue} puis \enquote{Create Assignment}.
 
 La nouvelle tâche est créée.
 Elle est associée à un lien d'invitation qu'il faut copier et envoyer aux étudiants.
