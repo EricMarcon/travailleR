@@ -18,6 +18,8 @@ jobs:
       - name: Install pandoc
         uses: r-lib/actions/setup-pandoc@v2
       - name: Install dependencies
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
@@ -29,10 +31,14 @@ jobs:
           webshot::install_phantomjs()
         shell: Rscript {0}
       - name: Render pdf book
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
         run: |
           bookdown::render_book("index.Rmd", "bookdown::pdf_book")
         shell: Rscript {0}
       - name: Render gitbook
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
         run: |
           bookdown::render_book("index.Rmd", "bookdown::gitbook")
         shell: Rscript {0}
