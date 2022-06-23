@@ -679,7 +679,6 @@ Ce code est équivalent à `runif(3)`, avec des performances similaires à celle
 ```{r replicate_mb}
 mb <- microbenchmark(replicate(1E3, runif(1)), runif(1E3))
 summary(mb)[, c("expr", "median")]
-
 ```
 
 
@@ -696,7 +695,7 @@ Ecrire plutôt les boucles.
 `colSums` et ses semblables (`rowSums`, `colMeans`, `rowMeans`) sont optimisées.
 
 ```{r BoucleSomme, tidy=FALSE}
-# Somme des colonnes numériques du jeu de données diamonds de ggplot()
+# Somme des colonnes numériques du jeu de données diamonds de ggplot2
 # Boucle identique à l'action de apply(, 2, )
 BoucleSomme <- function(Table) {
   Somme <- vector("numeric", length = ncol(Table))
