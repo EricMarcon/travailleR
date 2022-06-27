@@ -125,6 +125,7 @@ Les génériques sont partout mais passent inaperçus, par exemple dans des pack
 library("entropart")
 .S3methods(class="SpeciesDistribution")
 ```
+
 La fonction `.S3methods()` permet d'afficher toutes les méthodes disponibles pour une classe, par opposition à `methods()` qui affiche toutes les classes pour lesquelles la méthode passée en argument est définie.
 
 De nombreuses fonctions primitives de R sont des méthodes génériques.
@@ -1015,7 +1016,7 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 
 ```{r pairdist, message=FALSE}
 mb <- microbenchmark(d <- sum(pairdist(X))/NbPoints/(NbPoints-1))
-# suppressmessages pour éliminer les messages superflus
+# suppressMessages pour éliminer les messages superflus
 suppressMessages(autoplot(mb))
 d
 ```
@@ -1189,7 +1190,7 @@ double MeanDistance(NumericVector x, NumericVector y) {
   double dx, dy;
   for (int i=0; i < (x.length()-1); i++) {
     for (int j=i+1; j < x.length(); j++) {
-    // Calculate distance
+    // Calcul de la distance
         dx = x[i]-x[j];
         dy = y[i]-y[j];
         distance += sqrt(dx*dx + dy*dy);
@@ -1204,7 +1205,7 @@ Le temps d'exécution est très court.
 
 ```{r RCpp}
 mb <- microbenchmark(d <- MeanDistance(X$x, X$y))
-# suppressmessages pour éliminer les messages superflus
+# suppressMessages pour éliminer les messages superflus
 suppressMessages(autoplot(mb))
 d
 ```
@@ -1237,27 +1238,27 @@ using namespace RcppParallel;
 // Fonction de travail, non exportée
 struct TotalDistanceWrkr : public Worker
 {
-  // source vectors
+  // Vecteurs source
   const RVector<double> Rx;
   const RVector<double> Ry;
   
-  // accumulated value
+  // Valeur accumulée
   double distance;
    
-  // constructors
+  // Constructeurs
   TotalDistanceWrkr(const NumericVector x, const NumericVector y) :
     Rx(x), Ry(y), distance(0) {}
   TotalDistanceWrkr(const TotalDistanceWrkr& totalDistanceWrkr, Split) :
     Rx(totalDistanceWrkr.Rx), Ry(totalDistanceWrkr.Ry),  distance(0) {}
   
-  // count neighbors
+  // Comptage des voisins
   void operator()(std::size_t begin, std::size_t end) {
     double dx, dy;
     unsigned int Npoints = Rx.length();
 
     for (unsigned int i = begin; i < end; i++) {
       for (unsigned int j=i+1; j < Npoints; j++) {
-          // Calculate squared distance
+          // Calcul de la distance au carré
           dx = Rx[i]-Rx[j];
           dy = Ry[i]-Ry[j];
           distance += sqrt(dx*dx + dy*dy);
@@ -1265,7 +1266,7 @@ struct TotalDistanceWrkr : public Worker
     }
   }
 
-  // join my value with that of another Sum
+  // Ajouter le résultat de cette tâche
   void join(const TotalDistanceWrkr& rhs) { 
     distance += rhs.distance; 
   }
@@ -1276,13 +1277,13 @@ struct TotalDistanceWrkr : public Worker
 // [[Rcpp::export]]
 double TotalDistance(NumericVector x, NumericVector y) {
   
-  // Declare TotalDistanceWrkr instance
+  // Declaration d'une instance de TotalDistanceWrkr
   TotalDistanceWrkr totalDistanceWrkr(x, y);
   
-  // call parallel_reduce to start the work
+  // Appel de parallel_reduce pour démarrer la tâche
   parallelReduce(0, x.length(), totalDistanceWrkr);
   
-  // return the result
+  // Retour du résultat
   return totalDistanceWrkr.distance;
 }
 
