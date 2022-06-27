@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Package | Travailler avec R</title>
   <meta name="description" content="Organisation du travail autour de R et RStudio" />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Package | Travailler avec R" />
   <meta property="og:type" content="book" />
@@ -800,7 +800,7 @@ Le fichier source se trouve à côté de celui du projet.</li>
 <div id="pkgdown" class="section level2 hasAnchor" number="5.4">
 <h2><span class="header-section-number">5.4</span> pkgdown<a href="chap-package.html#pkgdown" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Le package <strong>pkgdown</strong> permet de créer un site d’accompagnement du package<a href="#fn96" class="footnote-ref" id="fnref96"><sup>96</sup></a>, qui reprend le fichier <code>README.md</code> comme page d’accueil, la vignette dans une rubrique “Get Started”, l’ensemble des fichiers d’aide avec leurs exemples exécutés (section “Reference”), le fichier <code>NEWS.md</code> pour un historique du package (section “Changelog”) et des informations du fichier <code>DESCRIPTION</code>.</p>
-<p>Créer le site avec <strong>usethis</strong></p>
+<p>Créer le site avec <strong>usethis</strong>:</p>
 <p></p>
 <div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="chap-package.html#cb360-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_pkgdown</span>()</span></code></pre></div>
 <p></p>
@@ -914,7 +914,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="chap-package.html#cb373-1" aria-hidden="true" tabindex="-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7fc9582abc08&gt;
+## &lt;bytecode: 0x7fb865487668&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -1010,7 +1010,7 @@ Dans le cas contraire, des erreurs se produisent:</p>
 <p></p>
 <div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="chap-package.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(y) <span class="ot">&lt;-</span> <span class="st">&quot;lm&quot;</span></span>
 <span id="cb389-2"><a href="chap-package.html#cb389-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tryCatch</span>(<span class="fu">print</span>(y), <span class="at">error =</span> <span class="cf">function</span>(e) <span class="fu">print</span>(e))</span></code></pre></div>
-<pre><code>## &lt;simpleError: $ operator is invalid for atomic vectors&gt;</code></pre>
+<pre><code>## &lt;simpleError in x$call: $ operator is invalid for atomic vectors&gt;</code></pre>
 <p></p>
 </div>
 </div>
@@ -1060,14 +1060,14 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb401-2"><a href="chap-package.html#cb401-2" aria-hidden="true" tabindex="-1"></a>microbenchmark<span class="sc">::</span><span class="fu">microbenchmark</span>(<span class="fu">triple.integer</span>(2L), <span class="fu">triple.numeric</span>(<span class="dv">2</span>),</span>
 <span id="cb401-3"><a href="chap-package.html#cb401-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min   lq     mean median   uq     max
-##  triple.integer(2L)  338  348 23161.81    355  371 2279417
-##   triple.numeric(2)  335  346 20028.66    357  374 1965836
-##          triple(2L) 1337 1364  1465.53   1380 1415    5985
-##  neval
-##    100
-##    100
-##    100</code></pre>
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  327  335.5 22984.92  343.5  358.0
+##   triple.numeric(2)  325  338.0 19932.21  347.0  363.5
+##          triple(2L) 1341 1363.0  1455.36 1387.5 1427.5
+##      max neval
+##  2262796   100
+##  1956786   100
+##     5821   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -1281,7 +1281,7 @@ Il doit être importé:</li>
 <span id="cb421-65"><a href="chap-package.html#cb421-65" aria-hidden="true" tabindex="-1"></a>graphics<span class="sc">::</span>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7fc9582abc08&gt;
+## &lt;bytecode: 0x7fb865487668&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="chap-package.html#cb423-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; autoplot</span></span>
 <span id="cb423-2"><a href="chap-package.html#cb423-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39;</span></span>
@@ -1311,7 +1311,7 @@ Il doit être importé:</li>
 ## {
 ##     UseMethod(&quot;autoplot&quot;)
 ## }
-## &lt;bytecode: 0x7fc954adf4e8&gt;
+## &lt;bytecode: 0x7fb8602aa2c0&gt;
 ## &lt;environment: namespace:ggplot2&gt;</code></pre>
 <p></p>
 </div>

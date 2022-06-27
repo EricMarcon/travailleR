@@ -374,7 +374,7 @@
 
 \author{Eric Marcon}
 
-\date{16/06/2022}
+\date{27/06/2022}
 
 
 % Include headers (preamble.tex) here
@@ -482,6 +482,7 @@ Enfin, le chapitre \ref{chap-enseigner} introduit les outils destinés à l'ense
 Les noms des packages sont en gras dans le texte, par exemple: \textbf{ggplot2}.
 
 L'identifiant utilisé sur GitHub est noté \emph{GitHubID}.
+Le nom des projets, identique à celui de leur dépôt sur GitHub est noté \emph{RepoID}.
 
 Le signe \texttt{\textbar{}\textgreater{}} dans le code des exemples indique que la suite du code devrait se trouver sur la même ligne, mais est coupée pour le formatage de ce document.
 Son usage est limité aux fichiers de configuration YAML, surtout utilisés dans le chapitre \ref{chap-ci}.
@@ -1296,7 +1297,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7f8059da6588>
+## <bytecode: 0x7fa2e2b86b28>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1413,6 +1414,7 @@ Les génériques sont partout mais passent inaperçus, par exemple dans des pack
 \end{verbatim}
 
 \normalsize
+
 La fonction \texttt{.S3methods()} permet d'afficher toutes les méthodes disponibles pour une classe, par opposition à \texttt{methods()} qui affiche toutes les classes pour lesquelles la méthode passée en argument est définie.
 
 De nombreuses fonctions primitives de R sont des méthodes génériques.
@@ -1775,7 +1777,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7f8068ca4558>
+## <environment: 0x7fa2d13896a0>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1847,7 +1849,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7f804a1a3ba0>
+## <bytecode: 0x7fa2d1c4e320>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -2035,7 +2037,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.021   0.000   0.022
+##   0.020   0.001   0.020
 \end{verbatim}
 
 \normalsize
@@ -2067,15 +2069,15 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq
-##  f1(X)  43.690  46.3120  69.58079  48.7575  55.0755
-##  f2(X)  50.850  54.4105  75.10515  56.7350  65.2605
-##  f3(X) 281.189 285.5180 315.12981 296.9235 307.5675
-##  f4(X) 414.164 422.5040 460.92277 434.0615 451.4390
+##  f1(X)  42.038  43.9425  60.20860  45.3195  49.7340
+##  f2(X)  48.919  51.3015  67.24685  52.4675  55.3960
+##  f3(X) 275.638 278.1685 299.02780 283.0910 291.5135
+##  f4(X) 402.546 405.0380 426.98251 408.0185 420.8065
 ##       max neval
-##  1626.157   100
-##  1393.425   100
-##  1605.524   100
-##  1985.160   100
+##  1287.880   100
+##  1236.409   100
+##  1468.171   100
+##  1789.178   100
 \end{verbatim}
 
 \normalsize
@@ -2098,10 +2100,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  48.7575
-## 2 f2(X)  56.7350
-## 3 f3(X) 296.9235
-## 4 f4(X) 434.0615
+## 1 f1(X)  45.3195
+## 2 f2(X)  52.4675
+## 3 f3(X) 283.0910
+## 4 f4(X) 408.0185
 \end{verbatim}
 
 \normalsize
@@ -2131,10 +2133,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  48.7575
-## 2 f2(X)  56.7350
-## 3 f3(X) 296.9235
-## 4 f4(X) 434.0615
+## 1 f1(X)  45.3195
+## 2 f2(X)  52.4675
+## 3 f3(X) 283.0910
+## 4 f4(X) 408.0185
 \end{verbatim}
 
 \normalsize
@@ -2261,7 +2263,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7f804acaf3f8>
+## <bytecode: 0x7fa2d2993a88>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2314,10 +2316,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.8840
-## 2                lapply(x1, FUN = sqrt) 315.6435
-## 3                sapply(x1, FUN = sqrt) 376.4515
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 305.7650
+## 1                              sqrt(x1)   4.5555
+## 2                lapply(x1, FUN = sqrt) 295.9030
+## 3                sapply(x1, FUN = sqrt) 352.1960
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 289.8480
 \end{verbatim}
 
 \normalsize
@@ -2370,9 +2372,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr  median
-## 1  Boucle(x1) 877.443
-## 2 Boucle2(x1)  78.827
+##          expr   median
+## 1  Boucle(x1) 799.3545
+## 2 Boucle2(x1)  76.1435
 \end{verbatim}
 
 \begin{Shaded}
@@ -2388,7 +2390,7 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \normalsize
 
-Le gain est considérable: de 1 à \texttt{11}.
+Le gain est considérable: de 1 à \texttt{10}.
 
 Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
@@ -2403,9 +2405,9 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 287.7855
-## 2                Boucle(x1)  73.8980
+##                        expr  median
+## 1 vapply(x1, FUN = sqrt, 0) 284.754
+## 2                Boucle(x1)  75.484
 \end{verbatim}
 
 \normalsize
@@ -2428,8 +2430,8 @@ Attention, le test de performance peut être trompeur:
 
 \begin{verbatim}
 ##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  311.849
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3703.711
+## 1                        vapply(x1, FUN = sqrt, 0)  298.028
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3223.204
 \end{verbatim}
 
 \normalsize
@@ -2496,8 +2498,8 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 
 \begin{verbatim}
 ##                        expr    median
-## 1 replicate(1000, runif(1)) 3193.1290
-## 2               runif(1000)   33.9465
+## 1 replicate(1000, runif(1)) 2716.8475
+## 2               runif(1000)   32.4685
 \end{verbatim}
 
 \normalsize
@@ -2519,7 +2521,7 @@ Ecrire plutôt les boucles.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Somme des colonnes numériques du jeu de données diamonds de ggplot()}
+\CommentTok{\# Somme des colonnes numériques du jeu de données diamonds de ggplot2}
 \CommentTok{\# Boucle identique à l\textquotesingle{}action de apply(, 2, )}
 \NormalTok{BoucleSomme }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(Table) \{}
 \NormalTok{  Somme }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{, }\AttributeTok{length =} \FunctionTok{ncol}\NormalTok{(Table))}
@@ -2534,10 +2536,10 @@ Ecrire plutôt les boucles.
 \end{Shaded}
 
 \begin{verbatim}
-##                              expr    median
-## 1   BoucleSomme(diamonds[-(2:4)])  3.970376
-## 2 apply(diamonds[-(2:4)], 2, sum) 10.562131
-## 3       colSums(diamonds[-(2:4)])  2.766328
+##                              expr   median
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.750876
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.724779
+## 3       colSums(diamonds[-(2:4)]) 2.572112
 \end{verbatim}
 
 \normalsize
@@ -2745,7 +2747,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.708
+##   0.002   0.000   0.782
 \end{verbatim}
 
 \begin{Shaded}
@@ -2757,12 +2759,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.007   0.016   0.383
+##   0.005   0.012   0.339
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.13} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.089} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2777,7 +2779,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.178
+##   0.000   0.000   2.108
 \end{verbatim}
 
 \begin{Shaded}
@@ -2789,7 +2791,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.006   0.017   1.022
+##   0.001   0.003   1.040
 \end{verbatim}
 
 \normalsize
@@ -2808,7 +2810,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.004   1.100
+##   0.001   0.003   1.128
 \end{verbatim}
 
 \begin{Shaded}
@@ -2819,7 +2821,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.008   2.055
+##   0.002   0.006   2.095
 \end{verbatim}
 
 \normalsize
@@ -3011,7 +3013,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.609
+##   0.003   0.000   0.670
 \end{verbatim}
 
 \begin{Shaded}
@@ -3026,7 +3028,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.010   0.022   0.276
+##   0.007   0.017   0.322
 \end{verbatim}
 
 \normalsize
@@ -3071,7 +3073,7 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 \begin{Highlighting}[]
 \NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{pairdist}\NormalTok{(X))}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}}
     \DecValTok{1}\NormalTok{))}
-\CommentTok{\# suppressmessages pour éliminer les messages superflus}
+\CommentTok{\# suppressMessages pour éliminer les messages superflus}
 \FunctionTok{suppressMessages}\NormalTok{(}\FunctionTok{autoplot}\NormalTok{(mb))}
 \end{Highlighting}
 \end{Shaded}
@@ -3112,7 +3114,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   6.082   0.087   6.848
+##   5.505   0.020   5.543
 \end{verbatim}
 
 \begin{Shaded}
@@ -3146,7 +3148,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.620   0.067   6.160
+##   5.223   0.009   5.237
 \end{verbatim}
 
 \begin{Shaded}
@@ -3188,7 +3190,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.419   0.079   6.230
+##   5.182   0.011   5.210
 \end{verbatim}
 
 \begin{Shaded}
@@ -3227,7 +3229,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.090   0.030   3.434
+##   3.006   0.005   3.013
 \end{verbatim}
 
 \begin{Shaded}
@@ -3268,7 +3270,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.354   0.426   1.952
+##   3.249   0.344   1.822
 \end{verbatim}
 
 \begin{Shaded}
@@ -3309,7 +3311,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.020   0.019   2.070
+##   2.003   0.005   2.010
 \end{verbatim}
 
 \begin{Shaded}
@@ -3356,7 +3358,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.219   0.043   3.293
+##   2.722   0.017   2.759
 \end{verbatim}
 
 \begin{Shaded}
@@ -3401,7 +3403,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.146   0.078   0.137
+##   0.124   0.060   0.111
 \end{verbatim}
 
 \begin{Shaded}
@@ -3437,7 +3439,7 @@ La fonction C++ permettant de calculer les distances est la suivante.
   \DataTypeTok{double}\NormalTok{ dx}\OperatorTok{,}\NormalTok{ dy}\OperatorTok{;}
   \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ i}\OperatorTok{=}\DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}} \OperatorTok{(}\NormalTok{x}\OperatorTok{.}\NormalTok{length}\OperatorTok{(){-}}\DecValTok{1}\OperatorTok{);}\NormalTok{ i}\OperatorTok{++)} \OperatorTok{\{}
     \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ j}\OperatorTok{=}\NormalTok{i}\OperatorTok{+}\DecValTok{1}\OperatorTok{;}\NormalTok{ j }\OperatorTok{\textless{}}\NormalTok{ x}\OperatorTok{.}\NormalTok{length}\OperatorTok{();}\NormalTok{ j}\OperatorTok{++)} \OperatorTok{\{}
-    \CommentTok{// Calculate distance}
+    \CommentTok{// Calcul de la distance}
 \NormalTok{        dx }\OperatorTok{=}\NormalTok{ x}\OperatorTok{[}\NormalTok{i}\OperatorTok{]{-}}\NormalTok{x}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
 \NormalTok{        dy }\OperatorTok{=}\NormalTok{ y}\OperatorTok{[}\NormalTok{i}\OperatorTok{]{-}}\NormalTok{y}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
 \NormalTok{        distance }\OperatorTok{+=}\NormalTok{ sqrt}\OperatorTok{(}\NormalTok{dx}\OperatorTok{*}\NormalTok{dx }\OperatorTok{+}\NormalTok{ dy}\OperatorTok{*}\NormalTok{dy}\OperatorTok{);}
@@ -3458,7 +3460,7 @@ Le temps d'exécution est très court.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{MeanDistance}\NormalTok{(X}\SpecialCharTok{$}\NormalTok{x, X}\SpecialCharTok{$}\NormalTok{y))}
-\CommentTok{\# suppressmessages pour éliminer les messages superflus}
+\CommentTok{\# suppressMessages pour éliminer les messages superflus}
 \FunctionTok{suppressMessages}\NormalTok{(}\FunctionTok{autoplot}\NormalTok{(mb))}
 \end{Highlighting}
 \end{Shaded}
@@ -3510,27 +3512,27 @@ La syntaxe du \texttt{Worker} est un peu laborieuse mais assez simple à adapter
 \CommentTok{// Fonction de travail, non exportée}
 \KeywordTok{struct}\NormalTok{ TotalDistanceWrkr }\OperatorTok{:} \KeywordTok{public}\NormalTok{ Worker}
 \OperatorTok{\{}
-  \CommentTok{// source vectors}
+  \CommentTok{// Vecteurs source}
   \AttributeTok{const}\NormalTok{ RVector}\OperatorTok{\textless{}}\DataTypeTok{double}\OperatorTok{\textgreater{}}\NormalTok{ Rx}\OperatorTok{;}
   \AttributeTok{const}\NormalTok{ RVector}\OperatorTok{\textless{}}\DataTypeTok{double}\OperatorTok{\textgreater{}}\NormalTok{ Ry}\OperatorTok{;}
   
-  \CommentTok{// accumulated value}
+  \CommentTok{// Valeur accumulée}
   \DataTypeTok{double}\NormalTok{ distance}\OperatorTok{;}
    
-  \CommentTok{// constructors}
+  \CommentTok{// Constructeurs}
 \NormalTok{  TotalDistanceWrkr}\OperatorTok{(}\AttributeTok{const}\NormalTok{ NumericVector x}\OperatorTok{,} \AttributeTok{const}\NormalTok{ NumericVector y}\OperatorTok{)} \OperatorTok{:}
 \NormalTok{    Rx}\OperatorTok{(}\NormalTok{x}\OperatorTok{),}\NormalTok{ Ry}\OperatorTok{(}\NormalTok{y}\OperatorTok{),}\NormalTok{ distance}\OperatorTok{(}\DecValTok{0}\OperatorTok{)} \OperatorTok{\{\}}
 \NormalTok{  TotalDistanceWrkr}\OperatorTok{(}\AttributeTok{const}\NormalTok{ TotalDistanceWrkr}\OperatorTok{\&}\NormalTok{ totalDistanceWrkr}\OperatorTok{,}\NormalTok{ Split}\OperatorTok{)} \OperatorTok{:}
 \NormalTok{    Rx}\OperatorTok{(}\NormalTok{totalDistanceWrkr}\OperatorTok{.}\NormalTok{Rx}\OperatorTok{),}\NormalTok{ Ry}\OperatorTok{(}\NormalTok{totalDistanceWrkr}\OperatorTok{.}\NormalTok{Ry}\OperatorTok{),}\NormalTok{  distance}\OperatorTok{(}\DecValTok{0}\OperatorTok{)} \OperatorTok{\{\}}
   
-  \CommentTok{// count neighbors}
+  \CommentTok{// Comptage des voisins}
   \DataTypeTok{void} \KeywordTok{operator}\OperatorTok{()(}\BuiltInTok{std::}\NormalTok{size\_t}\OperatorTok{ }\NormalTok{begin}\OperatorTok{,} \BuiltInTok{std::}\NormalTok{size\_t}\OperatorTok{ }\NormalTok{end}\OperatorTok{)} \OperatorTok{\{}
     \DataTypeTok{double}\NormalTok{ dx}\OperatorTok{,}\NormalTok{ dy}\OperatorTok{;}
     \DataTypeTok{unsigned} \DataTypeTok{int}\NormalTok{ Npoints }\OperatorTok{=}\NormalTok{ Rx}\OperatorTok{.}\NormalTok{length}\OperatorTok{();}
 
     \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{unsigned} \DataTypeTok{int}\NormalTok{ i }\OperatorTok{=}\NormalTok{ begin}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ end}\OperatorTok{;}\NormalTok{ i}\OperatorTok{++)} \OperatorTok{\{}
       \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{unsigned} \DataTypeTok{int}\NormalTok{ j}\OperatorTok{=}\NormalTok{i}\OperatorTok{+}\DecValTok{1}\OperatorTok{;}\NormalTok{ j }\OperatorTok{\textless{}}\NormalTok{ Npoints}\OperatorTok{;}\NormalTok{ j}\OperatorTok{++)} \OperatorTok{\{}
-          \CommentTok{// Calculate squared distance}
+          \CommentTok{// Calcul de la distance au carré}
 \NormalTok{          dx }\OperatorTok{=}\NormalTok{ Rx}\OperatorTok{[}\NormalTok{i}\OperatorTok{]{-}}\NormalTok{Rx}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
 \NormalTok{          dy }\OperatorTok{=}\NormalTok{ Ry}\OperatorTok{[}\NormalTok{i}\OperatorTok{]{-}}\NormalTok{Ry}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
 \NormalTok{          distance }\OperatorTok{+=}\NormalTok{ sqrt}\OperatorTok{(}\NormalTok{dx}\OperatorTok{*}\NormalTok{dx }\OperatorTok{+}\NormalTok{ dy}\OperatorTok{*}\NormalTok{dy}\OperatorTok{);}
@@ -3538,7 +3540,7 @@ La syntaxe du \texttt{Worker} est un peu laborieuse mais assez simple à adapter
     \OperatorTok{\}}
   \OperatorTok{\}}
 
-  \CommentTok{// join my value with that of another Sum}
+  \CommentTok{// Ajouter le résultat de cette tâche}
   \DataTypeTok{void}\NormalTok{ join}\OperatorTok{(}\AttributeTok{const}\NormalTok{ TotalDistanceWrkr}\OperatorTok{\&}\NormalTok{ rhs}\OperatorTok{)} \OperatorTok{\{} 
 \NormalTok{    distance }\OperatorTok{+=}\NormalTok{ rhs}\OperatorTok{.}\NormalTok{distance}\OperatorTok{;} 
   \OperatorTok{\}}
@@ -3549,13 +3551,13 @@ La syntaxe du \texttt{Worker} est un peu laborieuse mais assez simple à adapter
 \CommentTok{// [[Rcpp::export]]}
 \DataTypeTok{double}\NormalTok{ TotalDistance}\OperatorTok{(}\NormalTok{NumericVector x}\OperatorTok{,}\NormalTok{ NumericVector y}\OperatorTok{)} \OperatorTok{\{}
   
-  \CommentTok{// Declare TotalDistanceWrkr instance}
+  \CommentTok{// Declaration d\textquotesingle{}une instance de TotalDistanceWrkr}
 \NormalTok{  TotalDistanceWrkr totalDistanceWrkr}\OperatorTok{(}\NormalTok{x}\OperatorTok{,}\NormalTok{ y}\OperatorTok{);}
   
-  \CommentTok{// call parallel\_reduce to start the work}
+  \CommentTok{// Appel de parallel\_reduce pour démarrer la tâche}
 \NormalTok{  parallelReduce}\OperatorTok{(}\DecValTok{0}\OperatorTok{,}\NormalTok{ x}\OperatorTok{.}\NormalTok{length}\OperatorTok{(),}\NormalTok{ totalDistanceWrkr}\OperatorTok{);}
   
-  \CommentTok{// return the result}
+  \CommentTok{// Retour du résultat}
   \ControlFlowTok{return}\NormalTok{ totalDistanceWrkr}\OperatorTok{.}\NormalTok{distance}\OperatorTok{;}
 \OperatorTok{\}}
 \end{Highlighting}
@@ -3578,8 +3580,8 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 ## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min       lq     mean   median       uq      max neval
-##  788.056 846.0815 905.3077 867.3725 892.2035 2618.973   100
+##      min      lq     mean   median       uq      max neval
+##  755.545 780.623 827.8276 783.7135 790.0085 2413.994   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3619,13 +3621,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.150   0.074   7.297
+##   6.908   0.006   6.940
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5174} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{5025} secondes.
 
 \scriptsize
 
@@ -3638,7 +3640,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.997   0.104   2.233
+##   5.029   0.007   1.708
 \end{verbatim}
 
 \normalsize
@@ -3792,7 +3794,7 @@ Le flux est exécuté par \texttt{tar\_make()}.
 ## • built target d
 ## • start target map
 ## • built target map
-## • end pipeline: 2.512 seconds
+## • end pipeline: 2.18 seconds
 \end{verbatim}
 
 \normalsize
@@ -3820,7 +3822,7 @@ Le flux est maintenant à jour et \texttt{tar\_make()} ne refait aucun calcul.
 ## ✔ skip target X
 ## ✔ skip target d
 ## ✔ skip target map
-## ✔ skip pipeline: 0.076 seconds
+## ✔ skip pipeline: 0.069 seconds
 \end{verbatim}
 
 \normalsize
@@ -4525,7 +4527,7 @@ Il est généralement inutile d'effectuer la collecte des déchets manuellement:
 
 GitHub limite la taille des dépôts.
 En mai 2020, la limite est de 100 Go.
-La taille de tous les dépôts d'un utilisateur authentifié peut être affichée dans les réglages de son compte (\enquote{Personnal Settings}, \enquote{Repositories})\footnote{\url{https://github.com/settings/repositories}}.
+La taille de tous les dépôts d'un utilisateur authentifié peut être affichée dans les réglages de son compte (\enquote{Personal Settings}, \enquote{Repositories})\footnote{\url{https://github.com/settings/repositories}}.
 
 \hypertarget{supprimer-un-dossier}{%
 \subsection{Supprimer un dossier}\label{supprimer-un-dossier}}
@@ -4666,16 +4668,16 @@ ssh-keygen -t rsa -b 4096"
 \begin{itemize}
 \tightlist
 \item
-  Entrer le nom de la clé: \texttt{NomDuProjet.rsa}.
+  Entrer le nom de la clé: \texttt{\textless{}RepoID\textgreater{}.rsa}.
 \item
   Ne pas saisir de phrase de validation (mot de passe) pour permettre l'utilisation de la clé sans interaction.
 \end{itemize}
 
-La clé privée \texttt{NomDuProjet.rsa} ne doit être diffusée qu'aux ayant-droits du projet.
+La clé privée \texttt{\textless{}RepoID\textgreater{}.rsa} ne doit être diffusée qu'aux ayant-droits du projet.
 Il faut donc ajouter la ligne \texttt{*.rsa} au fichier \texttt{.gitignore} du projet pour ne pas pousser la clé sur GitHub.
 
 Pour permettre l'intégration continue du projet (chapitre \ref{chap-ci}), la clé privée doit être stockée comme un secret du dépôt GitHub contenant le projet.
-Appliquer la procédure de la section \ref{sec:secrets-ci} pour créer un secret nommé \enquote{RSA} et coller le contenu du fichier \texttt{NomDuProjet.rsa} dans le champ \enquote{Value} du formulaire.
+Appliquer la procédure de la section \ref{sec:secrets-ci} pour créer un secret nommé \enquote{RSA} et coller le contenu du fichier \texttt{\textless{}RepoID\textgreater{}.rsa} dans le champ \enquote{Value} du formulaire.
 
 L'utilisation du secret est décrite dans la section \ref{sec:confidentielCI}.
 
@@ -6919,7 +6921,7 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 ## • built target d
 ## • start target map
 ## • built target map
-## • end pipeline: 2.154 seconds
+## • end pipeline: 2.041 seconds
 \end{verbatim}
 
 \normalsize
@@ -7465,7 +7467,7 @@ La vignette peut ensuite être affichée par la commande:
 
 Le package \textbf{pkgdown} permet de créer un site d'accompagnement du package\footnote{Exemple: \url{https://EricMarcon.github.io/entropart/}}, qui reprend le fichier \texttt{README.md} comme page d'accueil, la vignette dans une rubrique \enquote{Get Started}, l'ensemble des fichiers d'aide avec leurs exemples exécutés (section \enquote{Reference}), le fichier \texttt{NEWS.md} pour un historique du package (section \enquote{Changelog}) et des informations du fichier \texttt{DESCRIPTION}.
 
-Créer le site avec \textbf{usethis}
+Créer le site avec \textbf{usethis}:
 
 \scriptsize
 
@@ -7684,7 +7686,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7f80599be980>
+## <bytecode: 0x7fa2e3f8ea48>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7866,7 +7868,7 @@ Dans le cas contraire, des erreurs se produisent:
 \end{Shaded}
 
 \begin{verbatim}
-## <simpleError: $ operator is invalid for atomic vectors>
+## <simpleError in x$call: $ operator is invalid for atomic vectors>
 \end{verbatim}
 
 \normalsize
@@ -7978,14 +7980,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  336  344.5 27153.64  353.0  372.0
-##   triple.numeric(2)  331  345.0 22799.39  364.0  384.5
-##          triple(2L) 1359 1384.5  1560.35 1412.5 1496.5
+##                expr  min   lq     mean median     uq
+##  triple.integer(2L)  347  360 24004.87  401.5  434.0
+##   triple.numeric(2)  341  359 25644.93  374.5  428.0
+##          triple(2L) 1348 1397  1642.32 1468.5 1602.5
 ##      max neval
-##  2678418   100
-##  2241833   100
-##     7025   100
+##  2359662   100
+##  2522976   100
+##     9174   100
 \end{verbatim}
 
 \normalsize
@@ -8332,7 +8334,7 @@ Finalement, le code complet est le suivant:
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7f80599be980>
+## <bytecode: 0x7fa2e3f8ea48>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -8370,7 +8372,7 @@ Finalement, le code complet est le suivant:
 ## {
 ##     UseMethod("autoplot")
 ## }
-## <bytecode: 0x7f8060177a88>
+## <bytecode: 0x7fa2e74319a8>
 ## <environment: namespace:ggplot2>
 \end{verbatim}
 
@@ -10192,7 +10194,7 @@ Pour les pauses, R fournit même quelques jeux dans le package \textbf{fun}, don
 Ce document n'a pas pour objectif d'être exhaustif sur les possibilités de R mais plutôt de présenter une méthode de travail et des moyens simples de l'appliquer rapidement.
 On se reportera aux ouvrages plus détaillés cités dans le texte pour approfondir tel ou tel point.
 
-Ce document est mis à jour régulièrement en fonction de l'évolution des outils disponibles.
+Il est mis à jour régulièrement en fonction de l'évolution des outils disponibles.
 
 
 % Bibliography

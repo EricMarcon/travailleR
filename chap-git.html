@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Git et GitHub | Travailler avec R</title>
   <meta name="description" content="Organisation du travail autour de R et RStudio" />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Git et GitHub | Travailler avec R" />
   <meta property="og:type" content="book" />
@@ -942,7 +942,7 @@ size-garbage: 0 bytes</code></pre>
 <p>Il est généralement inutile d’effectuer la collecte des déchets manuellement: git gère bien l’organisation de ses dépôts.</p>
 <p>GitHub limite la taille des dépôts.
 En mai 2020, la limite est de 100 Go.
-La taille de tous les dépôts d’un utilisateur authentifié peut être affichée dans les réglages de son compte (“Personnal Settings”, “Repositories”)<a href="#fn40" class="footnote-ref" id="fnref40"><sup>40</sup></a>.</p>
+La taille de tous les dépôts d’un utilisateur authentifié peut être affichée dans les réglages de son compte (“Personal Settings”, “Repositories”)<a href="#fn40" class="footnote-ref" id="fnref40"><sup>40</sup></a>.</p>
 </div>
 <div id="supprimer-un-dossier" class="section level3 hasAnchor" number="3.5.3">
 <h3><span class="header-section-number">3.5.3</span> Supprimer un dossier<a href="chap-git.html#supprimer-un-dossier" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1026,13 +1026,13 @@ Repérer la position de la clé: si une clé d’authentification a déjà été
 <p>Générer une clé au format RSA dans le terminal de RStudio:</p>
 <pre><code>ssh-keygen -t rsa -b 4096&quot; </code></pre>
 <ul>
-<li>Entrer le nom de la clé: <code>NomDuProjet.rsa</code>.</li>
+<li>Entrer le nom de la clé: <code>&lt;RepoID&gt;.rsa</code>.</li>
 <li>Ne pas saisir de phrase de validation (mot de passe) pour permettre l’utilisation de la clé sans interaction.</li>
 </ul>
-<p>La clé privée <code>NomDuProjet.rsa</code> ne doit être diffusée qu’aux ayant-droits du projet.
+<p>La clé privée <code>&lt;RepoID&gt;.rsa</code> ne doit être diffusée qu’aux ayant-droits du projet.
 Il faut donc ajouter la ligne <code>*.rsa</code> au fichier <code>.gitignore</code> du projet pour ne pas pousser la clé sur GitHub.</p>
 <p>Pour permettre l’intégration continue du projet (chapitre <a href="chap-ci.html#chap-ci">6</a>), la clé privée doit être stockée comme un secret du dépôt GitHub contenant le projet.
-Appliquer la procédure de la section <a href="chap-ci.html#sec:secrets-ci">6.2.2</a> pour créer un secret nommé “RSA” et coller le contenu du fichier <code>NomDuProjet.rsa</code> dans le champ “Value” du formulaire.</p>
+Appliquer la procédure de la section <a href="chap-ci.html#sec:secrets-ci">6.2.2</a> pour créer un secret nommé “RSA” et coller le contenu du fichier <code>&lt;RepoID&gt;.rsa</code> dans le champ “Value” du formulaire.</p>
 <p>L’utilisation du secret est décrite dans la section <a href="chap-ci.html#sec:confidentielCI">6.2.5</a>.</p>
 </div>
 <div id="création-dun-coffre-fort" class="section level3 hasAnchor" number="3.6.3">
