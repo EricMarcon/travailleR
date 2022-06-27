@@ -512,7 +512,7 @@ Il est généralement inutile d'effectuer la collecte des déchets manuellement:
 
 GitHub limite la taille des dépôts.
 En mai 2020, la limite est de 100 Go.
-La taille de tous les dépôts d'un utilisateur authentifié peut être affichée dans les réglages de son compte ("Personnal Settings", "Repositories")[^303].
+La taille de tous les dépôts d'un utilisateur authentifié peut être affichée dans les réglages de son compte ("Personal Settings", "Repositories")[^303].
 
 [^303]: https://github.com/settings/repositories
 
@@ -640,14 +640,14 @@ Générer une clé au format RSA dans le terminal de RStudio:
 ssh-keygen -t rsa -b 4096" 
 ``` 
 
-- Entrer le nom de la clé: `NomDuProjet.rsa`.
+- Entrer le nom de la clé: `<RepoID>.rsa`.
 - Ne pas saisir de phrase de validation (mot de passe) pour permettre l'utilisation de la clé sans interaction.
 
-La clé privée `NomDuProjet.rsa` ne doit être diffusée qu'aux ayant-droits du projet.
+La clé privée `<RepoID>.rsa` ne doit être diffusée qu'aux ayant-droits du projet.
 Il faut donc ajouter la ligne `*.rsa` au fichier `.gitignore` du projet pour ne pas pousser la clé sur GitHub.
 
 Pour permettre l'intégration continue du projet (chapitre \@ref(chap-ci)), la clé privée doit être stockée comme un secret du dépôt GitHub contenant le projet.
-Appliquer la procédure de la section \@ref(sec:secrets-ci) pour créer un secret nommé "RSA" et coller le contenu du fichier `NomDuProjet.rsa` dans le champ "Value" du formulaire.
+Appliquer la procédure de la section \@ref(sec:secrets-ci) pour créer un secret nommé "RSA" et coller le contenu du fichier `<RepoID>.rsa` dans le champ "Value" du formulaire.
 
 L'utilisation du secret est décrite dans la section \@ref(sec:confidentielCI).
 
