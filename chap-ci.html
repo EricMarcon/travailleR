@@ -936,7 +936,8 @@ La fonction <code>build_githubpages()</code> (voir section <a href="chap-rediger
 <pre><code>      - name: Render Rmarkdown files
         run: |
           Sys.setlocale(&quot;LC_TIME&quot;, &quot;fr_FR&quot;)
-          lapply(list.files(pattern=&quot;*.Rmd&quot;), function(file) rmarkdown::render(file, &quot;all&quot;))
+          lapply(list.files(pattern=&quot;*.Rmd&quot;), 
+                 function(file) rmarkdown::render(file, &quot;all&quot;))
           memoiR::build_githubpages()
         shell: Rscript {0}</code></pre>
 <p>La sélection des fichiers est ici réalisée par un script R, qui inclut une commande de localisation, ici en Français.</p>
