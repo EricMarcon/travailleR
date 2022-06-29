@@ -561,7 +561,8 @@ Si l'étape de tricot nécessite de modifier la langue utilisée par R, par exem
       - name: Render Rmarkdown files
         run: |
           Sys.setlocale("LC_TIME", "fr_FR")
-          lapply(list.files(pattern="*.Rmd"), function(file) rmarkdown::render(file, "all"))
+          lapply(list.files(pattern="*.Rmd"), 
+                 function(file) rmarkdown::render(file, "all"))
           memoiR::build_githubpages()
         shell: Rscript {0}
 ```
