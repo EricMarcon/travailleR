@@ -10,6 +10,8 @@ Cet ouvrage propose une organisation du travail autour de R et RStudio pour, au-
 Il est mis à jour en continu [pour la lecture en ligne](https://EricMarcon.github.io/travailleR/).
 Ses versions d'étape sont téléchargeables sur [HAL](https://hal.archives-ouvertes.fr/hal-03022820).
 
+Il est disponible en [Anglais](https://ericmarcon.github.io/WorkingWithR/).
+
 Citation:
 
 Marcon, Eric. Travailler avec R. Montpellier, France: UMR Amap, 2021. https://ericmarcon.github.io/travailleR/. DOI:10.5281/zenodo.5778902
