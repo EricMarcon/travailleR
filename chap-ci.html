@@ -23,6 +23,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
+<meta name="date" content="2022-05-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -679,7 +680,7 @@ Imports:
   (...)</code></pre>
 <p>Avant de déclencher le flux de travail, il est nécessaire de créer la liste des packages dans leur version en cours sur le poste de travail:</p>
 <p></p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="chap-ci.html#cb460-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>(<span class="at">type =</span> <span class="st">&quot;explicit&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="chap-ci.html#cb459-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>(<span class="at">type =</span> <span class="st">&quot;explicit&quot;</span>)</span></code></pre></div>
 <p></p>
 <p>A sa première utilisation, le package <strong>renv</strong> informe de quelques adaptations de l’environnement de travail, qu’il faut accepter.</p>
 <p>Cette commande crée le fichier <code>renv.lock</code> qui est utilisé par GitHub Actions pour installer les packages pendant l’intégration continue.
@@ -953,7 +954,7 @@ Le compilateur LaTeX est en effet plus exigeant que pandoc (qui produit le fichi
 <p>La première vérification consiste à tricoter en PDF localement, sur son poste de travail, le document qui pose problème, avec <strong>tinytex</strong>.
 Les packages LaTeX doivent être mis à jour pour être les mêmes que ceux utilisés par les actions GitHub: pour cela, exécuter:</p>
 <p></p>
-<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="chap-ci.html#cb471-1" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">tlmgr_update</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="chap-ci.html#cb470-1" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">tlmgr_update</span>()</span></code></pre></div>
 <p></p>
 <p>Si la compilation fonctionne localement mais pas sur Github, il faut inspecter le fichier <code>.log</code> qui enregistre tous les évènements générés par le compilateur, mais ce fichier n’est pas conservé après l’échec de GitHub Actions.
 Il faut donc modifier le script pour copier le fichier dans <code>docs</code> puis créer sauvegarder le résultat malgré l’erreur.</p>

@@ -23,6 +23,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
+<meta name="date" content="2022-05-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1039,29 +1040,29 @@ Appliquer la procédure de la section <a href="chap-ci.html#sec:secrets-ci">6.2.
 <h3><span class="header-section-number">3.6.3</span> Création d’un coffre-fort<a href="chap-git.html#création-dun-coffre-fort" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Exécuter:</p>
 <p></p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="chap-git.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;secret&quot;</span>)</span>
-<span id="cb251-2"><a href="chap-git.html#cb251-2" aria-hidden="true" tabindex="-1"></a>vault <span class="ot">&lt;-</span> <span class="st">&quot;vault&quot;</span></span>
-<span id="cb251-3"><a href="chap-git.html#cb251-3" aria-hidden="true" tabindex="-1"></a><span class="fu">create_vault</span>(vault)</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="chap-git.html#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;secret&quot;</span>)</span>
+<span id="cb250-2"><a href="chap-git.html#cb250-2" aria-hidden="true" tabindex="-1"></a>vault <span class="ot">&lt;-</span> <span class="st">&quot;vault&quot;</span></span>
+<span id="cb250-3"><a href="chap-git.html#cb250-3" aria-hidden="true" tabindex="-1"></a><span class="fu">create_vault</span>(vault)</span></code></pre></div>
 <p></p>
 </div>
 <div id="ajout-des-utilisateurs" class="section level3 hasAnchor" number="3.6.4">
 <h3><span class="header-section-number">3.6.4</span> Ajout des utilisateurs<a href="chap-git.html#ajout-des-utilisateurs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Le propriétaire du projet est ajouté à partir de sa clé publique stockée sur GitHub, qui est la troisième dans notre exemple.</p>
 <p></p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="chap-git.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identifiant GitHub du propriétaire du projet</span></span>
-<span id="cb252-2"><a href="chap-git.html#cb252-2" aria-hidden="true" tabindex="-1"></a>github_user <span class="ot">&lt;-</span> <span class="st">&quot;EricMarcon&quot;</span></span>
-<span id="cb252-3"><a href="chap-git.html#cb252-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Lecture et stockage de la clé, i est le numéro de la clé</span></span>
-<span id="cb252-4"><a href="chap-git.html#cb252-4" aria-hidden="true" tabindex="-1"></a><span class="fu">add_github_user</span>(github_user, <span class="at">vault =</span> vault, <span class="at">i =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="chap-git.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identifiant GitHub du propriétaire du projet</span></span>
+<span id="cb251-2"><a href="chap-git.html#cb251-2" aria-hidden="true" tabindex="-1"></a>github_user <span class="ot">&lt;-</span> <span class="st">&quot;EricMarcon&quot;</span></span>
+<span id="cb251-3"><a href="chap-git.html#cb251-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Lecture et stockage de la clé, i est le numéro de la clé</span></span>
+<span id="cb251-4"><a href="chap-git.html#cb251-4" aria-hidden="true" tabindex="-1"></a><span class="fu">add_github_user</span>(github_user, <span class="at">vault =</span> vault, <span class="at">i =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p></p>
 <p>La clé de l’utilisateur générique du projet est ajoutée par:</p>
 <p></p>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="chap-git.html#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;openssl&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="chap-git.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;openssl&quot;</span>)</span></code></pre></div>
 <pre><code>## Linking to: OpenSSL 1.1.1m  14 Dec 2021</code></pre>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="chap-git.html#cb255-1" aria-hidden="true" tabindex="-1"></a>project_id <span class="ot">&lt;-</span> <span class="st">&quot;NomDuProjet&quot;</span></span>
-<span id="cb255-2"><a href="chap-git.html#cb255-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Lecture de la clé</span></span>
-<span id="cb255-3"><a href="chap-git.html#cb255-3" aria-hidden="true" tabindex="-1"></a>rsa_project <span class="ot">&lt;-</span> <span class="fu">read_pubkey</span>(<span class="fu">paste0</span>(project_id, <span class="st">&quot;.rsa.pub&quot;</span>))</span>
-<span id="cb255-4"><a href="chap-git.html#cb255-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajout au coffre-fort</span></span>
-<span id="cb255-5"><a href="chap-git.html#cb255-5" aria-hidden="true" tabindex="-1"></a><span class="fu">add_user</span>(project_id, <span class="at">public_key =</span> rsa_project, <span class="at">vault =</span> vault)</span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="chap-git.html#cb254-1" aria-hidden="true" tabindex="-1"></a>project_id <span class="ot">&lt;-</span> <span class="st">&quot;NomDuProjet&quot;</span></span>
+<span id="cb254-2"><a href="chap-git.html#cb254-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Lecture de la clé</span></span>
+<span id="cb254-3"><a href="chap-git.html#cb254-3" aria-hidden="true" tabindex="-1"></a>rsa_project <span class="ot">&lt;-</span> <span class="fu">read_pubkey</span>(<span class="fu">paste0</span>(project_id, <span class="st">&quot;.rsa.pub&quot;</span>))</span>
+<span id="cb254-4"><a href="chap-git.html#cb254-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajout au coffre-fort</span></span>
+<span id="cb254-5"><a href="chap-git.html#cb254-5" aria-hidden="true" tabindex="-1"></a><span class="fu">add_user</span>(project_id, <span class="at">public_key =</span> rsa_project, <span class="at">vault =</span> vault)</span></code></pre></div>
 <p></p>
 </div>
 <div id="stockage-des-données" class="section level3 hasAnchor" number="3.6.5">
@@ -1069,41 +1070,41 @@ Appliquer la procédure de la section <a href="chap-ci.html#sec:secrets-ci">6.2.
 <p>Les données, stockées dans des variables de R, sont stockées une à une par la fonction <code>add_secret()</code>.
 Dans l’exemple suivant, la variable s’appelle <code>X</code> et vaut 1.</p>
 <p></p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="chap-git.html#cb256-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb256-2"><a href="chap-git.html#cb256-2" aria-hidden="true" tabindex="-1"></a><span class="fu">add_secret</span>(</span>
-<span id="cb256-3"><a href="chap-git.html#cb256-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Nom de la donnée</span></span>
-<span id="cb256-4"><a href="chap-git.html#cb256-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;X&quot;</span>, </span>
-<span id="cb256-5"><a href="chap-git.html#cb256-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Valeur</span></span>
-<span id="cb256-6"><a href="chap-git.html#cb256-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> X, </span>
-<span id="cb256-7"><a href="chap-git.html#cb256-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Utilisateurs autorisés: propriétaire et générique</span></span>
-<span id="cb256-8"><a href="chap-git.html#cb256-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">users =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;github-&quot;</span>, github_user), project_id), </span>
-<span id="cb256-9"><a href="chap-git.html#cb256-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Coffre-fort</span></span>
-<span id="cb256-10"><a href="chap-git.html#cb256-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">vault =</span> vault)</span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="chap-git.html#cb255-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb255-2"><a href="chap-git.html#cb255-2" aria-hidden="true" tabindex="-1"></a><span class="fu">add_secret</span>(</span>
+<span id="cb255-3"><a href="chap-git.html#cb255-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Nom de la donnée</span></span>
+<span id="cb255-4"><a href="chap-git.html#cb255-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;X&quot;</span>, </span>
+<span id="cb255-5"><a href="chap-git.html#cb255-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Valeur</span></span>
+<span id="cb255-6"><a href="chap-git.html#cb255-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> X, </span>
+<span id="cb255-7"><a href="chap-git.html#cb255-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Utilisateurs autorisés: propriétaire et générique</span></span>
+<span id="cb255-8"><a href="chap-git.html#cb255-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">users =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;github-&quot;</span>, github_user), project_id), </span>
+<span id="cb255-9"><a href="chap-git.html#cb255-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Coffre-fort</span></span>
+<span id="cb255-10"><a href="chap-git.html#cb255-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">vault =</span> vault)</span></code></pre></div>
 <p></p>
 <p>Le contenu du coffre-fort peut être vérifié:</p>
 <p></p>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="chap-git.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Liste des données du coffre</span></span>
-<span id="cb257-2"><a href="chap-git.html#cb257-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list_secrets</span>(<span class="at">vault =</span> vault)</span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="chap-git.html#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Liste des données du coffre</span></span>
+<span id="cb256-2"><a href="chap-git.html#cb256-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list_secrets</span>(<span class="at">vault =</span> vault)</span></code></pre></div>
 <pre><code>##   secret        email
 ## 1      X github-E....</code></pre>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="chap-git.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Liste des propriétaire de la donnée &#39;X&#39;</span></span>
-<span id="cb259-2"><a href="chap-git.html#cb259-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list_owners</span>(<span class="st">&quot;X&quot;</span>, <span class="at">vault =</span> vault)</span></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="chap-git.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Liste des propriétaire de la donnée &#39;X&#39;</span></span>
+<span id="cb258-2"><a href="chap-git.html#cb258-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list_owners</span>(<span class="st">&quot;X&quot;</span>, <span class="at">vault =</span> vault)</span></code></pre></div>
 <pre><code>## [1] &quot;github-EricMarcon&quot; &quot;NomDuProjet&quot;</code></pre>
 <p></p>
 <p>Les données seront lues dans le code du projet par la commande <code>get_secret()</code>.
 La clé privée de l’utilisateur générique du projet, communiquée par un moyen sécurisé aux ayant-droits, doit se trouver dans le dossier du projet.</p>
 <p></p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="chap-git.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sélection de la clé privée</span></span>
-<span id="cb261-2"><a href="chap-git.html#cb261-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">USER_KEY =</span> usethis<span class="sc">::</span><span class="fu">proj_path</span>(<span class="fu">paste0</span>(project_id, <span class="st">&quot;.rsa&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="chap-git.html#cb260-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sélection de la clé privée</span></span>
+<span id="cb260-2"><a href="chap-git.html#cb260-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">USER_KEY =</span> usethis<span class="sc">::</span><span class="fu">proj_path</span>(<span class="fu">paste0</span>(project_id, <span class="st">&quot;.rsa&quot;</span>)))</span></code></pre></div>
 <pre><code>## ✔ Setting active project to &#39;/Users/runner/work/travailleR/
 ## travailleR&#39;</code></pre>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="chap-git.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lecture de la donnée &#39;X&#39;</span></span>
-<span id="cb263-2"><a href="chap-git.html#cb263-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_secret</span>(<span class="st">&quot;X&quot;</span>, <span class="at">vault =</span> vault)</span></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="chap-git.html#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lecture de la donnée &#39;X&#39;</span></span>
+<span id="cb262-2"><a href="chap-git.html#cb262-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_secret</span>(<span class="st">&quot;X&quot;</span>, <span class="at">vault =</span> vault)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p></p>
 <p>La clé peut être vérifiée:</p>
 <p></p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="chap-git.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="fu">local_key</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="chap-git.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="fu">local_key</span>()</span></code></pre></div>
 <pre><code>## [4096-bit rsa private key]
 ## md5: e81dcb0745a755286c2dc1fc4c6ad117
 ## sha256: cca11ef82e17c3b77b699e7f3c23e083e8f0f79cb70be8274799f076c44b0c2d</code></pre>
@@ -1117,7 +1118,7 @@ Ce fichier est écrit au format Markdown.</p>
 <p>Le fichier peut être placé dans le dossier <code>docs</code> pour fournir à fois la page d’accueil du dépôt et de son site web.
 Le package <strong>memoiR</strong> fournit des commandes permettant d’automatiser ces tâches dans les projets de documents.
 Un dépôt contenant un article écrit en R Markdown (voir section <a href="chap-rediger.html#sec:memo">4.3.2</a>) est utilisé comme exemple<a href="#fn42" class="footnote-ref" id="fnref42"><sup>42</sup></a>.</p>
-<p>Son fichier <code>README.md</code> existe aux deux emplacements: il est écrit par le développeur à la racine du projet et dupliqué par <code>GitHubPages.R</code>.</p>
+<p>Son fichier <code>README.md</code> existe aux deux emplacements: il est écrit par le développeur à la racine du projet et dupliqué dans <code>docs</code>.</p>
 <div id="activation" class="section level3 hasAnchor" number="3.7.1">
 <h3><span class="header-section-number">3.7.1</span> Activation<a href="chap-git.html#activation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Pour activer les pages GitHub, il faut ouvrir les propriétés du dépôt (<em>Settings</em>) et modifier la rubrique “GitHub Pages” (dans “Options”).
@@ -1142,7 +1143,7 @@ Les badges correspondants sont listés sur le site du Tidyverse<a href="#fn45" c
 <p>Le package <strong>usethis</strong> simplifie leur création en plaçant le code nécessaire dans le presse-papier.
 Il suffit ensuite de le coller dans le fichier.</p>
 <p></p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="chap-git.html#cb268-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_lifecycle_badge</span>(<span class="st">&quot;maturing&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="chap-git.html#cb267-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_lifecycle_badge</span>(<span class="st">&quot;maturing&quot;</span>)</span></code></pre></div>
 <p></p>
 
 </div>
