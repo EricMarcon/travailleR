@@ -23,7 +23,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2022-05-07" />
+<meta name="date" content="2022-08-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -915,7 +915,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="chap-package.html#cb372-1" aria-hidden="true" tabindex="-1"></a>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7f97e4896fa8&gt;
+## &lt;bytecode: 0x7f9656cdd1a8&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -1062,13 +1062,13 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span id="cb400-3"><a href="chap-package.html#cb400-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">triple</span>(2L))</span></code></pre></div>
 <pre><code>## Unit: nanoseconds
 ##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  323  341.5 36778.16  353.0  401.0
-##   triple.numeric(2)  324  339.5 27243.46  355.5  400.5
-##          triple(2L) 1325 1348.0  2322.24 1402.0 1519.0
+##  triple.integer(2L)  325  334.0 28398.55    344  368.5
+##   triple.numeric(2)  326  335.5 22708.29    343  374.5
+##          triple(2L) 1337 1371.5  1668.61   1392 1451.0
 ##      max neval
-##  3630664   100
-##  2684314   100
-##    33459   100</code></pre>
+##  2803379   100
+##  2233863   100
+##    20956   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -1282,7 +1282,7 @@ Il doit être importé:</li>
 <span id="cb420-65"><a href="chap-package.html#cb420-65" aria-hidden="true" tabindex="-1"></a>graphics<span class="sc">::</span>plot</span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod(&quot;plot&quot;)
-## &lt;bytecode: 0x7f97e4896fa8&gt;
+## &lt;bytecode: 0x7f9656cdd1a8&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="chap-package.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39; autoplot</span></span>
 <span id="cb422-2"><a href="chap-package.html#cb422-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39;</span></span>
@@ -1312,7 +1312,7 @@ Il doit être importé:</li>
 ## {
 ##     UseMethod(&quot;autoplot&quot;)
 ## }
-## &lt;bytecode: 0x7f97e1829628&gt;
+## &lt;bytecode: 0x7f96544155e8&gt;
 ## &lt;environment: namespace:ggplot2&gt;</code></pre>
 <p></p>
 </div>
@@ -1497,7 +1497,7 @@ Ils s’appuient sur <strong>testthat</strong> à intégrer au package:</p>
 <div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="chap-package.html#cb445-1" aria-hidden="true" tabindex="-1"></a><span class="fu">context</span>(<span class="st">&quot;function double&quot;</span>)</span></code></pre></div>
 <p></p>
 <p>Les tests sont contenus dans des fichiers qui les regroupent par thème, par exemple <code>test_double.R</code>.
-Le nom de chaque test est passé comme argument de la fonction <code>test_that())</code>:</p>
+Le nom de chaque test est passé comme argument de la fonction <code>test_that()</code>:</p>
 <p></p>
 <div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="chap-package.html#cb446-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">&quot;Double values are correct&quot;</span>, {</span>
 <span id="cb446-2"><a href="chap-package.html#cb446-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">skip_on_cran</span>()</span>

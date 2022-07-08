@@ -23,7 +23,7 @@
 <meta name="author" content="Eric Marcon" />
 
 
-<meta name="date" content="2022-05-07" />
+<meta name="date" content="2022-08-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -637,15 +637,15 @@ L’application complète, avec des sorties graphiques en plus de sa version sim
 Cette fonction interroge la page web Google Scholar de l’auteur et extrait les valeurs du résultat: c’est une traitement lourd, qu’il vaut mieux n’exécuter qu’une seule fois plutôt que deux, dans les fonctions <code>renderUI()</code> chargées de calculer les valeurs de <code>output$h</code> et <code>output$name</code>.</p>
 <p>Le code le plus simple pour le faire serait le suivant:</p>
 <p></p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="chap-shiny.html#cb480-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the get_profile function only once #### Store the</span></span>
-<span id="cb480-2"><a href="chap-shiny.html#cb480-2" aria-hidden="true" tabindex="-1"></a><span class="co"># author profile</span></span>
-<span id="cb480-3"><a href="chap-shiny.html#cb480-3" aria-hidden="true" tabindex="-1"></a>AuthorProfile <span class="ot">&lt;-</span> <span class="fu">get_profile</span>(input<span class="sc">$</span>AuthorID)</span></code></pre></div>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="chap-shiny.html#cb480-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Run the get_profile function only once ####</span></span>
+<span id="cb480-2"><a href="chap-shiny.html#cb480-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Store the author profile</span></span>
+<span id="cb480-3"><a href="chap-shiny.html#cb480-3" aria-hidden="true" tabindex="-1"></a>  AuthorProfile <span class="ot">&lt;-</span> <span class="fu">get_profile</span>(input<span class="sc">$</span>AuthorID)</span></code></pre></div>
 <p></p>
 <p>La difficulté de la programmation d’une application Shiny est que tout calcul se référant à un élément de l’interface d’entrée doit être <em>réactif</em>.
 Si ce dernier code était exécuté, le message d’erreur suivant apparaît:
 “Operation not allowed without an active reactive context. (You tried to do something that can only be done from inside a reactive expression or observer.)”.</p>
 <p>En pratique, l’exécution du code est lancée par la modification d’un contrôle d’entrée (ici: <code>intput$AuthorID</code>).
-Le code faisant référence à un de ces contrôles doit être en permanence en attente d’une modification: il doit donc placé dans des fonctions particulières comme <code>renderPlot</code> dans l’application <em>Old Faithful Geyser Data</em> ou <code>renderUI()</code> ici.
+Le code faisant référence à un de ces contrôles doit être en permanence en attente d’une modification: il doit donc placé dans des fonctions particulières comme <code>renderPlot()</code> dans l’application <em>Old Faithful Geyser Data</em> ou <code>renderUI()</code> ici.
 Le code suivant s’exécuterait sans erreur:</p>
 <p></p>
 <div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="chap-shiny.html#cb481-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output ####</span></span>
