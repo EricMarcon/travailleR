@@ -1,547 +1,156 @@
 <!DOCTYPE html>
-<html lang="fr-FR" xml:lang="fr-FR">
+<html lang="fr-FR">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>6 Intégration continue | Travailler avec R</title>
+<meta name="author" content="Eric Marcon">
+<meta name="description" content="L’intégration continue consiste à confier à un service externe la tâche de vérifier un package, produire des documents Markdown pour les pages web d’un dépôt GitHub ou tricoter entièrement un site...">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="6 Intégration continue | Travailler avec R">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://ericmarcon.github.io/travailleR/chap-ci.html">
+<meta property="og:description" content="L’intégration continue consiste à confier à un service externe la tâche de vérifier un package, produire des documents Markdown pour les pages web d’un dépôt GitHub ou tricoter entièrement un site...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="6 Intégration continue | Travailler avec R">
+<meta name="twitter:description" content="L’intégration continue consiste à confier à un service externe la tâche de vérifier un package, produire des documents Markdown pour les pages web d’un dépôt GitHub ou tricoter entièrement un site...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+<script src="libs/vis-9.1.0/vis-network.min.js"></script><script src="libs/visNetwork-binding-2.1.0/visNetwork.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/tabwid-1.0.0/tabwid.css" rel="stylesheet">
+<link href="libs/tabwid-1.0.0/scrool.css" rel="stylesheet">
+<!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-7NVD1TWMCJ"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6 Intégration continue | Travailler avec R</title>
-  <meta name="description" content="Organisation du travail autour de R et RStudio" />
-  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="6 Intégration continue | Travailler avec R" />
-  <meta property="og:type" content="book" />
-  
-  <meta property="og:description" content="Organisation du travail autour de R et RStudio" />
-  <meta name="github-repo" content="EricMarcon/travailleR" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6 Intégration continue | Travailler avec R" />
-  
-  <meta name="twitter:description" content="Organisation du travail autour de R et RStudio" />
-  
-
-<meta name="author" content="Eric Marcon" />
-
-
-<meta name="date" content="2022-10-07" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="chap-package.html"/>
-<link rel="next" href="chap-shiny.html"/>
-<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<link href="libs/vis-9.1.0/vis-network.min.css" rel="stylesheet" />
-<script src="libs/vis-9.1.0/vis-network.min.js"></script>
-<script src="libs/visNetwork-binding-2.1.0/visNetwork.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/tabwid-1.0.0/tabwid.css" rel="stylesheet" />
-<link href="libs/tabwid-1.0.0/scrool.css" rel="stylesheet" />
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7NVD1TWMCJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-7NVD1TWMCJ');
-</script>
-
-
+      gtag('config', 'G-7NVD1TWMCJ');
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
-
-<link rel="stylesheet" href="style.css" type="text/css" />
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Travailler avec R</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Présentation</a>
-<ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objectifs"><i class="fa fa-check"></i>Objectifs</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#conventions"><i class="fa fa-check"></i>Conventions</a></li>
-</ul></li>
-<li class="chapter" data-level="1" data-path="chap-logiciels.html"><a href="chap-logiciels.html"><i class="fa fa-check"></i><b>1</b> Logiciels</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#r"><i class="fa fa-check"></i><b>1.1</b> R</a>
-<ul>
-<li class="chapter" data-level="1.1.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation"><i class="fa fa-check"></i><b>1.1.1</b> Installation</a></li>
-<li class="chapter" data-level="1.1.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#rtools"><i class="fa fa-check"></i><b>1.1.2</b> Rtools</a></li>
-<li class="chapter" data-level="1.1.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#mise-à-jour"><i class="fa fa-check"></i><b>1.1.3</b> Mise à jour</a></li>
-<li class="chapter" data-level="1.1.4" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:librairies"><i class="fa fa-check"></i><b>1.1.4</b> Librairies</a></li>
-</ul></li>
-<li class="chapter" data-level="1.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#rstudio"><i class="fa fa-check"></i><b>1.2</b> RStudio</a>
-<ul>
-<li class="chapter" data-level="1.2.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-1"><i class="fa fa-check"></i><b>1.2.1</b> Installation</a></li>
-<li class="chapter" data-level="1.2.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#encodage-des-fichiers"><i class="fa fa-check"></i><b>1.2.2</b> Encodage des fichiers</a></li>
-<li class="chapter" data-level="1.2.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#dossier-de-travail"><i class="fa fa-check"></i><b>1.2.3</b> Dossier de travail</a></li>
-<li class="chapter" data-level="1.2.4" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:solution-dossiers"><i class="fa fa-check"></i><b>1.2.4</b> Solution retenue</a></li>
-</ul></li>
-<li class="chapter" data-level="1.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a>
-<ul>
-<li class="chapter" data-level="1.3.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-depuis-cran"><i class="fa fa-check"></i><b>1.3.1</b> Installation depuis CRAN</a></li>
-<li class="chapter" data-level="1.3.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-depuis-github"><i class="fa fa-check"></i><b>1.3.2</b> Installation depuis GitHub</a></li>
-<li class="chapter" data-level="1.3.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#installation-depuis-bioconductor"><i class="fa fa-check"></i><b>1.3.3</b> Installation depuis Bioconductor</a></li>
-<li class="chapter" data-level="1.3.4" data-path="chap-logiciels.html"><a href="chap-logiciels.html#solution-retenue"><i class="fa fa-check"></i><b>1.3.4</b> Solution retenue</a></li>
-</ul></li>
-<li class="chapter" data-level="1.4" data-path="chap-logiciels.html"><a href="chap-logiciels.html#git-et-github"><i class="fa fa-check"></i><b>1.4</b> git et GitHub</a>
-<ul>
-<li class="chapter" data-level="1.4.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#git"><i class="fa fa-check"></i><b>1.4.1</b> git</a></li>
-<li class="chapter" data-level="1.4.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#github"><i class="fa fa-check"></i><b>1.4.2</b> GitHub</a></li>
-<li class="chapter" data-level="1.4.3" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:SSH"><i class="fa fa-check"></i><b>1.4.3</b> Authentification SSH</a></li>
-<li class="chapter" data-level="1.4.4" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:pat"><i class="fa fa-check"></i><b>1.4.4</b> Obtention d’un jeton d’accès personnel</a></li>
-</ul></li>
-<li class="chapter" data-level="1.5" data-path="chap-logiciels.html"><a href="chap-logiciels.html#compilateur-latex"><i class="fa fa-check"></i><b>1.5</b> Compilateur LaTeX</a>
-<ul>
-<li class="chapter" data-level="1.5.1" data-path="chap-logiciels.html"><a href="chap-logiciels.html#tinytex"><i class="fa fa-check"></i><b>1.5.1</b> tinytex</a></li>
-<li class="chapter" data-level="1.5.2" data-path="chap-logiciels.html"><a href="chap-logiciels.html#miktex"><i class="fa fa-check"></i><b>1.5.2</b> MiKTeX</a></li>
-</ul></li>
-<li class="chapter" data-level="1.6" data-path="chap-logiciels.html"><a href="chap-logiciels.html#sec:Zotero"><i class="fa fa-check"></i><b>1.6</b> Zotero</a></li>
-<li class="chapter" data-level="1.7" data-path="chap-logiciels.html"><a href="chap-logiciels.html#go"><i class="fa fa-check"></i><b>1.7</b> Go</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html"><i class="fa fa-check"></i><b>2</b> Utiliser R</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#les-langages-de-r"><i class="fa fa-check"></i><b>2.1</b> Les langages de R</a>
-<ul>
-<li class="chapter" data-level="2.1.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#base"><i class="fa fa-check"></i><b>2.1.1</b> Base</a></li>
-<li class="chapter" data-level="2.1.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#sec:S3"><i class="fa fa-check"></i><b>2.1.2</b> S3</a></li>
-<li class="chapter" data-level="2.1.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#s4"><i class="fa fa-check"></i><b>2.1.3</b> S4</a></li>
-<li class="chapter" data-level="2.1.4" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#rc"><i class="fa fa-check"></i><b>2.1.4</b> RC</a></li>
-<li class="chapter" data-level="2.1.5" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#s6"><i class="fa fa-check"></i><b>2.1.5</b> S6</a></li>
-<li class="chapter" data-level="2.1.6" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#tidyverse"><i class="fa fa-check"></i><b>2.1.6</b> Tidyverse</a></li>
-</ul></li>
-<li class="chapter" data-level="2.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#sec:environnements"><i class="fa fa-check"></i><b>2.2</b> Environnements</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#organisation"><i class="fa fa-check"></i><b>2.2.1</b> Organisation</a></li>
-<li class="chapter" data-level="2.2.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#recherche"><i class="fa fa-check"></i><b>2.2.2</b> Recherche</a></li>
-<li class="chapter" data-level="2.2.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#espaces-de-nom-des-packages"><i class="fa fa-check"></i><b>2.2.3</b> Espaces de nom des packages</a></li>
-</ul></li>
-<li class="chapter" data-level="2.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#mesure-du-temps-dexécution"><i class="fa fa-check"></i><b>2.3</b> Mesure du temps d’exécution</a>
-<ul>
-<li class="chapter" data-level="2.3.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#system.time"><i class="fa fa-check"></i><b>2.3.1</b> system.time</a></li>
-<li class="chapter" data-level="2.3.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#microbenchmark"><i class="fa fa-check"></i><b>2.3.2</b> microbenchmark</a></li>
-<li class="chapter" data-level="2.3.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#profilage"><i class="fa fa-check"></i><b>2.3.3</b> Profilage</a></li>
-</ul></li>
-<li class="chapter" data-level="2.4" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#boucles"><i class="fa fa-check"></i><b>2.4</b> Boucles</a>
-<ul>
-<li class="chapter" data-level="2.4.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#fonctions-vectorielles"><i class="fa fa-check"></i><b>2.4.1</b> Fonctions vectorielles</a></li>
-<li class="chapter" data-level="2.4.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#lapply"><i class="fa fa-check"></i><b>2.4.2</b> lapply</a></li>
-<li class="chapter" data-level="2.4.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#boucles-for"><i class="fa fa-check"></i><b>2.4.3</b> Boucles for</a></li>
-<li class="chapter" data-level="2.4.4" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#replicate"><i class="fa fa-check"></i><b>2.4.4</b> replicate</a></li>
-<li class="chapter" data-level="2.4.5" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#vectorize"><i class="fa fa-check"></i><b>2.4.5</b> Vectorize</a></li>
-<li class="chapter" data-level="2.4.6" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#statistiques-marginales"><i class="fa fa-check"></i><b>2.4.6</b> Statistiques marginales</a></li>
-</ul></li>
-<li class="chapter" data-level="2.5" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#sec:cpp"><i class="fa fa-check"></i><b>2.5</b> Code C++</a></li>
-<li class="chapter" data-level="2.6" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#paralléliser-r"><i class="fa fa-check"></i><b>2.6</b> Paralléliser R</a>
-<ul>
-<li class="chapter" data-level="2.6.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#mclapply-fork"><i class="fa fa-check"></i><b>2.6.1</b> mclapply (fork)</a></li>
-<li class="chapter" data-level="2.6.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#parlapply-socket"><i class="fa fa-check"></i><b>2.6.2</b> parLapply (socket)</a></li>
-<li class="chapter" data-level="2.6.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#foreach"><i class="fa fa-check"></i><b>2.6.3</b> foreach</a></li>
-</ul></li>
-<li class="chapter" data-level="2.7" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#sec:cas"><i class="fa fa-check"></i><b>2.7</b> Etude de cas</a>
-<ul>
-<li class="chapter" data-level="2.7.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#création-des-données"><i class="fa fa-check"></i><b>2.7.1</b> Création des données</a></li>
-<li class="chapter" data-level="2.7.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#spatstat"><i class="fa fa-check"></i><b>2.7.2</b> Spatstat</a></li>
-<li class="chapter" data-level="2.7.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#apply"><i class="fa fa-check"></i><b>2.7.3</b> apply</a></li>
-<li class="chapter" data-level="2.7.4" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#boucle-for"><i class="fa fa-check"></i><b>2.7.4</b> boucle for</a></li>
-<li class="chapter" data-level="2.7.5" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#boucle-foreach"><i class="fa fa-check"></i><b>2.7.5</b> boucle foreach</a></li>
-<li class="chapter" data-level="2.7.6" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#rcpp"><i class="fa fa-check"></i><b>2.7.6</b> RCpp</a></li>
-<li class="chapter" data-level="2.7.7" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#rcppparallel"><i class="fa fa-check"></i><b>2.7.7</b> RcppParallel</a></li>
-<li class="chapter" data-level="2.7.8" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#conclusions-sur-loptimisation-de-la-vitesse-du-code"><i class="fa fa-check"></i><b>2.7.8</b> Conclusions sur l’optimisation de la vitesse du code</a></li>
-</ul></li>
-<li class="chapter" data-level="2.8" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#sec:targets"><i class="fa fa-check"></i><b>2.8</b> Flux de travail</a>
-<ul>
-<li class="chapter" data-level="2.8.1" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#principe-de-fonctionnement"><i class="fa fa-check"></i><b>2.8.1</b> Principe de fonctionnement</a></li>
-<li class="chapter" data-level="2.8.2" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#exemple-minimal"><i class="fa fa-check"></i><b>2.8.2</b> Exemple minimal</a></li>
-<li class="chapter" data-level="2.8.3" data-path="chap-utiliseR.html"><a href="chap-utiliseR.html#intérêt-pratique"><i class="fa fa-check"></i><b>2.8.3</b> Intérêt pratique</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="chap-git.html"><a href="chap-git.html"><i class="fa fa-check"></i><b>3</b> Git et GitHub</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="chap-git.html"><a href="chap-git.html#sec:principes-git"><i class="fa fa-check"></i><b>3.1</b> Principes</a>
-<ul>
-<li class="chapter" data-level="3.1.1" data-path="chap-git.html"><a href="chap-git.html#sec:git-cds"><i class="fa fa-check"></i><b>3.1.1</b> Contrôle de source</a></li>
-<li class="chapter" data-level="3.1.2" data-path="chap-git.html"><a href="chap-git.html#git-et-github-1"><i class="fa fa-check"></i><b>3.1.2</b> git et GitHub</a></li>
-</ul></li>
-<li class="chapter" data-level="3.2" data-path="chap-git.html"><a href="chap-git.html#sec:creerdepot"><i class="fa fa-check"></i><b>3.2</b> Créer un nouveau dépôt</a>
-<ul>
-<li class="chapter" data-level="3.2.1" data-path="chap-git.html"><a href="chap-git.html#a-partir-dun-projet-existant"><i class="fa fa-check"></i><b>3.2.1</b> A partir d’un projet existant</a></li>
-<li class="chapter" data-level="3.2.2" data-path="chap-git.html"><a href="chap-git.html#prendre-en-compte-des-fichiers"><i class="fa fa-check"></i><b>3.2.2</b> Prendre en compte des fichiers</a></li>
-<li class="chapter" data-level="3.2.3" data-path="chap-git.html"><a href="chap-git.html#valider-des-modifications"><i class="fa fa-check"></i><b>3.2.3</b> Valider des modifications</a></li>
-<li class="chapter" data-level="3.2.4" data-path="chap-git.html"><a href="chap-git.html#créer-un-dépôt-vide-sur-github"><i class="fa fa-check"></i><b>3.2.4</b> Créer un dépôt vide sur GitHub</a></li>
-<li class="chapter" data-level="3.2.5" data-path="chap-git.html"><a href="chap-git.html#lier-git-et-github"><i class="fa fa-check"></i><b>3.2.5</b> Lier git et GitHub</a></li>
-<li class="chapter" data-level="3.2.6" data-path="chap-git.html"><a href="chap-git.html#pousser-les-premières-modifications"><i class="fa fa-check"></i><b>3.2.6</b> Pousser les premières modifications</a></li>
-<li class="chapter" data-level="3.2.7" data-path="chap-git.html"><a href="chap-git.html#cloner-un-dépôt-de-github"><i class="fa fa-check"></i><b>3.2.7</b> Cloner un dépôt de GitHub</a></li>
-</ul></li>
-<li class="chapter" data-level="3.3" data-path="chap-git.html"><a href="chap-git.html#usage-courant"><i class="fa fa-check"></i><b>3.3</b> Usage courant</a>
-<ul>
-<li class="chapter" data-level="3.3.1" data-path="chap-git.html"><a href="chap-git.html#tirer-modifier-valider-pousser"><i class="fa fa-check"></i><b>3.3.1</b> Tirer, modifier, valider, pousser</a></li>
-<li class="chapter" data-level="3.3.2" data-path="chap-git.html"><a href="chap-git.html#régler-les-conflits"><i class="fa fa-check"></i><b>3.3.2</b> Régler les conflits</a></li>
-<li class="chapter" data-level="3.3.3" data-path="chap-git.html"><a href="chap-git.html#voir-les-différences"><i class="fa fa-check"></i><b>3.3.3</b> Voir les différences</a></li>
-<li class="chapter" data-level="3.3.4" data-path="chap-git.html"><a href="chap-git.html#revenir-en-arrière"><i class="fa fa-check"></i><b>3.3.4</b> Revenir en arrière</a></li>
-<li class="chapter" data-level="3.3.5" data-path="chap-git.html"><a href="chap-git.html#voir-lhistorique"><i class="fa fa-check"></i><b>3.3.5</b> Voir l’historique</a></li>
-</ul></li>
-<li class="chapter" data-level="3.4" data-path="chap-git.html"><a href="chap-git.html#sec:branches"><i class="fa fa-check"></i><b>3.4</b> Branches</a>
-<ul>
-<li class="chapter" data-level="3.4.1" data-path="chap-git.html"><a href="chap-git.html#créer-une-nouvelle-branche"><i class="fa fa-check"></i><b>3.4.1</b> Créer une nouvelle branche</a></li>
-<li class="chapter" data-level="3.4.2" data-path="chap-git.html"><a href="chap-git.html#changer-de-branche"><i class="fa fa-check"></i><b>3.4.2</b> Changer de branche</a></li>
-<li class="chapter" data-level="3.4.3" data-path="chap-git.html"><a href="chap-git.html#pousser-la-nouvelle-branche"><i class="fa fa-check"></i><b>3.4.3</b> Pousser la nouvelle branche</a></li>
-<li class="chapter" data-level="3.4.4" data-path="chap-git.html"><a href="chap-git.html#comportement-du-système-de-fichier"><i class="fa fa-check"></i><b>3.4.4</b> Comportement du système de fichier</a></li>
-<li class="chapter" data-level="3.4.5" data-path="chap-git.html"><a href="chap-git.html#fusionner-avec-merge"><i class="fa fa-check"></i><b>3.4.5</b> Fusionner avec <code>merge</code></a></li>
-<li class="chapter" data-level="3.4.6" data-path="chap-git.html"><a href="chap-git.html#fusionner-avec-une-requête-de-tirage"><i class="fa fa-check"></i><b>3.4.6</b> Fusionner avec une requête de tirage</a></li>
-</ul></li>
-<li class="chapter" data-level="3.5" data-path="chap-git.html"><a href="chap-git.html#usage-avancé"><i class="fa fa-check"></i><b>3.5</b> Usage avancé</a>
-<ul>
-<li class="chapter" data-level="3.5.1" data-path="chap-git.html"><a href="chap-git.html#commandes-de-git"><i class="fa fa-check"></i><b>3.5.1</b> Commandes de git</a></li>
-<li class="chapter" data-level="3.5.2" data-path="chap-git.html"><a href="chap-git.html#taille-dun-dépôt"><i class="fa fa-check"></i><b>3.5.2</b> Taille d’un dépôt</a></li>
-<li class="chapter" data-level="3.5.3" data-path="chap-git.html"><a href="chap-git.html#supprimer-un-dossier"><i class="fa fa-check"></i><b>3.5.3</b> Supprimer un dossier</a></li>
-<li class="chapter" data-level="3.5.4" data-path="chap-git.html"><a href="chap-git.html#revenir-en-arrière-1"><i class="fa fa-check"></i><b>3.5.4</b> Revenir en arrière</a></li>
-</ul></li>
-<li class="chapter" data-level="3.6" data-path="chap-git.html"><a href="chap-git.html#sec:confidentiel"><i class="fa fa-check"></i><b>3.6</b> Données confidentielles dans un dépôt public</a>
-<ul>
-<li class="chapter" data-level="3.6.1" data-path="chap-git.html"><a href="chap-git.html#génération-dune-paire-de-clés-pour-le-propriétaire-du-projet"><i class="fa fa-check"></i><b>3.6.1</b> Génération d’une paire de clés pour le propriétaire du projet</a></li>
-<li class="chapter" data-level="3.6.2" data-path="chap-git.html"><a href="chap-git.html#génération-dune-paire-de-clés-pour-le-projet"><i class="fa fa-check"></i><b>3.6.2</b> Génération d’une paire de clés pour le projet</a></li>
-<li class="chapter" data-level="3.6.3" data-path="chap-git.html"><a href="chap-git.html#création-dun-coffre-fort"><i class="fa fa-check"></i><b>3.6.3</b> Création d’un coffre-fort</a></li>
-<li class="chapter" data-level="3.6.4" data-path="chap-git.html"><a href="chap-git.html#ajout-des-utilisateurs"><i class="fa fa-check"></i><b>3.6.4</b> Ajout des utilisateurs</a></li>
-<li class="chapter" data-level="3.6.5" data-path="chap-git.html"><a href="chap-git.html#stockage-des-données"><i class="fa fa-check"></i><b>3.6.5</b> Stockage des données</a></li>
-</ul></li>
-<li class="chapter" data-level="3.7" data-path="chap-git.html"><a href="chap-git.html#sec:github-pages"><i class="fa fa-check"></i><b>3.7</b> Pages GitHub</a>
-<ul>
-<li class="chapter" data-level="3.7.1" data-path="chap-git.html"><a href="chap-git.html#activation"><i class="fa fa-check"></i><b>3.7.1</b> Activation</a></li>
-<li class="chapter" data-level="3.7.2" data-path="chap-git.html"><a href="chap-git.html#badges"><i class="fa fa-check"></i><b>3.7.2</b> Badges</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="chap-rediger.html"><a href="chap-rediger.html"><i class="fa fa-check"></i><b>4</b> Rédiger</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="chap-rediger.html"><a href="chap-rediger.html#bloc-note-markdown-r-notebook"><i class="fa fa-check"></i><b>4.1</b> Bloc-note Markdown (R Notebook)</a></li>
-<li class="chapter" data-level="4.2" data-path="chap-rediger.html"><a href="chap-rediger.html#modèles-r-markdown"><i class="fa fa-check"></i><b>4.2</b> Modèles R Markdown</a></li>
-<li class="chapter" data-level="4.3" data-path="chap-rediger.html"><a href="chap-rediger.html#articles-avec-bookdown"><i class="fa fa-check"></i><b>4.3</b> Articles avec bookdown</a>
-<ul>
-<li class="chapter" data-level="4.3.1" data-path="chap-rediger.html"><a href="chap-rediger.html#ecrire"><i class="fa fa-check"></i><b>4.3.1</b> Ecrire</a></li>
-<li class="chapter" data-level="4.3.2" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:memo"><i class="fa fa-check"></i><b>4.3.2</b> Modèle Simple Article</a></li>
-<li class="chapter" data-level="4.3.3" data-path="chap-rediger.html"><a href="chap-rediger.html#autres-modèles"><i class="fa fa-check"></i><b>4.3.3</b> Autres modèles</a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="chap-rediger.html"><a href="chap-rediger.html#présentation-beamer"><i class="fa fa-check"></i><b>4.4</b> Présentation Beamer</a></li>
-<li class="chapter" data-level="4.5" data-path="chap-rediger.html"><a href="chap-rediger.html#memoir"><i class="fa fa-check"></i><b>4.5</b> memoir</a>
-<ul>
-<li class="chapter" data-level="4.5.1" data-path="chap-rediger.html"><a href="chap-rediger.html#créer-1"><i class="fa fa-check"></i><b>4.5.1</b> Créer</a></li>
-<li class="chapter" data-level="4.5.2" data-path="chap-rediger.html"><a href="chap-rediger.html#ecrire-2"><i class="fa fa-check"></i><b>4.5.2</b> Ecrire</a></li>
-<li class="chapter" data-level="4.5.3" data-path="chap-rediger.html"><a href="chap-rediger.html#tricoter-1"><i class="fa fa-check"></i><b>4.5.3</b> Tricoter</a></li>
-<li class="chapter" data-level="4.5.4" data-path="chap-rediger.html"><a href="chap-rediger.html#finitions"><i class="fa fa-check"></i><b>4.5.4</b> Finitions</a></li>
-<li class="chapter" data-level="4.5.5" data-path="chap-rediger.html"><a href="chap-rediger.html#site-gitbook"><i class="fa fa-check"></i><b>4.5.5</b> Site gitbook</a></li>
-<li class="chapter" data-level="4.5.6" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:rediger-ouvrage-ci"><i class="fa fa-check"></i><b>4.5.6</b> Intégration continue</a></li>
-<li class="chapter" data-level="4.5.7" data-path="chap-rediger.html"><a href="chap-rediger.html#google-analytics"><i class="fa fa-check"></i><b>4.5.7</b> Google Analytics</a></li>
-</ul></li>
-<li class="chapter" data-level="4.6" data-path="chap-rediger.html"><a href="chap-rediger.html#site-web-r-markdown"><i class="fa fa-check"></i><b>4.6</b> Site web R Markdown</a>
-<ul>
-<li class="chapter" data-level="4.6.1" data-path="chap-rediger.html"><a href="chap-rediger.html#modèle"><i class="fa fa-check"></i><b>4.6.1</b> Modèle</a></li>
-<li class="chapter" data-level="4.6.2" data-path="chap-rediger.html"><a href="chap-rediger.html#améliorations"><i class="fa fa-check"></i><b>4.6.2</b> Améliorations</a></li>
-<li class="chapter" data-level="4.6.3" data-path="chap-rediger.html"><a href="chap-rediger.html#contôle-de-source"><i class="fa fa-check"></i><b>4.6.3</b> Contôle de source</a></li>
-</ul></li>
-<li class="chapter" data-level="4.7" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:blogdown"><i class="fa fa-check"></i><b>4.7</b> Site web personnel : blogdown</a>
-<ul>
-<li class="chapter" data-level="4.7.1" data-path="chap-rediger.html"><a href="chap-rediger.html#installation-des-outils"><i class="fa fa-check"></i><b>4.7.1</b> Installation des outils</a></li>
-<li class="chapter" data-level="4.7.2" data-path="chap-rediger.html"><a href="chap-rediger.html#créer-2"><i class="fa fa-check"></i><b>4.7.2</b> Créer</a></li>
-<li class="chapter" data-level="4.7.3" data-path="chap-rediger.html"><a href="chap-rediger.html#construction-du-site"><i class="fa fa-check"></i><b>4.7.3</b> Construction du site</a></li>
-<li class="chapter" data-level="4.7.4" data-path="chap-rediger.html"><a href="chap-rediger.html#site-multilingue"><i class="fa fa-check"></i><b>4.7.4</b> Site multilingue</a></li>
-<li class="chapter" data-level="4.7.5" data-path="chap-rediger.html"><a href="chap-rediger.html#paramétrer"><i class="fa fa-check"></i><b>4.7.5</b> Paramétrer</a></li>
-<li class="chapter" data-level="4.7.6" data-path="chap-rediger.html"><a href="chap-rediger.html#ecrire-3"><i class="fa fa-check"></i><b>4.7.6</b> Ecrire</a></li>
-<li class="chapter" data-level="4.7.7" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:rediger-web-ci"><i class="fa fa-check"></i><b>4.7.7</b> Intégration continue</a></li>
-<li class="chapter" data-level="4.7.8" data-path="chap-rediger.html"><a href="chap-rediger.html#mises-à-jour-1"><i class="fa fa-check"></i><b>4.7.8</b> Mises à jour</a></li>
-</ul></li>
-<li class="chapter" data-level="4.8" data-path="chap-rediger.html"><a href="chap-rediger.html#exportation-de-figures"><i class="fa fa-check"></i><b>4.8</b> Exportation de figures</a>
-<ul>
-<li class="chapter" data-level="4.8.1" data-path="chap-rediger.html"><a href="chap-rediger.html#formats-vectoriels-et-raster"><i class="fa fa-check"></i><b>4.8.1</b> Formats vectoriels et raster</a></li>
-<li class="chapter" data-level="4.8.2" data-path="chap-rediger.html"><a href="chap-rediger.html#fonctions"><i class="fa fa-check"></i><b>4.8.2</b> Fonctions</a></li>
-<li class="chapter" data-level="4.8.3" data-path="chap-rediger.html"><a href="chap-rediger.html#package-ragg"><i class="fa fa-check"></i><b>4.8.3</b> Package ragg</a></li>
-</ul></li>
-<li class="chapter" data-level="4.9" data-path="chap-rediger.html"><a href="chap-rediger.html#sec:targetsmd"><i class="fa fa-check"></i><b>4.9</b> Flux de travail</a>
-<ul>
-<li class="chapter" data-level="4.9.1" data-path="chap-rediger.html"><a href="chap-rediger.html#déclaration-du-flux"><i class="fa fa-check"></i><b>4.9.1</b> Déclaration du flux</a></li>
-<li class="chapter" data-level="4.9.2" data-path="chap-rediger.html"><a href="chap-rediger.html#déclaration-des-cibles"><i class="fa fa-check"></i><b>4.9.2</b> Déclaration des cibles</a></li>
-<li class="chapter" data-level="4.9.3" data-path="chap-rediger.html"><a href="chap-rediger.html#exécution-du-flux"><i class="fa fa-check"></i><b>4.9.3</b> Exécution du flux</a></li>
-<li class="chapter" data-level="4.9.4" data-path="chap-rediger.html"><a href="chap-rediger.html#utilisation-des-résultats"><i class="fa fa-check"></i><b>4.9.4</b> Utilisation des résultats</a></li>
-<li class="chapter" data-level="4.9.5" data-path="chap-rediger.html"><a href="chap-rediger.html#contrôle-de-source"><i class="fa fa-check"></i><b>4.9.5</b> Contrôle de source</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="chap-package.html"><a href="chap-package.html"><i class="fa fa-check"></i><b>5</b> Package</a>
-<ul>
-<li class="chapter" data-level="5.1" data-path="chap-package.html"><a href="chap-package.html#premier-package"><i class="fa fa-check"></i><b>5.1</b> Premier package</a>
-<ul>
-<li class="chapter" data-level="5.1.1" data-path="chap-package.html"><a href="chap-package.html#création"><i class="fa fa-check"></i><b>5.1.1</b> Création</a></li>
-<li class="chapter" data-level="5.1.2" data-path="chap-package.html"><a href="chap-package.html#première-fonction"><i class="fa fa-check"></i><b>5.1.2</b> Première fonction</a></li>
-<li class="chapter" data-level="5.1.3" data-path="chap-package.html"><a href="chap-package.html#sec:package-cds"><i class="fa fa-check"></i><b>5.1.3</b> Contrôle de source</a></li>
-<li class="chapter" data-level="5.1.4" data-path="chap-package.html"><a href="chap-package.html#package.r"><i class="fa fa-check"></i><b>5.1.4</b> package.R</a></li>
-</ul></li>
-<li class="chapter" data-level="5.2" data-path="chap-package.html"><a href="chap-package.html#organisation-du-package"><i class="fa fa-check"></i><b>5.2</b> Organisation du package</a>
-<ul>
-<li class="chapter" data-level="5.2.1" data-path="chap-package.html"><a href="chap-package.html#sec:package-description"><i class="fa fa-check"></i><b>5.2.1</b> Fichier DESCRIPTION</a></li>
-<li class="chapter" data-level="5.2.2" data-path="chap-package.html"><a href="chap-package.html#fichier-news.md"><i class="fa fa-check"></i><b>5.2.2</b> Fichier NEWS.md</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="chap-package.html"><a href="chap-package.html#vignette"><i class="fa fa-check"></i><b>5.3</b> Vignette</a></li>
-<li class="chapter" data-level="5.4" data-path="chap-package.html"><a href="chap-package.html#pkgdown"><i class="fa fa-check"></i><b>5.4</b> pkgdown</a></li>
-<li class="chapter" data-level="5.5" data-path="chap-package.html"><a href="chap-package.html#code-spécifique-aux-packages"><i class="fa fa-check"></i><b>5.5</b> Code spécifique aux packages</a>
-<ul>
-<li class="chapter" data-level="5.5.1" data-path="chap-package.html"><a href="chap-package.html#importation-de-fonctions"><i class="fa fa-check"></i><b>5.5.1</b> Importation de fonctions</a></li>
-<li class="chapter" data-level="5.5.2" data-path="chap-package.html"><a href="chap-package.html#méthodes-s3"><i class="fa fa-check"></i><b>5.5.2</b> Méthodes S3</a></li>
-<li class="chapter" data-level="5.5.3" data-path="chap-package.html"><a href="chap-package.html#en-pratique"><i class="fa fa-check"></i><b>5.5.3</b> En pratique</a></li>
-<li class="chapter" data-level="5.5.4" data-path="chap-package.html"><a href="chap-package.html#code-c"><i class="fa fa-check"></i><b>5.5.4</b> Code C++</a></li>
-<li class="chapter" data-level="5.5.5" data-path="chap-package.html"><a href="chap-package.html#package-bien-rangé"><i class="fa fa-check"></i><b>5.5.5</b> Package bien rangé</a></li>
-</ul></li>
-<li class="chapter" data-level="5.6" data-path="chap-package.html"><a href="chap-package.html#bibliographie-1"><i class="fa fa-check"></i><b>5.6</b> Bibliographie</a>
-<ul>
-<li class="chapter" data-level="5.6.1" data-path="chap-package.html"><a href="chap-package.html#préparation"><i class="fa fa-check"></i><b>5.6.1</b> Préparation</a></li>
-<li class="chapter" data-level="5.6.2" data-path="chap-package.html"><a href="chap-package.html#citations"><i class="fa fa-check"></i><b>5.6.2</b> Citations</a></li>
-</ul></li>
-<li class="chapter" data-level="5.7" data-path="chap-package.html"><a href="chap-package.html#données"><i class="fa fa-check"></i><b>5.7</b> Données</a></li>
-<li class="chapter" data-level="5.8" data-path="chap-package.html"><a href="chap-package.html#tests-unitaires"><i class="fa fa-check"></i><b>5.8</b> Tests unitaires</a></li>
-<li class="chapter" data-level="5.9" data-path="chap-package.html"><a href="chap-package.html#fichier-.gitignore"><i class="fa fa-check"></i><b>5.9</b> Fichier .gitignore</a></li>
-<li class="chapter" data-level="5.10" data-path="chap-package.html"><a href="chap-package.html#sec:package-ci5"><i class="fa fa-check"></i><b>5.10</b> Intégration continue</a></li>
-<li class="chapter" data-level="5.11" data-path="chap-package.html"><a href="chap-package.html#sec:package-cran"><i class="fa fa-check"></i><b>5.11</b> CRAN</a>
-<ul>
-<li class="chapter" data-level="5.11.1" data-path="chap-package.html"><a href="chap-package.html#test-du-package"><i class="fa fa-check"></i><b>5.11.1</b> Test du package</a></li>
-<li class="chapter" data-level="5.11.2" data-path="chap-package.html"><a href="chap-package.html#soumission"><i class="fa fa-check"></i><b>5.11.2</b> Soumission</a></li>
-<li class="chapter" data-level="5.11.3" data-path="chap-package.html"><a href="chap-package.html#maintenance"><i class="fa fa-check"></i><b>5.11.3</b> Maintenance</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="chap-ci.html"><a href="chap-ci.html"><i class="fa fa-check"></i><b>6</b> Intégration continue</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="chap-ci.html"><a href="chap-ci.html#outils"><i class="fa fa-check"></i><b>6.1</b> Outils</a>
-<ul>
-<li class="chapter" data-level="6.1.1" data-path="chap-ci.html"><a href="chap-ci.html#github-actions"><i class="fa fa-check"></i><b>6.1.1</b> GitHub Actions</a></li>
-<li class="chapter" data-level="6.1.2" data-path="chap-ci.html"><a href="chap-ci.html#codecov"><i class="fa fa-check"></i><b>6.1.2</b> Codecov</a></li>
-<li class="chapter" data-level="6.1.3" data-path="chap-ci.html"><a href="chap-ci.html#github-pages"><i class="fa fa-check"></i><b>6.1.3</b> GitHub Pages</a></li>
-</ul></li>
-<li class="chapter" data-level="6.2" data-path="chap-ci.html"><a href="chap-ci.html#principes"><i class="fa fa-check"></i><b>6.2</b> Principes</a>
-<ul>
-<li class="chapter" data-level="6.2.1" data-path="chap-ci.html"><a href="chap-ci.html#obtention-dun-jeton-daccès-personnel"><i class="fa fa-check"></i><b>6.2.1</b> Obtention d’un jeton d’accès personnel</a></li>
-<li class="chapter" data-level="6.2.2" data-path="chap-ci.html"><a href="chap-ci.html#sec:secrets-ci"><i class="fa fa-check"></i><b>6.2.2</b> Secrets du projet</a></li>
-<li class="chapter" data-level="6.2.3" data-path="chap-ci.html"><a href="chap-ci.html#activation-du-dépôt-sur-codecov"><i class="fa fa-check"></i><b>6.2.3</b> Activation du dépôt sur CodeCov</a></li>
-<li class="chapter" data-level="6.2.4" data-path="chap-ci.html"><a href="chap-ci.html#scripter-les-actions-de-github"><i class="fa fa-check"></i><b>6.2.4</b> Scripter les actions de GitHub</a></li>
-<li class="chapter" data-level="6.2.5" data-path="chap-ci.html"><a href="chap-ci.html#sec:confidentielCI"><i class="fa fa-check"></i><b>6.2.5</b> Données confidentielles dans un dépôt public</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="chap-ci.html"><a href="chap-ci.html#modèles-de-scripts"><i class="fa fa-check"></i><b>6.3</b> Modèles de scripts</a>
-<ul>
-<li class="chapter" data-level="6.3.1" data-path="chap-ci.html"><a href="chap-ci.html#sec:memoiR-ci"><i class="fa fa-check"></i><b>6.3.1</b> memoiR</a></li>
-<li class="chapter" data-level="6.3.2" data-path="chap-ci.html"><a href="chap-ci.html#sec:bookdown-ci"><i class="fa fa-check"></i><b>6.3.2</b> Projet d’ouvrage</a></li>
-<li class="chapter" data-level="6.3.3" data-path="chap-ci.html"><a href="chap-ci.html#articles-et-présentations"><i class="fa fa-check"></i><b>6.3.3</b> Articles et présentations</a></li>
-<li class="chapter" data-level="6.3.4" data-path="chap-ci.html"><a href="chap-ci.html#sec:blogdown-ci"><i class="fa fa-check"></i><b>6.3.4</b> Site web blogdown</a></li>
-<li class="chapter" data-level="6.3.5" data-path="chap-ci.html"><a href="chap-ci.html#sec:package-ci6"><i class="fa fa-check"></i><b>6.3.5</b> Packages R</a></li>
-</ul></li>
-<li class="chapter" data-level="6.4" data-path="chap-ci.html"><a href="chap-ci.html#sec:ci-badges"><i class="fa fa-check"></i><b>6.4</b> Ajouter des badges</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="chap-shiny.html"><a href="chap-shiny.html"><i class="fa fa-check"></i><b>7</b> Shiny</a>
-<ul>
-<li class="chapter" data-level="7.1" data-path="chap-shiny.html"><a href="chap-shiny.html#première-application"><i class="fa fa-check"></i><b>7.1</b> Première application</a></li>
-<li class="chapter" data-level="7.2" data-path="chap-shiny.html"><a href="chap-shiny.html#application-plus-élaborée"><i class="fa fa-check"></i><b>7.2</b> Application plus élaborée</a>
-<ul>
-<li class="chapter" data-level="7.2.1" data-path="chap-shiny.html"><a href="chap-shiny.html#méthode-de-travail"><i class="fa fa-check"></i><b>7.2.1</b> Méthode de travail</a></li>
-<li class="chapter" data-level="7.2.2" data-path="chap-shiny.html"><a href="chap-shiny.html#exemple"><i class="fa fa-check"></i><b>7.2.2</b> Exemple</a></li>
-</ul></li>
-<li class="chapter" data-level="7.3" data-path="chap-shiny.html"><a href="chap-shiny.html#sec:hebergement-shiny"><i class="fa fa-check"></i><b>7.3</b> Hébergement</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="chap-enseigner.html"><a href="chap-enseigner.html"><i class="fa fa-check"></i><b>8</b> Enseigner avec R</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="chap-enseigner.html"><a href="chap-enseigner.html#learnr"><i class="fa fa-check"></i><b>8.1</b> learnr</a>
-<ul>
-<li class="chapter" data-level="8.1.1" data-path="chap-enseigner.html"><a href="chap-enseigner.html#premier-tutoriel"><i class="fa fa-check"></i><b>8.1.1</b> Premier tutoriel</a></li>
-<li class="chapter" data-level="8.1.2" data-path="chap-enseigner.html"><a href="chap-enseigner.html#diffusion"><i class="fa fa-check"></i><b>8.1.2</b> Diffusion</a></li>
-</ul></li>
-<li class="chapter" data-level="8.2" data-path="chap-enseigner.html"><a href="chap-enseigner.html#github-classrooms"><i class="fa fa-check"></i><b>8.2</b> GitHub Classrooms</a>
-<ul>
-<li class="chapter" data-level="8.2.1" data-path="chap-enseigner.html"><a href="chap-enseigner.html#inscription"><i class="fa fa-check"></i><b>8.2.1</b> Inscription</a></li>
-<li class="chapter" data-level="8.2.2" data-path="chap-enseigner.html"><a href="chap-enseigner.html#organisations"><i class="fa fa-check"></i><b>8.2.2</b> Organisations</a></li>
-<li class="chapter" data-level="8.2.3" data-path="chap-enseigner.html"><a href="chap-enseigner.html#nouvelle-salle-de-classe"><i class="fa fa-check"></i><b>8.2.3</b> Nouvelle salle de classe</a></li>
-<li class="chapter" data-level="8.2.4" data-path="chap-enseigner.html"><a href="chap-enseigner.html#préparer-un-modèle-de-dépôt"><i class="fa fa-check"></i><b>8.2.4</b> Préparer un modèle de dépôt</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="chap-conclusion.html"><a href="chap-conclusion.html"><i class="fa fa-check"></i><b>9</b> Conclusion</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="divider"></li>
-<li>
-  <a href="https://github.com/EricMarcon/travailleR" target="blank">
-    Hébergé sur GitHub, publié par bookdown
-  </a>
-</li>
-
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Travailler avec R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Travailler avec R</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Présentation</a></li>
+<li><a class="" href="chap-logiciels.html"><span class="header-section-number">1</span> Logiciels</a></li>
+<li><a class="" href="chap-utiliseR.html"><span class="header-section-number">2</span> Utiliser R</a></li>
+<li><a class="" href="chap-git.html"><span class="header-section-number">3</span> Git et GitHub</a></li>
+<li><a class="" href="chap-rediger.html"><span class="header-section-number">4</span> Rédiger</a></li>
+<li><a class="" href="chap-package.html"><span class="header-section-number">5</span> Package</a></li>
+<li><a class="active" href="chap-ci.html"><span class="header-section-number">6</span> Intégration continue</a></li>
+<li><a class="" href="chap-shiny.html"><span class="header-section-number">7</span> Shiny</a></li>
+<li><a class="" href="chap-enseigner.html"><span class="header-section-number">8</span> Enseigner avec R</a></li>
+<li><a class="" href="chap-conclusion.html"><span class="header-section-number">9</span> Conclusion</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/EricMarcon/travailleR">View book source <i class="fab fa-github"></i></a></p>
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="chap-ci" class="section level1 hasAnchor" number="6">
-<h1><span class="header-section-number">6</span> Intégration continue<a href="chap-ci.html#chap-ci" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="chap-ci" class="section level1" number="6">
+<h1>
+<span class="header-section-number">6</span> Intégration continue<a class="anchor" aria-label="anchor" href="#chap-ci"><i class="fas fa-link"></i></a>
+</h1>
 <p>L’intégration continue consiste à confier à un service externe la tâche de vérifier un package, produire des documents Markdown pour les pages web d’un dépôt GitHub ou tricoter entièrement un site web à partir du code.</p>
 <p>Toutes ces tâches peuvent être accomplies localement sur le poste de travail mais prennent du temps et risquent de ne pas être répétées à chaque mise à jour.
 Dans le cadre de l’intégration continue, elles le sont systématiquement, de façon transparente pour l’utilisateur.
 En cas d’échec, un message d’alerte est envoyé.</p>
 <p>La mise en place de l’intégration continue se justifie pour des projets lourds, avec des mises à jour régulières.
 plutôt que pour des projets contenant un simple document Markdown rarement modifié.</p>
-<div id="outils" class="section level2 hasAnchor" number="6.1">
-<h2><span class="header-section-number">6.1</span> Outils<a href="chap-ci.html#outils" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="github-actions" class="section level3 hasAnchor" number="6.1.1">
-<h3><span class="header-section-number">6.1.1</span> GitHub Actions<a href="chap-ci.html#github-actions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>L’outil utilisé le plus fréquemment pour des projets R déposés sur GitHub était <em>Travis CI</em><a href="#fn103" class="footnote-ref" id="fnref103"><sup>103</sup></a> mais le service est devenu payant en 2021.</p>
+<div id="outils" class="section level2" number="6.1">
+<h2>
+<span class="header-section-number">6.1</span> Outils<a class="anchor" aria-label="anchor" href="#outils"><i class="fas fa-link"></i></a>
+</h2>
+<div id="github-actions" class="section level3" number="6.1.1">
+<h3>
+<span class="header-section-number">6.1.1</span> GitHub Actions<a class="anchor" aria-label="anchor" href="#github-actions"><i class="fas fa-link"></i></a>
+</h3>
+<p>L’outil utilisé le plus fréquemment pour des projets R déposés sur GitHub était <em>Travis CI</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://travis-ci.org/" class="uri"&gt;https://travis-ci.org/&lt;/a&gt;&lt;/p&gt;'><sup>103</sup></a> mais le service est devenu payant en 2021.</p>
 <p>Les Actions GitHub remplacent avantageusement Travis.
 Ce service est intégré à GitHub.</p>
 </div>
-<div id="codecov" class="section level3 hasAnchor" number="6.1.2">
-<h3><span class="header-section-number">6.1.2</span> Codecov<a href="chap-ci.html#codecov" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Pour évaluer le taux de couverture du code des packages R, c’est-à-dire la proportion du code testé d’une façon ou d’une autre (exemples, tests unitaires, vignette), le service <em>Codecov</em><a href="#fn104" class="footnote-ref" id="fnref104"><sup>104</sup></a> s’intègre parfaitement à GitHub.</p>
+<div id="codecov" class="section level3" number="6.1.2">
+<h3>
+<span class="header-section-number">6.1.2</span> Codecov<a class="anchor" aria-label="anchor" href="#codecov"><i class="fas fa-link"></i></a>
+</h3>
+<p>Pour évaluer le taux de couverture du code des packages R, c’est-à-dire la proportion du code testé d’une façon ou d’une autre (exemples, tests unitaires, vignette), le service <em>Codecov</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://codecov.io/" class="uri"&gt;https://codecov.io/&lt;/a&gt;&lt;/p&gt;'><sup>104</sup></a> s’intègre parfaitement à GitHub.</p>
 <p>Il faut ouvrir un compte, de préférence en s’authentifiant par GitHub.</p>
 </div>
-<div id="github-pages" class="section level3 hasAnchor" number="6.1.3">
-<h3><span class="header-section-number">6.1.3</span> GitHub Pages<a href="chap-ci.html#github-pages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="github-pages" class="section level3" number="6.1.3">
+<h3>
+<span class="header-section-number">6.1.3</span> GitHub Pages<a class="anchor" aria-label="anchor" href="#github-pages"><i class="fas fa-link"></i></a>
+</h3>
 <p>Les pages web de GitHub peuvent être hébergées dans le répertoire <code>docs</code> de la branche master du projet: c’est la solution retenue quand elle sont produites sur le poste de travail.</p>
 <p>Si elles sont produites par intégration continue, elle le seront obligatoirement dans une branche dédiée appelée <code>gh-pages</code>.</p>
 </div>
 </div>
-<div id="principes" class="section level2 hasAnchor" number="6.2">
-<h2><span class="header-section-number">6.2</span> Principes<a href="chap-ci.html#principes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="principes" class="section level2" number="6.2">
+<h2>
+<span class="header-section-number">6.2</span> Principes<a class="anchor" aria-label="anchor" href="#principes"><i class="fas fa-link"></i></a>
+</h2>
 <p>Un projet de document est traité en exemple.
 L’objectif est de faire tricoter par GitHub un projet Markdown.
 Cette pratique est appropriée pour les projets d’ouvrages, qui nécessitent beaucoup de ressources pour leur construction.
 Dans ce type de projet, le code est tricoté par <strong>knitr</strong> pour produire plusieurs documents, typiquement aux formats HTML et PDF, accessibles sur les pages GitHub.
 Quand les documents sont produits localement, ils sont placés dans le dossier <code>docs</code> et poussés sur GitHub.</p>
 <p>Pour que GitHub s’en charge, quelques réglages sont nécessaires.</p>
-<div id="obtention-dun-jeton-daccès-personnel" class="section level3 hasAnchor" number="6.2.1">
-<h3><span class="header-section-number">6.2.1</span> Obtention d’un jeton d’accès personnel<a href="chap-ci.html#obtention-dun-jeton-daccès-personnel" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="obtention-dun-jeton-daccès-personnel" class="section level3" number="6.2.1">
+<h3>
+<span class="header-section-number">6.2.1</span> Obtention d’un jeton d’accès personnel<a class="anchor" aria-label="anchor" href="#obtention-dun-jeton-dacc%C3%A8s-personnel"><i class="fas fa-link"></i></a>
+</h3>
 <p>Pour écrire sur GitHub, le service d’intégration continue devra s’authentifier au moyen d’un jeton d’accès personnel (<em>Personal Access Token</em>: PAT) dont la création est décrite en section <a href="chap-logiciels.html#sec:pat">1.4.4</a>.</p>
 <p>Générer un nouveau jeton, le décrire en tant que “GitHub Actions” et lui donner l’autorisation “repo”, c’est-à-dire modifier <em>tous</em> les dépôts (il n’est pas possible de limiter l’accès à un dépôt particulier).</p>
 </div>
-<div id="sec:secrets-ci" class="section level3 hasAnchor" number="6.2.2">
-<h3><span class="header-section-number">6.2.2</span> Secrets du projet<a href="chap-ci.html#sec:secrets-ci" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="sec:secrets-ci" class="section level3" number="6.2.2">
+<h3>
+<span class="header-section-number">6.2.2</span> Secrets du projet<a class="anchor" aria-label="anchor" href="#sec:secrets-ci"><i class="fas fa-link"></i></a>
+</h3>
 <p>Sur GitHub, afficher les paramètres du projet et sélectionner “Secrets”.
 Le bouton “New Repository Secret” permet de stocker des variables utilisées dans les scripts des Actions GitHub (visibles publiquement) sans en diffuser la valeur.
 Le jeton d’accès personnel est indispensable pour que les Actions GitHub puissent écrire leur production dans le projet.
@@ -549,8 +158,10 @@ Créer un secret nommé “GH_PAT” et saisir la valeur du jeton sauvegardée p
 Après avoir cliqué sur “Add Secret”, le jeton ne pourra plus être lu.</p>
 <p>Pour permettre l’envoi de messages de succès ou d’échec sans diffuser son adresse de messagerie, créer un secret nommé “EMAIL” qui la contient.</p>
 </div>
-<div id="activation-du-dépôt-sur-codecov" class="section level3 hasAnchor" number="6.2.3">
-<h3><span class="header-section-number">6.2.3</span> Activation du dépôt sur CodeCov<a href="chap-ci.html#activation-du-dépôt-sur-codecov" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="activation-du-dépôt-sur-codecov" class="section level3" number="6.2.3">
+<h3>
+<span class="header-section-number">6.2.3</span> Activation du dépôt sur CodeCov<a class="anchor" aria-label="anchor" href="#activation-du-d%C3%A9p%C3%B4t-sur-codecov"><i class="fas fa-link"></i></a>
+</h3>
 <p>L’analyse de la couverture du code des packages est utile pour détecter les portions de code non testées.
 En revanche, l’analyse de la couverture des projets de document n’a pas d’intérêt.</p>
 <p>Pour activer un dépôt, il faut d’authentifier sur le site de CodeCov avec son compte GitHub.
@@ -559,16 +170,20 @@ Si les dépôts à traiter sont hébergés par une organisation, par exemple les
 Enfin, quand le dépôt recherché est visible, il faut l’activer.
 Il est inutile d’utiliser le système de jetons de Codecov.</p>
 </div>
-<div id="scripter-les-actions-de-github" class="section level3 hasAnchor" number="6.2.4">
-<h3><span class="header-section-number">6.2.4</span> Scripter les actions de GitHub<a href="chap-ci.html#scripter-les-actions-de-github" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="scripter-les-actions-de-github" class="section level3" number="6.2.4">
+<h3>
+<span class="header-section-number">6.2.4</span> Scripter les actions de GitHub<a class="anchor" aria-label="anchor" href="#scripter-les-actions-de-github"><i class="fas fa-link"></i></a>
+</h3>
 <p>Un flux de travail (<em>workflow</em>) de GitHub est une succession de tâches (<em>jobs</em>) comprenant des étapes (<em>steps</em>).
 Un flux de travail est déclenché par un évènement, généralement chaque <em>push</em> du projet, mais aussi à intervalles réguliers (<em>cron</em>).</p>
 <p>Typiquement, les flux créés ici contiennent deux tâches: la première installe R et les composants nécessaires et exécute des scripts R (ce qui constitue ses étapes successives); la seconde publie des fichiers obtenus dans les pages GitHub.</p>
 <p>Les flux de travail sont configurés dans un fichier au format YAML placé dans le dossier <code>.github/workflows/</code> du projet.
 Les différentes parties du script sont présentées ci-dessous.
-Le script complet est celui de ce document, accessible sur GitHub<a href="#fn105" class="footnote-ref" id="fnref105"><sup>105</sup></a>.</p>
-<div id="sec:declenchement" class="section level4 hasAnchor" number="6.2.4.1">
-<h4><span class="header-section-number">6.2.4.1</span> Déclenchement<a href="chap-ci.html#sec:declenchement" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+Le script complet est celui de ce document, accessible sur GitHub<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/EricMarcon/travailleR/blob/master/.github/workflows/bookdown.yml" class="uri"&gt;https://github.com/EricMarcon/travailleR/blob/master/.github/workflows/bookdown.yml&lt;/a&gt;&lt;/p&gt;'><sup>105</sup></a>.</p>
+<div id="sec:declenchement" class="section level4" number="6.2.4.1">
+<h4>
+<span class="header-section-number">6.2.4.1</span> Déclenchement<a class="anchor" aria-label="anchor" href="#sec:declenchement"><i class="fas fa-link"></i></a>
+</h4>
 <p>L’action est déclenchée à chaque fois que des mises à jour sont poussées sur GitHub:</p>
 <pre><code>on:
   push:
@@ -578,7 +193,7 @@ Le script complet est celui de ce document, accessible sur GitHub<a href="#fn105
 <p>Pour déclencher l’action périodiquement, il faut utiliser la syntaxe de <em>cron</em> (le système de planification des tâches sous Unix):</p>
 <pre><code>on:
   schedule:
-    - cron: &#39;0 22 * * 0&#39;  # every sunday at 22:00</code></pre>
+    - cron: '0 22 * * 0'  # every sunday at 22:00</code></pre>
 <p>Les valeurs successives sont celles des minutes, des heures, du jour (quantième du mois), du mois et du jour de la semaine (0 pour dimanche à 6 pour samedi).
 Les <code>*</code> permettent d’ignorer une valeur.</p>
 <p>Les entrées <code>push</code> et <code>schedule</code> peuvent être utilisées ensemble:</p>
@@ -587,17 +202,21 @@ Les <code>*</code> permettent d’ignorer une valeur.</p>
      branches:
        - master
   schedule:
-    - cron: &#39;0 22 * * 0&#39;</code></pre>
+    - cron: '0 22 * * 0'</code></pre>
 <p>Actuellement, la planification n’est prise en compte que dans la branche <em>master</em>.</p>
 </div>
-<div id="nom-du-flux-de-travail" class="section level4 hasAnchor" number="6.2.4.2">
-<h4><span class="header-section-number">6.2.4.2</span> Nom du flux de travail<a href="chap-ci.html#nom-du-flux-de-travail" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="nom-du-flux-de-travail" class="section level4" number="6.2.4.2">
+<h4>
+<span class="header-section-number">6.2.4.2</span> Nom du flux de travail<a class="anchor" aria-label="anchor" href="#nom-du-flux-de-travail"><i class="fas fa-link"></i></a>
+</h4>
 <p>Le nom du flux est libre.
 Il sera affiché par le badge qui sera ajouté dans le fichier <code>README.md</code> du projet (voir section <a href="chap-ci.html#sec:ci-badges">6.4</a>).</p>
 <pre><code>name: bookdown</code></pre>
 </div>
-<div id="première-tâche" class="section level4 hasAnchor" number="6.2.4.3">
-<h4><span class="header-section-number">6.2.4.3</span> Première tâche<a href="chap-ci.html#première-tâche" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="première-tâche" class="section level4" number="6.2.4.3">
+<h4>
+<span class="header-section-number">6.2.4.3</span> Première tâche<a class="anchor" aria-label="anchor" href="#premi%C3%A8re-t%C3%A2che"><i class="fas fa-link"></i></a>
+</h4>
 <p>Les tâches sont décrites dans la rubrique <code>jobs</code>.
 <code>renderbook</code> est le nom de la première tâche: il est libre.
 Ici, l’action principale consistera à produire un ouvrage bookdown avec la fonction <code>render_book()</code>, d’où son nom.</p>
@@ -605,11 +224,13 @@ Ici, l’action principale consistera à produire un ouvrage bookdown avec la fo
   renderbook:
     runs-on: macOS-latest</code></pre>
 <p>La déclaration <code>runs-on</code> décrit le système d’exploitation sur lequel la tâche doit s’exécuter.
-Les choix possibles sont Windows, Ubuntu ou MacOS<a href="#fn106" class="footnote-ref" id="fnref106"><sup>106</sup></a>.
+Les choix possibles sont Windows, Ubuntu ou MacOS<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on" class="uri"&gt;https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on&lt;/a&gt;&lt;/p&gt;'><sup>106</sup></a>.
 L’intégration continue de R sur GitHub utilise habituellement MacOS qui a l’avantage d’utiliser des packages R compilés donc beaucoup plus simples (certains packages nécessitent des librairies extérieures à R pour leur compilation) et rapides à installer, tout en permettant l’usage de scripts.</p>
 </div>
-<div id="premières-étapes" class="section level4 hasAnchor" number="6.2.4.4">
-<h4><span class="header-section-number">6.2.4.4</span> Premières étapes<a href="chap-ci.html#premières-étapes" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="premières-étapes" class="section level4" number="6.2.4.4">
+<h4>
+<span class="header-section-number">6.2.4.4</span> Premières étapes<a class="anchor" aria-label="anchor" href="#premi%C3%A8res-%C3%A9tapes"><i class="fas fa-link"></i></a>
+</h4>
 <p>Les étapes sont décrites dans la rubrique <code>steps</code>.</p>
 <pre><code>    steps:
       - name: Checkout repo
@@ -626,9 +247,9 @@ Son développement est accompagné par des numéros de version successifs.
 On appelle une action par l’instruction <code>uses:</code>, le projet GitHub qui la contient et sa version.</p>
 <p>Dans leur projet GitHub respectif, les actions existent dans leur version de développement (<code>@master</code>) et dans des versions d’étape (<em>release</em>) accessibles par leur numéro (<code>@v1</code>).
 Ces versions d’étape sont préférables parce qu’elles sont stables.</p>
-<p>Les actions généralistes sont mises à disposition par GitHub dans l’organisation GitHub Actions<a href="#fn107" class="footnote-ref" id="fnref107"><sup>107</sup></a>.
+<p>Les actions généralistes sont mises à disposition par GitHub dans l’organisation GitHub Actions<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/actions/" class="uri"&gt;https://github.com/actions/&lt;/a&gt;&lt;/p&gt;'><sup>107</sup></a>.
 L’action “actions/checkout” permet de se placer dans la branche principale du projet traité par le flux de travail: c’est en général la première étape de tous les flux.</p>
-<p>L’action suivante est l’installation de R, mise à disposition par l’organisation <em>R infrastructure</em><a href="#fn108" class="footnote-ref" id="fnref108"><sup>108</sup></a>.</p>
+<p>L’action suivante est l’installation de R, mise à disposition par l’organisation <em>R infrastructure</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/r-lib/" class="uri"&gt;https://github.com/r-lib/&lt;/a&gt;&lt;/p&gt;'><sup>108</sup></a>.</p>
 <p>L’installation de pandoc (logiciel extérieur à R mais nécessaire à R Markdown) peut être réalisée par une commande exécutée par MacOS.
 Elle est appelée par <code>run:</code> et peut contenir plusieurs lignes (d’où le <code>|</code>).
 Ce script dépend du système d’exploitation: <code>brew</code> est le gestionnaire de paquets de MacOS.
@@ -636,8 +257,10 @@ Pour éviter les spécificités d’un système, il est préférable d’utilise
 <pre><code>      - name: Install pandoc
         uses: r-lib/actions/setup-pandoc@v1</code></pre>
 </div>
-<div id="caches" class="section level4 hasAnchor" number="6.2.4.5">
-<h4><span class="header-section-number">6.2.4.5</span> Caches<a href="chap-ci.html#caches" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="caches" class="section level4" number="6.2.4.5">
+<h4>
+<span class="header-section-number">6.2.4.5</span> Caches<a class="anchor" aria-label="anchor" href="#caches"><i class="fas fa-link"></i></a>
+</h4>
 <p>L’installation des packages de R prend du temps, beaucoup s’ils sont installés à partir des sources (la procédure standard sous Ubuntu, mais pas sous MacOS et Windows où les packages binaires sont utilisés par défaut).
 Le calcul des bouts de code est en général l’étape la plus longue du flux de travail.
 L’action <code>cache</code> permet de mettre en cache les résultats des deux opérations.</p>
@@ -645,26 +268,28 @@ L’action <code>cache</code> permet de mettre en cache les résultats des deux 
         uses: actions/cache@v2
         with:
           path: $HOME/.local/share/renv
-          key: r-${{ hashFiles(&#39;renv.lock&#39;) }}
+          key: r-${{ hashFiles('renv.lock') }}
           restore-keys: r-
       - name: Cache bookdown results
         uses: actions/cache@v2
         with:
           path: _bookdown_files
-          key: bookdown-${{ hashFiles(&#39;**/*Rmd&#39;) }}
+          key: bookdown-${{ hashFiles('**/*Rmd') }}
           restore-keys: bookdown-</code></pre>
 <p>Le cache est mis à jour en cas de modification d’un package ou d’un bout de code, ce qui nécessite un moyen rapide de vérifier les modifications: une valeur de contrôle (<em>hashtag</em>) est calculée par la fonction <code>hashFiles()</code> à partir du fichier <code>renv.lock</code> (voir ci-dessous) pour les packages et l’ensemble des fichiers <code>.Rmd</code> pour les bouts de code.
 Tout changement entraîne la réinstallation des packages ou le recalcul de l’ensemble du code: la gestion du cache est moins fine que celle de R sur un poste de travail, qui ne recalcule que les bouts de code modifiés.</p>
 </div>
-<div id="sec:packages-ci" class="section level4 hasAnchor" number="6.2.4.6">
-<h4><span class="header-section-number">6.2.4.6</span> Packages<a href="chap-ci.html#sec:packages-ci" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>L’installation des packages est gérée par la fonction <code>install.packages()</code>.
+<div id="sec:packages-ci" class="section level4" number="6.2.4.6">
+<h4>
+<span class="header-section-number">6.2.4.6</span> Packages<a class="anchor" aria-label="anchor" href="#sec:packages-ci"><i class="fas fa-link"></i></a>
+</h4>
+<p>L’installation des packages est gérée par la fonction <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>.
 Plutôt que d’énumérer les packages à installer dans les arguments de la fonction, source d’erreur, il est préférable d’utiliser le package <strong>renv</strong> pour enregistrer tous les packages utilisés par le projet et les installer en une fois pour l’intégration continue.
 <strong>renv</strong> installera les packages dans la version enregistrée, ce qui permet d’éviter des effets imprévus dus à des versions différentes entre le poste de travail et GitHub Actions.</p>
 <pre><code>      - name: Install packages
         run: |
-          R -e &#39;install.packages(&quot;renv&quot;)&#39;
-          R -e &#39;renv::restore()&#39;</code></pre>
+          R -e 'install.packages("renv")'
+          R -e 'renv::restore()'</code></pre>
 <p>Il est nécessaire d’installer <strong>renv</strong> sur le poste de travail utilisé pour le développement du projet.</p>
 <p>Il faut utiliser un fichier <code>DESCRIPTION</code> pour lister les packages de tout projet, comme si c’était un package R.
 Pour ce document:</p>
@@ -672,7 +297,7 @@ Pour ce document:</p>
 Title: Travailler avec R
 Version: 1.1.0
 Authors@R: c(
-  person(&quot;Eric&quot;, &quot;Marcon&quot;, , &quot;e.marcon@free.fr&quot;, c(&quot;aut&quot;, &quot;cre&quot;))
+  person("Eric", "Marcon", , "e.marcon@free.fr", c("aut", "cre"))
   )
 URL: https://github.com/EricMarcon/travailleR
 Imports:
@@ -680,7 +305,8 @@ Imports:
   (...)</code></pre>
 <p>Avant de déclencher le flux de travail, il est nécessaire de créer la liste des packages dans leur version en cours sur le poste de travail:</p>
 <p></p>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="chap-ci.html#cb459-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>(<span class="at">type =</span> <span class="st">&quot;explicit&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb459"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">renv</span><span class="fu">::</span><span class="fu">snapshot</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"explicit"</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>A sa première utilisation, le package <strong>renv</strong> informe de quelques adaptations de l’environnement de travail, qu’il faut accepter.</p>
 <p>Cette commande crée le fichier <code>renv.lock</code> qui est utilisé par GitHub Actions pour installer les packages pendant l’intégration continue.
@@ -690,19 +316,23 @@ Il pourra être mis à jour à tout moment pour prendre en compte leur mise à j
         env:
           GITHUB_PAT: ${{ secrets.GH_PAT }}
         run: |
-          options(pkgType = &quot;binary&quot;)
-          options(install.packages.check.source = &quot;no&quot;)
-          install.packages(c(&quot;remotes&quot;, &quot;bookdown&quot;, &quot;formatR&quot;, &quot;tinytex&quot;))
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
           tinytex::install_tinytex()
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}</code></pre>
 <p>Cette étape utilise <code>Rscript</code> comme environnement de commande, ce qui lui permet d’exécuter directement des commandes R (à comparer à l’utilisation de <code>R -e</code> dans les exemples précédents).</p>
 <p>Les packages servant à produire le document sont listés:</p>
 <ul>
-<li><strong>remotes</strong> pour sa fonction <code>install_deps()</code>;</li>
-<li><strong>bookdown</strong> pour tricoter;</li>
-<li><strong>formatR</strong> pour la mise en forme des bouts de code (<code>tidy=TRUE</code>);</li>
-<li><strong>tinytex</strong> pour disposer d’une distribution LaTeX.</li>
+<li>
+<strong>remotes</strong> pour sa fonction <code>install_deps()</code>;</li>
+<li>
+<strong>bookdown</strong> pour tricoter;</li>
+<li>
+<strong>formatR</strong> pour la mise en forme des bouts de code (<code>tidy=TRUE</code>);</li>
+<li>
+<strong>tinytex</strong> pour disposer d’une distribution LaTeX.</li>
 </ul>
 <p>Les autres packages, ceux utilisés par le projet, sont lus dans le fichier <code>DESCRIPTION</code> par la fonction <code>install_deps()</code>.</p>
 <p>Sous MacOS, les packages sont installés par défaut en version binaire, mais à partir de leur code source s’il est plus récent.
@@ -710,29 +340,33 @@ La création des packages binaires prend quelques jours à CRAN: cette situation
 Les packages ne contenant que du code R ou du code C++ sans référence à des librairies externes s’installent en revanche sans problème.
 En revanche, si le package nécessite des librairies externes à R ou une compilation de code Fortran, l’installation échoue.
 Il serait donc nécessaire d’installer préalablement les librairies nécessaires (et éventuellement un compilateur Fortran) à l’ensemble des packages dont le projet dépend: cette solution n’est pas réaliste parce qu’elle implique l’inventaire de l’ensemble des dépendances, qui peuvent changer, et un nombre important d’installations chronophages et inutiles la plupart du temps, quand les packages binaires sont à jour.
-Une meilleure solution est de forcer l’installation des packages binaires même si le code source est plus récent: c’est l’objet des deux options de R définies avant l’appel à <code>install.packages()</code>.</p>
+Une meilleure solution est de forcer l’installation des packages binaires même si le code source est plus récent: c’est l’objet des deux options de R définies avant l’appel à <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>.</p>
 <p>Enfin, le secret <code>GH_PAT</code> est passé à R dans une variable d’environnement, <code>GITHUB_PAT</code>, nécessaire pour installer des packages à partir leur code source sur GitHub.
 GitHub limite le rythme des accès anonymes pour l’ensemble des actions GitHub (tous comptes confondus) et peut rejeter la demande: en pratique, utiliser <code>install_github()</code> dans une action GitHub n’est envisageable qu’avec cette variable d’environnement.</p>
 <p>Dans cette approche, les packages ne sont pas mis en cache.</p>
 </div>
-<div id="tricot" class="section level4 hasAnchor" number="6.2.4.7">
-<h4><span class="header-section-number">6.2.4.7</span> Tricot<a href="chap-ci.html#tricot" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="tricot" class="section level4" number="6.2.4.7">
+<h4>
+<span class="header-section-number">6.2.4.7</span> Tricot<a class="anchor" aria-label="anchor" href="#tricot"><i class="fas fa-link"></i></a>
+</h4>
 <p>La production de l’ouvrage est lancée par une commande R.</p>
 <pre><code>      - name: Render pdf book
         run: |
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;)
+          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
         shell: Rscript {0}
       - name: Render gitbook
         run: |
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;)
+          bookdown::render_book("index.Rmd", "bookdown::gitbook")
         shell: Rscript {0}</code></pre>
 <p>Les formats paramétrés dans <code>_output.yml</code> sont ignorés.</p>
 <p>Le fichier PDF doit être produit avant le format GitBook pour que son lien de téléchargement soit ajouté à la barre de menu du site GitBook.
-D’autre part, R doit être fermé et rouvert entre les deux rendus faute de quoi les tableaux ne sont pas créés correctement dans le GitBook<a href="#fn109" class="footnote-ref" id="fnref109"><sup>109</sup></a>.
+D’autre part, R doit être fermé et rouvert entre les deux rendus faute de quoi les tableaux ne sont pas créés correctement dans le GitBook<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://stackoverflow.com/questions/46080853/why-does-rendering-a-pdf-from-rmarkdown-require-closing-rstudio-between-renders/46083308#46083308" class="uri"&gt;https://stackoverflow.com/questions/46080853/why-does-rendering-a-pdf-from-rmarkdown-require-closing-rstudio-between-renders/46083308#46083308&lt;/a&gt;&lt;/p&gt;'><sup>109</sup></a>.
 Les deux étapes ne doivent pas être regroupées en une seule.</p>
 </div>
-<div id="sauvegarde" class="section level4 hasAnchor" number="6.2.4.8">
-<h4><span class="header-section-number">6.2.4.8</span> Sauvegarde<a href="chap-ci.html#sauvegarde" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="sauvegarde" class="section level4" number="6.2.4.8">
+<h4>
+<span class="header-section-number">6.2.4.8</span> Sauvegarde<a class="anchor" aria-label="anchor" href="#sauvegarde"><i class="fas fa-link"></i></a>
+</h4>
 <p>Le résultat du tricot, placé dans le dossier <code>docs</code> de la machine virtuelle en charge de l’intégration continue, doit être préservé pour que la tâche suivante puisse l’utiliser.</p>
 <p>La dernière étape de la tâche de production utilise l’action <code>upload-artifact</code> pour cela.</p>
 <pre><code>      - name: Upload artifact
@@ -744,8 +378,10 @@ Les deux étapes ne doivent pas être regroupées en une seule.</p>
 Les artefacts sont visibles publiquement sur la page des Actions du projet GitHub.</p>
 <p>Après sa dernière étape, la machine virtuelle utilisée pour cette étape est détruite.</p>
 </div>
-<div id="publication" class="section level4 hasAnchor" number="6.2.4.9">
-<h4><span class="header-section-number">6.2.4.9</span> Publication<a href="chap-ci.html#publication" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="publication" class="section level4" number="6.2.4.9">
+<h4>
+<span class="header-section-number">6.2.4.9</span> Publication<a class="anchor" aria-label="anchor" href="#publication"><i class="fas fa-link"></i></a>
+</h4>
 <p>La publication de l’artefact dans la branche <code>gh-pages</code> du projet nécessite une autre tâche.</p>
 <pre><code>  deploy:
     runs-on: ubuntu-latest
@@ -771,32 +407,41 @@ Elle s’exécute sur une machine virtuelle sous Ubuntu.
 Elle ne peut se lancer que si la tâche “renderbook” a réussi.
 Ses étapes sont les suivantes:</p>
 <ul>
-<li><em>Download artifact</em>: Restauration du dossier <code>docs</code>;</li>
-<li><em>Deploy to GitHub Pages</em>: copie du dossier <code>docs</code> dans la branche <code>gh-pages</code>.</li>
+<li>
+<em>Download artifact</em>: Restauration du dossier <code>docs</code>;</li>
+<li>
+<em>Deploy to GitHub Pages</em>: copie du dossier <code>docs</code> dans la branche <code>gh-pages</code>.</li>
 </ul>
 <p>Cette dernière étape utiliser l’action <code>GitHub-Pages-deploy</code> mise à disposition par l’organisation <em>Cecilapp</em> .
 Elle utilise une variable d’environnement, <code>GITHUB_TOKEN</code>, pour s’authentifier et des paramètres:</p>
 <ul>
-<li><em>email</em>: l’adresse de messagerie destinataire du rapport d’exécution.
+<li>
+<em>email</em>: l’adresse de messagerie destinataire du rapport d’exécution.
 Pour ne pas exposer l’adresse publiquement, elle a été stockée dans un secret du projet;</li>
-<li><em>buid_dir</em>: le répertoire à publier,</li>
-<li><em>jekyll:no</em> pour créer un fichier vide nommé <code>.nojekyll</code> qui indique aux pages GitHub de ne pas essayer de traiter leur contenu comme un site web Jekyll.</li>
+<li>
+<em>buid_dir</em>: le répertoire à publier,</li>
+<li>
+<em>jekyll:no</em> pour créer un fichier vide nommé <code>.nojekyll</code> qui indique aux pages GitHub de ne pas essayer de traiter leur contenu comme un site web Jekyll.</li>
 </ul>
 </div>
 </div>
-<div id="sec:confidentielCI" class="section level3 hasAnchor" number="6.2.5">
-<h3><span class="header-section-number">6.2.5</span> Données confidentielles dans un dépôt public<a href="chap-ci.html#sec:confidentielCI" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="sec:confidentielCI" class="section level3" number="6.2.5">
+<h3>
+<span class="header-section-number">6.2.5</span> Données confidentielles dans un dépôt public<a class="anchor" aria-label="anchor" href="#sec:confidentielCI"><i class="fas fa-link"></i></a>
+</h3>
 <p>Si le projet contient des données confidentielles (section <a href="chap-git.html#sec:confidentiel">3.6</a>), GitHub Actions doit utiliser la clé privée du projet pour les extraire de leur coffre-fort.</p>
 <p>La clé privée doit être stockée dans un secret du projet, nommé “RSA”.
 L’étape suivante, à insérer avant l’étape de tricot, écrit la clé dans un fichier pour que le code du projet y ait accès.</p>
 <pre><code>      - name: Private key
         run: |
-          cat(&quot;${{ secrets.rsa }}&quot;, file=&quot;NomDuProjet.rsa&quot;
+          cat("${{ secrets.rsa }}", file="NomDuProjet.rsa"
         shell: Rscript {0}</code></pre>
 </div>
 </div>
-<div id="modèles-de-scripts" class="section level2 hasAnchor" number="6.3">
-<h2><span class="header-section-number">6.3</span> Modèles de scripts<a href="chap-ci.html#modèles-de-scripts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="modèles-de-scripts" class="section level2" number="6.3">
+<h2>
+<span class="header-section-number">6.3</span> Modèles de scripts<a class="anchor" aria-label="anchor" href="#mod%C3%A8les-de-scripts"><i class="fas fa-link"></i></a>
+</h2>
 <p>Des modèles de scripts pour tous les types de projets sont présentés ici.
 Tous nécessitent même préparation:</p>
 <ul>
@@ -808,15 +453,19 @@ Tous nécessitent même préparation:</p>
 Vérifier après la première exécution que les pages GitHub sont bien activées sur cette branche (section <a href="chap-git.html#sec:github-pages">3.7</a>).
 Supprimer ensuite le dossier <code>docs</code> s’il existait, pousser la modification sur GitHub et enfin ajouter la ligne suivante au fichier <code>.gitignore</code> pour pouvoir tricoter localement les projets sans perturber GitHub:</p>
 <pre><code>docs/</code></pre>
-<div id="sec:memoiR-ci" class="section level3 hasAnchor" number="6.3.1">
-<h3><span class="header-section-number">6.3.1</span> memoiR<a href="chap-ci.html#sec:memoiR-ci" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="sec:memoiR-ci" class="section level3" number="6.3.1">
+<h3>
+<span class="header-section-number">6.3.1</span> memoiR<a class="anchor" aria-label="anchor" href="#sec:memoiR-ci"><i class="fas fa-link"></i></a>
+</h3>
 <p>La fonction <code>build_ghworkflow()</code> du package <strong>memoiR</strong> crée automatiquement les scripts nécessaires à la production des modèles du package.
 Le script est toujours nommé <code>memoir.yml</code>.</p>
 <p>Ces scripts n’utilisent ni <strong>renv</strong> ni cache.
 Ils n’ont pas besoin d’un fichier <code>DESCRIPTION</code> pour l’installation des dépendances mais chaque document doit contenir son le bout de code de paramétrage (<code>Options</code>) la liste de tous les packages nécessaires à son tricot (stockés dans la variable <code>Packages</code>).</p>
 </div>
-<div id="sec:bookdown-ci" class="section level3 hasAnchor" number="6.3.2">
-<h3><span class="header-section-number">6.3.2</span> Projet d’ouvrage<a href="chap-ci.html#sec:bookdown-ci" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="sec:bookdown-ci" class="section level3" number="6.3.2">
+<h3>
+<span class="header-section-number">6.3.2</span> Projet d’ouvrage<a class="anchor" aria-label="anchor" href="#sec:bookdown-ci"><i class="fas fa-link"></i></a>
+</h3>
 <p>Le flux de travail s’appelle <code>rmarkdown</code>; sa tâche de production <code>render</code>.</p>
 <pre><code>on:
   push:
@@ -837,18 +486,18 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          options(pkgType = &quot;binary&quot;)
-          options(install.packages.check.source = &quot;no&quot;)
-          install.packages(c(&quot;memoiR&quot;, &quot;rmdformats&quot;, &quot;tinytex&quot;))
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("memoiR", "rmdformats", "tinytex"))
           tinytex::install_tinytex()
         shell: Rscript {0}
       - name: Render pdf book
         run: |
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::pdf_book&quot;)
+          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
         shell: Rscript {0}
       - name: Render gitbook
         run: |
-          bookdown::render_book(&quot;index.Rmd&quot;, &quot;bookdown::gitbook&quot;)
+          bookdown::render_book("index.Rmd", "bookdown::gitbook")
         shell: Rscript {0}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
@@ -873,8 +522,10 @@ jobs:
           build_dir: docs
           jekyll: no</code></pre>
 </div>
-<div id="articles-et-présentations" class="section level3 hasAnchor" number="6.3.3">
-<h3><span class="header-section-number">6.3.3</span> Articles et présentations<a href="chap-ci.html#articles-et-présentations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="articles-et-présentations" class="section level3" number="6.3.3">
+<h3>
+<span class="header-section-number">6.3.3</span> Articles et présentations<a class="anchor" aria-label="anchor" href="#articles-et-pr%C3%A9sentations"><i class="fas fa-link"></i></a>
+</h3>
 <p>Le flux de travail s’appelle <code>rmarkdown</code>; sa tâche de production <code>render</code>.</p>
 <pre><code>on:
   push:
@@ -895,17 +546,17 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          options(pkgType = &quot;binary&quot;)
-          options(install.packages.check.source = &quot;no&quot;)
-          install.packages(c(&quot;memoiR&quot;, &quot;rmdformats&quot;, &quot;tinytex&quot;))
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("memoiR", "rmdformats", "tinytex"))
           tinytex::install_tinytex()
         shell: Rscript {0}
       - name: Render Rmarkdown files
         run: |
-          RMD_PATH=($(ls | grep &quot;[.]Rmd$&quot;))
-          Rscript -e &#39;for (file in commandArgs(TRUE)) |&gt;
-              rmarkdown::render(file, &quot;all&quot;)&#39; ${RMD_PATH[*]}
-          Rscript -e &#39;memoiR::build_githubpages()&#39;
+          RMD_PATH=($(ls | grep "[.]Rmd$"))
+          Rscript -e 'for (file in commandArgs(TRUE)) |&gt;
+              rmarkdown::render(file, "all")' ${RMD_PATH[*]}
+          Rscript -e 'memoiR::build_githubpages()'
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -931,30 +582,35 @@ jobs:
 <p>L’étape chargée du tricot utilise un script pour lister tous les fichiers <code>.Rmd</code>, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits).
 La fonction <code>build_githubpages()</code> (voir section <a href="chap-rediger.html#sec:memo">4.3.2</a>) place les résultat dans <code>docs</code>.</p>
 <p>La tâche de déploiement indique aux pages GitHub d’utiliser Jekyll, c’est-à-dire d’utiliser le fichier <code>README.md</code> comme page d’accueil.</p>
-<div id="internationalisation" class="section level4 hasAnchor" number="6.3.3.1">
-<h4><span class="header-section-number">6.3.3.1</span> Internationalisation<a href="chap-ci.html#internationalisation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="internationalisation" class="section level4" number="6.3.3.1">
+<h4>
+<span class="header-section-number">6.3.3.1</span> Internationalisation<a class="anchor" aria-label="anchor" href="#internationalisation"><i class="fas fa-link"></i></a>
+</h4>
 <p>Si l’étape de tricot nécessite de modifier la langue utilisée par R, par exemple pour afficher correctement la date de production des documents, elle peut être modifiée comme ceci:</p>
 <pre><code>      - name: Render Rmarkdown files
         run: |
-          Sys.setlocale(&quot;LC_TIME&quot;, &quot;fr_FR&quot;)
-          lapply(list.files(pattern=&quot;*.Rmd&quot;), 
-                 function(file) rmarkdown::render(file, &quot;all&quot;))
+          Sys.setlocale("LC_TIME", "fr_FR")
+          lapply(list.files(pattern="*.Rmd"), 
+                 function(file) rmarkdown::render(file, "all"))
           memoiR::build_githubpages()
         shell: Rscript {0}</code></pre>
 <p>La sélection des fichiers est ici réalisée par un script R, qui inclut une commande de localisation, ici en Français.</p>
 <p>Cette étape peut être complétée par la sélection d’un thème GitHub Pages pour que la page d’accueil contienne un lien vers le code:</p>
 <pre><code>        run: |
-          echo &#39;theme: jekyll-theme-slate&#39; &gt; docs/_config.yml</code></pre>
+          echo 'theme: jekyll-theme-slate' &gt; docs/_config.yml</code></pre>
 <p>Le thème est ici “Slate”, un des choix proposés par les pages GitHub.</p>
 </div>
-<div id="débogage" class="section level4 hasAnchor" number="6.3.3.2">
-<h4><span class="header-section-number">6.3.3.2</span> Débogage<a href="chap-ci.html#débogage" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="débogage" class="section level4" number="6.3.3.2">
+<h4>
+<span class="header-section-number">6.3.3.2</span> Débogage<a class="anchor" aria-label="anchor" href="#d%C3%A9bogage"><i class="fas fa-link"></i></a>
+</h4>
 <p>Il peut arriver que la compilation du fichier <code>.tex</code> pour produire le fichier PDF échoue, bien que le tricot en HTML ne génère pas d’erreur.
 Le compilateur LaTeX est en effet plus exigeant que pandoc (qui produit le fichier HTML).</p>
 <p>La première vérification consiste à tricoter en PDF localement, sur son poste de travail, le document qui pose problème, avec <strong>tinytex</strong>.
 Les packages LaTeX doivent être mis à jour pour être les mêmes que ceux utilisés par les actions GitHub: pour cela, exécuter:</p>
 <p></p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="chap-ci.html#cb470-1" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">tlmgr_update</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">tinytex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytex/man/tlmgr.html">tlmgr_update</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Si la compilation fonctionne localement mais pas sur Github, il faut inspecter le fichier <code>.log</code> qui enregistre tous les évènements générés par le compilateur, mais ce fichier n’est pas conservé après l’échec de GitHub Actions.
 Il faut donc modifier le script pour copier le fichier dans <code>docs</code> puis créer sauvegarder le résultat malgré l’erreur.</p>
@@ -969,14 +625,16 @@ Il faut donc modifier le script pour copier le fichier dans <code>docs</code> pu
 <pre><code>      - name: Move files to docs
         if: always()
         run: |
-          Rscript -e &#39;memoiR::build_githubpages()&#39;
+          Rscript -e 'memoiR::build_githubpages()'
           cp *.log docs</code></pre>
 <p>Après l’échec de l’action, l’artéfact sauvegardé peut être téléchargé à partir de GitHub: il se trouve sur la page de résumé de l’action.
 Il s’agit d’un fichier compressé qui contient tout le dossier <code>docs</code>.</p>
 </div>
 </div>
-<div id="sec:blogdown-ci" class="section level3 hasAnchor" number="6.3.4">
-<h3><span class="header-section-number">6.3.4</span> Site web blogdown<a href="chap-ci.html#sec:blogdown-ci" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="sec:blogdown-ci" class="section level3" number="6.3.4">
+<h3>
+<span class="header-section-number">6.3.4</span> Site web blogdown<a class="anchor" aria-label="anchor" href="#sec:blogdown-ci"><i class="fas fa-link"></i></a>
+</h3>
 <p>Le fichier appelé <code>blogdown.yml</code> est très similaire.
 Le nom du flux de travail est <code>blogdown</code> et celui de la tâche de production est <code>buildsite</code>.</p>
 <pre><code>on:
@@ -984,7 +642,7 @@ Le nom du flux de travail est <code>blogdown</code> et celui de la tâche de pro
      branches:
        - master
   schedule:
-    - cron: &#39;0 22 * * 0&#39;
+    - cron: '0 22 * * 0'
 
 name: blogdown
 
@@ -1000,9 +658,9 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install packages
         run: |
-          options(pkgType = &quot;binary&quot;)
-          options(install.packages.check.source = &quot;no&quot;)
-          install.packages(c(&quot;remotes&quot;, &quot;blogdown&quot;, &quot;formatR&quot;))
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("remotes", "blogdown", "formatR"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Build website
@@ -1037,11 +695,13 @@ jobs:
 <p>La tâche <code>Build website</code> utilise le package <strong>blogdown</strong> pour installer Hugo (le générateur de sites web) et ensuite construire le site.</p>
 <p>Si le site web utilise des données en ligne qui justifient de le mettre à jour périodiquement, GitHub Actions peut être lancé tous les jours, toutes les semaines ou tous les mois en plus des reconstruction déclenchées par une modification du dépôt (voir section <a href="chap-ci.html#sec:declenchement">6.2.4.1</a>).
 Ici, le site est reconstruit tous les dimanches à 22h.</p>
-<p>Exemple: la page qui affiche la bibliométrie du site web<a href="#fn110" class="footnote-ref" id="fnref110"><sup>110</sup></a> de l’auteur interroge Google Scholar pour afficher les citations des publications.
+<p>Exemple: la page qui affiche la bibliométrie du site web<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://EricMarcon.github.io/fr/publication/" class="uri"&gt;https://EricMarcon.github.io/fr/publication/&lt;/a&gt;&lt;/p&gt;'><sup>110</sup></a> de l’auteur interroge Google Scholar pour afficher les citations des publications.
 Le site est mis à jour toutes les semaines pour que les statistiques soient à jour.</p>
 </div>
-<div id="sec:package-ci6" class="section level3 hasAnchor" number="6.3.5">
-<h3><span class="header-section-number">6.3.5</span> Packages R<a href="chap-ci.html#sec:package-ci6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="sec:package-ci6" class="section level3" number="6.3.5">
+<h3>
+<span class="header-section-number">6.3.5</span> Packages R<a class="anchor" aria-label="anchor" href="#sec:package-ci6"><i class="fas fa-link"></i></a>
+</h3>
 <p>Un script optimal pour la vérification d’un package est le suivant:</p>
 <pre><code>on:
   push:
@@ -1062,24 +722,24 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
       - name: Install dependencies
         run: |
-          options(pkgType = &quot;binary&quot;)
-          options(install.packages.check.source = &quot;no&quot;)
-          install.packages(c(&quot;remotes&quot;, &quot;rcmdcheck&quot;, &quot;covr&quot;, &quot;pkgdown&quot;))
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("remotes", "rcmdcheck", "covr", "pkgdown"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Check
-        run: rcmdcheck::rcmdcheck(args = &quot;--no-manual&quot;, error_on = &quot;warning&quot;)
+        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
         shell: Rscript {0}
       - name: Test coverage
-        run: covr::codecov(type=&quot;all&quot;)
+        run: covr::codecov(type="all")
         shell: Rscript {0}
       - name: Install package
         run: R CMD INSTALL .
       - name: Pkgdown
         run: |
-          git config --local user.email &quot;actions@github.com&quot;
-          git config --local user.name &quot;GitHub Actions&quot;
-          Rscript -e &#39;pkgdown::deploy_to_branch(new_process = FALSE)&#39;</code></pre>
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'</code></pre>
 <p>Le fichier est nommé <code>check.yml</code>.
 Il ne contient qu’une seule tâche, nommée <code>R-CMD-check</code> comme le flux.</p>
 <p>Le script n’utilise pas <strong>Renv</strong> pour gérer les packages parce que la vérification d’un package doit fonctionner avec les versions en cours sur CRAN.
@@ -1090,12 +750,14 @@ Les avertissements sont traités comme des erreurs.</p>
 <p>Enfin, les deux dernières étapes installent le package puis utilisent <strong>pkgdown</strong> pour créer le site de documentation du package et le pousser dans la branche <code>gh-pages</code> du projet.</p>
 <p>Ce script ne contient qu’une tâche: le déploiement du site de documentation est directement exécuté par <strong>pkgdown</strong>.
 Son succès est affiché par un badge à afficher dans le fichier <code>README.md</code> (voir section <a href="chap-ci.html#sec:ci-badges">6.4</a>)</p>
-<p>Des scripts plus complexes sont proposés par R-lib<a href="#fn111" class="footnote-ref" id="fnref111"><sup>111</sup></a>, notamment pour exécuter les tests sur plusieurs systèmes d’exploitation et plusieurs versions de R.
+<p>Des scripts plus complexes sont proposés par R-lib<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow" class="uri"&gt;https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow&lt;/a&gt;&lt;/p&gt;'><sup>111</sup></a>, notamment pour exécuter les tests sur plusieurs systèmes d’exploitation et plusieurs versions de R.
 Ces tests poussés sont à effectuer avant de soumettre à CRAN (section <a href="chap-package.html#sec:package-cran">5.11</a>) mais consomment trop de ressource pour un usage systématique.</p>
 </div>
 </div>
-<div id="sec:ci-badges" class="section level2 hasAnchor" number="6.4">
-<h2><span class="header-section-number">6.4</span> Ajouter des badges<a href="chap-ci.html#sec:ci-badges" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="sec:ci-badges" class="section level2" number="6.4">
+<h2>
+<span class="header-section-number">6.4</span> Ajouter des badges<a class="anchor" aria-label="anchor" href="#sec:ci-badges"><i class="fas fa-link"></i></a>
+</h2>
 <p>Le succès des Actions GitHub est visible en ajoutant un badge dans le fichier <code>README.md</code>, juste après le titre du fichier.
 Sur la page du projet, choisir “Actions” puis sélectionner l’action (dans “Workflows”).
 Cliquer sur le bouton “…” puis sur “Create Status Badge”.
@@ -1110,82 +772,66 @@ Coller le code Markdown:</p>
 
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="103">
-<li id="fn103"><p><a href="https://travis-ci.org/" class="uri">https://travis-ci.org/</a><a href="chap-ci.html#fnref103" class="footnote-back">↩︎</a></p></li>
-<li id="fn104"><p><a href="https://codecov.io/" class="uri">https://codecov.io/</a><a href="chap-ci.html#fnref104" class="footnote-back">↩︎</a></p></li>
-<li id="fn105"><p><a href="https://github.com/EricMarcon/travailleR/blob/master/.github/workflows/bookdown.yml" class="uri">https://github.com/EricMarcon/travailleR/blob/master/.github/workflows/bookdown.yml</a><a href="chap-ci.html#fnref105" class="footnote-back">↩︎</a></p></li>
-<li id="fn106"><p><a href="https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on" class="uri">https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on</a><a href="chap-ci.html#fnref106" class="footnote-back">↩︎</a></p></li>
-<li id="fn107"><p><a href="https://github.com/actions/" class="uri">https://github.com/actions/</a><a href="chap-ci.html#fnref107" class="footnote-back">↩︎</a></p></li>
-<li id="fn108"><p><a href="https://github.com/r-lib/" class="uri">https://github.com/r-lib/</a><a href="chap-ci.html#fnref108" class="footnote-back">↩︎</a></p></li>
-<li id="fn109"><p><a href="https://stackoverflow.com/questions/46080853/why-does-rendering-a-pdf-from-rmarkdown-require-closing-rstudio-between-renders/46083308#46083308" class="uri">https://stackoverflow.com/questions/46080853/why-does-rendering-a-pdf-from-rmarkdown-require-closing-rstudio-between-renders/46083308#46083308</a><a href="chap-ci.html#fnref109" class="footnote-back">↩︎</a></p></li>
-<li id="fn110"><p><a href="https://EricMarcon.github.io/fr/publication/" class="uri">https://EricMarcon.github.io/fr/publication/</a><a href="chap-ci.html#fnref110" class="footnote-back">↩︎</a></p></li>
-<li id="fn111"><p><a href="https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow" class="uri">https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow</a><a href="chap-ci.html#fnref111" class="footnote-back">↩︎</a></p></li>
-</ol>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="chap-package.html"><span class="header-section-number">5</span> Package</a></div>
+<div class="next"><a href="chap-shiny.html"><span class="header-section-number">7</span> Shiny</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#chap-ci"><span class="header-section-number">6</span> Intégration continue</a></li>
+<li>
+<a class="nav-link" href="#outils"><span class="header-section-number">6.1</span> Outils</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#github-actions"><span class="header-section-number">6.1.1</span> GitHub Actions</a></li>
+<li><a class="nav-link" href="#codecov"><span class="header-section-number">6.1.2</span> Codecov</a></li>
+<li><a class="nav-link" href="#github-pages"><span class="header-section-number">6.1.3</span> GitHub Pages</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#principes"><span class="header-section-number">6.2</span> Principes</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#obtention-dun-jeton-dacc%C3%A8s-personnel"><span class="header-section-number">6.2.1</span> Obtention d’un jeton d’accès personnel</a></li>
+<li><a class="nav-link" href="#sec:secrets-ci"><span class="header-section-number">6.2.2</span> Secrets du projet</a></li>
+<li><a class="nav-link" href="#activation-du-d%C3%A9p%C3%B4t-sur-codecov"><span class="header-section-number">6.2.3</span> Activation du dépôt sur CodeCov</a></li>
+<li><a class="nav-link" href="#scripter-les-actions-de-github"><span class="header-section-number">6.2.4</span> Scripter les actions de GitHub</a></li>
+<li><a class="nav-link" href="#sec:confidentielCI"><span class="header-section-number">6.2.5</span> Données confidentielles dans un dépôt public</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#mod%C3%A8les-de-scripts"><span class="header-section-number">6.3</span> Modèles de scripts</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#sec:memoiR-ci"><span class="header-section-number">6.3.1</span> memoiR</a></li>
+<li><a class="nav-link" href="#sec:bookdown-ci"><span class="header-section-number">6.3.2</span> Projet d’ouvrage</a></li>
+<li><a class="nav-link" href="#articles-et-pr%C3%A9sentations"><span class="header-section-number">6.3.3</span> Articles et présentations</a></li>
+<li><a class="nav-link" href="#sec:blogdown-ci"><span class="header-section-number">6.3.4</span> Site web blogdown</a></li>
+<li><a class="nav-link" href="#sec:package-ci6"><span class="header-section-number">6.3.5</span> Packages R</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#sec:ci-badges"><span class="header-section-number">6.4</span> Ajouter des badges</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/EricMarcon/travailleR/blob/master/06-CI.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/EricMarcon/travailleR/edit/master/06-CI.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
 </div>
-            </section>
+    </nav>
+</div>
 
-          </div>
-        </div>
-      </div>
-<a href="chap-package.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="chap-shiny.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 14/07/2022.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": true,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["travailleR.pdf"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -1197,7 +843,22 @@ gitbook.start({
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
-
 </html>
