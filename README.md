@@ -14,4 +14,4 @@ Il est disponible en [Anglais](https://ericmarcon.github.io/WorkingWithR/).
 
 Citation:
 
-Marcon, Eric. Travailler avec R. Montpellier, France: UMR Amap, 2021. https://ericmarcon.github.io/travailleR/. DOI:10.5281/zenodo.5778902
+Marcon, Eric. Travailler avec R. Montpellier, France: UMR Amap, 2021. https://ericmarcon.github.io/travailleR/. DOI:10.5281/zenodo.6894178
