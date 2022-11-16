@@ -719,6 +719,10 @@ jobs:
           install.packages(c("remotes", "rcmdcheck", "covr", "pkgdown"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
+      - name: Roxygenize
+        run: roxygen2::roxygenize()
+        shell: Rscript {0}
+      - uses: EndBug/add-and-commit@v9
       - name: Check
         run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
         shell: Rscript {0}
@@ -739,6 +743,10 @@ Il ne contient qu'une seule tâche, nommée `R-CMD-check` comme le flux.
 
 Le script n'utilise pas **Renv** pour gérer les packages parce que la vérification d'un package doit fonctionner avec les versions en cours sur CRAN.
 **remotes** installe les packages nécessaires à partir du fichier `DESCRIPTION`.
+
+L'étape `Roxygenize` met à jour la documentation du package.
+Les fichiers mis à jour sont poussés dans la branche principale du projet par l'action `add-and-commit`.
+Ces deux étapes permettent de garantir que le package est dans un état cohérent, même si l'auteur a omis d'exécuter la fonction `roxygenize()` avant de pousser son code sur GitHub.
 
 L'étape `Check` vérifie le package.
 Les avertissements sont traités comme des erreurs.
