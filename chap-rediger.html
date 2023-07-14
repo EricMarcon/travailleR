@@ -7,7 +7,7 @@
 <title>4 Rédiger | Travailler avec R</title>
 <meta name="author" content="Eric Marcon">
 <meta name="description" content="R et RStudio permettent de rédiger efficacement des documents de tous formats, du simple bloc-note à la thèse, en passant par des diaporamas. Les outils pour le faire sont l’objet de ce chapitre,...">
-<meta name="generator" content="bookdown 0.30 with bs4_book()">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
 <meta property="og:title" content="4 Rédiger | Travailler avec R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ericmarcon.github.io/travailleR/chap-rediger.html">
@@ -17,11 +17,11 @@
 <meta name="twitter:description" content="R et RStudio permettent de rédiger efficacement des documents de tous formats, du simple bloc-note à la thèse, en passant par des diaporamas. Les outils pour le faire sont l’objet de ce chapitre,...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.1/transition.js"></script><script src="libs/bs3compat-0.4.1/tabs.js"></script><script src="libs/bs3compat-0.4.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
 <script src="libs/vis-9.1.0/vis-network.min.js"></script><script src="libs/visNetwork-binding-2.1.2/visNetwork.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<link href="libs/tabwid-1.1.2/tabwid.css" rel="stylesheet">
-<!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-7NVD1TWMCJ"></script><script>
+<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
+<script src="libs/tabwid-1.1.3/tabwid.js"></script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-7NVD1TWMCJ"></script><script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
@@ -463,108 +463,63 @@ Enfin, l’option <code>full_width = FALSE</code> permet d’ajuster la largeur 
 <span>    <span class="co"># Sélection des longs sépales (&gt;5) et affichage en</span></span>
 <span>    <span class="co"># rouge</span></span>
 <span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/color.html">color</a></span><span class="op">(</span><span class="op">~</span><span class="va">Sepal.Length</span> <span class="op">&gt;</span> <span class="fl">5</span>, <span class="op">~</span><span class="va">Sepal.Length</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
-<template id="e88848b3-d822-4077-9eaf-e1fc91967e37"><style>
-.tabwid table{
-  border-spacing:0px !important;
-  border-collapse:collapse;
-  line-height:1;
-  margin-left:auto;
-  margin-right:auto;
-  border-width: 0;
-  border-color: transparent;
-  caption-side: top;
-}
-.tabwid-caption-bottom table{
-  caption-side: bottom;
-}
-.tabwid_left table{
-  margin-left:0;
-}
-.tabwid_right table{
-  margin-right:0;
-}
-.tabwid td, .tabwid th {
-    padding: 0;
-}
-.tabwid a {
-  text-decoration: none;
-}
-.tabwid thead {
-    background-color: transparent;
-}
-.tabwid tfoot {
-    background-color: transparent;
-}
-.tabwid table tr {
-background-color: transparent;
-}
-.katex-display {
-    margin: 0 0 !important;
-}
-</style>
 <div class="tabwid">
-<style>.cl-5934fa76{}.cl-59285a78{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-59285a96{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(255, 0, 0, 1.00);background-color:transparent;}.cl-592df96a{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-592df974{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-592e1b98{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-592e1ba2{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-592e1bac{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-592e1bad{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-592e1bb6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-592e1bc0{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table class="cl-5934fa76">
+<style>.cl-95f272a6{}.cl-95e5c786{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-95e5c7a4{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(255, 0, 0, 1.00);background-color:transparent;}.cl-95eb21a4{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-95eb21ea{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-95eb5a48{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-95eb5a52{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-95eb5a5c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-95eb5a5d{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-95eb5a66{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-95eb5a67{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table data-quarto-disable-processing="true" class="cl-95f272a6">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-592e1b98"><p class="cl-592df96a"><span class="cl-59285a78">Longueur sépales</span></p></th>
-<th class="cl-592e1b98"><p class="cl-592df96a"><span class="cl-59285a78">Largeur</span></p></th>
-<th class="cl-592e1b98"><p class="cl-592df96a"><span class="cl-59285a78">Longueur pétales</span></p></th>
-<th class="cl-592e1b98"><p class="cl-592df96a"><span class="cl-59285a78">Largeur</span></p></th>
-<th class="cl-592e1ba2"><p class="cl-592df974"><span class="cl-59285a78">Espèce</span></p></th>
+<th class="cl-95eb5a48"><p class="cl-95eb21a4"><span class="cl-95e5c786">Longueur sépales</span></p></th>
+<th class="cl-95eb5a48"><p class="cl-95eb21a4"><span class="cl-95e5c786">Largeur</span></p></th>
+<th class="cl-95eb5a48"><p class="cl-95eb21a4"><span class="cl-95e5c786">Longueur pétales</span></p></th>
+<th class="cl-95eb5a48"><p class="cl-95eb21a4"><span class="cl-95e5c786">Largeur</span></p></th>
+<th class="cl-95eb5a52"><p class="cl-95eb21ea"><span class="cl-95e5c786">Espèce</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a96">5.1</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">3.5</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">1.4</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">0.2</span></p></td>
-<td class="cl-592e1bad"><p class="cl-592df974"><span class="cl-59285a78">setosa</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c7a4">5.1</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">3.5</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">1.4</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">0.2</span></p></td>
+<td class="cl-95eb5a5d"><p class="cl-95eb21ea"><span class="cl-95e5c786">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">4.9</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">3.0</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">1.4</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">0.2</span></p></td>
-<td class="cl-592e1bad"><p class="cl-592df974"><span class="cl-59285a78">setosa</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">4.9</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">3.0</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">1.4</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">0.2</span></p></td>
+<td class="cl-95eb5a5d"><p class="cl-95eb21ea"><span class="cl-95e5c786">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">4.7</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">3.2</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">1.3</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">0.2</span></p></td>
-<td class="cl-592e1bad"><p class="cl-592df974"><span class="cl-59285a78">setosa</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">4.7</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">3.2</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">1.3</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">0.2</span></p></td>
+<td class="cl-95eb5a5d"><p class="cl-95eb21ea"><span class="cl-95e5c786">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">4.6</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">3.1</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">1.5</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">0.2</span></p></td>
-<td class="cl-592e1bad"><p class="cl-592df974"><span class="cl-59285a78">setosa</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">4.6</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">3.1</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">1.5</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">0.2</span></p></td>
+<td class="cl-95eb5a5d"><p class="cl-95eb21ea"><span class="cl-95e5c786">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">5.0</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">3.6</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">1.4</span></p></td>
-<td class="cl-592e1bac"><p class="cl-592df96a"><span class="cl-59285a78">0.2</span></p></td>
-<td class="cl-592e1bad"><p class="cl-592df974"><span class="cl-59285a78">setosa</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">5.0</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">3.6</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">1.4</span></p></td>
+<td class="cl-95eb5a5c"><p class="cl-95eb21a4"><span class="cl-95e5c786">0.2</span></p></td>
+<td class="cl-95eb5a5d"><p class="cl-95eb21ea"><span class="cl-95e5c786">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-592e1bb6"><p class="cl-592df96a"><span class="cl-59285a96">5.4</span></p></td>
-<td class="cl-592e1bb6"><p class="cl-592df96a"><span class="cl-59285a78">3.9</span></p></td>
-<td class="cl-592e1bb6"><p class="cl-592df96a"><span class="cl-59285a78">1.7</span></p></td>
-<td class="cl-592e1bb6"><p class="cl-592df96a"><span class="cl-59285a78">0.4</span></p></td>
-<td class="cl-592e1bc0"><p class="cl-592df974"><span class="cl-59285a78">setosa</span></p></td>
+<td class="cl-95eb5a66"><p class="cl-95eb21a4"><span class="cl-95e5c7a4">5.4</span></p></td>
+<td class="cl-95eb5a66"><p class="cl-95eb21a4"><span class="cl-95e5c786">3.9</span></p></td>
+<td class="cl-95eb5a66"><p class="cl-95eb21a4"><span class="cl-95e5c786">1.7</span></p></td>
+<td class="cl-95eb5a66"><p class="cl-95eb21a4"><span class="cl-95e5c786">0.4</span></p></td>
+<td class="cl-95eb5a67"><p class="cl-95eb21ea"><span class="cl-95e5c786">setosa</span></p></td>
 </tr>
 </tbody>
 </table></div>
-</div></template><div class="flextable-shadow-host" id="5abf996a-aded-4335-9167-ce14dc387381"></div>
-<script>
-var dest = document.getElementById("5abf996a-aded-4335-9167-ce14dc387381");
-var template = document.getElementById("e88848b3-d822-4077-9eaf-e1fc91967e37");
-var fantome = dest.attachShadow({mode: 'open'});
-var templateContent = template.content;
-fantome.appendChild(templateContent);
-</script><p></p>
+</div>
+<p></p>
 <p>La documentation du package<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://ardata-fr.github.io/flextable-book/" class="uri"&gt;https://ardata-fr.github.io/flextable-book/&lt;/a&gt;&lt;/p&gt;'><sup>56</sup></a> est disponible en ligne, ainsi qu’une galerie<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://ardata-fr.github.io/flextable-gallery/gallery/" class="uri"&gt;https://ardata-fr.github.io/flextable-gallery/gallery/&lt;/a&gt;&lt;/p&gt;'><sup>57</sup></a>.</p>
 <p><strong>flextable</strong> ne supporte pas la numérotation des légendes hormis dans les documents Word.
 Cette limite est rédhibitoire.</p>
@@ -1673,18 +1628,18 @@ En revanche, si le code est long à exécuter et n’est pas affiché, son inté
 <p></p>
 <div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_visnetwork.html">tar_visnetwork</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-f86449deb0c1fad89ea7" style="width:80%;height:504px;" class="visNetwork html-widget"></div>
+<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-f86449deb0c1fad89ea7" style="width:80%;height:504px;"></div>
 <script type="application/json" data-for="htmlwidget-f86449deb0c1fad89ea7">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"status":["outdated","outdated","outdated","outdated"],"seconds":[null,null,null,null],"bytes":[null,null,null,null],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#78B7C5","#78B7C5","#78B7C5","#78B7C5"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Outdated","Stem"],"color":["#78B7C5","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb337"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## • start target NbPoints
-## • built target NbPoints [2.07 seconds]
-## • start target X
-## • built target X [0.005 seconds]
-## • start target d
-## • built target d [0.028 seconds]
-## • start target map
-## • built target map [0.022 seconds]
-## • end pipeline [2.29 seconds]</code></pre>
+<pre><code>## ▶ start target NbPoints
+## ● built target NbPoints [1.805 seconds]
+## ▶ start target X
+## ● built target X [0.003 seconds]
+## ▶ start target d
+## ● built target d [0.023 seconds]
+## ▶ start target map
+## ● built target map [0.092 seconds]
+## ▶ end pipeline [2.067 seconds]</code></pre>
 <p></p>
 <p><code><a href="https://docs.ropensci.org/targets/reference/tar_visnetwork.html">tar_visnetwork()</a></code> permet de vérifier que le flux est correct avant de l’exécuter.
 Au moment de la production finale du document, l’option <code>include=FALSE</code> peut être ajoutée à l’entête de ce bout de code pour qu’il ne produise aucun affichage.</p>
@@ -1791,7 +1746,7 @@ De cette façon, les calculs effectués localement ne seront pas répétés par 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 16/11/2022.</p>
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 14/07/2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
