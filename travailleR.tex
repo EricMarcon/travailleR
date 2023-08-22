@@ -374,7 +374,7 @@
 
 \author{Eric Marcon}
 
-\date{14/07/2023}
+\date{22/08/2023}
 
 
 % Include headers (preamble.tex) here
@@ -1295,7 +1295,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7f974018ee20>
+## <bytecode: 0x7fef3f4c83f0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1776,7 +1776,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7f972de06f28>
+## <environment: 0x7fef2e1612e0>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1848,7 +1848,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7f972e7d12a8>
+## <bytecode: 0x7fef2ca1a5b0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -2037,7 +2037,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.020   0.000   0.042
+##   0.019   0.000   0.020
 \end{verbatim}
 
 \normalsize
@@ -2068,16 +2068,16 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 
 \begin{verbatim}
 ## Unit: microseconds
-##   expr     min      lq       mean   median       uq
-##  f1(X)  39.499  42.270  155.55297  45.3530  50.1520
-##  f2(X)  47.659  50.097   72.12884  51.7100  57.9895
-##  f3(X) 281.097 289.106 1174.80471 296.0945 317.1605
-##  f4(X) 415.837 426.555  702.75601 434.1105 466.1590
-##        max neval
-##   9394.739   100
-##   1737.873   100
-##  21641.207   100
-##  12558.427   100
+##   expr     min      lq      mean  median       uq      max
+##  f1(X)  42.042  45.102  63.04498  47.974  52.8730 1405.779
+##  f2(X)  50.121  53.138  74.63938  55.088  60.4700 1631.101
+##  f3(X) 288.973 295.830 320.19837 300.596 310.2230 1771.748
+##  f4(X) 424.002 435.929 460.05913 442.931 451.0385 1967.840
+##  neval
+##    100
+##    100
+##    100
+##    100
 \end{verbatim}
 
 \normalsize
@@ -2099,11 +2099,11 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 \end{Shaded}
 
 \begin{verbatim}
-##    expr   median
-## 1 f1(X)  45.3530
-## 2 f2(X)  51.7100
-## 3 f3(X) 296.0945
-## 4 f4(X) 434.1105
+##    expr  median
+## 1 f1(X)  47.974
+## 2 f2(X)  55.088
+## 3 f3(X) 300.596
+## 4 f4(X) 442.931
 \end{verbatim}
 
 \normalsize
@@ -2132,11 +2132,11 @@ Le test précédent est affiché à nouveau.
 \end{Shaded}
 
 \begin{verbatim}
-##    expr   median
-## 1 f1(X)  45.3530
-## 2 f2(X)  51.7100
-## 3 f3(X) 296.0945
-## 4 f4(X) 434.1105
+##    expr  median
+## 1 f1(X)  47.974
+## 2 f2(X)  55.088
+## 3 f3(X) 300.596
+## 4 f4(X) 442.931
 \end{verbatim}
 
 \normalsize
@@ -2263,7 +2263,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7f972f4c85c0>
+## <bytecode: 0x7fef2da0ada0>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2316,10 +2316,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   4.7285
-## 2                lapply(x1, FUN = sqrt) 305.1525
-## 3                sapply(x1, FUN = sqrt) 382.8110
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 298.1385
+## 1                              sqrt(x1)   4.8390
+## 2                lapply(x1, FUN = sqrt) 305.4335
+## 3                sapply(x1, FUN = sqrt) 379.8555
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 299.9775
 \end{verbatim}
 
 \normalsize
@@ -2373,8 +2373,8 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \begin{verbatim}
 ##          expr   median
-## 1  Boucle(x1) 835.0535
-## 2 Boucle2(x1)  85.5465
+## 1  Boucle(x1) 895.9755
+## 2 Boucle2(x1)  86.9790
 \end{verbatim}
 
 \begin{Shaded}
@@ -2405,9 +2405,9 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 289.2220
-## 2                Boucle(x1)  83.0115
+##                        expr  median
+## 1 vapply(x1, FUN = sqrt, 0) 295.193
+## 2                Boucle(x1)  86.478
 \end{verbatim}
 
 \normalsize
@@ -2429,9 +2429,12 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  298.045
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3836.833
+##                                               expr
+## 1                        vapply(x1, FUN = sqrt, 0)
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
+##      median
+## 1  300.5385
+## 2 4857.3155
 \end{verbatim}
 
 \normalsize
@@ -2498,8 +2501,8 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 
 \begin{verbatim}
 ##                        expr    median
-## 1 replicate(1000, runif(1)) 5646.1840
-## 2               runif(1000)   25.1535
+## 1 replicate(1000, runif(1)) 5602.6190
+## 2               runif(1000)   24.5645
 \end{verbatim}
 
 \normalsize
@@ -2537,9 +2540,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr    median
-## 1   BoucleSomme(diamonds[-(2:4)])  4.029596
-## 2 apply(diamonds[-(2:4)], 2, sum) 11.606096
-## 3       colSums(diamonds[-(2:4)])  2.550223
+## 1   BoucleSomme(diamonds[-(2:4)])  4.098076
+## 2 apply(diamonds[-(2:4)], 2, sum) 17.388267
+## 3       colSums(diamonds[-(2:4)])  2.827571
 \end{verbatim}
 
 \normalsize
@@ -2747,7 +2750,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.655
+##   0.002   0.000   0.662
 \end{verbatim}
 
 \begin{Shaded}
@@ -2759,12 +2762,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.008   0.324
+##   0.004   0.019   0.436
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.074} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.19} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2779,7 +2782,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.238
+##   0.000   0.000   2.158
 \end{verbatim}
 
 \begin{Shaded}
@@ -2791,7 +2794,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.007   1.026
+##   0.001   0.004   1.104
 \end{verbatim}
 
 \normalsize
@@ -2810,7 +2813,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.010   1.138
+##   0.003   0.006   1.186
 \end{verbatim}
 
 \begin{Shaded}
@@ -2821,7 +2824,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.006   2.103
+##   0.003   0.007   2.203
 \end{verbatim}
 
 \normalsize
@@ -3013,7 +3016,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.523
+##   0.003   0.000   0.602
 \end{verbatim}
 
 \begin{Shaded}
@@ -3028,7 +3031,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.017   0.330
+##   0.008   0.018   0.376
 \end{verbatim}
 
 \normalsize
@@ -3114,7 +3117,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.609   0.112  11.149
+##   5.584   0.080  11.136
 \end{verbatim}
 
 \begin{Shaded}
@@ -3148,7 +3151,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.382   0.065   7.916
+##   5.353   0.041   7.200
 \end{verbatim}
 
 \begin{Shaded}
@@ -3190,7 +3193,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.235   0.064   9.051
+##   5.180   0.040   8.045
 \end{verbatim}
 
 \begin{Shaded}
@@ -3229,7 +3232,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.184   0.020   3.214
+##   2.958   0.011   3.358
 \end{verbatim}
 
 \begin{Shaded}
@@ -3270,7 +3273,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.755   0.260   2.417
+##   3.518   0.499   4.148
 \end{verbatim}
 
 \begin{Shaded}
@@ -3311,7 +3314,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.788   0.021   1.818
+##   1.802   0.028   3.585
 \end{verbatim}
 
 \begin{Shaded}
@@ -3358,7 +3361,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.894   0.036   2.947
+##   2.934   0.044   5.449
 \end{verbatim}
 
 \begin{Shaded}
@@ -3403,7 +3406,7 @@ La performance reste très inférieure à celle d'une simple boucle for (rappel:
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.126   0.066   0.124
+##   0.127   0.068   0.117
 \end{verbatim}
 
 \begin{Shaded}
@@ -3577,11 +3580,13 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## Unit: microseconds
+## Unit: milliseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min      lq     mean   median       uq      max neval
-##  780.063 887.538 1120.632 1112.017 1274.555 2981.919   100
+##       min       lq     mean   median       uq      max
+##  2.054186 2.111125 2.182715 2.141266 2.184913 3.921465
+##  neval
+##    100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3621,13 +3626,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   7.210   0.030   7.272
+##   7.193   0.088  14.019
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4545} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{8962} secondes.
 
 \scriptsize
 
@@ -3640,7 +3645,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.028   0.044   1.913
+##   4.989   0.029   3.772
 \end{verbatim}
 
 \normalsize
@@ -3787,14 +3792,14 @@ Le flux est exécuté par \texttt{tar\_make()}.
 
 \begin{verbatim}
 ## ▶ start target NbPoints
-## ● built target NbPoints [1.997 seconds]
+## ● built target NbPoints [3.633 seconds]
 ## ▶ start target X
 ## ● built target X [0.004 seconds]
 ## ▶ start target d
-## ● built target d [0.022 seconds]
+## ● built target d [0.025 seconds]
 ## ▶ start target map
-## ● built target map [0.102 seconds]
-## ▶ end pipeline [3.427 seconds]
+## ● built target map [0.036 seconds]
+## ▶ end pipeline [3.932 seconds]
 \end{verbatim}
 
 \normalsize
@@ -3822,7 +3827,7 @@ Le flux est maintenant à jour et \texttt{tar\_make()} ne refait aucun calcul.
 ## ✔ skip target X
 ## ✔ skip target d
 ## ✔ skip target map
-## ✔ skip pipeline [0.339 seconds]
+## ✔ skip pipeline [0.076 seconds]
 \end{verbatim}
 
 \normalsize
@@ -6929,14 +6934,14 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 
 \begin{verbatim}
 ## ▶ start target NbPoints
-## ● built target NbPoints [1.888 seconds]
+## ● built target NbPoints [2.975 seconds]
 ## ▶ start target X
 ## ● built target X [0.004 seconds]
 ## ▶ start target d
-## ● built target d [0.022 seconds]
+## ● built target d [0.026 seconds]
 ## ▶ start target map
-## ● built target map [0.099 seconds]
-## ▶ end pipeline [3.017 seconds]
+## ● built target map [0.031 seconds]
+## ▶ end pipeline [3.248 seconds]
 \end{verbatim}
 
 \normalsize
@@ -7279,24 +7284,29 @@ Le développement du package est ponctué par de nombreux commits à chaque modi
 \subsection{package.R}\label{package.r}}
 
 Le fichier \texttt{package.R} est destiné à recevoir le code R et surtout les commentaires pour \textbf{roxygen2} qui concernent l'ensemble du package.
+Ce fichier peut aussi être nommé \texttt{multiple-package.R}, en préfixant son nom par celui du package, par souci de compatibilité avec \textbf{usethis}.
+Il peut d'ailleurs être créé sous ce nom par la commande:
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{usethis}\SpecialCharTok{::}\FunctionTok{use\_package\_doc}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
 
 Le premier bloc de commentaire produira l'aide du package (\texttt{?multiple}).
 
 \begin{verbatim}
-#' multiple-package
-#'
-#' Multiples of numbers
-#' 
-#' This package allows simple computation of multiples 
-#' of numbers, including fast algorithms for integers.
-#'
-#' @name multiple
-#' @docType package
-NULL
+#' @keywords internal 
+"_PACKAGE"
 \end{verbatim}
 
-Son organisation est identique à celle des documentations de fonctions, avec deux déclarations particulières pour le nom du package et le type de documentation.
-Le code \texttt{NULL} après les commentaires indique à \textbf{roxygen2} qu'il n'y a pas de code R lié.
+Le mot-clé ``\_PACKAGE'' indique que la documentation du package doit être produite.
+Elle pourrait être écrite dans le bloc, avec une syntaxe identique à celle des fonctions, mais son contenu par défaut est celui du champ \texttt{Description} du fichier \texttt{DESCRIPTION}.
+Le mot clé \texttt{internal} masque la documentation du package dans le sommaire de son aide.
 
 La documentation est mise à jour par la commande \texttt{roxygen2::roxygenise()}.
 Après reconstruction du package, vérifier que l'aide est est apparue: \texttt{?multiple}.
@@ -7357,15 +7367,15 @@ Quand le développement est stabilisé, la nouvelle version, destinée à être 
 
 La description des auteurs est assez lourde mais simple à comprendre.
 Les identifiants Orcid des auteurs académiques peuvent être utilisés.
-Si le package a plusieurs auteurs, ils sont placés dans une fonction \texttt{c()}: \texttt{c(person(...),\ person())} pour deux auteurs.
-Dans ce cas, il faut préciser le rôle de chacun :
+Si le package a plusieurs auteurs, ils sont placés dans une fonction \texttt{c()}: \texttt{c(person(...),\ person(...))} pour deux auteurs.
+Dans ce cas, il faut préciser le rôle de chacun:
 
 \begin{itemize}
 \tightlist
 \item
-  \enquote{cre} pour le créateur du package
+  \enquote{cre} pour le créateur du package;
 \item
-  \enquote{aut} pour un auteur parmi les autres
+  \enquote{aut} pour un auteur parmi les autres;
 \item
   \enquote{ctb} pour un contributeur, qui peut avoir signalé un bug ou fourni un peu de code.
 \end{itemize}
@@ -7701,7 +7711,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7f97422facc0>
+## <bytecode: 0x7fef43348da0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7995,14 +8005,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median   uq
-##  triple.integer(2L)  333  341.5 24027.69    361  407
-##   triple.numeric(2)  331  344.0 21304.72    372  426
-##          triple(2L) 1391 1430.5  1634.90   1455 1520
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  330  341.5 24889.51  350.5  386.5
+##   triple.numeric(2)  326  335.0 21340.31  350.5  385.0
+##          triple(2L) 1389 1429.5  1893.60 1453.5 1525.0
 ##      max neval
-##  2364045   100
-##  2086889   100
-##     6951   100
+##  2445305   100
+##  2095892   100
+##    25744   100
 \end{verbatim}
 
 \normalsize
@@ -8349,7 +8359,7 @@ Finalement, le code complet est le suivant:
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7f97422facc0>
+## <bytecode: 0x7fef43348da0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -8387,7 +8397,7 @@ Finalement, le code complet est le suivant:
 ## {
 ##     UseMethod("autoplot")
 ## }
-## <bytecode: 0x7f973fbe3778>
+## <bytecode: 0x7fef3f48e310>
 ## <environment: namespace:ggplot2>
 \end{verbatim}
 
@@ -8545,22 +8555,29 @@ Les références sont citées par la commande \texttt{\textbackslash{}insertCite
 \texttt{package} est le nom du package dans lequel le fichier \texttt{REFERENCES.bib} doit être cherché: ce sera normalement le package en cours, mais les références d'autres packages sont accessibles, à la seule condition qu'ils utilisent \textbf{Rdpack}.
 
 \texttt{key} est l'identifiant de la référence dans le fichier.
-Exemple\footnote{Package \textbf{SpatDiv} sur GitHub: \url{https://github.com/EricMarcon/SpatDiv/blob/master/R/package.R}}: documentation du package \textbf{SpatDiv} hébergé sur GitHub, fichier \texttt{.R} du package:
+Exemple\footnote{Package \textbf{divent} sur GitHub: \url{https://github.com/EricMarcon/divent/blob/master/R/package.R}}: documentation du package \textbf{divent} hébergé sur GitHub, fichier \texttt{.R} du package:
 
 \scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#\textquotesingle{} SpatDiv}
+\CommentTok{\#\textquotesingle{} divent}
 \CommentTok{\#\textquotesingle{}}
-\CommentTok{\#\textquotesingle{} Spatially Explicit Measures of Diversity}
+\CommentTok{\#\textquotesingle{} Measures of Diversity and Entropy}
 \CommentTok{\#\textquotesingle{} }
-\CommentTok{\#\textquotesingle{} This package extends the **entropart** package}
-\CommentTok{\#\textquotesingle{} \textbackslash{}insertCite\{Marcon2014c\}\{SpatDiv\}.}
-\CommentTok{\#\textquotesingle{} It provides spatially explicit measures of }
-\CommentTok{\#\textquotesingle{} diversity such as the mixing index.}
+\CommentTok{\#\textquotesingle{} This package is a reboot of the **entropart** package \textbackslash{}insertCite\{Marcon2014c\}\{divent\}.}
+\CommentTok{\#\textquotesingle{}}
+\CommentTok{\#\textquotesingle{} @importFrom Rdpack reprompt}
+\CommentTok{\#\textquotesingle{} }
+\CommentTok{\#\textquotesingle{} @references}
+\CommentTok{\#\textquotesingle{} \textbackslash{}insertAllCited\{\}}
+\StringTok{"\_PACKAGE"}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## [1] "_PACKAGE"
+\end{verbatim}
 
 \normalsize
 
@@ -8583,7 +8600,7 @@ Les citations sont entre parenthèses.
 Pour placer le nom de l'auteur hors de la parenthèse, ajouter la déclaration \texttt{;textual}:
 
 \begin{verbatim}
-\insertCite{Marcon2014c;textual}{SpatDiv}
+\insertCite{Marcon2014c;textual}{divent}
 \end{verbatim}
 
 Pour citer plusieurs références (forcément du même package), les séparer par des virgules.
