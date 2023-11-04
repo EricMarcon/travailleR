@@ -7,7 +7,7 @@
 <title>6 Intégration continue | Travailler avec R</title>
 <meta name="author" content="Eric Marcon">
 <meta name="description" content="L’intégration continue consiste à confier à un service externe la tâche de vérifier un package, produire des documents Markdown pour les pages web d’un dépôt GitHub ou tricoter entièrement un site...">
-<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
 <meta property="og:title" content="6 Intégration continue | Travailler avec R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ericmarcon.github.io/travailleR/chap-ci.html">
@@ -233,9 +233,9 @@ L’intégration continue de R sur GitHub utilise habituellement MacOS qui a l�
 <p>Les étapes sont décrites dans la rubrique <code>steps</code>.</p>
 <pre><code>    steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup R
-        uses: r-lib/actions/setup-r@v1
+        uses: r-lib/actions/setup-r@v2
       - name: Install pandoc
         run: |
           brew install pandoc</code></pre>
@@ -254,63 +254,17 @@ Elle est appelée par <code>run:</code> et peut contenir plusieurs lignes (d’o
 Ce script dépend du système d’exploitation: <code>brew</code> est le gestionnaire de paquets de MacOS.
 Pour éviter les spécificités d’un système, il est préférable d’utiliser une action:</p>
 <pre><code>      - name: Install pandoc
-        uses: r-lib/actions/setup-pandoc@v1</code></pre>
+        uses: r-lib/actions/setup-pandoc@v2</code></pre>
+<p>Il est souvent possible de choisir entre une action ou l’écriture du code correspondant.
+Le choix fait ici est de privilégier les actions pour tout ce qui a trait au système, comme les installations de logiciels, mais d’utiliser des scripts pour les commandes R, comme la vérification des packages.
+L’objectif est de contrôler précisément le code R et de limiter les dépendances à des packages supplémentaires.
+La stratégie inverse est développée dans <span class="citation">Wickham et Bryan (<a href="references.html#ref-Wickham2023" role="doc-biblioref">2023</a>)</span> qui s’appuie entièrement sur des actions pour exécuter les tâches de R.</p>
 </div>
-<div id="caches" class="section level4" number="6.2.4.5">
+<div id="sec:packages-ci" class="section level4" number="6.2.4.5">
 <h4>
-<span class="header-section-number">6.2.4.5</span> Caches<a class="anchor" aria-label="anchor" href="#caches"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.2.4.5</span> Packages<a class="anchor" aria-label="anchor" href="#sec:packages-ci"><i class="fas fa-link"></i></a>
 </h4>
-<p>L’installation des packages de R prend du temps, beaucoup s’ils sont installés à partir des sources (la procédure standard sous Ubuntu, mais pas sous MacOS et Windows où les packages binaires sont utilisés par défaut).
-Le calcul des bouts de code est en général l’étape la plus longue du flux de travail.
-L’action <code>cache</code> permet de mettre en cache les résultats des deux opérations.</p>
-<pre><code>      - name: Cache Renv packages
-        uses: actions/cache@v2
-        with:
-          path: $HOME/.local/share/renv
-          key: r-${{ hashFiles('renv.lock') }}
-          restore-keys: r-
-      - name: Cache bookdown results
-        uses: actions/cache@v2
-        with:
-          path: _bookdown_files
-          key: bookdown-${{ hashFiles('**/*Rmd') }}
-          restore-keys: bookdown-</code></pre>
-<p>Le cache est mis à jour en cas de modification d’un package ou d’un bout de code, ce qui nécessite un moyen rapide de vérifier les modifications: une valeur de contrôle (<em>hashtag</em>) est calculée par la fonction <code>hashFiles()</code> à partir du fichier <code>renv.lock</code> (voir ci-dessous) pour les packages et l’ensemble des fichiers <code>.Rmd</code> pour les bouts de code.
-Tout changement entraîne la réinstallation des packages ou le recalcul de l’ensemble du code: la gestion du cache est moins fine que celle de R sur un poste de travail, qui ne recalcule que les bouts de code modifiés.</p>
-</div>
-<div id="sec:packages-ci" class="section level4" number="6.2.4.6">
-<h4>
-<span class="header-section-number">6.2.4.6</span> Packages<a class="anchor" aria-label="anchor" href="#sec:packages-ci"><i class="fas fa-link"></i></a>
-</h4>
-<p>L’installation des packages est gérée par la fonction <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>.
-Plutôt que d’énumérer les packages à installer dans les arguments de la fonction, source d’erreur, il est préférable d’utiliser le package <strong>renv</strong> pour enregistrer tous les packages utilisés par le projet et les installer en une fois pour l’intégration continue.
-<strong>renv</strong> installera les packages dans la version enregistrée, ce qui permet d’éviter des effets imprévus dus à des versions différentes entre le poste de travail et GitHub Actions.</p>
-<pre><code>      - name: Install packages
-        run: |
-          R -e 'install.packages("renv")'
-          R -e 'renv::restore()'</code></pre>
-<p>Il est nécessaire d’installer <strong>renv</strong> sur le poste de travail utilisé pour le développement du projet.</p>
-<p>Il faut utiliser un fichier <code>DESCRIPTION</code> pour lister les packages de tout projet, comme si c’était un package R.
-Pour ce document:</p>
-<pre><code>Package: travailleR
-Title: Travailler avec R
-Version: 1.1.0
-Authors@R: c(
-  person("Eric", "Marcon", , "e.marcon@free.fr", c("aut", "cre"))
-  )
-URL: https://github.com/EricMarcon/travailleR
-Imports:
-  bookdown,
-  (...)</code></pre>
-<p>Avant de déclencher le flux de travail, il est nécessaire de créer la liste des packages dans leur version en cours sur le poste de travail:</p>
-<p></p>
-<div class="sourceCode" id="cb461"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">renv</span><span class="fu">::</span><span class="fu">snapshot</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"explicit"</span><span class="op">)</span></span></code></pre></div>
-<p></p>
-<p>A sa première utilisation, le package <strong>renv</strong> informe de quelques adaptations de l’environnement de travail, qu’il faut accepter.</p>
-<p>Cette commande crée le fichier <code>renv.lock</code> qui est utilisé par GitHub Actions pour installer les packages pendant l’intégration continue.
-Il pourra être mis à jour à tout moment pour prendre en compte leur mise à jour.</p>
-<p>Alternativement, les packages nécessaires peuvent être installés sans l’aide de <strong>Renv</strong>:</p>
+<p>Cette étape utilise <code>Rscript</code> comme environnement de commande, ce qui lui permet d’exécuter directement des commandes R.</p>
 <pre><code>      - name: Install packages
         env:
           GITHUB_PAT: ${{ secrets.GH_PAT }}
@@ -318,10 +272,9 @@ Il pourra être mis à jour à tout moment pour prendre en compte leur mise à j
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
           install.packages(c("remotes", "bookdown", "formatR", "tinytex"))
-          tinytex::install_tinytex()
+          tinytex::install_tinytex(bundle = "TinyTeX")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}</code></pre>
-<p>Cette étape utilise <code>Rscript</code> comme environnement de commande, ce qui lui permet d’exécuter directement des commandes R (à comparer à l’utilisation de <code>R -e</code> dans les exemples précédents).</p>
 <p>Les packages servant à produire le document sont listés:</p>
 <ul>
 <li>
@@ -342,11 +295,10 @@ Il serait donc nécessaire d’installer préalablement les librairies nécessai
 Une meilleure solution est de forcer l’installation des packages binaires même si le code source est plus récent: c’est l’objet des deux options de R définies avant l’appel à <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>.</p>
 <p>Enfin, le secret <code>GH_PAT</code> est passé à R dans une variable d’environnement, <code>GITHUB_PAT</code>, nécessaire pour installer des packages à partir leur code source sur GitHub.
 GitHub limite le rythme des accès anonymes pour l’ensemble des actions GitHub (tous comptes confondus) et peut rejeter la demande: en pratique, utiliser <code>install_github()</code> dans une action GitHub n’est envisageable qu’avec cette variable d’environnement.</p>
-<p>Dans cette approche, les packages ne sont pas mis en cache.</p>
 </div>
-<div id="tricot" class="section level4" number="6.2.4.7">
+<div id="tricot" class="section level4" number="6.2.4.6">
 <h4>
-<span class="header-section-number">6.2.4.7</span> Tricot<a class="anchor" aria-label="anchor" href="#tricot"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.2.4.6</span> Tricot<a class="anchor" aria-label="anchor" href="#tricot"><i class="fas fa-link"></i></a>
 </h4>
 <p>La production de l’ouvrage est lancée par une commande R.</p>
 <pre><code>      - name: Render pdf book
@@ -357,19 +309,19 @@ GitHub limite le rythme des accès anonymes pour l’ensemble des actions GitHub
         run: |
           bookdown::render_book("index.Rmd", "bookdown::gitbook")
         shell: Rscript {0}</code></pre>
-<p>Les formats paramétrés dans <code>_output.yml</code> sont ignorés.</p>
+<p>Les paramètres déclarés dans <code>_output.yml</code> sont utilisés.</p>
 <p>Le fichier PDF doit être produit avant le format GitBook pour que son lien de téléchargement soit ajouté à la barre de menu du site GitBook.
 D’autre part, R doit être fermé et rouvert entre les deux rendus faute de quoi les tableaux ne sont pas créés correctement dans le GitBook<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://stackoverflow.com/questions/46080853/why-does-rendering-a-pdf-from-rmarkdown-require-closing-rstudio-between-renders/46083308#46083308" class="uri"&gt;https://stackoverflow.com/questions/46080853/why-does-rendering-a-pdf-from-rmarkdown-require-closing-rstudio-between-renders/46083308#46083308&lt;/a&gt;&lt;/p&gt;'><sup>109</sup></a>.
 Les deux étapes ne doivent pas être regroupées en une seule.</p>
 </div>
-<div id="sauvegarde" class="section level4" number="6.2.4.8">
+<div id="sauvegarde" class="section level4" number="6.2.4.7">
 <h4>
-<span class="header-section-number">6.2.4.8</span> Sauvegarde<a class="anchor" aria-label="anchor" href="#sauvegarde"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.2.4.7</span> Sauvegarde<a class="anchor" aria-label="anchor" href="#sauvegarde"><i class="fas fa-link"></i></a>
 </h4>
 <p>Le résultat du tricot, placé dans le dossier <code>docs</code> de la machine virtuelle en charge de l’intégration continue, doit être préservé pour que la tâche suivante puisse l’utiliser.</p>
 <p>La dernière étape de la tâche de production utilise l’action <code>upload-artifact</code> pour cela.</p>
 <pre><code>      - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: _book
           path: docs/</code></pre>
@@ -377,9 +329,9 @@ Les deux étapes ne doivent pas être regroupées en une seule.</p>
 Les artefacts sont visibles publiquement sur la page des Actions du projet GitHub.</p>
 <p>Après sa dernière étape, la machine virtuelle utilisée pour cette étape est détruite.</p>
 </div>
-<div id="publication" class="section level4" number="6.2.4.9">
+<div id="publication" class="section level4" number="6.2.4.8">
 <h4>
-<span class="header-section-number">6.2.4.9</span> Publication<a class="anchor" aria-label="anchor" href="#publication"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.2.4.8</span> Publication<a class="anchor" aria-label="anchor" href="#publication"><i class="fas fa-link"></i></a>
 </h4>
 <p>La publication de l’artefact dans la branche <code>gh-pages</code> du projet nécessite une autre tâche.</p>
 <pre><code>  deploy:
@@ -387,7 +339,7 @@ Les artefacts sont visibles publiquement sur la page des Actions du projet GitHu
     needs: renderbook
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           # Artifact name
           name: _book
@@ -441,13 +393,7 @@ L’étape suivante, à insérer avant l’étape de tricot, écrit la clé dans
 <h2>
 <span class="header-section-number">6.3</span> Modèles de scripts<a class="anchor" aria-label="anchor" href="#mod%C3%A8les-de-scripts"><i class="fas fa-link"></i></a>
 </h2>
-<p>Des modèles de scripts pour tous les types de projets sont présentés ici.
-Tous nécessitent même préparation:</p>
-<ul>
-<li>les secrets <code>GH_PAT</code> et <code>EMAIL</code> doivent être enregistrés dans le projet GitHub (section <a href="chap-ci.html#sec:secrets-ci">6.2.2</a>);</li>
-<li>un fichier <code>DESCRIPTION</code> doit être utilisé pour lister les packages nécessaires (section <a href="chap-package.html#sec:package-description">5.2.1</a>), quel que soit le type de projet;</li>
-<li>un instantané des packages installés (<code>renv.lock</code>) doit être réalisé si <strong>renv</strong> (section <a href="chap-ci.html#sec:packages-ci">6.2.4.6</a>) est utilisé.</li>
-</ul>
+<p>Des modèles de scripts pour tous les types de projets sont présentés ici.</p>
 <p>La branche <code>gh-pages</code> est créée automatiquement par les scripts.
 Vérifier après la première exécution que les pages GitHub sont bien activées sur cette branche (section <a href="chap-git.html#sec:github-pages">3.7</a>).
 Supprimer ensuite le dossier <code>docs</code> s’il existait, pousser la modification sur GitHub et enfin ajouter la ligne suivante au fichier <code>.gitignore</code> pour pouvoir tricoter localement les projets sans perturber GitHub:</p>
@@ -458,13 +404,12 @@ Supprimer ensuite le dossier <code>docs</code> s’il existait, pousser la modif
 </h3>
 <p>La fonction <code>build_ghworkflow()</code> du package <strong>memoiR</strong> crée automatiquement les scripts nécessaires à la production des modèles du package.
 Le script est toujours nommé <code>memoir.yml</code>.</p>
-<p>Ces scripts n’utilisent ni <strong>renv</strong> ni cache.
-Ils n’ont pas besoin d’un fichier <code>DESCRIPTION</code> pour l’installation des dépendances mais chaque document doit contenir son le bout de code de paramétrage (<code>Options</code>) la liste de tous les packages nécessaires à son tricot (stockés dans la variable <code>Packages</code>).</p>
-</div>
-<div id="sec:bookdown-ci" class="section level3" number="6.3.2">
-<h3>
-<span class="header-section-number">6.3.2</span> Projet d’ouvrage<a class="anchor" aria-label="anchor" href="#sec:bookdown-ci"><i class="fas fa-link"></i></a>
-</h3>
+<p>Ces scripts n’ont pas besoin d’un fichier <code>DESCRIPTION</code> pour l’installation des dépendances mais chaque document doit contenir son le bout de code de paramétrage (<code>Options</code>) la liste de tous les packages nécessaires à son tricot (stockés dans la variable <code>Packages</code>).</p>
+<p>Tous nécessitent même préparation: les secrets <code>GH_PAT</code> et <code>EMAIL</code> doivent être enregistrés dans le projet GitHub (section <a href="chap-ci.html#sec:secrets-ci">6.2.2</a>).</p>
+<div id="sec:bookdown-ci" class="section level4" number="6.3.1.1">
+<h4>
+<span class="header-section-number">6.3.1.1</span> Projet d’ouvrage<a class="anchor" aria-label="anchor" href="#sec:bookdown-ci"><i class="fas fa-link"></i></a>
+</h4>
 <p>Le flux de travail s’appelle <code>rmarkdown</code>; sa tâche de production <code>render</code>.</p>
 <pre><code>on:
   push:
@@ -478,28 +423,32 @@ jobs:
     runs-on: macOS-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup R
-        uses: r-lib/actions/setup-r@v1
+        uses: r-lib/actions/setup-r@v2
       - name: Install pandoc
-        uses: r-lib/actions/setup-pandoc@v1
+        uses: r-lib/actions/setup-pandoc@v2
       - name: Install dependencies
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
-          install.packages(c("memoiR", "rmdformats", "tinytex"))
-          tinytex::install_tinytex()
+          install.packages(c("distill", "downlit", "memoiR", "rmdformats", "tinytex"))
+          tinytex::install_tinytex(bundle = "TinyTeX")
         shell: Rscript {0}
       - name: Render pdf book
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
         run: |
           bookdown::render_book("index.Rmd", "bookdown::pdf_book")
         shell: Rscript {0}
       - name: Render gitbook
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
         run: |
           bookdown::render_book("index.Rmd", "bookdown::gitbook")
         shell: Rscript {0}
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: ghpages
           path: docs
@@ -508,7 +457,7 @@ jobs:
     needs: render
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: ghpages
           path: docs
@@ -521,10 +470,10 @@ jobs:
           build_dir: docs
           jekyll: no</code></pre>
 </div>
-<div id="articles-et-présentations" class="section level3" number="6.3.3">
-<h3>
-<span class="header-section-number">6.3.3</span> Articles et présentations<a class="anchor" aria-label="anchor" href="#articles-et-pr%C3%A9sentations"><i class="fas fa-link"></i></a>
-</h3>
+<div id="articles-et-présentations" class="section level4" number="6.3.1.2">
+<h4>
+<span class="header-section-number">6.3.1.2</span> Articles et présentations<a class="anchor" aria-label="anchor" href="#articles-et-pr%C3%A9sentations"><i class="fas fa-link"></i></a>
+</h4>
 <p>Le flux de travail s’appelle <code>rmarkdown</code>; sa tâche de production <code>render</code>.</p>
 <pre><code>on:
   push:
@@ -538,26 +487,28 @@ jobs:
     runs-on: macOS-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup R
-        uses: r-lib/actions/setup-r@v1
+        uses: r-lib/actions/setup-r@v2
       - name: Install pandoc
-        uses: r-lib/actions/setup-pandoc@v1
+        uses: r-lib/actions/setup-pandoc@v2
       - name: Install dependencies
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
           install.packages(c("memoiR", "rmdformats", "tinytex"))
-          tinytex::install_tinytex()
+          tinytex::install_tinytex(bundle = "TinyTeX")
         shell: Rscript {0}
       - name: Render Rmarkdown files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           RMD_PATH=($(ls | grep "[.]Rmd$"))
           Rscript -e 'for (file in commandArgs(TRUE)) |&gt;
               rmarkdown::render(file, "all")' ${RMD_PATH[*]}
           Rscript -e 'memoiR::build_githubpages()'
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: ghpages
           path: docs
@@ -566,7 +517,7 @@ jobs:
     needs: render
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: ghpages
           path: docs
@@ -581,9 +532,10 @@ jobs:
 <p>L’étape chargée du tricot utilise un script pour lister tous les fichiers <code>.Rmd</code>, les traiter (tous les formats de sortie listés dans leur entête yaml sont produits).
 La fonction <code>build_githubpages()</code> (voir section <a href="chap-rediger.html#sec:memo">4.3.2</a>) place les résultat dans <code>docs</code>.</p>
 <p>La tâche de déploiement indique aux pages GitHub d’utiliser Jekyll, c’est-à-dire d’utiliser le fichier <code>README.md</code> comme page d’accueil.</p>
-<div id="internationalisation" class="section level4" number="6.3.3.1">
+</div>
+<div id="internationalisation" class="section level4" number="6.3.1.3">
 <h4>
-<span class="header-section-number">6.3.3.1</span> Internationalisation<a class="anchor" aria-label="anchor" href="#internationalisation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.3.1.3</span> Internationalisation<a class="anchor" aria-label="anchor" href="#internationalisation"><i class="fas fa-link"></i></a>
 </h4>
 <p>Si l’étape de tricot nécessite de modifier la langue utilisée par R, par exemple pour afficher correctement la date de production des documents, elle peut être modifiée comme ceci:</p>
 <pre><code>      - name: Render Rmarkdown files
@@ -599,16 +551,16 @@ La fonction <code>build_githubpages()</code> (voir section <a href="chap-rediger
           echo 'theme: jekyll-theme-slate' &gt; docs/_config.yml</code></pre>
 <p>Le thème est ici “Slate”, un des choix proposés par les pages GitHub.</p>
 </div>
-<div id="débogage" class="section level4" number="6.3.3.2">
+<div id="débogage" class="section level4" number="6.3.1.4">
 <h4>
-<span class="header-section-number">6.3.3.2</span> Débogage<a class="anchor" aria-label="anchor" href="#d%C3%A9bogage"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.3.1.4</span> Débogage<a class="anchor" aria-label="anchor" href="#d%C3%A9bogage"><i class="fas fa-link"></i></a>
 </h4>
 <p>Il peut arriver que la compilation du fichier <code>.tex</code> pour produire le fichier PDF échoue, bien que le tricot en HTML ne génère pas d’erreur.
 Le compilateur LaTeX est en effet plus exigeant que pandoc (qui produit le fichier HTML).</p>
 <p>La première vérification consiste à tricoter en PDF localement, sur son poste de travail, le document qui pose problème, avec <strong>tinytex</strong>.
 Les packages LaTeX doivent être mis à jour pour être les mêmes que ceux utilisés par les actions GitHub: pour cela, exécuter:</p>
 <p></p>
-<div class="sourceCode" id="cb472"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb468"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tinytex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytex/man/tlmgr.html">tlmgr_update</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Si la compilation fonctionne localement mais pas sur Github, il faut inspecter le fichier <code>.log</code> qui enregistre tous les évènements générés par le compilateur, mais ce fichier n’est pas conservé après l’échec de GitHub Actions.
@@ -616,7 +568,7 @@ Il faut donc modifier le script pour copier le fichier dans <code>docs</code> pu
 <p>L’étape “Upload artifact” est modifiée pour s’exécuter malgré l’échec de l’étape précédente en ajoutant la ligne <code>if:</code>:</p>
 <pre><code>      - name: Upload artifact
         if: always()
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: _book
           path: docs/</code></pre>
@@ -630,9 +582,9 @@ Il faut donc modifier le script pour copier le fichier dans <code>docs</code> pu
 Il s’agit d’un fichier compressé qui contient tout le dossier <code>docs</code>.</p>
 </div>
 </div>
-<div id="sec:blogdown-ci" class="section level3" number="6.3.4">
+<div id="sec:blogdown-ci" class="section level3" number="6.3.2">
 <h3>
-<span class="header-section-number">6.3.4</span> Site web blogdown<a class="anchor" aria-label="anchor" href="#sec:blogdown-ci"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.3.2</span> Site web blogdown<a class="anchor" aria-label="anchor" href="#sec:blogdown-ci"><i class="fas fa-link"></i></a>
 </h3>
 <p>Le fichier appelé <code>blogdown.yml</code> est très similaire.
 Le nom du flux de travail est <code>blogdown</code> et celui de la tâche de production est <code>buildsite</code>.</p>
@@ -650,12 +602,14 @@ jobs:
     runs-on: macOS-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup R
-        uses: r-lib/actions/setup-r@v1
+        uses: r-lib/actions/setup-r@v2
       - name: Install pandoc
-        uses: r-lib/actions/setup-pandoc@v1
+        uses: r-lib/actions/setup-pandoc@v2
       - name: Install packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
@@ -663,12 +617,14 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
       - name: Build website
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           blogdown::install_hugo(force = TRUE)
           blogdown::build_site(local = TRUE, build_rmd = TRUE)
         shell: Rscript {0}
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: _website
           path: public/
@@ -677,7 +633,7 @@ jobs:
     needs: buildsite
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           # Artifact name
           name: _website
@@ -697,9 +653,9 @@ Ici, le site est reconstruit tous les dimanches à 22h.</p>
 <p>Exemple: la page qui affiche la bibliométrie du site web<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://EricMarcon.github.io/fr/publication/" class="uri"&gt;https://EricMarcon.github.io/fr/publication/&lt;/a&gt;&lt;/p&gt;'><sup>110</sup></a> de l’auteur interroge Google Scholar pour afficher les citations des publications.
 Le site est mis à jour toutes les semaines pour que les statistiques soient à jour.</p>
 </div>
-<div id="sec:package-ci6" class="section level3" number="6.3.5">
+<div id="sec:package-ci6" class="section level3" number="6.3.3">
 <h3>
-<span class="header-section-number">6.3.5</span> Packages R<a class="anchor" aria-label="anchor" href="#sec:package-ci6"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6.3.3</span> Packages R<a class="anchor" aria-label="anchor" href="#sec:package-ci6"><i class="fas fa-link"></i></a>
 </h3>
 <p>Un script optimal pour la vérification d’un package est le suivant:</p>
 <pre><code>on:
@@ -712,31 +668,32 @@ name: R-CMD-check
 jobs:
   R-CMD-check:
     runs-on: macOS-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GH_PAT }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@v1
+      - name: Pull the repository
+        uses: actions/checkout@v4
+      - name: Install R
+        uses: r-lib/actions/setup-r@v2
       - name: Install pandoc
-        uses: r-lib/actions/setup-pandoc@v1
-      - name: Install dependencies
+        uses: r-lib/actions/setup-pandoc@v2
+      - name: Install R packages
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
-          install.packages(c("remotes", "rcmdcheck", "covr", "pkgdown"))
+          install.packages(c("remotes", "roxygen2", "rcmdcheck", "covr", "pkgdown"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-      - name: Roxygenize
+      - name: Update the documentation
         run: roxygen2::roxygenize()
         shell: Rscript {0}
-      - uses: EndBug/add-and-commit@v9
-      - name: Check
+      - name: Commit and push the repository
+        uses: EndBug/add-and-commit@v9
+      - name: Check the package
         run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
         shell: Rscript {0}
       - name: Test coverage
         run: covr::codecov(type="all")
         shell: Rscript {0}
-      - name: Install package
+      - name: Install the package
         run: R CMD INSTALL .
       - name: Pkgdown
         run: |
@@ -745,11 +702,14 @@ jobs:
           Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'</code></pre>
 <p>Le fichier est nommé <code>check.yml</code>.
 Il ne contient qu’une seule tâche, nommée <code>R-CMD-check</code> comme le flux.</p>
-<p>Le script n’utilise pas <strong>Renv</strong> pour gérer les packages parce que la vérification d’un package doit fonctionner avec les versions en cours sur CRAN.
-<strong>remotes</strong> installe les packages nécessaires à partir du fichier <code>DESCRIPTION</code>.</p>
+<p><strong>remotes</strong> installe les packages nécessaires à partir du fichier <code>DESCRIPTION</code>.</p>
 <p>L’étape <code>Roxygenize</code> met à jour la documentation du package.
 Les fichiers mis à jour sont poussés dans la branche principale du projet par l’action <code>add-and-commit</code>.
-Ces deux étapes permettent de garantir que le package est dans un état cohérent, même si l’auteur a omis d’exécuter la fonction <code>roxygenize()</code> avant de pousser son code sur GitHub.</p>
+Ces deux étapes permettent de garantir que le package est dans un état cohérent, même si l’auteur a omis d’exécuter la fonction <code>roxygenize()</code> avant de pousser son code sur GitHub.
+Pour éviter de déclencher en boucle la vérification du code poussé de cette façon, le jeton d’accès utilisé est obligatoirement celui du script en cours, créé par GitHub à chaque exécution.
+Ce jeton n’a par défaut pas le droit de modifier le dépôt.
+Il faut donc le lui donner: sur GitHub, afficher les paramètres du projet et sélectionner “Actions”, “General”.
+Dans la section “Workflow permissions”, sélectionner “Read and write permissions”.</p>
 <p>L’étape <code>Check</code> vérifie le package.
 Les avertissements sont traités comme des erreurs.</p>
 <p>L’étape <code>Test coverage</code> utilise le package <strong>covr</strong> pour mesurer le taux de couverture et téléverse les résultats sur le site Codecov.</p>
@@ -805,10 +765,8 @@ Coller le code Markdown:</p>
 <li>
 <a class="nav-link" href="#mod%C3%A8les-de-scripts"><span class="header-section-number">6.3</span> Modèles de scripts</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#sec:memoiR-ci"><span class="header-section-number">6.3.1</span> memoiR</a></li>
-<li><a class="nav-link" href="#sec:bookdown-ci"><span class="header-section-number">6.3.2</span> Projet d’ouvrage</a></li>
-<li><a class="nav-link" href="#articles-et-pr%C3%A9sentations"><span class="header-section-number">6.3.3</span> Articles et présentations</a></li>
-<li><a class="nav-link" href="#sec:blogdown-ci"><span class="header-section-number">6.3.4</span> Site web blogdown</a></li>
-<li><a class="nav-link" href="#sec:package-ci6"><span class="header-section-number">6.3.5</span> Packages R</a></li>
+<li><a class="nav-link" href="#sec:blogdown-ci"><span class="header-section-number">6.3.2</span> Site web blogdown</a></li>
+<li><a class="nav-link" href="#sec:package-ci6"><span class="header-section-number">6.3.3</span> Packages R</a></li>
 </ul>
 </li>
 <li><a class="nav-link" href="#sec:ci-badges"><span class="header-section-number">6.4</span> Ajouter des badges</a></li>
@@ -829,7 +787,7 @@ Coller le code Markdown:</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 08/10/2023.</p>
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 04/11/2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

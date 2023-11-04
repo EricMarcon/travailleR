@@ -7,7 +7,7 @@
 <title>5 Package | Travailler avec R</title>
 <meta name="author" content="Eric Marcon">
 <meta name="description" content="Les packages de R permettent d’étendre les fonctionnalités du logiciel par du code fourni par la communauté des développeurs. Ils sont la clé du succès de R parce qu’ils permettent de diffuser...">
-<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta name="generator" content="bookdown 0.36 with bs4_book()">
 <meta property="og:title" content="5 Package | Travailler avec R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ericmarcon.github.io/travailleR/chap-package.html">
@@ -421,7 +421,7 @@ Le fichier source se trouve à côté de celui du projet.</li>
 </ul>
 <p></p>
 <div class="sourceCode" id="cb358"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"multiple"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"multiple"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>La vignette peut ensuite être affichée par la commande:</p>
 <p></p>
@@ -567,7 +567,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <code class="sourceCode R"><span><span class="va">plot</span></span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod("plot")
-## &lt;bytecode: 0x7ff055b9a400&gt;
+## &lt;bytecode: 0x7f84fbc6af18&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -734,14 +734,14 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu">triple.integer</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span>, <span class="fu">triple.numeric</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
 <span>    <span class="fu">triple</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min     lq     mean median   uq
-##  triple.integer(2L)  322  333.0 23535.39  346.0  381
-##   triple.numeric(2)  318  330.0 20718.47  348.5  380
-##          triple(2L) 1346 1386.5  1517.85 1414.0 1541
+##                expr  min     lq     mean median     uq
+##  triple.integer(2L)  284  293.5 17824.02  302.5  308.0
+##   triple.numeric(2)  285  298.0 14934.06  307.0  316.5
+##          triple(2L) 1052 1063.0  1143.78 1072.5 1114.5
 ##      max neval
-##  2316238   100
-##  2035558   100
-##     6331   100</code></pre>
+##  1750683   100
+##  1461929   100
+##     5250   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -969,7 +969,7 @@ Il doit être importé:</li>
 <span><span class="fu">graphics</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span></span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod("plot")
-## &lt;bytecode: 0x7ff055b9a400&gt;
+## &lt;bytecode: 0x7f84fbc6af18&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode" id="cb423"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' autoplot</span></span>
@@ -1000,7 +1000,7 @@ Il doit être importé:</li>
 ## {
 ##     UseMethod("autoplot")
 ## }
-## &lt;bytecode: 0x7ff05208d700&gt;
+## &lt;bytecode: 0x7f84f7f7ee68&gt;
 ## &lt;environment: namespace:ggplot2&gt;</code></pre>
 <p></p>
 </div>
@@ -1279,7 +1279,7 @@ Elle est commentée tant que la production du site est réalisée localement, ma
 Elle peut être automatisée très simplement avec le service GitHub Actions, déclenché à chaque modification du dépôt sur GitHub.
 L’analyse de la couverture du code par les tests (quelles parties du codes sont testées ou non) sera ajoutée.</p>
 <p>GitHub est également capable de reconstruire la documentation du package avec <strong>pkgdown</strong>, autre opération consommatrice de ressources, après la réussite des tests.</p>
-<p>La section <a href="chap-ci.html#sec:package-ci6">6.3.5</a> détaille le moyen de le faire.</p>
+<p>La section <a href="chap-ci.html#sec:package-ci6">6.3.3</a> détaille le moyen de le faire.</p>
 </div>
 <div id="sec:package-cran" class="section level2" number="5.11">
 <h2>
@@ -1387,7 +1387,7 @@ Dans le cas contraire, le package est archivé.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 08/10/2023.</p>
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 04/11/2023.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
