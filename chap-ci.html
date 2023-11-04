@@ -719,6 +719,112 @@ Son succès est affiché par un badge à afficher dans le fichier <code>README.m
 <p>Des scripts plus complexes sont proposés par R-lib<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow" class="uri"&gt;https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow&lt;/a&gt;&lt;/p&gt;'><sup>111</sup></a>, notamment pour exécuter les tests sur plusieurs systèmes d’exploitation et plusieurs versions de R.
 Ces tests poussés sont à effectuer avant de soumettre à CRAN (section <a href="chap-package.html#sec:package-cran">5.11</a>) mais consomment trop de ressource pour un usage systématique.</p>
 </div>
+<div id="sec:ci-pr" class="section level3" number="6.3.4">
+<h3>
+<span class="header-section-number">6.3.4</span> Pull requests<a class="anchor" aria-label="anchor" href="#sec:ci-pr"><i class="fas fa-link"></i></a>
+</h3>
+<p>Les requêtes de tirage peuvent être testées par des scripts très proches pour vérifier qu’elles ne génèrent pas d’erreurs avant de les fusionner.</p>
+<p>Une méthode efficace consiste à créer un nouveau script dans le dossier <code>.github/workflows/</code>, en partant d’une copie du script existant.
+Le nouveau script sera nommé <code>pr.yml</code>.
+Le déclenchement doit être modifié: <code>pull_request</code> remplace <code>push</code>:</p>
+<pre><code>on:
+  pull_request:
+     branches:
+       - master</code></pre>
+<div id="sec:memoiR-pr-ci" class="section level4" number="6.3.4.1">
+<h4>
+<span class="header-section-number">6.3.4.1</span> memoiR<a class="anchor" aria-label="anchor" href="#sec:memoiR-pr-ci"><i class="fas fa-link"></i></a>
+</h4>
+<p>Les scripts de vérification des documents créés par <strong>memoiR</strong> doivent être coupés après l’étape <code>Render gitbook</code>: l’artefact ne doit pas être sauvegardé et la tâche de déploiement doit être supprimée.
+Le script est donc le suivant:</p>
+<pre><code>on:
+  pull_request:
+    branches:
+      - master
+
+name: rmarkdown
+
+jobs:
+  render:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+      - name: Install dependencies
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("distill", "downlit", "memoiR", "rmdformats", "tinytex"))
+          tinytex::install_tinytex(bundle = "TinyTeX")
+        shell: Rscript {0}
+      - name: Render pdf book
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
+        shell: Rscript {0}
+      - name: Render gitbook
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          bookdown::render_book("index.Rmd", "bookdown::bs4_book")
+        shell: Rscript {0}
+      # Don't upload the artifact and don't deploy
+</code></pre>
+</div>
+<div id="sec:package-pr-ci6" class="section level4" number="6.3.4.2">
+<h4>
+<span class="header-section-number">6.3.4.2</span> Packages R<a class="anchor" aria-label="anchor" href="#sec:package-pr-ci6"><i class="fas fa-link"></i></a>
+</h4>
+<p>Les scripts de vérification des packages ne doivent pas pousser les mises à jour de leur documentation par <strong>Roxygenize2</strong>, ni déployer leur mise à jour du site <strong>pkgdown</strong> dans les pages GitHub.
+Le taux de couverture n’a pas à être mesuré.
+Le script est le suivant:</p>
+<pre><code>on:
+  pull_request:
+    branches:
+      - master
+
+name: R-CMD-check
+
+jobs:
+  R-CMD-check:
+    runs-on: macOS-latest
+    steps:
+      - name: Pull the repository
+        uses: actions/checkout@v4
+      - name: Install R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+      - name: Install R packages
+        run: |
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("remotes", "roxygen2", "rcmdcheck", "covr", "pkgdown"))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+      - name: Update the documentation
+        run: roxygen2::roxygenize()
+        shell: Rscript {0}
+        # Don't push
+      - name: Check the package
+        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
+        shell: Rscript {0}
+      # Don't test coverage
+      - name: Install the package
+        run: R CMD INSTALL .
+      - name: Pkgdown
+        # Build the package site locally
+        run: Rscript -e 'pkgdown::build_site()'</code></pre>
+<p>Quand des requêtes de tirage sont soumises, le test correspondant est lancé et ses résultats intégrés à la discussion.</p>
+</div>
+</div>
 </div>
 <div id="sec:ci-badges" class="section level2" number="6.4">
 <h2>
@@ -767,6 +873,7 @@ Coller le code Markdown:</p>
 <li><a class="nav-link" href="#sec:memoiR-ci"><span class="header-section-number">6.3.1</span> memoiR</a></li>
 <li><a class="nav-link" href="#sec:blogdown-ci"><span class="header-section-number">6.3.2</span> Site web blogdown</a></li>
 <li><a class="nav-link" href="#sec:package-ci6"><span class="header-section-number">6.3.3</span> Packages R</a></li>
+<li><a class="nav-link" href="#sec:ci-pr"><span class="header-section-number">6.3.4</span> Pull requests</a></li>
 </ul>
 </li>
 <li><a class="nav-link" href="#sec:ci-badges"><span class="header-section-number">6.4</span> Ajouter des badges</a></li>
