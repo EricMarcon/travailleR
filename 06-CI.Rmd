@@ -96,6 +96,7 @@ Le script complet est celui de ce document, accessible sur GitHub[^ci-10].
 #### Déclenchement {#sec:declenchement}
 
 L'action est déclenchée à chaque fois que des mises à jour sont poussées sur GitHub:
+
 ```
 on:
   push:
@@ -713,6 +714,118 @@ Des scripts plus complexes sont proposés par R-lib[^ci-5], notamment pour exéc
 Ces tests poussés sont à effectuer avant de soumettre à CRAN (section \@ref(sec:package-cran)) mais consomment trop de ressource pour un usage systématique.
 
 [^ci-5]: <https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow>
+
+
+### Pull requests {#sec:ci-pr}
+
+Les requêtes de tirage peuvent être testées par des scripts très proches pour vérifier qu'elles ne génèrent pas d'erreurs avant de les fusionner.
+
+Une méthode efficace consiste à créer un nouveau script dans le dossier `.github/workflows/`, en partant d'une copie du script existant.
+Le nouveau script sera nommé `pr.yml`.
+Le déclenchement doit être modifié: `pull_request` remplace `push`: 
+
+```
+on:
+  pull_request:
+     branches:
+       - master
+```
+
+#### memoiR {#sec:memoiR-pr-ci}
+
+Les scripts de vérification des documents créés par **memoiR** doivent être coupés après l'étape `Render gitbook`: l'artefact ne doit pas être sauvegardé et la tâche de déploiement doit être supprimée.
+Le script est donc le suivant:
+
+```
+on:
+  pull_request:
+    branches:
+      - master
+
+name: rmarkdown
+
+jobs:
+  render:
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+      - name: Install dependencies
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("distill", "downlit", "memoiR", "rmdformats", "tinytex"))
+          tinytex::install_tinytex(bundle = "TinyTeX")
+        shell: Rscript {0}
+      - name: Render pdf book
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          bookdown::render_book("index.Rmd", "bookdown::pdf_book")
+        shell: Rscript {0}
+      - name: Render gitbook
+        env:
+          GITHUB_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          bookdown::render_book("index.Rmd", "bookdown::bs4_book")
+        shell: Rscript {0}
+      # Don't upload the artifact and don't deploy
+
+```
+
+#### Packages R {#sec:package-pr-ci6}
+
+Les scripts de vérification des packages ne doivent pas pousser les mises à jour de leur documentation par **Roxygenize2**, ni déployer leur mise à jour du site **pkgdown** dans les pages GitHub.
+Le taux de couverture n'a pas à être mesuré.
+Le script est le suivant:
+
+```
+on:
+  pull_request:
+    branches:
+      - master
+
+name: R-CMD-check
+
+jobs:
+  R-CMD-check:
+    runs-on: macOS-latest
+    steps:
+      - name: Pull the repository
+        uses: actions/checkout@v4
+      - name: Install R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+      - name: Install R packages
+        run: |
+          options(pkgType = "binary")
+          options(install.packages.check.source = "no")
+          install.packages(c("remotes", "roxygen2", "rcmdcheck", "covr", "pkgdown"))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+      - name: Update the documentation
+        run: roxygen2::roxygenize()
+        shell: Rscript {0}
+        # Don't push
+      - name: Check the package
+        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
+        shell: Rscript {0}
+      # Don't test coverage
+      - name: Install the package
+        run: R CMD INSTALL .
+      - name: Pkgdown
+        # Build the package site locally
+        run: Rscript -e 'pkgdown::build_site()'
+```
+
+Quand des requêtes de tirage sont soumises, le test correspondant est lancé et ses résultats intégrés à la discussion.
 
 
 ## Ajouter des badges {#sec:ci-badges}
