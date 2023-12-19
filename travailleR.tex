@@ -374,7 +374,7 @@
 
 \author{Eric Marcon}
 
-\date{04/11/2023}
+\date{19/12/2023}
 
 
 % Include headers (preamble.tex) here
@@ -1295,7 +1295,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x7faa99f0dcb8>
+## <bytecode: 0x7ff5d7fe5728>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1535,7 +1535,7 @@ Une méthode \texttt{initialize()} est utilisée comme constructeur.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(R6)}
+\FunctionTok{library}\NormalTok{(}\StringTok{"R6"}\NormalTok{)}
 \NormalTok{PersonneR6 }\OtherTok{\textless{}{-}} \FunctionTok{R6Class}\NormalTok{(}\StringTok{"PersonneR6"}\NormalTok{, }\AttributeTok{public =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Nom =} \StringTok{"character"}\NormalTok{,}
     \AttributeTok{Prenom =} \StringTok{"character"}\NormalTok{, }\AttributeTok{initialize =} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{Nom =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{Prenom =} \ConstantTok{NA}\NormalTok{) \{}
 \NormalTok{        self}\SpecialCharTok{$}\NormalTok{Nom }\OtherTok{\textless{}{-}}\NormalTok{ Nom}
@@ -1776,7 +1776,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x7faa88f8c828>
+## <environment: 0x7ff5c5667cb8>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1848,7 +1848,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x7faa89823a18>
+## <bytecode: 0x7ff5c3e60590>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -2037,7 +2037,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.012   0.000   0.013
+##   0.026   0.002   0.027
 \end{verbatim}
 
 \normalsize
@@ -2069,15 +2069,15 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq
-##  f1(X)  26.722  27.8325  37.15331  28.4890  29.6705
-##  f2(X)  37.350  38.3705  48.96823  39.2235  40.4590
-##  f3(X) 229.371 236.9100 258.06153 238.6425 242.3960
-##  f4(X) 285.561 301.1920 318.58923 302.8745 309.7925
+##  f1(X)  33.408  38.8975  80.69103  50.6640  63.9290
+##  f2(X)  48.587  51.9545 107.31324  80.4310  91.5155
+##  f3(X) 298.069 312.2715 526.03245 430.7760 460.5085
+##  f4(X) 370.705 401.7040 724.82391 555.8315 602.5770
 ##       max neval
-##   824.500   100
-##   811.155   100
-##  1012.294   100
-##  1209.676   100
+##  2019.021   100
+##  2168.116   100
+##  3472.755   100
+##  5187.818   100
 \end{verbatim}
 
 \normalsize
@@ -2100,10 +2100,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  28.4890
-## 2 f2(X)  39.2235
-## 3 f3(X) 238.6425
-## 4 f4(X) 302.8745
+## 1 f1(X)  50.6640
+## 2 f2(X)  80.4310
+## 3 f3(X) 430.7760
+## 4 f4(X) 555.8315
 \end{verbatim}
 
 \normalsize
@@ -2133,10 +2133,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  28.4890
-## 2 f2(X)  39.2235
-## 3 f3(X) 238.6425
-## 4 f4(X) 302.8745
+## 1 f1(X)  50.6640
+## 2 f2(X)  80.4310
+## 3 f3(X) 430.7760
+## 4 f4(X) 555.8315
 \end{verbatim}
 
 \normalsize
@@ -2263,7 +2263,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x7faa8a9df0e8>
+## <bytecode: 0x7ff5c80a7ed8>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2316,10 +2316,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   7.5720
-## 2                lapply(x1, FUN = sqrt) 284.8245
-## 3                sapply(x1, FUN = sqrt) 328.8235
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 291.7895
+## 1                              sqrt(x1)   8.5860
+## 2                lapply(x1, FUN = sqrt) 318.7380
+## 3                sapply(x1, FUN = sqrt) 373.4830
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 328.1895
 \end{verbatim}
 
 \normalsize
@@ -2373,8 +2373,8 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \begin{verbatim}
 ##          expr   median
-## 1  Boucle(x1) 624.8360
-## 2 Boucle2(x1)  73.8685
+## 1  Boucle(x1) 717.5240
+## 2 Boucle2(x1)  80.1205
 \end{verbatim}
 
 \begin{Shaded}
@@ -2390,7 +2390,7 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \normalsize
 
-Le gain est considérable: de 1 à \texttt{8}.
+Le gain est considérable: de 1 à \texttt{9}.
 
 Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
@@ -2406,8 +2406,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 282.1725
-## 2                Boucle(x1)  71.3530
+## 1 vapply(x1, FUN = sqrt, 0) 378.6385
+## 2                Boucle(x1)  89.0755
 \end{verbatim}
 
 \normalsize
@@ -2430,8 +2430,8 @@ Attention, le test de performance peut être trompeur:
 
 \begin{verbatim}
 ##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  282.648
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 2263.648
+## 1                        vapply(x1, FUN = sqrt, 0)  387.693
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 3300.853
 \end{verbatim}
 
 \normalsize
@@ -2498,8 +2498,8 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 
 \begin{verbatim}
 ##                        expr   median
-## 1 replicate(1000, runif(1)) 2590.345
-## 2               runif(1000)   16.598
+## 1 replicate(1000, runif(1)) 3326.570
+## 2               runif(1000)   20.716
 \end{verbatim}
 
 \normalsize
@@ -2537,9 +2537,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 2.915655
-## 2 apply(diamonds[-(2:4)], 2, sum) 7.248747
-## 3       colSums(diamonds[-(2:4)]) 2.048280
+## 1   BoucleSomme(diamonds[-(2:4)]) 3.666290
+## 2 apply(diamonds[-(2:4)], 2, sum) 9.969245
+## 3       colSums(diamonds[-(2:4)]) 2.490531
 \end{verbatim}
 
 \normalsize
@@ -2598,8 +2598,8 @@ Une fonction R du même nom que la fonction C++ est maintenant disponible.
 
 Les performances sont deux ordres de grandeur plus rapides que le code R (voir l'étude de cas, section \ref{sec:cas}).
 
-\hypertarget{paralluxe9liser-r}{%
-\section{Paralléliser R}\label{paralluxe9liser-r}}
+\hypertarget{sec:parallel}{%
+\section{Paralléliser R}\label{sec:parallel}}
 
 Lorsque des calculs longs peuvent être découpés en tâches indépendantes, l'exécution simultanée (\emph{parallèle}) de ces tâches permet de réduire le temps de calcul total à celui de la tâche la plus longue, auquel s'ajoute le coût de la mise en place de la parallélisation (création des tâches, récupération des résultats\ldots).
 
@@ -2747,7 +2747,7 @@ Ce document est tricoté avec \texttt{4} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.988
+##   0.002   0.000   0.947
 \end{verbatim}
 
 \begin{Shaded}
@@ -2759,12 +2759,12 @@ Ce document est tricoté avec \texttt{4} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.007   0.366
+##   0.006   0.011   0.385
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.12} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.14} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2779,7 +2779,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.000   3.030
+##   0.001   0.008   3.005
 \end{verbatim}
 
 \begin{Shaded}
@@ -2791,7 +2791,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.004   1.054
+##   0.007   0.132   1.239
 \end{verbatim}
 
 \normalsize
@@ -2810,7 +2810,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.003   1.141
+##   0.014   0.206   1.099
 \end{verbatim}
 
 \begin{Shaded}
@@ -2821,7 +2821,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.007   2.114
+##   0.010   0.121   2.218
 \end{verbatim}
 
 \normalsize
@@ -3013,7 +3013,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.793
+##   0.002   0.000   0.865
 \end{verbatim}
 
 \begin{Shaded}
@@ -3028,12 +3028,89 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.016   0.303
+##   0.011   0.020   0.277
 \end{verbatim}
 
 \normalsize
 
 Le coût fixe de la parallélisation est faible.
+
+\hypertarget{future}{%
+\subsection{future}\label{future}}
+
+Le package \textbf{future} permet d'abstraire le code de l'implémentation de la parallélisation.
+Il est au centre d'un écosystème de packages facilitent son utilisation\footnote{\url{https://www.futureverse.org/}}.
+
+La stratégie de parallélisation utilisée est déclarée par la fonction \texttt{plan()}.
+Le stratégie par défaut est \texttt{sequential}, monotâche.
+Les stratégies \texttt{multicore} et \texttt{multisession} reposent respectivement sur les techniques \emph{fork} et \emph{socket} vues plus haut.
+D'autres stratégies sont disponibles pour utiliser des clusters physiques (plusieurs ordinateurs préparés pour exécuter R ensemble): la documentation de \textbf{future} détaille comment le faire.
+
+Nous utiliserons ici la stratégie \texttt{multisession} qui fonctionne sur l'ordinateur local, quel que soit sont système d'exploitation.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"future"}\NormalTok{)}
+\CommentTok{\# Stratégie socket sur tous les coeurs disponibles sauf 1}
+\NormalTok{usedCores }\OtherTok{\textless{}{-}} \FunctionTok{availableCores}\NormalTok{() }\SpecialCharTok{{-}} \DecValTok{1}
+\FunctionTok{plan}\NormalTok{(multisession, }\AttributeTok{workers =}\NormalTok{ usedCores)}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
+
+Le package \textbf{future.apply} permet de paralléliser sans effort toutes les boucles \texttt{*apply()} et \texttt{replicate()} en préfixant leur nom par \texttt{future\_}.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"future.apply"}\NormalTok{)}
+\FunctionTok{system.time}\NormalTok{(}\FunctionTok{future\_replicate}\NormalTok{(usedCores }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, }\FunctionTok{f}\NormalTok{(usedCores)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    user  system elapsed 
+##   0.104   0.005   0.535
+\end{verbatim}
+
+\normalsize
+
+Les boucles foreach peuvent être parallélisées avec le package \textbf{doFuture} en remplaçant simplement \texttt{\%dopar\%} par \texttt{\%dofuture\%}.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"doFuture"}\NormalTok{)}
+\FunctionTok{system.time}\NormalTok{(}\FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \FunctionTok{icount}\NormalTok{(nbCoeurs), }\AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%dofuture\%}
+\NormalTok{    \{}
+        \FunctionTok{f}\NormalTok{(i)}
+\NormalTok{    \})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    user  system elapsed 
+##   0.094   0.003   0.606
+\end{verbatim}
+
+\normalsize
+
+La stratégie est rétablie à \texttt{sequential} à la fin.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plan}\NormalTok{(sequential)}
+\end{Highlighting}
+\end{Shaded}
+
+\normalsize
 
 \hypertarget{sec:cas}{%
 \section{Etude de cas}\label{sec:cas}}
@@ -3087,7 +3164,7 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5154062
+## [1] 0.5154879
 \end{verbatim}
 
 \normalsize
@@ -3114,7 +3191,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.035   0.027   4.086
+##   5.905   0.085   6.927
 \end{verbatim}
 
 \begin{Shaded}
@@ -3124,7 +3201,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5154062
+## [1] 0.5154879
 \end{verbatim}
 
 \normalsize
@@ -3148,7 +3225,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.982   0.021   4.030
+##   4.888   0.039   4.980
 \end{verbatim}
 
 \begin{Shaded}
@@ -3158,7 +3235,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5154062
+## [1] 0.5154879
 \end{verbatim}
 
 \normalsize
@@ -3190,7 +3267,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   3.894   0.032   4.007
+##   4.739   0.024   4.927
 \end{verbatim}
 
 \begin{Shaded}
@@ -3200,7 +3277,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5154062
+## [1] 0.5154879
 \end{verbatim}
 
 \normalsize
@@ -3229,7 +3306,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.317   0.011   2.342
+##   3.214   0.035   3.518
 \end{verbatim}
 
 \begin{Shaded}
@@ -3239,7 +3316,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5154062
+## [1] 0.5154879
 \end{verbatim}
 
 \normalsize
@@ -3270,7 +3347,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.021  12.768  11.994
+##   3.648   0.442   3.096
 \end{verbatim}
 
 \begin{Shaded}
@@ -3280,8 +3357,60 @@ Sous MacOS ou Linux, le calcul est accéléré.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5154062
+## [1] 0.5154879
 \end{verbatim}
+
+\normalsize
+
+\hypertarget{future.apply}{%
+\subsection{future.apply}\label{future.apply}}
+
+La fonction \texttt{fsapply4()} optimisée plus haut peut être parallélisée directement en préfixant la fonction \texttt{vapply} par \texttt{future\_}.
+Seule la boucle principale est parallélisée: l'imbrication de \texttt{future\_vapply()} ferait s'écrouler la performance.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"future.apply"}\NormalTok{)}
+\CommentTok{\# Stratégie socket sur tous les coeurs disponibles sauf 1}
+\FunctionTok{plan}\NormalTok{(multisession, }\AttributeTok{workers =} \FunctionTok{availableCores}\NormalTok{() }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+\NormalTok{future\_fsapply4\_ }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{}
+\NormalTok{    distances }\OtherTok{\textless{}{-}} \FunctionTok{future\_vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) \{}
+        \FunctionTok{vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(j) \{}
+            \ControlFlowTok{if}\NormalTok{ (j }\SpecialCharTok{\textgreater{}}\NormalTok{ i) \{}
+\NormalTok{                (X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{            \} }\ControlFlowTok{else}\NormalTok{ \{}
+                \DecValTok{0}
+\NormalTok{            \}}
+\NormalTok{        \}, }\DecValTok{0}\NormalTok{)}
+\NormalTok{    \}, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{1000} \SpecialCharTok{+} \DecValTok{0}\NormalTok{)}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(distances))}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
+\NormalTok{\}}
+\FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{future\_fsapply4\_}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    user  system elapsed 
+##   0.208   0.025   3.018
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5154879
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plan}\NormalTok{(sequential)}
+\end{Highlighting}
+\end{Shaded}
 
 \normalsize
 
@@ -3311,7 +3440,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.591   0.011   1.612
+##   2.218   0.023   2.463
 \end{verbatim}
 
 \begin{Shaded}
@@ -3321,7 +3450,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5154062
+## [1] 0.5154879
 \end{verbatim}
 
 \normalsize
@@ -3331,7 +3460,49 @@ C'est la façon la plus simple et efficace d'écrire ce code sans parallélisati
 \hypertarget{boucle-foreach}{%
 \subsection{boucle foreach}\label{boucle-foreach}}
 
-Deux boucles foreach imbriquées sont nécessaires ici: elles sont extrêmement lentes en comparaison d'une boucle simple.
+La parallélisation exécute des boucles \texttt{for} à l'intérieur d'une boucle foreach, ce qui est assez efficace.
+En revanche, les distances sont calculées deux fois.
+
+\scriptsize
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{registerDoParallel}\NormalTok{(}\AttributeTok{cores =} \FunctionTok{detectCores}\NormalTok{())}
+\NormalTok{fforeach3 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(Y) \{}
+\NormalTok{  distances }\OtherTok{\textless{}{-}} \FunctionTok{foreach}\NormalTok{(}
+    \AttributeTok{i =} \FunctionTok{icount}\NormalTok{(Y}\SpecialCharTok{$}\NormalTok{n), }
+    \AttributeTok{.combine =} \StringTok{\textquotesingle{}+\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%dopar\%}\NormalTok{ \{}
+\NormalTok{      distance }\OtherTok{\textless{}{-}} \DecValTok{0}
+      \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n) \{}
+\NormalTok{        distance }\OtherTok{\textless{}{-}}\NormalTok{ distance }\SpecialCharTok{+} 
+          \FunctionTok{sqrt}\NormalTok{((Y}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (Y}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{      \}}
+\NormalTok{      distance}
+\NormalTok{    \}}
+  \FunctionTok{return}\NormalTok{(distances }\SpecialCharTok{/}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{n }\SpecialCharTok{/}\NormalTok{ (Y}\SpecialCharTok{$}\NormalTok{n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))}
+\NormalTok{\}}
+\FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{fforeach3}\NormalTok{(X))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    user  system elapsed 
+##   5.901   0.878   4.326
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5154879
+\end{verbatim}
+
+\normalsize
+
+Il est possible d'imbriquer deux boucles foreach mais elles sont extrêmement lentes en comparaison d'une boucle simple.
 Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de distances à calculer.
 
 \scriptsize
@@ -3341,16 +3512,15 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 \NormalTok{NbPointsReduit }\OtherTok{\textless{}{-}} \DecValTok{100}
 \NormalTok{Y }\OtherTok{\textless{}{-}} \FunctionTok{runifpoint}\NormalTok{(NbPointsReduit)}
 \NormalTok{fforeach1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(Y) \{}
-\NormalTok{    distances }\OtherTok{\textless{}{-}} \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPointsReduit, }\AttributeTok{.combine =} \StringTok{"cbind"}\NormalTok{) }\SpecialCharTok{\%:\%}
-        \FunctionTok{foreach}\NormalTok{(}\AttributeTok{j =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPointsReduit, }\AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%do\%}\NormalTok{ \{}
+\NormalTok{    distances }\OtherTok{\textless{}{-}} \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n, }\AttributeTok{.combine =} \StringTok{"cbind"}\NormalTok{) }\SpecialCharTok{\%:\%} \FunctionTok{foreach}\NormalTok{(}\AttributeTok{j =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n,}
+        \AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%do\%}\NormalTok{ \{}
         \ControlFlowTok{if}\NormalTok{ (j }\SpecialCharTok{\textgreater{}}\NormalTok{ i) \{}
 \NormalTok{            (Y}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (Y}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}
 \NormalTok{        \} }\ControlFlowTok{else}\NormalTok{ \{}
             \DecValTok{0}
 \NormalTok{        \}}
 \NormalTok{    \}}
-    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(distances))}\SpecialCharTok{/}\NormalTok{NbPointsReduit}\SpecialCharTok{/}\NormalTok{(NbPointsReduit }\SpecialCharTok{{-}}
-        \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
+    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(distances))}\SpecialCharTok{/}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n}\SpecialCharTok{/}\NormalTok{(Y}\SpecialCharTok{$}\NormalTok{n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
 \NormalTok{\}}
 \FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{fforeach1}\NormalTok{(Y))}
 \end{Highlighting}
@@ -3358,68 +3528,12 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.710   0.018   1.774
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{d}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 0.5181951
+##   2.571   0.046   2.662
 \end{verbatim}
 
 \normalsize
 
 Les boucles foreach imbriquées sont à réserver à des tâches très longues (plusieurs secondes au moins) pour amortir les coûts fixes de leur mise en place.
-
-La parallélisation est efficace dans le code ci-dessous, notamment parce qu'elle permet d'éviter les boucles foreach imbriquées.
-En revanche, les distances sont calculées deux fois.
-La performance reste très inférieure à celle d'une simple boucle for (rappel: 100 fois moins de distances sont calculées).
-
-\scriptsize
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{registerDoParallel}\NormalTok{(}\AttributeTok{cores =} \FunctionTok{detectCores}\NormalTok{())}
-\NormalTok{fforeach3 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(Y) \{}
-\NormalTok{  distances }\OtherTok{\textless{}{-}} 
-    \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i=}\FunctionTok{icount}\NormalTok{(NbPointsReduit), }
-            \AttributeTok{.combine=}\StringTok{\textquotesingle{}+\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%dopar\%}\NormalTok{ \{}
-\NormalTok{      distance }\OtherTok{\textless{}{-}} \DecValTok{0}
-      \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n) \{}
-\NormalTok{        distance }\OtherTok{\textless{}{-}}\NormalTok{ distance }\SpecialCharTok{+} 
-          \FunctionTok{sqrt}\NormalTok{((Y}\SpecialCharTok{$}\NormalTok{x[i]}\SpecialCharTok{{-}}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (Y}\SpecialCharTok{$}\NormalTok{y[i]}\SpecialCharTok{{-}}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
-\NormalTok{      \}}
-\NormalTok{      distance}
-\NormalTok{    \}}
-  \FunctionTok{return}\NormalTok{(distances}\SpecialCharTok{/}\NormalTok{NbPointsReduit}\SpecialCharTok{/}\NormalTok{(NbPointsReduit}\DecValTok{{-}1}\NormalTok{))}
-\NormalTok{\}}
-\FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{fforeach3}\NormalTok{(Y))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##    user  system elapsed 
-##   0.092   0.052   0.071
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{d}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 0.5181951
-\end{verbatim}
-
-\normalsize
-
-\textbf{foreach} dispose d'adaptateurs optimisés permettant d'utiliser des clusters physiques par exemple.
-Son intérêt est limité avec le package \textbf{parallel}.
 
 \hypertarget{rcpp}{%
 \subsection{RCpp}\label{rcpp}}
@@ -3474,7 +3588,7 @@ Le temps d'exécution est très court.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5154062
+## [1] 0.5154879
 \end{verbatim}
 
 \normalsize
@@ -3580,8 +3694,8 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 ## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min      lq    mean   median      uq      max neval
-##  272.999 280.189 331.814 283.2065 297.057 2169.826   100
+##      min      lq     mean   median       uq      max neval
+##  920.126 1014.46 1328.524 1325.329 1518.097 3850.576   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3600,7 +3714,7 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5154062
+## [1] 0.5154879
 \end{verbatim}
 
 \normalsize
@@ -3621,13 +3735,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   5.301   0.025   5.369
+##   8.068   0.045   8.671
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{4030} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{6157} secondes.
 
 \scriptsize
 
@@ -3640,7 +3754,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.939   0.011   0.561
+##   2.682   0.015   1.300
 \end{verbatim}
 
 \normalsize
@@ -3655,7 +3769,11 @@ De cette étude de cas, plusieurs enseignements peuvent être retirés:
 \item
   une boucle for est une bonne base pour des calculs répétitifs, plus rapide que \texttt{vapply()}, simple à lire et à écrire;
 \item
+  les boucles \textbf{foreach} sont extrêmement efficaces pour paralléliser des boucles for;
+\item
   des fonctions optimisées peuvent exister dans les packages de R pour des tâches courantes (ici, la fonction \texttt{pairdist()} de \textbf{spatstat} est deux ordres de grandeur plus rapide que la boucle for);
+\item
+  le package \textbf{future.apply} permet de paralléliser très simplement du code déjà écrit avec des fonctions \texttt{*apply()}, indépendamment du matériel utilisé;
 \item
   le recours au code C++ permet d'accélérer significativement les calculs, de trois ordres de grandeur ici;
 \item
@@ -3671,8 +3789,6 @@ L'écriture de code vectoriel, utilisant \texttt{sapply()} se justifie toujours 
 
 Le choix de paralléliser le code doit être évalué selon le temps d'exécution de chaque tâche parallélisable.
 S'il dépasse quelques secondes, la parallélisation se justifie.
-\texttt{mclapply()} remplace \texttt{lapply()} sans aucun effort, mais nécessite un hack (fourni ici) sous Windows.
-\texttt{foreach()} ne remplace pas \texttt{for()} aussi simplement et ne se justifie que pour des tâches très lourdes en termes de mémoire et de temps de calcul, en particulier sur des clusters de calcul.
 
 \hypertarget{sec:targets}{%
 \section{Flux de travail}\label{sec:targets}}
@@ -3788,15 +3904,15 @@ Le flux est exécuté par \texttt{tar\_make()}.
 \end{Shaded}
 
 \begin{verbatim}
-## ▶ start target NbPoints
-## ● built target NbPoints [3.327 seconds]
-## ▶ start target X
-## ● built target X [0.005 seconds]
-## ▶ start target d
-## ● built target d [0.084 seconds]
-## ▶ start target map
-## ● built target map [0.034 seconds]
-## ▶ end pipeline [3.629 seconds]
+## ▶ dispatched target NbPoints
+## ● completed target NbPoints [1.944 seconds]
+## ▶ dispatched target X
+## ● completed target X [0.005 seconds]
+## ▶ dispatched target d
+## ● completed target d [0.02 seconds]
+## ▶ dispatched target map
+## ● completed target map [0.034 seconds]
+## ▶ completed pipeline [2.195 seconds]
 \end{verbatim}
 
 \normalsize
@@ -3818,11 +3934,11 @@ Le flux est maintenant à jour et \texttt{tar\_make()} ne refait aucun calcul.
 \end{Shaded}
 
 \begin{verbatim}
-## ✔ skip target NbPoints
-## ✔ skip target X
-## ✔ skip target d
-## ✔ skip target map
-## ✔ skip pipeline [0.109 seconds]
+## ✔ skipped target NbPoints
+## ✔ skipped target X
+## ✔ skipped target d
+## ✔ skipped target map
+## ✔ skipped pipeline [0.115 seconds]
 \end{verbatim}
 
 \normalsize
@@ -3838,7 +3954,7 @@ Les résultats sont lus par \texttt{tar\_read()}.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5189867
+## [1] 0.5147552
 \end{verbatim}
 
 \begin{Shaded}
@@ -6926,15 +7042,15 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 \end{Shaded}
 
 \begin{verbatim}
-## ▶ start target NbPoints
-## ● built target NbPoints [2.482 seconds]
-## ▶ start target X
-## ● built target X [0.005 seconds]
-## ▶ start target d
-## ● built target d [0.086 seconds]
-## ▶ start target map
-## ● built target map [0.029 seconds]
-## ▶ end pipeline [2.772 seconds]
+## ▶ dispatched target NbPoints
+## ● completed target NbPoints [2.006 seconds]
+## ▶ dispatched target X
+## ● completed target X [0.005 seconds]
+## ▶ dispatched target d
+## ● completed target d [0.019 seconds]
+## ▶ dispatched target map
+## ● completed target map [0.032 seconds]
+## ▶ completed pipeline [2.253 seconds]
 \end{verbatim}
 
 \normalsize
@@ -7703,7 +7819,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7faa97cef720>
+## <bytecode: 0x7ff5d7cd9958>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7997,14 +8113,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  286  299.5   318.47  305.0  312.5
-##   triple.numeric(2)  289  300.5 14460.80  313.0  322.0
-##          triple(2L) 1040 1052.0 17586.98 1067.5 1120.0
-##      max neval
-##      594   100
-##  1413747   100
-##  1647833   100
+##                expr  min     lq      mean median     uq
+##  triple.integer(2L)  496  634.5 189977.66  663.0  729.5
+##   triple.numeric(2)  420  623.5 182260.21  662.0  762.0
+##          triple(2L) 2081 2257.5   4091.96 2292.5 3299.0
+##       max neval
+##  18840831   100
+##  18086758   100
+##     25505   100
 \end{verbatim}
 
 \normalsize
@@ -8351,7 +8467,7 @@ Finalement, le code complet est le suivant:
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x7faa97cef720>
+## <bytecode: 0x7ff5d7cd9958>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -8389,7 +8505,7 @@ Finalement, le code complet est le suivant:
 ## {
 ##     UseMethod("autoplot")
 ## }
-## <bytecode: 0x7faa98cfce98>
+## <bytecode: 0x7ff5dddbcf58>
 ## <environment: namespace:ggplot2>
 \end{verbatim}
 
@@ -9639,8 +9755,6 @@ jobs:
       - name: Install pandoc
         uses: r-lib/actions/setup-pandoc@v2
       - name: Install dependencies
-        env:
-          GITHUB_PAT: ${{ secrets.GH_PAT }}
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
