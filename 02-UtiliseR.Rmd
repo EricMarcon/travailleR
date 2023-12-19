@@ -205,7 +205,7 @@ Une méthode `initialize()` est utilisée comme constructeur.
 
 
 ```{r S6-Class}
-library(R6)
+library("R6")
 PersonneR6 <- R6Class("PersonneR6", 
                       public = list(Nom="character", Prenom="character",
                                     initialize = function(Nom=NA, Prenom=NA) {
@@ -743,7 +743,7 @@ timesTwo(1:5)
 Les performances sont deux ordres de grandeur plus rapides que le code R (voir l'étude de cas, section \@ref(sec:cas)).
 
 
-## Paralléliser R
+## Paralléliser R {#sec:parallel}
 
 Lorsque des calculs longs peuvent être découpés en tâches indépendantes, l'exécution simultanée (*parallèle*) de ces tâches permet de réduire le temps de calcul total à celui de la tâche la plus longue, auquel s'ajoute le coût de la mise en place de la parallélisation (création des tâches, récupération des résultats...).
 
@@ -990,6 +990,48 @@ system.time(foreach (i=icount(nbCoeurs), .combine="c") %dopar% {f(i)})
 Le coût fixe de la parallélisation est faible.
 
 
+### future
+
+Le package **future** permet d'abstraire le code de l'implémentation de la parallélisation.
+Il est au centre d'un écosystème de packages facilitent son utilisation[^250].
+
+[^250]: https://www.futureverse.org/
+
+La stratégie de parallélisation utilisée est déclarée par la fonction `plan()`.
+Le stratégie par défaut est `sequential`, monotâche.
+Les stratégies `multicore` et  `multisession` reposent respectivement sur les techniques _fork_ et _socket_ vues plus haut.
+D'autres stratégies sont disponibles pour utiliser des clusters physiques (plusieurs ordinateurs préparés pour exécuter R ensemble): la documentation de **future** détaille comment le faire.
+
+Nous utiliserons ici la stratégie `multisession` qui fonctionne sur l'ordinateur local, quel que soit sont système d'exploitation.
+
+```{r future}
+library("future")
+# Stratégie socket sur tous les coeurs disponibles sauf 1
+usedCores <- availableCores() - 1
+plan(multisession, workers = usedCores)
+```
+
+Le package **future.apply** permet de paralléliser sans effort toutes les boucles `*apply()` et `replicate()` en préfixant leur nom par `future_`.
+
+```{r future.apply}
+library("future.apply")
+system.time(future_replicate(usedCores - 1, f(usedCores)))
+```
+
+Les boucles foreach peuvent être parallélisées avec le package **doFuture** en remplaçant simplement `%dopar%` par `%dofuture%`.
+
+```{r doFuture}
+library("doFuture")
+system.time(foreach (i = icount(nbCoeurs), .combine="c") %dofuture% {f(i)})
+```
+
+La stratégie est rétablie à `sequential` à la fin.
+
+```{r sequential}
+plan(sequential)
+```
+
+
 ## Etude de cas {#sec:cas}
 
 Cette étude de cas permet de tester les différentes techniques vues plus haut pour résoudre un problème concret.
@@ -1103,6 +1145,32 @@ d
 ```
 
 
+### future.apply
+
+La fonction `fsapply4()` optimisée plus haut peut être parallélisée directement en préfixant la fonction `vapply` par `future_`.
+Seule la boucle principale est parallélisée: l'imbrication de `future_vapply()` ferait s'écrouler la performance.
+
+```{r}
+library("future.apply")
+# Stratégie socket sur tous les coeurs disponibles sauf 1
+plan(multisession, workers = availableCores() - 1)
+future_fsapply4_ <- function() {
+  distances <- future_vapply(1:NbPoints, function(i) {
+    vapply(1:NbPoints, function(j) {
+      if (j>i) {
+        (X$x[i] - X$x[j])^2 + (X$y[i] - X$y[j])^2
+      } else {
+        0
+      }
+    }, 0.0)
+  }, 1:1000+0.0)
+  return(sum(sqrt(distances)) / NbPoints / (NbPoints - 1) * 2)
+}
+system.time(d <- future_fsapply4_())
+d
+plan(sequential)
+```
+
 ### boucle for
 
 Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne stocke pas la matrice de distances.
@@ -1126,54 +1194,49 @@ C'est la façon la plus simple et efficace d'écrire ce code sans parallélisati
 
 ### boucle foreach
 
-Deux boucles foreach imbriquées sont nécessaires ici: elles sont extrêmement lentes en comparaison d'une boucle simple.
+La parallélisation exécute des boucles `for` à l'intérieur d'une boucle foreach, ce qui est assez efficace.
+En revanche, les distances sont calculées deux fois.
+ 
+```{r registerDoParallel, tidy=FALSE}
+registerDoParallel(cores = detectCores())
+fforeach3 <- function(Y) {
+  distances <- foreach(
+    i = icount(Y$n), 
+    .combine = '+') %dopar% {
+      distance <- 0
+      for (j in 1:Y$n) {
+        distance <- distance + 
+          sqrt((Y$x[i] - Y$x[j])^2 + (Y$y[i] - Y$y[j])^2)
+      }
+      distance
+    }
+  return(distances / Y$n / (Y$n - 1))
+}
+system.time(d <- fforeach3(X))
+d
+```
+
+Il est possible d'imbriquer deux boucles foreach mais elles sont extrêmement lentes en comparaison d'une boucle simple.
 Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de distances à calculer.
 
 ```{r}
 NbPointsReduit <- 100
 Y <- runifpoint(NbPointsReduit)
 fforeach1 <- function(Y) {
-  distances <- foreach(i=1:NbPointsReduit, .combine='cbind') %:%
-    foreach(j=1:NbPointsReduit, .combine='c') %do% {
-      if (j>i) {
-        (Y$x[i]-Y$x[j])^2 + (Y$y[i]-Y$y[j])^2
-      } else {
-        0
-      }
+  distances <- foreach(i = 1:Y$n, .combine = "cbind") %:%
+    foreach(j = 1:Y$n, .combine = "c") %do% {
+    if (j > i) {
+      (Y$x[i] - Y$x[j])^2 + (Y$y[i] - Y$y[j])^2
+    } else {
+      0
     }
-  return(sum(sqrt(distances))/NbPointsReduit/(NbPointsReduit-1)*2)
+  }
+  return(sum(sqrt(distances)) / Y$n / (Y$n - 1) * 2)
 }
 system.time(d <- fforeach1(Y))
-d
 ```
 
 Les boucles foreach imbriquées sont à réserver à des tâches très longues (plusieurs secondes au moins) pour amortir les coûts fixes de leur mise en place.
-
-La parallélisation est efficace dans le code ci-dessous, notamment parce qu'elle permet d'éviter les boucles foreach imbriquées.
-En revanche, les distances sont calculées deux fois.
-La performance reste très inférieure à celle d'une simple boucle for (rappel: 100 fois moins de distances sont calculées).
- 
-```{r registerDoParallel, tidy=FALSE}
-registerDoParallel(cores = detectCores())
-fforeach3 <- function(Y) {
-  distances <- 
-    foreach(i=icount(NbPointsReduit), 
-            .combine='+') %dopar% {
-      distance <- 0
-      for (j in 1:Y$n) {
-        distance <- distance + 
-          sqrt((Y$x[i]-Y$x[j])^2 + (Y$y[i]-Y$y[j])^2)
-      }
-      distance
-    }
-  return(distances/NbPointsReduit/(NbPointsReduit-1))
-}
-system.time(d <- fforeach3(Y))
-d
-```
-
-**foreach** dispose d'adaptateurs optimisés permettant d'utiliser des clusters physiques par exemple. 
-Son intérêt est limité avec le package **parallel**.
 
 
 ### RCpp
@@ -1320,7 +1383,9 @@ system.time(d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints-1)*2)
 De cette étude de cas, plusieurs enseignements peuvent être retirés:
 
 - une boucle for est une bonne base pour des calculs répétitifs, plus rapide que `vapply()`, simple à lire et à écrire;
+- les boucles **foreach** sont extrêmement efficaces pour paralléliser des boucles for;
 - des fonctions optimisées peuvent exister dans les packages de R pour des tâches courantes (ici, la fonction `pairdist()` de **spatstat** est deux ordres de grandeur plus rapide que la boucle for);
+- le package **future.apply** permet de paralléliser très simplement du code déjà écrit avec des fonctions `*apply()`, indépendamment du matériel utilisé;
 - le recours au code C++ permet d'accélérer significativement les calculs, de trois ordres de grandeur ici;
 - la parallélisation du code C++ divise encore le temps de calcul par environ la moitié du nombre de cœurs pour de longs calculs.
 
@@ -1333,8 +1398,6 @@ L'écriture de code vectoriel, utilisant `sapply()` se justifie toujours pour sa
 
 Le choix de paralléliser le code doit être évalué selon le temps d'exécution de chaque tâche parallélisable.
 S'il dépasse quelques secondes, la parallélisation se justifie.
-`mclapply()` remplace `lapply()` sans aucun effort, mais nécessite un hack (fourni ici) sous Windows.
-`foreach()` ne remplace pas `for()` aussi simplement et ne se justifie que pour des tâches très lourdes en termes de mémoire et de temps de calcul, en particulier sur des clusters de calcul.
 
 
 ## Flux de travail {#sec:targets}
