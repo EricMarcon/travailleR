@@ -2,7 +2,7 @@
 
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![DOI](https://zenodo.org/badge/259333555.svg)](https://zenodo.org/badge/latestdoi/259333555)
-![BuildStatus](https://github.com/EricMarcon/travailleR/workflows/bookdown/badge.svg)
+[![bookdown](https://github.com/EricMarcon/travailleR/actions/workflows/bookdown.yml/badge.svg)](https://github.com/EricMarcon/travailleR/actions/workflows/bookdown.yml)
 
 
 Cet ouvrage propose une organisation du travail autour de R et RStudio pour, au-delà des statistiques, rédiger des documents efficacement avec R Markdown, aux formats variés (mémos, articles scientifiques, mémoires d'étudiants, livres, diaporamas), créer son site web et des applications R en ligne (Shiny), produire des packages et utiliser R pour l'enseignement.
