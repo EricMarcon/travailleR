@@ -5,6 +5,19 @@
 R et RStudio permettent de rédiger efficacement des documents de tous formats, du simple bloc-note à la thèse, en passant par des diaporamas.
 Les outils pour le faire sont l'objet de ce chapitre, complété par la production de sites web (y compris un site personnel).
 
+Deux procédés de production de documents sont disponibles:
+
+- *R Markdown* avec les packages **knitR** et **bookdown**. 
+C'est ma méthode classique, présentée ici en détail.
+- *Quarto*, conçu pour être utilisé avec d'autres langages que R et dans d'autres environnements de travail que RStudio.
+Quarto est en développement actif mais ne permet pas encore de produire des documents avec la même qualité que *R Markdown*: par exemple, la ponctuation des documents en français n'est pas gérée correctement en PDF[^rediger-41], les tableaux ne peuvent pas inclure d'équations[^rediger-42] et la largeur des figures est incohérente dans les documents PDF formatés avec plusieurs colonnes[^rediger-43].
+L'usage de Quarto est bien documenté sur son site[^rediger-40] et n'est pas présenté ici.
+
+[^rediger-40]: <https://quarto.org/>
+[^rediger-41]: <https://github.com/jgm/pandoc/issues/8283/>
+[^rediger-42]: <https://github.com/quarto-dev/quarto-cli/issues/555>
+[^rediger-43]: <https://github.com/quarto-dev/quarto-cli/issues/855>
+
 ## Bloc-note Markdown (R Notebook)
 
 Dans un fichier `.R`, le code doit toujours être commenté pour faciliter sa lecture.
@@ -381,6 +394,19 @@ Les noms de langues sont différents dans l'entête (codes IETF) et dans le text
 La correspondance et la liste complète des langues se trouve dans le tableau 3 de la documentation du package **polyglossia**[^403].
 
 [^403]: http://mirrors.ctan.org/macros/unicodetex/latex/polyglossia/polyglossia.pdf
+
+Le formatage en HTML de la ponctuation des documents en français est possible par l'intermédiaire d'un filtre déclaré à pandoc [^450].
+Le fichier `fr-nbsp.lua` doit être copié dans le répertoire du projet à partir de son dépôt GitHub et éclaré dans l'entête du document Markdown.
+
+```
+output:
+    pandoc_args:
+      - --lua-filter=fr-nbsp.lua
+```
+
+Le filtre formate toute la ponctuation du document, quelle que soit sa langue: il ne doit donc être utilisé que pour les documents entièrement en français.
+
+[^450]: https://github.com/InseeFrLab/pandoc-filter-fr-nbsp
 
 
 ### Modèle Simple Article {#sec:memo}
