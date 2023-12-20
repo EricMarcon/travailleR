@@ -125,7 +125,7 @@ Ce service est intégré à GitHub.</p>
 <h3>
 <span class="header-section-number">6.1.3</span> GitHub Pages<a class="anchor" aria-label="anchor" href="#github-pages"><i class="fas fa-link"></i></a>
 </h3>
-<p>Les pages web de GitHub peuvent être hébergées dans le répertoire <code>docs</code> de la branche master du projet: c’est la solution retenue quand elle sont produites sur le poste de travail.</p>
+<p>Les pages web de GitHub peuvent être hébergées dans le répertoire <code>docs</code> de la branche master du projet : c’est la solution retenue quand elle sont produites sur le poste de travail.</p>
 <p>Si elles sont produites par intégration continue, elle le seront obligatoirement dans une branche dédiée appelée <code>gh-pages</code>.</p>
 </div>
 </div>
@@ -143,7 +143,7 @@ Quand les documents sont produits localement, ils sont placés dans le dossier <
 <h3>
 <span class="header-section-number">6.2.1</span> Obtention d’un jeton d’accès personnel<a class="anchor" aria-label="anchor" href="#obtention-dun-jeton-dacc%C3%A8s-personnel"><i class="fas fa-link"></i></a>
 </h3>
-<p>Pour écrire sur GitHub, le service d’intégration continue devra s’authentifier au moyen d’un jeton d’accès personnel (<em>Personal Access Token</em>: PAT) dont la création est décrite en section <a href="chap-logiciels.html#sec:pat">1.4.4</a>.</p>
+<p>Pour écrire sur GitHub, le service d’intégration continue devra s’authentifier au moyen d’un jeton d’accès personnel (<em>Personal Access Token</em> : PAT) dont la création est décrite en section <a href="chap-logiciels.html#sec:pat">1.4.4</a>.</p>
 <p>Générer un nouveau jeton, le décrire en tant que “GitHub Actions” et lui donner l’autorisation “repo”, c’est-à-dire modifier <em>tous</em> les dépôts (il n’est pas possible de limiter l’accès à un dépôt particulier).</p>
 </div>
 <div id="sec:secrets-ci" class="section level3" number="6.2.2">
@@ -175,7 +175,7 @@ Il est inutile d’utiliser le système de jetons de Codecov.</p>
 </h3>
 <p>Un flux de travail (<em>workflow</em>) de GitHub est une succession de tâches (<em>jobs</em>) comprenant des étapes (<em>steps</em>).
 Un flux de travail est déclenché par un évènement, généralement chaque <em>push</em> du projet, mais aussi à intervalles réguliers (<em>cron</em>).</p>
-<p>Typiquement, les flux créés ici contiennent deux tâches: la première installe R et les composants nécessaires et exécute des scripts R (ce qui constitue ses étapes successives); la seconde publie des fichiers obtenus dans les pages GitHub.</p>
+<p>Typiquement, les flux créés ici contiennent deux tâches : la première installe R et les composants nécessaires et exécute des scripts R (ce qui constitue ses étapes <span style="white-space:nowrap">successives) ;</span> la seconde publie des fichiers obtenus dans les pages GitHub.</p>
 <p>Les flux de travail sont configurés dans un fichier au format YAML placé dans le dossier <code>.github/workflows/</code> du projet.
 Les différentes parties du script sont présentées ci-dessous.
 Le script complet est celui de ce document, accessible sur GitHub<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/EricMarcon/travailleR/blob/master/.github/workflows/bookdown.yml" class="uri"&gt;https://github.com/EricMarcon/travailleR/blob/master/.github/workflows/bookdown.yml&lt;/a&gt;&lt;/p&gt;'><sup>111</sup></a>.</p>
@@ -183,19 +183,19 @@ Le script complet est celui de ce document, accessible sur GitHub<a class="footn
 <h4>
 <span class="header-section-number">6.2.4.1</span> Déclenchement<a class="anchor" aria-label="anchor" href="#sec:declenchement"><i class="fas fa-link"></i></a>
 </h4>
-<p>L’action est déclenchée à chaque fois que des mises à jour sont poussées sur GitHub:</p>
+<p>L’action est déclenchée à chaque fois que des mises à jour sont poussées sur GitHub :</p>
 <pre><code>on:
   push:
      branches:
        - master</code></pre>
 <p>La branche prise en compte est <em>master</em> (à remplacer par <em>main</em> le cas échéant).</p>
-<p>Pour déclencher l’action périodiquement, il faut utiliser la syntaxe de <em>cron</em> (le système de planification des tâches sous Unix):</p>
+<p>Pour déclencher l’action périodiquement, il faut utiliser la syntaxe de <em>cron</em> (le système de planification des tâches sous Unix) :</p>
 <pre><code>on:
   schedule:
     - cron: '0 22 * * 0'  # every sunday at 22:00</code></pre>
 <p>Les valeurs successives sont celles des minutes, des heures, du jour (quantième du mois), du mois et du jour de la semaine (0 pour dimanche à 6 pour samedi).
 Les <code>*</code> permettent d’ignorer une valeur.</p>
-<p>Les entrées <code>push</code> et <code>schedule</code> peuvent être utilisées ensemble:</p>
+<p>Les entrées <code>push</code> et <code>schedule</code> peuvent être utilisées ensemble :</p>
 <pre><code>on:
   push:
      branches:
@@ -217,7 +217,7 @@ Il sera affiché par le badge qui sera ajouté dans le fichier <code>README.md</
 <span class="header-section-number">6.2.4.3</span> Première tâche<a class="anchor" aria-label="anchor" href="#premi%C3%A8re-t%C3%A2che"><i class="fas fa-link"></i></a>
 </h4>
 <p>Les tâches sont décrites dans la rubrique <code>jobs</code>.
-<code>renderbook</code> est le nom de la première tâche: il est libre.
+<code>renderbook</code> est le nom de la première tâche : il est libre.
 Ici, l’action principale consistera à produire un ouvrage bookdown avec la fonction <code>render_book()</code>, d’où son nom.</p>
 <pre><code>jobs:
   renderbook:
@@ -247,12 +247,12 @@ On appelle une action par l’instruction <code>uses:</code>, le projet GitHub q
 <p>Dans leur projet GitHub respectif, les actions existent dans leur version de développement (<code>@master</code>) et dans des versions d’étape (<em>release</em>) accessibles par leur numéro (<code>@v1</code>).
 Ces versions d’étape sont préférables parce qu’elles sont stables.</p>
 <p>Les actions généralistes sont mises à disposition par GitHub dans l’organisation GitHub Actions<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/actions/" class="uri"&gt;https://github.com/actions/&lt;/a&gt;&lt;/p&gt;'><sup>113</sup></a>.
-L’action “actions/checkout” permet de se placer dans la branche principale du projet traité par le flux de travail: c’est en général la première étape de tous les flux.</p>
+L’action “actions/checkout” permet de se placer dans la branche principale du projet traité par le flux de travail : c’est en général la première étape de tous les flux.</p>
 <p>L’action suivante est l’installation de R, mise à disposition par l’organisation <em>R infrastructure</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/r-lib/" class="uri"&gt;https://github.com/r-lib/&lt;/a&gt;&lt;/p&gt;'><sup>114</sup></a>.</p>
 <p>L’installation de pandoc (logiciel extérieur à R mais nécessaire à R Markdown) peut être réalisée par une commande exécutée par MacOS.
 Elle est appelée par <code>run:</code> et peut contenir plusieurs lignes (d’où le <code>|</code>).
-Ce script dépend du système d’exploitation: <code>brew</code> est le gestionnaire de paquets de MacOS.
-Pour éviter les spécificités d’un système, il est préférable d’utiliser une action:</p>
+Ce script dépend du système d’exploitation : <code>brew</code> est le gestionnaire de paquets de MacOS.
+Pour éviter les spécificités d’un système, il est préférable d’utiliser une action :</p>
 <pre><code>      - name: Install pandoc
         uses: r-lib/actions/setup-pandoc@v2</code></pre>
 <p>Il est souvent possible de choisir entre une action ou l’écriture du code correspondant.
@@ -275,26 +275,29 @@ La stratégie inverse est développée dans <span class="citation">Wickham et Br
           tinytex::install_tinytex(bundle = "TinyTeX")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}</code></pre>
-<p>Les packages servant à produire le document sont listés:</p>
+<p>Les packages servant à produire le document sont listés :</p>
 <ul>
 <li>
-<strong>remotes</strong> pour sa fonction <code>install_deps()</code>;</li>
+<strong>remotes</strong> pour sa fonction <code>install_deps()</code><span style="white-space:nowrap"> ;</span>
+</li>
 <li>
-<strong>bookdown</strong> pour tricoter;</li>
+<strong>bookdown</strong> pour <span style="white-space:nowrap">tricoter ;</span>
+</li>
 <li>
-<strong>formatR</strong> pour la mise en forme des bouts de code (<code>tidy=TRUE</code>);</li>
+<strong>formatR</strong> pour la mise en forme des bouts de code (<code>tidy=TRUE</code><span style="white-space:nowrap">) ;</span>
+</li>
 <li>
 <strong>tinytex</strong> pour disposer d’une distribution LaTeX.</li>
 </ul>
 <p>Les autres packages, ceux utilisés par le projet, sont lus dans le fichier <code>DESCRIPTION</code> par la fonction <code>install_deps()</code>.</p>
 <p>Sous MacOS, les packages sont installés par défaut en version binaire, mais à partir de leur code source s’il est plus récent.
-La création des packages binaires prend quelques jours à CRAN: cette situation n’est donc pas rare.
+La création des packages binaires prend quelques jours à CRAN : cette situation n’est donc pas rare.
 Les packages ne contenant que du code R ou du code C++ sans référence à des librairies externes s’installent en revanche sans problème.
 En revanche, si le package nécessite des librairies externes à R ou une compilation de code Fortran, l’installation échoue.
-Il serait donc nécessaire d’installer préalablement les librairies nécessaires (et éventuellement un compilateur Fortran) à l’ensemble des packages dont le projet dépend: cette solution n’est pas réaliste parce qu’elle implique l’inventaire de l’ensemble des dépendances, qui peuvent changer, et un nombre important d’installations chronophages et inutiles la plupart du temps, quand les packages binaires sont à jour.
-Une meilleure solution est de forcer l’installation des packages binaires même si le code source est plus récent: c’est l’objet des deux options de R définies avant l’appel à <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>.</p>
+Il serait donc nécessaire d’installer préalablement les librairies nécessaires (et éventuellement un compilateur Fortran) à l’ensemble des packages dont le projet dépend : cette solution n’est pas réaliste parce qu’elle implique l’inventaire de l’ensemble des dépendances, qui peuvent changer, et un nombre important d’installations chronophages et inutiles la plupart du temps, quand les packages binaires sont à jour.
+Une meilleure solution est de forcer l’installation des packages binaires même si le code source est plus récent : c’est l’objet des deux options de R définies avant l’appel à <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>.</p>
 <p>Enfin, le secret <code>GH_PAT</code> est passé à R dans une variable d’environnement, <code>GITHUB_PAT</code>, nécessaire pour installer des packages à partir leur code source sur GitHub.
-GitHub limite le rythme des accès anonymes pour l’ensemble des actions GitHub (tous comptes confondus) et peut rejeter la demande: en pratique, utiliser <code>install_github()</code> dans une action GitHub n’est envisageable qu’avec cette variable d’environnement.</p>
+GitHub limite le rythme des accès anonymes pour l’ensemble des actions GitHub (tous comptes confondus) et peut rejeter la demande : en pratique, utiliser <code>install_github()</code> dans une action GitHub n’est envisageable qu’avec cette variable d’environnement.</p>
 </div>
 <div id="tricot" class="section level4" number="6.2.4.6">
 <h4>
@@ -356,21 +359,24 @@ Les artefacts sont visibles publiquement sur la page des Actions du projet GitHu
 <p>La tâche est nommée “deploy” (le nom est libre).
 Elle s’exécute sur une machine virtuelle sous Ubuntu.
 Elle ne peut se lancer que si la tâche “renderbook” a réussi.
-Ses étapes sont les suivantes:</p>
+Ses étapes sont les suivantes :</p>
 <ul>
 <li>
-<em>Download artifact</em>: Restauration du dossier <code>docs</code>;</li>
+<em>Download artifact</em> : Restauration du dossier <code>docs</code><span style="white-space:nowrap"> ;</span>
+</li>
 <li>
-<em>Deploy to GitHub Pages</em>: copie du dossier <code>docs</code> dans la branche <code>gh-pages</code>.</li>
+<em>Deploy to GitHub Pages</em> : copie du dossier <code>docs</code> dans la branche <code>gh-pages</code>.</li>
 </ul>
 <p>Cette dernière étape utiliser l’action <code>GitHub-Pages-deploy</code> mise à disposition par l’organisation <em>Cecilapp</em> .
-Elle utilise une variable d’environnement, <code>GITHUB_TOKEN</code>, pour s’authentifier et des paramètres:</p>
+Elle utilise une variable d’environnement, <code>GITHUB_TOKEN</code>, pour s’authentifier et des paramètres :</p>
 <ul>
 <li>
-<em>email</em>: l’adresse de messagerie destinataire du rapport d’exécution.
-Pour ne pas exposer l’adresse publiquement, elle a été stockée dans un secret du projet;</li>
+<em>email</em> : l’adresse de messagerie destinataire du rapport d’exécution.
+Pour ne pas exposer l’adresse publiquement, elle a été stockée dans un secret du <span style="white-space:nowrap">projet ;</span>
+</li>
 <li>
-<em>buid_dir</em>: le répertoire à publier;</li>
+<em>buid_dir</em> : le répertoire à <span style="white-space:nowrap">publier ;</span>
+</li>
 <li>
 <em>jekyll:no</em> pour créer un fichier vide nommé <code>.nojekyll</code> qui indique aux pages GitHub de ne pas essayer de traiter leur contenu comme un site web Jekyll.</li>
 </ul>
@@ -396,7 +402,7 @@ L’étape suivante, à insérer avant l’étape de tricot, écrit la clé dans
 <p>Des modèles de scripts pour tous les types de projets sont présentés ici.</p>
 <p>La branche <code>gh-pages</code> est créée automatiquement par les scripts.
 Vérifier après la première exécution que les pages GitHub sont bien activées sur cette branche (section <a href="chap-git.html#sec:github-pages">3.7</a>).
-Supprimer ensuite le dossier <code>docs</code> s’il existait, pousser la modification sur GitHub et enfin ajouter la ligne suivante au fichier <code>.gitignore</code> pour pouvoir tricoter localement les projets sans perturber GitHub:</p>
+Supprimer ensuite le dossier <code>docs</code> s’il existait, pousser la modification sur GitHub et enfin ajouter la ligne suivante au fichier <code>.gitignore</code> pour pouvoir tricoter localement les projets sans perturber GitHub :</p>
 <pre><code>docs/</code></pre>
 <div id="sec:memoiR-ci" class="section level3" number="6.3.1">
 <h3>
@@ -405,12 +411,12 @@ Supprimer ensuite le dossier <code>docs</code> s’il existait, pousser la modif
 <p>La fonction <code>build_ghworkflow()</code> du package <strong>memoiR</strong> crée automatiquement les scripts nécessaires à la production des modèles du package.
 Le script est toujours nommé <code>memoir.yml</code>.</p>
 <p>Ces scripts n’ont pas besoin d’un fichier <code>DESCRIPTION</code> pour l’installation des dépendances mais chaque document doit contenir son le bout de code de paramétrage (<code>Options</code>) la liste de tous les packages nécessaires à son tricot (stockés dans la variable <code>Packages</code>).</p>
-<p>Tous nécessitent même préparation: les secrets <code>GH_PAT</code> et <code>EMAIL</code> doivent être enregistrés dans le projet GitHub (section <a href="chap-ci.html#sec:secrets-ci">6.2.2</a>).</p>
+<p>Tous nécessitent même préparation : les secrets <code>GH_PAT</code> et <code>EMAIL</code> doivent être enregistrés dans le projet GitHub (section <a href="chap-ci.html#sec:secrets-ci">6.2.2</a>).</p>
 <div id="sec:bookdown-ci" class="section level4" number="6.3.1.1">
 <h4>
 <span class="header-section-number">6.3.1.1</span> Projet d’ouvrage<a class="anchor" aria-label="anchor" href="#sec:bookdown-ci"><i class="fas fa-link"></i></a>
 </h4>
-<p>Le flux de travail s’appelle <code>rmarkdown</code>; sa tâche de production <code>render</code>.</p>
+<p>Le flux de travail s’appelle <code>rmarkdown</code><span style="white-space:nowrap"> ;</span> sa tâche de production <code>render</code>.</p>
 <pre><code>on:
   push:
    branches:
@@ -474,7 +480,7 @@ jobs:
 <h4>
 <span class="header-section-number">6.3.1.2</span> Articles et présentations<a class="anchor" aria-label="anchor" href="#articles-et-pr%C3%A9sentations"><i class="fas fa-link"></i></a>
 </h4>
-<p>Le flux de travail s’appelle <code>rmarkdown</code>; sa tâche de production <code>render</code>.</p>
+<p>Le flux de travail s’appelle <code>rmarkdown</code><span style="white-space:nowrap"> ;</span> sa tâche de production <code>render</code>.</p>
 <pre><code>on:
   push:
    branches:
@@ -537,7 +543,7 @@ La fonction <code>build_githubpages()</code> (voir section <a href="chap-rediger
 <h4>
 <span class="header-section-number">6.3.1.3</span> Internationalisation<a class="anchor" aria-label="anchor" href="#internationalisation"><i class="fas fa-link"></i></a>
 </h4>
-<p>Si l’étape de tricot nécessite de modifier la langue utilisée par R, par exemple pour afficher correctement la date de production des documents, elle peut être modifiée comme ceci:</p>
+<p>Si l’étape de tricot nécessite de modifier la langue utilisée par R, par exemple pour afficher correctement la date de production des documents, elle peut être modifiée comme ceci :</p>
 <pre><code>      - name: Render Rmarkdown files
         run: |
           Sys.setlocale("LC_TIME", "fr_FR")
@@ -546,7 +552,7 @@ La fonction <code>build_githubpages()</code> (voir section <a href="chap-rediger
           memoiR::build_githubpages()
         shell: Rscript {0}</code></pre>
 <p>La sélection des fichiers est ici réalisée par un script R, qui inclut une commande de localisation, ici en Français.</p>
-<p>Cette étape peut être complétée par la sélection d’un thème GitHub Pages pour que la page d’accueil contienne un lien vers le code:</p>
+<p>Cette étape peut être complétée par la sélection d’un thème GitHub Pages pour que la page d’accueil contienne un lien vers le code :</p>
 <pre><code>        run: |
           echo 'theme: jekyll-theme-slate' &gt; docs/_config.yml</code></pre>
 <p>Le thème est ici “Slate”, un des choix proposés par les pages GitHub.</p>
@@ -558,27 +564,27 @@ La fonction <code>build_githubpages()</code> (voir section <a href="chap-rediger
 <p>Il peut arriver que la compilation du fichier <code>.tex</code> pour produire le fichier PDF échoue, bien que le tricot en HTML ne génère pas d’erreur.
 Le compilateur LaTeX est en effet plus exigeant que pandoc (qui produit le fichier HTML).</p>
 <p>La première vérification consiste à tricoter en PDF localement, sur son poste de travail, le document qui pose problème, avec <strong>tinytex</strong>.
-Les packages LaTeX doivent être mis à jour pour être les mêmes que ceux utilisés par les actions GitHub: pour cela, exécuter:</p>
+Les packages LaTeX doivent être mis à jour pour être les mêmes que ceux utilisés par les actions GitHub : pour cela, exécuter :</p>
 <p></p>
 <div class="sourceCode" id="cb478"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tinytex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytex/man/tlmgr.html">tlmgr_update</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Si la compilation fonctionne localement mais pas sur Github, il faut inspecter le fichier <code>.log</code> qui enregistre tous les évènements générés par le compilateur, mais ce fichier n’est pas conservé après l’échec de GitHub Actions.
 Il faut donc modifier le script pour copier le fichier dans <code>docs</code> puis créer sauvegarder le résultat malgré l’erreur.</p>
-<p>L’étape “Upload artifact” est modifiée pour s’exécuter malgré l’échec de l’étape précédente en ajoutant la ligne <code>if:</code>:</p>
+<p>L’étape “Upload artifact” est modifiée pour s’exécuter malgré l’échec de l’étape précédente en ajoutant la ligne <code>if:</code> :</p>
 <pre><code>      - name: Upload artifact
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: _book
           path: docs/</code></pre>
-<p>Une étape est ajoutée avant “Upload artifact” pour copier le résultat du tricot et le fichier <code>.log</code>:</p>
+<p>Une étape est ajoutée avant “Upload artifact” pour copier le résultat du tricot et le fichier <code>.log</code> :</p>
 <pre><code>      - name: Move files to docs
         if: always()
         run: |
           Rscript -e 'memoiR::build_githubpages()'
           cp *.log docs</code></pre>
-<p>Après l’échec de l’action, l’artéfact sauvegardé peut être téléchargé à partir de GitHub: il se trouve sur la page de résumé de l’action.
+<p>Après l’échec de l’action, l’artéfact sauvegardé peut être téléchargé à partir de GitHub : il se trouve sur la page de résumé de l’action.
 Il s’agit d’un fichier compressé qui contient tout le dossier <code>docs</code>.</p>
 </div>
 </div>
@@ -650,14 +656,14 @@ jobs:
 <p>La tâche <code>Build website</code> utilise le package <strong>blogdown</strong> pour installer Hugo (le générateur de sites web) et ensuite construire le site.</p>
 <p>Si le site web utilise des données en ligne qui justifient de le mettre à jour périodiquement, GitHub Actions peut être lancé tous les jours, toutes les semaines ou tous les mois en plus des reconstruction déclenchées par une modification du dépôt (voir section <a href="chap-ci.html#sec:declenchement">6.2.4.1</a>).
 Ici, le site est reconstruit tous les dimanches à 22h.</p>
-<p>Exemple: la page qui affiche la bibliométrie du site web<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://EricMarcon.github.io/fr/publication/" class="uri"&gt;https://EricMarcon.github.io/fr/publication/&lt;/a&gt;&lt;/p&gt;'><sup>116</sup></a> de l’auteur interroge Google Scholar pour afficher les citations des publications.
+<p>Exemple : la page qui affiche la bibliométrie du site web<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://EricMarcon.github.io/fr/publication/" class="uri"&gt;https://EricMarcon.github.io/fr/publication/&lt;/a&gt;&lt;/p&gt;'><sup>116</sup></a> de l’auteur interroge Google Scholar pour afficher les citations des publications.
 Le site est mis à jour toutes les semaines pour que les statistiques soient à jour.</p>
 </div>
 <div id="sec:package-ci6" class="section level3" number="6.3.3">
 <h3>
 <span class="header-section-number">6.3.3</span> Packages R<a class="anchor" aria-label="anchor" href="#sec:package-ci6"><i class="fas fa-link"></i></a>
 </h3>
-<p>Un script optimal pour la vérification d’un package est le suivant:</p>
+<p>Un script optimal pour la vérification d’un package est le suivant :</p>
 <pre><code>on:
   push:
     branches:
@@ -708,13 +714,13 @@ Les fichiers mis à jour sont poussés dans la branche principale du projet par 
 Ces deux étapes permettent de garantir que le package est dans un état cohérent, même si l’auteur a omis d’exécuter la fonction <code>roxygenize()</code> avant de pousser son code sur GitHub.
 Pour éviter de déclencher en boucle la vérification du code poussé de cette façon, le jeton d’accès utilisé est obligatoirement celui du script en cours, créé par GitHub à chaque exécution.
 Ce jeton n’a par défaut pas le droit de modifier le dépôt.
-Il faut donc le lui donner: sur GitHub, afficher les paramètres du projet et sélectionner “Actions”, “General”.
+Il faut donc le lui donner : sur GitHub, afficher les paramètres du projet et sélectionner “Actions”, “General”.
 Dans la section “Workflow permissions”, sélectionner “Read and write permissions”.</p>
 <p>L’étape <code>Check</code> vérifie le package.
 Les avertissements sont traités comme des erreurs.</p>
 <p>L’étape <code>Test coverage</code> utilise le package <strong>covr</strong> pour mesurer le taux de couverture et téléverse les résultats sur le site Codecov.</p>
 <p>Enfin, les deux dernières étapes installent le package puis utilisent <strong>pkgdown</strong> pour créer le site de documentation du package et le pousser dans la branche <code>gh-pages</code> du projet.</p>
-<p>Ce script ne contient qu’une tâche: le déploiement du site de documentation est directement exécuté par <strong>pkgdown</strong>.
+<p>Ce script ne contient qu’une tâche : le déploiement du site de documentation est directement exécuté par <strong>pkgdown</strong>.
 Son succès est affiché par un badge à afficher dans le fichier <code>README.md</code> (voir section <a href="chap-ci.html#sec:ci-badges">6.4</a>)</p>
 <p>Des scripts plus complexes sont proposés par R-lib<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow" class="uri"&gt;https://github.com/r-lib/actions/tree/master/examples#standard-ci-workflow&lt;/a&gt;&lt;/p&gt;'><sup>117</sup></a>, notamment pour exécuter les tests sur plusieurs systèmes d’exploitation et plusieurs versions de R.
 Ces tests poussés sont à effectuer avant de soumettre à CRAN (section <a href="chap-package.html#sec:package-cran">5.11</a>) mais consomment trop de ressource pour un usage systématique.</p>
@@ -726,7 +732,7 @@ Ces tests poussés sont à effectuer avant de soumettre à CRAN (section <a href
 <p>Les requêtes de tirage peuvent être testées par des scripts très proches pour vérifier qu’elles ne génèrent pas d’erreurs avant de les fusionner.</p>
 <p>Une méthode efficace consiste à créer un nouveau script dans le dossier <code>.github/workflows/</code>, en partant d’une copie du script existant.
 Le nouveau script sera nommé <code>pr.yml</code>.
-Le déclenchement doit être modifié: <code>pull_request</code> remplace <code>push</code>:</p>
+Le déclenchement doit être modifié : <code>pull_request</code> remplace <code>push</code> :</p>
 <pre><code>on:
   pull_request:
      branches:
@@ -735,8 +741,8 @@ Le déclenchement doit être modifié: <code>pull_request</code> remplace <code>
 <h4>
 <span class="header-section-number">6.3.4.1</span> memoiR<a class="anchor" aria-label="anchor" href="#sec:memoiR-pr-ci"><i class="fas fa-link"></i></a>
 </h4>
-<p>Les scripts de vérification des documents créés par <strong>memoiR</strong> doivent être coupés après l’étape <code>Render gitbook</code>: l’artefact ne doit pas être sauvegardé et la tâche de déploiement doit être supprimée.
-Le script est donc le suivant:</p>
+<p>Les scripts de vérification des documents créés par <strong>memoiR</strong> doivent être coupés après l’étape <code>Render gitbook</code> : l’artefact ne doit pas être sauvegardé et la tâche de déploiement doit être supprimée.
+Le script est donc le suivant :</p>
 <pre><code>on:
   pull_request:
     branches:
@@ -782,7 +788,7 @@ jobs:
 </h4>
 <p>Les scripts de vérification des packages ne doivent pas pousser les mises à jour de leur documentation par <strong>Roxygenize2</strong>, ni déployer leur mise à jour du site <strong>pkgdown</strong> dans les pages GitHub.
 Le taux de couverture n’a pas à être mesuré.
-Le script est le suivant:</p>
+Le script est le suivant :</p>
 <pre><code>on:
   pull_request:
     branches:
@@ -831,11 +837,11 @@ jobs:
 <p>Le succès des Actions GitHub est visible en ajoutant un badge dans le fichier <code>README.md</code>, juste après le titre du fichier.
 Sur la page du projet, choisir “Actions” puis sélectionner l’action (dans “Workflows”).
 Cliquer sur le bouton “…” puis sur “Create Status Badge”.
-Coller le code Markdown:</p>
+Coller le code Markdown :</p>
 <pre><code># Nom du projet
 ![bookdown](https://github.com/&lt;GitHubID&gt;/&lt;Depot&gt;/workflows/&lt;NomDuFlux&gt;/badge.svg)</code></pre>
 <p>Le nom du flux a été déclaré dans l’entrée <code>name:</code> du fichier de configuration des actions GitHub.</p>
-<p>Le taux de couverture mesuré par Codecov peut aussi être affiché par un badge:</p>
+<p>Le taux de couverture mesuré par Codecov peut aussi être affiché par un badge :</p>
 <pre><code>[![codecov](https://codecov.io/github/&lt;GitHubID&gt;/
   &lt;Depot&gt;/branch/master/graphs/badge.svg)]
   (https://codecov.io/github/&lt;GitHubID&gt;/&lt;Depot&gt;)</code></pre>

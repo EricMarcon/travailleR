@@ -99,7 +99,7 @@
 <p>L’outil central est évidemment R, mais son fonctionnement est aujourd’hui difficilement envisageable sans son environnement de développement RStudio.
 Pour le contrôle de source, git et GitHub sont de fait les standards.
 L’ensemble doit être complété par une distribution LaTeX pour la production de documents au format PDF.
-Un outil de gestion bibliographique est indispensable: Zotero et son extension Better BibTeX sont parfaitement adaptés au cadre de travail présenté ici.
+Un outil de gestion bibliographique est indispensable : Zotero et son extension Better BibTeX sont parfaitement adaptés au cadre de travail présenté ici.
 Enfin, d’autres logiciels d’usage plus ponctuel peuvent être nécessaires, comme Go.</p>
 <p>Leur installation et leur organisation cohérente sont présentées dans ce chapitre.</p>
 <div id="r" class="section level2" number="1.1">
@@ -110,7 +110,7 @@ Enfin, d’autres logiciels d’usage plus ponctuel peuvent être nécessaires, 
 <h3>
 <span class="header-section-number">1.1.1</span> Installation<a class="anchor" aria-label="anchor" href="#installation"><i class="fas fa-link"></i></a>
 </h3>
-<p>R est inclus dans les distributions de Linux: le paquet est nommé <code>r-base</code>.
+<p>R est inclus dans les distributions de Linux : le paquet est nommé <code>r-base</code>.
 Il ne contient pas des outils de développement souvent nécessaires, donc il est préférable d’installer aussi le paquet <code>r-base-dev</code>.
 La version de R est souvent un peu ancienne.
 Pour disposer de la dernière version, il faut utiliser un miroir de CRAN comme source des paquets : voir la documentation complète pour Ubuntu<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://doc.ubuntu-fr.org/r" class="uri"&gt;https://doc.ubuntu-fr.org/r&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a>.</p>
@@ -122,7 +122,7 @@ Pour disposer de la dernière version, il faut utiliser un miroir de CRAN comme 
 </h3>
 <p>Sur Mac, l’installation de R est suffisante à partir de la version 4.0.0.</p>
 <p>Sous Windows, l’installation doit être complétée par les “Rtools”, qui contiennent les outils de développement dont ceux nécessaires à la compilation des packages contenant du code C++.</p>
-<p>Le chemin des Rtools (avant la version 4.2) doit être déclaré à R, en exécutant dans la console de RStudio la commande suivante (adaptée à la version 4.0 des Rtools):</p>
+<p>Le chemin des Rtools (avant la version 4.2) doit être déclaré à R, en exécutant dans la console de RStudio la commande suivante (adaptée à la version 4.0 des Rtools) :</p>
 <p></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Rtools : déclaration du chemin, </span></span>
@@ -141,7 +141,7 @@ Copier ensuite le contenu du dossier <code>bin</code> dans le dossier <code>usr/
 <h3>
 <span class="header-section-number">1.1.3</span> Mise à jour<a class="anchor" aria-label="anchor" href="#mise-%C3%A0-jour"><i class="fas fa-link"></i></a>
 </h3>
-<p>Il est conseillé d’utiliser la dernière version mineure de R: par exemple, 4.0.x jusqu’à la sortie de la version 4.1.
+<p>Il est conseillé d’utiliser la dernière version mineure de R : par exemple, 4.0.x jusqu’à la sortie de la version 4.1.
 Il est obligatoire d’utiliser la toute dernière version pour préparer un package soumis à CRAN.</p>
 <p>Des changements importants ont lieu entre les versions majeures (la version 4 ne permet pas d’utiliser un package compilé pour la version 3) mais aussi parfois entre versions mineures (un fichier de données binaires <code>.rda</code> enregistré sous la version 3.3 ne peut pas être lu par la version 3.6).
 Il est donc utile de mettre R à jour régulièrement.</p>
@@ -152,7 +152,7 @@ En usage courant, il est préférable de désinstaller manuellement les ancienne
 <h3>
 <span class="header-section-number">1.1.4</span> Librairies<a class="anchor" aria-label="anchor" href="#sec:librairies"><i class="fas fa-link"></i></a>
 </h3>
-<p>Les packages de R se trouvent dans deux dossiers:</p>
+<p>Les packages de R se trouvent dans deux dossiers :</p>
 <ul>
 <li>la bibliothèque système (<em>System Library</em>) contient les packages fournis avec R : <strong>base</strong>, <strong>utils</strong>, <strong>graphics</strong> par exemple.
 Elle se trouve dans un sous-répertoire du programme d’installation (<code>C:\Program Files\R\R-4.1.0\library</code> pour R version 4.1.0 sous Windows 10).</li>
@@ -160,10 +160,10 @@ Elle se trouve dans un sous-répertoire du programme d’installation (<code>C:\
 Jusqu’à la version 4.1, elle se trouve dans le dossier personnel de l’utilisateur, dans un sous-dossier <code>R\win-library\4.1\</code>).
 Depuis la version 4.2, ce dossier se trouve dans les paramètres locaux de l’utilisateur dont l’emplacement du dossier se trouve dans la variable d’environnement <code>%LOCALAPPDATA%</code>.</li>
 </ul>
-<p>Jusqu’à la version 4.1, si le dossier personnel de l’utilisateur est sauvegardé (par exemple, s’il est répliqué dans le cloud par OneDrive sous Windows), il n’est pas optimal d’y placer les packages: le trafic généré par leur sauvegarde serait lourd et inutile.
+<p>Jusqu’à la version 4.1, si le dossier personnel de l’utilisateur est sauvegardé (par exemple, s’il est répliqué dans le cloud par OneDrive sous Windows), il n’est pas optimal d’y placer les packages : le trafic généré par leur sauvegarde serait lourd et inutile.
 Pour que les packages soient installés automatiquement dans la bibliothèque système, il suffit que l’utilisateur y ait le droit d’écrire.
 Sous Windows, donner le droit “Modifier” au groupe des utilisateurs de l’ordinateur sur le dossier de la bibliothèque, en plus du droit de lecture par défaut <a href="chap-logiciels.html#fig:R-library">1.1</a>).
-A partir de la version 4.2, il n’y a plus de raison de modifier le fonctionnement par défaut: les paramètres locaux ne sont pas sauvegardés.</p>
+A partir de la version 4.2, il n’y a plus de raison de modifier le fonctionnement par défaut : les paramètres locaux ne sont pas sauvegardés.</p>
 
 <p></p>
 <div class="figure" style="text-align: center">
@@ -174,7 +174,7 @@ Figure 1.1: Activation du droit de modifier la bibliothèque système sous Windo
 </div>
 <p></p>
 <p>Si la bibliothèque utilisateur est retenue, il faut penser à vider le dossier correspondant à l’ancienne version de R en cas changement de version mineure.</p>
-<p>L’emplacement des librairies est donné par la fonction <code><a href="https://rdrr.io/r/base/libPaths.html">.libPaths()</a></code>:</p>
+<p>L’emplacement des librairies est donné par la fonction <code><a href="https://rdrr.io/r/base/libPaths.html">.libPaths()</a></code> :</p>
 <p></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/libPaths.html">.libPaths</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -187,7 +187,7 @@ Figure 1.1: Activation du droit de modifier la bibliothèque système sous Windo
 <h2>
 <span class="header-section-number">1.2</span> RStudio<a class="anchor" aria-label="anchor" href="#rstudio"><i class="fas fa-link"></i></a>
 </h2>
-<p>RStudio est une interface graphique pour R et bien plus: il est conçu pour simplifier la gestion des projets, faciliter la rédaction et la production de documents et intégrer le contrôle de source par exemple.</p>
+<p>RStudio est une interface graphique pour R et bien plus : il est conçu pour simplifier la gestion des projets, faciliter la rédaction et la production de documents et intégrer le contrôle de source par exemple.</p>
 <div id="installation-1" class="section level3" number="1.2.1">
 <h3>
 <span class="header-section-number">1.2.1</span> Installation<a class="anchor" aria-label="anchor" href="#installation-1"><i class="fas fa-link"></i></a>
@@ -206,20 +206,21 @@ Le codage UTF8 est devenu le standard parce qu’il est universellement reconnu 
 <p>Dès la première utilisation de RStudio, créer un nouveau fichier R (menu “File &gt; New File &gt; R Script”), l’enregistrer au format UTF8 (“File &gt; Save with Encoding…”), choisir UTF8 dans la liste des formats et cocher la case “Set as default encoding for source files”.
 Supprimer le fichier après l’avoir enregistré.</p>
 <p>Les nouveaux fichiers seront codés au format UTF8.
-Les fichiers codés sous un autre format ne s’afficheront pas correctement: ils pourront être réouverts avec leur codage d’origine (“File &gt; Reopen with Encoding…”), en essayant éventuellement plusieurs codages jusqu’à obtenir un affichage correct, et sauvegardés au format UTF8 ensuite.</p>
+Les fichiers codés sous un autre format ne s’afficheront pas correctement : ils pourront être réouverts avec leur codage d’origine (“File &gt; Reopen with Encoding…”), en essayant éventuellement plusieurs codages jusqu’à obtenir un affichage correct, et sauvegardés au format UTF8 ensuite.</p>
 </div>
 <div id="dossier-de-travail" class="section level3" number="1.2.3">
 <h3>
 <span class="header-section-number">1.2.3</span> Dossier de travail<a class="anchor" aria-label="anchor" href="#dossier-de-travail"><i class="fas fa-link"></i></a>
 </h3>
-<p>Le dossier de travail par défaut est le dossier personnel de l’utilisateur, appelé <code>~</code> par RStudio:</p>
+<p>Le dossier de travail par défaut est le dossier personnel de l’utilisateur, appelé <code>~</code> par RStudio :</p>
 <p></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"R_USER"</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <ul>
 <li>
-<code>Mes Documents</code> sous Windows;</li>
+<code>Mes Documents</code> sous <span style="white-space:nowrap">Windows ;</span>
+</li>
 <li>
 <code>Home</code> sous Mac ou Linux.</li>
 </ul>
@@ -232,7 +233,7 @@ Le dossier de travail en cours est obtenu par la commande <code><a href="https:/
 <pre><code>## [1] "/Users/runner/work/travailleR/travailleR"</code></pre>
 <p></p>
 <p>L’utilisation du contrôle de source (voir chapitre <a href="chap-git.html#chap-git">3</a>) crée de nombreux fichiers de travail.
-Les projets sous contrôle de source ne devraient pas se trouver dans un dossier déjà sauvegardé par un autre moyen, comme un lecteur OneDrive sous Windows, sous peine d’une utilisation excessive des ressources: chaque validation de modifications engendre la sauvegarde des fichiers modifiés, mais aussi des fichiers de contrôle qui peuvent être de grande taille.</p>
+Les projets sous contrôle de source ne devraient pas se trouver dans un dossier déjà sauvegardé par un autre moyen, comme un lecteur OneDrive sous Windows, sous peine d’une utilisation excessive des ressources : chaque validation de modifications engendre la sauvegarde des fichiers modifiés, mais aussi des fichiers de contrôle qui peuvent être de grande taille.</p>
 </div>
 <div id="sec:solution-dossiers" class="section level3" number="1.2.4">
 <h3>
@@ -240,15 +241,15 @@ Les projets sous contrôle de source ne devraient pas se trouver dans un dossier
 </h3>
 <p>L’organisation de l’environnement travail est une affaire personnelle, qui dépend des préférences de chacun.
 L’organisation proposée ici n’est qu’une possibilité, à adapter à ses propres choix, mais en respectant les contraintes mentionnées.</p>
-<p>Sous Windows, une organisation optimale est la suivante:</p>
+<p>Sous Windows, une organisation optimale est la suivante :</p>
 <ul>
 <li>Dans son dossier personnel (<code>Mes Documents</code>, <code>~</code> pour R), un dossier <code>R</code> est utilisé pour les projets simples, sans contrôle de source.
 La sauvegarde de ce dossier est gérée par ailleurs.</li>
 <li>Un dossier hors du dossier personnel est utilisé pour les projets sous contrôle de source.
 L’utilisateur doit y avoir le droit d’écrire.
 Dans l’organisation de Windows, le dossier correspondant à ces critères est <code>%LOCALAPPDATA%</code>, typiquement <code>C:\Users\NomUtilisateur\AppData</code><code>\Local</code>.
-Le dossier sera donc <code>%LOCALAPPDATA%\ProjetsR</code> à créer: exécuter <code>md %LOCALAPPDATA%\ProjetsR</code> dans une invite de commande.
-Epingler ce dossier à l’accès rapide de l’explorateur de fichiers (figure <a href="chap-logiciels.html#fig:R-ProjetsR">1.2</a>): coller <code>%LOCALAPPDATA%\ProjetsR</code> dans la barre d’adresse de l’explorateur de fichiers, valider, puis faire un clic droit sur “Accès Rapide” et épingler le dossier.</li>
+Le dossier sera donc <code>%LOCALAPPDATA%\ProjetsR</code> à créer : exécuter <code>md %LOCALAPPDATA%\ProjetsR</code> dans une invite de commande.
+Epingler ce dossier à l’accès rapide de l’explorateur de fichiers (figure <a href="chap-logiciels.html#fig:R-ProjetsR">1.2</a>) : coller <code>%LOCALAPPDATA%\ProjetsR</code> dans la barre d’adresse de l’explorateur de fichiers, valider, puis faire un clic droit sur “Accès Rapide” et épingler le dossier.</li>
 </ul>
 <p></p>
 <div class="figure" style="text-align: center">
@@ -283,7 +284,7 @@ Figure 1.3: Activation du droit de modifier la bibliothèque système sous Windo
 </p>
 </div>
 <p></p>
-<p>La liste des packages concernés est affichée dans la console, par exemple:</p>
+<p>La liste des packages concernés est affichée dans la console, par exemple :</p>
 <pre><code>  There are binary versions available but the source 
   versions are later:
               binary   source needs_compilation
@@ -318,7 +319,7 @@ L’installation est faite à partir du code source et nécessite donc les <em>R
 </h3>
 <p>Bioconductor est une plateforme complémentaire de CRAN qui héberge des packages spécialisés dans la génomique.
 L’installation des packages de Bioconductor nécessite le package <strong>BiocManager</strong> pour sa fonction <code>install()</code>.
-Le premier argument de la fonction est un vecteur de caractères contenant les noms des packages à installer, par exemple:</p>
+Le premier argument de la fonction est un vecteur de caractères contenant les noms des packages à installer, par exemple :</p>
 <p></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"GenomicFeatures"</span>, <span class="st">"AnnotationDbi"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -399,17 +400,17 @@ Son utilisation est détaillée dans le chapitre <a href="chap-git.html#chap-git
 Pour Ubuntu, le package apt est <code>git-all</code>.</p>
 <p>git est installé sans interface graphique, fournie par RStudio.</p>
 <p>Dans RStudio, modifier les options globales (menu “Tools &gt; Global Options…”).
-Sélectionner <em>Terminal</em> et l’option <em>New Terminals open with</em>: GitBash.</p>
-<p>Vérifier la bonne installation de git en tapant la commande <code>git -h</code> dans le terminal de RStudio: l’aide doit s’afficher.</p>
-<p>Après l’installation de git, il est possible que le terminal de RStudio ne fonctionne plus correctement et renvoie un message d’erreur contenant les éléments suivants:</p>
+Sélectionner <em>Terminal</em> et l’option <em>New Terminals open with</em> : GitBash.</p>
+<p>Vérifier la bonne installation de git en tapant la commande <code>git -h</code> dans le terminal de RStudio : l’aide doit s’afficher.</p>
+<p>Après l’installation de git, il est possible que le terminal de RStudio ne fonctionne plus correctement et renvoie un message d’erreur contenant les éléments suivants :</p>
 <pre><code>*** fatal error - cygheap base mismatch detected
 This problem is probably due to using incompatible 
 versions of the cygwin DLL.</code></pre>
-<p>Le message d’erreur est imprécis: la librairie qui ne doit exister qu’en un seul exemplaire n’est pas <code>cygwin1.dll</code> mais <code>msys-2.0.dll</code>.
+<p>Le message d’erreur est imprécis : la librairie qui ne doit exister qu’en un seul exemplaire n’est pas <code>cygwin1.dll</code> mais <code>msys-2.0.dll</code>.
 Rechercher ce fichier dans les dossier d’installation de git et de Rtools.
 Ils se trouvent normalement dans <code>usr/bin</code>.
-Remplacer celui de git par celui de Rtools: la version des deux fichiers doit être identique.</p>
-<p>Entrer ses informations d’identification en exécutant les commandes suivantes dans le terminal:</p>
+Remplacer celui de git par celui de Rtools : la version des deux fichiers doit être identique.</p>
+<p>Entrer ses informations d’identification en exécutant les commandes suivantes dans le terminal :</p>
 <pre><code>git config user.name
 git config user.email</code></pre>
 <p>Le nom d’utilisateur est libre, de préférence “Prénom Nom”.</p>
@@ -421,53 +422,54 @@ git config user.email</code></pre>
 <p><em>GitHub</em> est la plateforme accessible par un <a href="https://github.com/">site web</a> qui permet de partager le contenu des dépôts <em>git</em>.
 Pour l’utiliser, il suffit d’ouvrir un compte avec la même adresse de messagerie que celle enregistrée dans git.</p>
 <p>Le nom du compte GitHub est noté ici <em>GitHubID</em>.
-Chaque compte GitHub permet d’héberger des dépôts (un dépôt contient les fichiers d’un projet) à l’adresse <a href="https://github.com/GitHubID/NomDuDepot" class="uri">https://github.com/GitHubID/NomDuDepot</a><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple: &lt;a href="https://github.com/EricMarcon/travailleR" class="uri"&gt;https://github.com/EricMarcon/travailleR&lt;/a&gt;&lt;/p&gt;'><sup>7</sup></a>.
-Chaque dépôt peut disposer d’un site web à l’adresse <a href="https://GitHubID.github.io/NomDuDepot/" class="uri">https://GitHubID.github.io/NomDuDepot/</a><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple: &lt;a href="https://EricMarcon.github.io/travailleR/" class="uri"&gt;https://EricMarcon.github.io/travailleR/&lt;/a&gt;&lt;/p&gt;'><sup>8</sup></a>.
-Enfin, un site web global est prévu pour chaque utilisateur à l’adresse <a href="https://GitHubID.github.io/" class="uri">https://GitHubID.github.io/</a><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple: &lt;a href="https://EricMarcon.github.io/" class="uri"&gt;https://EricMarcon.github.io/&lt;/a&gt;&lt;/p&gt;'><sup>9</sup></a>.</p>
+Chaque compte GitHub permet d’héberger des dépôts (un dépôt contient les fichiers d’un projet) à l’adresse <a href="https://github.com/GitHubID/NomDuDepot" class="uri">https://github.com/GitHubID/NomDuDepot</a><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple : &lt;a href="https://github.com/EricMarcon/travailleR" class="uri"&gt;https://github.com/EricMarcon/travailleR&lt;/a&gt;&lt;/p&gt;'><sup>7</sup></a>.
+Chaque dépôt peut disposer d’un site web à l’adresse <a href="https://GitHubID.github.io/NomDuDepot/" class="uri">https://GitHubID.github.io/NomDuDepot/</a><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple : &lt;a href="https://EricMarcon.github.io/travailleR/" class="uri"&gt;https://EricMarcon.github.io/travailleR/&lt;/a&gt;&lt;/p&gt;'><sup>8</sup></a>.
+Enfin, un site web global est prévu pour chaque utilisateur à l’adresse <a href="https://GitHubID.github.io/" class="uri">https://GitHubID.github.io/</a><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple : &lt;a href="https://EricMarcon.github.io/" class="uri"&gt;https://EricMarcon.github.io/&lt;/a&gt;&lt;/p&gt;'><sup>9</sup></a>.</p>
 </div>
 <div id="sec:SSH" class="section level3" number="1.4.3">
 <h3>
 <span class="header-section-number">1.4.3</span> Authentification SSH<a class="anchor" aria-label="anchor" href="#sec:SSH"><i class="fas fa-link"></i></a>
 </h3>
 <p>La communication entre git (installé sur l’ordinateur local) et GitHub (plateforme en ligne) nécessite de s’authentifier.</p>
-<p>Deux méthodes sont disponibles: HTTPS (aussi appelée SSL) et SSH.
+<p>Deux méthodes sont disponibles : HTTPS (aussi appelée SSL) et SSH.
 SSH est la plus robuste mais nécessite la création d’une clé privée.</p>
-<p>Dans le terminal de RStudio, exécuter:</p>
+<p>Dans le terminal de RStudio, exécuter :</p>
 <pre><code>ssh-keygen -t ed25519 -C "user.email"</code></pre>
 <p>L’adresse de messagerie (qui remplace “user.email”) doit être celle enregistrée dans la configuration de git et le compte GitHub.
 La clé est enregistrée dans le dossier <code>.ssh</code> du répertoire personnel de l’utilisateur.
 Il est possible d’ajouter un mot de passe (<em>passphrase</em>) à la clé, qui devra être tapé à la première utilisation de chaque session de travail.
 Si l’ordinateur est correctement sécurisé (pas d’accès physique par des tiers), la laisser vide permet de gagner en fluidité.</p>
-<p>Attention: la clé privée est strictement confidentielle et ne doit être copiée nulle part où elle pourrait être lue par un tiers (attention aux sauvegardes automatiques notamment).
-Elle n’a pas besoin d’être bien sauvegardée: en cas de perte, elle sera remplacée facilement.</p>
+<p>Attention : la clé privée est strictement confidentielle et ne doit être copiée nulle part où elle pourrait être lue par un tiers (attention aux sauvegardes automatiques notamment).
+Elle n’a pas besoin d’être bien sauvegardée : en cas de perte, elle sera remplacée facilement.</p>
 <p>Les clés sont normalement stockées dans le dossier <code>~/.ssh</code>, quel que soit le système d’exploitation, mais l’emplacement du dossier personnel <code>~</code> est ambiguë sous Windows : pour R, c’est le dossier <code>Documents</code>, mais pour d’autres logiciels, c’est le dossier racine de l’utilisateur, parent de <code>Documents</code>.</p>
-<p>Dans le terminal de RStudio, vérifier le bon fonctionnement de la clé:</p>
+<p>Dans le terminal de RStudio, vérifier le bon fonctionnement de la clé :</p>
 <pre><code>ssh -T git@github.com</code></pre>
-<p>Si un message d’erreur indique qu’aucune clé n’est trouvée, deux solutions sont possibles:</p>
+<p>Si un message d’erreur indique qu’aucune clé n’est trouvée, deux solutions sont possibles :</p>
 <ul>
-<li>Dupliquer le dossier <code>.ssh</code> (avec l’explorateur de fichiers) dans <code>Documents</code>;</li>
+<li>Dupliquer le dossier <code>.ssh</code> (avec l’explorateur de fichiers) dans <code>Documents</code><span style="white-space:nowrap"> ;</span>
+</li>
 <li>Dupliquer le dossier <code>.ssh</code> dans le dossier du programme RStudio (généralement <code>C:\Program Files\RStudio\</code>), dans <code>resources\terminal\bash\</code>.</li>
 </ul>
-<p>En cas de succès, un message indique que l’authenticité du serveur GitHub ne peut pas être vérifiée: un contrôle manuel est nécessaire pour la première connexion.
+<p>En cas de succès, un message indique que l’authenticité du serveur GitHub ne peut pas être vérifiée : un contrôle manuel est nécessaire pour la première connexion.
 Vérifier auprès de GitHub que l’empreinte du serveur est correcte<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://docs.github.com/en/github/authenticating-to-github/githubs-ssh-key-fingerprints" class="uri"&gt;https://docs.github.com/en/github/authenticating-to-github/githubs-ssh-key-fingerprints&lt;/a&gt;&lt;/p&gt;'><sup>10</sup></a> et taper <code>yes</code>.
 Le serveur est ajouté automatiquement à la liste des serveurs connus, dans le fichier <code>known_hosts</code>.</p>
-<p>Dans le dossier <code>.ssh</code>, deux fichiers sont créés: l’un contient la clé privée, l’autre, avec l’extension <code>.pub</code>, la clé publique correspondante.
+<p>Dans le dossier <code>.ssh</code>, deux fichiers sont créés : l’un contient la clé privée, l’autre, avec l’extension <code>.pub</code>, la clé publique correspondante.
 Ouvrir le second avec un éditeur de texte et copier la clé publique dans le presse-papier.
 Sur GitHub, afficher les réglages de son compte (menu “Settings”), sélectionner “SSH and GPG Keys”, cliquer sur “New SSH Key” et coller la clé dans le champ “Key”.
 Donner un nom à la clé dans le champ “Title”.
 Le nom peut être celui de l’ordinateur sur lequel la clé a été créée.
-La clé ne doit pas être copiée sur plusieurs ordinateurs: en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.</p>
+La clé ne doit pas être copiée sur plusieurs ordinateurs : en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.</p>
 <p>Si la clé est compromise (perte ou prêt de l’ordinateur qui la contient), la supprimer sur GitHub et en créer une nouvelle.</p>
 </div>
 <div id="sec:pat" class="section level3" number="1.4.4">
 <h3>
 <span class="header-section-number">1.4.4</span> Obtention d’un jeton d’accès personnel<a class="anchor" aria-label="anchor" href="#sec:pat"><i class="fas fa-link"></i></a>
 </h3>
-<p>L’authentification HTTPS est l’alternative à l’authentification SSL: il faut choisir une méthode et s’y tenir par la suite.
+<p>L’authentification HTTPS est l’alternative à l’authentification SSL : il faut choisir une méthode et s’y tenir par la suite.
 Pour utiliser l’authentification HTTPS, la création d’un jeton d’accès personnel est nécessaire.</p>
 <p>Les jetons sont créés sur GitHub, dans les paramètres de son compte d’utilisateur, dans “Developer Settings &gt; Personal Access Tokens”<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line" class="uri"&gt;https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line&lt;/a&gt;&lt;/p&gt;'><sup>11</sup></a>.</p>
 <p>Générer un nouveau jeton, le décrire en tant que “git-RStudio” et lui donner l’autorisation “repo”, c’est-à-dire modifier <em>tous</em> les dépôts (il n’est pas possible de limiter l’accès à un dépôt particulier).
-Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard: elle doit être sauvegardée comme un mot de passe.</p>
+Le jeton est une chaîne de caractère qui ne pourra pas être relue plus tard : elle doit être sauvegardée comme un mot de passe.</p>
 </div>
 </div>
 <div id="compilateur-latex" class="section level2" number="1.5">
@@ -482,13 +484,13 @@ MiKTeX est une très bonne solution pour Windows et Mac.</p>
 <h3>
 <span class="header-section-number">1.5.1</span> tinytex<a class="anchor" aria-label="anchor" href="#tinytex"><i class="fas fa-link"></i></a>
 </h3>
-<p>Installer le package puis exécuter:</p>
+<p>Installer le package puis exécuter :</p>
 <p></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tinytex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytex/man/install_tinytex.html">install_tinytex</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>L’ajout de packages LaTeX non inclus dans la distribution minimale de départ est automatique mais peut être lente.</p>
-<p>La distribution peut être mise à jour par la commande:</p>
+<p>La distribution peut être mise à jour par la commande :</p>
 <p></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tinytex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytex/man/tlmgr.html">tlmgr_update</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -503,11 +505,13 @@ MiKTeX est une très bonne solution pour Windows et Mac.</p>
 <span class="header-section-number">1.5.2.1</span> Installation<a class="anchor" aria-label="anchor" href="#installation-2"><i class="fas fa-link"></i></a>
 </h4>
 <p>Télécharger le fichier d’installation<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://miktex.org/download" class="uri"&gt;https://miktex.org/download&lt;/a&gt;&lt;/p&gt;'><sup>12</sup></a> et l’exécuter.
-Plusieurs choix sont à faire pendant l’installation:</p>
+Plusieurs choix sont à faire pendant l’installation :</p>
 <ul>
-<li>Installer le programme pour tous les utilisateurs (avec des droits d’administrateur);</li>
-<li>Le format par défaut du papier: choisir A4;</li>
-<li>Le mode d’installation des packages manquants: choisir “Always Install” pour qu’ils soient téléchargés automatiquement en cas de besoin.</li>
+<li>Installer le programme pour tous les utilisateurs (avec des droits <span style="white-space:nowrap">d’administrateur) ;</span>
+</li>
+<li>Le format par défaut du papier : choisir <span style="white-space:nowrap">A4 ;</span>
+</li>
+<li>Le mode d’installation des packages manquants : choisir “Always Install” pour qu’ils soient téléchargés automatiquement en cas de besoin.</li>
 </ul>
 <p>Pour Linux, suivre les instructions sur le site de MiKTeX.</p>
 </div>
@@ -535,18 +539,20 @@ Ses extensions permettent de compléter ses fonctionnalités selon les besoins d
 Better BibTeX permet d’exporter et de maintenir à jour une sélection des références bibliographiques (une collection de Zotero) sous la forme d’un fichier BibTeX dans un projet R, où il pourra être utilisé dans la rédaction de documents ou la documentation de packages.</p>
 <p>Télécharger le fichier d’installation et l’exécuter.
 Créer un compte utilisateur sur le site web de Zotero.
-Lier l’installation locale au compte: dans le menu “Edition &gt; Préférences”, sélectionner “Synchronisation &gt; Paramètres” et s’authentifier dans la zone “Synchronisation des données”.
+Lier l’installation locale au compte : dans le menu “Edition &gt; Préférences”, sélectionner “Synchronisation &gt; Paramètres” et s’authentifier dans la zone “Synchronisation des données”.
 Cocher ensuite la case “Synchroniser automatiquement” mais pas “Synchroniser le texte intégral des pièces jointes indexées” parce que la taille totale des textes intégraux synchronisés de cette manière entre le compte Zotero en ligne et le poste de travail est limitée à 300 Mo.</p>
-<p>Télécharger l’extension Better BibTeX<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://retorque.re/zotero-better-bibtex/installation/" class="uri"&gt;https://retorque.re/zotero-better-bibtex/installation/&lt;/a&gt;&lt;/p&gt;'><sup>14</sup></a> et l’installer avec le menu “Outils &gt; Extensions”: cliquer sur le bouton des paramètres en haut à droite de la fenêtre, puis “Install Add-on From File…” et sélectionner le fichier qui vient d’être téléchargé.</p>
+<p>Télécharger l’extension Better BibTeX<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://retorque.re/zotero-better-bibtex/installation/" class="uri"&gt;https://retorque.re/zotero-better-bibtex/installation/&lt;/a&gt;&lt;/p&gt;'><sup>14</sup></a> et l’installer avec le menu “Outils &gt; Extensions” : cliquer sur le bouton des paramètres en haut à droite de la fenêtre, puis “Install Add-on From File…” et sélectionner le fichier qui vient d’être téléchargé.</p>
 <p>Paramétrer Better BibTeX à partir du menu “Edition &gt; Préférences &gt; Better BibTeX”.
-Les options à modifier sont les suivantes:</p>
+Les options à modifier sont les suivantes :</p>
 <ul>
-<li>“Clés de citation &gt; Format de clé”: <code>[auth:capitalize][year]</code> pour que les citations disposent d’un identifiant unique de la forme “Nom2021”;</li>
-<li>“Clés de citation &gt; Conserver les clés de citation uniques dans”: “Toutes les collections” pour que les identifiants des citations ne soient pas ambigus;</li>
-<li>“Exportation &gt; Gestion des Champs &gt; Champs à exclure de l’exportation”: “abstract, file” pour ne pas générer des fichiers bibliographiques surchargés d’informations inutiles dans les projets R.</li>
+<li>“Clés de citation &gt; Format de clé” : <code>[auth:capitalize][year]</code> pour que les citations disposent d’un identifiant unique de la forme “Nom2021”<span style="white-space:nowrap"> ;</span>
+</li>
+<li>“Clés de citation &gt; Conserver les clés de citation uniques dans” : “Toutes les collections” pour que les identifiants des citations ne soient pas <span style="white-space:nowrap">ambigus ;</span>
+</li>
+<li>“Exportation &gt; Gestion des Champs &gt; Champs à exclure de l’exportation” : “abstract, file” pour ne pas générer des fichiers bibliographiques surchargés d’informations inutiles dans les projets R.</li>
 </ul>
 <p>Il est conseillé d’utiliser l’extension ZotFile<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="http://zotfile.com/" class="uri"&gt;http://zotfile.com/&lt;/a&gt;&lt;/p&gt;'><sup>15</sup></a> pour mieux contrôler l’emplacement du texte intégral (les fichiers PDF liés au références bibliographiques).
-L’installer puis la paramétrer dans “Outils &gt; Préférences de ZotFile…&gt; Paramètres généraux &gt; Emplacement des fichiers &gt; Dossier personnalisé”: choisir le dossier de stockage des textes intégraux.
+L’installer puis la paramétrer dans “Outils &gt; Préférences de ZotFile…&gt; Paramètres généraux &gt; Emplacement des fichiers &gt; Dossier personnalisé” : choisir le dossier de stockage des textes intégraux.
 Si le dossier personnel de l’utilisateur est sauvegardé (par exemple, s’il est répliqué dans le cloud par OneDrive sous Windows), y placer ce dossier de stockage permet à la fois de sauvegarder les textes intégraux mais aussi d’y accéder à partir de plusieurs postes de travail ou directement en ligne.
 Cette solution est bien plus efficace que la synchronisation par défaut de Zotero, limitée en volume.</p>
 </div>

@@ -98,15 +98,15 @@
 </h1>
 <p>R et RStudio permettent de rédiger efficacement des documents de tous formats, du simple bloc-note à la thèse, en passant par des diaporamas.
 Les outils pour le faire sont l’objet de ce chapitre, complété par la production de sites web (y compris un site personnel).</p>
-<p>Deux procédés de production de documents sont disponibles:</p>
+<p>Deux procédés de production de documents sont disponibles :</p>
 <ul>
 <li>
 <em>R Markdown</em> avec les packages <strong>knitR</strong> et <strong>bookdown</strong>.
 C’est ma méthode classique, présentée ici en détail.</li>
 <li>
 <em>Quarto</em>, conçu pour être utilisé avec d’autres langages que R et dans d’autres environnements de travail que RStudio.
-Quarto est en développement actif mais ne permet pas encore de produire des documents avec la même qualité que <em>R Markdown</em>: par exemple, la ponctuation des documents en français n’est pas gérée correctement en PDF<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/jgm/pandoc/issues/8283/" class="uri"&gt;https://github.com/jgm/pandoc/issues/8283/&lt;/a&gt;&lt;/p&gt;'><sup>47</sup></a>, les tableaux ne peuvent pas inclure d’équations<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/quarto-dev/quarto-cli/issues/555" class="uri"&gt;https://github.com/quarto-dev/quarto-cli/issues/555&lt;/a&gt;&lt;/p&gt;'><sup>48</sup></a> et la largeur des figures est incohérente dans les documents PDF formatés avec plusieurs colonnes<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/quarto-dev/quarto-cli/issues/855" class="uri"&gt;https://github.com/quarto-dev/quarto-cli/issues/855&lt;/a&gt;&lt;/p&gt;'><sup>49</sup></a>.
-L’usage de Quarto est bien documenté sur son site<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple: &lt;a href="https://EricMarcon.github.io/Krigeage/" class="uri"&gt;https://EricMarcon.github.io/Krigeage/&lt;/a&gt;&lt;/p&gt;'><sup>50</sup></a> et n’est pas présenté ici.</li>
+Quarto est en développement actif mais ne permet pas encore de produire des documents avec la même qualité que <em>R Markdown</em> : par exemple, la ponctuation des documents en français n’est pas gérée correctement en PDF<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/jgm/pandoc/issues/8283/" class="uri"&gt;https://github.com/jgm/pandoc/issues/8283/&lt;/a&gt;&lt;/p&gt;'><sup>47</sup></a>, les tableaux ne peuvent pas inclure d’équations<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/quarto-dev/quarto-cli/issues/555" class="uri"&gt;https://github.com/quarto-dev/quarto-cli/issues/555&lt;/a&gt;&lt;/p&gt;'><sup>48</sup></a> et la largeur des figures est incohérente dans les documents PDF formatés avec plusieurs colonnes<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/quarto-dev/quarto-cli/issues/855" class="uri"&gt;https://github.com/quarto-dev/quarto-cli/issues/855&lt;/a&gt;&lt;/p&gt;'><sup>49</sup></a>.
+L’usage de Quarto est bien documenté sur son site<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple : &lt;a href="https://EricMarcon.github.io/Krigeage/" class="uri"&gt;https://EricMarcon.github.io/Krigeage/&lt;/a&gt;&lt;/p&gt;'><sup>50</sup></a> et n’est pas présenté ici.</li>
 </ul>
 <div id="bloc-note-markdown-r-notebook" class="section level2" number="4.1">
 <h2>
@@ -118,11 +118,14 @@ Quand l’explication du code nécessite plusieurs lignes de commentaire par lig
 Il s’agit de décrire les objectifs et les méthodes par du texte, dans lequel le code s’intègre.</p>
 <p>L’outil le plus simple est le bloc-note Markdown (Menu “File &gt; New File &gt; R Notebook”).
 Le modèle de document contient son mode d’emploi.</p>
-<p>Le langage qui permet de formater le texte est Markdown<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://fr.wikipedia.org/wiki/Markdown" class="uri"&gt;https://fr.wikipedia.org/wiki/Markdown&lt;/a&gt;&lt;/p&gt;'><sup>51</sup></a>, un langage de balisage simple à utiliser:</p>
+<p>Le langage qui permet de formater le texte est Markdown<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://fr.wikipedia.org/wiki/Markdown" class="uri"&gt;https://fr.wikipedia.org/wiki/Markdown&lt;/a&gt;&lt;/p&gt;'><sup>51</sup></a>, un langage de balisage simple à utiliser :</p>
 <ul>
-<li>Les paragraphes sont séparés par des sauts de ligne;</li>
-<li>Le document est structuré par des titres: leur ligne commence par un nombre de <code>#</code> correspondant à leur niveau;</li>
-<li>Les formats de caractères sont limités à l’essentiel: italique ou gras (texte entouré par une ou deux <code>*</code>);</li>
+<li>Les paragraphes sont séparés par des sauts de <span style="white-space:nowrap">ligne ;</span>
+</li>
+<li>Le document est structuré par des titres : leur ligne commence par un nombre de <code>#</code> correspondant à leur <span style="white-space:nowrap">niveau ;</span>
+</li>
+<li>Les formats de caractères sont limités à l’essentiel : italique ou gras (texte entouré par une ou deux <code>*</code><span style="white-space:nowrap">) ;</span>
+</li>
 <li>D’autres codes simples permettent tous les formatages utiles.</li>
 </ul>
 <p>Ce langage est le pivot du logiciel pandoc<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://fr.wikipedia.org/wiki/Pandoc" class="uri"&gt;https://fr.wikipedia.org/wiki/Pandoc&lt;/a&gt;&lt;/p&gt;'><sup>52</sup></a>, dédié à la conversion de documents de formats différents.</p>
@@ -137,33 +140,40 @@ Il commence par un en-tête au format YAML<a class="footnote-ref" tabindex="0" d
 title: "R Notebook"
 output: html_notebook
 ---</code></pre>
-<p>La première entrée est le titre, la seconde le format de sortie: plus précisément le nom de la fonction chargée de traiter le document.</p>
+<p>La première entrée est le titre, la seconde le format de sortie : plus précisément le nom de la fonction chargée de traiter le document.</p>
 <p>Le document contient du texte formaté en Markdown et des bouts de code (<em>code chunks</em>) entourés par trois accents graves (la syntaxe markdown d’un bloc de code) et une description du langage, ici <code>r</code>.
 Ces bouts de code sont traités par <strong>knitr</strong> qui transforme le résultat de l’exécution du code R en Markdown et l’intègre au texte du document.</p>
 <p>Traiter un document R Markdown s’appelle le <em>tricoter</em> (<em>knit</em>).
 La chaîne de production est la suivante :</p>
 <ul>
 <li>
-<strong>knitr</strong> traite les bouts de code: calculs, production de figures;</li>
+<strong>knitr</strong> traite les bouts de code : calculs, production de <span style="white-space:nowrap">figures ;</span>
+</li>
 <li>
-<strong>rmarkdown</strong> intègre la production des bouts de code et texte pour produire un fichier Markdown standard;</li>
-<li>pandoc (installé avec RStudio) convertit ce fichier au format HTML, LaTeX ou Word;</li>
+<strong>rmarkdown</strong> intègre la production des bouts de code et texte pour produire un fichier Markdown <span style="white-space:nowrap">standard ;</span>
+</li>
+<li>pandoc (installé avec RStudio) convertit ce fichier au format HTML, LaTeX ou <span style="white-space:nowrap">Word ;</span>
+</li>
 <li>LaTeX produit un fichier PDF quand ce format est demandé.</li>
 </ul>
-<p>RStudio permet de lancer le tricot par des boutons plutôt que par des commandes: dans la fenêtre source (celle du haut à gauche), un bouton “Knit” accompagne les documents R Markdown.
+<p>RStudio permet de lancer le tricot par des boutons plutôt que par des commandes : dans la fenêtre source (celle du haut à gauche), un bouton “Knit” accompagne les documents R Markdown.
 Pour les bloc-notes R Markdown, il est remplacé par un bouton “Preview” avec les mêmes fonctions.
-Il peut être déroulé pour choisir le format de sortie: HTML, Word, PDF (en passant par LaTeX) et, pour les bloc-notes, une commande “Preview” qui affiche le document en HTML sans exécuter les bouts de code pour gagner du temps.
+Il peut être déroulé pour choisir le format de sortie : HTML, Word, PDF (en passant par LaTeX) et, pour les bloc-notes, une commande “Preview” qui affiche le document en HTML sans exécuter les bouts de code pour gagner du temps.
 Dès le premier tricot au format Word ou HTML, on remarquera que le bouton “Preview” disparaît.</p>
-<p>Au final, l’utilisation de R Markdown combine plusieurs avantages:</p>
+<p>Au final, l’utilisation de R Markdown combine plusieurs avantages :</p>
 <ul>
-<li>La simplicité de la rédaction: le texte brut est plus facile à lire et à formater qu’en LaTeX par exemple;</li>
-<li>L’automatisation de la production: le formatage et la mise en page sont entièrement automatiques;</li>
-<li>La reproductibilité: chaque document peut être autosuffisant accompagné de ses données. Relancer le tricotage régénère entièrement le document, y compris les calculs nécessaires et la production des figures.</li>
+<li>La simplicité de la rédaction : le texte brut est plus facile à lire et à formater qu’en LaTeX par <span style="white-space:nowrap">exemple ;</span>
+</li>
+<li>L’automatisation de la production : le formatage et la mise en page sont entièrement <span style="white-space:nowrap">automatiques ;</span>
+</li>
+<li>La reproductibilité : chaque document peut être autosuffisant accompagné de ses données. Relancer le tricotage régénère entièrement le document, y compris les calculs nécessaires et la production des figures.</li>
 </ul>
-<p>Elle a aussi quelques inconvénients:</p>
+<p>Elle a aussi quelques inconvénients :</p>
 <ul>
-<li>Le formatage dépend de modèles, et developper de nouveaux modèles n’est pas simple;</li>
-<li>Les erreurs de tricot sont parfois difficiles à corriger, notamment quand elles interviennent à l’étape de la compilation LaTeX;</li>
+<li>Le formatage dépend de modèles, et developper de nouveaux modèles n’est pas <span style="white-space:nowrap">simple ;</span>
+</li>
+<li>Les erreurs de tricot sont parfois difficiles à corriger, notamment quand elles interviennent à l’étape de la compilation <span style="white-space:nowrap">LaTeX ;</span>
+</li>
 <li>La reproductibilité consomme du temps de calcul. Pour limiter ce problème, un système de cache permet de ne pas réévaluer tous les bouts de code R à chaque modification du texte. La production de gros documents peut aussi être déléguée à un système d’intégration continue (chapitre <a href="chap-ci.html#chap-ci">6</a>).</li>
 </ul>
 </div>
@@ -186,9 +196,9 @@ Figure 4.1: Nouveau document Markdown à partir d’un modèle.
 Les informations à fournir sont le titre et le nom de l’auteur, et le format du document attendu (qui pourra être modifié plus tard).
 Ces modèles créent un seul fichier dont l’enregistrement ne sera obligatoire qu’au moment de tricoter.</p>
 <p>La syntaxe est la même que celle du bloc-note.
-Dans l’entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot:</p>
+Dans l’entête, une entrée supplémentaire est utilisée pour la date, qui peut être calculée par R à chaque tricot :</p>
 <pre><code>date: "|r format(Sys.Date(), '%d/%m/%Y')|"</code></pre>
-<p>Remplacer les barres verticales <code>|</code> de l’exemple ci-dessus par des guillemets inversés: ce document étant écrit avec R Markdown, la date serait calculée et affichée à la place du code si les guillemets inversés étaient utilisés directement.</p>
+<p>Remplacer les barres verticales <code>|</code> de l’exemple ci-dessus par des guillemets inversés : ce document étant écrit avec R Markdown, la date serait calculée et affichée à la place du code si les guillemets inversés étaient utilisés directement.</p>
 <p>Le code R en ligne (par opposition aux bouts de code) peut être utilisé partout dans un document R Markdown, y compris dans l’entête pour l’affichage de la date.
 Il commence par un guillemet inversé suivi de <code>r</code> et se termine par un autre guillemet inversé.</p>
 <p>Les documents peuvent être tricotés au format HTML, PDF (via LaTeX) ou Word.
@@ -196,7 +206,7 @@ L’entête du fichier R Markdown est réécrit quand le tricot est lancé par l
 <p>Les présentations peuvent être tricotées dans deux formats HTML, ioslide<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html" class="uri"&gt;https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html&lt;/a&gt;&lt;/p&gt;'><sup>56</sup></a> ou Slidy<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://bookdown.org/yihui/rmarkdown/slidy-presentation.html" class="uri"&gt;https://bookdown.org/yihui/rmarkdown/slidy-presentation.html&lt;/a&gt;&lt;/p&gt;'><sup>57</sup></a>, au format Beamer (PDF)<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://bookdown.org/yihui/rmarkdown/beamer-presentation.html" class="uri"&gt;https://bookdown.org/yihui/rmarkdown/beamer-presentation.html&lt;/a&gt;&lt;/p&gt;'><sup>58</sup></a> ou en Powerpoint<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://bookdown.org/yihui/rmarkdown/powerpoint-presentation.html" class="uri"&gt;https://bookdown.org/yihui/rmarkdown/powerpoint-presentation.html&lt;/a&gt;&lt;/p&gt;'><sup>59</sup></a>.</p>
 <p>Le niveau 2 de plan (<code>##</code>) marque le changement de diapositive.</p>
 <p>Du code supplémentaire, présenté dans les documentations des formats HTML, permet d’utiliser des fonctionnalités spécifiques.</p>
-<p>Ces modèles sont simples mais assez peu utiles: le bloc-note R est plus facile à utiliser que le modèle de document pour des documents minimalistes.
+<p>Ces modèles sont simples mais assez peu utiles : le bloc-note R est plus facile à utiliser que le modèle de document pour des documents minimalistes.
 Des modèles plus élaborés sont disponibles.</p>
 </div>
 <div id="articles-avec-bookdown" class="section level2" number="4.3">
@@ -219,9 +229,9 @@ Il doit être installé.</p>
 <p>Les principales caractéristiques de Markdown sont résumées ici.
 Une formation rapide et plus complète est proposée par RStudio<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://rmarkdown.rstudio.com/lesson-1.html" class="uri"&gt;https://rmarkdown.rstudio.com/lesson-1.html&lt;/a&gt;&lt;/p&gt;'><sup>60</sup></a>.</p>
 <p>Le texte est écrit sans aucun autre formatage que les les retours à la ligne.
-Un simple retour à la ligne n’a aucun effet sur le document produit: il permet de séparer les phrases pour simplifier le suivi du code source par git.</p>
+Un simple retour à la ligne n’a aucun effet sur le document produit : il permet de séparer les phrases pour simplifier le suivi du code source par git.</p>
 <p>Un saut de ligne marque un changement de paragraphe.</p>
-<p>Les différents niveaux de plan sont désignés par le nombre de croisillons correspondant en début de ligne: <code>#</code> pour un titre de niveau 1, <code>##</code> pour un titre de niveau 2, etc.
+<p>Les différents niveaux de plan sont désignés par le nombre de croisillons correspondant en début de ligne : <code>#</code> pour un titre de niveau 1, <code>##</code> pour un titre de niveau 2, etc.
 Un espace sépare les croisillons et le texte du titre.</p>
 <p>Les liste à puces sont marquées par un tiret (suivi d’un espace) en début de ligne.
 Un saut de ligne est nécessaire avant le début de la liste mais les éléments de la liste sont séparés par un simple retour à la ligne.
@@ -234,16 +244,18 @@ Enfin, les listes numérotées sont créées de la même façon en remplaçant l
 </h4>
 <p>Le code R est inclus dans des bouts de code (<em>code chunks</em>) créés facilement en cliquant sur le bouton “Insert a new code chunk” au-dessus de la fenêtre du code source dans RStudio.
 Ils commencent et se terminent par trois guillemets inversés sur une nouvelle ligne.
-Ces bouts de code peuvent contenir du code R mais aussi Python par exemple: le type de code est indiqué dans l’entête sur la première ligne, avant le nom du bout de code, puis une liste d’options séparées par des virgules, par exemple:</p>
+Ces bouts de code peuvent contenir du code R mais aussi Python par exemple : le type de code est indiqué dans l’entête sur la première ligne, avant le nom du bout de code, puis une liste d’options séparées par des virgules, par exemple :</p>
 <pre><code>```{r cars, echo=TRUE}
 ```</code></pre>
-<p>Le nom et les options sont facultatifs: l’entête minimal est <code>{r}</code>.</p>
+<p>Le nom et les options sont facultatifs : l’entête minimal est <code>{r}</code>.</p>
 <p>Les options les plus utiles sont :</p>
 <ul>
 <li>
-<code>echo</code> pour afficher (<code>=TRUE</code>) ou cacher (<code>=FALSE</code>) le code;</li>
+<code>echo</code> pour afficher (<code>=TRUE</code>) ou cacher (<code>=FALSE</code>) le <span style="white-space:nowrap">code ;</span>
+</li>
 <li>
-<code>message=FALSE</code> pour cacher les messages d’ouverture de certains packages;</li>
+<code>message=FALSE</code> pour cacher les messages d’ouverture de certains <span style="white-space:nowrap">packages ;</span>
+</li>
 <li>
 <code>warning=FALSE</code> pour cacher les avertissements.</li>
 </ul>
@@ -266,9 +278,9 @@ Figure 4.2: Titre de la figure
 </div>
 <p></p>
 <p>Les figures peuvent être créées par le code R (figure <a href="chap-rediger.html#fig:pressure">4.2</a>).
-Avec Bookdown, une étiquette est associée à chaque figure: son nom est <code>fig:xxx</code> où <code>xxx</code> est le nom du bout de code R.
+Avec Bookdown, une étiquette est associée à chaque figure : son nom est <code>fig:xxx</code> où <code>xxx</code> est le nom du bout de code R.
 Les renvois se font avec la commande <code>\@ref(fig:xxx)</code>.</p>
-<p>L’entête du bout de code de la figure <a href="chap-rediger.html#fig:pressure">4.2</a> est:</p>
+<p>L’entête du bout de code de la figure <a href="chap-rediger.html#fig:pressure">4.2</a> est :</p>
 <pre><code>```{r pressure, fig.cap="Titre de la figure"}
 ```</code></pre>
 <p>Il contient au minimum le nom de la figure et sa légende.
@@ -474,57 +486,57 @@ Enfin, l’option <code>full_width = FALSE</code> permet d’ajuster la largeur 
 <span>    <span class="co"># rouge</span></span>
 <span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/color.html">color</a></span><span class="op">(</span><span class="op">~</span><span class="va">Sepal.Length</span> <span class="op">&gt;</span> <span class="fl">5</span>, <span class="op">~</span><span class="va">Sepal.Length</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-b0a857e6{}.cl-b09ff7cc{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-b09ff7d6{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(255, 0, 0, 1.00);background-color:transparent;}.cl-b0a3bdbc{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-b0a3bdc6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-b0a3d644{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a3d662{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a3d66c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a3d66d{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a3d68a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a3d68b{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table data-quarto-disable-processing="true" class="cl-b0a857e6">
+<style>.cl-8912e368{}.cl-890a7a0c{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-890a7a20{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(255, 0, 0, 1.00);background-color:transparent;}.cl-890e0a82{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-890e0aaa{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-890e2684{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-890e268e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-890e2698{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-890e26ac{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-890e26ad{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-890e26ae{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table data-quarto-disable-processing="true" class="cl-8912e368">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-b0a3d644"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">Longueur sépales</span></p></th>
-<th class="cl-b0a3d644"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">Largeur</span></p></th>
-<th class="cl-b0a3d644"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">Longueur pétales</span></p></th>
-<th class="cl-b0a3d644"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">Largeur</span></p></th>
-<th class="cl-b0a3d662"><p class="cl-b0a3bdc6"><span class="cl-b09ff7cc">Espèce</span></p></th>
+<th class="cl-890e2684"><p class="cl-890e0a82"><span class="cl-890a7a0c">Longueur sépales</span></p></th>
+<th class="cl-890e2684"><p class="cl-890e0a82"><span class="cl-890a7a0c">Largeur</span></p></th>
+<th class="cl-890e2684"><p class="cl-890e0a82"><span class="cl-890a7a0c">Longueur pétales</span></p></th>
+<th class="cl-890e2684"><p class="cl-890e0a82"><span class="cl-890a7a0c">Largeur</span></p></th>
+<th class="cl-890e268e"><p class="cl-890e0aaa"><span class="cl-890a7a0c">Espèce</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7d6">5.1</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">3.5</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">1.4</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">0.2</span></p></td>
-<td class="cl-b0a3d66d"><p class="cl-b0a3bdc6"><span class="cl-b09ff7cc">setosa</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a20">5.1</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">3.5</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">1.4</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">0.2</span></p></td>
+<td class="cl-890e26ac"><p class="cl-890e0aaa"><span class="cl-890a7a0c">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">4.9</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">3.0</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">1.4</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">0.2</span></p></td>
-<td class="cl-b0a3d66d"><p class="cl-b0a3bdc6"><span class="cl-b09ff7cc">setosa</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">4.9</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">3.0</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">1.4</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">0.2</span></p></td>
+<td class="cl-890e26ac"><p class="cl-890e0aaa"><span class="cl-890a7a0c">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">4.7</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">3.2</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">1.3</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">0.2</span></p></td>
-<td class="cl-b0a3d66d"><p class="cl-b0a3bdc6"><span class="cl-b09ff7cc">setosa</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">4.7</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">3.2</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">1.3</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">0.2</span></p></td>
+<td class="cl-890e26ac"><p class="cl-890e0aaa"><span class="cl-890a7a0c">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">4.6</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">3.1</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">1.5</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">0.2</span></p></td>
-<td class="cl-b0a3d66d"><p class="cl-b0a3bdc6"><span class="cl-b09ff7cc">setosa</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">4.6</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">3.1</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">1.5</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">0.2</span></p></td>
+<td class="cl-890e26ac"><p class="cl-890e0aaa"><span class="cl-890a7a0c">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">5.0</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">3.6</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">1.4</span></p></td>
-<td class="cl-b0a3d66c"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">0.2</span></p></td>
-<td class="cl-b0a3d66d"><p class="cl-b0a3bdc6"><span class="cl-b09ff7cc">setosa</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">5.0</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">3.6</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">1.4</span></p></td>
+<td class="cl-890e2698"><p class="cl-890e0a82"><span class="cl-890a7a0c">0.2</span></p></td>
+<td class="cl-890e26ac"><p class="cl-890e0aaa"><span class="cl-890a7a0c">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-b0a3d68a"><p class="cl-b0a3bdbc"><span class="cl-b09ff7d6">5.4</span></p></td>
-<td class="cl-b0a3d68a"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">3.9</span></p></td>
-<td class="cl-b0a3d68a"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">1.7</span></p></td>
-<td class="cl-b0a3d68a"><p class="cl-b0a3bdbc"><span class="cl-b09ff7cc">0.4</span></p></td>
-<td class="cl-b0a3d68b"><p class="cl-b0a3bdc6"><span class="cl-b09ff7cc">setosa</span></p></td>
+<td class="cl-890e26ad"><p class="cl-890e0a82"><span class="cl-890a7a20">5.4</span></p></td>
+<td class="cl-890e26ad"><p class="cl-890e0a82"><span class="cl-890a7a0c">3.9</span></p></td>
+<td class="cl-890e26ad"><p class="cl-890e0a82"><span class="cl-890a7a0c">1.7</span></p></td>
+<td class="cl-890e26ad"><p class="cl-890e0a82"><span class="cl-890a7a0c">0.4</span></p></td>
+<td class="cl-890e26ae"><p class="cl-890e0aaa"><span class="cl-890a7a0c">setosa</span></p></td>
 </tr>
 </tbody>
 </table></div>
@@ -538,13 +550,13 @@ Cette limite est rédhibitoire.</p>
 <h4>
 <span class="header-section-number">4.3.1.4</span> Maths<a class="anchor" aria-label="anchor" href="#maths"><i class="fas fa-link"></i></a>
 </h4>
-<p>Les équations au format LaTeX peuvent être insérées en ligne, comme <span class="math inline">\(A=\pi r^2\)</span> (code: <code>$A=\pi r^2$</code>) ou isolées (les $ sont doublés) comme <span class="math display">\[e^{i \pi} = -1.\]</span></p>
-<p>Elles peuvent être numérotées: voir équation <a href="chap-rediger.html#eq:disque">(4.1)</a>, en utilisant l’environnement <code>\equation</code>.</p>
+<p>Les équations au format LaTeX peuvent être insérées en ligne, comme <span class="math inline">\(A=\pi r^2\)</span> (code : <code>$A=\pi r^2$</code>) ou isolées (les $ sont doublés) comme <span class="math display">\[e^{i \pi} = -1.\]</span></p>
+<p>Elles peuvent être numérotées : voir équation <a href="chap-rediger.html#eq:disque">(4.1)</a>, en utilisant l’environnement <code>\equation</code>.</p>
 <p><span class="math display" id="eq:disque">\[\begin{equation}
   A = \pi r^2.
   \tag{4.1}
 \end{equation}\]</span></p>
-<p>L’équation numérotée est créée par le code suivant:</p>
+<p>L’équation numérotée est créée par le code suivant :</p>
 <pre><code>\begin{equation}
   A = \pi r^2.
   (\#eq:disque)
@@ -558,7 +570,7 @@ Cette limite est rédhibitoire.</p>
 <p>Pour les équations, l’étiquette est ajoutée manuellement par le code <code>(\#eq:xxx)</code> avant la fin de l’équation.</p>
 <p>Les sections peuvent recevoir une étiquette en terminant leur titre par <code>{#yyy}</code>.
 Les sections reçoivent par défaut une étiquette implicite<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://pandoc.org/MANUAL.html#extension-implicit_header_references" class="uri"&gt;https://pandoc.org/MANUAL.html#extension-implicit_header_references&lt;/a&gt;&lt;/p&gt;'><sup>63</sup></a> correspondant à leur texte, en minuscules, où les caractères spéciaux sont remplacés par des tirets.
-Les étiquettes implicites sont instables (elles changent avec le titre de la section) et difficiles à prévoir: c’est pourquoi il est conseillé d’ajouter une étiquette explicite à chaque section faisant l’objet d’un renvoi.
+Les étiquettes implicites sont instables (elles changent avec le titre de la section) et difficiles à prévoir : c’est pourquoi il est conseillé d’ajouter une étiquette explicite à chaque section faisant l’objet d’un renvoi.
 C’est le cas des chapitres, pour lesquels le nom du fichier HMTL produit est identique à l’étiquette.
 Les étiquettes de chapitres doivent respecter les règles de nomenclature des fichiers en ne contenant pas de caractères spéciaux.</p>
 <p>Des signets peuvent aussi être placés librement dans le texte avec la commande <code>(ref:zzz)</code>.</p>
@@ -572,9 +584,9 @@ Les étiquettes de chapitres doivent respecter les règles de nomenclature des f
 <pre><code>bibliography: references.bib</code></pre>
 <p>Ce fichier peut être créé et maintenu à jour par Zotero installé avec l’extension Better BibTeX (voir section <a href="chap-logiciels.html#sec:Zotero">1.6</a>).
 Il suffit pour cela de créer une collection Zotero correspondant au projet et d’y glisser les références pertinentes.
-Utiliser ensuite le menu contextuel “Exporter la collection…” et sélectionner:</p>
+Utiliser ensuite le menu contextuel “Exporter la collection…” et sélectionner :</p>
 <ul>
-<li>Format: “Better BibTeX” pour les articles et présentations ou “Better BibLaTeX” pour les mémoires, selon que la bibliographie est gérée par bibtex et natbib ou biber et biblatex pour la production de documents PDF.</li>
+<li>Format : “Better BibTeX” pour les articles et présentations ou “Better BibLaTeX” pour les mémoires, selon que la bibliographie est gérée par bibtex et natbib ou biber et biblatex pour la production de documents PDF.</li>
 <li>Cocher la case “Garder à jour” pour que toute modification dans Zotero soit exportée automatiquement.</li>
 <li>Cliquer sur “OK” puis choisir le nom du fichier (<code>references.bib</code>) et son emplacement (le dossier du projet R).</li>
 </ul>
@@ -594,12 +606,12 @@ Plus d’un millier de styles sont disponibles<a class="footnote-ref" tabindex="
 <p>Les langues sont à déclarer dans l’entête des document produits par les modèles de <strong>memoiR</strong>.</p>
 <p>La langue principale du document modifie le nom de certains éléments, comme la table des matières.
 Les langues supplémentaires permettent la rédaction de documents multilingues.</p>
-<p>Les champs de l’entête sont:</p>
+<p>Les champs de l’entête sont :</p>
 <pre><code>lang: fr-FR
 otherlangs: [en-US, it]</code></pre>
 <p>Le changement de langue dans le document est géré en LaTeX mais pas en HTML en insérant sur une nouvelle ligne la commande suivante :</p>
 <pre><code>\selectlanguage{english}</code></pre>
-<p>La langue en cours n’a d’effet que dans les sorties LaTeX: un espace est ajouté devant les ponctuations doubles en Français, la taille des espaces est plus grande en début de phrase en Anglais, etc.
+<p>La langue en cours n’a d’effet que dans les sorties LaTeX : un espace est ajouté devant les ponctuations doubles en Français, la taille des espaces est plus grande en début de phrase en Anglais, etc.
 La commande <code>\selectlanguage</code> est simplement ignorée en HTML.</p>
 <p>Les noms de langues sont différents dans l’entête (codes IETF) et dans le texte (nom de la langue).
 La correspondance et la liste complète des langues se trouve dans le tableau 3 de la documentation du package <strong>polyglossia</strong><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="http://mirrors.ctan.org/macros/unicodetex/latex/polyglossia/polyglossia.pdf" class="uri"&gt;http://mirrors.ctan.org/macros/unicodetex/latex/polyglossia/polyglossia.pdf&lt;/a&gt;&lt;/p&gt;'><sup>65</sup></a>.</p>
@@ -608,7 +620,7 @@ Le fichier <code>fr-nbsp.lua</code> doit être copié dans le répertoire du pro
 <pre><code>output:
     pandoc_args:
       - --lua-filter=fr-nbsp.lua</code></pre>
-<p>Le filtre formate toute la ponctuation du document, quelle que soit sa langue: il ne doit donc être utilisé que pour les documents entièrement en français.</p>
+<p>Le filtre formate toute la ponctuation du document, quelle que soit sa langue : il ne doit donc être utilisé que pour les documents entièrement en français.</p>
 </div>
 </div>
 <div id="sec:memo" class="section level3" number="4.3.2">
@@ -616,7 +628,7 @@ Le fichier <code>fr-nbsp.lua</code> doit être copié dans le répertoire du pro
 <span class="header-section-number">4.3.2</span> Modèle Simple Article<a class="anchor" aria-label="anchor" href="#sec:memo"><i class="fas fa-link"></i></a>
 </h3>
 <p>Le modèle <em>Simple Article</em> de <strong>memoiR</strong> produit un document HTML simple avec une table des matières flottante (voir l’exemple<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://EricMarcon.github.io/Krigeage/Krigeage.html" class="uri"&gt;https://EricMarcon.github.io/Krigeage/Krigeage.html&lt;/a&gt;&lt;/p&gt;'><sup>67</sup></a>).
-D’autres formats HTML sont disponibles: voir la gallerie<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://ericmarcon.github.io/memoiR/" class="uri"&gt;https://ericmarcon.github.io/memoiR/&lt;/a&gt;&lt;/p&gt;'><sup>68</sup></a> du package.
+D’autres formats HTML sont disponibles : voir la gallerie<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://ericmarcon.github.io/memoiR/" class="uri"&gt;https://ericmarcon.github.io/memoiR/&lt;/a&gt;&lt;/p&gt;'><sup>68</sup></a> du package.
 Le format PDF est proche du modèle <em>article</em> de LaTeX (exemple<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://EricMarcon.github.io/Krigeage/Krigeage.pdf" class="uri"&gt;https://EricMarcon.github.io/Krigeage/Krigeage.pdf&lt;/a&gt;&lt;/p&gt;'><sup>69</sup></a>).</p>
 <p>Le modèle contient sa propre documentation.</p>
 <div id="créer" class="section level4" number="4.3.2.1">
@@ -625,11 +637,11 @@ Le format PDF est proche du modèle <em>article</em> de LaTeX (exemple<a class="
 </h4>
 <p>Utiliser le menu “File &gt; New File &gt; R Markdown…” puis sélectionner “From template” (figure <a href="chap-rediger.html#fig:e-rmd1">4.1</a>).
 La liste des modèles disponible et le package qui les propose est alors affichée.</p>
-<p>Sélectionner le modèle <em>Simple Article</em> du package <strong>memoiR</strong>, choisir le nom du projet (“Name:”, qui sera le nom du dossier dans lequel il sera créé, et son dossier parent (“Location:”).
+<p>Sélectionner le modèle <em>Simple Article</em> du package <strong>memoiR</strong>, choisir le nom du projet (“Name :”, qui sera le nom du dossier dans lequel il sera créé, et son dossier parent (“Location :”).
 Dans l’organisation proposée en section <a href="chap-logiciels.html#sec:solution-dossiers">1.2.4</a>, le dossier parent est <code>%LOCALAPPDATA%\ProjetsR</code>.
 Le nom du projet ne doit contenir aucun caractère spécial (accent, espace…) pour assurer sa portabilité sur tous les systèmes d’exploitation (Windows, Linux, MacOS).</p>
 <p>Les modèles élaborés créent un dossier avec de nombreux fichiers (bibliographie, styles, modèle LaTeX…), contrairement aux modèles simples qui créent seulement un fichier.</p>
-<p>Quand un dossier est créé, par exemple par le modèle <em>Simple Article</em>, il faut en faire un projet RStudio: dans le menu des projets (en haut à droite de la fenêtre de RStudio), utiliser le menu “New Project…” puis “Existing Directory” et sélectionner le dossier qui vient d’être créé.</p>
+<p>Quand un dossier est créé, par exemple par le modèle <em>Simple Article</em>, il faut en faire un projet RStudio : dans le menu des projets (en haut à droite de la fenêtre de RStudio), utiliser le menu “New Project…” puis “Existing Directory” et sélectionner le dossier qui vient d’être créé.</p>
 </div>
 <div id="ecrire-1" class="section level4" number="4.3.2.2">
 <h4>
@@ -641,16 +653,20 @@ Le nom du projet ne doit contenir aucun caractère spécial (accent, espace…) 
 <h4>
 <span class="header-section-number">4.3.2.3</span> Tricoter<a class="anchor" aria-label="anchor" href="#tricoter"><i class="fas fa-link"></i></a>
 </h4>
-<p>Le document peut être tricoté en plusieurs formats:</p>
+<p>Le document peut être tricoté en plusieurs formats :</p>
 <ul>
 <li>
-<em>html_document2</em> est le format HTML pour lequel le modèle a été conçu: un bloc-note avec une table des matières flottante;</li>
+<em>html_document2</em> est le format HTML pour lequel le modèle a été conçu : un bloc-note avec une table des matières <span style="white-space:nowrap">flottante ;</span>
+</li>
 <li>
-<em>gitbook</em> est un format HTML alternatif, utilisé normalement pour les ouvrages;</li>
+<em>gitbook</em> est un format HTML alternatif, utilisé normalement pour les <span style="white-space:nowrap">ouvrages ;</span>
+</li>
 <li>
-<em>downcute</em> est un format HTML proposé par le package <strong>rmdformats</strong>;</li>
+<em>downcute</em> est un format HTML proposé par le package <strong>rmdformats</strong><span style="white-space:nowrap"> ;</span>
+</li>
 <li>
-<em>pdf_book</em> produit un document PDF suivant le modèle LaTeX <em>article</em>, couramment utilisé directement en LaTeX;</li>
+<em>pdf_book</em> produit un document PDF suivant le modèle LaTeX <em>article</em>, couramment utilisé directement en <span style="white-space:nowrap">LaTeX ;</span>
+</li>
 <li>
 <em>word_document2</em> crée un ficher Word.</li>
 </ul>
@@ -666,8 +682,8 @@ Il contient le titre du projet, son résumé et des liens vers les versions HTML
 <p>Le projet doit être lié à un dépôt GitHub (section <a href="chap-git.html#sec:creerdepot">3.2</a>).</p>
 <p>Deux stratégies de publications sont possible.
 Dans la première, les documents sont tricotés localement et placés dans le dossier <code>docs</code>, qui sera le support des pages GitHub.
-Dans la seconde, les documents sont tricotés par GitHub Actions à chaque fois que des modifications sont poussées sur le dépôt: on parle d’intégration continue (section <a href="chap-ci.html#chap-ci">6</a>).</p>
-<p>La stratégie de production locale est traitée ici; l’intégration continue le sera dans la section <a href="chap-ci.html#sec:memoiR-ci">6.3.1</a>.</p>
+Dans la seconde, les documents sont tricotés par GitHub Actions à chaque fois que des modifications sont poussées sur le dépôt : on parle d’intégration continue (section <a href="chap-ci.html#chap-ci">6</a>).</p>
+<p>La stratégie de production locale est traitée <span style="white-space:nowrap">ici ;</span> l’intégration continue le sera dans la section <a href="chap-ci.html#sec:memoiR-ci">6.3.1</a>.</p>
 <p>La fonction <code>build_githubpages()</code> place tous les documents tricotés (HTML et PDF) dans le dossier <code>docs</code>, avec une copie du fichier <code>README.md</code>.
 De cette façon, il est possible d’activer les pages GitHub du projet (sur le dossier <code>docs</code> de la branche <code>master</code>).
 Le fichier <code>README.md</code> sera la page d’accueil du site web produit.</p>
@@ -681,7 +697,7 @@ Il reste à pousser le dépôt sur GitHub et activer les pages GitHub.</p>
 <h3>
 <span class="header-section-number">4.3.3</span> Autres modèles<a class="anchor" aria-label="anchor" href="#autres-mod%C3%A8les"><i class="fas fa-link"></i></a>
 </h3>
-<p>Le modèle <em>Stylish Article</em> de <strong>memoiR</strong> est destiné à la production d’articles PDF pour l’autoarchivage (typiquement, le dépôt sur HAL) bien formatés, au format A4 en double colonne<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple: &lt;a href="https://EricMarcon.github.io/Rochebrune2018/Entropie.pdf" class="uri"&gt;https://EricMarcon.github.io/Rochebrune2018/Entropie.pdf&lt;/a&gt;&lt;/p&gt;'><sup>70</sup></a>.</p>
+<p>Le modèle <em>Stylish Article</em> de <strong>memoiR</strong> est destiné à la production d’articles PDF pour l’autoarchivage (typiquement, le dépôt sur HAL) bien formatés, au format A4 en double colonne<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple : &lt;a href="https://EricMarcon.github.io/Rochebrune2018/Entropie.pdf" class="uri"&gt;https://EricMarcon.github.io/Rochebrune2018/Entropie.pdf&lt;/a&gt;&lt;/p&gt;'><sup>70</sup></a>.</p>
 <p>Le format HTML est le même que celui du modèle <em>Simple Article</em>.</p>
 <p>Le package <strong>rticles</strong> a pour ambition de fournir des modèles pour toutes les revues scientifiques qui acceptent une soumission d’articles en LaTeX.
 Il propose donc des modèles Markdown qui produisent des fichiers PDF conformes aux exigences des revues et la possibilité de récupérer le fichier <code>.tex</code> intermédiaire (pandoc produit un fichier <code>.tex</code> transmis au compilateur LaTeX).
@@ -696,14 +712,14 @@ Il n’est pas possible d’échanger directement du contenu R Markdown standard
 <p>Le modèle <em>Beamer Presentation</em> de <strong>memoiR</strong> permet de créer des présentations au format HTML et PDF (beamer) simultanément, comme le montre l’exemple<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://EricMarcon.github.io/Chao1/" class="uri"&gt;https://EricMarcon.github.io/Chao1/&lt;/a&gt;, choisir Lecture (HTML) ou Téléchargement (PDF).&lt;/p&gt;'><sup>71</sup></a>.</p>
 <p>La démarche est identique à celle des articles du même package.
 Les niveaux de titre permettent de séparer les parties de la présentation (<code>#</code>) et les diapositives (<code>##</code>).
-Deux formats sont disponibles en HTML: ioslides<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html" class="uri"&gt;https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html&lt;/a&gt;&lt;/p&gt;'><sup>72</sup></a> et Slidy<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://bookdown.org/yihui/rmarkdown/slidy-presentation.html" class="uri"&gt;https://bookdown.org/yihui/rmarkdown/slidy-presentation.html&lt;/a&gt;&lt;/p&gt;'><sup>73</sup></a>.
-Quelques spécificités dans le code permettent d’affiner la présentation des diapositives, pour un affichage sur deux colonnes par exemple: elles sont documentées dans le modèle.</p>
+Deux formats sont disponibles en HTML : ioslides<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html" class="uri"&gt;https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html&lt;/a&gt;&lt;/p&gt;'><sup>72</sup></a> et Slidy<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://bookdown.org/yihui/rmarkdown/slidy-presentation.html" class="uri"&gt;https://bookdown.org/yihui/rmarkdown/slidy-presentation.html&lt;/a&gt;&lt;/p&gt;'><sup>73</sup></a>.
+Quelques spécificités dans le code permettent d’affiner la présentation des diapositives, pour un affichage sur deux colonnes par exemple : elles sont documentées dans le modèle.</p>
 </div>
 <div id="memoir" class="section level2" number="4.5">
 <h2>
 <span class="header-section-number">4.5</span> memoir<a class="anchor" aria-label="anchor" href="#memoir"><i class="fas fa-link"></i></a>
 </h2>
-<p>Le modèle <em>Memoir</em> du package <strong>memoiR</strong> est destiné aux documents longs, qui présentent une différence importante avec les documents précédents: un document long est composé de plusieurs chapitres, chacun placé dans son fichier <code>.Rmd</code>.</p>
+<p>Le modèle <em>Memoir</em> du package <strong>memoiR</strong> est destiné aux documents longs, qui présentent une différence importante avec les documents précédents : un document long est composé de plusieurs chapitres, chacun placé dans son fichier <code>.Rmd</code>.</p>
 <p>Le format HTML est gitbook<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://www.gitbook.com/" class="uri"&gt;https://www.gitbook.com/&lt;/a&gt;&lt;/p&gt;'><sup>74</sup></a>, le standard de la lecture en ligne de documents de ce type.
 Le format PDF est dérivé du modèle LaTeX <em>memoir</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://www.ctan.org/pkg/memoir" class="uri"&gt;https://www.ctan.org/pkg/memoir&lt;/a&gt;&lt;/p&gt;'><sup>75</sup></a>, optimisé aussi pour les documents longs.</p>
 <p>Ce document a été écrit avec ce modèle.</p>
@@ -711,18 +727,18 @@ Le format PDF est dérivé du modèle LaTeX <em>memoir</em><a class="footnote-re
 <h3>
 <span class="header-section-number">4.5.1</span> Créer<a class="anchor" aria-label="anchor" href="#cr%C3%A9er-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>La création d’un projet d’ouvrage est identique à celle présentée plus haut: le modèle est: <em>Memoir</em>.
+<p>La création d’un projet d’ouvrage est identique à celle présentée plus haut : le modèle est : <em>Memoir</em>.
 Le dossier créé doit être transformé en projet.</p>
 <p>Exécuter <code>build_git()</code> et <code>build_readme()</code>, activer le contrôle de source et pousser le projet sur GitHub, de la même façon que pour un article (section <a href="chap-rediger.html#sec:article-en-ligne">4.3.2.4</a>).</p>
-<p>Chaque chapitre de l’ouvrage est un fichier Rmd, dont le nom commence normalement par son numéro (ex.: <code>01-intro.Rmd</code>).
+<p>Chaque chapitre de l’ouvrage est un fichier Rmd, dont le nom commence normalement par son numéro (ex. : <code>01-intro.Rmd</code>).
 Tous les fichiers Rmd présents dans le dossier du projet sont en réalité traités comme des chapitres, triés par ordre de nom de fichier, dont ceux fournis par le modèle (démarrage et syntaxe) qui doivent être supprimés à l’exception de <code>99-references.Rmd</code> qui contient la bibliographie, placée à la fin.
-Le fichier <code>index.Rmd</code> est particulier: il contient l’entête du document et le premier chapitre.</p>
+Le fichier <code>index.Rmd</code> est particulier : il contient l’entête du document et le premier chapitre.</p>
 </div>
 <div id="ecrire-2" class="section level3" number="4.5.2">
 <h3>
 <span class="header-section-number">4.5.2</span> Ecrire<a class="anchor" aria-label="anchor" href="#ecrire-2"><i class="fas fa-link"></i></a>
 </h3>
-<p>Le premier chapitre est placé dans l’avant-propos de l’ouvrage imprimé: il ne doit pas être numéroté (d’où le code <code>{-}</code> à côté du titre) dans la version HTML.
+<p>Le premier chapitre est placé dans l’avant-propos de l’ouvrage imprimé : il ne doit pas être numéroté (d’où le code <code>{-}</code> à côté du titre) dans la version HTML.
 Il se termine obligatoirement par la commande LaTeX <code>\mainmatter</code> qui marque le début du corps de l’ouvrage.</p>
 <p>Les niveaux de plan commencent par <code>#</code> pour les chapitres (un seul par fichier), <code>##</code> pour les sections, etc.</p>
 </div>
@@ -736,22 +752,22 @@ Chaque chapitre peut être visualisé très rapidement en cliquant sur le bouton
 Le livre entier est créé en cliquant sur le bouton “Build Book” de la fenêtre <em>Build</em> de RStudio.
 La liste déroulante du bouton permet de créer tous les documents ou de se limiter à un format.</p>
 <p>Les fichiers produits sont placés directement dans le dossier <code>docs</code>, qui sera utilisé par les pages GitHub pour permettre la lecture en ligne et le téléchargement du PDF.
-La page d’accueil du site web est créée par bookdown à partir du fichier <code>index.Rmd</code>: le fichier <code>README.md</code> n’est pas dupliqué dans <code>docs</code>.</p>
+La page d’accueil du site web est créée par bookdown à partir du fichier <code>index.Rmd</code> : le fichier <code>README.md</code> n’est pas dupliqué dans <code>docs</code>.</p>
 </div>
 <div id="finitions" class="section level3" number="4.5.4">
 <h3>
 <span class="header-section-number">4.5.4</span> Finitions<a class="anchor" aria-label="anchor" href="#finitions"><i class="fas fa-link"></i></a>
 </h3>
 <p>La mise en page est assurée de façon totalement automatique par pandoc (en HTML) et LaTeX (en PDF).</p>
-<p>Il est souvent utile d’aider LaTeX à résoudre quelques dépassements de marge dus à de trop grandes contraintes de mise en page: pour la lisibilité optimale, les colonnes sont étroites, mais le code (texte formaté entre deux apostrophes inversées) n’autorise pas la césure.</p>
+<p>Il est souvent utile d’aider LaTeX à résoudre quelques dépassements de marge dus à de trop grandes contraintes de mise en page : pour la lisibilité optimale, les colonnes sont étroites, mais le code (texte formaté entre deux apostrophes inversées) n’autorise pas la césure.</p>
 <p>Si une ligne de texte dépasse dans la marge de droite dans le document PDF, la solution consiste à ajouter manuellement le code <code>\break</code> à l’emplacement désiré pour le retour à la ligne dans le document R Markdown.
 La commande n’a aucun effet sur le document HTML mais force la césure en LaTeX.
 Pour couper du texte formaté (entre astérisques pour l’italique ou plus fréquemment entre apostrophes inversées pour du code), il faut terminer le formatage avant <code>\break</code> et le recommencer après.
-Exemple, pour forcer le retour à la ligne avant <code>fichier.Rmd</code>:</p>
+Exemple, pour forcer le retour à la ligne avant <code>fichier.Rmd</code> :</p>
 <pre><code>Le fichier `/chemin/`\break`fichier.Rmd`</code></pre>
 <p>En HTML, un espace sera ajouté entre les deux portions de code.</p>
 <p>Les bouts de code R sont formatés automatiquement par <strong>knitr</strong> quand l’option <code>tidy=TRUE</code> leur est appliquée.
-Le comportement par défaut est indiqué dans les options de <strong>knitr</strong>, dans un bout de code au début du fichier <code>index.Rmd</code>:</p>
+Le comportement par défaut est indiqué dans les options de <strong>knitr</strong>, dans un bout de code au début du fichier <code>index.Rmd</code> :</p>
 <p></p>
 <div class="sourceCode" id="cb296"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># knitr options</span></span>
@@ -775,12 +791,15 @@ Dans ce cas, formater manuellement le bout de code en lui ajoutant l’option <c
 </h3>
 <p>Le site web contenant le document gitbook doit être paramétré dans <code>_output.yml</code> pour que :</p>
 <ul>
-<li>le titre du document apparaisse en haut de la table des matières;</li>
-<li>une indication de l’usage de GitHub et bookdown soit affichée en bas de la table des matières;</li>
-<li>un bouton GitHub dans la barre de titre permette d’ouvrir le dépôt du projet;</li>
+<li>le titre du document apparaisse en haut de la table des <span style="white-space:nowrap">matières ;</span>
+</li>
+<li>une indication de l’usage de GitHub et bookdown soit affichée en bas de la table des <span style="white-space:nowrap">matières ;</span>
+</li>
+<li>un bouton GitHub dans la barre de titre permette d’ouvrir le dépôt du <span style="white-space:nowrap">projet ;</span>
+</li>
 <li>un autre bouton permette de télécharger le document PDF.</li>
 </ul>
-<p>Le fichier <code>_output.yml</code> de ce document est le suivant:</p>
+<p>Le fichier <code>_output.yml</code> de ce document est le suivant :</p>
 <pre><code>bookdown::gitbook:
   css: style.css
   config:
@@ -800,7 +819,7 @@ Dans ce cas, formater manuellement le bout de code en lui ajoutant l’option <c
     download: pdf</code></pre>
 <p>La section <code>sharing:</code> gère les boutons de la barre de titre.
 Par défaut, les liens vers Facebook et Twitter sont activés mais celui vers GitHub ne l’est pas.
-Pour qu’il fonctionne, le dépôt GitHub doit être déclaré dans l’entête du fichier <code>index.rmd</code>:</p>
+Pour qu’il fonctionne, le dépôt GitHub doit être déclaré dans l’entête du fichier <code>index.rmd</code> :</p>
 <pre><code>github-repo: EricMarcon/travailleR</code></pre>
 <p>La section <code>toc:</code> contient deux portions de code HTML dans lesquelles le titre du document et le lien vers son dépôt GitHub doivent être adaptés au projet.</p>
 <p>Enfin, la section <code>download:</code> liste les formats de documents téléchargeables et permet d’afficher un bouton de téléchargement dans la barre de titre.</p>
@@ -837,21 +856,23 @@ Enfin, déclarer le script dans l’entête des pages web en ajoutant une instru
 </h3>
 <p>Dans RStudio, dans le menu des projets en haut à droite, cliquer sur “New Project…” puis “New Directory” puis “Simple R Markdown website”.
 Saisir le nom du projet, sélectionner le dossier dans lequel le projet sera créé en cliquant sur “Browse” et enfin cliquer sur “Create Project”.</p>
-<p>Le site par défaut contient deux pages: <code>index</code>, la page d’accueil, et <code>about</code>, la page “A propos”.
-Le fichier <code>_site.yml</code> contient le nom du site et le contenu de sa barre de navigation: un titre et le fichier correspondant.
+<p>Le site par défaut contient deux pages : <code>index</code>, la page d’accueil, et <code>about</code>, la page “A propos”.
+Le fichier <code>_site.yml</code> contient le nom du site et le contenu de sa barre de navigation : un titre et le fichier correspondant.
 D’autres pages seront ajoutées en créant de nouveaux fichiers <code>.Rmd</code> et en les ajoutant au fichier <code>_site.yml</code>.</p>
 </div>
 <div id="améliorations" class="section level3" number="4.6.2">
 <h3>
 <span class="header-section-number">4.6.2</span> Améliorations<a class="anchor" aria-label="anchor" href="#am%C3%A9liorations"><i class="fas fa-link"></i></a>
 </h3>
-<p>Le modèle de site peut facilement être amélioré en complétant <code>_site.yml</code>:</p>
+<p>Le modèle de site peut facilement être amélioré en complétant <code>_site.yml</code> :</p>
 <ul>
-<li>en ajoutant une icône GitHub dans la barre de navigation pour renvoyer vers le code source du site;</li>
-<li>en choisissant la méthode de tricot des pages, pour utiliser <strong>bookdown</strong> au lieu de <strong>rmarkdown</strong>;</li>
+<li>en ajoutant une icône GitHub dans la barre de navigation pour renvoyer vers le code source du <span style="white-space:nowrap">site ;</span>
+</li>
+<li>en choisissant la méthode de tricot des pages, pour utiliser <strong>bookdown</strong> au lieu de <strong>rmarkdown</strong><span style="white-space:nowrap"> ;</span>
+</li>
 <li>en plaçant les fichiers du site dans le dossier <code>docs</code> et ainsi séparer le code et la production.</li>
 </ul>
-<p>Le fichier <code>_site.yml</code> complété est le suivant:</p>
+<p>Le fichier <code>_site.yml</code> complété est le suivant :</p>
 <pre><code>name: "my-website"
 navbar:
   title: "My Website"
@@ -870,7 +891,7 @@ output:
     highlight: tango
     toc: true
     toc_float: yes</code></pre>
-<p>L’icône de GitHub fait partie de la collection Font Awesome dont toutes les icônes gratuites<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://fontawesome.com/icons?d=gallery&amp;amp;m=free" class="uri"&gt;https://fontawesome.com/icons?d=gallery&amp;amp;m=free&lt;/a&gt;&lt;/p&gt;'><sup>78</sup></a> sont utilisables avec la même syntaxe: “fa-nom”.</p>
+<p>L’icône de GitHub fait partie de la collection Font Awesome dont toutes les icônes gratuites<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://fontawesome.com/icons?d=gallery&amp;amp;m=free" class="uri"&gt;https://fontawesome.com/icons?d=gallery&amp;amp;m=free&lt;/a&gt;&lt;/p&gt;'><sup>78</sup></a> sont utilisables avec la même syntaxe : “fa-nom”.</p>
 <p>Le lien correspondant à l’icône doit être celui du dépôt GitHub du site web.</p>
 <p>La syntaxe de la section <code>output</code> est la même que celle des documents vus plus haut.
 Elle s’applique à toutes les pages (dont l’entête YAML est réduite au minimum).
@@ -883,7 +904,7 @@ Enfin, la table des matières est flottante, ce qui signifie que sa position s�
 <span class="header-section-number">4.6.3</span> Contôle de source<a class="anchor" aria-label="anchor" href="#cont%C3%B4le-de-source"><i class="fas fa-link"></i></a>
 </h3>
 <p>Le projet doit être placé sous contrôle de source et poussé sur GitHub (chapitre <a href="chap-git.html#chap-git">3</a>).
-Le fichier <code>.gitignore</code> est le suivant:</p>
+Le fichier <code>.gitignore</code> est le suivant :</p>
 <pre><code># R
 .Rbuildignore
 .RData
@@ -897,7 +918,7 @@ Le fichier <code>.gitignore</code> est le suivant:</p>
 /*_files/</code></pre>
 <p>Activer les pages GitHub (section <a href="chap-git.html#sec:github-pages">3.7</a>) sur le dossier <code>docs</code> pour héberger le site.
 Ajouter un fichier vide nommé <code>.nojekyll</code> dans <code>docs</code> pour que les pages GitHub ne tentent pas de reformater le site.
-On peut utiliser le terminal de RStudio pour exécuter:</p>
+On peut utiliser le terminal de RStudio pour exécuter :</p>
 <pre><code>touch docs/.nojekyll</code></pre>
 </div>
 </div>
@@ -906,15 +927,16 @@ On peut utiliser le terminal de RStudio pour exécuter:</p>
 <span class="header-section-number">4.7</span> Site web personnel : blogdown<a class="anchor" aria-label="anchor" href="#sec:blogdown"><i class="fas fa-link"></i></a>
 </h2>
 <p>Pour créer une page web personnelle, <em>Hugo</em> est un générateur de site statique capable de produire des pages HTML à partir de code Markdown.
-Les sites statiques ont l’avantage, en comparaison aux sites dynamiques gérés par un système de gestion de contenu (CMS, par exemple: Wordpress, Joomla, SPIP), d’être portables sur n’importe quel serveur web sans support de base de données ni de code à exécuter côté le serveur (tel que PHP) et d’être très rapides puisque les pages sont créées une seule fois et non à chaque consultation.
+Les sites statiques ont l’avantage, en comparaison aux sites dynamiques gérés par un système de gestion de contenu (CMS, par exemple : Wordpress, Joomla, SPIP), d’être portables sur n’importe quel serveur web sans support de base de données ni de code à exécuter côté le serveur (tel que PHP) et d’être très rapides puisque les pages sont créées une seule fois et non à chaque consultation.
 Un site Hugo peut être hébergé par exemple sur la page personnelle de tout utilisateur de GitHub dont l’adresse est de la forme “GitHubID.github.io”.</p>
 <p>Hugo propose de nombreux thèmes, qui sont des modèles de structure de sites, donc le thème <strong>Academic</strong>, destiné aux chercheurs.
 Dans RStudio, le package <strong>blogdown</strong> est prévu pour produire facilement des pages web avec Hugo.
-Ces pages peuvent contenir du code R: elles sont très proches d’un article, vu plus haut, dont le contenu peut être facilement copié et collé.
+Ces pages peuvent contenir du code R : elles sont très proches d’un article, vu plus haut, dont le contenu peut être facilement copié et collé.
 Nous utiliserons donc cette solution, pour un site comme celui proposé en exemple<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://EricMarcon.github.io/" class="uri"&gt;https://EricMarcon.github.io/&lt;/a&gt;&lt;/p&gt;'><sup>80</sup></a>.</p>
-<p>La structure du site web est simple:</p>
+<p>La structure du site web est simple :</p>
 <ul>
-<li>une page d’accueil, contenant divers composants paramétrables comme la biographie de l’auteur, une sélection de publications, de billets de blogs ou d’autres éléments et un formulaire de contact;</li>
+<li>une page d’accueil, contenant divers composants paramétrables comme la biographie de l’auteur, une sélection de publications, de billets de blogs ou d’autres éléments et un formulaire de <span style="white-space:nowrap">contact ;</span>
+</li>
 <li>des pages détaillant les divers éléments (publications, billets, etc.) écrites en R Markdown.</li>
 </ul>
 <div id="installation-des-outils" class="section level3" number="4.7.1">
@@ -932,7 +954,7 @@ Nous utiliserons donc cette solution, pour un site comme celui proposé en exemp
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">::</span><span class="fu">install_hugo</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>La documentation complète de <strong>blogdown</strong> est disponible<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://bookdown.org/yihui/blogdown/" class="uri"&gt;https://bookdown.org/yihui/blogdown/&lt;/a&gt;&lt;/p&gt;'><sup>81</sup></a>.</p>
-<p>Les versions récentes de Hugo utilisent <em>Go</em> (le langage de programmation) pour installer leurs modules à la volée: ici le thème Academic est chargé depuis GitHub au moment de la création du site.
+<p>Les versions récentes de Hugo utilisent <em>Go</em> (le langage de programmation) pour installer leurs modules à la volée : ici le thème Academic est chargé depuis GitHub au moment de la création du site.
 Go doit donc être installé<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://golang.org/doc/install" class="uri"&gt;https://golang.org/doc/install&lt;/a&gt;&lt;/p&gt;'><sup>82</sup></a>.</p>
 </div>
 <div id="créer-2" class="section level3" number="4.7.2">
@@ -941,7 +963,7 @@ Go doit donc être installé<a class="footnote-ref" tabindex="0" data-toggle="po
 </h3>
 <p>La façon la plus simple consiste à créer un dépôt sur GitHub à partir du modèle.
 Sur la page du dépôt <em>starter-academic</em><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/wowchemy/starter-academic" class="uri"&gt;https://github.com/wowchemy/starter-academic&lt;/a&gt;&lt;/p&gt;'><sup>83</sup></a>, cliquer sur le bouton “Use this template”, s’authentifier éventuellement sur GitHub, puis saisir le nom du dépôt qui contiendra le projet, par exemple “MySite”.</p>
-<p>Le dépôt peut être celui du site principal de son compte GitHub (voir section <a href="chap-git.html#sec:github-pages">3.7</a>), à l’adresse <a href="https://GitHubID.github.io" class="uri">https://GitHubID.github.io</a><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple: &lt;a href="https://EricMarcon.github.io/Krigeage/" class="uri"&gt;https://EricMarcon.github.io/Krigeage/&lt;/a&gt;&lt;/p&gt;'><sup>84</sup></a>.
+<p>Le dépôt peut être celui du site principal de son compte GitHub (voir section <a href="chap-git.html#sec:github-pages">3.7</a>), à l’adresse <a href="https://GitHubID.github.io" class="uri">https://GitHubID.github.io</a><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple : &lt;a href="https://EricMarcon.github.io/Krigeage/" class="uri"&gt;https://EricMarcon.github.io/Krigeage/&lt;/a&gt;&lt;/p&gt;'><sup>84</sup></a>.
 Le nom à saisir est simplement “GitHubID.github.io” (<em>GitHubID</em> est le nom du compte GitHub).</p>
 <p>Créer le dépôt.
 Copier l’adresse du dépôt en cliquant sur le bouton “Code” puis sur le bouton à droite de l’adresse (figure <a href="chap-rediger.html#fig:rediger-GitHub-Clone">4.4</a>).</p>
@@ -954,7 +976,7 @@ Figure 4.4: Copie de l’adresse d’un dépôt à cloner sur GitHub.
 </p>
 </div>
 <p></p>
-<p>Dans RStudio, créer un nouveau projet à partir de GitHub: dans le menu des projets en haut à droite, cliquer sur “New Project…” puis “Version Control” puis “Git” puis coller l’adresse dans le champ “Repository URL” (figure <a href="chap-rediger.html#fig:rediger-Projet-GitHub">4.5</a>).
+<p>Dans RStudio, créer un nouveau projet à partir de GitHub : dans le menu des projets en haut à droite, cliquer sur “New Project…” puis “Version Control” puis “Git” puis coller l’adresse dans le champ “Repository URL” (figure <a href="chap-rediger.html#fig:rediger-Projet-GitHub">4.5</a>).
 Sélectionner le dossier dans lequel le projet sera créé en cliquant sur “Browse” et enfin cliquer sur “Create Project”.</p>
 
 <p></p>
@@ -968,7 +990,7 @@ Figure 4.5: Collage de l’adresse du dépôt à cloner.
 <p>Le projet créé est une copie exacte du modèle, qui doit être personnalisée.</p>
 <p>RStudio ajoute automatiquement à la fin du fichier <code>.gitignore</code> une ligne pour ignorer ses fichiers de travail (dossier <code>.Rproj.user</code>).
 Ajouter une ligne de commentaire pour le signaler.
-Le contenu de <code>.gitignore</code> doit être le suivant:</p>
+Le contenu de <code>.gitignore</code> doit être le suivant :</p>
 <pre><code># R
 .Rbuildignore
 .RData
@@ -1006,7 +1028,7 @@ index.html
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">:::</span><span class="fu">serve_site</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Il apparaît dans la fenêtre <em>Viewer</em> de RStudio, dont le bouton d’agrandissement permet l’affichage dans le navigateur internet par défaut du système.</p>
-<p>Pour modifier le contenu du site, il est préférable d’arrêter le serveur web par la commande:</p>
+<p>Pour modifier le contenu du site, il est préférable d’arrêter le serveur web par la commande :</p>
 <p></p>
 <div class="sourceCode" id="cb308"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">:::</span><span class="fu">stop_server</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -1036,12 +1058,12 @@ Les lignes à mettre à jour sont celle du titre du site (le nom du propriétair
 Pour le site exemple :</p>
 <pre><code>title = "Eric Marcon"
 baseurl = "https://EricMarcon.github.io/"</code></pre>
-<p>Il contient aussi la ligne de sélection de la langue par défaut (“en” ou “fr” au choix) et celle qui permet de placer les fichiers produits par Hugo dans chaque dossier de langue (“true” obligatoirement pour un site multilingue):</p>
+<p>Il contient aussi la ligne de sélection de la langue par défaut (“en” ou “fr” au choix) et celle qui permet de placer les fichiers produits par Hugo dans chaque dossier de langue (“true” obligatoirement pour un site multilingue) :</p>
 <pre><code>defaultContentLanguage = "fr"
 defaultContentLanguageInSubdir = true</code></pre>
 <p>Le dossier <code>config/_default/</code> contient les autres fichiers de configuration.</p>
 <p><code>languages.toml</code> contient les paramètres linguistiques et les traductions de menus.
-Pour chaque langue, la version utilisée et le dossier de contenu sont précisés:</p>
+Pour chaque langue, la version utilisée et le dossier de contenu sont précisés :</p>
 <pre><code>[en]
   languageCode = "en-us"
   contentDir = "content/en"
@@ -1049,7 +1071,7 @@ Pour chaque langue, la version utilisée et le dossier de contenu sont précisé
   languageCode = "fr-fr"
   contentDir = "content/fr"</code></pre>
 <p>Pour les langues additionnelles, le titre du site, les paramètres d’affichage des dates et la traduction des menus sont ajoutés.
-Dans la section <code>[fr]</code>:</p>
+Dans la section <code>[fr]</code> :</p>
 <pre><code>[fr]
   languageCode = "fr-fr"
   contentDir = "content/fr"
@@ -1072,19 +1094,20 @@ Dans “Basic Info”, la ligne</p>
 <pre><code>site_type = "Person"</code></pre>
 <p>sélectionne un site personnel.
 Il est possible d’utiliser Academic pour un site de projet scientifique ou un site d’unité, non documentés en détail ici.
-Les principales différences sont, pour un site collectif:</p>
+Les principales différences sont, pour un site collectif :</p>
 <ul>
-<li>la gestion des auteurs: dans le dossier <code>/contents/&lt;langue&gt;/authors</code>, un seul dossier <code>admin</code> est utilisé pour un site personnel alors qu’un dossier par personne est nécessaire pour un site collectif;</li>
+<li>la gestion des auteurs : dans le dossier <code>/contents/&lt;langue&gt;/authors</code>, un seul dossier <code>admin</code> est utilisé pour un site personnel alors qu’un dossier par personne est nécessaire pour un site <span style="white-space:nowrap">collectif ;</span>
+</li>
 <li>un composant décrit plus bas, qui permet de présenter les personnes, doit être activé.</li>
 </ul>
-<p>La description du site dans la langue par défaut est saisie, à destination des moteurs de recherche:</p>
+<p>La description du site dans la langue par défaut est saisie, à destination des moteurs de recherche :</p>
 <pre><code>description = "Eric Marcon's Homepage"</code></pre>
 <p>Elle doit être traduite dans le fichier <code>languages.toml</code>, dans chaque langue.</p>
 <p>Dans “Site Features”, nous sélectionnons la coloration du code R, l’activation du formatage des équations et l’avertissement légal pour l’utilisation des cookies.</p>
 <pre><code>highlight_languages = ["r"] 
 math = true
 privacy_pack = true</code></pre>
-<p>La ligne <code>edit_page</code> doit être mise à jour: remplacer le dépôt par défaut “<a href="https://github.com/gcushen/hugo-academic" class="uri">https://github.com/gcushen/hugo-academic</a>” par celui du site.</p>
+<p>La ligne <code>edit_page</code> doit être mise à jour : remplacer le dépôt par défaut “<a href="https://github.com/gcushen/hugo-academic" class="uri">https://github.com/gcushen/hugo-academic</a>” par celui du site.</p>
 <p>“Contact details” contient les informations pour contacter le propriétaire du site.
 Elles doivent être saisies.</p>
 <p>“Regional Settings” contient les paramètres d’affichage de date pour la langue par défaut (ceux des autres langues sont dans <code>languages.toml</code>).
@@ -1100,12 +1123,16 @@ Enfin “Icon Pack Extensions” permet d’activer les icônes Academicons si n
 </h3>
 <p>Utiliser la documentation en ligne<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://wowchemy.com/docs/page-builder/" class="uri"&gt;https://wowchemy.com/docs/page-builder/&lt;/a&gt;&lt;/p&gt;'><sup>85</sup></a> en complément des informations principales détaillées ici.
 L’exemple utilisé ici est le site personnel de l’auteur<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://EricMarcon.github.io/" class="uri"&gt;https://EricMarcon.github.io/&lt;/a&gt;&lt;/p&gt;'><sup>86</sup></a>.</p>
-<p>La méthode de travail consiste à progresser pas à pas en testant puis validant chaque étape:</p>
+<p>La méthode de travail consiste à progresser pas à pas en testant puis validant chaque étape :</p>
 <ul>
-<li>effectuer les modifications;</li>
-<li>construire le site et vérifier le résultat: <code>blogdown:::serve_site()</code>;</li>
-<li>arrêter le site: <code>blogdown::stop_server()</code>;</li>
-<li>si le résultat n’est pas satisfaisant, recommencer;</li>
+<li>effectuer les <span style="white-space:nowrap">modifications ;</span>
+</li>
+<li>construire le site et vérifier le résultat : <code>blogdown:::serve_site()</code><span style="white-space:nowrap"> ;</span>
+</li>
+<li>arrêter le site : <code>blogdown::stop_server()</code><span style="white-space:nowrap"> ;</span>
+</li>
+<li>si le résultat n’est pas satisfaisant, <span style="white-space:nowrap">recommencer ;</span>
+</li>
 <li>valider les modifications (<em>commit</em>).</li>
 </ul>
 <div id="page-daccueil" class="section level4" number="4.7.6.1">
@@ -1116,7 +1143,7 @@ L’exemple utilisé ici est le site personnel de l’auteur<a class="footnote-r
 Chaque élément est décrit par un fichier markdown.
 Le premier est <code>index.md</code>.
 Il n’est normalement jamais modifié.
-Son contenu est le suivant:</p>
+Son contenu est le suivant :</p>
 <pre><code>+++
 # Homepage
 type = "widget_page"
@@ -1135,10 +1162,10 @@ Figure 4.6: Composant <code>demo</code> dans Academic.
 </p>
 </div>
 <p></p>
-<p>Le composant <code>demo.md</code> (figure <a href="chap-rediger.html#fig:rediger-demo">4.6</a>) est un composant de type “blank”, c’est-à-dire une page de texte libre: il sert ici à présenter le modèle Academic Kickstart et doit donc être désactivé.
+<p>Le composant <code>demo.md</code> (figure <a href="chap-rediger.html#fig:rediger-demo">4.6</a>) est un composant de type “blank”, c’est-à-dire une page de texte libre : il sert ici à présenter le modèle Academic Kickstart et doit donc être désactivé.
 L’entête contient ses informations de formatage (titre, nombre de colonnes, couleurs…) et le contenu de la page est écrit en markdown.
-Les composants apparaissent par ordre croissant de poids (<code>weight</code> dans l’entête): 15 marque le premier composant dans le modèle Academic.
-Le composant peut être désactivé en supprimant son fichier ou en modifiant sa propriété <code>active</code> dans l’entête:</p>
+Les composants apparaissent par ordre croissant de poids (<code>weight</code> dans l’entête) : 15 marque le premier composant dans le modèle Academic.
+Le composant peut être désactivé en supprimant son fichier ou en modifiant sa propriété <code>active</code> dans l’entête :</p>
 <pre><code>active = false  # Activate this widget? true/false</code></pre>
 
 <p></p>
@@ -1152,15 +1179,15 @@ Figure 4.7: Composant <code>about</code> dans Academic.
 <p>Le composant suivant est <code>about.md</code> (figure <a href="chap-rediger.html#fig:rediger-about">4.7</a>).
 Il présente le propriétaire du site.
 Son titre doit être localisé.
-Dans le dossier <code>/content/fr/home</code>, sa valeur sera:</p>
+Dans le dossier <code>/content/fr/home</code>, sa valeur sera :</p>
 <pre><code>title = "Biographie"</code></pre>
 <p>L’auteur (<code>author</code>) doit correspondre à un dossier de <code>/contents/&lt;langue&gt;</code><code>/authors</code>.
 <code>admin</code> convient parfaitement pour un site personnel.
-Academic permet de créer des sites d’équipes: dans cette configuration, un dossier par personne serait nécessaire.
+Academic permet de créer des sites d’équipes : dans cette configuration, un dossier par personne serait nécessaire.
 L’image affichée par le composant est le fichier <code>avatar.jpg</code> placé dans ce dossier.
 Limiter la taille du fichier pour la performance du site (moins d’un mégaoctet est une taille raisonnable), tout en assurant une taille minimale de quelques centaines de pixels de côté pour la qualité de l’affichage.</p>
 <p>Le contenu du composant est lu dans le fichier <code>_index.md</code> du même dossier, qui contient toutes les informations sur l’auteur.
-Son organisation est assez claire: modifier son contenu à partir de l’exemple fourni.
+Son organisation est assez claire : modifier son contenu à partir de l’exemple fourni.
 Si des icônes de type <code>ai</code> sont utilisées, activer le pack d’icône Academicons dans <code>config/_default/params.toml</code>.</p>
 
 <p></p>
@@ -1188,14 +1215,14 @@ Toutes les informations sont saisies dans son entête.</p>
 <p>Le composant <code>posts</code> va chercher son contenu dans le dossier <code>/contents</code><code>/&lt;langue&gt;/post</code> qui contient les billets de blog (voir plus bas).
 Le fichier <code>posts.md</code> contient des options de mise en page dans son entête.</p>
 <p>Le composant <code>projects</code> fonctionne de la même façon.
-La différence entre les deux composants est leur mise en forme: <code>posts</code> est du type “pages”, qui affiche les éléments les plus récents, alors que <code>projects</code> est de type “portfolio”, qui affiche les éléments sélectionnés qui contiennent la description <code>featured: true</code> dans leur propre entête.
+La différence entre les deux composants est leur mise en forme : <code>posts</code> est du type “pages”, qui affiche les éléments les plus récents, alors que <code>projects</code> est de type “portfolio”, qui affiche les éléments sélectionnés qui contiennent la description <code>featured: true</code> dans leur propre entête.
 Il est possible de créer des composants de ces types librement, en spécifiant le dossier contenant les éléments dans “page-type”.
-Exemple: créer un composant nommé <code>software.md</code> en renommant <code>projects.md</code>, modifier sa ligne <code>page_type = "software"</code> et créer un dossier <code>/contents/&lt;langue&gt;/software</code> pour y placer du contenu.</p>
+Exemple : créer un composant nommé <code>software.md</code> en renommant <code>projects.md</code>, modifier sa ligne <code>page_type = "software"</code> et créer un dossier <code>/contents/&lt;langue&gt;/software</code> pour y placer du contenu.</p>
 <p>Les composants <code>publications</code> et <code>featured</code> sont de type “pages” et “portfolio” respectivement et prennent leur contenu dans le dossier <code>publication</code>.</p>
-<p>Le composant <code>tags</code> présente un nuage de mots à partir des mots-clés déclarés dans tous les fichiers de contenu (billets de blog, publications…) sous la forme suivante dans leur entête:</p>
+<p>Le composant <code>tags</code> présente un nuage de mots à partir des mots-clés déclarés dans tous les fichiers de contenu (billets de blog, publications…) sous la forme suivante dans leur entête :</p>
 <pre><code>tags = ["Mot Clé 1", "Autre Mot Clé"]</code></pre>
 <p>Enfin, le composant <code>contact</code> permet d’afficher un formulaire de contact.
-Il utilise les informations du fichier <code>config/_default/params.toml</code> dans sa partie commençant par:</p>
+Il utilise les informations du fichier <code>config/_default/params.toml</code> dans sa partie commençant par :</p>
 <pre><code>############################
 ## Contact details
 ##</code></pre>
@@ -1213,7 +1240,7 @@ Pour comprendre son fonctionnement, le plus simple consiste à l’activer.</p>
 <p>La page d’accueil comporte un menu qui permet de naviguer rapidement vers ses composants ou vers d’autres pages.
 Il est paramétré dans <code>config/_default</code><code>/menus.toml</code>.
 Les éléments du menu ont un nom affiché, un lien (commençant par <code>#</code> pour pointer vers un composant ou un chemin relatif dans le site comme <code>publication/</code>), et un poids qui définit leur ordre d’affichage, de la même façon que celui des composants de la page d’accueil.</p>
-<p>Un menu à deux éléments pour pointer vers l’accueil du site et les billets de blogs est donc le suivant:</p>
+<p>Un menu à deux éléments pour pointer vers l’accueil du site et les billets de blogs est donc le suivant :</p>
 <pre><code>[[main]]
   name = "Home"
   url = "#about"
@@ -1223,7 +1250,7 @@ Les éléments du menu ont un nom affiché, un lien (commençant par <code>#</co
   name = "Posts"
   url = "#posts"
   weight = 20</code></pre>
-<p>Le menu doit être traduit dans chaque langue dans le fichier <code>config/_default</code><code>/languages.toml</code>:</p>
+<p>Le menu doit être traduit dans chaque langue dans le fichier <code>config/_default</code><code>/languages.toml</code> :</p>
 <pre><code>[fr]
   [[fr.menu.main]]
     name = "Accueil"
@@ -1246,9 +1273,9 @@ L’exemple utilisé ici est un guide pour estimer correctement la densité d’
 Hugo supporte des fichiers markdown natifs.
 L’apport de <strong>blogdown</strong> relativement à un site Hugo natif est le support de R Markdown, donc la possibilité d’exécuter tout code R comme dans un bloc-note (dont le contenu peut être réutilisé sans modification).</p>
 <p>Le fichier principal d’un billet est <code>index.Rmd</code>.
-<strong>blogdown</strong> crée un fichier <code>index.html</code> pendant la construction du site: il peut être ignoré (dans <code>.gitgnore</code>) et supprimé à tout moment.
+<strong>blogdown</strong> crée un fichier <code>index.html</code> pendant la construction du site : il peut être ignoré (dans <code>.gitgnore</code>) et supprimé à tout moment.
 Si une image <code>featured.png</code> (optimale pour un schéma) ou <code>featured.jpg</code> (optimale pour un photo) est placée dans le dossier, elle sera utilisée comme vignette du billet.</p>
-<p><code>index.Rmd</code> comprend un entête au format yaml (entourée par des <code>---</code>) ou toml (entourée par des <code>+++</code>) qui décrit son affichage:</p>
+<p><code>index.Rmd</code> comprend un entête au format yaml (entourée par des <code>---</code>) ou toml (entourée par des <code>+++</code>) qui décrit son affichage :</p>
 <pre><code>---
 title: "Titre du billet"
 subtitle: "Sous-titre"
@@ -1277,7 +1304,7 @@ Les tags permettent d’alimenter le composant nuage de mots s’il est activé 
 Les catégories permettent de rechercher des pages au contenu similaire (recherche par mot-clé sur le site).
 L’option <code>featured: true</code> fait apparaître le billet dans les composants de type <code>featured</code> sur la page d’accueil.
 L’option <code>draft: true</code> cache le billet.</p>
-<p>Les éléments suivants précisent l’affichage de la vignette: légende et position.
+<p>Les éléments suivants précisent l’affichage de la vignette : légende et position.
 L’option <code>preview_only: true</code> limite l’affichage aux miniatures (sur la page d’accueil), retirant donc l’image du billet lui-même.</p>
 <p>Les éléments d’entête nécessaires au corps de texte R Markdown, comme le nom du fichier contenant les références bibliographiques, placé dans le même dossier, sont ajoutés.</p>
 <p>Le corps du texte est celui d’un document R Markdown standard, avec du code R inclus.
@@ -1300,7 +1327,7 @@ Pour le faire, il faut forcer la commande <code>build_site()</code>.</p>
 <p>L’exemple utilisé est un article de revue<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://EricMarcon.github.io/publication/marcon-2003-a/" class="uri"&gt;https://EricMarcon.github.io/publication/marcon-2003-a/&lt;/a&gt;&lt;/p&gt;'><sup>89</sup></a> avec son code<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a" class="uri"&gt;https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/publication/marcon-2003-a&lt;/a&gt;&lt;/p&gt;'><sup>90</sup></a>.</p>
 <p>Un fichier <code>cite.bib</code> contenant la référence au format BibTex est placé dans le dossier.
 Le nom du dossier est de préférence celui de l’identifiant de la publication.
-L’entête du fichier <code>index.md</code> (ici au format Markdown, mais <code>.Rmd</code> est possible si du code R est nécessaire) contient les mêmes informations que le fichier BibTex, mais au format approprié (yaml), et les éléments propres à Academic (<code>featured</code>):</p>
+L’entête du fichier <code>index.md</code> (ici au format Markdown, mais <code>.Rmd</code> est possible si du code R est nécessaire) contient les mêmes informations que le fichier BibTex, mais au format approprié (yaml), et les éléments propres à Academic (<code>featured</code>) :</p>
 <pre><code>---
 title: "Evaluating the geographic concentration of |&gt;
 industries using distance-based methods"
@@ -1313,26 +1340,36 @@ doi: "10.1093/jeg/lbg016"
 date: 2003-10-01
 featured: false
 ---</code></pre>
-<p>Les types de publication sont:</p>
+<p>Les types de publication sont :</p>
 <ul>
-<li>0 = Uncategorized;</li>
-<li>1 = Conference paper;</li>
-<li>2 = Journal article;</li>
-<li>3 = Preprint / Working Paper;</li>
-<li>4 = Report;</li>
-<li>5 = Book;</li>
-<li>6 = Book section;</li>
-<li>7 = Thesis;</li>
+<li>0 = <span style="white-space:nowrap">Uncategorized ;</span>
+</li>
+<li>1 = Conference <span style="white-space:nowrap">paper ;</span>
+</li>
+<li>2 = Journal <span style="white-space:nowrap">article ;</span>
+</li>
+<li>3 = Preprint / Working <span style="white-space:nowrap">Paper ;</span>
+</li>
+<li>4 = <span style="white-space:nowrap">Report ;</span>
+</li>
+<li>5 = <span style="white-space:nowrap">Book ;</span>
+</li>
+<li>6 = Book <span style="white-space:nowrap">section ;</span>
+</li>
+<li>7 = <span style="white-space:nowrap">Thesis ;</span>
+</li>
 <li>8 = Patent.</li>
 </ul>
 <p>Des boutons sont affichés en haut de la page de la publication en fonction des informations trouvées :</p>
 <ul>
-<li>PDF: si la ligne <code>url</code> est présente dans l’en-tête;</li>
-<li>Citation: si le fichier <code>cite.bib</code> est présent dans le dossier;</li>
-<li>DOI: si la ligne <code>doi</code> est présente dans l’en-tête.</li>
+<li>PDF : si la ligne <code>url</code> est présente dans <span style="white-space:nowrap">l’en-tête ;</span>
+</li>
+<li>Citation : si le fichier <code>cite.bib</code> est présent dans le <span style="white-space:nowrap">dossier ;</span>
+</li>
+<li>DOI : si la ligne <code>doi</code> est présente dans l’en-tête.</li>
 </ul>
 <p>Le corps de la publication contient un lien (au format HTML) vers le site Dimension qui fournit des informations bibliométriques.
-Ce lien peut être réutilisé très simplement, en remplaçant simplement le DOI du document:</p>
+Ce lien peut être réutilisé très simplement, en remplaçant simplement le DOI du document :</p>
 <pre><code>&lt;span class="__dimensions_badge_embed__" 
   data-doi="10.1093/jeg/lbg016"&gt;&lt;/span&gt;
 &lt;script async src="https://badge.dimensions.ai/
@@ -1350,7 +1387,7 @@ Il est réutilisable en modifiant simplement l’identifiant Google Scholar à l
 <p>Les communications sont organisées comme les publications, dans le dossier <code>/contents/&lt;langue&gt;/talk</code>.</p>
 <p>L’exemple utilisé est une communication en Français, donc dans <code>/contents/fr/talk</code><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://EricMarcon.github.io/talk/chao1/" class="uri"&gt;https://EricMarcon.github.io/talk/chao1/&lt;/a&gt;&lt;/p&gt;'><sup>93</sup></a> avec son code<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/talk/chao1" class="uri"&gt;https://github.com/EricMarcon/HomePage2020/tree/master/content/fr/talk/chao1&lt;/a&gt;&lt;/p&gt;'><sup>94</sup></a>.</p>
 <p>Une image peut être utilisée plus facilement que pour une publication.</p>
-<p>L’entête contient des lignes particulières adaptées aux communications:</p>
+<p>L’entête contient des lignes particulières adaptées aux communications :</p>
 <pre><code>---
 title: "Construction de l'estimateur de biodiversité |&gt;
 Chao1"
@@ -1403,14 +1440,20 @@ math: true
 <h4>
 <span class="header-section-number">4.7.6.6</span> Autres éléments<a class="anchor" aria-label="anchor" href="#autres-%C3%A9l%C3%A9ments"><i class="fas fa-link"></i></a>
 </h4>
-<p>Il est possible d’ajouter librement des éléments supplémentaires sur le site:</p>
+<p>Il est possible d’ajouter librement des éléments supplémentaires sur le site :</p>
 <ul>
-<li>dans <code>/contents/&lt;langue&gt;/</code>, créer un dossier dont le nom est le type d’éléments (exemple: <code>recette</code>);</li>
-<li>ajouter des éléments dans ce dossier, chacun dans son propre dossier;</li>
-<li>le fichier obligatoire est <code>index.md</code> ou <code>index.Rmd</code> avec un en-tête contenant possiblement tous les champs rencontrés dans les éléments <code>post</code>, <code>publication</code> et <code>talk</code>;</li>
-<li>le fichier de vignette, <code>featured.png</code> ou <code>featured.jpg</code>, est facultatif;</li>
-<li>tous les fichiers nécessaires au tricot (images, données) peuvent être ajoutés dans le même dossier;</li>
-<li>dans <code>/contents/&lt;langue&gt;/home</code>, ajouter un composant de la page d’accueil en copiant-collant un élément existant de type “pages” (comme <code>publications</code>) ou “portfolio” (comme <code>featured</code>) et le paramétrer pour qu’il pointe sur le bon dossier (dans l’exemple: <code>page-type=recette</code>) et ajuster son apparence (nombre d’éléments par exemple) et sa position (poids);</li>
+<li>dans <code>/contents/&lt;langue&gt;/</code>, créer un dossier dont le nom est le type d’éléments (exemple : <code>recette</code><span style="white-space:nowrap">) ;</span>
+</li>
+<li>ajouter des éléments dans ce dossier, chacun dans son propre <span style="white-space:nowrap">dossier ;</span>
+</li>
+<li>le fichier obligatoire est <code>index.md</code> ou <code>index.Rmd</code> avec un en-tête contenant possiblement tous les champs rencontrés dans les éléments <code>post</code>, <code>publication</code> et <code>talk</code><span style="white-space:nowrap"> ;</span>
+</li>
+<li>le fichier de vignette, <code>featured.png</code> ou <code>featured.jpg</code>, est <span style="white-space:nowrap">facultatif ;</span>
+</li>
+<li>tous les fichiers nécessaires au tricot (images, données) peuvent être ajoutés dans le même <span style="white-space:nowrap">dossier ;</span>
+</li>
+<li>dans <code>/contents/&lt;langue&gt;/home</code>, ajouter un composant de la page d’accueil en copiant-collant un élément existant de type “pages” (comme <code>publications</code>) ou “portfolio” (comme <code>featured</code>) et le paramétrer pour qu’il pointe sur le bon dossier (dans l’exemple : <code>page-type=recette</code>) et ajuster son apparence (nombre d’éléments par exemple) et sa position <span style="white-space:nowrap">(poids) ;</span>
+</li>
 <li>ajouter éventuellement une entrée de menu pour pointer sur le composant, avec le même poids que le composant.</li>
 </ul>
 <p>Les fichiers d’index peuvent porter l’extension <code>.Rmd</code> ou <code>.md</code>.
@@ -1438,14 +1481,14 @@ Le fichier <code>icon.png</code> peut être remplacé.</p>
 </h3>
 <p>Le thème Academic est régulièrement mis à jour.
 La version utilisée est indiquée dans le fichier <code>go.mod</code>.
-Pour utiliser la dernière version officielle, exécuter dans la console R la commande suivante:</p>
+Pour utiliser la dernière version officielle, exécuter dans la console R la commande suivante :</p>
 <p></p>
 <div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">::</span><span class="fu">hugo_cmd</span><span class="op">(</span><span class="st">"mod get -u"</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Les fichiers <code>go.mod</code> et <code>go.sum</code>, qui contient les codes de hachage des fichiers du module, sont mis à jour.</p>
 <p>Chaque changement de version peut nécessiter des adaptations du contenu du site, référencées dans la documentation en ligne du thème<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://wowchemy.com/updates/" class="uri"&gt;https://wowchemy.com/updates/&lt;/a&gt;&lt;/p&gt;'><sup>95</sup></a>.</p>
-<p>Mettre Hugo à jour en même temps:</p>
+<p>Mettre Hugo à jour en même temps :</p>
 <p></p>
 <div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">::</span><span class="fu">update_hugo</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -1462,15 +1505,17 @@ Il est préférable de créer des scripts pour créer les figures de façon repr
 <h3>
 <span class="header-section-number">4.8.1</span> Formats vectoriels et raster<a class="anchor" aria-label="anchor" href="#formats-vectoriels-et-raster"><i class="fas fa-link"></i></a>
 </h3>
-<p>Les figures doivent en général être produites dans un format vectoriel:</p>
+<p>Les figures doivent en général être produites dans un format vectoriel :</p>
 <ul>
-<li>SVG pour la publication d’affiches ou de posters;</li>
-<li>EMF (Extended Meta-File) pour Word ou la suite Microsoft Office qui ne supporte pas d’autres formats;</li>
+<li>SVG pour la publication d’affiches ou de <span style="white-space:nowrap">posters ;</span>
+</li>
+<li>EMF (Extended Meta-File) pour Word ou la suite Microsoft Office qui ne supporte pas d’autres <span style="white-space:nowrap">formats ;</span>
+</li>
 <li>EPS (Encapsulated PostScript) ou PDF (Portable Document Format) pour LaTeX.</li>
 </ul>
 <p>Les figures raster (composées d’un ensemble de points, comme les photographies) sont rares dans R.
 La fonction <code><a href="https://rdrr.io/r/graphics/image.html">image()</a></code> utilisée pour afficher des cartes utilise par défaut des polygones plutôt que des points.
-La figure <a href="chap-rediger.html#fig:volcano">4.10</a> montre le résultat du code suivant:</p>
+La figure <a href="chap-rediger.html#fig:volcano">4.10</a> montre le résultat du code suivant :</p>
 
 <p></p>
 <div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
@@ -1489,7 +1534,7 @@ Figure 4.10: Courbes de niveau du volcan Maunga Whau, code fourni en exemple de 
 </p>
 </div>
 <p></p>
-<p>Elle est composée d’un ensemble de rectangles colorés: il s’agit bien d’une image vectorielle.</p>
+<p>Elle est composée d’un ensemble de rectangles colorés : il s’agit bien d’une image vectorielle.</p>
 <p>Si nécessaire, des images peuvent être produites aux formats BMP (bitmap, sans compression), JPEG (compressées avec perte de qualité), PNG (compressées sans perte de qualité, avec transparence possible) ou Tiff (compressées ou non).</p>
 </div>
 <div id="fonctions" class="section level3" number="4.8.2">
@@ -1497,7 +1542,7 @@ Figure 4.10: Courbes de niveau du volcan Maunga Whau, code fourni en exemple de 
 <span class="header-section-number">4.8.2</span> Fonctions<a class="anchor" aria-label="anchor" href="#fonctions"><i class="fas fa-link"></i></a>
 </h3>
 <p>La fonction <code><a href="https://rdrr.io/r/grDevices/postscript.html">postscript()</a></code> produit un fichier EPS.
-Le code R doit appeler la fonction pour créer le fichier, produire la figure, puis fermer le fichier, par exemple:</p>
+Le code R doit appeler la fonction pour créer le fichier, produire la figure, puis fermer le fichier, par exemple :</p>
 <p></p>
 <div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Ouverture du fichier</span></span>
@@ -1510,8 +1555,8 @@ Le code R doit appeler la fonction pour créer le fichier, produire la figure, p
 ##   2</code></pre>
 <p></p>
 <p>La largeur et la hauteur (en pouces) d’un fichier vectoriel n’ont pas d’importance, mais leur rapport fixe l’aspect de la figure.
-La taille des textes est fixe: augmenter la taille de la figure revient donc à diminuer la taille relative des textes: procéder par essais successifs, en veillant à ce que les légendes restent lisibles à la taille finale de la figure.</p>
-<p>L’argument <code>horizontal</code> fixe l’orientation de la figure de façon assez imprévisible: procéder par essais.</p>
+La taille des textes est fixe : augmenter la taille de la figure revient donc à diminuer la taille relative des textes : procéder par essais successifs, en veillant à ce que les légendes restent lisibles à la taille finale de la figure.</p>
+<p>L’argument <code>horizontal</code> fixe l’orientation de la figure de façon assez imprévisible : procéder par essais.</p>
 <p>Les fonctions <code>eps()</code>, <code><a href="https://rdrr.io/r/grDevices/pdf.html">pdf()</a></code>, <code><a href="https://rdrr.io/r/grDevices/png.html">bmp()</a></code>, <code><a href="https://rdrr.io/r/grDevices/png.html">jpeg()</a></code>, <code><a href="https://rdrr.io/r/grDevices/png.html">png()</a></code> et <code><a href="https://rdrr.io/r/grDevices/png.html">tiff()</a></code> fonctionnent de la même manière.
 Se référer à l’aide des fonctions pour le choix des options (résolution, niveau de compression, etc.).
 La fonction <code>emf()</code> est fournie par le package <strong>devEMF</strong>.</p>
@@ -1525,8 +1570,8 @@ Si nécessaire, la fonction <code><a href="https://rdrr.io/r/grDevices/embedFont
 <p>Le package <strong>ragg</strong><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://ragg.r-lib.org/" class="uri"&gt;https://ragg.r-lib.org/&lt;/a&gt;&lt;/p&gt;'><sup>96</sup></a> améliore la qualité des fichiers PNG, JPEG et TIFF.
 Les fonctions optimisées sont <code>agg_png()</code>, <code>agg_jpeg()</code>et <code>agg_tiff()</code>. Leur usage est le même que celui des fonctions de <strong>grDevices</strong>.</p>
 <p>Les documents R Markdown produisent des images au format PNG pour leur version HTML.
-<strong>ragg</strong> améliore leur qualité: le package doit être installé et <code>dev = "ragg_png"</code> doit être ajoutée aux options de <strong>knitr</strong>.
-Pour ce document, les options déclarées dans <code>index.Rmd</code> sont les suivantes:</p>
+<strong>ragg</strong> améliore leur qualité : le package doit être installé et <code>dev = "ragg_png"</code> doit être ajoutée aux options de <strong>knitr</strong>.
+Pour ce document, les options déclarées dans <code>index.Rmd</code> sont les suivantes :</p>
 <p></p>
 <div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span></span>
@@ -1564,18 +1609,18 @@ Leur entête minimal est <a href="https://docs.ropensci.org/targets/">targets</a
 Ces bouts de code permettent de créer le fichier <code>_targets.R</code> quand ils sont exécutés en mode non interactif, notamment pendant que le document est tricoté.
 S’ils sont lancés en mode interactif, par exemple dans R Studio, leur code est exécuté.
 L’option <code>tar_interactive = FALSE</code> dans leur entête permet de les tester sans tricoter tout le document.</p>
-<p>Un ancien flux éventuel doit être supprimé avant d’écrire le nouveau:</p>
+<p>Un ancien flux éventuel doit être supprimé avant d’écrire le nouveau :</p>
 <p></p>
 <div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_unscript.html">tar_unscript</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Le premier bout de code, avec l’option <code>tar_globals=TRUE</code>, écrit les options globales du flux.
-Pour créer le flux présenté en section <a href="chap-utiliseR.html#sec:targets">2.8</a>, le code est simplement:</p>
+Pour créer le flux présenté en section <a href="chap-utiliseR.html#sec:targets">2.8</a>, le code est simplement :</p>
 <pre><code>```{targets targets_global, tar_globals=TRUE}
 # Packages
 tar_option_set(packages = c("spatstat", "dbmss"))
 ```</code></pre>
-<p>Les fonctions utilisées par les cibles sont déclarées dans ce type de bout de code: elles sont ajoutées à un fichier dans le dossier de travail <code>_targets_r</code> (différent du dossier <code>_targets</code> qui contient les fichiers de calcul des cibles).</p>
+<p>Les fonctions utilisées par les cibles sont déclarées dans ce type de bout de code : elles sont ajoutées à un fichier dans le dossier de travail <code>_targets_r</code> (différent du dossier <code>_targets</code> qui contient les fichiers de calcul des cibles).</p>
 </div>
 <div id="déclaration-des-cibles" class="section level3" number="4.9.2">
 <h3>
@@ -1587,7 +1632,7 @@ runifpoint(NbPoints)
 ```</code></pre>
 <p>Chaque cible nécessite un bout de code construit de cette manière.
 La valeur de la cible est la dernière valeur retournée, à la manière d’une fonction qui n’utiliserait pas <code><a href="https://rdrr.io/r/base/function.html">return()</a></code>.</p>
-<p>Pendant le tricot, ce code simplifié (<code>tar_simple=TRUE</code>) est transformé automatiquement en écriture de cible:</p>
+<p>Pendant le tricot, ce code simplifié (<code>tar_simple=TRUE</code>) est transformé automatiquement en écriture de cible :</p>
 <p></p>
 <div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_target.html">tar_target</a></span><span class="op">(</span><span class="va">X</span>, <span class="op">{</span></span>
@@ -1596,12 +1641,12 @@ La valeur de la cible est la dernière valeur retournée, à la manière d’une
 <pre><code>## Define target X from chunk code.
 ## Establish _targets.R and _targets_r/targets/X.R.</code></pre>
 <p></p>
-<p>La lecture du document est alourdie par cette syntaxe particulière: <strong>targets</strong> n’est pas utile pour des documents dont le code, rapide à exécuter, doit être affiché dans le texte.
+<p>La lecture du document est alourdie par cette syntaxe particulière : <strong>targets</strong> n’est pas utile pour des documents dont le code, rapide à exécuter, doit être affiché dans le texte.
 En revanche, si le code est long à exécuter et n’est pas affiché, son intérêt est considérable pour limiter le temps de calcul.</p>
 <p>Les autres bouts de code nécessaires pour compléter le flux sont les suivants :</p>
 <ul>
 <li>
-<code>NbPoints</code>:</li>
+<code>NbPoints</code> :</li>
 </ul>
 <p></p>
 <div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
@@ -1613,7 +1658,7 @@ En revanche, si le code est long à exécuter et n’est pas affiché, son inté
 <p></p>
 <ul>
 <li>
-<code>d</code>:</li>
+<code>d</code> :</li>
 </ul>
 <p></p>
 <div class="sourceCode" id="cb342"><pre class="downlit sourceCode r">
@@ -1625,7 +1670,7 @@ En revanche, si le code est long à exécuter et n’est pas affiché, son inté
 <p></p>
 <ul>
 <li>
-<code>map</code>:</li>
+<code>map</code> :</li>
 </ul>
 <p></p>
 <div class="sourceCode" id="cb344"><pre class="downlit sourceCode r">
@@ -1640,7 +1685,7 @@ En revanche, si le code est long à exécuter et n’est pas affiché, son inté
 <h3>
 <span class="header-section-number">4.9.3</span> Exécution du flux<a class="anchor" aria-label="anchor" href="#ex%C3%A9cution-du-flux"><i class="fas fa-link"></i></a>
 </h3>
-<p>Pour lancer le calcul des cibles, un bout de code standard (<code>{r}</code>) doit appeler <code><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make()</a></code>:</p>
+<p>Pour lancer le calcul des cibles, un bout de code standard (<code>{r}</code>) doit appeler <code><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make()</a></code> :</p>
 <p></p>
 <div class="sourceCode" id="cb346"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_visnetwork.html">tar_visnetwork</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -1648,14 +1693,14 @@ En revanche, si le code est long à exécuter et n’est pas affiché, son inté
 <script type="application/json" data-for="htmlwidget-f86449deb0c1fad89ea7">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"status":["outdated","outdated","outdated","outdated"],"seconds":[null,null,null,null],"bytes":[null,null,null,null],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#78B7C5","#78B7C5","#78B7C5","#78B7C5"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Outdated","Stem"],"color":["#78B7C5","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## ▶ dispatched target NbPoints
-## ● completed target NbPoints [1.356 seconds]
+## ● completed target NbPoints [1.476 seconds]
 ## ▶ dispatched target X
 ## ● completed target X [0.004 seconds]
 ## ▶ dispatched target d
-## ● completed target d [0.014 seconds]
+## ● completed target d [0.018 seconds]
 ## ▶ dispatched target map
-## ● completed target map [0.026 seconds]
-## ▶ completed pipeline [1.541 seconds]</code></pre>
+## ● completed target map [0.027 seconds]
+## ▶ completed pipeline [1.677 seconds]</code></pre>
 <p></p>
 <p><code><a href="https://docs.ropensci.org/targets/reference/tar_visnetwork.html">tar_visnetwork()</a></code> permet de vérifier que le flux est correct avant de l’exécuter.
 Au moment de la production finale du document, l’option <code>include=FALSE</code> peut être ajoutée à l’entête de ce bout de code pour qu’il ne produise aucun affichage.</p>
@@ -1664,7 +1709,7 @@ Au moment de la production finale du document, l’option <code>include=FALSE</c
 <h3>
 <span class="header-section-number">4.9.4</span> Utilisation des résultats<a class="anchor" aria-label="anchor" href="#utilisation-des-r%C3%A9sultats"><i class="fas fa-link"></i></a>
 </h3>
-<p>Les bouts de code qui utilisent les valeurs des cibles doivent les lire avec <code><a href="https://docs.ropensci.org/targets/reference/tar_read.html">tar_read()</a></code>:</p>
+<p>Les bouts de code qui utilisent les valeurs des cibles doivent les lire avec <code><a href="https://docs.ropensci.org/targets/reference/tar_read.html">tar_read()</a></code> :</p>
 <p></p>
 <div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_read.html">tar_read</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span></span></code></pre></div>
