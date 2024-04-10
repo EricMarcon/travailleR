@@ -17,8 +17,9 @@
 <meta name="twitter:description" content="R et RStudio permettent de rédiger efficacement des documents de tous formats, du simple bloc-note à la thèse, en passant par des diaporamas. Les outils pour le faire sont l’objet de ce chapitre,...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
 <script src="libs/vis-9.1.0/vis-network.min.js"></script><script src="libs/visNetwork-binding-2.1.2/visNetwork.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
 <script src="libs/tabwid-1.1.3/tabwid.js"></script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-7NVD1TWMCJ"></script><script>
@@ -312,20 +313,20 @@ Placer systématiquement ces fichiers dans le dossier <code>images</code> pour u
 <p>Les séparateurs horizontaux - et verticaux | permettent de dessiner un tableau selon la syntaxe de Markdown, mais ce n’est pas la meilleure méthode.</p>
 <p>Les tableaux peuvent aussi être produits par du code R.
 Le contenu du tableau est dans un dataframe.
-La fonction <code>kable</code> du package <em>knitr</em> prépare le tableau pour l’affichage et passe le résultat à la fonction <code>kable_styling</code> du package <em>kableExtra</em> pour le formatage final.</p>
+La fonction <code>kbl</code> du package <em>kableExtra</em> prépare le tableau pour l’affichage et passe le résultat à la fonction <code>kable_styling</code> pour le formatage final.</p>
 <p></p>
 <div class="sourceCode" id="cb282"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span>
 <span><span class="va">mes_iris</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mes_iris</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Longueur sépales ($l_s$)"</span>, <span class="st">"Largeur"</span>,</span>
 <span>    <span class="st">"Longueur pétales"</span>, <span class="st">"Largeur"</span>, <span class="st">"Espèce"</span><span class="op">)</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mes_iris</span>, caption <span class="op">=</span> <span class="st">"Tableau créé par kable"</span>,</span>
+<span><span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html">kbl</a></span><span class="op">(</span><span class="va">mes_iris</span>, caption <span class="op">=</span> <span class="st">"Tableau créé par kable"</span>,</span>
 <span>    booktabs <span class="op">=</span> <span class="cn">TRUE</span>, escape <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span><span class="op">(</span>bootstrap_options <span class="op">=</span> <span class="st">"striped"</span>,</span>
 <span>        full_width <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-<span id="tab:kable">Table 4.1: </span><span id="tab:kable">Table 4.2: </span>Tableau créé par kable
+<span id="tab:kable">Table 4.1: </span>Tableau créé par kable
 </caption>
 <thead><tr>
 <th style="text-align:right;">
@@ -452,7 +453,7 @@ setosa
 <p></p>
 <p>La légende est précisée par l’argument <code>caption</code> et le référencement est possible parce que le tableau reçoit une étiquette dont le nom est <code>tab:</code> suivi du nom du bout de code (tableau <a href="chap-rediger.html#tab:kable">4.1</a>).
 Comme pour les figures, une légende améliorée peut être écrite dans un paragraphe séparé.
-Une légende courte pour une éventuelle liste des tableaux (option <code>lot: true</code> dans l’entête) est déclarée dans l’argument <code>caption.short</code> de <code>kable()</code>.</p>
+Une légende courte pour une éventuelle liste des tableaux (option <code>lot: true</code> dans l’entête) est déclarée dans l’argument <code>caption.short</code> de <code>kbl()</code>.</p>
 <p>Utiliser systématiquement l’argument <code>booktabs = TRUE</code> pour que l’épaisseur des lignes de séparation soit optimale en LaTeX.
 Comme le tableau contient des mathématiques (dans le nom de la première colonne), l’option <code>escape = FALSE</code> est nécessaire.</p>
 <p>L’option de style <code>bootstrap_options = "striped"</code> fournit des tableaux plus lisibles en HTML.
@@ -469,10 +470,7 @@ Enfin, l’option <code>full_width = FALSE</code> permet d’ajuster la largeur 
 <pre><code>## The following object is masked from 'package:purrr':
 ## 
 ##     compose</code></pre>
-<pre><code>## The following objects are masked from 'package:kableExtra':
-## 
-##     as_image, footnote</code></pre>
-<div class="sourceCode" id="cb288"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb287"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Rappel du jeu de données initial iris</span></span>
 <span><span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>    <span class="co"># Premières lignes</span></span>
@@ -487,57 +485,57 @@ Enfin, l’option <code>full_width = FALSE</code> permet d’ajuster la largeur 
 <span>    <span class="co"># rouge</span></span>
 <span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/color.html">color</a></span><span class="op">(</span><span class="op">~</span><span class="va">Sepal.Length</span> <span class="op">&gt;</span> <span class="fl">5</span>, <span class="op">~</span><span class="va">Sepal.Length</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-737046dc{}.cl-73631976{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-736319b2{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(255, 0, 0, 1.00);background-color:transparent;}.cl-73687b32{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-73687b46{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-7368abde{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7368abf2{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7368abfc{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7368abfd{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7368ac06{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7368ac07{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<div class="inline-table"><table data-quarto-disable-processing="true" class="cl-737046dc">
+<style>.cl-74e55cd6{}.cl-74dbd3e6{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-74dbd3fa{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(255, 0, 0, 1.00);background-color:transparent;}.cl-74e0f894{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-74e0f89e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-74e1104a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-74e11054{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-74e1105e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-74e1105f{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-74e11068{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-74e11072{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<div class="inline-table"><table data-quarto-disable-processing="true" class="cl-74e55cd6">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-7368abde"><p class="cl-73687b32"><span class="cl-73631976">Longueur sépales</span></p></th>
-<th class="cl-7368abde"><p class="cl-73687b32"><span class="cl-73631976">Largeur</span></p></th>
-<th class="cl-7368abde"><p class="cl-73687b32"><span class="cl-73631976">Longueur pétales</span></p></th>
-<th class="cl-7368abde"><p class="cl-73687b32"><span class="cl-73631976">Largeur</span></p></th>
-<th class="cl-7368abf2"><p class="cl-73687b46"><span class="cl-73631976">Espèce</span></p></th>
+<th class="cl-74e1104a"><p class="cl-74e0f894"><span class="cl-74dbd3e6">Longueur sépales</span></p></th>
+<th class="cl-74e1104a"><p class="cl-74e0f894"><span class="cl-74dbd3e6">Largeur</span></p></th>
+<th class="cl-74e1104a"><p class="cl-74e0f894"><span class="cl-74dbd3e6">Longueur pétales</span></p></th>
+<th class="cl-74e1104a"><p class="cl-74e0f894"><span class="cl-74dbd3e6">Largeur</span></p></th>
+<th class="cl-74e11054"><p class="cl-74e0f89e"><span class="cl-74dbd3e6">Espèce</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-736319b2">5.1</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">3.5</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">1.4</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">0.2</span></p></td>
-<td class="cl-7368abfd"><p class="cl-73687b46"><span class="cl-73631976">setosa</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3fa">5.1</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">3.5</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">1.4</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">0.2</span></p></td>
+<td class="cl-74e1105f"><p class="cl-74e0f89e"><span class="cl-74dbd3e6">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">4.9</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">3.0</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">1.4</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">0.2</span></p></td>
-<td class="cl-7368abfd"><p class="cl-73687b46"><span class="cl-73631976">setosa</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">4.9</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">3.0</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">1.4</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">0.2</span></p></td>
+<td class="cl-74e1105f"><p class="cl-74e0f89e"><span class="cl-74dbd3e6">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">4.7</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">3.2</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">1.3</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">0.2</span></p></td>
-<td class="cl-7368abfd"><p class="cl-73687b46"><span class="cl-73631976">setosa</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">4.7</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">3.2</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">1.3</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">0.2</span></p></td>
+<td class="cl-74e1105f"><p class="cl-74e0f89e"><span class="cl-74dbd3e6">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">4.6</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">3.1</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">1.5</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">0.2</span></p></td>
-<td class="cl-7368abfd"><p class="cl-73687b46"><span class="cl-73631976">setosa</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">4.6</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">3.1</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">1.5</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">0.2</span></p></td>
+<td class="cl-74e1105f"><p class="cl-74e0f89e"><span class="cl-74dbd3e6">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">5.0</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">3.6</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">1.4</span></p></td>
-<td class="cl-7368abfc"><p class="cl-73687b32"><span class="cl-73631976">0.2</span></p></td>
-<td class="cl-7368abfd"><p class="cl-73687b46"><span class="cl-73631976">setosa</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">5.0</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">3.6</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">1.4</span></p></td>
+<td class="cl-74e1105e"><p class="cl-74e0f894"><span class="cl-74dbd3e6">0.2</span></p></td>
+<td class="cl-74e1105f"><p class="cl-74e0f89e"><span class="cl-74dbd3e6">setosa</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-7368ac06"><p class="cl-73687b32"><span class="cl-736319b2">5.4</span></p></td>
-<td class="cl-7368ac06"><p class="cl-73687b32"><span class="cl-73631976">3.9</span></p></td>
-<td class="cl-7368ac06"><p class="cl-73687b32"><span class="cl-73631976">1.7</span></p></td>
-<td class="cl-7368ac06"><p class="cl-73687b32"><span class="cl-73631976">0.4</span></p></td>
-<td class="cl-7368ac07"><p class="cl-73687b46"><span class="cl-73631976">setosa</span></p></td>
+<td class="cl-74e11068"><p class="cl-74e0f894"><span class="cl-74dbd3fa">5.4</span></p></td>
+<td class="cl-74e11068"><p class="cl-74e0f894"><span class="cl-74dbd3e6">3.9</span></p></td>
+<td class="cl-74e11068"><p class="cl-74e0f894"><span class="cl-74dbd3e6">1.7</span></p></td>
+<td class="cl-74e11068"><p class="cl-74e0f894"><span class="cl-74dbd3e6">0.4</span></p></td>
+<td class="cl-74e11072"><p class="cl-74e0f89e"><span class="cl-74dbd3e6">setosa</span></p></td>
 </tr>
 </tbody>
 </table></div>
@@ -770,7 +768,7 @@ Exemple, pour forcer le retour à la ligne avant <code>fichier.Rmd</code> :</p>
 <p>Les bouts de code R sont formatés automatiquement par <strong>knitr</strong> quand l’option <code>tidy=TRUE</code> leur est appliquée.
 Le comportement par défaut est indiqué dans les options de <strong>knitr</strong>, dans un bout de code au début du fichier <code>index.Rmd</code> :</p>
 <p></p>
-<div class="sourceCode" id="cb296"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb295"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># knitr options</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span></span>
 <span>  cache<span class="op">=</span><span class="cn">TRUE</span>, warning<span class="op">=</span><span class="cn">FALSE</span>, echo <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -946,12 +944,12 @@ Nous utiliserons donc cette solution, pour un site comme celui proposé en exemp
 </h3>
 <p>La première étape consiste à installer le package <strong>blogdown</strong> dans R.</p>
 <p></p>
-<div class="sourceCode" id="cb303"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb302"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"blogdown"</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p><strong>blogdown</strong> est capable d’installer Hugo sous Windows, macOS ou Linux.</p>
 <p></p>
-<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb303"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">::</span><span class="fu">install_hugo</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>La documentation complète de <strong>blogdown</strong> est disponible<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://bookdown.org/yihui/blogdown/" class="uri"&gt;https://bookdown.org/yihui/blogdown/&lt;/a&gt;&lt;/p&gt;'><sup>82</sup></a>.</p>
@@ -1019,19 +1017,19 @@ index.html
 </h3>
 <p>Exécuter</p>
 <p></p>
-<div class="sourceCode" id="cb306"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb305"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">::</span><span class="fu">build_site</span><span class="op">(</span>build_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>pour construire le site web, y compris ses futures pages R Markdown.</p>
 <p>Pour afficher le site, exécuter :</p>
 <p></p>
-<div class="sourceCode" id="cb307"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb306"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">:::</span><span class="fu">serve_site</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Il apparaît dans la fenêtre <em>Viewer</em> de RStudio, dont le bouton d’agrandissement permet l’affichage dans le navigateur internet par défaut du système.</p>
 <p>Pour modifier le contenu du site, il est préférable d’arrêter le serveur web par la commande :</p>
 <p></p>
-<div class="sourceCode" id="cb308"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb307"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">:::</span><span class="fu">stop_server</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Le site produit par <strong>blogdown</strong> se trouve dans le dossier <code>public</code> qui peut être copié directement sur un serveur web qui l’hébergera.
@@ -1315,7 +1313,7 @@ La commande <code>blogdown::new_post()</code> peut aussi être utilisée mais ne
 <p>La reconstruction du site ne met par défaut pas à jour les pages basées sur un fichier <code>.Rmd</code>.
 Pour le faire, il faut forcer la commande <code>build_site()</code>.</p>
 <p></p>
-<div class="sourceCode" id="cb324"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">::</span><span class="fu">build_site</span><span class="op">(</span>build_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu">blogdown</span><span class="fu">::</span><span class="fu">serve_site</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
@@ -1484,14 +1482,14 @@ Le fichier <code>icon.png</code> peut être remplacé.</p>
 La version utilisée est indiquée dans le fichier <code>go.mod</code>.
 Pour utiliser la dernière version officielle, exécuter dans la console R la commande suivante :</p>
 <p></p>
-<div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb327"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">::</span><span class="fu">hugo_cmd</span><span class="op">(</span><span class="st">"mod get -u"</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Les fichiers <code>go.mod</code> et <code>go.sum</code>, qui contient les codes de hachage des fichiers du module, sont mis à jour.</p>
 <p>Chaque changement de version peut nécessiter des adaptations du contenu du site, référencées dans la documentation en ligne du thème<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://wowchemy.com/updates/" class="uri"&gt;https://wowchemy.com/updates/&lt;/a&gt;&lt;/p&gt;'><sup>96</sup></a>.</p>
 <p>Mettre Hugo à jour en même temps :</p>
 <p></p>
-<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">blogdown</span><span class="fu">::</span><span class="fu">update_hugo</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 </div>
@@ -1519,7 +1517,7 @@ La fonction <code><a href="https://rdrr.io/r/graphics/image.html">image()</a></c
 La figure <a href="chap-rediger.html#fig:volcano">4.10</a> montre le résultat du code suivant :</p>
 
 <p></p>
-<div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">10</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">volcano</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">10</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">volcano</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/image.html">image</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">volcano</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span><span class="op">(</span><span class="fl">100</span>, <span class="st">"terrain"</span><span class="op">)</span>, axes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -1545,7 +1543,7 @@ Figure 4.10: Courbes de niveau du volcan Maunga Whau, code fourni en exemple de 
 <p>La fonction <code><a href="https://rdrr.io/r/grDevices/postscript.html">postscript()</a></code> produit un fichier EPS.
 Le code R doit appeler la fonction pour créer le fichier, produire la figure, puis fermer le fichier, par exemple :</p>
 <p></p>
-<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Ouverture du fichier</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/grDevices/postscript.html">postscript</a></span><span class="op">(</span><span class="st">"Fig1.eps"</span>, width <span class="op">=</span> <span class="fl">6</span>, height <span class="op">=</span> <span class="fl">4</span>, horizontal <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co"># Création de la figure</span></span>
@@ -1574,7 +1572,7 @@ Les fonctions optimisées sont <code>agg_png()</code>, <code>agg_jpeg()</code>et
 <strong>ragg</strong> améliore leur qualité : le package doit être installé et <code>dev = "ragg_png"</code> doit être ajoutée aux options de <strong>knitr</strong>.
 Pour ce document, les options déclarées dans <code>index.Rmd</code> sont les suivantes :</p>
 <p></p>
-<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb332"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span></span>
 <span>  cache<span class="op">=</span><span class="cn">FALSE</span>, <span class="co"># Cache chunk results</span></span>
 <span>  echo <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># Show/Hide R chunks</span></span>
@@ -1598,7 +1596,7 @@ Pour ce document, les options déclarées dans <code>index.Rmd</code> sont les s
 </h2>
 <p>Un flux de travail (voir section <a href="chap-utiliseR.html#sec:targets">2.8</a>) peut être intégré dans un document R Markdown à partir de la version 0.5 du package <strong>targets</strong>.</p>
 <p></p>
-<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://docs.ropensci.org/targets/">"targets"</a></span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <div id="déclaration-du-flux" class="section level3" number="4.9.1">
@@ -1612,7 +1610,7 @@ S’ils sont lancés en mode interactif, par exemple dans R Studio, leur code es
 L’option <code>tar_interactive = FALSE</code> dans leur entête permet de les tester sans tricoter tout le document.</p>
 <p>Un ancien flux éventuel doit être supprimé avant d’écrire le nouveau :</p>
 <p></p>
-<div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_unscript.html">tar_unscript</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Le premier bout de code, avec l’option <code>tar_globals=TRUE</code>, écrit les options globales du flux.
@@ -1635,7 +1633,7 @@ runifpoint(NbPoints)
 La valeur de la cible est la dernière valeur retournée, à la manière d’une fonction qui n’utiliserait pas <code><a href="https://rdrr.io/r/base/function.html">return()</a></code>.</p>
 <p>Pendant le tricot, ce code simplifié (<code>tar_simple=TRUE</code>) est transformé automatiquement en écriture de cible :</p>
 <p></p>
-<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb337"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_target.html">tar_target</a></span><span class="op">(</span><span class="va">X</span>, <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/spatstat.random/man/runifpoint.html">runifpoint</a></span><span class="op">(</span><span class="va">NbPoints</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
@@ -1650,7 +1648,7 @@ En revanche, si le code est long à exécuter et n’est pas affiché, son inté
 <code>NbPoints</code> :</li>
 </ul>
 <p></p>
-<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb339"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_target.html">tar_target</a></span><span class="op">(</span><span class="va">NbPoints</span>, <span class="op">{</span></span>
 <span>    <span class="fl">1000</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
@@ -1662,7 +1660,7 @@ En revanche, si le code est long à exécuter et n’est pas affiché, son inté
 <code>d</code> :</li>
 </ul>
 <p></p>
-<div class="sourceCode" id="cb342"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb341"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_target.html">tar_target</a></span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/spatstat.geom/man/pairdist.html">pairdist</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">NbPoints</span><span class="op">/</span><span class="op">(</span><span class="va">NbPoints</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
@@ -1674,7 +1672,7 @@ En revanche, si le code est long à exécuter et n’est pas affiché, son inté
 <code>map</code> :</li>
 </ul>
 <p></p>
-<div class="sourceCode" id="cb344"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_target.html">tar_target</a></span><span class="op">(</span><span class="va">map</span>, <span class="op">{</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="fu">as.wmppp</span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
@@ -1688,20 +1686,20 @@ En revanche, si le code est long à exécuter et n’est pas affiché, son inté
 </h3>
 <p>Pour lancer le calcul des cibles, un bout de code standard (<code>{r}</code>) doit appeler <code><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make()</a></code> :</p>
 <p></p>
-<div class="sourceCode" id="cb346"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb345"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_visnetwork.html">tar_visnetwork</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="visNetwork html-widget html-fill-item" id="htmlwidget-f86449deb0c1fad89ea7" style="width:80%;height:504px;"></div>
-<script type="application/json" data-for="htmlwidget-f86449deb0c1fad89ea7">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"status":["outdated","outdated","outdated","outdated"],"seconds":[null,null,null,null],"bytes":[null,null,null,null],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#78B7C5","#78B7C5","#78B7C5","#78B7C5"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Outdated","Stem"],"color":["#78B7C5","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
+<script type="application/json" data-for="htmlwidget-f86449deb0c1fad89ea7">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"description":[null,null,null,null],"status":["outdated","outdated","outdated","outdated"],"seconds":[null,null,null,null],"bytes":[null,null,null,null],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#78B7C5","#78B7C5","#78B7C5","#78B7C5"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Outdated","Stem"],"color":["#78B7C5","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb346"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## ▶ dispatched target NbPoints
-## ● completed target NbPoints [2.22 seconds]
+## ● completed target NbPoints [1.29 seconds]
 ## ▶ dispatched target X
 ## ● completed target X [0.003 seconds]
 ## ▶ dispatched target d
-## ● completed target d [0.023 seconds]
+## ● completed target d [0.014 seconds]
 ## ▶ dispatched target map
-## ● completed target map [0.033 seconds]
-## ▶ ended pipeline [2.851 seconds]</code></pre>
+## ● completed target map [0.028 seconds]
+## ▶ ended pipeline [1.492 seconds]</code></pre>
 <p></p>
 <p><code><a href="https://docs.ropensci.org/targets/reference/tar_visnetwork.html">tar_visnetwork()</a></code> permet de vérifier que le flux est correct avant de l’exécuter.
 Au moment de la production finale du document, l’option <code>include=FALSE</code> peut être ajoutée à l’entête de ce bout de code pour qu’il ne produise aucun affichage.</p>
@@ -1712,7 +1710,7 @@ Au moment de la production finale du document, l’option <code>include=FALSE</c
 </h3>
 <p>Les bouts de code qui utilisent les valeurs des cibles doivent les lire avec <code><a href="https://docs.ropensci.org/targets/reference/tar_read.html">tar_read()</a></code> :</p>
 <p></p>
-<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb348"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_read.html">tar_read</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="travailleR_files/figure-html/tar_read_4-1.png" width="80%" style="display: block; margin: auto;"></div>
 <p></p>
@@ -1808,7 +1806,7 @@ De cette façon, les calculs effectués localement ne seront pas répétés par 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 11/03/2024.</p>
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 10/04/2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

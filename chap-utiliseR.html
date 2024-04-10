@@ -17,8 +17,9 @@
 <meta name="twitter:description" content="La documentation consacrée à l’apprentissage de R est florissante. Les ouvrages suivants sont une sélection arbitraire mais utile pour progresser : L’Introduction à R et au tidyverse (Barnier...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.7.0/transition.js"></script><script src="libs/bs3compat-0.7.0/tabs.js"></script><script src="libs/bs3compat-0.7.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
 <script src="libs/vis-9.1.0/vis-network.min.js"></script><script src="libs/visNetwork-binding-2.1.2/visNetwork.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 <link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
 <script src="libs/tabwid-1.1.3/tabwid.js"></script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-7NVD1TWMCJ"></script><script>
@@ -188,7 +189,7 @@ Dans R, les méthodes sont définies à partir de méthodes génériques.</p>
 <code class="sourceCode R"><span><span class="va">print</span></span></code></pre></div>
 <pre><code>## function (x, ...) 
 ## UseMethod("print")
-## &lt;bytecode: 0x7fb37f3b13d8&gt;
+## &lt;bytecode: 0x7fe3a315f8c8&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe beaucoup de méthodes S3 pour <code>print</code> :</p>
@@ -444,17 +445,17 @@ Chaque package chargé crée un environnement fils pour former une pile des envi
 <p></p>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/search.html">search</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##  [1] ".GlobalEnv"         "package:R6"        
-##  [3] "package:entropart"  "package:lubridate" 
-##  [5] "package:forcats"    "package:stringr"   
-##  [7] "package:dplyr"      "package:purrr"     
-##  [9] "package:readr"      "package:tidyr"     
-## [11] "package:tibble"     "package:ggplot2"   
-## [13] "package:tidyverse"  "package:kableExtra"
-## [15] "package:stats"      "package:graphics"  
-## [17] "package:grDevices"  "package:utils"     
-## [19] "package:datasets"   "package:methods"   
-## [21] "Autoloads"          "package:base"</code></pre>
+<pre><code>##  [1] ".GlobalEnv"        "package:R6"       
+##  [3] "package:entropart" "package:lubridate"
+##  [5] "package:forcats"   "package:stringr"  
+##  [7] "package:dplyr"     "package:purrr"    
+##  [9] "package:readr"     "package:tidyr"    
+## [11] "package:tibble"    "package:ggplot2"  
+## [13] "package:tidyverse" "package:stats"    
+## [15] "package:graphics"  "package:grDevices"
+## [17] "package:utils"     "package:datasets" 
+## [19] "package:methods"   "Autoloads"        
+## [21] "package:base"</code></pre>
 <p></p>
 <p>Le code d’une fonction appelée de la console s’exécute dans un environnement fils de l’environnement global :</p>
 <p></p>
@@ -467,7 +468,7 @@ Chaque package chargé crée un environnement fils pour former une pile des envi
 <span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html">environment</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># Affichage de l'environnement de la fonction</span></span>
 <span><span class="fu">f</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## &lt;environment: 0x7fb38d7cf010&gt;</code></pre>
+<pre><code>## &lt;environment: 0x7fe3a4a104f0&gt;</code></pre>
 <div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Environnement parent de celui de la fonction</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/environment.html">parent.env</a></span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -509,7 +510,7 @@ S’il n’est pas trouvé, il est cherché dans l’environnement parent, puis 
 <span><span class="fu">qGlobalEnv</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## &lt;bytecode: 0x7fb36fded380&gt;
+## &lt;bytecode: 0x7fe390ddb200&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>La variable <code>q</code> est définie dans l’environnement global.
@@ -545,17 +546,17 @@ Exemple :</p>
 <div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Pile des environnements</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/search.html">search</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##  [1] ".GlobalEnv"         "package:R6"        
-##  [3] "package:entropart"  "package:lubridate" 
-##  [5] "package:forcats"    "package:stringr"   
-##  [7] "package:dplyr"      "package:purrr"     
-##  [9] "package:readr"      "package:tidyr"     
-## [11] "package:tibble"     "package:ggplot2"   
-## [13] "package:tidyverse"  "package:kableExtra"
-## [15] "package:stats"      "package:graphics"  
-## [17] "package:grDevices"  "package:utils"     
-## [19] "package:datasets"   "package:methods"   
-## [21] "Autoloads"          "package:base"</code></pre>
+<pre><code>##  [1] ".GlobalEnv"        "package:R6"       
+##  [3] "package:entropart" "package:lubridate"
+##  [5] "package:forcats"   "package:stringr"  
+##  [7] "package:dplyr"     "package:purrr"    
+##  [9] "package:readr"     "package:tidyr"    
+## [11] "package:tibble"    "package:ggplot2"  
+## [13] "package:tidyverse" "package:stats"    
+## [15] "package:graphics"  "package:grDevices"
+## [17] "package:utils"     "package:datasets" 
+## [19] "package:methods"   "Autoloads"        
+## [21] "package:base"</code></pre>
 <div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Diversity(), une fonction exportée par entropart est</span></span>
 <span><span class="co"># trouvée</span></span>
@@ -571,17 +572,16 @@ Exemple :</p>
 <div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Pile des environnements, sans entropart</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/search.html">search</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##  [1] ".GlobalEnv"         "package:R6"        
-##  [3] "package:lubridate"  "package:forcats"   
-##  [5] "package:stringr"    "package:dplyr"     
-##  [7] "package:purrr"      "package:readr"     
-##  [9] "package:tidyr"      "package:tibble"    
-## [11] "package:ggplot2"    "package:tidyverse" 
-## [13] "package:kableExtra" "package:stats"     
-## [15] "package:graphics"   "package:grDevices" 
-## [17] "package:utils"      "package:datasets"  
-## [19] "package:methods"    "Autoloads"         
-## [21] "package:base"</code></pre>
+<pre><code>##  [1] ".GlobalEnv"        "package:R6"       
+##  [3] "package:lubridate" "package:forcats"  
+##  [5] "package:stringr"   "package:dplyr"    
+##  [7] "package:purrr"     "package:readr"    
+##  [9] "package:tidyr"     "package:tibble"   
+## [11] "package:ggplot2"   "package:tidyverse"
+## [13] "package:stats"     "package:graphics" 
+## [15] "package:grDevices" "package:utils"    
+## [17] "package:datasets"  "package:methods"  
+## [19] "Autoloads"         "package:base"</code></pre>
 <div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Diversity() est introuvable</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/entropart/man/Diversity.html">Diversity</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -623,7 +623,7 @@ Pour des temps d’exécution très courts, il est nécessaire de répéter la m
 <span><span class="co"># répété 100 fois</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/mad.html">mad</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.020   0.001   0.021</code></pre>
+##   0.013   0.001   0.014</code></pre>
 <p></p>
 </div>
 <div id="microbenchmark" class="section level3" number="2.3.2">
@@ -646,15 +646,15 @@ Pour des temps d’exécution très courts, il est nécessaire de répéter la m
 <span><span class="op">(</span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu">f1</span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, <span class="fu">f2</span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, <span class="fu">f3</span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, <span class="fu">f4</span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Unit: microseconds
 ##   expr     min       lq      mean   median       uq
-##  f1(X)  40.615  44.2245  78.57790  47.3690  56.6065
-##  f2(X)  48.350  51.6135  73.15362  53.1430  59.0525
-##  f3(X) 280.623 284.4885 324.68069 289.1335 309.5385
-##  f4(X) 412.458 415.6460 460.56754 421.0980 437.4420
+##  f1(X)  26.839  28.0290  39.00344  28.8830  29.9395
+##  f2(X)  38.106  38.9605  48.25175  39.5505  40.6585
+##  f3(X) 232.671 236.6815 254.05455 240.8690 242.1525
+##  f4(X) 292.142 307.0890 324.43160 308.2880 312.0275
 ##       max neval
-##  1513.542   100
-##  1591.610   100
-##  1788.326   100
-##  2024.714   100</code></pre>
+##   837.352   100
+##   836.865   100
+##  1035.778   100
+##  1284.254   100</code></pre>
 <p></p>
 <p>Le tableau retourné contient les temps minimum, médian, moyen, max et les premiers et troisièmes quartiles, ainsi que le nombre de répétitions.
 La valeur médiane est à comparer.
@@ -666,10 +666,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante :</p>
 <div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##    expr   median
-## 1 f1(X)  47.3690
-## 2 f2(X)  53.1430
-## 3 f3(X) 289.1335
-## 4 f4(X) 421.0980</code></pre>
+## 1 f1(X)  28.8830
+## 2 f2(X)  39.5505
+## 3 f3(X) 240.8690
+## 4 f4(X) 308.2880</code></pre>
 <p></p>
 <p>Pour faire des calculs sur ces résultats, il faut les stocker dans une variable.
 Pour empêcher l’affichage dans la console, la solution la plus simple est d’utiliser la fonction <code>capture.output</code> en affectant son résultat à une variable.</p>
@@ -682,10 +682,10 @@ Pour empêcher l’affichage dans la console, la solution la plus simple est d�
 <div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##    expr   median
-## 1 f1(X)  47.3690
-## 2 f2(X)  53.1430
-## 3 f3(X) 289.1335
-## 4 f4(X) 421.0980</code></pre>
+## 1 f1(X)  28.8830
+## 2 f2(X)  39.5505
+## 3 f3(X) 240.8690
+## 4 f4(X) 308.2880</code></pre>
 <p></p>
 <p>Le temps de calcul est à peu près identique entre <span class="math inline">\(x \times x\)</span> et <span class="math inline">\(x^2\)</span>.
 Le calcul de puissance est nettement plus long, surtout si la puissance n’est pas entière, parce qu’il nécessite un calcul de logarithme.
@@ -766,7 +766,7 @@ La fonction <code>lnq</code> du package <strong>entropart</strong> retourne le l
 ##         return(Log)
 ##     }
 ## }
-## &lt;bytecode: 0x7fb370d71970&gt;
+## &lt;bytecode: 0x7fe391be06d8&gt;
 ## &lt;environment: namespace:entropart&gt;</code></pre>
 <p></p>
 <p>Pour qu’une fonction soit vectorielle, chaque ligne de son code doit permettre que le premier argument soit traité comme un vecteur.
@@ -802,10 +802,10 @@ Elle est déclinée sous plusieurs versions :</p>
 <span>    FUN <span class="op">=</span> <span class="va">sqrt</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="va">x1</span>, FUN <span class="op">=</span> <span class="va">sqrt</span>, FUN.VALUE <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##                                    expr   median
-## 1                              sqrt(x1)   4.9080
-## 2                lapply(x1, FUN = sqrt) 313.5820
-## 3                sapply(x1, FUN = sqrt) 389.1875
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 305.0820</code></pre>
+## 1                              sqrt(x1)   7.0385
+## 2                lapply(x1, FUN = sqrt) 263.9795
+## 3                sapply(x1, FUN = sqrt) 304.3930
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 275.2395</code></pre>
 <p></p>
 <p><code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> est beaucoup plus lent qu’une fonction vectorielle.
 <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> nécessite plus de temps pour <code><a href="https://rdrr.io/r/base/lapply.html">simplify2array()</a></code>, qui doit détecter comment rassembler les résultats.
@@ -841,15 +841,15 @@ Le niveau par défaut est 3 : les fonctions sont toutes compilées, et les bouc
 <span><span class="co"># Comparaison</span></span>
 <span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu">Boucle</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span>, <span class="fu">Boucle2</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">mbs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##          expr  median
-## 1  Boucle(x1) 895.516
-## 2 Boucle2(x1)  85.288</code></pre>
+<pre><code>##          expr   median
+## 1  Boucle(x1) 623.4285
+## 2 Boucle2(x1)  70.1770</code></pre>
 <div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compilation automatique par défaut depuis la version 3.5</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/compiler/compile.html">enableJIT</a></span><span class="op">(</span>level <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <p></p>
-<p>Le gain est considérable : de 1 à <code>10</code>.</p>
+<p>Le gain est considérable : de 1 à <code>9</code>.</p>
 <p>Les boucles for sont maintenant nettement plus rapides que <code>vapply</code>.</p>
 <p></p>
 <div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
@@ -857,8 +857,8 @@ Le niveau par défaut est 3 : les fonctions sont toutes compilées, et les bouc
 <span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="va">x1</span>, FUN <span class="op">=</span> <span class="va">sqrt</span>, <span class="fl">0</span><span class="op">)</span>, <span class="fu">Boucle</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 314.9715
-## 2                Boucle(x1)  86.8615</code></pre>
+## 1 vapply(x1, FUN = sqrt, 0) 278.7975
+## 2                Boucle(x1)  70.6150</code></pre>
 <p></p>
 <p>Attention, le test de performance peut être trompeur :</p>
 <p></p>
@@ -870,9 +870,12 @@ Le niveau par défaut est 3 : les fonctions sont toutes compilées, et les bouc
 <span>                     <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">)</span> </span>
 <span>                       <span class="va">Racine</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x1</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
-<pre><code>##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  298.077
-## 2 for (i in 1:length(x1)) Racine[i] &lt;- sqrt(x1[i]) 3847.724</code></pre>
+<pre><code>##                                               expr
+## 1                        vapply(x1, FUN = sqrt, 0)
+## 2 for (i in 1:length(x1)) Racine[i] &lt;- sqrt(x1[i])
+##      median
+## 1  279.8495
+## 2 2162.2010</code></pre>
 <p></p>
 <p>Dans ce code, la boucle for n’est pas compilée donc elle est beaucoup plus lente que dans le cadre normal de son utilisation (dans une fonction ou au niveau supérieur du code).</p>
 <p>Les boucles longues permettent un suivi de leur progression par une barre de texte, ce qui est un autre avantage.
@@ -910,8 +913,8 @@ La fonction suivante exécute des pauses d’un dixième de seconde pendant le t
 <code class="sourceCode R"><span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##                        expr   median
-## 1 replicate(1000, runif(1)) 4920.112
-## 2               runif(1000)   26.208</code></pre>
+## 1 replicate(1000, runif(1)) 2248.534
+## 2               runif(1000)   14.646</code></pre>
 <p></p>
 </div>
 <div id="vectorize" class="section level3" number="2.4.5">
@@ -941,9 +944,9 @@ Ecrire plutôt les boucles.</p>
 <span>                     <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span><span class="op">(</span><span class="va">diamonds</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 3.954506
-## 2 apply(diamonds[-(2:4)], 2, sum) 9.008252
-## 3       colSums(diamonds[-(2:4)]) 2.715594</code></pre>
+## 1   BoucleSomme(diamonds[-(2:4)]) 2718.633
+## 2 apply(diamonds[-(2:4)], 2, sum) 6891.266
+## 3       colSums(diamonds[-(2:4)]) 1917.081</code></pre>
 <p></p>
 <p><code>apply</code> clarifie le code mais est plus lent que la boucle, qui est à peine plus lente que <code>colSums</code>.</p>
 </div>
@@ -1089,7 +1092,7 @@ Cependant, un contournement existe pour émuler <code>mclapply</code> sous Windo
 <span><span class="co">## end mclapply.hack.R</span></span></code></pre></div>
 <p></p>
 <p>Le code suivant teste la parallélisation d’une fonction qui renvoie son argument inchangé après une pause d’un quart de seconde.
-Ce document est tricoté avec <code>3</code> cœurs, qui sont tous utilisés sauf un pour ne pas saturer le système.</p>
+Ce document est tricoté avec <code>4</code> cœurs, qui sont tous utilisés sauf un pour ne pas saturer le système.</p>
 <p></p>
 <div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">time</span> <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1101,14 +1104,14 @@ Ce document est tricoté avec <code>3</code> cœurs, qui sont tous utilisés sau
 <span><span class="co"># Série : temps théorique = nbCoeurs/4 secondes</span></span>
 <span><span class="op">(</span><span class="va">tserie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nbCoeurs</span>, <span class="va">f</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.003   0.000   0.677</code></pre>
+##   0.002   0.000   0.858</code></pre>
 <div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Parallèle : temps théorique = 1/4 seconde</span></span>
 <span><span class="op">(</span><span class="va">tparallele</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nbCoeurs</span>, <span class="va">f</span>, mc.cores <span class="op">=</span> <span class="va">nbCoeurs</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.007   0.015   0.345</code></pre>
+##   0.003   0.007   0.360</code></pre>
 <p></p>
-<p>La mise en place de la parallélisation a un coût d’environ <code>0.095</code> secondes ici.
+<p>La mise en place de la parallélisation a un coût d’environ <code>0.11</code> secondes ici.
 Le temps d’exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n’en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d’un seconde.</p>
 <p></p>
@@ -1116,12 +1119,12 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 <code class="sourceCode R"><span><span class="co"># Série</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nbCoeurs</span>, <span class="va">f</span>, time <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.000   0.000   2.252</code></pre>
+##   0.000   0.001   3.239</code></pre>
 <div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Parallèle</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nbCoeurs</span>, <span class="va">f</span>, time <span class="op">=</span> <span class="fl">1</span>, mc.cores <span class="op">=</span> <span class="va">nbCoeurs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.001   0.004   1.152</code></pre>
+##   0.001   0.003   1.108</code></pre>
 <p></p>
 <p>Le temps additionnel nécessaire pour l’exécution parallèle du nouveau code est relativement plus faible : les coûts deviennent inférieurs à l’économie quand le temps de chaque tâche s’allonge.</p>
 <p>Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les performances s’effondrent parce que la tâche supplémentaire doit être exécutée après les premières.</p>
@@ -1129,11 +1132,11 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 <div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nbCoeurs</span>, <span class="va">f</span>, time <span class="op">=</span> <span class="fl">1</span>, mc.cores <span class="op">=</span> <span class="va">nbCoeurs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.002   0.004   1.092</code></pre>
+##   0.001   0.003   1.115</code></pre>
 <div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">nbCoeurs</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>, <span class="va">f</span>, time <span class="op">=</span> <span class="fl">1</span>, mc.cores <span class="op">=</span> <span class="va">nbCoeurs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.003   0.007   2.247</code></pre>
+##   0.004   0.009   2.236</code></pre>
 <p></p>
 <p>Le temps reste ensuite stable jusqu’au double du nombre de cœurs.
 La figure <a href="chap-utiliseR.html#fig:r-parallele">2.2</a> montre l’évolution du temps de calcul en fonction du nombre de tâches.</p>
@@ -1152,8 +1155,8 @@ La figure <a href="chap-utiliseR.html#fig:r-parallele">2.2</a> montre l’évolu
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">nbCoeurs</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:r-parallele"></span>
-<img src="travailleR_files/figure-html/r-parallele-1.png" alt="Temps d’exécution en parallèle de tâches nécessitant une seconde (chaque tâche est une pause d’une seconde). Le nombre de tâches varie de 1 à deux fois le nombre de cœurs utilisés (égal à 2) plus une." width="80%"><p class="caption">
-Figure 2.2: Temps d’exécution en parallèle de tâches nécessitant une seconde (chaque tâche est une pause d’une seconde). Le nombre de tâches varie de 1 à deux fois le nombre de cœurs utilisés (égal à <code>2</code>) plus une.
+<img src="travailleR_files/figure-html/r-parallele-1.png" alt="Temps d’exécution en parallèle de tâches nécessitant une seconde (chaque tâche est une pause d’une seconde). Le nombre de tâches varie de 1 à deux fois le nombre de cœurs utilisés (égal à 3) plus une." width="80%"><p class="caption">
+Figure 2.2: Temps d’exécution en parallèle de tâches nécessitant une seconde (chaque tâche est une pause d’une seconde). Le nombre de tâches varie de 1 à deux fois le nombre de cœurs utilisés (égal à <code>3</code>) plus une.
 </p>
 </div>
 <p></p>
@@ -1256,7 +1259,7 @@ Ici, l’itérateur <code>icount</code> passe les valeurs 1, 2 et 3 individuelle
 <span>        <span class="fu">f</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
 <span>    <span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.003   0.000   0.558</code></pre>
+##   0.003   0.000   1.031</code></pre>
 <div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Parallèle</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">foreach</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html">icount</a></span><span class="op">(</span><span class="va">nbCoeurs</span><span class="op">)</span>, .combine <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">%dopar%</a></span></span>
@@ -1264,7 +1267,7 @@ Ici, l’itérateur <code>icount</code> passe les valeurs 1, 2 et 3 individuelle
 <span>        <span class="fu">f</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
 <span>    <span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.010   0.019   0.399</code></pre>
+##   0.009   0.015   0.339</code></pre>
 <p></p>
 <p>Le coût fixe de la parallélisation est faible.</p>
 </div>
@@ -1293,7 +1296,7 @@ D’autres stratégies sont disponibles pour utiliser des clusters physiques (pl
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://future.apply.futureverse.org">"future.apply"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_lapply.html">future_replicate</a></span><span class="op">(</span><span class="va">usedCores</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fu">f</span><span class="op">(</span><span class="va">usedCores</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.045   0.003   0.362</code></pre>
+##   0.067   0.003   0.477</code></pre>
 <p></p>
 <p>Les boucles foreach peuvent être parallélisées avec le package <strong>doFuture</strong> en remplaçant simplement <code>%dopar%</code> par <code>%dofuture%</code>.</p>
 <p></p>
@@ -1304,7 +1307,7 @@ D’autres stratégies sont disponibles pour utiliser des clusters physiques (pl
 <span>        <span class="fu">f</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
 <span>    <span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.066   0.001   0.586</code></pre>
+##   0.082   0.002   0.559</code></pre>
 <p></p>
 <p>La stratégie est rétablie à <code>sequential</code> à la fin.</p>
 <p></p>
@@ -1366,7 +1369,7 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fsapply1</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.720   0.054   6.242</code></pre>
+##   3.982   0.018   4.007</code></pre>
 <div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
@@ -1383,7 +1386,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fsapply2</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.701   0.032   6.273</code></pre>
+##   4.152   0.008   4.160</code></pre>
 <div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
@@ -1404,7 +1407,7 @@ Le format de sortie n’est pas toujours évident à écrire :</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fsapply3</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.508   0.038   5.895</code></pre>
+##   3.847   0.006   3.853</code></pre>
 <div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
@@ -1426,7 +1429,7 @@ Le format de sortie n’est pas toujours évident à écrire :</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fsapply4</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   3.364   0.035   3.653</code></pre>
+##   2.269   0.004   2.274</code></pre>
 <div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
@@ -1450,7 +1453,7 @@ Sous MacOS ou Linux, le calcul est accéléré.</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fsapply5</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   3.902   0.708   3.282</code></pre>
+##   2.466   0.307   1.416</code></pre>
 <div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
@@ -1481,7 +1484,7 @@ Seule la boucle principale est parallélisée : l’imbrication de <code><a hre
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">future_fsapply4_</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.183   0.033   3.626</code></pre>
+##   0.133   0.013   1.291</code></pre>
 <div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
@@ -1509,7 +1512,7 @@ Seule la boucle principale est parallélisée : l’imbrication de <code><a hre
 <span><span class="co"># Temps de calcul, mémorisé</span></span>
 <span><span class="op">(</span><span class="va">for_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">ffor</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.094   0.029   2.302</code></pre>
+##   1.423   0.008   1.431</code></pre>
 <div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
@@ -1540,7 +1543,7 @@ En revanche, les distances sont calculées deux fois.</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fforeach3</span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   4.842   0.920   5.970</code></pre>
+##   3.442   0.668   1.259</code></pre>
 <div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
@@ -1564,7 +1567,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fforeach1</span><span class="op">(</span><span class="va">Y</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   3.184   0.062   4.942</code></pre>
+##   1.650   0.014   1.665</code></pre>
 <p></p>
 <p>Les boucles foreach imbriquées sont à réserver à des tâches très longues (plusieurs secondes au moins) pour amortir les coûts fixes de leur mise en place.</p>
 </div>
@@ -1684,13 +1687,11 @@ Une documentation est disponible<a class="footnote-ref" tabindex="0" data-toggle
 <div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">TotalDistance</span><span class="op">(</span><span class="va">X</span><span class="op">$</span><span class="va">x</span>, <span class="va">X</span><span class="op">$</span><span class="va">y</span><span class="op">)</span><span class="op">/</span><span class="va">NbPoints</span><span class="op">/</span><span class="op">(</span><span class="va">NbPoints</span> <span class="op">-</span></span>
 <span>    <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## Unit: milliseconds
+<pre><code>## Unit: microseconds
 ##                                                      expr
 ##  d &lt;- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##       min       lq     mean   median       uq      max
-##  2.067842 2.112284 2.520752 2.274083 2.543632 7.999233
-##  neval
-##    100</code></pre>
+##      min       lq    mean   median      uq     max neval
+##  277.695 279.5125 307.966 280.9505 282.751 1629.64   100</code></pre>
 <div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># suppressmessages pour éliminer les messages superflus</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1707,16 +1708,16 @@ Une documentation est disponible<a class="footnote-ref" tabindex="0" data-toggle
 <span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spatstat.random/man/runifpoint.html">runifpoint</a></span><span class="op">(</span><span class="va">NbPoints</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">MeanDistance</span><span class="op">(</span><span class="va">X</span><span class="op">$</span><span class="va">x</span>, <span class="va">X</span><span class="op">$</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   7.385   0.087   9.186</code></pre>
+##   5.269   0.005   5.275</code></pre>
 <p></p>
 <p>En parallèle, le temps augmente peu : la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit <code>5755</code> secondes.</p>
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit <code>3577</code> secondes.</p>
 <p></p>
 <div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">TotalDistance</span><span class="op">(</span><span class="va">X</span><span class="op">$</span><span class="va">x</span>, <span class="va">X</span><span class="op">$</span><span class="va">y</span><span class="op">)</span><span class="op">/</span><span class="va">NbPoints</span><span class="op">/</span><span class="op">(</span><span class="va">NbPoints</span> <span class="op">-</span></span>
 <span>    <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   5.063   0.189   4.914</code></pre>
+##   1.765   0.003   0.454</code></pre>
 <p></p>
 </div>
 <div id="conclusions-sur-loptimisation-de-la-vitesse-du-code" class="section level3" number="2.7.9">
@@ -1821,34 +1822,34 @@ Quand ce n’est pas le cas, chaque cible peut être écrite sous la forme d’u
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://docs.ropensci.org/targets/">"targets"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_visnetwork.html">tar_visnetwork</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="visNetwork html-widget html-fill-item" id="htmlwidget-4c2873e5859f69562509" style="width:80%;height:504px;"></div>
-<script type="application/json" data-for="htmlwidget-4c2873e5859f69562509">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"status":["outdated","outdated","outdated","outdated"],"seconds":[null,null,null,null],"bytes":[null,null,null,null],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#78B7C5","#78B7C5","#78B7C5","#78B7C5"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Outdated","Stem"],"color":["#78B7C5","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><p></p>
+<script type="application/json" data-for="htmlwidget-4c2873e5859f69562509">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"description":[null,null,null,null],"status":["outdated","outdated","outdated","outdated"],"seconds":[null,null,null,null],"bytes":[null,null,null,null],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#78B7C5","#78B7C5","#78B7C5","#78B7C5"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Outdated","Stem"],"color":["#78B7C5","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><p></p>
 <p>L’ordre de déclaration des cibles dans la liste sans importance : elles sont ordonnées automatiquement.</p>
 <p>Le flux est exécuté par <code><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make()</a></code>.</p>
 <p></p>
 <div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## ▶ dispatched target NbPoints
-## ● completed target NbPoints [2.238 seconds]
+## ● completed target NbPoints [1.335 seconds]
 ## ▶ dispatched target X
-## ● completed target X [0.003 seconds]
+## ● completed target X [0.002 seconds]
 ## ▶ dispatched target d
-## ● completed target d [0.023 seconds]
+## ● completed target d [0.015 seconds]
 ## ▶ dispatched target map
-## ● completed target map [0.034 seconds]
-## ▶ ended pipeline [2.518 seconds]</code></pre>
+## ● completed target map [0.029 seconds]
+## ▶ ended pipeline [1.543 seconds]</code></pre>
 <p></p>
 <p>Le flux est maintenant à jour et <code><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make()</a></code> ne refait aucun calcul.</p>
 <p></p>
 <div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_visnetwork.html">tar_visnetwork</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="visNetwork html-widget html-fill-item" id="htmlwidget-c5409db81165a82e2db3" style="width:80%;height:504px;"></div>
-<script type="application/json" data-for="htmlwidget-c5409db81165a82e2db3">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"status":["uptodate","uptodate","uptodate","uptodate"],"seconds":[0.023,0.034,2.238,0.003],"bytes":[55,187175,53,11059],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#354823","#354823","#354823","#354823"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
+<script type="application/json" data-for="htmlwidget-c5409db81165a82e2db3">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"description":[null,null,null,null],"status":["uptodate","uptodate","uptodate","uptodate"],"seconds":[0.015,0.029,1.335,0.002],"bytes":[55,187175,53,11059],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#354823","#354823","#354823","#354823"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## ✔ skipped target NbPoints
 ## ✔ skipped target X
 ## ✔ skipped target d
 ## ✔ skipped target map
-## ✔ skipped pipeline [0.115 seconds]</code></pre>
+## ✔ skipped pipeline [0.082 seconds]</code></pre>
 <p></p>
 <p>Les résultats sont lus par <code><a href="https://docs.ropensci.org/targets/reference/tar_read.html">tar_read()</a></code>.</p>
 <p></p>
@@ -1959,7 +1960,7 @@ La définition des cibles reste une contrainte, mais force à bien structurer so
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 11/03/2024.</p>
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 10/04/2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
