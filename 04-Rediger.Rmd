@@ -246,19 +246,19 @@ Les séparateurs horizontaux - et verticaux | permettent de dessiner un tableau 
 
 Les tableaux peuvent aussi être produits par du code R.
 Le contenu du tableau est dans un dataframe.
-La fonction `kable` du package _knitr_ prépare le tableau pour l'affichage et passe le résultat à la fonction `kable_styling` du package _kableExtra_ pour le formatage final.
+La fonction `kbl` du package _kableExtra_ prépare le tableau pour l'affichage et passe le résultat à la fonction `kable_styling` pour le formatage final.
 
 ```{r kable, echo=TRUE, warning=FALSE}
 library("tidyverse")
 mes_iris <- head(iris)
 names(mes_iris) <- c("Longueur sépales ($l_s$)", "Largeur", "Longueur pétales", "Largeur", "Espèce")
-knitr::kable(mes_iris, caption="Tableau créé par kable", booktabs = TRUE, escape = FALSE) %>%
+kableExtra::kbl(mes_iris, caption="Tableau créé par kable", booktabs = TRUE, escape = FALSE) %>%
   kableExtra::kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
 
 La légende est précisée par l'argument `caption` et le référencement est possible parce que le tableau reçoit une étiquette dont le nom est `tab:` suivi du nom du bout de code (tableau \@ref(tab:kable)).
 Comme pour les figures, une légende améliorée peut être écrite dans un paragraphe séparé.
-Une légende courte pour une éventuelle liste des tableaux (option `lot: true` dans l'entête) est déclarée dans l'argument `caption.short` de `kable()`.
+Une légende courte pour une éventuelle liste des tableaux (option `lot: true` dans l'entête) est déclarée dans l'argument `caption.short` de `kbl()`.
 
 Utiliser systématiquement l'argument `booktabs = TRUE` pour que l'épaisseur des lignes de séparation soit optimale en LaTeX.
 Comme le tableau contient des mathématiques (dans le nom de la première colonne), l'option `escape = FALSE` est nécessaire.
