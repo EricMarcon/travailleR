@@ -7,7 +7,7 @@
 <title>5 Package | Travailler avec R</title>
 <meta name="author" content="Eric Marcon">
 <meta name="description" content="Les packages de R permettent d’étendre les fonctionnalités du logiciel par du code fourni par la communauté des développeurs. Ils sont la clé du succès de R parce qu’ils permettent de diffuser...">
-<meta name="generator" content="bookdown 0.38 with bs4_book()">
+<meta name="generator" content="bookdown 0.39 with bs4_book()">
 <meta property="og:title" content="5 Package | Travailler avec R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ericmarcon.github.io/travailleR/chap-package.html">
@@ -587,7 +587,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <code class="sourceCode R"><span><span class="va">plot</span></span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod("plot")
-## &lt;bytecode: 0x7fe3a2d4e0b8&gt;
+## &lt;bytecode: 0x1523e76f0&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -604,7 +604,7 @@ Les fonctions peuvent être listées :</p>
 <div class="sourceCode" id="cb386"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Nombre total</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html">methods</a></span><span class="op">(</span><span class="va">plot</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] 154</code></pre>
+<pre><code>## [1] 155</code></pre>
 <p></p>
 <p>Inversement, les méthodes disponibles pour une classe peuvent être affichées :</p>
 <p></p>
@@ -754,14 +754,14 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu">triple.integer</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span>, <span class="fu">triple.numeric</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
 <span>    <span class="fu">triple</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr  min     lq     mean median     uq
-##  triple.integer(2L)  285  293.5   314.67  298.5  308.0
-##   triple.numeric(2)  284  297.5 14184.63  307.0  318.0
-##          triple(2L) 1022 1038.0 16885.44 1053.5 1097.5
-##      max neval
-##     1049   100
-##  1387224   100
-##  1579811   100</code></pre>
+##                expr min  lq     mean median  uq     max
+##  triple.integer(2L) 123 123   156.21    164 164     820
+##   triple.numeric(2) 123 123  7452.16    164 164  729882
+##          triple(2L) 533 574 10918.30    574 574 1032954
+##  neval
+##    100
+##    100
+##    100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -989,7 +989,7 @@ Il doit être importé :</li>
 <span><span class="fu">graphics</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span></span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod("plot")
-## &lt;bytecode: 0x7fe3a2d4e0b8&gt;
+## &lt;bytecode: 0x1523e76f0&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode" id="cb432"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' autoplot</span></span>
@@ -1020,7 +1020,7 @@ Il doit être importé :</li>
 ## {
 ##     UseMethod("autoplot")
 ## }
-## &lt;bytecode: 0x7fe39f304038&gt;
+## &lt;bytecode: 0x15095b608&gt;
 ## &lt;environment: namespace:ggplot2&gt;</code></pre>
 <p></p>
 </div>
@@ -1412,7 +1412,7 @@ Dans le cas contraire, le package est archivé.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 10/04/2024.</p>
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 01/05/2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
