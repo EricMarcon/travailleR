@@ -273,7 +273,7 @@ Le résultat du tricot, placé dans le dossier `docs` de la machine virtuelle en
 La dernière étape de la tâche de production utilise l'action `upload-artifact` pour cela.
 ```
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: _book
           path: docs/
@@ -293,9 +293,11 @@ La publication de l'artefact dans la branche `gh-pages` du projet nécessite une
   deploy:
     runs-on: ubuntu-latest
     needs: renderbook
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           # Artifact name
           name: _book
@@ -304,7 +306,7 @@ La publication de l'artefact dans la branche `gh-pages` du projet nécessite une
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: ${{ secrets.EMAIL }}
           build_dir: docs
@@ -317,7 +319,7 @@ Elle ne peut se lancer que si la tâche "renderbook" a réussi.
 Ses étapes sont les suivantes:
 
 - *Download artifact*: Restauration du dossier `docs`;
-- *Deploy to GitHub Pages*: copie du dossier `docs` dans la branche `gh-pages`.
+- *Deploy to GitHub Pages*: copie du dossier `docs` dans la branche `gh-pages` par un *commit*.
 
 Cette dernière étape utiliser l'action `GitHub-Pages-deploy` mise à disposition par l'organisation *Cecilapp* .
 Elle utilise une variable d'environnement, `GITHUB_TOKEN`, pour s'authentifier et des paramètres:
@@ -326,6 +328,9 @@ Elle utilise une variable d'environnement, `GITHUB_TOKEN`, pour s'authentifier e
 Pour ne pas exposer l'adresse publiquement, elle a été stockée dans un secret du projet;
 - *buid_dir*: le répertoire à publier;
 - *jekyll:no* pour créer un fichier vide nommé `.nojekyll` qui indique aux pages GitHub de ne pas essayer de traiter leur contenu comme un site web Jekyll.
+
+`GITHUB_TOKEN` est un jeton d'authentification fourni par Github Actions pour l'exécution de ce script.
+Ses droits sont attribués dans le script par l'entrée `permission`: ici, le droit d'écrire du contenu  dans le projet.
 
 
 ### Données confidentielles dans un dépôt public {#sec:confidentielCI}
@@ -407,23 +412,25 @@ jobs:
           bookdown::render_book("index.Rmd", "bookdown::gitbook")
         shell: Rscript {0}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ghpages
           path: docs
   deploy:
     runs-on: ubuntu-latest
     needs: render
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ghpages
           path: docs
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: ${{ secrets.EMAIL }}
           build_dir: docs
@@ -469,23 +476,25 @@ jobs:
               rmarkdown::render(file, "all")' ${RMD_PATH[*]}
           Rscript -e 'memoiR::build_githubpages()'
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ghpages
           path: docs
   deploy:
     runs-on: ubuntu-latest
     needs: render
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ghpages
           path: docs
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: ${{ secrets.EMAIL }}
           build_dir: docs
@@ -540,7 +549,7 @@ L'étape "Upload artifact" est modifiée pour s'exécuter malgré l'échec de l'
 ```
       - name: Upload artifact
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: _book
           path: docs/
@@ -602,16 +611,18 @@ jobs:
           blogdown::build_site(local = TRUE, build_rmd = TRUE)
         shell: Rscript {0}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: _website
           path: public/
   deploy:
     runs-on: ubuntu-latest
     needs: buildsite
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           # Artifact name
           name: _website
@@ -620,7 +631,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           build_dir: public
           email: ${{ secrets.EMAIL }}
