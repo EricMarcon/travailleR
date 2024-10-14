@@ -326,7 +326,7 @@ Les deux étapes ne doivent pas être regroupées en une seule.</p>
 <p>Le résultat du tricot, placé dans le dossier <code>docs</code> de la machine virtuelle en charge de l’intégration continue, doit être préservé pour que la tâche suivante puisse l’utiliser.</p>
 <p>La dernière étape de la tâche de production utilise l’action <code>upload-artifact</code> pour cela.</p>
 <pre><code>      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: _book
           path: docs/</code></pre>
@@ -342,9 +342,11 @@ Les artefacts sont visibles publiquement sur la page des Actions du projet GitHu
 <pre><code>  deploy:
     runs-on: ubuntu-latest
     needs: renderbook
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           # Artifact name
           name: _book
@@ -353,7 +355,7 @@ Les artefacts sont visibles publiquement sur la page des Actions du projet GitHu
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: ${{ secrets.EMAIL }}
           build_dir: docs
@@ -367,7 +369,7 @@ Ses étapes sont les suivantes :</p>
 <em>Download artifact</em> : Restauration du dossier <code>docs</code><span style="white-space:nowrap"> ;</span>
 </li>
 <li>
-<em>Deploy to GitHub Pages</em> : copie du dossier <code>docs</code> dans la branche <code>gh-pages</code>.</li>
+<em>Deploy to GitHub Pages</em> : copie du dossier <code>docs</code> dans la branche <code>gh-pages</code> par un <em>commit</em>.</li>
 </ul>
 <p>Cette dernière étape utiliser l’action <code>GitHub-Pages-deploy</code> mise à disposition par l’organisation <em>Cecilapp</em> .
 Elle utilise une variable d’environnement, <code>GITHUB_TOKEN</code>, pour s’authentifier et des paramètres :</p>
@@ -382,6 +384,8 @@ Pour ne pas exposer l’adresse publiquement, elle a été stockée dans un secr
 <li>
 <em>jekyll:no</em> pour créer un fichier vide nommé <code>.nojekyll</code> qui indique aux pages GitHub de ne pas essayer de traiter leur contenu comme un site web Jekyll.</li>
 </ul>
+<p><code>GITHUB_TOKEN</code> est un jeton d’authentification fourni par Github Actions pour l’exécution de ce script.
+Ses droits sont attribués dans le script par l’entrée <code>permission</code> : ici, le droit d’écrire du contenu dans le projet.</p>
 </div>
 </div>
 <div id="sec:confidentielCI" class="section level3" number="6.2.5">
@@ -456,23 +460,25 @@ jobs:
           bookdown::render_book("index.Rmd", "bookdown::gitbook")
         shell: Rscript {0}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ghpages
           path: docs
   deploy:
     runs-on: ubuntu-latest
     needs: render
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ghpages
           path: docs
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: ${{ secrets.EMAIL }}
           build_dir: docs
@@ -516,23 +522,25 @@ jobs:
               rmarkdown::render(file, "all")' ${RMD_PATH[*]}
           Rscript -e 'memoiR::build_githubpages()'
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ghpages
           path: docs
   deploy:
     runs-on: ubuntu-latest
     needs: render
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ghpages
           path: docs
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: ${{ secrets.EMAIL }}
           build_dir: docs
@@ -576,7 +584,7 @@ Il faut donc modifier le script pour copier le fichier dans <code>docs</code> pu
 <p>L’étape “Upload artifact” est modifiée pour s’exécuter malgré l’échec de l’étape précédente en ajoutant la ligne <code>if:</code> :</p>
 <pre><code>      - name: Upload artifact
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: _book
           path: docs/</code></pre>
@@ -632,16 +640,18 @@ jobs:
           blogdown::build_site(local = TRUE, build_rmd = TRUE)
         shell: Rscript {0}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: _website
           path: public/
   deploy:
     runs-on: ubuntu-latest
     needs: buildsite
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           # Artifact name
           name: _website
@@ -650,7 +660,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           build_dir: public
           email: ${{ secrets.EMAIL }}
@@ -900,7 +910,7 @@ Coller le code Markdown :</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 19/09/2024.</p>
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 14/10/2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

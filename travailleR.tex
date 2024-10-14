@@ -374,7 +374,7 @@
 
 \author{Eric Marcon}
 
-\date{19/09/2024}
+\date{14/10/2024}
 
 
 % Include headers (preamble.tex) here
@@ -1272,7 +1272,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x12bbae590>
+## <bytecode: 0x1206329a8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1747,7 +1747,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x129930518>
+## <environment: 0x132818208>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1818,7 +1818,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x12d8af698>
+## <bytecode: 0x132f8f388>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -2003,7 +2003,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.009   0.000   0.009
+##   0.008   0.000   0.007
 \end{verbatim}
 
 \normalsize
@@ -2033,16 +2033,16 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 
 \begin{verbatim}
 ## Unit: microseconds
-##   expr     min       lq      mean   median       uq
-##  f1(X)   2.173   8.2615  23.07890  11.8285  15.7440
-##  f2(X)   5.084  10.1270  19.39669  13.5095  16.3180
-##  f3(X) 103.935 109.5110 125.18571 114.6565 119.3100
-##  f4(X) 135.423 144.7710 165.07174 149.4245 159.4285
-##       max neval
-##   994.947   100
-##   543.865   100
-##   869.036   100
-##  1056.160   100
+##   expr     min       lq      mean   median       uq     max
+##  f1(X)   1.722   6.4165  11.28238   6.8470   7.8310 399.381
+##  f2(X)   4.182   8.0360  12.71697   8.5075   9.3480 395.814
+##  f3(X)  97.990 105.3495 113.44290 106.9280 108.9575 609.547
+##  f4(X) 131.938 138.2930 152.24653 140.6710 142.8850 713.769
+##  neval
+##    100
+##    100
+##    100
+##    100
 \end{verbatim}
 
 \normalsize
@@ -2065,10 +2065,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  11.8285
-## 2 f2(X)  13.5095
-## 3 f3(X) 114.6565
-## 4 f4(X) 149.4245
+## 1 f1(X)   6.8470
+## 2 f2(X)   8.5075
+## 3 f3(X) 106.9280
+## 4 f4(X) 140.6710
 \end{verbatim}
 
 \normalsize
@@ -2098,10 +2098,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  11.8285
-## 2 f2(X)  13.5095
-## 3 f3(X) 114.6565
-## 4 f4(X) 149.4245
+## 1 f1(X)   6.8470
+## 2 f2(X)   8.5075
+## 3 f3(X) 106.9280
+## 4 f4(X) 140.6710
 \end{verbatim}
 
 \normalsize
@@ -2225,7 +2225,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x12e467200>
+## <bytecode: 0x133b50f60>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2277,10 +2277,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   1.6605
-## 2                lapply(x1, FUN = sqrt) 144.1970
-## 3                sapply(x1, FUN = sqrt) 177.8170
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 140.8145
+## 1                              sqrt(x1)   1.7425
+## 2                lapply(x1, FUN = sqrt) 144.6890
+## 3                sapply(x1, FUN = sqrt) 177.2840
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 137.2885
 \end{verbatim}
 
 \normalsize
@@ -2333,8 +2333,8 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \begin{verbatim}
 ##          expr   median
-## 1  Boucle(x1) 376.4210
-## 2 Boucle2(x1)  42.9065
+## 1  Boucle(x1) 350.3040
+## 2 Boucle2(x1)  42.2095
 \end{verbatim}
 
 \begin{Shaded}
@@ -2350,7 +2350,7 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \normalsize
 
-Le gain est considérable: de 1 à \texttt{9}.
+Le gain est considérable: de 1 à \texttt{8}.
 
 Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
@@ -2365,9 +2365,9 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr  median
-## 1 vapply(x1, FUN = sqrt, 0) 135.464
-## 2                Boucle(x1)  43.050
+##                        expr   median
+## 1 vapply(x1, FUN = sqrt, 0) 132.8195
+## 2                Boucle(x1)  41.7790
 \end{verbatim}
 
 \normalsize
@@ -2390,8 +2390,8 @@ Attention, le test de performance peut être trompeur:
 
 \begin{verbatim}
 ##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  145.591
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 1250.726
+## 1                        vapply(x1, FUN = sqrt, 0) 134.5415
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 994.9265
 \end{verbatim}
 
 \normalsize
@@ -2457,8 +2457,8 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 
 \begin{verbatim}
 ##                        expr   median
-## 1 replicate(1000, runif(1)) 678.3655
-## 2               runif(1000)   5.9040
+## 1 replicate(1000, runif(1)) 839.7620
+## 2               runif(1000)   6.6625
 \end{verbatim}
 
 \normalsize
@@ -2494,9 +2494,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 1640.923
-## 2 apply(diamonds[-(2:4)], 2, sum) 3674.686
-## 3       colSums(diamonds[-(2:4)]) 1280.676
+## 1   BoucleSomme(diamonds[-(2:4)]) 1.548221
+## 2 apply(diamonds[-(2:4)], 2, sum) 3.549124
+## 3       colSums(diamonds[-(2:4)]) 1.235248
 \end{verbatim}
 
 \normalsize
@@ -2701,7 +2701,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.000   0.689
+##   0.003   0.000   0.732
 \end{verbatim}
 
 \begin{Shaded}
@@ -2713,12 +2713,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.018   0.410
+##   0.001   0.018   0.290
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.16} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.04} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2733,7 +2733,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.267
+##   0.000   0.000   2.162
 \end{verbatim}
 
 \begin{Shaded}
@@ -2745,7 +2745,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.013   1.086
+##   0.002   0.015   1.134
 \end{verbatim}
 
 \normalsize
@@ -2764,7 +2764,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.012   1.107
+##   0.001   0.014   1.165
 \end{verbatim}
 
 \begin{Shaded}
@@ -2775,7 +2775,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.017   2.036
+##   0.001   0.013   2.283
 \end{verbatim}
 
 \normalsize
@@ -2963,7 +2963,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.707
+##   0.002   0.000   0.791
 \end{verbatim}
 
 \begin{Shaded}
@@ -2978,7 +2978,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.020   0.401
+##   0.004   0.016   0.419
 \end{verbatim}
 
 \normalsize
@@ -3023,7 +3023,7 @@ Le package \textbf{future.apply} permet de paralléliser sans effort toutes les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.024   0.001   0.460
+##   0.025   0.001   0.382
 \end{verbatim}
 
 \normalsize
@@ -3044,7 +3044,7 @@ Les boucles foreach peuvent être parallélisées avec le package \textbf{doFutu
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.033   0.001   0.490
+##   0.027   0.001   0.494
 \end{verbatim}
 
 \normalsize
@@ -3136,7 +3136,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.282   0.007   2.290
+##   2.331   0.008   2.342
 \end{verbatim}
 
 \begin{Shaded}
@@ -3170,7 +3170,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.309   0.005   2.315
+##   2.191   0.004   2.195
 \end{verbatim}
 
 \begin{Shaded}
@@ -3212,7 +3212,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.238   0.006   2.245
+##   2.168   0.004   2.172
 \end{verbatim}
 
 \begin{Shaded}
@@ -3251,7 +3251,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.296   0.005   1.302
+##   1.264   0.002   1.266
 \end{verbatim}
 
 \begin{Shaded}
@@ -3292,7 +3292,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.493   0.313   1.073
+##   1.392   0.236   0.982
 \end{verbatim}
 
 \begin{Shaded}
@@ -3337,7 +3337,7 @@ Seule la boucle principale est parallélisée: l'imbrication de \texttt{future\_
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.054   0.008   1.044
+##   0.047   0.007   0.937
 \end{verbatim}
 
 \begin{Shaded}
@@ -3383,7 +3383,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.809   0.004   0.814
+##   0.788   0.002   0.792
 \end{verbatim}
 
 \begin{Shaded}
@@ -3429,7 +3429,7 @@ En revanche, les distances sont calculées deux fois.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.923   0.210   0.838
+##   1.923   0.166   0.782
 \end{verbatim}
 
 \begin{Shaded}
@@ -3470,7 +3470,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.850   0.009   0.860
+##   0.754   0.004   0.758
 \end{verbatim}
 
 \normalsize
@@ -3634,8 +3634,8 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 ## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min      lq     mean  median     uq     max neval
-##  219.391 233.331 291.5461 249.444 250.51 4490.73   100
+##      min       lq     mean   median      uq      max neval
+##  298.931 305.6755 346.4447 311.6205 315.618 3043.594   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3675,13 +3675,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.431   0.006   4.447
+##   4.444   0.005   4.451
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{2034} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{1980} secondes.
 
 \scriptsize
 
@@ -3694,7 +3694,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.284   0.002   0.429
+##   1.267   0.001   0.424
 \end{verbatim}
 
 \normalsize
@@ -3837,14 +3837,14 @@ Le flux est exécuté par \texttt{tar\_make()}.
 
 \begin{verbatim}
 ## ▶ dispatched target NbPoints
-## ● completed target NbPoints [0.692 seconds]
+## ● completed target NbPoints [0.77 seconds, 53 bytes]
 ## ▶ dispatched target X
-## ● completed target X [0.003 seconds]
+## ● completed target X [0.003 seconds, 11.058 kilobytes]
 ## ▶ dispatched target d
-## ● completed target d [0.012 seconds]
+## ● completed target d [0.033 seconds, 55 bytes]
 ## ▶ dispatched target map
-## ● completed target map [0.017 seconds]
-## ▶ ended pipeline [0.824 seconds]
+## ● completed target map [0.012 seconds, 187.39 kilobytes]
+## ▶ ended pipeline [0.905 seconds]
 \end{verbatim}
 
 \normalsize
@@ -3870,7 +3870,7 @@ Le flux est maintenant à jour et \texttt{tar\_make()} ne refait aucun calcul.
 ## ✔ skipped target X
 ## ✔ skipped target d
 ## ✔ skipped target map
-## ✔ skipped pipeline [0.045 seconds]
+## ✔ skipped pipeline [0.039 seconds]
 \end{verbatim}
 
 \normalsize
@@ -6900,14 +6900,14 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 
 \begin{verbatim}
 ## ▶ dispatched target NbPoints
-## ● completed target NbPoints [0.69 seconds]
+## ● completed target NbPoints [0.657 seconds, 53 bytes]
 ## ▶ dispatched target X
-## ● completed target X [0.001 seconds]
+## ● completed target X [0.001 seconds, 11.058 kilobytes]
 ## ▶ dispatched target d
-## ● completed target d [0.007 seconds]
+## ● completed target d [0.036 seconds, 55 bytes]
 ## ▶ dispatched target map
-## ● completed target map [0.012 seconds]
-## ▶ ended pipeline [0.812 seconds]
+## ● completed target map [0.012 seconds, 187.39 kilobytes]
+## ▶ ended pipeline [0.792 seconds]
 \end{verbatim}
 
 \normalsize
@@ -7656,7 +7656,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x11db86470>
+## <bytecode: 0x122b56b38>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7948,9 +7948,9 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 \begin{verbatim}
 ## Unit: nanoseconds
 ##                expr min  lq    mean median  uq    max neval
-##  triple.integer(2L)  82 123 6744.91    123 123 661617   100
-##   triple.numeric(2)  82 123 9256.16    123 123 912496   100
-##          triple(2L) 492 533  594.91    533 574   3649   100
+##  triple.integer(2L)  82 123 6556.31    123 123 642716   100
+##   triple.numeric(2) 123 123 8439.03    123 164 830127   100
+##          triple(2L) 492 533  571.95    533 574   2870   100
 \end{verbatim}
 
 \normalsize
@@ -8295,7 +8295,7 @@ Finalement, le code complet est le suivant:
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x11db86470>
+## <bytecode: 0x122b56b38>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -8333,7 +8333,7 @@ Finalement, le code complet est le suivant:
 ## {
 ##     UseMethod("autoplot")
 ## }
-## <bytecode: 0x12d3efcb0>
+## <bytecode: 0x140315c78>
 ## <environment: namespace:ggplot2>
 \end{verbatim}
 
@@ -9052,7 +9052,7 @@ La dernière étape de la tâche de production utilise l'action \texttt{upload-a
 
 \begin{verbatim}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: _book
           path: docs/
@@ -9071,9 +9071,11 @@ La publication de l'artefact dans la branche \texttt{gh-pages} du projet nécess
   deploy:
     runs-on: ubuntu-latest
     needs: renderbook
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           # Artifact name
           name: _book
@@ -9082,7 +9084,7 @@ La publication de l'artefact dans la branche \texttt{gh-pages} du projet nécess
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: ${{ secrets.EMAIL }}
           build_dir: docs
@@ -9099,7 +9101,7 @@ Ses étapes sont les suivantes:
 \item
   \emph{Download artifact}: Restauration du dossier \texttt{docs};
 \item
-  \emph{Deploy to GitHub Pages}: copie du dossier \texttt{docs} dans la branche \texttt{gh-pages}.
+  \emph{Deploy to GitHub Pages}: copie du dossier \texttt{docs} dans la branche \texttt{gh-pages} par un \emph{commit}.
 \end{itemize}
 
 Cette dernière étape utiliser l'action \texttt{GitHub-Pages-deploy} mise à disposition par l'organisation \emph{Cecilapp} .
@@ -9115,6 +9117,9 @@ Elle utilise une variable d'environnement, \texttt{GITHUB\_TOKEN}, pour s'authen
 \item
   \emph{jekyll:no} pour créer un fichier vide nommé \texttt{.nojekyll} qui indique aux pages GitHub de ne pas essayer de traiter leur contenu comme un site web Jekyll.
 \end{itemize}
+
+\texttt{GITHUB\_TOKEN} est un jeton d'authentification fourni par Github Actions pour l'exécution de ce script.
+Ses droits sont attribués dans le script par l'entrée \texttt{permission}: ici, le droit d'écrire du contenu dans le projet.
 
 \subsection{Données confidentielles dans un dépôt public}\label{sec:confidentielCI}
 
@@ -9193,23 +9198,25 @@ jobs:
           bookdown::render_book("index.Rmd", "bookdown::gitbook")
         shell: Rscript {0}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ghpages
           path: docs
   deploy:
     runs-on: ubuntu-latest
     needs: render
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ghpages
           path: docs
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: ${{ secrets.EMAIL }}
           build_dir: docs
@@ -9254,23 +9261,25 @@ jobs:
               rmarkdown::render(file, "all")' ${RMD_PATH[*]}
           Rscript -e 'memoiR::build_githubpages()'
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ghpages
           path: docs
   deploy:
     runs-on: ubuntu-latest
     needs: render
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ghpages
           path: docs
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           email: ${{ secrets.EMAIL }}
           build_dir: docs
@@ -9333,7 +9342,7 @@ L'étape \enquote{Upload artifact} est modifiée pour s'exécuter malgré l'éch
 \begin{verbatim}
       - name: Upload artifact
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: _book
           path: docs/
@@ -9394,16 +9403,18 @@ jobs:
           blogdown::build_site(local = TRUE, build_rmd = TRUE)
         shell: Rscript {0}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: _website
           path: public/
   deploy:
     runs-on: ubuntu-latest
     needs: buildsite
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           # Artifact name
           name: _website
@@ -9412,7 +9423,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: Cecilapp/GitHub-Pages-deploy@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           build_dir: public
           email: ${{ secrets.EMAIL }}
