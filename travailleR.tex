@@ -374,7 +374,7 @@
 
 \author{Eric Marcon}
 
-\date{14/10/2024}
+\date{31/10/2024}
 
 
 % Include headers (preamble.tex) here
@@ -1272,7 +1272,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x1206329a8>
+## <bytecode: 0x13b2ce6a8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1747,7 +1747,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x132818208>
+## <environment: 0x12c322358>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1818,7 +1818,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x132f8f388>
+## <bytecode: 0x13d105348>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -2003,7 +2003,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.000   0.007
+##   0.009   0.001   0.018
 \end{verbatim}
 
 \normalsize
@@ -2034,10 +2034,10 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq     max
-##  f1(X)   1.722   6.4165  11.28238   6.8470   7.8310 399.381
-##  f2(X)   4.182   8.0360  12.71697   8.5075   9.3480 395.814
-##  f3(X)  97.990 105.3495 113.44290 106.9280 108.9575 609.547
-##  f4(X) 131.938 138.2930 152.24653 140.6710 142.8850 713.769
+##  f1(X)   1.886   8.9585  27.12970  13.5915  19.9260 862.927
+##  f2(X)   4.633  11.8900  24.99729  15.5595  20.8895 863.911
+##  f3(X) 101.229 113.0985 126.77487 118.5515 125.1935 576.583
+##  f4(X) 135.710 147.1695 164.66092 154.6315 160.9250 825.781
 ##  neval
 ##    100
 ##    100
@@ -2065,10 +2065,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)   6.8470
-## 2 f2(X)   8.5075
-## 3 f3(X) 106.9280
-## 4 f4(X) 140.6710
+## 1 f1(X)  13.5915
+## 2 f2(X)  15.5595
+## 3 f3(X) 118.5515
+## 4 f4(X) 154.6315
 \end{verbatim}
 
 \normalsize
@@ -2098,10 +2098,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)   6.8470
-## 2 f2(X)   8.5075
-## 3 f3(X) 106.9280
-## 4 f4(X) 140.6710
+## 1 f1(X)  13.5915
+## 2 f2(X)  15.5595
+## 3 f3(X) 118.5515
+## 4 f4(X) 154.6315
 \end{verbatim}
 
 \normalsize
@@ -2225,7 +2225,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x133b50f60>
+## <bytecode: 0x13de8a418>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2276,11 +2276,11 @@ Elle est déclinée sous plusieurs versions:
 \end{Shaded}
 
 \begin{verbatim}
-##                                    expr   median
-## 1                              sqrt(x1)   1.7425
-## 2                lapply(x1, FUN = sqrt) 144.6890
-## 3                sapply(x1, FUN = sqrt) 177.2840
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 137.2885
+##                                    expr  median
+## 1                              sqrt(x1)   1.558
+## 2                lapply(x1, FUN = sqrt) 142.065
+## 3                sapply(x1, FUN = sqrt) 172.979
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 139.687
 \end{verbatim}
 
 \normalsize
@@ -2332,9 +2332,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr   median
-## 1  Boucle(x1) 350.3040
-## 2 Boucle2(x1)  42.2095
+##          expr  median
+## 1  Boucle(x1) 351.452
+## 2 Boucle2(x1)  41.533
 \end{verbatim}
 
 \begin{Shaded}
@@ -2366,8 +2366,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 132.8195
-## 2                Boucle(x1)  41.7790
+## 1 vapply(x1, FUN = sqrt, 0) 121.8725
+## 2                Boucle(x1)  38.7450
 \end{verbatim}
 
 \normalsize
@@ -2389,9 +2389,12 @@ Attention, le test de performance peut être trompeur:
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0) 134.5415
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 994.9265
+##                                               expr
+## 1                        vapply(x1, FUN = sqrt, 0)
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
+##      median
+## 1  135.4025
+## 2 1072.5600
 \end{verbatim}
 
 \normalsize
@@ -2456,9 +2459,9 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr   median
-## 1 replicate(1000, runif(1)) 839.7620
-## 2               runif(1000)   6.6625
+##                        expr  median
+## 1 replicate(1000, runif(1)) 684.126
+## 2               runif(1000)   5.904
 \end{verbatim}
 
 \normalsize
@@ -2494,9 +2497,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 1.548221
-## 2 apply(diamonds[-(2:4)], 2, sum) 3.549124
-## 3       colSums(diamonds[-(2:4)]) 1.235248
+## 1   BoucleSomme(diamonds[-(2:4)]) 1670.648
+## 2 apply(diamonds[-(2:4)], 2, sum) 3764.128
+## 3       colSums(diamonds[-(2:4)]) 1285.473
 \end{verbatim}
 
 \normalsize
@@ -2701,7 +2704,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.732
+##   0.004   0.001   0.656
 \end{verbatim}
 
 \begin{Shaded}
@@ -2713,12 +2716,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.018   0.290
+##   0.002   0.016   0.308
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.04} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.058} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2733,7 +2736,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.162
+##   0.000   0.000   2.086
 \end{verbatim}
 
 \begin{Shaded}
@@ -2745,7 +2748,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.015   1.134
+##   0.001   0.013   1.161
 \end{verbatim}
 
 \normalsize
@@ -2764,7 +2767,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.014   1.165
+##   0.001   0.016   1.082
 \end{verbatim}
 
 \begin{Shaded}
@@ -2775,7 +2778,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.013   2.283
+##   0.002   0.016   2.219
 \end{verbatim}
 
 \normalsize
@@ -2963,7 +2966,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.791
+##   0.003   0.000   0.709
 \end{verbatim}
 
 \begin{Shaded}
@@ -2978,7 +2981,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.016   0.419
+##   0.008   0.047   0.416
 \end{verbatim}
 
 \normalsize
@@ -3023,7 +3026,7 @@ Le package \textbf{future.apply} permet de paralléliser sans effort toutes les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.025   0.001   0.382
+##   0.021   0.001   0.318
 \end{verbatim}
 
 \normalsize
@@ -3044,7 +3047,7 @@ Les boucles foreach peuvent être parallélisées avec le package \textbf{doFutu
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.027   0.001   0.494
+##   0.035   0.001   0.460
 \end{verbatim}
 
 \normalsize
@@ -3136,7 +3139,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.331   0.008   2.342
+##   2.275   0.011   2.288
 \end{verbatim}
 
 \begin{Shaded}
@@ -3170,7 +3173,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.191   0.004   2.195
+##   2.246   0.007   2.254
 \end{verbatim}
 
 \begin{Shaded}
@@ -3212,7 +3215,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.168   0.004   2.172
+##   2.218   0.008   2.227
 \end{verbatim}
 
 \begin{Shaded}
@@ -3251,7 +3254,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.264   0.002   1.266
+##   1.245   0.002   1.248
 \end{verbatim}
 
 \begin{Shaded}
@@ -3292,7 +3295,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.392   0.236   0.982
+##   1.669   0.427   1.433
 \end{verbatim}
 
 \begin{Shaded}
@@ -3337,7 +3340,7 @@ Seule la boucle principale est parallélisée: l'imbrication de \texttt{future\_
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.047   0.007   0.937
+##   0.045   0.006   0.955
 \end{verbatim}
 
 \begin{Shaded}
@@ -3383,7 +3386,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.788   0.002   0.792
+##   0.879   0.004   0.884
 \end{verbatim}
 
 \begin{Shaded}
@@ -3429,7 +3432,7 @@ En revanche, les distances sont calculées deux fois.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.923   0.166   0.782
+##   1.874   0.137   0.731
 \end{verbatim}
 
 \begin{Shaded}
@@ -3470,7 +3473,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.754   0.004   0.758
+##   0.814   0.009   0.824
 \end{verbatim}
 
 \normalsize
@@ -3634,8 +3637,8 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 ## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min       lq     mean   median      uq      max neval
-##  298.931 305.6755 346.4447 311.6205 315.618 3043.594   100
+##      min      lq     mean   median       uq      max neval
+##  302.293 308.607 394.1515 312.8095 317.7295 6968.565   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3675,13 +3678,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.444   0.005   4.451
+##   4.747   0.008   4.758
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{1980} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{2210} secondes.
 
 \scriptsize
 
@@ -3694,7 +3697,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.267   0.001   0.424
+##   1.277   0.002   0.429
 \end{verbatim}
 
 \normalsize
@@ -3837,14 +3840,14 @@ Le flux est exécuté par \texttt{tar\_make()}.
 
 \begin{verbatim}
 ## ▶ dispatched target NbPoints
-## ● completed target NbPoints [0.77 seconds, 53 bytes]
+## ● completed target NbPoints [0.766 seconds, 53 bytes]
 ## ▶ dispatched target X
-## ● completed target X [0.003 seconds, 11.058 kilobytes]
+## ● completed target X [0.002 seconds, 11.058 kilobytes]
 ## ▶ dispatched target d
-## ● completed target d [0.033 seconds, 55 bytes]
+## ● completed target d [0.009 seconds, 55 bytes]
 ## ▶ dispatched target map
-## ● completed target map [0.012 seconds, 187.39 kilobytes]
-## ▶ ended pipeline [0.905 seconds]
+## ● completed target map [0.016 seconds, 187.39 kilobytes]
+## ▶ ended pipeline [0.896 seconds]
 \end{verbatim}
 
 \normalsize
@@ -3870,7 +3873,7 @@ Le flux est maintenant à jour et \texttt{tar\_make()} ne refait aucun calcul.
 ## ✔ skipped target X
 ## ✔ skipped target d
 ## ✔ skipped target map
-## ✔ skipped pipeline [0.039 seconds]
+## ✔ skipped pipeline [0.043 seconds]
 \end{verbatim}
 
 \normalsize
@@ -6900,14 +6903,14 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 
 \begin{verbatim}
 ## ▶ dispatched target NbPoints
-## ● completed target NbPoints [0.657 seconds, 53 bytes]
+## ● completed target NbPoints [0.68 seconds, 53 bytes]
 ## ▶ dispatched target X
 ## ● completed target X [0.001 seconds, 11.058 kilobytes]
 ## ▶ dispatched target d
-## ● completed target d [0.036 seconds, 55 bytes]
+## ● completed target d [0.032 seconds, 55 bytes]
 ## ▶ dispatched target map
-## ● completed target map [0.012 seconds, 187.39 kilobytes]
-## ▶ ended pipeline [0.792 seconds]
+## ● completed target map [0.013 seconds, 187.39 kilobytes]
+## ▶ ended pipeline [0.828 seconds]
 \end{verbatim}
 
 \normalsize
@@ -7656,7 +7659,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x122b56b38>
+## <bytecode: 0x12b49aef0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7947,10 +7950,14 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr min  lq    mean median  uq    max neval
-##  triple.integer(2L)  82 123 6556.31    123 123 642716   100
-##   triple.numeric(2) 123 123 8439.03    123 164 830127   100
-##          triple(2L) 492 533  571.95    533 574   2870   100
+##                expr min  lq     mean median  uq     max
+##  triple.integer(2L) 123 123  7366.47    164 164  721723
+##   triple.numeric(2) 123 123 10217.20    164 164 1007042
+##          triple(2L) 533 533   639.19    574 615    6109
+##  neval
+##    100
+##    100
+##    100
 \end{verbatim}
 
 \normalsize
@@ -8295,7 +8302,7 @@ Finalement, le code complet est le suivant:
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x122b56b38>
+## <bytecode: 0x12b49aef0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -8333,7 +8340,7 @@ Finalement, le code complet est le suivant:
 ## {
 ##     UseMethod("autoplot")
 ## }
-## <bytecode: 0x140315c78>
+## <bytecode: 0x13bd62ab0>
 ## <environment: namespace:ggplot2>
 \end{verbatim}
 
@@ -8839,7 +8846,15 @@ Pour que GitHub s'en charge, quelques réglages sont nécessaires.
 
 Pour écrire sur GitHub, le service d'intégration continue devra s'authentifier au moyen d'un jeton d'accès personnel (\emph{Personal Access Token}: PAT) dont la création est décrite en section \ref{sec:pat}.
 
-Générer un nouveau jeton, le décrire en tant que \enquote{GitHub Actions} et lui donner l'autorisation \enquote{repo}, c'est-à-dire modifier \emph{tous} les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
+Générer un nouveau jeton, le décrire en tant que \enquote{GitHub Actions} et lui donner les autorisations:
+
+\begin{itemize}
+\tightlist
+\item
+  \enquote{repo}, c'est-à-dire modifier \emph{tous} les dépôts (il n'est pas possible de limiter l'accès à un dépôt particulier).
+\item
+  \enquote{workflow}, c'est-à-dire exécuter lles scripts d'intégration continue.
+\end{itemize}
 
 \subsection{Secrets du projet}\label{sec:secrets-ci}
 

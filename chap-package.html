@@ -7,7 +7,7 @@
 <title>5 Package | Travailler avec R</title>
 <meta name="author" content="Eric Marcon">
 <meta name="description" content="Les packages de R permettent d’étendre les fonctionnalités du logiciel par du code fourni par la communauté des développeurs. Ils sont la clé du succès de R parce qu’ils permettent de diffuser...">
-<meta name="generator" content="bookdown 0.40 with bs4_book()">
+<meta name="generator" content="bookdown 0.41 with bs4_book()">
 <meta property="og:title" content="5 Package | Travailler avec R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ericmarcon.github.io/travailleR/chap-package.html">
@@ -587,7 +587,7 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 <code class="sourceCode R"><span><span class="va">plot</span></span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod("plot")
-## &lt;bytecode: 0x10aeee7c8&gt;
+## &lt;bytecode: 0x13605c448&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -754,14 +754,10 @@ Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu">triple.integer</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span>, <span class="fu">triple.numeric</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
 <span>    <span class="fu">triple</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr min  lq     mean median    uq     max
-##  triple.integer(2L) 123 123   161.54    164 164.0    1066
-##   triple.numeric(2) 123 123  7331.21    123 164.0  718197
-##          triple(2L) 492 533 10715.35    574 594.5 1012331
-##  neval
-##    100
-##    100
-##    100</code></pre>
+##                expr min  lq    mean median  uq    max neval
+##  triple.integer(2L) 123 123  139.81    123 123    615   100
+##   triple.numeric(2)  82 123 6500.14    123 123 637140   100
+##          triple(2L) 492 492 8804.75    533 533 826273   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -989,7 +985,7 @@ Il doit être importé :</li>
 <span><span class="fu">graphics</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span></span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod("plot")
-## &lt;bytecode: 0x10aeee7c8&gt;
+## &lt;bytecode: 0x13605c448&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <div class="sourceCode" id="cb432"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' autoplot</span></span>
@@ -1020,7 +1016,7 @@ Il doit être importé :</li>
 ## {
 ##     UseMethod("autoplot")
 ## }
-## &lt;bytecode: 0x11a4a3ab0&gt;
+## &lt;bytecode: 0x140190478&gt;
 ## &lt;environment: namespace:ggplot2&gt;</code></pre>
 <p></p>
 </div>
@@ -1412,7 +1408,7 @@ Dans le cas contraire, le package est archivé.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 14/10/2024.</p>
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 31/10/2024.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
