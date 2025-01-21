@@ -22,7 +22,10 @@ Le fichier de l'application nommé `app.R` contient deux fonctions: `ui()` qui d
 L'application peut être lancée en cliquant sur "Run App" dans la fenêtre du code.
 
 (ref:shiny-geiser) Application Shiny *Old Faithful Geyser Data*.
-```{r shiny-geiser, fig.cap="(ref:shiny-geiser)", echo=FALSE}
+```{r}
+#| label: shiny-geiser
+#| echo: false
+#| fig.cap: "(ref:shiny-geiser)"
 knitr::include_graphics('images/shiny-geiser.png')
 ```
 
@@ -65,7 +68,10 @@ L'application complète, avec des sorties graphiques en plus de sa version simpl
 [^703]: https://github.com/EricMarcon/bibliometrics
 
 Le début du code consiste à préparer l'exécution de l'application en chargeant les packages nécessaires:
-```{r shiny_pkg, eval=FALSE}
+
+```{r}
+#| label: shiny_pkg
+#| eval: false
 # Prepare the application ####
 
 # Load packages
@@ -76,7 +82,9 @@ library("tidyverse")
 Le code de l'application complète intègre une fonction pour installer les packages manquants, à n'exécuter que quand l'application est exécutée sur un poste de travail (sur un serveur, la gestion des packages n'est pas du ressort de l'application).
 
 L'interface utilisateur est la suivante:
-```{r UI, eval=FALSE, tidy=FALSE}
+```{r}
+#| label: UI
+#| eval: false
 # UI ####
 ui <- fluidPage(
   # Application title
@@ -114,41 +122,43 @@ Le panneau principal contient deux contrôles de sortie graphiques, `plotOutput(
 
 Le code à exécuter pour traiter les entrées et produire les sorties est dans la fonction `server()`.
 
-```{r server, eval=FALSE, tidy=FALSE}
+```{r}
+#| label: server
+#| eval: false
 # Server logic ####
 server <- function(input, output) {
   # Run the get_profile function only once ####
   # Store the author profile
   AuthorProfile <- reactiveVal()
   # Update it when input$AuthorID is changed
-  observeEvent(input$AuthorID, 
-               AuthorProfile(get_profile(input$AuthorID)))
+  observeEvent(
+    input$AuthorID, 
+    AuthorProfile(get_profile(input$AuthorID))
+  )
   
   # Output ####
   output$name <- renderUI({
     h2(AuthorProfile()$name)
   })
   
-  output$h <-
-    renderUI({
-      a(href = paste0(
-        "https://scholar.google.com/citations?user=", 
-        input$AuthorID),
-        paste("h index:", AuthorProfile()$h_index),
-        target = "_blank"
-      )
-    })
+  output$h <- renderUI({
+    a(href = paste0(
+      "https://scholar.google.com/citations?user=", 
+      input$AuthorID),
+      paste("h index:", AuthorProfile()$h_index),
+      target = "_blank"
+    )
+  })
   
   output$citations <- renderPlot({
     get_citation_history(input$AuthorID)  %>%
       ggplot(aes(year, cites)) +
-      geom_segment(aes(xend = year, yend = 0),
-                   size = 1,
-                   color =
-                     'darkgrey') +
-      geom_point(size = 3, color = 'firebrick') +
-      labs(title = "Citations per year",
-           caption = "Source: Google Scholar")
+      geom_segment(aes(xend = year, yend = 0), size = 1, color = 'darkgrey') +
+      geom_point(size = 3, color = "firebrick") +
+      labs(
+        title = "Citations per year",
+        caption = "Source: Google Scholar"
+      )
   })
   
   output$network <- renderPlot({
@@ -161,7 +171,9 @@ Les informations nécessaires aux champs de sortie `$name` et `$h` (nom de l'aut
 Cette fonction interroge la page web Google Scholar de l'auteur et extrait les valeurs du résultat: c'est une traitement lourd, qu'il vaut mieux n'exécuter qu'une seule fois plutôt que deux, dans les fonctions `renderUI()` chargées de calculer les valeurs de `output$h` et `output$name`.
 
 Le code le plus simple pour le faire serait le suivant:
-```{r AuthorProfile1, eval=FALSE, tidy=FALSE}
+```{r}
+#| label: AuthorProfile1
+#| eval: false
   # Run the get_profile function only once ####
   # Store the author profile
   AuthorProfile <- get_profile(input$AuthorID)
@@ -174,7 +186,10 @@ Si ce dernier code était exécuté, le message d'erreur suivant apparaît:
 En pratique, l'exécution du code est lancée par la modification d'un contrôle d'entrée (ici: `intput$AuthorID`).
 Le code faisant référence à un de ces contrôles doit être en permanence en attente d'une modification: il doit donc placé dans des fonctions particulières comme `renderPlot()` dans l'application  *Old Faithful Geyser Data* ou `renderUI()` ici.
 Le code suivant s'exécuterait sans erreur:
-```{r AuthorProfile2, eval=FALSE}
+
+```{r}
+#| label: AuthorProfile2
+#| eval: false
   # Output ####
   output$name <- renderUI({
     AuthorProfile <- get_profile(input$AuthorID)
@@ -194,7 +209,10 @@ Deux fonctions sont très utiles:
 * `reactiveVal()` permet de définir une variable réactive, qui sera modifiée par le code de `observeEvent()` et entraînera à son tour l'exécution d'autres fonctions réactives qui utilisent sa valeur.
 
 Le code optimal crée donc une variable réactive pour y stocker le résultat de l'interrogation de Google Scholar:
-```{r reactiveVal, eval=FALSE}
+
+```{r}
+#| label: reactiveVal
+#| eval: false
   # Store the author profile
   AuthorProfile <- reactiveVal()
 ```
@@ -203,13 +221,18 @@ La variable réactive est vide à ce stade.
 Son utilisation est ensuite celle d'une fonction: `AuthorProfile(x)` lui attribue la valeur `x` et `AuthorProfile()`, sans argument, renvoie sa valeur.
 La fonction `observeEvent()` est déclenchée quand `input$AuthorID` est modifié et exécute le code passé en deuxième argument, ici la mise à jour de `AuthorProfile`.
 
-```{r observeEvent, eval=FALSE}
+```{r}
+#| label: observeEvent
+#| eval: false
   # Update it when input$AuthorID is changed
   observeEvent(input$AuthorID, AuthorProfile(get_profile(input$AuthorID)))
 ```
 
 Enfin, les fonctions `renderUI()` qui fournissent les valeurs des contrôles de sortie utilisent la valeur de `AuthorProfile`:
-```{r renderUI, eval=FALSE}
+
+```{r}
+#| label: renderUI
+#| eval: false
   # Output ####
   output$name <- renderUI({
      h2(AuthorProfile()$name)
@@ -219,14 +242,18 @@ Enfin, les fonctions `renderUI()` qui fournissent les valeurs des contrôles de 
 Remarquer les parenthèses de `AuthorProfile()`, variable réactive, par opposition à la syntaxe `AuthorProfile$name` pour une variable classique.
 
 La valeur de `output$h` est un lien internet, `<a href=...` en HTML, écrit par la fonction `a()` du package **htmltools** utilisé par `renderUI()`.
-```{r htmltools, eval=FALSE}
-  output$h <-
-    renderUI({
-      a(href = paste0("https://scholar.google.com/citations?user=", input$AuthorID),
-        paste("h index:", AuthorProfile()$h_index),
-        target = "_blank"
-      )
-    })
+
+```{r}
+#| label: htmltools
+#| eval: false
+  output$h <- renderUI({
+    a(href = paste0(
+        "https://scholar.google.com/citations?user=", input$AuthorID
+      ),
+      paste("h index:", AuthorProfile()$h_index),
+      target = "_blank"
+    )
+  })
 ```
 
 Le lien est vers la page Google Scholar de l'auteur.
@@ -252,10 +279,15 @@ Shinyapps.io[^704] est un service de RStudio qui permet d'héberger gratuitement
 
 Il faut tout d'abord ouvrir un compte sur le site, de préférence avec ses identifiants GitHub.
 Pour permettre la gestion des applications en ligne directement depuis RStudio, il faut installer ensuite le package **rsconnect** et le paramétrer:
-```{r setAccountInfo, eval=FALSE}
-rsconnect::setAccountInfo(name='prenom.nom',
-			  token='xxx',
-			  secret='<SECRET>')
+
+```{r}
+#| label: setAccountInfo
+#| eval: false
+rsconnect::setAccountInfo(
+  name = 'prenom.nom',
+	token = 'xxx',
+	secret = '<SECRET>'
+)
 ```
 
 Le code exact, avec le nom d'utilisateur et le jeton à utiliser, sont affichés sur la page d'accueil de Shinyapps.io: cliquer sur "Show Secret", copier le code et le coller dans la console de RStudio pour l'exécuter.
@@ -263,7 +295,10 @@ Un bouton "Publish" est disponible juste à droite du bouton "Run App".
 Cliquer dessus et valider la publication (figure \@ref(fig:shiny-publish)).
 
 (ref:shiny-publish) Publication de l'application Shiny sur Shinyapps.io.
-```{r shiny-publish, fig.cap="(ref:shiny-publish)", echo=FALSE}
+```{r}
+#| label: shiny-publish
+#| echo: false
+#| fig.cap: "(ref:shiny-publish)"
 knitr::include_graphics('images/shiny-publish.png')
 ```
 

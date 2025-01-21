@@ -97,68 +97,122 @@ csquotes: true
 <!-- Commande nécessaire pour la copie de l'icône "Essentiel" en HTML--> 
 <img src="images/trombone.png" alt="image" hidden/>
 
-```{r DoNotModify, include=FALSE}
+
+```{r}
+#| label: DoNotModify
+#| include: false
 ### Utilities. Do not modify.
 # Installation of packages if necessary
-InstallPackages <- function(Packages) {
-  InstallPackage <- function(Package) {
-    if (!Package %in% installed.packages()[, 1]) {
-      install.packages(Package, repos="https://cran.rstudio.com/")
+install_packages <- function(packages) {
+  install_package <- function(package) {
+    if (!package %in% installed.packages()[, 1]) {
+      install.packages(package, repos = "https://cran.rstudio.com/")
     }
   }
-  invisible(sapply(Packages, InstallPackage))
+  invisible(sapply(packages, install_package))
 }
 
 # Basic packages
-InstallPackages(c("bookdown", "formatR", "kableExtra", "magick", "ragg"))
+install_packages(c("bookdown", "formatR", "kableExtra", "magick", "ragg"))
 
 # Chunk font size hook: allows size='small' or any valid Latex font size in chunk options
 def.chunk.hook  <- knitr::knit_hooks$get("chunk")
 knitr::knit_hooks$set(chunk = function(x, options) {
   x <- def.chunk.hook(x, options)
-  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+  ifelse(
+    options$size != "normalsize", 
+    paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), 
+    x
+  )
 })
+
+# Output hook for full-width figures
+defOut <- knitr::knit_hooks$get("plot")
+knitr::knit_hooks$set(
+  plot = function(x, options) {
+    # Apply the original hook
+    x <- defOut(x, options)
+    # Only full-width figures
+    if (options$out.width == "\\widthw") {
+      # Modify output of the original hook, see code on:
+      # https://github.com/yihui/knitr/blob/master/R/hooks-latex.R
+      # Modify align1 output with align=center. Original code:
+      # switch(a, left = '\n\n', center = '\n\n{\\centering ', right = '\n\n\\hfill{}', '\n')
+      # replace centering by a minipage
+      x  <- gsub(
+        "\\n\\n\\{\\\\centering",
+        "\\\\setbox0=\\\\hbox\\{\\\\begin\\{minipage\\}\\[h\\]\\{\\\\widthw\\}\\\\centering",
+        x
+      )
+      # Modify align2 output with align=center. Original code:
+      # switch(a, left = '\\hfill{}\n\n', '\n\n}\n\n', right = '\n\n', '')
+      # replace } by the necessary code to place the minipage
+      x  <- gsub(
+        "\\n\\n\\}\\n\\n",
+        "\\\\end\\{minipage\\}\\}\\\\needspace\\{\\\\ht0+\\\\dp0+2\\\\baselineskip\\}
+          \\\\definesHSpace\\\\hspace\\{-\\\\rf\\}\\\\box0",
+        x
+      )
+    }
+    return(x)
+  }
+)
 
 # Figures with side captions
 if (rmarkdown::metadata$largemargins)
-  knitr::opts_chunk$set(fig.env='SCfigure')
+  knitr::opts_chunk$set(fig.env = 'SCfigure')
 ```
 
-```{r Options, include=FALSE}
-### Customized options for this book
+```{r}
+#| label: Options
+#| include: false
+### Customized options for this document
 # Add necessary packages here
-Packages <- c("compiler", "dbmss", "doFuture", "doParallel", "entropart", "flextable", "foreach", "future", "future.apply", "gridExtra", "htmlwidgets", "magrittr", "methods", "microbenchmark", "parallel", "profvis", "pryr", "ragg", "R6", "Rcpp", "RcppParallel", "secret", "spatstat", "targets", "testthat", "tidyverse", "usethis", "visNetwork")
-# Install them if necessary
-InstallPackages(Packages)
+packages <- c(
+  "compiler", "dbmss", "doFuture", "doParallel", "entropart", "flextable",
+  "foreach", "future", "future.apply", "gridExtra", "htmlwidgets", "magrittr",
+  "methods", "microbenchmark", "parallel", "profvis", "pryr", "ragg", "R6",
+  "Rcpp", "RcppParallel", "secret", "spatstat", "targets", "testthat",
+  "tidyverse", "usethis", "visNetwork"
+)
+# Install them
+install_packages(packages)
+# Create packages.bib file to reference them as @R-package
+knitr::write_bib(packages, file = "packages.bib")
 
 # knitr options
 knitr::opts_chunk$set(
-  cache = FALSE,   # Cache chunk results
-  echo = TRUE,     # Show/Hide R chunks
-  warning = FALSE, # Show/Hide warnings
+  cache =   FALSE,    # Cache chunk results
+  include = TRUE,     # Show/Hide chunks
+  echo =    TRUE,     # Show/Hide code
+  warning = FALSE,    # Show/Hide warnings
+  message = FALSE,    # Show/Hide messages
   # Figure alignment and size
-  fig.align='center', out.width='80%', fig.asp=.75,
+  fig.align = 'center', out.width = '80%', fig.asp = .75,
   # Graphic devices (ragg_png is better than standard png)
   dev = c("ragg_png", "pdf"),
   # Code chunk format
-  tidy=TRUE, tidy.opts=list(blank=FALSE, width.cutoff=60),
-  size="scriptsize", knitr.graphics.auto_pdf = TRUE
+  tidy = FALSE, tidy.opts = list(blank = FALSE, width.cutoff = 60),
+  size = "scriptsize", knitr.graphics.auto_pdf = TRUE
   )
-options(width=60)
+options(width = 60)
 
 # ggplot style
 library("tidyverse")
 theme_set(theme_bw())
-theme_update(panel.background = element_rect(fill = "transparent", colour = NA),
-             plot.background = element_rect(fill = "transparent", colour = NA))
-knitr::opts_chunk$set(dev.args=list(bg="transparent"))
+theme_update(
+  panel.background = element_rect(fill = "transparent", colour = NA),
+  plot.background = element_rect(fill = "transparent", colour = NA)
+)
+knitr::opts_chunk$set(dev.args = list(bg = "transparent"))
 
 # Random seed
 set.seed(973)
 
 # Create packages.bib file to reference them as @R-package
-knitr::write_bib(Packages, file="packages.bib")
+knitr::write_bib(packages, file = "packages.bib")
 ```
+
 
 # Présentation {-}
 
