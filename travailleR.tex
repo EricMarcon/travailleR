@@ -374,7 +374,7 @@
 
 \author{Eric Marcon}
 
-\date{31/10/2024}
+\date{21/01/2025}
 
 
 % Include headers (preamble.tex) here
@@ -526,8 +526,10 @@ Le chemin des Rtools (avant la version 4.2) doit être déclaré à R, en exécu
 \begin{Highlighting}[]
 \CommentTok{\# Rtools : déclaration du chemin, }
 \CommentTok{\# nécessite de redémarrer RStudio}
-\FunctionTok{writeLines}\NormalTok{(}\StringTok{\textquotesingle{}PATH="$\{RTOOLS40\_HOME\}}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{usr}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{bin;$\{PATH\}"\textquotesingle{}}\NormalTok{,}
-           \AttributeTok{con =} \StringTok{"\textasciitilde{}/.Renviron"}\NormalTok{)}
+\FunctionTok{writeLines}\NormalTok{(}
+  \StringTok{\textquotesingle{}PATH="$\{RTOOLS40\_HOME\}}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{usr}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{bin;$\{PATH\}"\textquotesingle{}}\NormalTok{,}
+  \AttributeTok{con =} \StringTok{"\textasciitilde{}/.Renviron"}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -571,23 +573,8 @@ Les packages de R se trouvent dans deux dossiers:
 
 Jusqu'à la version 4.1, si le dossier personnel de l'utilisateur est sauvegardé (par exemple, s'il est répliqué dans le cloud par OneDrive sous Windows), il n'est pas optimal d'y placer les packages: le trafic généré par leur sauvegarde serait lourd et inutile.
 Pour que les packages soient installés automatiquement dans la bibliothèque système, il suffit que l'utilisateur y ait le droit d'écrire.
-Sous Windows, donner le droit \enquote{Modifier} au groupe des utilisateurs de l'ordinateur sur le dossier de la bibliothèque, en plus du droit de lecture par défaut \ref{fig:R-library}).
+Sous Windows, donner le droit \enquote{Modifier} au groupe des utilisateurs de l'ordinateur sur le dossier de la bibliothèque, en plus du droit de lecture par défaut.
 A partir de la version 4.2, il n'y a plus de raison de modifier le fonctionnement par défaut: les paramètres locaux ne sont pas sauvegardés.
-
-
-
-\scriptsize
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.8\linewidth]{images/R-library} 
-
-}
-
-\caption{Activation du droit de modifier la bibliothèque système sous Windows.}\label{fig:R-library}
-\end{figure}
-
-\normalsize
 
 Si la bibliothèque utilisateur est retenue, il faut penser à vider le dossier correspondant à l'ancienne version de R en cas changement de version mineure.
 
@@ -643,6 +630,10 @@ Le dossier de travail par défaut est le dossier personnel de l'utilisateur, app
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+## [1] ""
+\end{verbatim}
+
 \normalsize
 
 \begin{itemize}
@@ -665,10 +656,6 @@ Le dossier de travail en cours est obtenu par la commande \texttt{getwd()}.
 \FunctionTok{getwd}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## [1] "/Users/runner/work/travailleR/travailleR"
-\end{verbatim}
 
 \normalsize
 
@@ -738,7 +725,7 @@ A la demande de l'installation d'un package sous Windows, CRAN propose la versio
 
 }
 
-\caption{Activation du droit de modifier la bibliothèque système sous Windows.}\label{fig:R-BinaryPkg}
+\caption{Choix de la version des packages à installer.}\label{fig:R-BinaryPkg}
 \end{figure}
 
 \normalsize
@@ -816,48 +803,53 @@ Il contient une fonction qui vérifie si chaque package est déjà installé pou
 \CommentTok{\# Installation des packages de R \#\#\#\#}
 
 \CommentTok{\# Installer les packages si nécessaire \#\#\#\#}
-\NormalTok{InstallPackages }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(Packages) \{}
-  \FunctionTok{sapply}\NormalTok{(Packages, }\ControlFlowTok{function}\NormalTok{(Package) }
-    \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\NormalTok{Package }\SpecialCharTok{\%in\%} \FunctionTok{installed.packages}\NormalTok{()[, }\DecValTok{1}\NormalTok{]) }
-\NormalTok{      \{}\FunctionTok{install.packages}\NormalTok{(Package)\})}
+\NormalTok{install\_packages }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(packages) \{}
+\NormalTok{  install\_package }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(package) \{}
+    \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\NormalTok{package }\SpecialCharTok{\%in\%} \FunctionTok{installed.packages}\NormalTok{()[, }\DecValTok{1}\NormalTok{]) \{}
+      \FunctionTok{install.packages}\NormalTok{(package, }\AttributeTok{repos =} \StringTok{"https://cran.rstudio.com/"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \FunctionTok{invisible}\NormalTok{(}\FunctionTok{sapply}\NormalTok{(packages, install\_package))}
 \NormalTok{\}}
 
-
 \CommentTok{\# Outils de développement \#\#\#\#}
-\FunctionTok{InstallPackages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}
-  \CommentTok{\# Outils de développement. Importe remotes, etc.}
-  \StringTok{"devtools"}\NormalTok{,}
-  \CommentTok{\# Exécution de Check par RStudio}
-  \StringTok{"rcmdcheck"}\NormalTok{,}
-  \CommentTok{\# Formatage du code R (utilisé par knitr)}
-  \StringTok{"formatR"}\NormalTok{,}
-  \CommentTok{\# Documentation des packages dans /docs sur GitHub}
-  \StringTok{"pkgdown"}\NormalTok{,}
-  \CommentTok{\# Bibliographie avec roxygen}
-  \StringTok{"Rdpack"}\NormalTok{,}
-  \CommentTok{\# Mesure des performances}
-  \StringTok{"rbenchmark"}\NormalTok{,}
-  \CommentTok{\# Documentation automatique des packages}
-  \StringTok{"roxygen2"}\NormalTok{,}
-  \CommentTok{\# Tests des packages}
-  \StringTok{"testthat"}
-\NormalTok{  ))}
+\FunctionTok{install\_packages}\NormalTok{(}
+  \FunctionTok{c}\NormalTok{(}
+    \CommentTok{\# Development tools. Import remotes, etc.}
+    \StringTok{"devtools"}\NormalTok{,}
+    \CommentTok{\# Run Check by RStudio}
+    \StringTok{"rcmdcheck"}\NormalTok{,}
+    \CommentTok{\# Formatting R code (used by knitr)}
+    \StringTok{"formatR"}\NormalTok{,}
+    \CommentTok{\# Documentation of packages in /docs on GitHub}
+    \StringTok{"pkgdown"}\NormalTok{,}
+    \CommentTok{\# Bibliography with roxygen}
+    \StringTok{"Rdpack"}\NormalTok{,}
+    \CommentTok{\# Performance measurement}
+    \StringTok{"rbenchmark"}\NormalTok{,}
+    \CommentTok{\# Automatic package documentation}
+    \StringTok{"roxygen2"}\NormalTok{,}
+    \CommentTok{\# Package testing}
+    \StringTok{"testthat"}
+\NormalTok{  )}
+\NormalTok{)}
 
 \CommentTok{\# Markdown \#\#\#\#}
-\FunctionTok{InstallPackages}\NormalTok{(}\FunctionTok{c}\NormalTok{(}
-  \CommentTok{\# Tricot}
-  \StringTok{"knitr"}\NormalTok{,}
-  \CommentTok{\# Documents markdown complexes}
-  \StringTok{"bookdown"}\NormalTok{,}
-  \CommentTok{\# Sites web}
-  \StringTok{"blogdown"}\NormalTok{,}
-  \CommentTok{\# Modèles de documents}
-  \StringTok{"memoiR"}
-\NormalTok{  ))}
-
+\FunctionTok{install\_packages}\NormalTok{(}
+  \FunctionTok{c}\NormalTok{(}
+    \CommentTok{\# Knit}
+    \StringTok{"knitr"}\NormalTok{,}
+    \CommentTok{\# Complex markdown documents}
+    \StringTok{"bookdown"}\NormalTok{,}
+    \CommentTok{\# Websites}
+    \StringTok{"blogdown"}\NormalTok{,}
+    \CommentTok{\# Document templates}
+    \StringTok{"memoiR"}
+\NormalTok{  )}
+\NormalTok{)}
 
 \CommentTok{\# Tidyverse \#\#\#\#}
-\FunctionTok{InstallPackages}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
+\FunctionTok{install\_packages}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1227,7 +1219,7 @@ Contrairement au fonctionnement d'un langage orienté objet classique\footnote{\
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{print.Prenom }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{cat}\NormalTok{(}\StringTok{"Le prénom est"}\NormalTok{, x)}
+\NormalTok{print.Prenom }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{cat}\NormalTok{(}\StringTok{"Le prénom est"}\NormalTok{, x) }
 \CommentTok{\# Affichage modifié}
 \NormalTok{MonPrenom}
 \end{Highlighting}
@@ -1272,7 +1264,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x13b2ce6a8>
+## <bytecode: 0x131ee2a38>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1359,8 +1351,7 @@ Le générique cherche une méthode pour chaque classe, dans l'ordre de leur dé
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{print.PrenomFrancais }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{cat}\NormalTok{(}\StringTok{"Prénom français:"}\NormalTok{,}
-\NormalTok{    x)}
+\NormalTok{print.PrenomFrancais }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{cat}\NormalTok{(}\StringTok{"Prénom français:"}\NormalTok{, x) }
 \NormalTok{MonPrenom}
 \end{Highlighting}
 \end{Shaded}
@@ -1380,7 +1371,7 @@ Les génériques sont partout mais passent inaperçus, par exemple dans des pack
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(}\StringTok{"entropart"}\NormalTok{)}
-\FunctionTok{.S3methods}\NormalTok{(}\AttributeTok{class =} \StringTok{"SpeciesDistribution"}\NormalTok{)}
+\FunctionTok{.S3methods}\NormalTok{(}\AttributeTok{class=}\StringTok{"SpeciesDistribution"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1417,8 +1408,10 @@ En reprenant l'exemple précédent, la syntaxe S4 est la suivante:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Définition de la classe Personne, avec ses slots}
-\FunctionTok{setClass}\NormalTok{(}\StringTok{"Personne"}\NormalTok{,  }
-         \AttributeTok{slots =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Nom =} \StringTok{"character"}\NormalTok{, }\AttributeTok{Prenom =} \StringTok{"character"}\NormalTok{))}
+\FunctionTok{setClass}\NormalTok{(}
+  \StringTok{"Personne"}\NormalTok{,  }
+  \AttributeTok{slots =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Nom =} \StringTok{"character"}\NormalTok{, }\AttributeTok{Prenom =} \StringTok{"character"}\NormalTok{)}
+\NormalTok{)}
 \CommentTok{\# Construction d\textquotesingle{}une instance}
 \NormalTok{Moi }\OtherTok{\textless{}{-}} \FunctionTok{new}\NormalTok{(}\StringTok{"Personne"}\NormalTok{, }\AttributeTok{Nom =} \StringTok{"Marcon"}\NormalTok{, }\AttributeTok{Prenom =} \StringTok{"Eric"}\NormalTok{)}
 \CommentTok{\# Langage}
@@ -1439,9 +1432,12 @@ Elles sont déclarées par la fonction \texttt{setMethod()}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{setMethod}\NormalTok{(}\StringTok{"print"}\NormalTok{, }\AttributeTok{signature =} \StringTok{"Personne"}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x, ...) \{}
-    \FunctionTok{cat}\NormalTok{(}\StringTok{"La personne est:"}\NormalTok{, x}\SpecialCharTok{@}\NormalTok{Prenom, x}\SpecialCharTok{@}\NormalTok{Nom)}
-\NormalTok{\})}
+\FunctionTok{setMethod}\NormalTok{(}\StringTok{"print"}\NormalTok{,}
+  \AttributeTok{signature=}\StringTok{"Personne"}\NormalTok{,}
+  \ControlFlowTok{function}\NormalTok{(x, ...) \{}
+    \FunctionTok{cat}\NormalTok{(}\StringTok{"La personne est:"}\NormalTok{, x}\SpecialCharTok{@}\NormalTok{Prenom, x}\SpecialCharTok{@}\NormalTok{Nom) }
+\NormalTok{  \}}
+\NormalTok{)}
 \FunctionTok{print}\NormalTok{(Moi)}
 \end{Highlighting}
 \end{Shaded}
@@ -1473,7 +1469,7 @@ Les méthodes appartiennent aux classes, comme en C++: elles sont déclarées da
     \AttributeTok{fields =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Nom =} \StringTok{"character"}\NormalTok{, }\AttributeTok{Prenom =} \StringTok{"character"}\NormalTok{),}
     \AttributeTok{methods =} \FunctionTok{list}\NormalTok{(}\AttributeTok{print =} \ControlFlowTok{function}\NormalTok{() }\FunctionTok{cat}\NormalTok{(Prenom, Nom)))}
 \CommentTok{\# Constructeur}
-\NormalTok{MoiRC }\OtherTok{\textless{}{-}} \FunctionTok{new}\NormalTok{(}\StringTok{"PersonneRC"}\NormalTok{, }\AttributeTok{Nom =} \StringTok{"Marcon"}\NormalTok{, }\AttributeTok{Prenom =}\StringTok{"Eric"}\NormalTok{)}
+\NormalTok{MoiRC }\OtherTok{\textless{}{-}} \FunctionTok{new}\NormalTok{(}\StringTok{"PersonneRC"}\NormalTok{, }\AttributeTok{Nom =} \StringTok{"Marcon"}\NormalTok{, }\AttributeTok{Prenom =} \StringTok{"Eric"}\NormalTok{)}
 \CommentTok{\# Langage}
 \NormalTok{pryr}\SpecialCharTok{::}\FunctionTok{otype}\NormalTok{(MoiRC)}
 \end{Highlighting}
@@ -1510,11 +1506,18 @@ Une méthode \texttt{initialize()} est utilisée comme constructeur.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(}\StringTok{"R6"}\NormalTok{)}
-\NormalTok{PersonneR6 }\OtherTok{\textless{}{-}} \FunctionTok{R6Class}\NormalTok{(}\StringTok{"PersonneR6"}\NormalTok{, }\AttributeTok{public =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Nom =} \StringTok{"character"}\NormalTok{,}
-    \AttributeTok{Prenom =} \StringTok{"character"}\NormalTok{, }\AttributeTok{initialize =} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{Nom =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{Prenom =} \ConstantTok{NA}\NormalTok{) \{}
-\NormalTok{        self}\SpecialCharTok{$}\NormalTok{Nom }\OtherTok{\textless{}{-}}\NormalTok{ Nom}
-\NormalTok{        self}\SpecialCharTok{$}\NormalTok{Prenom }\OtherTok{\textless{}{-}}\NormalTok{ Prenom}
-\NormalTok{    \}, }\AttributeTok{print =} \ControlFlowTok{function}\NormalTok{() }\FunctionTok{cat}\NormalTok{(self}\SpecialCharTok{$}\NormalTok{Prenom, self}\SpecialCharTok{$}\NormalTok{Nom)))}
+\NormalTok{PersonneR6 }\OtherTok{\textless{}{-}} \FunctionTok{R6Class}\NormalTok{(}
+  \StringTok{"PersonneR6"}\NormalTok{, }
+  \AttributeTok{public =} \FunctionTok{list}\NormalTok{(}
+    \AttributeTok{Nom =} \StringTok{"character"}\NormalTok{, }
+    \AttributeTok{Prenom =} \StringTok{"character"}\NormalTok{,}
+    \AttributeTok{initialize =} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{Nom =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{Prenom =} \ConstantTok{NA}\NormalTok{) \{}
+\NormalTok{      self}\SpecialCharTok{$}\NormalTok{Nom }\OtherTok{\textless{}{-}}\NormalTok{ Nom}
+\NormalTok{      self}\SpecialCharTok{$}\NormalTok{Prenom }\OtherTok{\textless{}{-}}\NormalTok{ Prenom}
+\NormalTok{    \},}
+    \AttributeTok{print =} \ControlFlowTok{function}\NormalTok{() }\FunctionTok{cat}\NormalTok{(self}\SpecialCharTok{$}\NormalTok{Prenom, self}\SpecialCharTok{$}\NormalTok{Nom)}
+\NormalTok{  )}
+\NormalTok{)}
 \NormalTok{MoiR6 }\OtherTok{\textless{}{-}}\NormalTok{ PersonneR6}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\AttributeTok{Nom =} \StringTok{"Marcon"}\NormalTok{, }\AttributeTok{Prenom =} \StringTok{"Eric"}\NormalTok{)}
 \NormalTok{MoiR6}\SpecialCharTok{$}\FunctionTok{print}\NormalTok{()}
 \end{Highlighting}
@@ -1571,8 +1574,8 @@ En programmation standard, l'enchaînement des fonctions s'écrit par emboîteme
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Logarithme de base 2 de la moyenne de 100 tirages}
-\CommentTok{\# aléatoires dans une loi uniforme}
+\CommentTok{\# Logarithme de base 2 de la moyenne de 100 tirages aléatoires }
+\CommentTok{\# dans une loi uniforme}
 \FunctionTok{log}\NormalTok{(}\FunctionTok{mean}\NormalTok{(}\FunctionTok{runif}\NormalTok{(}\DecValTok{100}\NormalTok{)), }\AttributeTok{base =} \DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1594,7 +1597,7 @@ Dans le tidyverse, les fonctions s'enchaînent, ce qui correspond souvent mieux 
   \CommentTok{\# Moyenne}
 \NormalTok{  mean }\SpecialCharTok{\%\textgreater{}\%} 
   \CommentTok{\# Logarithme}
-  \FunctionTok{log}\NormalTok{(}\AttributeTok{base=}\DecValTok{2}\NormalTok{)}
+  \FunctionTok{log}\NormalTok{(}\AttributeTok{base =} \DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1747,7 +1750,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x12c322358>
+## <environment: 0x1424f14a0>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1778,8 +1781,8 @@ Exemple:
 \NormalTok{q }\OtherTok{\textless{}{-}} \StringTok{"GlobalEnv"}
 \CommentTok{\# Fonction définissant q dans son environnement}
 \NormalTok{qLocalFonction }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{}
-\NormalTok{    q }\OtherTok{\textless{}{-}} \StringTok{"Fonction"}
-    \FunctionTok{return}\NormalTok{(q)}
+\NormalTok{  q }\OtherTok{\textless{}{-}} \StringTok{"Fonction"}
+  \FunctionTok{return}\NormalTok{(q)}
 \NormalTok{\}}
 \CommentTok{\# La variable locale est retournée}
 \FunctionTok{qLocalFonction}\NormalTok{()}
@@ -1792,10 +1795,9 @@ Exemple:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Fonction (mal écrite) utilisant une variable qu\textquotesingle{}elle ne}
-\CommentTok{\# définit pas}
+\CommentTok{\# Fonction (mal écrite) utilisant une variable qu\textquotesingle{}elle ne définit pas}
 \NormalTok{qGlobalEnv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{}
-    \FunctionTok{return}\NormalTok{(q)}
+   \FunctionTok{return}\NormalTok{(q)}
 \NormalTok{\}}
 \CommentTok{\# La variable de l\textquotesingle{}environnement global est retournée}
 \FunctionTok{qGlobalEnv}\NormalTok{()}
@@ -1818,7 +1820,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x13d105348>
+## <bytecode: 0x142ac0dd8>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1890,8 +1892,7 @@ Exemple:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Diversity(), une fonction exportée par entropart est}
-\CommentTok{\# trouvée}
+\CommentTok{\# Diversity(), une fonction exportée par entropart est trouvée}
 \FunctionTok{Diversity}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{CheckArguments =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1995,15 +1996,14 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Ecart absolu moyen de 1000 valeurs dans une loi uniforme,}
-\CommentTok{\# répété 100 fois}
+\CommentTok{\# Ecart absolu moyen de 1000 valeurs dans une loi uniforme, répété 100 fois}
 \FunctionTok{system.time}\NormalTok{(}\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{) }\FunctionTok{mad}\NormalTok{(}\FunctionTok{runif}\NormalTok{(}\DecValTok{1000}\NormalTok{)))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.009   0.001   0.018
+##   0.007   0.000   0.007
 \end{verbatim}
 
 \normalsize
@@ -2018,8 +2018,7 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Fonctions à tester}
-\NormalTok{f1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) x }\SpecialCharTok{*}\NormalTok{ x}
+\NormalTok{f1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) x}\SpecialCharTok{*}\NormalTok{x}
 \NormalTok{f2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) x}\SpecialCharTok{\^{}}\DecValTok{2}
 \NormalTok{f3 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) x}\SpecialCharTok{\^{}}\FloatTok{2.1}
 \NormalTok{f4 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) x}\SpecialCharTok{\^{}}\DecValTok{3}
@@ -2033,11 +2032,11 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 
 \begin{verbatim}
 ## Unit: microseconds
-##   expr     min       lq      mean   median       uq     max
-##  f1(X)   1.886   8.9585  27.12970  13.5915  19.9260 862.927
-##  f2(X)   4.633  11.8900  24.99729  15.5595  20.8895 863.911
-##  f3(X) 101.229 113.0985 126.77487 118.5515 125.1935 576.583
-##  f4(X) 135.710 147.1695 164.66092 154.6315 160.9250 825.781
+##   expr     min      lq      mean   median       uq     max
+##  f1(X)   1.927   6.437  12.52673   8.5895  10.5985 383.063
+##  f2(X)   4.223   8.323  14.66734  10.8855  13.4275 362.932
+##  f3(X)  95.981  99.097 107.80130 102.3770 107.3585 489.909
+##  f4(X) 125.870 131.200 140.74480 134.1315 136.7965 710.776
 ##  neval
 ##    100
 ##    100
@@ -2065,10 +2064,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  13.5915
-## 2 f2(X)  15.5595
-## 3 f3(X) 118.5515
-## 4 f4(X) 154.6315
+## 1 f1(X)   8.5895
+## 2 f2(X)  10.8855
+## 3 f3(X) 102.3770
+## 4 f4(X) 134.1315
 \end{verbatim}
 
 \normalsize
@@ -2098,10 +2097,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)  13.5915
-## 2 f2(X)  15.5595
-## 3 f3(X) 118.5515
-## 4 f4(X) 154.6315
+## 1 f1(X)   8.5895
+## 2 f2(X)  10.8855
+## 3 f3(X) 102.3770
+## 4 f4(X) 134.1315
 \end{verbatim}
 
 \normalsize
@@ -2146,11 +2145,11 @@ L'objectif est de détecter les portions de code lentes, à améliorer.
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(profvis)}
 \NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{profvis}\NormalTok{(\{}
-    \CommentTok{\# Calculs de cosinus}
-    \FunctionTok{cos}\NormalTok{(}\FunctionTok{runif}\NormalTok{(}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{7}\NormalTok{))}
-    \CommentTok{\# 1/2 seconde de pause}
-    \FunctionTok{pause}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
-\NormalTok{\})}
+  \CommentTok{\# Calculs de cosinus }
+  \FunctionTok{cos}\NormalTok{(}\FunctionTok{runif}\NormalTok{(}\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{7}\NormalTok{))}
+  \CommentTok{\# 1/2 seconde de pause}
+  \FunctionTok{pause}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{2}\NormalTok{)}
+\NormalTok{  \})}
 \NormalTok{htmlwidgets}\SpecialCharTok{::}\FunctionTok{saveWidget}\NormalTok{(p, }\StringTok{"docs/profile.html"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2175,8 +2174,7 @@ Il faut donc raisonner en termes de vecteurs plutôt que de scalaires.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Tirage de deux vecteurs de trois nombres aléatoires entre}
-\CommentTok{\# 0 et 1}
+\CommentTok{\# Tirage de deux vecteurs de trois nombres aléatoires entre 0 et 1}
 \NormalTok{x1 }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{3}\NormalTok{)}
 \NormalTok{x2 }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{3}\NormalTok{)}
 \CommentTok{\# Racine carrée des trois nombres de x1}
@@ -2225,7 +2223,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x13de8a418>
+## <bytecode: 0x1434e33c0>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2257,8 +2255,7 @@ Elle est déclinée sous plusieurs versions:
 \begin{Highlighting}[]
 \CommentTok{\# Tirage de 1000 valeurs dans une loi uniforme}
 \NormalTok{x1 }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{1000}\NormalTok{)}
-\CommentTok{\# La racine carrée peut être calculée pour le vecteur ou}
-\CommentTok{\# chaque valeur}
+\CommentTok{\# La racine carrée peut être calculée pour le vecteur ou chaque valeur }
 \FunctionTok{identical}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(x1), }\FunctionTok{sapply}\NormalTok{(x1, }\AttributeTok{FUN =}\NormalTok{ sqrt))}
 \end{Highlighting}
 \end{Shaded}
@@ -2269,18 +2266,22 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(x1), }\FunctionTok{lapply}\NormalTok{(x1, }\AttributeTok{FUN =}\NormalTok{ sqrt), }\FunctionTok{sapply}\NormalTok{(x1,}
-    \AttributeTok{FUN =}\NormalTok{ sqrt), }\FunctionTok{vapply}\NormalTok{(x1, }\AttributeTok{FUN =}\NormalTok{ sqrt, }\AttributeTok{FUN.VALUE =} \DecValTok{0}\NormalTok{))}
+\NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(}
+  \FunctionTok{sqrt}\NormalTok{(x1), }
+  \FunctionTok{lapply}\NormalTok{(x1, }\AttributeTok{FUN =}\NormalTok{ sqrt), }
+  \FunctionTok{sapply}\NormalTok{(x1, }\AttributeTok{FUN =}\NormalTok{ sqrt), }
+  \FunctionTok{vapply}\NormalTok{(x1, }\AttributeTok{FUN =}\NormalTok{ sqrt, }\AttributeTok{FUN.VALUE =} \DecValTok{0}\NormalTok{)}
+\NormalTok{)}
 \FunctionTok{summary}\NormalTok{(mb)[, }\FunctionTok{c}\NormalTok{(}\StringTok{"expr"}\NormalTok{, }\StringTok{"median"}\NormalTok{)]}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##                                    expr  median
-## 1                              sqrt(x1)   1.558
-## 2                lapply(x1, FUN = sqrt) 142.065
-## 3                sapply(x1, FUN = sqrt) 172.979
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 139.687
+##                                    expr   median
+## 1                              sqrt(x1)   1.3940
+## 2                lapply(x1, FUN = sqrt) 126.7720
+## 3                sapply(x1, FUN = sqrt) 150.6955
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 124.4965
 \end{verbatim}
 
 \normalsize
@@ -2317,11 +2318,11 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \begin{Highlighting}[]
 \CommentTok{\# Boucle pour calculer la racine carrée d\textquotesingle{}un vecteur}
 \NormalTok{Boucle }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
-    \CommentTok{\# Initialisation du vecteur de résultat, indispensable}
-\NormalTok{    Racine }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{, }\AttributeTok{length =} \FunctionTok{length}\NormalTok{(x))}
-    \CommentTok{\# Boucle}
-    \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(x)) Racine[i] }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(x[i])}
-    \FunctionTok{return}\NormalTok{(Racine)}
+  \CommentTok{\# Initialisation du vecteur de résultat, indispensable}
+\NormalTok{  Racine }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{, }\AttributeTok{length =} \FunctionTok{length}\NormalTok{(x))}
+  \CommentTok{\# Boucle}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(x)) Racine[i] }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(x[i])}
+  \FunctionTok{return}\NormalTok{(Racine)}
 \NormalTok{\}}
 \CommentTok{\# Version compilée}
 \NormalTok{Boucle2 }\OtherTok{\textless{}{-}} \FunctionTok{cmpfun}\NormalTok{(Boucle)}
@@ -2332,9 +2333,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr  median
-## 1  Boucle(x1) 351.452
-## 2 Boucle2(x1)  41.533
+##          expr   median
+## 1  Boucle(x1) 340.7715
+## 2 Boucle2(x1)  39.2985
 \end{verbatim}
 
 \begin{Shaded}
@@ -2350,7 +2351,7 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 
 \normalsize
 
-Le gain est considérable: de 1 à \texttt{8}.
+Le gain est considérable: de 1 à \texttt{9}.
 
 Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
@@ -2366,8 +2367,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 121.8725
-## 2                Boucle(x1)  38.7450
+## 1 vapply(x1, FUN = sqrt, 0) 134.6645
+## 2                Boucle(x1)  42.5990
 \end{verbatim}
 
 \normalsize
@@ -2381,20 +2382,18 @@ Attention, le test de performance peut être trompeur:
 \CommentTok{\# Préparation du vecteur de résultat}
 \NormalTok{Racine }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"numeric"}\NormalTok{, }\AttributeTok{length =} \FunctionTok{length}\NormalTok{(x1))}
 \CommentTok{\# Test}
-\NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(}\FunctionTok{vapply}\NormalTok{(x1, }\AttributeTok{FUN =}\NormalTok{ sqrt, }\DecValTok{0}\NormalTok{), }
-                     \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(x1)) }
-\NormalTok{                       Racine[i] }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(x1[i]))}
+\NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(}
+  \FunctionTok{vapply}\NormalTok{(x1, }\AttributeTok{FUN =}\NormalTok{ sqrt, }\DecValTok{0}\NormalTok{), }
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(x1)) Racine[i] }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(x1[i])}
+\NormalTok{)}
 \FunctionTok{summary}\NormalTok{(mb)[, }\FunctionTok{c}\NormalTok{(}\StringTok{"expr"}\NormalTok{, }\StringTok{"median"}\NormalTok{)]}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##                                               expr
-## 1                        vapply(x1, FUN = sqrt, 0)
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i])
-##      median
-## 1  135.4025
-## 2 1072.5600
+##                                               expr   median
+## 1                        vapply(x1, FUN = sqrt, 0)  140.999
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 1175.450
 \end{verbatim}
 
 \normalsize
@@ -2409,15 +2408,15 @@ La fonction suivante exécute des pauses d'un dixième de seconde pendant le tem
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{BoucleSuivie }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(}\AttributeTok{duree =} \DecValTok{1}\NormalTok{) \{}
-    \CommentTok{\# Barre de progression}
-\NormalTok{    pgb }\OtherTok{\textless{}{-}} \FunctionTok{txtProgressBar}\NormalTok{(}\AttributeTok{min =} \DecValTok{0}\NormalTok{, }\AttributeTok{max =}\NormalTok{ duree }\SpecialCharTok{*} \DecValTok{10}\NormalTok{)}
-    \CommentTok{\# Boucle}
-    \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(duree }\SpecialCharTok{*} \DecValTok{10}\NormalTok{)) \{}
-        \CommentTok{\# Pause d\textquotesingle{}un dixième de seconde}
-        \FunctionTok{Sys.sleep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{10}\NormalTok{)}
-        \CommentTok{\# Suivi de la progression}
-        \FunctionTok{setTxtProgressBar}\NormalTok{(pgb, i)}
-\NormalTok{    \}}
+  \CommentTok{\# Barre de progression}
+\NormalTok{  pgb }\OtherTok{\textless{}{-}} \FunctionTok{txtProgressBar}\NormalTok{(}\AttributeTok{min =} \DecValTok{0}\NormalTok{, }\AttributeTok{max =}\NormalTok{ duree }\SpecialCharTok{*} \DecValTok{10}\NormalTok{)}
+  \CommentTok{\# Boucle}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(duree }\SpecialCharTok{*} \DecValTok{10}\NormalTok{)) \{}
+    \CommentTok{\# Pause d\textquotesingle{}un dixième de seconde}
+    \FunctionTok{Sys.sleep}\NormalTok{(}\DecValTok{1} \SpecialCharTok{/} \DecValTok{10}\NormalTok{)}
+    \CommentTok{\# Suivi de la progression}
+    \FunctionTok{setTxtProgressBar}\NormalTok{(pgb, i)}
+\NormalTok{  \}}
 \NormalTok{\}}
 \FunctionTok{BoucleSuivie}\NormalTok{()}
 \end{Highlighting}
@@ -2453,15 +2452,15 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(}\FunctionTok{replicate}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)), }\FunctionTok{runif}\NormalTok{(}\DecValTok{1000}\NormalTok{))}
+\NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(}\FunctionTok{replicate}\NormalTok{(}\FloatTok{1E3}\NormalTok{, }\FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)), }\FunctionTok{runif}\NormalTok{(}\FloatTok{1E3}\NormalTok{))}
 \FunctionTok{summary}\NormalTok{(mb)[, }\FunctionTok{c}\NormalTok{(}\StringTok{"expr"}\NormalTok{, }\StringTok{"median"}\NormalTok{)]}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr  median
-## 1 replicate(1000, runif(1)) 684.126
-## 2               runif(1000)   5.904
+##                        expr   median
+## 1 replicate(1000, runif(1)) 687.0575
+## 2               runif(1000)   6.0680
 \end{verbatim}
 
 \normalsize
@@ -2488,18 +2487,20 @@ Ecrire plutôt les boucles.
   \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(Table)) Somme[i] }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(Table[, i])}
   \FunctionTok{return}\NormalTok{(Somme)}
 \NormalTok{\}}
-\NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(}\FunctionTok{BoucleSomme}\NormalTok{(diamonds[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\DecValTok{4}\NormalTok{)]), }
-                     \FunctionTok{apply}\NormalTok{(diamonds[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\DecValTok{4}\NormalTok{)], }\DecValTok{2}\NormalTok{, sum), }
-                     \FunctionTok{colSums}\NormalTok{(diamonds[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\DecValTok{4}\NormalTok{)]))}
+\NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(}
+  \FunctionTok{BoucleSomme}\NormalTok{(diamonds[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\DecValTok{4}\NormalTok{)]), }
+  \FunctionTok{apply}\NormalTok{(diamonds[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\DecValTok{4}\NormalTok{)], }\DecValTok{2}\NormalTok{, sum), }
+  \FunctionTok{colSums}\NormalTok{(diamonds[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\DecValTok{4}\NormalTok{)])}
+\NormalTok{)}
 \FunctionTok{summary}\NormalTok{(mb)[, }\FunctionTok{c}\NormalTok{(}\StringTok{"expr"}\NormalTok{, }\StringTok{"median"}\NormalTok{)]}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 1670.648
-## 2 apply(diamonds[-(2:4)], 2, sum) 3764.128
-## 3       colSums(diamonds[-(2:4)]) 1285.473
+## 1   BoucleSomme(diamonds[-(2:4)]) 1496.479
+## 2 apply(diamonds[-(2:4)], 2, sum) 3361.877
+## 3       colSums(diamonds[-(2:4)]) 1180.452
 \end{verbatim}
 
 \normalsize
@@ -2587,7 +2588,6 @@ Cependant, un contournement existe pour émuler \texttt{mclapply} sous Windows e
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DocumentationTok{\#\#}
 \DocumentationTok{\#\# mclapply.hack.R}
 \DocumentationTok{\#\#}
 \DocumentationTok{\#\# Nathan VanHoudnos}
@@ -2600,61 +2600,68 @@ Cependant, un contournement existe pour émuler \texttt{mclapply} sous Windows e
 \DocumentationTok{\#\# beyond loading the parallel library. }
 
 \FunctionTok{require}\NormalTok{(parallel)    }
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## Loading required package: parallel
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \DocumentationTok{\#\# Define the hack}
 \CommentTok{\# mc.cores argument added: Eric Marcon}
-\NormalTok{mclapply.hack }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(..., }\AttributeTok{mc.cores=}\FunctionTok{detectCores}\NormalTok{()) \{}
+\NormalTok{mclapply.hack }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(..., }\AttributeTok{mc.cores =} \FunctionTok{detectCores}\NormalTok{()) \{}
   \DocumentationTok{\#\# Create a cluster}
 \NormalTok{  size.of.list }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(}\FunctionTok{list}\NormalTok{(...)[[}\DecValTok{1}\NormalTok{]])}
-\NormalTok{  cl }\OtherTok{\textless{}{-}} \FunctionTok{makeCluster}\NormalTok{( }\FunctionTok{min}\NormalTok{(size.of.list, mc.cores) )}
+\NormalTok{  cl }\OtherTok{\textless{}{-}} \FunctionTok{makeCluster}\NormalTok{(}\FunctionTok{min}\NormalTok{(size.of.list, mc.cores))}
   
   \DocumentationTok{\#\# Find out the names of the loaded packages }
 \NormalTok{  loaded.package.names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
     \DocumentationTok{\#\# Base packages}
     \FunctionTok{sessionInfo}\NormalTok{()}\SpecialCharTok{$}\NormalTok{basePkgs,}
     \DocumentationTok{\#\# Additional packages}
-    \FunctionTok{names}\NormalTok{( }\FunctionTok{sessionInfo}\NormalTok{()}\SpecialCharTok{$}\NormalTok{otherPkgs ))}
+    \FunctionTok{names}\NormalTok{(}\FunctionTok{sessionInfo}\NormalTok{()}\SpecialCharTok{$}\NormalTok{otherPkgs)}
+\NormalTok{  )}
   
-  \FunctionTok{tryCatch}\NormalTok{( \{}
-    
-    \DocumentationTok{\#\# Copy over all of the objects within scope to}
-    \DocumentationTok{\#\# all clusters. }
-\NormalTok{    this.env }\OtherTok{\textless{}{-}} \FunctionTok{environment}\NormalTok{()}
-    \ControlFlowTok{while}\NormalTok{( }\FunctionTok{identical}\NormalTok{( this.env, }\FunctionTok{globalenv}\NormalTok{() ) }\SpecialCharTok{==} \ConstantTok{FALSE}\NormalTok{ ) \{}
-      \FunctionTok{clusterExport}\NormalTok{(cl,}
-                    \FunctionTok{ls}\NormalTok{(}\AttributeTok{all.names=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{env=}\NormalTok{this.env),}
-                    \AttributeTok{envir=}\NormalTok{this.env)}
-\NormalTok{      this.env }\OtherTok{\textless{}{-}} \FunctionTok{parent.env}\NormalTok{(}\FunctionTok{environment}\NormalTok{())}
+  \FunctionTok{tryCatch}\NormalTok{(}
+\NormalTok{    \{}
+      \DocumentationTok{\#\# Copy over all of the objects within scope to}
+      \DocumentationTok{\#\# all clusters. }
+\NormalTok{      this.env }\OtherTok{\textless{}{-}} \FunctionTok{environment}\NormalTok{()}
+      \ControlFlowTok{while}\NormalTok{ (}\FunctionTok{identical}\NormalTok{(this.env, }\FunctionTok{globalenv}\NormalTok{()) }\SpecialCharTok{==} \ConstantTok{FALSE}\NormalTok{) \{}
+        \FunctionTok{clusterExport}\NormalTok{(}
+\NormalTok{          cl,}
+          \FunctionTok{ls}\NormalTok{(}\AttributeTok{all.names =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{env =}\NormalTok{ this.env),}
+          \AttributeTok{envir =}\NormalTok{ this.env}
+\NormalTok{        )}
+\NormalTok{        this.env }\OtherTok{\textless{}{-}} \FunctionTok{parent.env}\NormalTok{(}\FunctionTok{environment}\NormalTok{())}
+\NormalTok{      \}}
+      \FunctionTok{clusterExport}\NormalTok{(}
+\NormalTok{        cl,}
+        \FunctionTok{ls}\NormalTok{(}\AttributeTok{all.names =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{env =} \FunctionTok{globalenv}\NormalTok{()),}
+        \AttributeTok{envir =} \FunctionTok{globalenv}\NormalTok{()}
+\NormalTok{      )}
+      
+      \DocumentationTok{\#\# Load the libraries on all the clusters}
+      \DocumentationTok{\#\# N.B. length(cl) returns the number of clusters}
+      \FunctionTok{parLapply}\NormalTok{(}
+        \AttributeTok{cl =}\NormalTok{ cl, }
+        \AttributeTok{X =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(cl), }
+        \AttributeTok{fun =} \ControlFlowTok{function}\NormalTok{(xx)\{}
+          \FunctionTok{lapply}\NormalTok{(}
+\NormalTok{            loaded.package.names, }
+            \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(yy) \{}
+              \FunctionTok{require}\NormalTok{(yy, }\AttributeTok{character.only =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{            \}}
+\NormalTok{          )}
+\NormalTok{        \}}
+\NormalTok{      )}
+      
+      \DocumentationTok{\#\# Run the lapply in parallel }
+      \FunctionTok{return}\NormalTok{(}\FunctionTok{parLapply}\NormalTok{(cl, ...))}
+\NormalTok{    \}, }
+    \AttributeTok{finally =}\NormalTok{ \{        }
+      \DocumentationTok{\#\# Stop the cluster}
+      \FunctionTok{stopCluster}\NormalTok{(cl)}
 \NormalTok{    \}}
-    \FunctionTok{clusterExport}\NormalTok{(cl,}
-                  \FunctionTok{ls}\NormalTok{(}\AttributeTok{all.names=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{env=}\FunctionTok{globalenv}\NormalTok{()),}
-                  \AttributeTok{envir=}\FunctionTok{globalenv}\NormalTok{())}
-    
-    \DocumentationTok{\#\# Load the libraries on all the clusters}
-    \DocumentationTok{\#\# N.B. length(cl) returns the number of clusters}
-    \FunctionTok{parLapply}\NormalTok{( cl, }\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(cl), }\ControlFlowTok{function}\NormalTok{(xx)\{}
-      \FunctionTok{lapply}\NormalTok{(loaded.package.names, }\ControlFlowTok{function}\NormalTok{(yy) \{}
-        \FunctionTok{require}\NormalTok{(yy , }\AttributeTok{character.only=}\ConstantTok{TRUE}\NormalTok{)\})}
-\NormalTok{    \})}
-    
-    \DocumentationTok{\#\# Run the lapply in parallel }
-    \FunctionTok{return}\NormalTok{( }\FunctionTok{parLapply}\NormalTok{( cl, ...) )}
-\NormalTok{  \}, }\AttributeTok{finally =}\NormalTok{ \{        }
-    \DocumentationTok{\#\# Stop the cluster}
-    \FunctionTok{stopCluster}\NormalTok{(cl)}
-\NormalTok{  \})}
+\NormalTok{  )}
 \NormalTok{\}}
 
 \DocumentationTok{\#\# Warn the user if they are using Windows}
-\ControlFlowTok{if}\NormalTok{( }\FunctionTok{Sys.info}\NormalTok{()[[}\StringTok{\textquotesingle{}sysname\textquotesingle{}}\NormalTok{]] }\SpecialCharTok{==} \StringTok{\textquotesingle{}Windows\textquotesingle{}}\NormalTok{ )\{}
+\ControlFlowTok{if}\NormalTok{ (}\FunctionTok{Sys.info}\NormalTok{()[[}\StringTok{\textquotesingle{}sysname\textquotesingle{}}\NormalTok{]] }\SpecialCharTok{==} \StringTok{\textquotesingle{}Windows\textquotesingle{}}\NormalTok{) \{}
   \FunctionTok{message}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}
     \StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }
     \StringTok{"   *** Microsoft Windows detected ***}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
@@ -2667,18 +2674,19 @@ Cependant, un contournement existe pour émuler \texttt{mclapply} sous Windows e
     \StringTok{"   with a wrapper to parLapply() for this R session. Please see}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{,}
     \StringTok{"     http://www.stat.cmu.edu/\textasciitilde{}nmv/2014/07/14/}
 \StringTok{    implementing{-}mclapply{-}on{-}windows }\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{,}
-    \StringTok{"   for details.}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{))}
+    \StringTok{"   for details.}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{  )}
 \NormalTok{\}}
 
 \DocumentationTok{\#\# If the OS is Windows, set mclapply to the}
 \DocumentationTok{\#\# the hackish version. Otherwise, leave the}
 \DocumentationTok{\#\# definition alone. }
-\NormalTok{mclapply }\OtherTok{\textless{}{-}} \ControlFlowTok{switch}\NormalTok{( }\FunctionTok{Sys.info}\NormalTok{()[[}\StringTok{\textquotesingle{}sysname\textquotesingle{}}\NormalTok{]],}
-                    \AttributeTok{Windows =}\NormalTok{ \{mclapply.hack\}, }
-                    \AttributeTok{Linux   =}\NormalTok{ \{mclapply\},}
-                    \AttributeTok{Darwin  =}\NormalTok{ \{mclapply\})}
-
-\DocumentationTok{\#\# end mclapply.hack.R}
+\NormalTok{mclapply }\OtherTok{\textless{}{-}} \ControlFlowTok{switch}\NormalTok{(}
+  \FunctionTok{Sys.info}\NormalTok{()[[}\StringTok{\textquotesingle{}sysname\textquotesingle{}}\NormalTok{]],}
+  \AttributeTok{Windows =}\NormalTok{ \{mclapply.hack\}, }
+  \AttributeTok{Linux   =}\NormalTok{ \{mclapply\},}
+  \AttributeTok{Darwin  =}\NormalTok{ \{mclapply\}}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2691,12 +2699,14 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{f }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x, }\AttributeTok{time =} \FloatTok{0.25}\NormalTok{) \{}
-    \FunctionTok{Sys.sleep}\NormalTok{(time)}
-    \FunctionTok{return}\NormalTok{(x)}
+\NormalTok{f }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x, }\AttributeTok{time =}\NormalTok{ .}\DecValTok{25}\NormalTok{) \{}
+  \FunctionTok{Sys.sleep}\NormalTok{(time)}
+  \FunctionTok{return}\NormalTok{(x)}
 \NormalTok{\}}
+
 \CommentTok{\# Laisser un coeur libre pour le système}
 \NormalTok{nbCoeurs }\OtherTok{\textless{}{-}} \FunctionTok{detectCores}\NormalTok{() }\SpecialCharTok{{-}} \DecValTok{1}
+
 \CommentTok{\# Série : temps théorique = nbCoeurs/4 secondes}
 \NormalTok{(tserie }\OtherTok{\textless{}{-}} \FunctionTok{system.time}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{nbCoeurs, f)))}
 \end{Highlighting}
@@ -2704,7 +2714,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.001   0.656
+##   0.001   0.000   0.720
 \end{verbatim}
 
 \begin{Shaded}
@@ -2716,12 +2726,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.016   0.308
+##   0.001   0.017   0.353
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.058} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.1} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2736,7 +2746,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.086
+##   0.000   0.000   2.205
 \end{verbatim}
 
 \begin{Shaded}
@@ -2748,7 +2758,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.013   1.161
+##   0.001   0.012   1.118
 \end{verbatim}
 
 \normalsize
@@ -2767,7 +2777,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.016   1.082
+##   0.002   0.012   1.135
 \end{verbatim}
 
 \begin{Shaded}
@@ -2778,7 +2788,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.016   2.219
+##   0.002   0.016   2.204
 \end{verbatim}
 
 \normalsize
@@ -2792,16 +2802,18 @@ La figure \ref{fig:r-parallele} montre l'évolution du temps de calcul en foncti
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{Taches }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ nbCoeurs}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)}
-\NormalTok{Temps }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(Taches, }\ControlFlowTok{function}\NormalTok{(nbTaches) \{}
-      \FunctionTok{system.time}\NormalTok{(}\FunctionTok{mclapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{nbTaches, f, }\AttributeTok{time=}\DecValTok{1}\NormalTok{, }\AttributeTok{mc.cores=}\NormalTok{nbCoeurs))}
-\NormalTok{              \})}
+\NormalTok{Taches }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ nbCoeurs }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}
+\NormalTok{Temps }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(}
+\NormalTok{  Taches, }
+  \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(nbTaches) \{}
+    \FunctionTok{system.time}\NormalTok{(}\FunctionTok{mclapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{nbTaches, f, }\AttributeTok{time =} \DecValTok{1}\NormalTok{, }\AttributeTok{mc.cores =}\NormalTok{ nbCoeurs))}
+\NormalTok{  \}}
+\NormalTok{)}
 \FunctionTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
-\FunctionTok{tibble}\NormalTok{(Taches, }\AttributeTok{Temps=}\NormalTok{Temps[}\StringTok{"elapsed"}\NormalTok{, ]) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{tibble}\NormalTok{(Taches, }\AttributeTok{Temps =}\NormalTok{ Temps[}\StringTok{"elapsed"}\NormalTok{, ]) }\SpecialCharTok{\%\textgreater{}\%} 
 \NormalTok{  ggplot }\SpecialCharTok{+}
   \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Taches, }\AttributeTok{y =}\NormalTok{ Temps)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =}\NormalTok{ nbCoeurs, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{2} \SpecialCharTok{*}\NormalTok{ nbCoeurs, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{2}\NormalTok{)}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ nbCoeurs, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2865,28 +2877,12 @@ Indépendamment de la parallélisation, \textbf{foreach} redéfinit les boucles 
 \begin{Shaded}
 \begin{Highlighting}[]
 \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{) \{}
-    \FunctionTok{f}\NormalTok{(i)}
+  \FunctionTok{f}\NormalTok{(i)}
 \NormalTok{\}}
 \CommentTok{\# devient}
 \FunctionTok{library}\NormalTok{(}\StringTok{"foreach"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 
-## Attaching package: 'foreach'
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:purrr':
-## 
-##     accumulate, when
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{) }\SpecialCharTok{\%do\%}\NormalTok{ \{}
-    \FunctionTok{f}\NormalTok{(i)}
+  \FunctionTok{f}\NormalTok{(i)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -2912,7 +2908,7 @@ Les éléments de la liste peuvent être combinés par une fonction quelconque, 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{, }\AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%do\%}\NormalTok{ \{}
-    \FunctionTok{f}\NormalTok{(i)}
+  \FunctionTok{f}\NormalTok{(i)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -2932,7 +2928,7 @@ Ici, l'itérateur \texttt{icount} passe les valeurs 1, 2 et 3 individuellement, 
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(}\StringTok{"iterators"}\NormalTok{)}
 \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \FunctionTok{icount}\NormalTok{(}\DecValTok{3}\NormalTok{), }\AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%do\%}\NormalTok{ \{}
-    \FunctionTok{f}\NormalTok{(i)}
+  \FunctionTok{f}\NormalTok{(i)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -2957,31 +2953,29 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 \FunctionTok{library}\NormalTok{(doParallel)}
 \FunctionTok{registerDoParallel}\NormalTok{(}\AttributeTok{cores =}\NormalTok{ nbCoeurs)}
 \CommentTok{\# Série}
-\FunctionTok{system.time}\NormalTok{(}\FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \FunctionTok{icount}\NormalTok{(nbCoeurs), }\AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%do\%}
-\NormalTok{    \{}
-        \FunctionTok{f}\NormalTok{(i)}
-\NormalTok{    \})}
+\FunctionTok{system.time}\NormalTok{(}
+  \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \FunctionTok{icount}\NormalTok{(nbCoeurs), }\AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%do\%}\NormalTok{ \{}\FunctionTok{f}\NormalTok{(i)\}}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.003   0.000   0.709
+##   0.001   0.000   0.631
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Parallèle}
-\FunctionTok{system.time}\NormalTok{(}\FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \FunctionTok{icount}\NormalTok{(nbCoeurs), }\AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%dopar\%}
-\NormalTok{    \{}
-        \FunctionTok{f}\NormalTok{(i)}
-\NormalTok{    \})}
+\FunctionTok{system.time}\NormalTok{(}
+  \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \FunctionTok{icount}\NormalTok{(nbCoeurs), }\AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%dopar\%}\NormalTok{ \{}\FunctionTok{f}\NormalTok{(i)\}}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.047   0.416
+##   0.003   0.018   0.405
 \end{verbatim}
 
 \normalsize
@@ -3026,7 +3020,7 @@ Le package \textbf{future.apply} permet de paralléliser sans effort toutes les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.021   0.001   0.318
+##   0.018   0.000   0.436
 \end{verbatim}
 
 \normalsize
@@ -3038,16 +3032,15 @@ Les boucles foreach peuvent être parallélisées avec le package \textbf{doFutu
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(}\StringTok{"doFuture"}\NormalTok{)}
-\FunctionTok{system.time}\NormalTok{(}\FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \FunctionTok{icount}\NormalTok{(nbCoeurs), }\AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%dofuture\%}
-\NormalTok{    \{}
-        \FunctionTok{f}\NormalTok{(i)}
-\NormalTok{    \})}
+\FunctionTok{system.time}\NormalTok{(}
+  \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \FunctionTok{icount}\NormalTok{(nbCoeurs), }\AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%dofuture\%}\NormalTok{ \{}\FunctionTok{f}\NormalTok{(i)\}}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.035   0.001   0.460
+##   0.028   0.001   0.459
 \end{verbatim}
 
 \normalsize
@@ -3097,10 +3090,8 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{pairdist}\NormalTok{(X))}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}}
-    \DecValTok{1}\NormalTok{))}
-\CommentTok{\# suppressMessages pour éliminer les messages superflus}
-\FunctionTok{suppressMessages}\NormalTok{(}\FunctionTok{autoplot}\NormalTok{(mb))}
+\NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{pairdist}\NormalTok{(X)) }\SpecialCharTok{/}\NormalTok{ NbPoints }\SpecialCharTok{/}\NormalTok{ (NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))}
+\FunctionTok{autoplot}\NormalTok{(mb)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3129,9 +3120,18 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fsapply1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{}
-\NormalTok{    distances }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) }\FunctionTok{sapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints,}
-        \ControlFlowTok{function}\NormalTok{(j) }\FunctionTok{sqrt}\NormalTok{((X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)))}
-    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(distances)}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))}
+\NormalTok{  distances }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(}
+    \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }
+    \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(i) \{}
+      \FunctionTok{sapply}\NormalTok{(}
+        \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }
+        \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(j) \{}
+          \FunctionTok{sqrt}\NormalTok{((X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{        \}}
+\NormalTok{      )}
+\NormalTok{    \}}
+\NormalTok{  )}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(distances) }\SpecialCharTok{/}\NormalTok{ NbPoints }\SpecialCharTok{/}\NormalTok{ (NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))}
 \NormalTok{\}}
 \FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{fsapply1}\NormalTok{())}
 \end{Highlighting}
@@ -3139,7 +3139,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.275   0.011   2.288
+##   2.467   0.011   2.483
 \end{verbatim}
 
 \begin{Shaded}
@@ -3162,10 +3162,20 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fsapply2 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{}
-\NormalTok{    distances }\OtherTok{\textless{}{-}} \FunctionTok{vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) }\FunctionTok{vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints,}
-        \ControlFlowTok{function}\NormalTok{(j) }\FunctionTok{sqrt}\NormalTok{((X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{),}
-        \DecValTok{0}\NormalTok{), }\DecValTok{1}\SpecialCharTok{:}\DecValTok{1000} \SpecialCharTok{+} \DecValTok{0}\NormalTok{)}
-    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(distances)}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))}
+\NormalTok{  distances }\OtherTok{\textless{}{-}} \FunctionTok{vapply}\NormalTok{(}
+    \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }
+    \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(i) \{}
+      \FunctionTok{vapply}\NormalTok{(}
+        \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }
+        \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(j) \{}
+          \FunctionTok{sqrt}\NormalTok{((X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{        \}, }
+        \AttributeTok{FUN.VALUE =} \DecValTok{0}
+\NormalTok{      )}
+\NormalTok{    \}, }
+    \AttributeTok{FUN.VALUE =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{1000} \SpecialCharTok{+} \DecValTok{0}
+\NormalTok{  )}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(distances) }\SpecialCharTok{/}\NormalTok{ NbPoints }\SpecialCharTok{/}\NormalTok{ (NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))}
 \NormalTok{\}}
 \FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{fsapply2}\NormalTok{())}
 \end{Highlighting}
@@ -3173,7 +3183,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.246   0.007   2.254
+##   2.309   0.007   2.318
 \end{verbatim}
 
 \begin{Shaded}
@@ -3204,10 +3214,20 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fsapply3 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{}
-\NormalTok{    distances }\OtherTok{\textless{}{-}} \FunctionTok{vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) }\FunctionTok{vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints,}
-        \ControlFlowTok{function}\NormalTok{(j) (X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{,}
-        \DecValTok{0}\NormalTok{), }\DecValTok{1}\SpecialCharTok{:}\DecValTok{1000} \SpecialCharTok{+} \DecValTok{0}\NormalTok{)}
-    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(distances))}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))}
+\NormalTok{  distances }\OtherTok{\textless{}{-}} \FunctionTok{vapply}\NormalTok{(}
+    \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }
+    \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(i) \{}
+      \FunctionTok{vapply}\NormalTok{(}
+        \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }
+        \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(j) \{}
+\NormalTok{          (X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{        \}, }
+        \AttributeTok{FUN.VALUE =} \DecValTok{0}
+\NormalTok{      )}
+\NormalTok{    \}, }
+    \AttributeTok{FUN.VALUE =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{1000} \SpecialCharTok{+} \DecValTok{0}
+\NormalTok{  )}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(distances)) }\SpecialCharTok{/}\NormalTok{ NbPoints }\SpecialCharTok{/}\NormalTok{ (NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))}
 \NormalTok{\}}
 \FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{fsapply3}\NormalTok{())}
 \end{Highlighting}
@@ -3215,7 +3235,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.218   0.008   2.227
+##   2.278   0.008   2.288
 \end{verbatim}
 
 \begin{Shaded}
@@ -3237,16 +3257,24 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fsapply4 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{}
-\NormalTok{    distances }\OtherTok{\textless{}{-}} \FunctionTok{vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) \{}
-        \FunctionTok{vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(j) \{}
-            \ControlFlowTok{if}\NormalTok{ (j }\SpecialCharTok{\textgreater{}}\NormalTok{ i) \{}
-\NormalTok{                (X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}
-\NormalTok{            \} }\ControlFlowTok{else}\NormalTok{ \{}
-                \DecValTok{0}
-\NormalTok{            \}}
-\NormalTok{        \}, }\DecValTok{0}\NormalTok{)}
-\NormalTok{    \}, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{1000} \SpecialCharTok{+} \DecValTok{0}\NormalTok{)}
-    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(distances))}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
+\NormalTok{  distances }\OtherTok{\textless{}{-}} \FunctionTok{vapply}\NormalTok{(}
+    \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }
+    \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(i) \{}
+      \FunctionTok{vapply}\NormalTok{(}
+        \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }
+        \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(j) \{}
+          \ControlFlowTok{if}\NormalTok{ (j }\SpecialCharTok{\textgreater{}}\NormalTok{ i) \{}
+\NormalTok{            (X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{          \} }\ControlFlowTok{else}\NormalTok{ \{}
+            \DecValTok{0}
+\NormalTok{          \}}
+\NormalTok{        \}, }
+        \AttributeTok{FUN.VALUE =} \FloatTok{0.0}
+\NormalTok{      )}
+\NormalTok{    \}, }
+    \AttributeTok{FUN.VALUE =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{1000} \SpecialCharTok{+} \DecValTok{0}
+\NormalTok{  )}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(distances)) }\SpecialCharTok{/}\NormalTok{ NbPoints }\SpecialCharTok{/}\NormalTok{ (NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
 \NormalTok{\}}
 \FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{fsapply4}\NormalTok{())}
 \end{Highlighting}
@@ -3254,7 +3282,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.245   0.002   1.248
+##   1.341   0.005   1.359
 \end{verbatim}
 
 \begin{Shaded}
@@ -3277,17 +3305,27 @@ Sous MacOS ou Linux, le calcul est accéléré.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fsapply5 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{}
-\NormalTok{    distances }\OtherTok{\textless{}{-}} \FunctionTok{mclapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) \{}
-        \FunctionTok{vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(j) \{}
-            \ControlFlowTok{if}\NormalTok{ (j }\SpecialCharTok{\textgreater{}}\NormalTok{ i) \{}
-\NormalTok{                (X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}
-\NormalTok{            \} }\ControlFlowTok{else}\NormalTok{ \{}
-                \DecValTok{0}
-\NormalTok{            \}}
-\NormalTok{        \}, }\DecValTok{0}\NormalTok{)}
-\NormalTok{    \})}
-    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{simplify2array}\NormalTok{(distances)))}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}}
-        \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
+\NormalTok{  distances }\OtherTok{\textless{}{-}} \FunctionTok{mclapply}\NormalTok{(}
+    \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }
+    \CommentTok{\# Avoid naming the argument because it is named FUN in mclapply()}
+    \CommentTok{\# but fun in parLapply() used by  mclapply.hack()}
+    \ControlFlowTok{function}\NormalTok{(i) \{}
+      \FunctionTok{vapply}\NormalTok{(}
+        \DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }
+        \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(j) \{}
+          \ControlFlowTok{if}\NormalTok{ (j }\SpecialCharTok{\textgreater{}}\NormalTok{ i) \{}
+\NormalTok{            (X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{          \} }\ControlFlowTok{else}\NormalTok{ \{}
+            \DecValTok{0}
+\NormalTok{          \}}
+\NormalTok{        \}, }
+        \DecValTok{0}
+\NormalTok{      )}
+\NormalTok{    \}}
+\NormalTok{  )}
+  \FunctionTok{return}\NormalTok{(}
+    \FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{simplify2array}\NormalTok{(distances))) }\SpecialCharTok{/}\NormalTok{ NbPoints }\SpecialCharTok{/}\NormalTok{ (NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}
+\NormalTok{  )}
 \NormalTok{\}}
 \FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{fsapply5}\NormalTok{())}
 \end{Highlighting}
@@ -3295,7 +3333,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.669   0.427   1.433
+##   1.368   0.194   0.866
 \end{verbatim}
 
 \begin{Shaded}
@@ -3323,16 +3361,16 @@ Seule la boucle principale est parallélisée: l'imbrication de \texttt{future\_
 \CommentTok{\# Stratégie socket sur tous les coeurs disponibles sauf 1}
 \FunctionTok{plan}\NormalTok{(multisession, }\AttributeTok{workers =} \FunctionTok{availableCores}\NormalTok{() }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
 \NormalTok{future\_fsapply4\_ }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{}
-\NormalTok{    distances }\OtherTok{\textless{}{-}} \FunctionTok{future\_vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) \{}
-        \FunctionTok{vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(j) \{}
-            \ControlFlowTok{if}\NormalTok{ (j }\SpecialCharTok{\textgreater{}}\NormalTok{ i) \{}
-\NormalTok{                (X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}
-\NormalTok{            \} }\ControlFlowTok{else}\NormalTok{ \{}
-                \DecValTok{0}
-\NormalTok{            \}}
-\NormalTok{        \}, }\DecValTok{0}\NormalTok{)}
-\NormalTok{    \}, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{1000} \SpecialCharTok{+} \DecValTok{0}\NormalTok{)}
-    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(distances))}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
+\NormalTok{  distances }\OtherTok{\textless{}{-}} \FunctionTok{future\_vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(i) \{}
+    \FunctionTok{vapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{NbPoints, }\ControlFlowTok{function}\NormalTok{(j) \{}
+      \ControlFlowTok{if}\NormalTok{ (j }\SpecialCharTok{\textgreater{}}\NormalTok{ i) \{}
+\NormalTok{        (X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{      \} }\ControlFlowTok{else}\NormalTok{ \{}
+        \DecValTok{0}
+\NormalTok{      \}}
+\NormalTok{    \}, }\DecValTok{0}\NormalTok{)}
+\NormalTok{  \}, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{1000} \SpecialCharTok{+} \DecValTok{0}\NormalTok{)}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(distances)) }\SpecialCharTok{/}\NormalTok{ NbPoints }\SpecialCharTok{/}\NormalTok{ (NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
 \NormalTok{\}}
 \FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{future\_fsapply4\_}\NormalTok{())}
 \end{Highlighting}
@@ -3340,7 +3378,7 @@ Seule la boucle principale est parallélisée: l'imbrication de \texttt{future\_
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.045   0.006   0.955
+##   0.049   0.007   1.026
 \end{verbatim}
 
 \begin{Shaded}
@@ -3371,13 +3409,12 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 \begin{Highlighting}[]
 \NormalTok{distance }\OtherTok{\textless{}{-}} \DecValTok{0}
 \NormalTok{ffor }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{() \{}
-    \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)) \{}
-        \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in}\NormalTok{ (i }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{NbPoints) \{}
-\NormalTok{            distance }\OtherTok{\textless{}{-}}\NormalTok{ distance }\SpecialCharTok{+} \FunctionTok{sqrt}\NormalTok{((X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}
-\NormalTok{                (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
-\NormalTok{        \}}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)) \{}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in}\NormalTok{ (i }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{NbPoints) \{}
+\NormalTok{        distance }\OtherTok{\textless{}{-}}\NormalTok{ distance }\SpecialCharTok{+} \FunctionTok{sqrt}\NormalTok{((X}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (X}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ X}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
 \NormalTok{    \}}
-    \FunctionTok{return}\NormalTok{(distance}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(distance }\SpecialCharTok{/}\NormalTok{ NbPoints }\SpecialCharTok{/}\NormalTok{ (NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
 \NormalTok{\}}
 \CommentTok{\# Temps de calcul, mémorisé}
 \NormalTok{(for\_time }\OtherTok{\textless{}{-}} \FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{ffor}\NormalTok{()))}
@@ -3386,7 +3423,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.879   0.004   0.884
+##   0.823   0.008   0.857
 \end{verbatim}
 
 \begin{Shaded}
@@ -3414,16 +3451,14 @@ En revanche, les distances sont calculées deux fois.
 \begin{Highlighting}[]
 \FunctionTok{registerDoParallel}\NormalTok{(}\AttributeTok{cores =} \FunctionTok{detectCores}\NormalTok{())}
 \NormalTok{fforeach3 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(Y) \{}
-\NormalTok{  distances }\OtherTok{\textless{}{-}} \FunctionTok{foreach}\NormalTok{(}
-    \AttributeTok{i =} \FunctionTok{icount}\NormalTok{(Y}\SpecialCharTok{$}\NormalTok{n), }
-    \AttributeTok{.combine =} \StringTok{\textquotesingle{}+\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%dopar\%}\NormalTok{ \{}
-\NormalTok{      distance }\OtherTok{\textless{}{-}} \DecValTok{0}
-      \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n) \{}
-\NormalTok{        distance }\OtherTok{\textless{}{-}}\NormalTok{ distance }\SpecialCharTok{+} 
-          \FunctionTok{sqrt}\NormalTok{((Y}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (Y}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
-\NormalTok{      \}}
-\NormalTok{      distance}
+\NormalTok{  distances }\OtherTok{\textless{}{-}} \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \FunctionTok{icount}\NormalTok{(Y}\SpecialCharTok{$}\NormalTok{n), }\AttributeTok{.combine =} \StringTok{\textquotesingle{}+\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%dopar\%}\NormalTok{ \{}
+\NormalTok{    distance }\OtherTok{\textless{}{-}} \DecValTok{0}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n) \{}
+\NormalTok{      distance }\OtherTok{\textless{}{-}}\NormalTok{ distance }\SpecialCharTok{+} 
+        \FunctionTok{sqrt}\NormalTok{((Y}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (Y}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
 \NormalTok{    \}}
+\NormalTok{    distance}
+\NormalTok{  \}}
   \FunctionTok{return}\NormalTok{(distances }\SpecialCharTok{/}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{n }\SpecialCharTok{/}\NormalTok{ (Y}\SpecialCharTok{$}\NormalTok{n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))}
 \NormalTok{\}}
 \FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{fforeach3}\NormalTok{(X))}
@@ -3432,7 +3467,7 @@ En revanche, les distances sont calculées deux fois.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.874   0.137   0.731
+##   1.883   0.140   0.790
 \end{verbatim}
 
 \begin{Shaded}
@@ -3457,15 +3492,15 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 \NormalTok{NbPointsReduit }\OtherTok{\textless{}{-}} \DecValTok{100}
 \NormalTok{Y }\OtherTok{\textless{}{-}} \FunctionTok{runifpoint}\NormalTok{(NbPointsReduit)}
 \NormalTok{fforeach1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(Y) \{}
-\NormalTok{    distances }\OtherTok{\textless{}{-}} \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n, }\AttributeTok{.combine =} \StringTok{"cbind"}\NormalTok{) }\SpecialCharTok{\%:\%} \FunctionTok{foreach}\NormalTok{(}\AttributeTok{j =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n,}
-        \AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%do\%}\NormalTok{ \{}
-        \ControlFlowTok{if}\NormalTok{ (j }\SpecialCharTok{\textgreater{}}\NormalTok{ i) \{}
-\NormalTok{            (Y}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (Y}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}
-\NormalTok{        \} }\ControlFlowTok{else}\NormalTok{ \{}
-            \DecValTok{0}
-\NormalTok{        \}}
+\NormalTok{  distances }\OtherTok{\textless{}{-}} \FunctionTok{foreach}\NormalTok{(}\AttributeTok{i =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n, }\AttributeTok{.combine =} \StringTok{"cbind"}\NormalTok{) }\SpecialCharTok{\%:\%}
+    \FunctionTok{foreach}\NormalTok{(}\AttributeTok{j =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n, }\AttributeTok{.combine =} \StringTok{"c"}\NormalTok{) }\SpecialCharTok{\%do\%}\NormalTok{ \{}
+    \ControlFlowTok{if}\NormalTok{ (j }\SpecialCharTok{\textgreater{}}\NormalTok{ i) \{}
+\NormalTok{      (Y}\SpecialCharTok{$}\NormalTok{x[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{x[j])}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ (Y}\SpecialCharTok{$}\NormalTok{y[i] }\SpecialCharTok{{-}}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{y[j])}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+      \DecValTok{0}
 \NormalTok{    \}}
-    \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(distances))}\SpecialCharTok{/}\NormalTok{Y}\SpecialCharTok{$}\NormalTok{n}\SpecialCharTok{/}\NormalTok{(Y}\SpecialCharTok{$}\NormalTok{n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{sum}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(distances)) }\SpecialCharTok{/}\NormalTok{ Y}\SpecialCharTok{$}\NormalTok{n }\SpecialCharTok{/}\NormalTok{ (Y}\SpecialCharTok{$}\NormalTok{n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
 \NormalTok{\}}
 \FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{fforeach1}\NormalTok{(Y))}
 \end{Highlighting}
@@ -3473,7 +3508,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.814   0.009   0.824
+##   0.802   0.011   0.836
 \end{verbatim}
 
 \normalsize
@@ -3493,17 +3528,17 @@ La fonction C++ permettant de calculer les distances est la suivante.
 
 \CommentTok{// [[Rcpp::export]]}
 \DataTypeTok{double}\NormalTok{ MeanDistance}\OperatorTok{(}\NormalTok{NumericVector x}\OperatorTok{,}\NormalTok{ NumericVector y}\OperatorTok{)} \OperatorTok{\{}
-  \DataTypeTok{double}\NormalTok{ distance}\OperatorTok{=}\DecValTok{0}\OperatorTok{;}
+  \DataTypeTok{double}\NormalTok{ distance }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}
   \DataTypeTok{double}\NormalTok{ dx}\OperatorTok{,}\NormalTok{ dy}\OperatorTok{;}
-  \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ i}\OperatorTok{=}\DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}} \OperatorTok{(}\NormalTok{x}\OperatorTok{.}\NormalTok{length}\OperatorTok{(){-}}\DecValTok{1}\OperatorTok{);}\NormalTok{ i}\OperatorTok{++)} \OperatorTok{\{}
-    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ j}\OperatorTok{=}\NormalTok{i}\OperatorTok{+}\DecValTok{1}\OperatorTok{;}\NormalTok{ j }\OperatorTok{\textless{}}\NormalTok{ x}\OperatorTok{.}\NormalTok{length}\OperatorTok{();}\NormalTok{ j}\OperatorTok{++)} \OperatorTok{\{}
-    \CommentTok{// Calcul de la distance}
-\NormalTok{        dx }\OperatorTok{=}\NormalTok{ x}\OperatorTok{[}\NormalTok{i}\OperatorTok{]{-}}\NormalTok{x}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
-\NormalTok{        dy }\OperatorTok{=}\NormalTok{ y}\OperatorTok{[}\NormalTok{i}\OperatorTok{]{-}}\NormalTok{y}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
-\NormalTok{        distance }\OperatorTok{+=}\NormalTok{ sqrt}\OperatorTok{(}\NormalTok{dx}\OperatorTok{*}\NormalTok{dx }\OperatorTok{+}\NormalTok{ dy}\OperatorTok{*}\NormalTok{dy}\OperatorTok{);}
+  \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}} \OperatorTok{(}\NormalTok{x}\OperatorTok{.}\NormalTok{length}\OperatorTok{()} \OperatorTok{{-}} \DecValTok{1}\OperatorTok{);}\NormalTok{ i}\OperatorTok{++)} \OperatorTok{\{}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ j }\OperatorTok{=}\NormalTok{ i }\OperatorTok{+} \DecValTok{1}\OperatorTok{;}\NormalTok{ j }\OperatorTok{\textless{}}\NormalTok{ x}\OperatorTok{.}\NormalTok{length}\OperatorTok{();}\NormalTok{ j}\OperatorTok{++)} \OperatorTok{\{}
+    \CommentTok{// Calculate distance}
+\NormalTok{        dx }\OperatorTok{=}\NormalTok{ x}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{{-}}\NormalTok{ x}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
+\NormalTok{        dy }\OperatorTok{=}\NormalTok{ y}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{{-}}\NormalTok{ y}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
+\NormalTok{        distance }\OperatorTok{+=}\NormalTok{ sqrt}\OperatorTok{(}\NormalTok{dx }\OperatorTok{*}\NormalTok{ dx }\OperatorTok{+}\NormalTok{ dy }\OperatorTok{*}\NormalTok{ dy}\OperatorTok{);}
     \OperatorTok{\}}
   \OperatorTok{\}}
-  \ControlFlowTok{return}\NormalTok{ distance}\OperatorTok{/(}\DataTypeTok{double}\OperatorTok{)(}\NormalTok{x}\OperatorTok{.}\NormalTok{length}\OperatorTok{()/}\DecValTok{2}\OperatorTok{*(}\NormalTok{x}\OperatorTok{.}\NormalTok{length}\OperatorTok{(){-}}\DecValTok{1}\OperatorTok{));}
+  \ControlFlowTok{return}\NormalTok{ distance }\OperatorTok{/} \OperatorTok{(}\DataTypeTok{double}\OperatorTok{)(}\NormalTok{x}\OperatorTok{.}\NormalTok{length}\OperatorTok{()} \OperatorTok{/} \DecValTok{2} \OperatorTok{*} \OperatorTok{(}\NormalTok{x}\OperatorTok{.}\NormalTok{length}\OperatorTok{()} \OperatorTok{{-}} \DecValTok{1}\OperatorTok{));}
 \OperatorTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -3518,8 +3553,7 @@ Le temps d'exécution est très court.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{MeanDistance}\NormalTok{(X}\SpecialCharTok{$}\NormalTok{x, X}\SpecialCharTok{$}\NormalTok{y))}
-\CommentTok{\# suppressMessages pour éliminer les messages superflus}
-\FunctionTok{suppressMessages}\NormalTok{(}\FunctionTok{autoplot}\NormalTok{(mb))}
+\FunctionTok{autoplot}\NormalTok{(mb)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3566,55 +3600,55 @@ La syntaxe du \texttt{Worker} est un peu laborieuse mais assez simple à adapter
 \KeywordTok{using} \KeywordTok{namespace}\NormalTok{ Rcpp}\OperatorTok{;}
 \KeywordTok{using} \KeywordTok{namespace}\NormalTok{ RcppParallel}\OperatorTok{;}
 
-\CommentTok{// Fonction de travail, non exportée}
+\CommentTok{// Working function, not exported}
 \KeywordTok{struct}\NormalTok{ TotalDistanceWrkr }\OperatorTok{:} \KeywordTok{public}\NormalTok{ Worker}
 \OperatorTok{\{}
-  \CommentTok{// Vecteurs source}
+  \CommentTok{// source vectors}
   \AttributeTok{const}\NormalTok{ RVector}\OperatorTok{\textless{}}\DataTypeTok{double}\OperatorTok{\textgreater{}}\NormalTok{ Rx}\OperatorTok{;}
   \AttributeTok{const}\NormalTok{ RVector}\OperatorTok{\textless{}}\DataTypeTok{double}\OperatorTok{\textgreater{}}\NormalTok{ Ry}\OperatorTok{;}
   
-  \CommentTok{// Valeur accumulée}
+  \CommentTok{// accumulated value}
   \DataTypeTok{double}\NormalTok{ distance}\OperatorTok{;}
    
-  \CommentTok{// Constructeurs}
+  \CommentTok{// constructors}
 \NormalTok{  TotalDistanceWrkr}\OperatorTok{(}\AttributeTok{const}\NormalTok{ NumericVector x}\OperatorTok{,} \AttributeTok{const}\NormalTok{ NumericVector y}\OperatorTok{)} \OperatorTok{:}
 \NormalTok{    Rx}\OperatorTok{(}\NormalTok{x}\OperatorTok{),}\NormalTok{ Ry}\OperatorTok{(}\NormalTok{y}\OperatorTok{),}\NormalTok{ distance}\OperatorTok{(}\DecValTok{0}\OperatorTok{)} \OperatorTok{\{\}}
 \NormalTok{  TotalDistanceWrkr}\OperatorTok{(}\AttributeTok{const}\NormalTok{ TotalDistanceWrkr}\OperatorTok{\&}\NormalTok{ totalDistanceWrkr}\OperatorTok{,}\NormalTok{ Split}\OperatorTok{)} \OperatorTok{:}
 \NormalTok{    Rx}\OperatorTok{(}\NormalTok{totalDistanceWrkr}\OperatorTok{.}\NormalTok{Rx}\OperatorTok{),}\NormalTok{ Ry}\OperatorTok{(}\NormalTok{totalDistanceWrkr}\OperatorTok{.}\NormalTok{Ry}\OperatorTok{),}\NormalTok{  distance}\OperatorTok{(}\DecValTok{0}\OperatorTok{)} \OperatorTok{\{\}}
   
-  \CommentTok{// Comptage des voisins}
+  \CommentTok{// count neighbors}
   \DataTypeTok{void} \KeywordTok{operator}\OperatorTok{()(}\BuiltInTok{std::}\NormalTok{size\_t begin}\OperatorTok{,} \BuiltInTok{std::}\NormalTok{size\_t end}\OperatorTok{)} \OperatorTok{\{}
     \DataTypeTok{double}\NormalTok{ dx}\OperatorTok{,}\NormalTok{ dy}\OperatorTok{;}
     \DataTypeTok{unsigned} \DataTypeTok{int}\NormalTok{ Npoints }\OperatorTok{=}\NormalTok{ Rx}\OperatorTok{.}\NormalTok{length}\OperatorTok{();}
 
     \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{unsigned} \DataTypeTok{int}\NormalTok{ i }\OperatorTok{=}\NormalTok{ begin}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ end}\OperatorTok{;}\NormalTok{ i}\OperatorTok{++)} \OperatorTok{\{}
-      \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{unsigned} \DataTypeTok{int}\NormalTok{ j}\OperatorTok{=}\NormalTok{i}\OperatorTok{+}\DecValTok{1}\OperatorTok{;}\NormalTok{ j }\OperatorTok{\textless{}}\NormalTok{ Npoints}\OperatorTok{;}\NormalTok{ j}\OperatorTok{++)} \OperatorTok{\{}
-          \CommentTok{// Calcul de la distance au carré}
-\NormalTok{          dx }\OperatorTok{=}\NormalTok{ Rx}\OperatorTok{[}\NormalTok{i}\OperatorTok{]{-}}\NormalTok{Rx}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
-\NormalTok{          dy }\OperatorTok{=}\NormalTok{ Ry}\OperatorTok{[}\NormalTok{i}\OperatorTok{]{-}}\NormalTok{Ry}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
-\NormalTok{          distance }\OperatorTok{+=}\NormalTok{ sqrt}\OperatorTok{(}\NormalTok{dx}\OperatorTok{*}\NormalTok{dx }\OperatorTok{+}\NormalTok{ dy}\OperatorTok{*}\NormalTok{dy}\OperatorTok{);}
+      \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{unsigned} \DataTypeTok{int}\NormalTok{ j }\OperatorTok{=}\NormalTok{ i }\OperatorTok{+} \DecValTok{1}\OperatorTok{;}\NormalTok{ j }\OperatorTok{\textless{}}\NormalTok{ Npoints}\OperatorTok{;}\NormalTok{ j}\OperatorTok{++)} \OperatorTok{\{}
+          \CommentTok{// Calculate squared distance}
+\NormalTok{          dx }\OperatorTok{=}\NormalTok{ Rx}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{{-}}\NormalTok{ Rx}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
+\NormalTok{          dy }\OperatorTok{=}\NormalTok{ Ry}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{{-}}\NormalTok{ Ry}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
+\NormalTok{          distance }\OperatorTok{+=}\NormalTok{ sqrt}\OperatorTok{(}\NormalTok{dx }\OperatorTok{*}\NormalTok{ dx }\OperatorTok{+}\NormalTok{ dy }\OperatorTok{*}\NormalTok{ dy}\OperatorTok{);}
       \OperatorTok{\}}
     \OperatorTok{\}}
   \OperatorTok{\}}
 
-  \CommentTok{// Ajouter le résultat de cette tâche}
+  \CommentTok{// join my value with that of another Sum}
   \DataTypeTok{void}\NormalTok{ join}\OperatorTok{(}\AttributeTok{const}\NormalTok{ TotalDistanceWrkr}\OperatorTok{\&}\NormalTok{ rhs}\OperatorTok{)} \OperatorTok{\{} 
 \NormalTok{    distance }\OperatorTok{+=}\NormalTok{ rhs}\OperatorTok{.}\NormalTok{distance}\OperatorTok{;} 
   \OperatorTok{\}}
 \OperatorTok{\};}
 
 
-\CommentTok{// Fonction exportée}
+\CommentTok{// Exported function}
 \CommentTok{// [[Rcpp::export]]}
 \DataTypeTok{double}\NormalTok{ TotalDistance}\OperatorTok{(}\NormalTok{NumericVector x}\OperatorTok{,}\NormalTok{ NumericVector y}\OperatorTok{)} \OperatorTok{\{}
   
-  \CommentTok{// Declaration d\textquotesingle{}une instance de TotalDistanceWrkr}
+  \CommentTok{// Declare TotalDistanceWrkr instance}
 \NormalTok{  TotalDistanceWrkr totalDistanceWrkr}\OperatorTok{(}\NormalTok{x}\OperatorTok{,}\NormalTok{ y}\OperatorTok{);}
   
-  \CommentTok{// Appel de parallel\_reduce pour démarrer la tâche}
+  \CommentTok{// call parallel\_reduce to start the work}
 \NormalTok{  parallelReduce}\OperatorTok{(}\DecValTok{0}\OperatorTok{,}\NormalTok{ x}\OperatorTok{.}\NormalTok{length}\OperatorTok{(),}\NormalTok{ totalDistanceWrkr}\OperatorTok{);}
   
-  \CommentTok{// Retour du résultat}
+  \CommentTok{// return the result}
   \ControlFlowTok{return}\NormalTok{ totalDistanceWrkr}\OperatorTok{.}\NormalTok{distance}\OperatorTok{;}
 \OperatorTok{\}}
 \end{Highlighting}
@@ -3628,8 +3662,9 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{(mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{TotalDistance}\NormalTok{(X}\SpecialCharTok{$}\NormalTok{x, X}\SpecialCharTok{$}\NormalTok{y)}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}}
-    \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{))}
+\NormalTok{(mb }\OtherTok{\textless{}{-}} \FunctionTok{microbenchmark}\NormalTok{(}
+\NormalTok{  d }\OtherTok{\textless{}{-}} \FunctionTok{TotalDistance}\NormalTok{(X}\SpecialCharTok{$}\NormalTok{x, X}\SpecialCharTok{$}\NormalTok{y) }\SpecialCharTok{/}\NormalTok{ NbPoints }\SpecialCharTok{/}\NormalTok{ (NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3637,14 +3672,13 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 ## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min      lq     mean   median       uq      max neval
-##  302.293 308.607 394.1515 312.8095 317.7295 6968.565   100
+##      min       lq     mean  median      uq     max neval
+##  220.826 223.6755 283.3424 232.388 234.315 4799.05   100
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# suppressmessages pour éliminer les messages superflus}
-\FunctionTok{suppressMessages}\NormalTok{(}\FunctionTok{autoplot}\NormalTok{(mb))}
+\FunctionTok{autoplot}\NormalTok{(mb)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3678,26 +3712,27 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.747   0.008   4.758
+##   4.367   0.006   4.376
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{2210} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{2142} secondes.
 
 \scriptsize
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{system.time}\NormalTok{(d }\OtherTok{\textless{}{-}} \FunctionTok{TotalDistance}\NormalTok{(X}\SpecialCharTok{$}\NormalTok{x, X}\SpecialCharTok{$}\NormalTok{y)}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints }\SpecialCharTok{{-}}
-    \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}\NormalTok{)}
+\FunctionTok{system.time}\NormalTok{(}
+\NormalTok{  d }\OtherTok{\textless{}{-}} \FunctionTok{TotalDistance}\NormalTok{(X}\SpecialCharTok{$}\NormalTok{x, X}\SpecialCharTok{$}\NormalTok{y) }\SpecialCharTok{/}\NormalTok{ NbPoints }\SpecialCharTok{/}\NormalTok{ (NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*} \DecValTok{2}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.277   0.002   0.429
+##   1.268   0.002   0.425
 \end{verbatim}
 
 \normalsize
@@ -3840,14 +3875,14 @@ Le flux est exécuté par \texttt{tar\_make()}.
 
 \begin{verbatim}
 ## ▶ dispatched target NbPoints
-## ● completed target NbPoints [0.766 seconds, 53 bytes]
+## ● completed target NbPoints [0.645 seconds, 53 bytes]
 ## ▶ dispatched target X
 ## ● completed target X [0.002 seconds, 11.058 kilobytes]
 ## ▶ dispatched target d
-## ● completed target d [0.009 seconds, 55 bytes]
+## ● completed target d [0.005 seconds, 55 bytes]
 ## ▶ dispatched target map
-## ● completed target map [0.016 seconds, 187.39 kilobytes]
-## ▶ ended pipeline [0.896 seconds]
+## ● completed target map [0.012 seconds, 187.39 kilobytes]
+## ▶ ended pipeline [0.764 seconds]
 \end{verbatim}
 
 \normalsize
@@ -3869,11 +3904,8 @@ Le flux est maintenant à jour et \texttt{tar\_make()} ne refait aucun calcul.
 \end{Shaded}
 
 \begin{verbatim}
-## ✔ skipped target NbPoints
-## ✔ skipped target X
-## ✔ skipped target d
-## ✔ skipped target map
-## ✔ skipped pipeline [0.043 seconds]
+## ✔ skipping targets (1 so far)...
+## ✔ skipped pipeline [0.035 seconds]
 \end{verbatim}
 
 \normalsize
@@ -4370,7 +4402,7 @@ Le bouton en forme d'horloge de la fenêtre \emph{Git} de RStudio affiche l'hist
 
 }
 
-\caption{Historique des validations dans le dépôt.}\label{fig:git-historique}
+\caption{(ref:git-history)}\label{fig:git-history}
 \end{figure}
 
 \normalsize
@@ -4737,15 +4769,6 @@ La clé de l'utilisateur générique du projet est ajoutée par:
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(}\StringTok{"openssl"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Linking to: OpenSSL 3.2.2 4 Jun 2024
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{project\_id }\OtherTok{\textless{}{-}} \StringTok{"NomDuProjet"}
 \CommentTok{\# Lecture de la clé}
 \NormalTok{rsa\_project }\OtherTok{\textless{}{-}} \FunctionTok{read\_pubkey}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(project\_id, }\StringTok{".rsa.pub"}\NormalTok{))}
@@ -4774,7 +4797,8 @@ Dans l'exemple suivant, la variable s'appelle \texttt{X} et vaut 1.
   \CommentTok{\# Utilisateurs autorisés: propriétaire et générique}
   \AttributeTok{users =} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(}\StringTok{"github{-}"}\NormalTok{, github\_user), project\_id), }
   \CommentTok{\# Coffre{-}fort}
-  \AttributeTok{vault =}\NormalTok{ vault)}
+  \AttributeTok{vault =}\NormalTok{ vault}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4798,7 +4822,7 @@ Le contenu du coffre-fort peut être vérifié:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Liste des propriétaire de la donnée \textquotesingle{}X\textquotesingle{}}
+\CommentTok{\# Liste des propriétaire de la donnée "X"}
 \FunctionTok{list\_owners}\NormalTok{(}\StringTok{"X"}\NormalTok{, }\AttributeTok{vault =}\NormalTok{ vault)}
 \end{Highlighting}
 \end{Shaded}
@@ -4818,17 +4842,7 @@ La clé privée de l'utilisateur générique du projet, communiquée par un moye
 \begin{Highlighting}[]
 \CommentTok{\# Sélection de la clé privée}
 \FunctionTok{Sys.setenv}\NormalTok{(}\AttributeTok{USER\_KEY =}\NormalTok{ usethis}\SpecialCharTok{::}\FunctionTok{proj\_path}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(project\_id, }\StringTok{".rsa"}\NormalTok{)))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## v Setting active project to
-##   "/Users/runner/work/travailleR/travailleR".
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Lecture de la donnée \textquotesingle{}X\textquotesingle{}}
+\CommentTok{\# Lecture de la donnée "X"}
 \FunctionTok{get\_secret}\NormalTok{(}\StringTok{"X"}\NormalTok{, }\AttributeTok{vault =}\NormalTok{ vault)}
 \end{Highlighting}
 \end{Shaded}
@@ -5213,12 +5227,23 @@ La fonction \texttt{kbl} du package \emph{kableExtra} prépare le tableau pour l
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
 \NormalTok{mes\_iris }\OtherTok{\textless{}{-}} \FunctionTok{head}\NormalTok{(iris)}
-\FunctionTok{names}\NormalTok{(mes\_iris) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Longueur sépales ($l\_s$)"}\NormalTok{, }\StringTok{"Largeur"}\NormalTok{,}
-    \StringTok{"Longueur pétales"}\NormalTok{, }\StringTok{"Largeur"}\NormalTok{, }\StringTok{"Espèce"}\NormalTok{)}
-\NormalTok{kableExtra}\SpecialCharTok{::}\FunctionTok{kbl}\NormalTok{(mes\_iris, }\AttributeTok{caption =} \StringTok{"Tableau créé par kable"}\NormalTok{,}
-    \AttributeTok{booktabs =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{escape =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{    kableExtra}\SpecialCharTok{::}\FunctionTok{kable\_styling}\NormalTok{(}\AttributeTok{bootstrap\_options =} \StringTok{"striped"}\NormalTok{,}
-        \AttributeTok{full\_width =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(mes\_iris) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"Longueur sépales ($l\_s$)"}\NormalTok{, }
+  \StringTok{"Largeur"}\NormalTok{, }
+  \StringTok{"Longueur pétales"}\NormalTok{, }
+  \StringTok{"Largeur"}\NormalTok{, }
+  \StringTok{"Espèce"}
+\NormalTok{)}
+\NormalTok{kableExtra}\SpecialCharTok{::}\FunctionTok{kbl}\NormalTok{(}
+\NormalTok{  mes\_iris, }
+  \AttributeTok{caption =} \StringTok{"Tableau créé par kable"}\NormalTok{, }
+  \AttributeTok{booktabs =} \ConstantTok{TRUE}\NormalTok{, }
+  \AttributeTok{escape =} \ConstantTok{FALSE}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  kableExtra}\SpecialCharTok{::}\FunctionTok{kable\_styling}\NormalTok{(}
+    \AttributeTok{bootstrap\_options =} \StringTok{"striped"}\NormalTok{, }
+    \AttributeTok{full\_width =} \ConstantTok{FALSE}
+\NormalTok{  )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5260,41 +5285,22 @@ Le package \textbf{flextable} permet de réaliser des tableaux plus élaborés, 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(}\StringTok{"flextable"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 
-## Attaching package: 'flextable'
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:spatstat.geom':
-## 
-##     border, rotate
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:purrr':
-## 
-##     compose
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{\# Rappel du jeu de données initial iris}
 \NormalTok{iris }\SpecialCharTok{\%\textgreater{}\%}
-    \CommentTok{\# Premières lignes}
-\FunctionTok{head}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
-    \CommentTok{\# Création d\textquotesingle{}un objet flextable}
-\FunctionTok{flextable}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
-    \CommentTok{\# Titre des colonnes}
-\FunctionTok{set\_header\_labels}\NormalTok{(}\AttributeTok{Sepal.Length =} \StringTok{"Longueur sépales"}\NormalTok{, }\AttributeTok{Sepal.Width =} \StringTok{"Largeur"}\NormalTok{,}
-    \AttributeTok{Petal.Length =} \StringTok{"Longueur pétales"}\NormalTok{, }\AttributeTok{Petal.Width =} \StringTok{"Largeur"}\NormalTok{,}
-    \AttributeTok{Species =} \StringTok{"Espèce"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-    \CommentTok{\# Sélection des longs sépales (\textgreater{}5) et affichage en}
-    \CommentTok{\# rouge}
-\FunctionTok{color}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Sepal.Length }\SpecialCharTok{\textgreater{}} \DecValTok{5}\NormalTok{, }\SpecialCharTok{\textasciitilde{}}\NormalTok{Sepal.Length, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{)}
+  \CommentTok{\# Premières lignes}
+  \FunctionTok{head}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \CommentTok{\# Création d\textquotesingle{}un objet flextable}
+  \FunctionTok{flextable}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# Titre des colonnes}
+  \FunctionTok{set\_header\_labels}\NormalTok{(}
+    \AttributeTok{Sepal.Length =} \StringTok{"Longueur sépales"}\NormalTok{,}
+    \AttributeTok{Sepal.Width =} \StringTok{"Largeur"}\NormalTok{, }
+    \AttributeTok{Petal.Length =} \StringTok{"Longueur pétales"}\NormalTok{,}
+    \AttributeTok{Petal.Width =} \StringTok{"Largeur"}\NormalTok{,}
+    \AttributeTok{Species =} \StringTok{"Espèce"}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# Sélection des longs sépales (\textgreater{}5) et affichage en rouge}
+  \FunctionTok{color}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Sepal.Length }\SpecialCharTok{\textgreater{}} \DecValTok{5}\NormalTok{, }\SpecialCharTok{\textasciitilde{}}\NormalTok{Sepal.Length, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5648,13 +5654,14 @@ Le comportement par défaut est indiqué dans les options de \textbf{knitr}, dan
 \begin{Highlighting}[]
 \CommentTok{\# knitr options}
 \NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}
-  \AttributeTok{cache=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{warning=}\ConstantTok{FALSE}\NormalTok{, }\AttributeTok{echo =} \ConstantTok{TRUE}\NormalTok{,}
-  \AttributeTok{fig.env=}\StringTok{\textquotesingle{}SCfigure\textquotesingle{}}\NormalTok{, }\AttributeTok{fig.asp=}\NormalTok{.}\DecValTok{75}\NormalTok{, }
-  \AttributeTok{fig.align=}\StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, }\AttributeTok{out.width=}\StringTok{\textquotesingle{}80\%\textquotesingle{}}\NormalTok{, }
-  \AttributeTok{tidy=}\ConstantTok{TRUE}\NormalTok{, }
-  \AttributeTok{tidy.opts=}\FunctionTok{list}\NormalTok{(}\AttributeTok{blank=}\ConstantTok{FALSE}\NormalTok{, }\AttributeTok{width.cutoff=}\DecValTok{55}\NormalTok{), }
-    \AttributeTok{size=}\StringTok{"scriptsize"}\NormalTok{,}
-  \AttributeTok{knitr.graphics.auto\_pdf =} \ConstantTok{TRUE}\NormalTok{)}
+  \AttributeTok{cache =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{warning =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{echo =} \ConstantTok{TRUE}\NormalTok{,}
+  \AttributeTok{fig.env =} \StringTok{\textquotesingle{}SCfigure\textquotesingle{}}\NormalTok{, }\AttributeTok{fig.asp =}\NormalTok{ .}\DecValTok{75}\NormalTok{, }
+  \AttributeTok{fig.align =} \StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, }\AttributeTok{out.width =} \StringTok{\textquotesingle{}80\%\textquotesingle{}}\NormalTok{, }
+  \AttributeTok{tidy =} \ConstantTok{TRUE}\NormalTok{, }
+  \AttributeTok{tidy.opts =} \FunctionTok{list}\NormalTok{(}\AttributeTok{blank =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{width.cutoff =} \DecValTok{55}\NormalTok{), }
+  \AttributeTok{size =} \StringTok{"scriptsize"}\NormalTok{, }
+  \AttributeTok{knitr.graphics.auto\_pdf =} \ConstantTok{TRUE}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5853,7 +5860,7 @@ La première étape consiste à installer le package \textbf{blogdown} dans R.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{install.packages}\NormalTok{(}\StringTok{"blogdown"}\NormalTok{)}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{\textquotesingle{}blogdown\textquotesingle{}}\NormalTok{) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -6628,19 +6635,6 @@ La figure \ref{fig:volcano} montre le résultat du code suivant:
 
 \scriptsize
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{10} \SpecialCharTok{*}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(volcano))}
-\NormalTok{y }\OtherTok{\textless{}{-}} \DecValTok{10} \SpecialCharTok{*}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(volcano))}
-\FunctionTok{image}\NormalTok{(x, y, volcano, }\AttributeTok{col =} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{100}\NormalTok{, }\StringTok{"terrain"}\NormalTok{), }\AttributeTok{axes =} \ConstantTok{FALSE}\NormalTok{)}
-\FunctionTok{contour}\NormalTok{(x, y, volcano, }\AttributeTok{levels =} \FunctionTok{seq}\NormalTok{(}\DecValTok{90}\NormalTok{, }\DecValTok{200}\NormalTok{, }\AttributeTok{by =} \DecValTok{5}\NormalTok{), }\AttributeTok{add =} \ConstantTok{TRUE}\NormalTok{,}
-    \AttributeTok{col =} \StringTok{"brown"}\NormalTok{)}
-\FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{at =} \FunctionTok{seq}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DecValTok{800}\NormalTok{, }\AttributeTok{by =} \DecValTok{100}\NormalTok{))}
-\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{at =} \FunctionTok{seq}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DecValTok{600}\NormalTok{, }\AttributeTok{by =} \DecValTok{100}\NormalTok{))}
-\FunctionTok{box}\NormalTok{()}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{figure}
 
 {\centering \includegraphics[width=0.8\linewidth]{travailleR_files/figure-latex/volcano-1} 
@@ -6711,19 +6705,22 @@ Pour ce document, les options déclarées dans \texttt{index.Rmd} sont les suiva
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# knitr options}
 \NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}
-  \AttributeTok{cache=}\ConstantTok{FALSE}\NormalTok{, }\CommentTok{\# Cache chunk results}
-  \AttributeTok{echo =} \ConstantTok{TRUE}\NormalTok{, }\CommentTok{\# Show/Hide R chunks}
-  \AttributeTok{warning=}\ConstantTok{FALSE}\NormalTok{, }\CommentTok{\# Show/Hide warnings}
+  \AttributeTok{cache =}   \ConstantTok{FALSE}\NormalTok{,    }\CommentTok{\# Cache chunk results}
+  \AttributeTok{include =} \ConstantTok{TRUE}\NormalTok{,     }\CommentTok{\# Show/Hide chunks}
+  \AttributeTok{echo =}    \ConstantTok{TRUE}\NormalTok{,     }\CommentTok{\# Show/Hide code}
+  \AttributeTok{warning =} \ConstantTok{FALSE}\NormalTok{,    }\CommentTok{\# Show/Hide warnings}
+  \AttributeTok{message =} \ConstantTok{FALSE}\NormalTok{,    }\CommentTok{\# Show/Hide messages}
   \CommentTok{\# Figure alignment and size}
-  \AttributeTok{fig.align=}\StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, }\AttributeTok{out.width=}\StringTok{\textquotesingle{}80\%\textquotesingle{}}\NormalTok{, }\AttributeTok{fig.asp=}\NormalTok{.}\DecValTok{75}\NormalTok{,}
+  \AttributeTok{fig.align =} \StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, }\AttributeTok{out.width =} \StringTok{\textquotesingle{}80\%\textquotesingle{}}\NormalTok{, }\AttributeTok{fig.asp =}\NormalTok{ .}\DecValTok{75}\NormalTok{,}
   \CommentTok{\# Graphic devices (ragg\_png is better than standard png)}
   \AttributeTok{dev =} \FunctionTok{c}\NormalTok{(}\StringTok{"ragg\_png"}\NormalTok{, }\StringTok{"pdf"}\NormalTok{),}
   \CommentTok{\# Code chunk format}
-  \AttributeTok{tidy=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{tidy.opts=}\FunctionTok{list}\NormalTok{(}\AttributeTok{blank=}\ConstantTok{FALSE}\NormalTok{, }\AttributeTok{width.cutoff=}\DecValTok{60}\NormalTok{),}
-  \AttributeTok{size=}\StringTok{"scriptsize"}\NormalTok{, }\AttributeTok{knitr.graphics.auto\_pdf =} \ConstantTok{TRUE}
+  \AttributeTok{tidy =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{tidy.opts =} \FunctionTok{list}\NormalTok{(}\AttributeTok{blank =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{width.cutoff =} \DecValTok{60}\NormalTok{),}
+  \AttributeTok{size =} \StringTok{"scriptsize"}\NormalTok{, }\AttributeTok{knitr.graphics.auto\_pdf =} \ConstantTok{TRUE}
 \NormalTok{  )}
-\FunctionTok{options}\NormalTok{(}\AttributeTok{width=}\DecValTok{60}\NormalTok{)}
+\FunctionTok{options}\NormalTok{(}\AttributeTok{width =} \DecValTok{60}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6802,11 +6799,6 @@ Pendant le tricot, ce code simplifié (\texttt{tar\_simple=TRUE}) est transform�
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## Define target X from chunk code.
-## Establish _targets.R and _targets_r/targets/X.R.
-\end{verbatim}
-
 \normalsize
 
 La lecture du document est alourdie par cette syntaxe particulière: \textbf{targets} n'est pas utile pour des documents dont le code, rapide à exécuter, doit être affiché dans le texte.
@@ -6830,11 +6822,6 @@ Les autres bouts de code nécessaires pour compléter le flux sont les suivants:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## Define target NbPoints from chunk code.
-## Establish _targets.R and _targets_r/targets/NbPoints.R.
-\end{verbatim}
-
 \normalsize
 
 \begin{itemize}
@@ -6848,15 +6835,10 @@ Les autres bouts de code nécessaires pour compléter le flux sont les suivants:
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{tar\_target}\NormalTok{(d, \{}
-    \FunctionTok{sum}\NormalTok{(}\FunctionTok{pairdist}\NormalTok{(X))}\SpecialCharTok{/}\NormalTok{NbPoints}\SpecialCharTok{/}\NormalTok{(NbPoints}\DecValTok{{-}1}\NormalTok{)}
+    \FunctionTok{sum}\NormalTok{(}\FunctionTok{pairdist}\NormalTok{(X)) }\SpecialCharTok{/}\NormalTok{ NbPoints }\SpecialCharTok{/}\NormalTok{ (NbPoints }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
 \NormalTok{\})}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Define target d from chunk code.
-## Establish _targets.R and _targets_r/targets/d.R.
-\end{verbatim}
 
 \normalsize
 
@@ -6875,11 +6857,6 @@ Les autres bouts de code nécessaires pour compléter le flux sont les suivants:
 \NormalTok{\})}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Define target map from chunk code.
-## Establish _targets.R and _targets_r/targets/map.R.
-\end{verbatim}
 
 \normalsize
 
@@ -6903,14 +6880,14 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 
 \begin{verbatim}
 ## ▶ dispatched target NbPoints
-## ● completed target NbPoints [0.68 seconds, 53 bytes]
+## ● completed target NbPoints [0.619 seconds, 53 bytes]
 ## ▶ dispatched target X
 ## ● completed target X [0.001 seconds, 11.058 kilobytes]
 ## ▶ dispatched target d
-## ● completed target d [0.032 seconds, 55 bytes]
+## ● completed target d [0.006 seconds, 55 bytes]
 ## ▶ dispatched target map
-## ● completed target map [0.013 seconds, 187.39 kilobytes]
-## ▶ ended pipeline [0.828 seconds]
+## ● completed target map [0.011 seconds, 187.39 kilobytes]
+## ▶ ended pipeline [0.737 seconds]
 \end{verbatim}
 
 \normalsize
@@ -7044,7 +7021,7 @@ La première fonction, \texttt{double()}, est créée et enregistrée dans le fi
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{double }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(number) \{}
-    \FunctionTok{return}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ number)}
+  \FunctionTok{return}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ number)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -7053,6 +7030,7 @@ La première fonction, \texttt{double()}, est créée et enregistrée dans le fi
 
 A ce stade, la fonction est interne au package et n'est pas accessible depuis l'environnement de travail.
 Pour s'en persuader, construire le package (\emph{Install and Restart}) et vérifier le bon fonctionnement de la fonction:
+*
 
 \scriptsize
 
@@ -7061,6 +7039,10 @@ Pour s'en persuader, construire le package (\emph{Install and Restart}) et véri
 \FunctionTok{double}\NormalTok{(}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## [1] 4
+\end{verbatim}
 
 \normalsize
 
@@ -7098,7 +7080,7 @@ Des commentaires sont ajoutés avant la fonction:
 \CommentTok{\#\textquotesingle{}}
 \CommentTok{\#\textquotesingle{} @examples}
 \NormalTok{double }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(number) \{}
-    \FunctionTok{return}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ number)}
+  \FunctionTok{return}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ number)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -7147,7 +7129,7 @@ La documentation doit être complétée:
 \CommentTok{\#\textquotesingle{} double(2)}
 \CommentTok{\#\textquotesingle{} double(1:4)}
 \NormalTok{double }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(number) \{}
-    \FunctionTok{return}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ number)}
+  \FunctionTok{return}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ number)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -7176,8 +7158,7 @@ Ensuite, construire le package (\emph{Install and Restart}) et vérifier le rés
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{double}\NormalTok{(}\DecValTok{2}\NormalTok{)}
-\StringTok{\textasciigrave{}}\AttributeTok{?}\StringTok{\textasciigrave{}}\NormalTok{(double)}
+\NormalTok{?double}
 \end{Highlighting}
 \end{Shaded}
 
@@ -7399,7 +7380,7 @@ Pendant le développement du package, la vignette peut être construite manuelle
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{devtools}\SpecialCharTok{::}\FunctionTok{build\_vignettes}\NormalTok{(}\StringTok{"multiple"}\NormalTok{)}
+\NormalTok{devtools}\SpecialCharTok{::}\FunctionTok{build\_vignettes}\NormalTok{(}\StringTok{"multiple"}\NormalTok{) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -7521,7 +7502,7 @@ Créons une nouvelle fonction dans \texttt{fonctions.R} qui ajoute un bruit alé
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fuzzydouble }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(number, }\AttributeTok{sd =} \DecValTok{1}\NormalTok{) \{}
-    \FunctionTok{return}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ number }\SpecialCharTok{+} \FunctionTok{rnorm}\NormalTok{(}\FunctionTok{length}\NormalTok{(number), }\DecValTok{0}\NormalTok{, sd))}
+  \FunctionTok{return}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ number }\SpecialCharTok{+} \FunctionTok{rnorm}\NormalTok{(}\FunctionTok{length}\NormalTok{(number), }\DecValTok{0}\NormalTok{, sd))}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -7599,8 +7580,9 @@ Finalement, le code de la fonction est le suivant:
 \CommentTok{\#\textquotesingle{} @examples}
 \CommentTok{\#\textquotesingle{} fuzzydouble(2)}
 \CommentTok{\#\textquotesingle{} fuzzydouble(1:4)}
+
 \NormalTok{fuzzydouble }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(number, }\AttributeTok{sd =} \DecValTok{1}\NormalTok{) \{}
-    \FunctionTok{return}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ number }\SpecialCharTok{+}\NormalTok{ stats}\SpecialCharTok{::}\FunctionTok{rnorm}\NormalTok{(}\FunctionTok{length}\NormalTok{(number), }\DecValTok{0}\NormalTok{, sd))}
+  \FunctionTok{return}\NormalTok{(}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ number }\SpecialCharTok{+}\NormalTok{ stats}\SpecialCharTok{::}\FunctionTok{rnorm}\NormalTok{(}\FunctionTok{length}\NormalTok{(number), }\DecValTok{0}\NormalTok{, sd))}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -7659,7 +7641,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x12b49aef0>
+## <bytecode: 0x132e11518>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7680,9 +7662,9 @@ Les fonctions peuvent être listées:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "plot,ANY-method"   "plot,color-method"
-## [3] "plot.AccumCurve"   "plot.acf"         
-## [5] "plot.ACF"          "plot.addvar"
+## [1] "plot,ANY-method"      "plot,color-method"   
+## [3] "plot.AccumCurve"      "plot.acf"            
+## [5] "plot.ACF"             "plot.adaptivedensity"
 \end{verbatim}
 
 \begin{Shaded}
@@ -7693,7 +7675,7 @@ Les fonctions peuvent être listées:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 155
+## [1] 156
 \end{verbatim}
 
 \normalsize
@@ -7736,7 +7718,7 @@ La méthode \texttt{print} est utilisée pour afficher tout objet (elle est impl
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{my\_lm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(dist }\SpecialCharTok{\textasciitilde{}}\NormalTok{ speed, }\AttributeTok{data =}\NormalTok{ cars)}
-\CommentTok{\# Equivalent de \textquotesingle{}\textgreater{} my\_lm\textquotesingle{}}
+\CommentTok{\# Equivalent de "\textgreater{} my\_lm"}
 \FunctionTok{print}\NormalTok{(my\_lm)}
 \end{Highlighting}
 \end{Shaded}
@@ -7859,8 +7841,8 @@ Les calculs sur les nombres entiers plus rapides que ceux sur les réels, ce qui
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Méthode générique}
-\NormalTok{triple }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x, ...) \{}
-    \FunctionTok{UseMethod}\NormalTok{(}\StringTok{"triple"}\NormalTok{)}
+\NormalTok{triple }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{ (x, ...) \{}
+  \FunctionTok{UseMethod}\NormalTok{(}\StringTok{"triple"}\NormalTok{)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
@@ -7943,17 +7925,17 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Performance}
-\NormalTok{microbenchmark}\SpecialCharTok{::}\FunctionTok{microbenchmark}\NormalTok{(}\FunctionTok{triple.integer}\NormalTok{(}\DecValTok{2}\DataTypeTok{L}\NormalTok{), }\FunctionTok{triple.numeric}\NormalTok{(}\DecValTok{2}\NormalTok{),}
-    \FunctionTok{triple}\NormalTok{(}\DecValTok{2}\DataTypeTok{L}\NormalTok{))}
+\FunctionTok{library}\NormalTok{(}\StringTok{"microbenchmark"}\NormalTok{)}
+\FunctionTok{microbenchmark}\NormalTok{(}\FunctionTok{triple.integer}\NormalTok{(}\DecValTok{2}\DataTypeTok{L}\NormalTok{), }\FunctionTok{triple.numeric}\NormalTok{(}\DecValTok{2}\NormalTok{), }\FunctionTok{triple}\NormalTok{(}\DecValTok{2}\DataTypeTok{L}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## Unit: nanoseconds
-##                expr min  lq     mean median  uq     max
-##  triple.integer(2L) 123 123  7366.47    164 164  721723
-##   triple.numeric(2) 123 123 10217.20    164 164 1007042
-##          triple(2L) 533 533   639.19    574 615    6109
+##                expr min  lq    mean median    uq    max
+##  triple.integer(2L)  82 123  138.99    123 164.0    451
+##   triple.numeric(2)  82 123 8375.48    123 164.0 823977
+##          triple(2L) 492 492 7193.45    533 553.5 665143
 ##  neval
 ##    100
 ##    100
@@ -7980,13 +7962,13 @@ Ecrivons une fonction \texttt{multiple()} dont le résultat sera un objet d'une 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{multiple }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(number, }\AttributeTok{times =} \DecValTok{1}\NormalTok{) \{}
-    \CommentTok{\# Calculate the multiples}
-\NormalTok{    y }\OtherTok{\textless{}{-}}\NormalTok{ number }\SpecialCharTok{*}\NormalTok{ times}
-    \CommentTok{\# Save in a list}
-\NormalTok{    result }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{x =}\NormalTok{ number, }\AttributeTok{y =}\NormalTok{ y, }\AttributeTok{times =}\NormalTok{ times)}
-    \CommentTok{\# Set the class}
-    \FunctionTok{class}\NormalTok{(result) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"multiple"}\NormalTok{, }\FunctionTok{class}\NormalTok{(result))}
-    \FunctionTok{return}\NormalTok{(result)}
+  \CommentTok{\# Calculate the multiples}
+\NormalTok{  y }\OtherTok{\textless{}{-}}\NormalTok{ number }\SpecialCharTok{*}\NormalTok{ times}
+  \CommentTok{\# Save in a list}
+\NormalTok{  result }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{x =}\NormalTok{ number, }\AttributeTok{y =}\NormalTok{ y, }\AttributeTok{times =}\NormalTok{ times)}
+  \CommentTok{\# Set the class}
+  \FunctionTok{class}\NormalTok{(result) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"multiple"}\NormalTok{, }\FunctionTok{class}\NormalTok{(result))}
+  \FunctionTok{return}\NormalTok{(result)}
 \NormalTok{\}}
 \CommentTok{\# Classe du résultat}
 \NormalTok{my\_multiple }\OtherTok{\textless{}{-}} \FunctionTok{multiple}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{)}
@@ -8034,8 +8016,9 @@ La fonction \texttt{print.multiple} doit donc être écrite pour un affichage li
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{print.multiple }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x, ...) \{}
-    \FunctionTok{print.default}\NormalTok{(x}\SpecialCharTok{$}\NormalTok{y)}
+  \FunctionTok{print.default}\NormalTok{(x}\SpecialCharTok{$}\NormalTok{y)}
 \NormalTok{\}}
+
 \CommentTok{\# Nouvel affichage}
 \NormalTok{my\_multiple}
 \end{Highlighting}
@@ -8054,10 +8037,11 @@ Les détails peuvent être présentés dans la fonction \texttt{summary}:
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{summary.multiple }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(object, ...) \{}
-    \FunctionTok{print.default}\NormalTok{(object}\SpecialCharTok{$}\NormalTok{x)}
-    \FunctionTok{cat}\NormalTok{(}\StringTok{"multiplied by"}\NormalTok{, object}\SpecialCharTok{$}\NormalTok{times, }\StringTok{"is:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
-    \FunctionTok{print.default}\NormalTok{(object}\SpecialCharTok{$}\NormalTok{y)}
+  \FunctionTok{print.default}\NormalTok{(object}\SpecialCharTok{$}\NormalTok{x)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"multiplied by"}\NormalTok{, object}\SpecialCharTok{$}\NormalTok{times, }\StringTok{"is:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{print.default}\NormalTok{(object}\SpecialCharTok{$}\NormalTok{y)}
 \NormalTok{\}}
+
 \CommentTok{\# Nouvel affichage}
 \FunctionTok{summary}\NormalTok{(my\_multiple)}
 \end{Highlighting}
@@ -8078,16 +8062,20 @@ Enfin, une fonction \texttt{plot} et une fonction \texttt{autoplot} complètent 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{plot.multiple }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x, y, ...) \{}
-  \FunctionTok{plot.default}\NormalTok{(}\AttributeTok{y=}\NormalTok{x}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{x=}\NormalTok{x}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{type =} \StringTok{"p"}\NormalTok{, }
-    \AttributeTok{main =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Multiplication by"}\NormalTok{, x}\SpecialCharTok{$}\NormalTok{times), ...)}
+  \FunctionTok{plot.default}\NormalTok{(}
+    \AttributeTok{x =}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{x, }
+    \AttributeTok{y =}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{y, }
+    \AttributeTok{type =} \StringTok{"p"}\NormalTok{, }
+    \AttributeTok{main =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Multiplication by"}\NormalTok{, x}\SpecialCharTok{$}\NormalTok{times), }
+\NormalTok{    ...}
+\NormalTok{  )}
 \NormalTok{\}}
 
 \NormalTok{autoplot.multiple }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(object, ...) \{}
   \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{x =}\NormalTok{ object}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y =}\NormalTok{ object}\SpecialCharTok{$}\NormalTok{y) }\SpecialCharTok{\%\textgreater{}\%} 
 \NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
 \NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{geom\_point}\NormalTok{(ggplot2}\SpecialCharTok{::}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .data}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y =}\NormalTok{ .data}\SpecialCharTok{$}\NormalTok{y)) }\SpecialCharTok{+}
-\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Multiplication by"}\NormalTok{, }
-\NormalTok{                                object}\SpecialCharTok{$}\NormalTok{times))}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Multiplication by"}\NormalTok{, object}\SpecialCharTok{$}\NormalTok{times))}
 \NormalTok{\}}
 
 \FunctionTok{plot}\NormalTok{(my\_multiple)}
@@ -8138,6 +8126,7 @@ La gestion de l'espace des noms est un peu plus complexe:
 \end{verbatim}
 
 \begin{itemize}
+\tightlist
 \item
   Depuis la version 3 de \textbf{roxygen2}, la déclaration \texttt{@method} est inutile tant que le nom de la fonction est décomposable sans ambiguïté, comme \texttt{plot.multiple}: \texttt{@export} suffit.
   Si le nom de la fonction dérivée comporte plusieurs points, \textbf{roxygen2} peut ne pas détecter automatiquement le générique et l'objet et \texttt{@method} doit être maintenu.
@@ -8291,8 +8280,13 @@ Finalement, le code complet est le suivant:
 \CommentTok{\#\textquotesingle{} @examples}
 \CommentTok{\#\textquotesingle{} plot(multiple(2,3))}
 \NormalTok{plot.multiple }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x, y, ...) \{}
-  \FunctionTok{plot.default}\NormalTok{(}\AttributeTok{y=}\NormalTok{x}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{x=}\NormalTok{x}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{type =} \StringTok{"p"}\NormalTok{, }
-               \AttributeTok{main =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Multiplication by"}\NormalTok{, x}\SpecialCharTok{$}\NormalTok{times), ...)}
+  \FunctionTok{plot.default}\NormalTok{(}
+    \AttributeTok{x =}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{x, }
+    \AttributeTok{y =}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{y, }
+    \AttributeTok{type =} \StringTok{"p"}\NormalTok{, }
+    \AttributeTok{main =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Multiplication by"}\NormalTok{, x}\SpecialCharTok{$}\NormalTok{times), }
+\NormalTok{    ...}
+\NormalTok{  )}
 \NormalTok{\}}
 \CommentTok{\#\textquotesingle{} @export}
 \NormalTok{graphics}\SpecialCharTok{::}\NormalTok{plot}
@@ -8302,7 +8296,7 @@ Finalement, le code complet est le suivant:
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x12b49aef0>
+## <bytecode: 0x132e11518>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -8327,8 +8321,7 @@ Finalement, le code complet est le suivant:
   \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{x =}\NormalTok{ object}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y =}\NormalTok{ object}\SpecialCharTok{$}\NormalTok{y) }\SpecialCharTok{\%\textgreater{}\%}
 \NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
 \NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{geom\_point}\NormalTok{(ggplot2}\SpecialCharTok{::}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ .data}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y =}\NormalTok{ .data}\SpecialCharTok{$}\NormalTok{y)) }\SpecialCharTok{+}
-\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Multiplication by"}\NormalTok{, }
-\NormalTok{                                object}\SpecialCharTok{$}\NormalTok{times))}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \FunctionTok{paste}\NormalTok{(}\StringTok{"Multiplication by"}\NormalTok{, object}\SpecialCharTok{$}\NormalTok{times))}
 \NormalTok{\}}
 \CommentTok{\#\textquotesingle{} @export}
 \NormalTok{ggplot2}\SpecialCharTok{::}\NormalTok{autoplot}
@@ -8340,7 +8333,7 @@ Finalement, le code complet est le suivant:
 ## {
 ##     UseMethod("autoplot")
 ## }
-## <bytecode: 0x13bd62ab0>
+## <bytecode: 0x13696cc88>
 ## <environment: namespace:ggplot2>
 \end{verbatim}
 
@@ -8629,41 +8622,6 @@ Ils s'appuient sur \textbf{testthat} à intégrer au package:
 
 \scriptsize
 
-\begin{verbatim}
-## 
-## Attaching package: 'testthat'
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:targets':
-## 
-##     matches
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:dplyr':
-## 
-##     matches
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:purrr':
-## 
-##     is_null
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:readr':
-## 
-##     edition_get, local_edition
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:tidyr':
-## 
-##     matches
-\end{verbatim}
-
 \normalsize
 
 Les tests doivent être ajoutés sous la forme de fichiers \texttt{.R} dont le nom commence obligatoirement par \texttt{test} dans le dossier \texttt{tests/testthat}.
@@ -8688,14 +8646,16 @@ Le nom de chaque test est passé comme argument de la fonction \texttt{test\_tha
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{test\_that}\NormalTok{(}\StringTok{"Double values are correct"}\NormalTok{, \{}
-    \FunctionTok{skip\_on\_cran}\NormalTok{()}
-\NormalTok{    x }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{2}
-    \CommentTok{\# 2 x 2 should be 4}
-    \FunctionTok{expect\_equal}\NormalTok{(}\FunctionTok{double}\NormalTok{(x), }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{))}
-    \CommentTok{\# The result should be a number (type = \textquotesingle{}double\textquotesingle{})}
-    \FunctionTok{expect\_type}\NormalTok{(}\FunctionTok{double}\NormalTok{(x), }\StringTok{"double"}\NormalTok{)}
-    \CommentTok{\# Error management}
-    \FunctionTok{expect\_error}\NormalTok{(}\FunctionTok{double}\NormalTok{(}\StringTok{"a"}\NormalTok{))}
+  \FunctionTok{skip\_on\_cran}\NormalTok{()}
+
+\NormalTok{  x }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{2}
+
+  \CommentTok{\# 2 x 2 should be 4}
+  \FunctionTok{expect\_equal}\NormalTok{(}\FunctionTok{double}\NormalTok{(x), }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+  \CommentTok{\# The result should be a number (type = "double")}
+  \FunctionTok{expect\_type}\NormalTok{(}\FunctionTok{double}\NormalTok{(x), }\StringTok{"double"}\NormalTok{)}
+  \CommentTok{\# Error management}
+  \FunctionTok{expect\_error}\NormalTok{(}\FunctionTok{double}\NormalTok{(}\StringTok{"a"}\NormalTok{))}
 \NormalTok{\})}
 \end{Highlighting}
 \end{Shaded}
@@ -9197,7 +9157,9 @@ jobs:
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
-          install.packages(c("distill", "downlit", "memoiR", "rmdformats", "tinytex"))
+          install.packages(
+            c("distill", "downlit", "memoiR", "rmdformats", "tinytex")
+          )
           tinytex::install_tinytex(bundle = "TinyTeX")
         shell: Rscript {0}
       - name: Render pdf book
@@ -9570,7 +9532,9 @@ jobs:
         run: |
           options(pkgType = "binary")
           options(install.packages.check.source = "no")
-          install.packages(c("distill", "downlit", "memoiR", "rmdformats", "tinytex"))
+          install.packages(
+            c("distill", "downlit", "memoiR", "rmdformats", "tinytex")
+          )
           tinytex::install_tinytex(bundle = "TinyTeX")
         shell: Rscript {0}
       - name: Render pdf book
@@ -9743,6 +9707,7 @@ Le début du code consiste à préparer l'exécution de l'application en chargea
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Prepare the application \#\#\#\#}
+
 \CommentTok{\# Load packages}
 \FunctionTok{library}\NormalTok{(}\StringTok{"shiny"}\NormalTok{)}
 \FunctionTok{library}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
@@ -9816,34 +9781,34 @@ Le code à exécuter pour traiter les entrées et produire les sorties est dans 
   \CommentTok{\# Store the author profile}
 \NormalTok{  AuthorProfile }\OtherTok{\textless{}{-}} \FunctionTok{reactiveVal}\NormalTok{()}
   \CommentTok{\# Update it when input$AuthorID is changed}
-  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{AuthorID, }
-               \FunctionTok{AuthorProfile}\NormalTok{(}\FunctionTok{get\_profile}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{AuthorID)))}
+  \FunctionTok{observeEvent}\NormalTok{(}
+\NormalTok{    input}\SpecialCharTok{$}\NormalTok{AuthorID, }
+    \FunctionTok{AuthorProfile}\NormalTok{(}\FunctionTok{get\_profile}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{AuthorID))}
+\NormalTok{  )}
   
   \CommentTok{\# Output \#\#\#\#}
 \NormalTok{  output}\SpecialCharTok{$}\NormalTok{name }\OtherTok{\textless{}{-}} \FunctionTok{renderUI}\NormalTok{(\{}
     \FunctionTok{h2}\NormalTok{(}\FunctionTok{AuthorProfile}\NormalTok{()}\SpecialCharTok{$}\NormalTok{name)}
 \NormalTok{  \})}
   
-\NormalTok{  output}\SpecialCharTok{$}\NormalTok{h }\OtherTok{\textless{}{-}}
-    \FunctionTok{renderUI}\NormalTok{(\{}
-      \FunctionTok{a}\NormalTok{(}\AttributeTok{href =} \FunctionTok{paste0}\NormalTok{(}
-        \StringTok{"https://scholar.google.com/citations?user="}\NormalTok{, }
-\NormalTok{        input}\SpecialCharTok{$}\NormalTok{AuthorID),}
-        \FunctionTok{paste}\NormalTok{(}\StringTok{"h index:"}\NormalTok{, }\FunctionTok{AuthorProfile}\NormalTok{()}\SpecialCharTok{$}\NormalTok{h\_index),}
-        \AttributeTok{target =} \StringTok{"\_blank"}
-\NormalTok{      )}
-\NormalTok{    \})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{h }\OtherTok{\textless{}{-}} \FunctionTok{renderUI}\NormalTok{(\{}
+    \FunctionTok{a}\NormalTok{(}\AttributeTok{href =} \FunctionTok{paste0}\NormalTok{(}
+      \StringTok{"https://scholar.google.com/citations?user="}\NormalTok{, }
+\NormalTok{      input}\SpecialCharTok{$}\NormalTok{AuthorID),}
+      \FunctionTok{paste}\NormalTok{(}\StringTok{"h index:"}\NormalTok{, }\FunctionTok{AuthorProfile}\NormalTok{()}\SpecialCharTok{$}\NormalTok{h\_index),}
+      \AttributeTok{target =} \StringTok{"\_blank"}
+\NormalTok{    )}
+\NormalTok{  \})}
   
 \NormalTok{  output}\SpecialCharTok{$}\NormalTok{citations }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
     \FunctionTok{get\_citation\_history}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{AuthorID)  }\SpecialCharTok{\%\textgreater{}\%}
       \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(year, cites)) }\SpecialCharTok{+}
-      \FunctionTok{geom\_segment}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{xend =}\NormalTok{ year, }\AttributeTok{yend =} \DecValTok{0}\NormalTok{),}
-                   \AttributeTok{size =} \DecValTok{1}\NormalTok{,}
-                   \AttributeTok{color =}
-                     \StringTok{\textquotesingle{}darkgrey\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
-      \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \DecValTok{3}\NormalTok{, }\AttributeTok{color =} \StringTok{\textquotesingle{}firebrick\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
-      \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Citations per year"}\NormalTok{,}
-           \AttributeTok{caption =} \StringTok{"Source: Google Scholar"}\NormalTok{)}
+      \FunctionTok{geom\_segment}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{xend =}\NormalTok{ year, }\AttributeTok{yend =} \DecValTok{0}\NormalTok{), }\AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{color =} \StringTok{\textquotesingle{}darkgrey\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
+      \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \DecValTok{3}\NormalTok{, }\AttributeTok{color =} \StringTok{"firebrick"}\NormalTok{) }\SpecialCharTok{+}
+      \FunctionTok{labs}\NormalTok{(}
+        \AttributeTok{title =} \StringTok{"Citations per year"}\NormalTok{,}
+        \AttributeTok{caption =} \StringTok{"Source: Google Scholar"}
+\NormalTok{      )}
 \NormalTok{  \})}
   
 \NormalTok{  output}\SpecialCharTok{$}\NormalTok{network }\OtherTok{\textless{}{-}} \FunctionTok{renderPlot}\NormalTok{(\{}
@@ -9884,11 +9849,11 @@ Le code suivant s'exécuterait sans erreur:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Output \#\#\#\#}
-\NormalTok{output}\SpecialCharTok{$}\NormalTok{name }\OtherTok{\textless{}{-}} \FunctionTok{renderUI}\NormalTok{(\{}
+  \CommentTok{\# Output \#\#\#\#}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{name }\OtherTok{\textless{}{-}} \FunctionTok{renderUI}\NormalTok{(\{}
 \NormalTok{    AuthorProfile }\OtherTok{\textless{}{-}} \FunctionTok{get\_profile}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{AuthorID)}
     \FunctionTok{h2}\NormalTok{(AuthorProfile}\SpecialCharTok{$}\NormalTok{name)}
-\NormalTok{\})}
+\NormalTok{  \})}
 \end{Highlighting}
 \end{Shaded}
 
@@ -9916,8 +9881,8 @@ Le code optimal crée donc une variable réactive pour y stocker le résultat de
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Store the author profile}
-\NormalTok{AuthorProfile }\OtherTok{\textless{}{-}} \FunctionTok{reactiveVal}\NormalTok{()}
+  \CommentTok{\# Store the author profile}
+\NormalTok{  AuthorProfile }\OtherTok{\textless{}{-}} \FunctionTok{reactiveVal}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -9931,8 +9896,8 @@ La fonction \texttt{observeEvent()} est déclenchée quand \texttt{input\$Author
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Update it when input$AuthorID is changed}
-\FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{AuthorID, }\FunctionTok{AuthorProfile}\NormalTok{(}\FunctionTok{get\_profile}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{AuthorID)))}
+  \CommentTok{\# Update it when input$AuthorID is changed}
+  \FunctionTok{observeEvent}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{AuthorID, }\FunctionTok{AuthorProfile}\NormalTok{(}\FunctionTok{get\_profile}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{AuthorID)))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -9944,10 +9909,10 @@ Enfin, les fonctions \texttt{renderUI()} qui fournissent les valeurs des contrô
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Output \#\#\#\#}
-\NormalTok{output}\SpecialCharTok{$}\NormalTok{name }\OtherTok{\textless{}{-}} \FunctionTok{renderUI}\NormalTok{(\{}
-    \FunctionTok{h2}\NormalTok{(}\FunctionTok{AuthorProfile}\NormalTok{()}\SpecialCharTok{$}\NormalTok{name)}
-\NormalTok{\})}
+  \CommentTok{\# Output \#\#\#\#}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{name }\OtherTok{\textless{}{-}} \FunctionTok{renderUI}\NormalTok{(\{}
+     \FunctionTok{h2}\NormalTok{(}\FunctionTok{AuthorProfile}\NormalTok{()}\SpecialCharTok{$}\NormalTok{name)}
+\NormalTok{  \})}
 \end{Highlighting}
 \end{Shaded}
 
@@ -9961,11 +9926,14 @@ La valeur de \texttt{output\$h} est un lien internet, \texttt{\textless{}a\ href
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{output}\SpecialCharTok{$}\NormalTok{h }\OtherTok{\textless{}{-}} \FunctionTok{renderUI}\NormalTok{(\{}
-    \FunctionTok{a}\NormalTok{(}\AttributeTok{href =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"https://scholar.google.com/citations?user="}\NormalTok{,}
-\NormalTok{        input}\SpecialCharTok{$}\NormalTok{AuthorID), }\FunctionTok{paste}\NormalTok{(}\StringTok{"h index:"}\NormalTok{, }\FunctionTok{AuthorProfile}\NormalTok{()}\SpecialCharTok{$}\NormalTok{h\_index),}
-        \AttributeTok{target =} \StringTok{"\_blank"}\NormalTok{)}
-\NormalTok{\})}
+\NormalTok{  output}\SpecialCharTok{$}\NormalTok{h }\OtherTok{\textless{}{-}} \FunctionTok{renderUI}\NormalTok{(\{}
+    \FunctionTok{a}\NormalTok{(}\AttributeTok{href =} \FunctionTok{paste0}\NormalTok{(}
+        \StringTok{"https://scholar.google.com/citations?user="}\NormalTok{, input}\SpecialCharTok{$}\NormalTok{AuthorID}
+\NormalTok{      ),}
+      \FunctionTok{paste}\NormalTok{(}\StringTok{"h index:"}\NormalTok{, }\FunctionTok{AuthorProfile}\NormalTok{()}\SpecialCharTok{$}\NormalTok{h\_index),}
+      \AttributeTok{target =} \StringTok{"\_blank"}
+\NormalTok{    )}
+\NormalTok{  \})}
 \end{Highlighting}
 \end{Shaded}
 
@@ -9996,8 +9964,11 @@ Pour permettre la gestion des applications en ligne directement depuis RStudio, 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{rsconnect}\SpecialCharTok{::}\FunctionTok{setAccountInfo}\NormalTok{(}\AttributeTok{name =} \StringTok{"prenom.nom"}\NormalTok{, }\AttributeTok{token =} \StringTok{"xxx"}\NormalTok{,}
-    \AttributeTok{secret =} \StringTok{"\textless{}SECRET\textgreater{}"}\NormalTok{)}
+\NormalTok{rsconnect}\SpecialCharTok{::}\FunctionTok{setAccountInfo}\NormalTok{(}
+  \AttributeTok{name =} \StringTok{\textquotesingle{}prenom.nom\textquotesingle{}}\NormalTok{,}
+    \AttributeTok{token =} \StringTok{\textquotesingle{}xxx\textquotesingle{}}\NormalTok{,}
+    \AttributeTok{secret =} \StringTok{\textquotesingle{}\textless{}SECRET\textgreater{}\textquotesingle{}}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -10166,9 +10137,12 @@ Pour les pauses, R fournit même quelques jeux dans le package \textbf{fun}, don
 \FunctionTok{install.packages}\NormalTok{(}\StringTok{"fun"}\NormalTok{)}
 \CommentTok{\# Ouverture d\textquotesingle{}une fenêtre X et exécution}
 \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{interactive}\NormalTok{()) \{}
-    \ControlFlowTok{if}\NormalTok{ (.Platform}\SpecialCharTok{$}\NormalTok{OS.type }\SpecialCharTok{==} \StringTok{"windows"}\NormalTok{)}
-        \FunctionTok{x11}\NormalTok{() }\ControlFlowTok{else} \FunctionTok{x11}\NormalTok{(}\AttributeTok{type =} \StringTok{"Xlib"}\NormalTok{)}
-\NormalTok{    fun}\SpecialCharTok{::}\FunctionTok{mine\_sweeper}\NormalTok{()}
+  \ControlFlowTok{if}\NormalTok{ (.Platform}\SpecialCharTok{$}\NormalTok{OS.type }\SpecialCharTok{==} \StringTok{"windows"}\NormalTok{) \{}
+    \FunctionTok{x11}\NormalTok{() }
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{ }
+    \FunctionTok{x11}\NormalTok{(}\AttributeTok{type =} \StringTok{"Xlib"}\NormalTok{)}
+\NormalTok{  \}}
+\NormalTok{  fun}\SpecialCharTok{::}\FunctionTok{mine\_sweeper}\NormalTok{()}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
