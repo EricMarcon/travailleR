@@ -940,7 +940,7 @@ f <- function(x, time = .25) {
 }
 
 # Laisser un coeur libre pour le système
-nbCoeurs <- detectCores() - 1
+nbCoeurs <- max(1, detectCores() - 1)
 
 # Série : temps théorique = nbCoeurs/4 secondes
 (tserie <- system.time(lapply(1:nbCoeurs, f)))
