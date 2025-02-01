@@ -1102,7 +1102,7 @@ Nous utiliserons ici la stratégie `multisession` qui fonctionne sur l'ordinateu
 #| label: future
 library("future")
 # Stratégie socket sur tous les coeurs disponibles sauf 1
-usedCores <- availableCores() - 1
+usedCores <- availableCores(omit = 1)
 plan(multisession, workers = usedCores)
 ```
 
@@ -1313,7 +1313,7 @@ Seule la boucle principale est parallélisée: l'imbrication de `future_vapply()
 #| label: future.vapply
 library("future.apply")
 # Stratégie socket sur tous les coeurs disponibles sauf 1
-plan(multisession, workers = availableCores() - 1)
+plan(multisession, workers = availableCores(omit = 1))
 future_fsapply4_ <- function() {
   distances <- future_vapply(1:NbPoints, function(i) {
     vapply(1:NbPoints, function(j) {
