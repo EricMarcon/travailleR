@@ -92,7 +92,7 @@ print
 ```
 
 Il existe beaucoup de méthodes S3 pour `print`:
-```{r printS3}
+```{r}
 #| label: printS3
 head(methods("print"))
 ```
@@ -703,7 +703,7 @@ Dans ce code, la boucle for n'est pas compilée donc elle est beaucoup plus lent
 Les boucles longues permettent un suivi de leur progression par une barre de texte, ce qui est un autre avantage.
 La fonction suivante exécute des pauses d'un dixième de seconde pendant le temps passé en paramètre (en secondes).
 
-```{r }
+```{r}
 #| label: BoucleSuivie
 BoucleSuivie <- function(duree = 1) {
   # Barre de progression
@@ -1157,8 +1157,9 @@ X <- runifpoint(NbPoints)
 La fonction `pairdist()` de **spatstat** retourne la matrice des distances entre les points.
 La distance moyenne est calculée en divisant la somme par le nombre de paires de points distincts.
 
-```{r pairdist, message=FALSE}
+```{r}
 #| label: pairdist
+#| message: false
 mb <- microbenchmark(d <- sum(pairdist(X)) / NbPoints / (NbPoints - 1))
 autoplot(mb)
 d
@@ -1245,7 +1246,7 @@ d
 
 Les calculs sont effectués deux fois (distance entre les points $i$ et $j$, mais aussi entre les points $j$ et $i$): un test sur les indices permet de diviser presque le temps par 2 (pas tout à fait parce que les boucles sans calcul, qui retournent $0$, prennent du temps).
 
-```{r fsapply4}
+```{r}
 #| label: fsapply4
 fsapply4 <- function() {
   distances <- vapply(
@@ -1517,7 +1518,7 @@ double TotalDistance(NumericVector x, NumericVector y) {
 
 L'usage dans R est identique à celui des fonctions C++ interfacées par **RCpp**. 
 
-```{r RcppParallel}
+```{r}
 #| label: RcppParallel
 (mb <- microbenchmark(
   d <- TotalDistance(X$x, X$y) / NbPoints / (NbPoints - 1) * 2)
@@ -1610,7 +1611,7 @@ Une carte des points est tracée en plus.
 Chacune de ces trois opérations est une cible dans le vocabulaire de **targets**. 
 
 Le fichier du flux de travail est donc le suivant:
-```{r targets}
+```{r}
 #| label: targets
 #| eval: false
 # Fichier _targets.R 
@@ -1637,7 +1638,7 @@ list(
 ```
 
 
-```{r ecrire_targets}
+```{r}
 #| label: ecrire_targets
 #| include: false
 # Ecriture sur le disque du fichier _targets.R
