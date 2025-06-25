@@ -7,7 +7,7 @@
 <title>5 Package | Travailler avec R</title>
 <meta name="author" content="Eric Marcon">
 <meta name="description" content="Les packages de R permettent d’étendre les fonctionnalités du logiciel par du code fourni par la communauté des développeurs. Ils sont la clé du succès de R parce qu’ils permettent de diffuser...">
-<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta name="generator" content="bookdown 0.43 with bs4_book()">
 <meta property="og:title" content="5 Package | Travailler avec R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ericmarcon.github.io/travailleR/chap-package.html">
@@ -134,7 +134,7 @@ Il est possible de créer cette structure manuellement mais des packages spécia
 </ul>
 <p>Les trois sont à installer en premier lieu :</p>
 <p></p>
-<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"usethis"</span>, <span class="st">"roxygen2"</span>, <span class="st">"devtools"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Le package à créer sera un projet RStudio.
@@ -180,7 +180,7 @@ Des fichiers regroupant les fonctions similaires ou un seul fichier contenant to
 </h4>
 <p>La première fonction, <code><a href="https://rdrr.io/r/base/double.html">double()</a></code>, est créée et enregistrée dans le fichier <code>fonctions.R</code> :</p>
 <p></p>
-<div class="sourceCode" id="cb332"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">double</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">number</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">number</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -189,13 +189,13 @@ Des fichiers regroupant les fonctions similaires ou un seul fichier contenant to
 Pour s’en persuader, construire le package (<em>Install and Restart</em>) et vérifier le bon fonctionnement de la fonction :
 *</p>
 <p></p>
-<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb332"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/double.html">double</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 4</code></pre>
 <p></p>
 <p>Le résultat est un vecteur composé de deux 0 parce que la fonction appelée est un homonyme du package <strong>base</strong> (voir sa documentation en tapant <code><a href="https://rdrr.io/r/base/double.html">?double</a></code>) :</p>
 <p></p>
-<div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/double.html">double</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0 0</code></pre>
 <p></p>
@@ -204,7 +204,7 @@ C’est le travail de <strong>roxygen2</strong> qui gère en même temps la docu
 Pour l’activer, placer le curseur dans la fonction et appeler le menu “Code &gt; Insert Roxygen Skeleton”.
 Des commentaires sont ajoutés avant la fonction :</p>
 <p></p>
-<div class="sourceCode" id="cb337"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Title</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param number </span></span>
@@ -237,7 +237,7 @@ Des commentaires sont ajoutés avant la fonction :</p>
 </ul>
 <p>La documentation doit être complétée :</p>
 <p></p>
-<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb337"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' double</span></span>
 <span><span class="co">#' </span></span>
 <span><span class="co">#' Double value of numbers.</span></span>
@@ -271,7 +271,7 @@ Des commentaires sont ajoutés avant la fonction :</p>
 Dans la fenêtre <em>Build</em>, le menu “More &gt; Document” permet de le faire.
 Ensuite, construire le package (<em>Install and Restart</em>) et vérifier le résultat en exécutant la fonction et en affichant son aide :</p>
 <p></p>
-<div class="sourceCode" id="cb339"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">?</span><span class="va">double</span></span></code></pre></div>
 <p></p>
 <p>Il est possible d’automatiser la mise à jour de la documentation à chaque construction du package par le menu “Build &gt; Configure Build Tools…” : cliquer sur “Configure” et cocher la case “Automatically reoxygenize when running Install and Restart”.
@@ -291,7 +291,7 @@ Par exemple, le retour suivant est un avertissement sur la non-conformité de la
 Erreur : R CMD check found WARNINGs</code></pre>
 <p>Pour la corriger, mettre à jour, exécuter la commande de mise à jour de la licence, en commençant par votre nom :</p>
 <p></p>
-<div class="sourceCode" id="cb341"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>usethis.full_name <span class="op">=</span> <span class="st">"Eric Marcon"</span><span class="op">)</span></span>
 <span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/licenses.html">use_gpl3_license</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
@@ -321,7 +321,7 @@ An R package to compute mutiple of numbers.</code></pre>
 Ce fichier peut aussi être nommé <code>multiple-package.R</code>, en préfixant son nom par celui du package, par souci de compatibilité avec <strong>usethis</strong>.
 Il peut d’ailleurs être créé sous ce nom par la commande :</p>
 <p></p>
-<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb342"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_package_doc.html">use_package_doc</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Le premier bloc de commentaire fournira l’aide du package (<code>?multiple</code>).</p>
@@ -416,7 +416,7 @@ Ensuite, l’entrée correspondant à cette version reste figée et une nouvelle
 </h2>
 <p>Une vignette est indispensable pour documenter correctement le package :</p>
 <p></p>
-<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb346"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_vignette.html">use_vignette</a></span><span class="op">(</span><span class="st">"multiple"</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Le fichier <code>multiple.Rmd</code> est créé dans le dossier <code>vignettes</code>.
@@ -428,7 +428,7 @@ subtitle: "Multiples of numbers"</code></pre>
 Une introduction à l’utilisation du package doit être écrite dans ce document, en R Markdown.</p>
 <p>Pendant le développement du package, la vignette peut être construite manuellement en exécutant :</p>
 <p></p>
-<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb348"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">build_vignettes</span><span class="op">(</span><span class="st">"multiple"</span><span class="op">)</span> </span></code></pre></div>
 <p></p>
 <p>Les fichiers produits sont placés dans <code>doc/</code> : ouvrir le fichier <code>.html</code> pour contrôler le résultat.</p>
@@ -440,12 +440,12 @@ Le fichier source se trouve à côté de celui du projet.</li>
 <li>Pousser le code du package sur GitHub puis exécuter :</li>
 </ul>
 <p></p>
-<div class="sourceCode" id="cb350"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"multiple"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>La vignette peut ensuite être affichée par la commande :</p>
 <p></p>
-<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb350"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">"multiple"</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 </div>
@@ -456,13 +456,13 @@ Le fichier source se trouve à côté de celui du projet.</li>
 <p>Le package <strong>pkgdown</strong> permet de créer un site d’accompagnement du package<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Exemple : &lt;a href="https://EricMarcon.github.io/entropart/" class="uri"&gt;https://EricMarcon.github.io/entropart/&lt;/a&gt;&lt;/p&gt;'><sup>103</sup></a>, qui reprend le fichier <code>README.md</code> comme page d’accueil, la vignette dans une rubrique “Get Started”, l’ensemble des fichiers d’aide avec leurs exemples exécutés (section “Reference”), le fichier <code>NEWS.md</code> pour un historique du package (section “Changelog”) et des informations du fichier <code>DESCRIPTION</code>.</p>
 <p>Créer le site avec <strong>usethis</strong> :</p>
 <p></p>
-<div class="sourceCode" id="cb352"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_pkgdown.html">use_pkgdown</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Construire ensuite le site.
 Cette commande sera exécutée à nouveau à chaque changement de version du package :</p>
 <p></p>
-<div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb352"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pkgdown</span><span class="fu">::</span><span class="fu">build_site</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Le site est placé dans le dossier <code>docs</code>.
@@ -500,7 +500,7 @@ La complexité ajoutée est à comparer au gain obtenu : une page d’accueil s
 </h3>
 <p>Créons une nouvelle fonction dans <code>fonctions.R</code> qui ajoute un bruit aléatoire à la valeur double :</p>
 <p></p>
-<div class="sourceCode" id="cb356"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb355"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fuzzydouble</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">number</span>, <span class="va">sd</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">number</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">number</span><span class="op">)</span>, <span class="fl">0</span>, <span class="va">sd</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -516,7 +516,7 @@ Tous les packages utilisés par le code de <strong>multiple</strong> seront list
 Il y a plusieurs façons de remplir cette obligation.
 D’abord, le commentaire suivant pourrait être fourni pour <strong>roxygen2</strong> :</p>
 <p></p>
-<div class="sourceCode" id="cb358"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb357"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' @import stats</span></span></code></pre></div>
 <p></p>
 <p>Tout l’espace de nom du package <strong>stats</strong> serait attaché et accessible au package <strong>multiple</strong>.
@@ -524,7 +524,7 @@ Ce n’est pas une bonne pratique parce qu’elle multiplie les risques de confl
 Notons que la notion d’importation utilisée ici est différente de celle de <code>DESCRIPTION</code>, bien qu’elles aient le même nom.</p>
 <p>Il est préférable d’importer uniquement la fonction <code><a href="https://rdrr.io/r/stats/Normal.html">rnorm()</a></code> en la déclarant dans la documentation de la fonction :</p>
 <p></p>
-<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb358"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' @importFrom stats rnorm</span></span></code></pre></div>
 <p></p>
 <p>Ce n’est pas une pratique idéale non plus parce que l’origine de la fonction n’apparaîtrait pas clairement dans le code du package.</p>
@@ -532,7 +532,7 @@ Notons que la notion d’importation utilisée ici est différente de celle de <
 C’est la solution retenue ici parce que la directive <code>@importFrom</code> importerait la fonction dans tout le package <strong>multiple</strong>, pas seulement dans la fonction <code>fuzzydouble()</code>, au risque de créer des effets de bord (modifier le comportement d’une autre fonction du package qui n’assumerait pas l’importation de <code><a href="https://rdrr.io/r/stats/Normal.html">rnorm()</a></code>).
 Finalement, le code de la fonction est le suivant :</p>
 <p></p>
-<div class="sourceCode" id="cb360"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' fuzzydouble</span></span>
 <span><span class="co">#' </span></span>
 <span><span class="co">#' Double value of numbers with an error</span></span>
@@ -567,11 +567,11 @@ Finalement, le code de la fonction est le suivant :</p>
 </h4>
 <p>Les objets appartiennent à des classes :</p>
 <p></p>
-<div class="sourceCode" id="cb361"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb360"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Classe d'un nombre</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "numeric"</code></pre>
-<div class="sourceCode" id="cb363"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb362"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Classe d'une fonction</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">sum</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "function"</code></pre>
@@ -585,11 +585,11 @@ Finalement, le code de la fonction est le suivant :</p>
 <p>L’intérêt de créer de nouvelles classes est de leur adapter des méthodes existantes, le cas le plus courant étant <code><a href="https://rdrr.io/r/base/plot.html">plot()</a></code>.
 Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction, sans code, à décliner selon la classe d’objet à traiter.</p>
 <p></p>
-<div class="sourceCode" id="cb365"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb364"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot</span></span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod("plot")
-## &lt;bytecode: 0x10b8c23d8&gt;
+## &lt;bytecode: 0x11a5e4e48&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe dans R de nombreuses déclinaisons de <code>plot</code> qui sont des fonctions dont le nom est de la forme <code>plot.class()</code>.
@@ -597,20 +597,20 @@ Il s’agit d’une méthode générique, c’est-à-dire un modèle de fonction
 De nombreux packages créent des classes adaptées à leurs objets et proposent une méthode <code>plot</code> pour chaque classe.
 Les fonctions peuvent être listées :</p>
 <p></p>
-<div class="sourceCode" id="cb367"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb366"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Quelques fonctions plot()</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html">methods</a></span><span class="op">(</span><span class="va">plot</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] "plot,ANY-method"      "plot,color-method"   
-## [3] "plot.AccumCurve"      "plot.acf"            
-## [5] "plot.ACF"             "plot.adaptivedensity"</code></pre>
-<div class="sourceCode" id="cb369"><pre class="downlit sourceCode r">
+<pre><code>## [1] "plot.AccumCurve"      "plot.acf"            
+## [3] "plot.ACF"             "plot.adaptivedensity"
+## [5] "plot.addvar"          "plot.anylist"</code></pre>
+<div class="sourceCode" id="cb368"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Nombre total</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html">methods</a></span><span class="op">(</span><span class="va">plot</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## [1] 156</code></pre>
+<pre><code>## [1] 157</code></pre>
 <p></p>
 <p>Inversement, les méthodes disponibles pour une classe peuvent être affichées :</p>
 <p></p>
-<div class="sourceCode" id="cb371"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb370"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html">methods</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##  [1] add1           alias          anova         
 ##  [4] as_flextable   case.names     coerce        
@@ -631,7 +631,7 @@ Les fonctions peuvent être listées :</p>
 <p></p>
 <p>La méthode <code>print</code> est utilisée pour afficher tout objet (elle est implicite quand on saisit seulement le nom d’un objet) :</p>
 <p></p>
-<div class="sourceCode" id="cb373"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb372"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">dist</span> <span class="op">~</span> <span class="va">speed</span>, data <span class="op">=</span> <span class="va">cars</span><span class="op">)</span></span>
 <span><span class="co"># Equivalent de "&gt; my_lm"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">my_lm</span><span class="op">)</span></span></code></pre></div>
@@ -645,7 +645,7 @@ Les fonctions peuvent être listées :</p>
 <p></p>
 <p>La méthode <code>summary</code> affiche un résumé lisible de l’objet :</p>
 <p></p>
-<div class="sourceCode" id="cb375"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb374"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">my_lm</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -675,7 +675,7 @@ Les fonctions peuvent être listées :</p>
 </h4>
 <p>Pour qu’un objet appartient à une classe, il suffit de le déclarer :</p>
 <p></p>
-<div class="sourceCode" id="cb377"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb376"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"MyClass"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
@@ -683,7 +683,7 @@ Les fonctions peuvent être listées :</p>
 <p></p>
 <p>Une façon plus élégante de le faire est d’ajouter la nouvelle classe à l’ensemble des classes auquel l’objet appartient déjà :</p>
 <p></p>
-<div class="sourceCode" id="cb379"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb378"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"MyClass"</span>, <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code></pre></div>
@@ -692,7 +692,7 @@ Les fonctions peuvent être listées :</p>
 <p>Il n’y a aucune vérification de cohérence entre la structure réelle de l’objet et une structure de la classe qui serait déclarée ailleurs : le développeur doit s’assurer que les méthodes trouveront bien les bonnes données dans les objets qui déclarent lui appartenir.
 Dans le cas contraire, des erreurs se produisent :</p>
 <p></p>
-<div class="sourceCode" id="cb381"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb380"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"lm"</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## &lt;simpleError in x$call: $ operator is invalid for atomic vectors&gt;</code></pre>
@@ -711,7 +711,7 @@ Dans le cas contraire, des erreurs se produisent :</p>
 <p>A titre d’exemple, créons une méthode générique <code>triple</code> qui calculera le triple des valeurs dans le package <strong>multiple</strong>, déclinée en deux fonctions distinctes : une pour les entiers et une pour les réels.
 Les calculs sur les nombres entiers plus rapides que ceux sur les réels, ce qui justifie l’effort d’écrire deux versions du code.</p>
 <p></p>
-<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb382"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Méthode générique</span></span>
 <span><span class="va">triple</span> <span class="op">&lt;-</span> <span class="kw">function</span> <span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod</a></span><span class="op">(</span><span class="st">"triple"</span><span class="op">)</span></span>
@@ -722,7 +722,7 @@ Sa signature (c’est-à-dire l’ensemble de ses arguments) est importante parc
 Comme la nature du premier argument dépendra de la classe de chaque objet, l’usage est de l’appeler <code>x</code>.</p>
 <p>La méthode est déclinée en deux fonctions :</p>
 <p></p>
-<div class="sourceCode" id="cb384"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">triple.integer</span><span class="op">&lt;-</span> <span class="kw">function</span> <span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="fl">3L</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -735,35 +735,31 @@ Dans sa version réelle, 3 peut être noté <code>3.0</code> pour montrer claire
 Sous R, <code>3</code> sans autre précision est compris comme un réel.</p>
 <p>Le choix de la fonction dépend de la classe de l’objet passé en argument.</p>
 <p></p>
-<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb384"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Argument entier</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "integer"</code></pre>
-<div class="sourceCode" id="cb387"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb386"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Résultat entier par la fonction triple.integer</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="fu">triple</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "integer"</code></pre>
-<div class="sourceCode" id="cb389"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb388"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Argument réel</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "numeric"</code></pre>
-<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb390"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Résultat réel par la fonction triple.numeric</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="fu">triple</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "numeric"</code></pre>
-<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb392"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Performance</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/joshuaulrich/microbenchmark/">"microbenchmark"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu">triple.integer</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span>, <span class="fu">triple.numeric</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, <span class="fu">triple</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Unit: nanoseconds
-##                expr min  lq     mean median  uq     max
-##  triple.integer(2L) 123 123   143.91    123 164     697
-##   triple.numeric(2) 123 123 10196.29    123 164 1004828
-##          triple(2L) 492 533  7526.78    533 574  697861
-##  neval
-##    100
-##    100
-##    100</code></pre>
+##                expr min  lq    mean median  uq    max neval
+##  triple.integer(2L) 123 123  148.83    123 164    492   100
+##   triple.numeric(2) 123 123 8812.95    123 164 866945   100
+##          triple(2L) 492 533 7086.85    533 574 653663   100</code></pre>
 <p></p>
 <p>La mesure des performances par le package <strong>microbenchmark</strong> ne montre pas de différence entre les fonctions <code>triple.integer()</code> et <code>triple.numeric</code> comme attendu parce que le temps consacré au calcul lui-même est négligeable en comparaison du temps d’appel de la fonction.
 La méthode générique consomme beaucoup plus de temps que les calculs très simples ici.
@@ -779,7 +775,7 @@ Cette recherche prend beaucoup de temps et justifie de réserver l’usage de m�
 Pour toute classe créée, les méthodes <code>print</code>, <code>summary</code> et <code>plot</code> (si une représentation graphique est possible) doivent être écrites.</p>
 <p>Ecrivons une fonction <code>multiple()</code> dont le résultat sera un objet d’une nouvelle classe, “multiple”, qui sera une liste mémorisant les valeurs à multiplier, le multiplicateur et le résultat.</p>
 <p></p>
-<div class="sourceCode" id="cb395"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">multiple</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">number</span>, <span class="va">times</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Calculate the multiples</span></span>
 <span>  <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">number</span> <span class="op">*</span> <span class="va">times</span></span>
@@ -797,7 +793,7 @@ Pour toute classe créée, les méthodes <code>print</code>, <code>summary</code
 <p>L’appel à la fonction <code>multiple()</code> renvoie un objet de classe “multiple”, qui est aussi de classe “list”.
 En absence de fonction <code>print.multiple()</code>, R cherche la fonction <code>print.list()</code> qui n’existe pas et se rabat sur la fonction <code><a href="https://rdrr.io/r/base/print.default.html">print.default()</a></code> :</p>
 <p></p>
-<div class="sourceCode" id="cb397"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb396"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_multiple</span></span></code></pre></div>
 <pre><code>## $x
 ## [1] 1 2 3
@@ -813,7 +809,7 @@ En absence de fonction <code>print.multiple()</code>, R cherche la fonction <cod
 <p></p>
 <p>La fonction <code>print.multiple</code> doit donc être écrite pour un affichage lisible, limité au résultat :</p>
 <p></p>
-<div class="sourceCode" id="cb399"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb398"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">print.multiple</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.default.html">print.default</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">y</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -824,7 +820,7 @@ En absence de fonction <code>print.multiple()</code>, R cherche la fonction <cod
 <p></p>
 <p>Les détails peuvent être présentés dans la fonction <code>summary</code> :</p>
 <p></p>
-<div class="sourceCode" id="cb401"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb400"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">summary.multiple</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.default.html">print.default</a></span><span class="op">(</span><span class="va">object</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"multiplied by"</span>, <span class="va">object</span><span class="op">$</span><span class="va">times</span>, <span class="st">"is:\n"</span><span class="op">)</span></span>
@@ -839,7 +835,7 @@ En absence de fonction <code>print.multiple()</code>, R cherche la fonction <cod
 <p></p>
 <p>Enfin, une fonction <code>plot</code> et une fonction <code>autoplot</code> complètent l’ensemble :</p>
 <p></p>
-<div class="sourceCode" id="cb403"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb402"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot.multiple</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot.default</a></span><span class="op">(</span></span>
 <span>    x <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">x</span>, </span>
@@ -859,7 +855,7 @@ En absence de fonction <code>print.multiple()</code>, R cherche la fonction <cod
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">my_multiple</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="travailleR_files/figure-html/plot.multiple-1.png" width="80%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb404"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb403"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">my_multiple</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="travailleR_files/figure-html/plot.multiple-2.png" width="80%" style="display: block; margin: auto;"></div>
 <p></p>
@@ -915,7 +911,7 @@ Il doivent être importés dans <code>DESCRIPTION</code>.</li>
 <li>Comme il n’est pas possible de préfixer les <code>%&gt;%</code> par le nom du package, il faut importer la fonction en utilisant les délimiteurs prévus pour les fonctions dont le nom contient des caractères spéciaux :</li>
 </ul>
 <p></p>
-<div class="sourceCode" id="cb411"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb410"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' @importFrom magrittr `%&gt;%`</span></span></code></pre></div>
 <p></p>
 <ul>
@@ -924,12 +920,12 @@ Pour éviter cette confusions, l’objet <code>.data</code> du package <strong>r
 Il doit être importé :</li>
 </ul>
 <p></p>
-<div class="sourceCode" id="cb412"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb411"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' @importFrom rlang .data</span></span></code></pre></div>
 <p></p>
 <p>Finalement, le code complet est le suivant :</p>
 <p></p>
-<div class="sourceCode" id="cb413"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb412"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Multiplication of a numeric vector</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param number a numeric vector</span></span>
@@ -1002,9 +998,9 @@ Il doit être importé :</li>
 <span><span class="fu">graphics</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span></span></code></pre></div>
 <pre><code>## function (x, y, ...) 
 ## UseMethod("plot")
-## &lt;bytecode: 0x10b8c23d8&gt;
+## &lt;bytecode: 0x11a5e4e48&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
-<div class="sourceCode" id="cb415"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb414"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' autoplot</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' ggplot of the `multiple` objects.</span></span>
@@ -1032,7 +1028,7 @@ Il doit être importé :</li>
 ## {
 ##     UseMethod("autoplot")
 ## }
-## &lt;bytecode: 0x10bd89f10&gt;
+## &lt;bytecode: 0x11887eda0&gt;
 ## &lt;environment: namespace:ggplot2&gt;</code></pre>
 <p></p>
 </div>
@@ -1049,19 +1045,19 @@ Pour intégrer ces fonctions dans un packages, il faut respecter les règles sui
 <li>le code est commenté pour <strong>roxygen2</strong> de la même façon que les fonctions R, mais avec le marqueur de commentaire du langage C :</li>
 </ul>
 <p></p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb417-1"><a href="chap-package.html#cb417-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
-<span id="cb417-2"><a href="chap-package.html#cb417-2" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp<span class="op">;</span></span>
-<span id="cb417-3"><a href="chap-package.html#cb417-3" tabindex="-1"></a></span>
-<span id="cb417-4"><a href="chap-package.html#cb417-4" tabindex="-1"></a><span class="co">//' timesTwo</span></span>
-<span id="cb417-5"><a href="chap-package.html#cb417-5" tabindex="-1"></a><span class="co">//'</span></span>
-<span id="cb417-6"><a href="chap-package.html#cb417-6" tabindex="-1"></a><span class="co">//' Calculates the double of a value.</span></span>
-<span id="cb417-7"><a href="chap-package.html#cb417-7" tabindex="-1"></a><span class="co">//'</span></span>
-<span id="cb417-8"><a href="chap-package.html#cb417-8" tabindex="-1"></a><span class="co">//' @param x A numeric vector.</span></span>
-<span id="cb417-9"><a href="chap-package.html#cb417-9" tabindex="-1"></a><span class="co">//' @export</span></span>
-<span id="cb417-10"><a href="chap-package.html#cb417-10" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
-<span id="cb417-11"><a href="chap-package.html#cb417-11" tabindex="-1"></a>NumericVector timesTwo<span class="op">(</span>NumericVector x<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb417-12"><a href="chap-package.html#cb417-12" tabindex="-1"></a>  <span class="cf">return</span> x <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb417-13"><a href="chap-package.html#cb417-13" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb416"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb416-1"><a href="chap-package.html#cb416-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
+<span id="cb416-2"><a href="chap-package.html#cb416-2" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp<span class="op">;</span></span>
+<span id="cb416-3"><a href="chap-package.html#cb416-3" tabindex="-1"></a></span>
+<span id="cb416-4"><a href="chap-package.html#cb416-4" tabindex="-1"></a><span class="co">//' timesTwo</span></span>
+<span id="cb416-5"><a href="chap-package.html#cb416-5" tabindex="-1"></a><span class="co">//'</span></span>
+<span id="cb416-6"><a href="chap-package.html#cb416-6" tabindex="-1"></a><span class="co">//' Calculates the double of a value.</span></span>
+<span id="cb416-7"><a href="chap-package.html#cb416-7" tabindex="-1"></a><span class="co">//'</span></span>
+<span id="cb416-8"><a href="chap-package.html#cb416-8" tabindex="-1"></a><span class="co">//' @param x A numeric vector.</span></span>
+<span id="cb416-9"><a href="chap-package.html#cb416-9" tabindex="-1"></a><span class="co">//' @export</span></span>
+<span id="cb416-10"><a href="chap-package.html#cb416-10" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
+<span id="cb416-11"><a href="chap-package.html#cb416-11" tabindex="-1"></a>NumericVector timesTwo<span class="op">(</span>NumericVector x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb416-12"><a href="chap-package.html#cb416-12" tabindex="-1"></a>  <span class="cf">return</span> x <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb416-13"><a href="chap-package.html#cb416-13" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p></p>
 <ul>
 <li>dans <code>DESCRIPTION</code>, importer les packages.
@@ -1073,7 +1069,7 @@ LinkingTo: Rcpp, RcppParallel</code></pre>
 <li>les commentaires pour <strong>roxygen2</strong> doivent être ajoutés à <code>package.R</code> (“multiple” est le nom du package) :</li>
 </ul>
 <p></p>
-<div class="sourceCode" id="cb419"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb418"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' @importFrom Rcpp sourceCpp</span></span>
 <span><span class="co">#' @importFrom RcppParallel RcppParallelLibs</span></span>
 <span><span class="co">#' @useDynLib multiple, .registration = TRUE</span></span></code></pre></div>
@@ -1087,7 +1083,7 @@ src/*.so
 src/*.dll</code></pre>
 <p>Ces modifications sont en partie effectuées automatiquement, pour <strong>Rcpp</strong> seulement, par <strong>usethis</strong>, mais l’insertion manuelle du code est plus rapide et fiable : ne pas utiliser cette commande.</p>
 <p></p>
-<div class="sourceCode" id="cb421"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb420"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># usethis::use_rcpp()</span></span></code></pre></div>
 <p></p>
 <p>La construction du package entraînera la compilation du code : les Rtools sont donc indispensables.</p>
@@ -1125,7 +1121,7 @@ Ce dossier contient des fichiers qui seront placés à la racine du dossier du p
 <pre><code>Imports: magrittr, stats, Rcpp, Rdpack</code></pre>
 <p>Enfin, importer la fonction <code>reprompt()</code> de <strong>Rdpack</strong> en ajoutant les lignes suivantes à la documentation pour <strong>roxygen2</strong> dans <code>package.R</code> :</p>
 <p></p>
-<div class="sourceCode" id="cb424"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb423"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' @importFrom Rdpack reprompt</span></span></code></pre></div>
 <p></p>
 </div>
@@ -1138,7 +1134,7 @@ Ce dossier contient des fichiers qui seront placés à la racine du dossier du p
 <p><code>key</code> est l’identifiant de la référence dans le fichier.
 Exemple<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Package &lt;strong&gt;divent&lt;/strong&gt; sur GitHub : &lt;a href="https://github.com/EricMarcon/divent/blob/master/R/package.R" class="uri"&gt;https://github.com/EricMarcon/divent/blob/master/R/package.R&lt;/a&gt;&lt;/p&gt;'><sup>106</sup></a>: documentation du package <strong>divent</strong> hébergé sur GitHub, fichier <code>.R</code> du package :</p>
 <p></p>
-<div class="sourceCode" id="cb425"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb424"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' divent</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' Measures of Diversity and Entropy</span></span>
@@ -1169,7 +1165,7 @@ Pour placer le nom de l’auteur hors de la parenthèse, ajouter la déclaration
 <p>Pour citer plusieurs références (forcément du même package), les séparer par des virgules.</p>
 <p>A la fin de la documentation d’un objet utilisant des citations, ajouter systématiquement une liste des références :</p>
 <p></p>
-<div class="sourceCode" id="cb429"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb428"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' @references</span></span>
 <span><span class="co">#' \insertAllCited{}</span></span></code></pre></div>
 <p></p>
@@ -1183,7 +1179,7 @@ Pour placer le nom de l’auteur hors de la parenthèse, ajouter la déclaration
 <p>La méthode la plus simple consiste à utiliser <strong>usethis</strong>.
 Créer des variables contenant les données à sauvegarder puis les sauvegarder :</p>
 <p></p>
-<div class="sourceCode" id="cb430"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb429"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">seq1_10</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
 <span><span class="va">seq1_100</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span></span>
 <span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_data.html">use_data</a></span><span class="op">(</span><span class="va">seq1_10</span>, <span class="va">seq1_100</span><span class="op">)</span></span></code></pre></div>
@@ -1192,7 +1188,7 @@ Créer des variables contenant les données à sauvegarder puis les sauvegarder�
 Avec l’option <code>LazyData</code> activée dans <code>DESCRIPTION</code>, les variables seront disponibles dès le chargement du package, mais ne seront effectivement chargées en mémoire qu’après leur première utilisation.</p>
 <p>Chaque variable doit être documentée dans le fichier <code>package.R</code> :</p>
 <p></p>
-<div class="sourceCode" id="cb431"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb430"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' seq1_10</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' A sequence of numbers from 1 to 10</span></span>
@@ -1220,7 +1216,7 @@ Avec l’option <code>LazyData</code> activée dans <code>DESCRIPTION</code>, le
 <p>Les tests unitaires sont utilisés dans les deux derniers objectifs.
 Ils s’appuient sur <strong>testthat</strong> à intégrer au package :</p>
 <p></p>
-<div class="sourceCode" id="cb432"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb431"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_testthat.html">use_testthat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p></p>
@@ -1228,13 +1224,13 @@ Ils s’appuient sur <strong>testthat</strong> à intégrer au package :</p>
 <p>Les tests doivent être ajoutés sous la forme de fichiers <code>.R</code> dont le nom commence obligatoirement par <code>test</code> dans le dossier <code>tests/testthat</code>.</p>
 <p>Chaque test (donc le contenu de chaque fichier) commence par son contexte, c’est-à-dire ce un ensemble de tests. Exemple, dans un fichier <code>test_double.R</code> :</p>
 <p></p>
-<div class="sourceCode" id="cb433"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb432"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">context</span><span class="op">(</span><span class="st">"function double"</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Les tests sont contenus dans des fichiers qui les regroupent par thème, par exemple <code>test_double.R</code>.
 Le nom de chaque test est passé comme argument de la fonction <code>test_that()</code> :</p>
 <p></p>
-<div class="sourceCode" id="cb434"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb433"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">test_that</span><span class="op">(</span><span class="st">"Double values are correct"</span>, <span class="op">{</span></span>
 <span>  <span class="fu">skip_on_cran</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -1409,7 +1405,7 @@ Dans le cas contraire, le package est archivé.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 14/03/2025.</p>
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 25/06/2025.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

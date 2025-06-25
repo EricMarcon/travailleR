@@ -7,7 +7,7 @@
 <title>7 Shiny | Travailler avec R</title>
 <meta name="author" content="Eric Marcon">
 <meta name="description" content="Shiny permet de publier sous la forme d’un site web une application interactive utilisant du code R. Le site peut fonctionner localement, sur le poste de travail d’un utilisateur qui le lance à...">
-<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta name="generator" content="bookdown 0.43 with bs4_book()">
 <meta property="og:title" content="7 Shiny | Travailler avec R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ericmarcon.github.io/travailleR/chap-shiny.html">
@@ -158,7 +158,7 @@ Figure 7.1: Application Shiny <em>Old Faithful Geyser Data</em>.
 L’application complète, avec des sorties graphiques en plus de sa version simplifiée présentée ici est disponible sur GitHub<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://github.com/EricMarcon/bibliometrics" class="uri"&gt;https://github.com/EricMarcon/bibliometrics&lt;/a&gt;&lt;/p&gt;'><sup>121</sup></a>.</p>
 <p>Le début du code consiste à préparer l’exécution de l’application en chargeant les packages nécessaires :</p>
 <p></p>
-<div class="sourceCode" id="cb464"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb463"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Prepare the application ####</span></span>
 <span></span>
 <span><span class="co"># Load packages</span></span>
@@ -168,7 +168,7 @@ L’application complète, avec des sorties graphiques en plus de sa version sim
 <p>Le code de l’application complète intègre une fonction pour installer les packages manquants, à n’exécuter que quand l’application est exécutée sur un poste de travail (sur un serveur, la gestion des packages n’est pas du ressort de l’application).</p>
 <p>L’interface utilisateur est la suivante :</p>
 <p></p>
-<div class="sourceCode" id="cb465"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb464"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># UI ####</span></span>
 <span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">fluidPage</span><span class="op">(</span></span>
 <span>  <span class="co"># Application title</span></span>
@@ -206,7 +206,7 @@ L’application complète, avec des sorties graphiques en plus de sa version sim
 <p>Le panneau principal contient deux contrôles de sortie graphiques, <code>plotOutput()</code> dont l’argument est aussi le nom.</p>
 <p>Le code à exécuter pour traiter les entrées et produire les sorties est dans la fonction <code>server()</code>.</p>
 <p></p>
-<div class="sourceCode" id="cb466"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb465"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Server logic ####</span></span>
 <span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Run the get_profile function only once ####</span></span>
@@ -252,7 +252,7 @@ L’application complète, avec des sorties graphiques en plus de sa version sim
 Cette fonction interroge la page web Google Scholar de l’auteur et extrait les valeurs du résultat : c’est une traitement lourd, qu’il vaut mieux n’exécuter qu’une seule fois plutôt que deux, dans les fonctions <code>renderUI()</code> chargées de calculer les valeurs de <code>output$h</code> et <code>output$name</code>.</p>
 <p>Le code le plus simple pour le faire serait le suivant :</p>
 <p></p>
-<div class="sourceCode" id="cb467"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb466"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="co"># Run the get_profile function only once ####</span></span>
 <span>  <span class="co"># Store the author profile</span></span>
 <span>  <span class="va">AuthorProfile</span> <span class="op">&lt;-</span> <span class="fu">get_profile</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">AuthorID</span><span class="op">)</span></span></code></pre></div>
@@ -264,7 +264,7 @@ Si ce dernier code était exécuté, le message d’erreur suivant apparaît :
 Le code faisant référence à un de ces contrôles doit être en permanence en attente d’une modification : il doit donc placé dans des fonctions particulières comme <code>renderPlot()</code> dans l’application <em>Old Faithful Geyser Data</em> ou <code>renderUI()</code> ici.
 Le code suivant s’exécuterait sans erreur :</p>
 <p></p>
-<div class="sourceCode" id="cb468"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb467"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="co"># Output ####</span></span>
 <span>  <span class="va">output</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="fu">renderUI</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">AuthorProfile</span> <span class="op">&lt;-</span> <span class="fu">get_profile</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">AuthorID</span><span class="op">)</span></span>
@@ -285,7 +285,7 @@ Deux fonctions sont très utiles :</p>
 </ul>
 <p>Le code optimal crée donc une variable réactive pour y stocker le résultat de l’interrogation de Google Scholar :</p>
 <p></p>
-<div class="sourceCode" id="cb469"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb468"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="co"># Store the author profile</span></span>
 <span>  <span class="va">AuthorProfile</span> <span class="op">&lt;-</span> <span class="fu">reactiveVal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p></p>
@@ -293,13 +293,13 @@ Deux fonctions sont très utiles :</p>
 Son utilisation est ensuite celle d’une fonction : <code>AuthorProfile(x)</code> lui attribue la valeur <code>x</code> et <code>AuthorProfile()</code>, sans argument, renvoie sa valeur.
 La fonction <code>observeEvent()</code> est déclenchée quand <code>input$AuthorID</code> est modifié et exécute le code passé en deuxième argument, ici la mise à jour de <code>AuthorProfile</code>.</p>
 <p></p>
-<div class="sourceCode" id="cb470"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb469"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="co"># Update it when input$AuthorID is changed</span></span>
 <span>  <span class="fu">observeEvent</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">AuthorID</span>, <span class="fu">AuthorProfile</span><span class="op">(</span><span class="fu">get_profile</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">AuthorID</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Enfin, les fonctions <code>renderUI()</code> qui fournissent les valeurs des contrôles de sortie utilisent la valeur de <code>AuthorProfile</code> :</p>
 <p></p>
-<div class="sourceCode" id="cb471"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb470"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="co"># Output ####</span></span>
 <span>  <span class="va">output</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="fu">renderUI</span><span class="op">(</span><span class="op">{</span></span>
 <span>     <span class="fu">h2</span><span class="op">(</span><span class="fu">AuthorProfile</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">name</span><span class="op">)</span></span>
@@ -308,7 +308,7 @@ La fonction <code>observeEvent()</code> est déclenchée quand <code>input$Autho
 <p>Remarquer les parenthèses de <code>AuthorProfile()</code>, variable réactive, par opposition à la syntaxe <code>AuthorProfile$name</code> pour une variable classique.</p>
 <p>La valeur de <code>output$h</code> est un lien internet, <code>&lt;a href=...</code> en HTML, écrit par la fonction <code>a()</code> du package <strong>htmltools</strong> utilisé par <code>renderUI()</code>.</p>
 <p></p>
-<div class="sourceCode" id="cb472"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb471"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="va">output</span><span class="op">$</span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu">renderUI</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="fu">a</span><span class="op">(</span>href <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span></span>
 <span>        <span class="st">"https://scholar.google.com/citations?user="</span>, <span class="va">input</span><span class="op">$</span><span class="va">AuthorID</span></span>
@@ -337,7 +337,7 @@ Shinyapps.io<a class="footnote-ref" tabindex="0" data-toggle="popover" data-cont
 <p>Il faut tout d’abord ouvrir un compte sur le site, de préférence avec ses identifiants GitHub.
 Pour permettre la gestion des applications en ligne directement depuis RStudio, il faut installer ensuite le package <strong>rsconnect</strong> et le paramétrer :</p>
 <p></p>
-<div class="sourceCode" id="cb473"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb472"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rsconnect</span><span class="fu">::</span><span class="fu">setAccountInfo</span><span class="op">(</span></span>
 <span>  name <span class="op">=</span> <span class="st">'prenom.nom'</span>,</span>
 <span>    token <span class="op">=</span> <span class="st">'xxx'</span>,</span>
@@ -395,7 +395,7 @@ La plupart des applications Shiny fonctionnent sans difficulté, tant qu’elles
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 14/03/2025.</p>
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 25/06/2025.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

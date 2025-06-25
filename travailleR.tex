@@ -374,7 +374,7 @@
 
 \author{Eric Marcon}
 
-\date{14/03/2025}
+\date{25/06/2025}
 
 
 % Include headers (preamble.tex) here
@@ -590,7 +590,7 @@ L'emplacement des librairies est donné par la fonction \texttt{.libPaths()}:
 
 \begin{verbatim}
 ## [1] "/Users/runner/work/_temp/Library"                                    
-## [2] "/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library"
+## [2] "/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library"
 \end{verbatim}
 
 \normalsize
@@ -917,21 +917,20 @@ La communication entre git (installé sur l'ordinateur local) et GitHub (platefo
 Deux méthodes sont disponibles: HTTPS (aussi appelée SSL) et SSH.
 SSH est la plus robuste mais nécessite la création d'une clé privée.
 
-Dans le terminal de RStudio, exécuter:
-
-\begin{verbatim}
-ssh-keygen -t ed25519 -C "user.email"
-\end{verbatim}
-
-L'adresse de messagerie (qui remplace \enquote{user.email}) doit être celle enregistrée dans la configuration de git et le compte GitHub.
-La clé est enregistrée dans le dossier \texttt{.ssh} du répertoire personnel de l'utilisateur.
+Afficher les options globales de RStudio (menu \enquote{Tools \textgreater{} Global Options\ldots{}}): sélectionner \emph{Git/SVN} puis cliquer sur le bouton \enquote{Create SSH Key\ldots{}} et choisir le type de clé \enquote{ed25519}.
 Il est possible d'ajouter un mot de passe (\emph{passphrase}) à la clé, qui devra être tapé à la première utilisation de chaque session de travail.
 Si l'ordinateur est correctement sécurisé (pas d'accès physique par des tiers), la laisser vide permet de gagner en fluidité.
 
+La clé, dite privée, est enregistrée dans le dossier \texttt{.ssh} du répertoire personnel de l'utilisateur.
+La clé publique correspondante doit être déposée sur GitHub: cliquer sur le lien \enquote{View public key} et copier la clé dans le presse-papier.
+
+Sur GitHub, afficher les réglages de son compte (menu \enquote{Settings}), sélectionner \enquote{SSH and GPG Keys}, cliquer sur \enquote{New SSH Key} et coller la clé publique dans le champ \enquote{Key}.
+Donner un nom à la clé dans le champ \enquote{Title}.
+Le nom peut être celui de l'ordinateur sur lequel la clé a été créée.
+
 Attention: la clé privée est strictement confidentielle et ne doit être copiée nulle part où elle pourrait être lue par un tiers (attention aux sauvegardes automatiques notamment).
 Elle n'a pas besoin d'être bien sauvegardée: en cas de perte, elle sera remplacée facilement.
-
-Les clés sont normalement stockées dans le dossier \texttt{\textasciitilde{}/.ssh}, quel que soit le système d'exploitation, mais l'emplacement du dossier personnel \texttt{\textasciitilde{}} est ambiguë sous Windows: pour R, c'est le dossier \texttt{Documents}, mais pour d'autres logiciels, c'est le dossier racine de l'utilisateur, parent de \texttt{Documents}.
+La clé ne doit pas être copiée sur plusieurs ordinateurs: en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.
 
 Dans le terminal de RStudio, vérifier le bon fonctionnement de la clé:
 
@@ -939,26 +938,9 @@ Dans le terminal de RStudio, vérifier le bon fonctionnement de la clé:
 ssh -T git@github.com
 \end{verbatim}
 
-Si un message d'erreur indique qu'aucune clé n'est trouvée, deux solutions sont possibles:
-
-\begin{itemize}
-\tightlist
-\item
-  Dupliquer le dossier \texttt{.ssh} (avec l'explorateur de fichiers) dans \texttt{Documents};
-\item
-  Dupliquer le dossier \texttt{.ssh} dans le dossier du programme RStudio (généralement \texttt{C:\textbackslash{}Program\ Files\textbackslash{}RStudio\textbackslash{}}), dans \texttt{resources\textbackslash{}terminal\textbackslash{}bash\textbackslash{}}.
-\end{itemize}
-
 En cas de succès, un message indique que l'authenticité du serveur GitHub ne peut pas être vérifiée: un contrôle manuel est nécessaire pour la première connexion.
 Vérifier auprès de GitHub que l'empreinte du serveur est correcte\footnote{\url{https://docs.github.com/en/github/authenticating-to-github/githubs-ssh-key-fingerprints}} et taper \texttt{yes}.
 Le serveur est ajouté automatiquement à la liste des serveurs connus, dans le fichier \texttt{known\_hosts}.
-
-Dans le dossier \texttt{.ssh}, deux fichiers sont créés: l'un contient la clé privée, l'autre, avec l'extension \texttt{.pub}, la clé publique correspondante.
-Ouvrir le second avec un éditeur de texte et copier la clé publique dans le presse-papier.
-Sur GitHub, afficher les réglages de son compte (menu \enquote{Settings}), sélectionner \enquote{SSH and GPG Keys}, cliquer sur \enquote{New SSH Key} et coller la clé dans le champ \enquote{Key}.
-Donner un nom à la clé dans le champ \enquote{Title}.
-Le nom peut être celui de l'ordinateur sur lequel la clé a été créée.
-La clé ne doit pas être copiée sur plusieurs ordinateurs: en cas de besoin, créer une nouvelle clé sur chaque poste de travail utilisé.
 
 Si la clé est compromise (perte ou prêt de l'ordinateur qui la contient), la supprimer sur GitHub et en créer une nouvelle.
 
@@ -1264,7 +1246,7 @@ Son code se résume à une déclaration \texttt{UseMethod("print")}:
 \begin{verbatim}
 ## function (x, ...) 
 ## UseMethod("print")
-## <bytecode: 0x13ad11120>
+## <bytecode: 0x13b95a928>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -1750,7 +1732,7 @@ Le code d'une fonction appelée de la console s'exécute dans un environnement f
 \end{Shaded}
 
 \begin{verbatim}
-## <environment: 0x11dd4b7d8>
+## <environment: 0x149bc6d50>
 \end{verbatim}
 
 \begin{Shaded}
@@ -1820,7 +1802,7 @@ Exemple:
 \begin{verbatim}
 ## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## <bytecode: 0x138fc5098>
+## <bytecode: 0x14d6e80e0>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -2003,7 +1985,7 @@ La fonction retourne le temps d'exécution du code.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.008   0.000   0.008
+##   0.007   0.000   0.008
 \end{verbatim}
 
 \normalsize
@@ -2033,10 +2015,10 @@ L'objectif est de comparer la vitesse du calcul du carré d'un vecteur (ou d'un 
 \begin{verbatim}
 ## Unit: microseconds
 ##   expr     min       lq      mean   median       uq     max
-##  f1(X)   1.722   5.7195   8.93800   6.1500   6.4370 349.197
-##  f2(X)   3.813   4.2845  10.00646   7.6670   7.9540 341.776
-##  f3(X)  93.070  97.1700 102.53321  98.7895 100.9215 450.713
-##  f4(X) 123.820 128.0225 134.91296 130.1545 132.0610 590.728
+##  f1(X)   1.681   2.2960   8.98597   6.4165   7.1545 368.016
+##  f2(X)   4.141   4.5715  10.88755   8.2205   8.9380 369.574
+##  f3(X)  92.496 100.9830 107.41016 103.1150 106.0875 475.600
+##  f4(X) 120.376 133.7420 141.25279 135.8945 139.1130 595.894
 ##  neval
 ##    100
 ##    100
@@ -2064,10 +2046,10 @@ Pour choisir les colonnes à afficher, utiliser la syntaxe suivante:
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)   6.1500
-## 2 f2(X)   7.6670
-## 3 f3(X)  98.7895
-## 4 f4(X) 130.1545
+## 1 f1(X)   6.4165
+## 2 f2(X)   8.2205
+## 3 f3(X) 103.1150
+## 4 f4(X) 135.8945
 \end{verbatim}
 
 \normalsize
@@ -2097,10 +2079,10 @@ Le test précédent est affiché à nouveau.
 
 \begin{verbatim}
 ##    expr   median
-## 1 f1(X)   6.1500
-## 2 f2(X)   7.6670
-## 3 f3(X)  98.7895
-## 4 f4(X) 130.1545
+## 1 f1(X)   6.4165
+## 2 f2(X)   8.2205
+## 3 f3(X) 103.1150
+## 4 f4(X) 135.8945
 \end{verbatim}
 
 \normalsize
@@ -2223,7 +2205,7 @@ La fonction \texttt{lnq} du package \textbf{entropart} retourne le logarithme d�
 ##         return(Log)
 ##     }
 ## }
-## <bytecode: 0x128b83ac0>
+## <bytecode: 0x14e25ab00>
 ## <environment: namespace:entropart>
 \end{verbatim}
 
@@ -2278,10 +2260,10 @@ Elle est déclinée sous plusieurs versions:
 
 \begin{verbatim}
 ##                                    expr   median
-## 1                              sqrt(x1)   1.9270
-## 2                lapply(x1, FUN = sqrt) 161.5400
-## 3                sapply(x1, FUN = sqrt) 198.3990
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 157.3785
+## 1                              sqrt(x1)   1.3940
+## 2                lapply(x1, FUN = sqrt) 125.2755
+## 3                sapply(x1, FUN = sqrt) 148.1945
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 123.3280
 \end{verbatim}
 
 \normalsize
@@ -2333,9 +2315,9 @@ Pour évaluer le gain de performance, le code suivant supprime toute compilation
 \end{Shaded}
 
 \begin{verbatim}
-##          expr   median
-## 1  Boucle(x1) 367.1755
-## 2 Boucle2(x1)  44.4030
+##          expr  median
+## 1  Boucle(x1) 360.513
+## 2 Boucle2(x1)  42.804
 \end{verbatim}
 
 \begin{Shaded}
@@ -2367,8 +2349,8 @@ Les boucles for sont maintenant nettement plus rapides que \texttt{vapply}.
 
 \begin{verbatim}
 ##                        expr   median
-## 1 vapply(x1, FUN = sqrt, 0) 177.0175
-## 2                Boucle(x1)  51.4755
+## 1 vapply(x1, FUN = sqrt, 0) 134.7260
+## 2                Boucle(x1)  42.1685
 \end{verbatim}
 
 \normalsize
@@ -2392,8 +2374,8 @@ Attention, le test de performance peut être trompeur:
 
 \begin{verbatim}
 ##                                               expr   median
-## 1                        vapply(x1, FUN = sqrt, 0)  135.792
-## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 1192.465
+## 1                        vapply(x1, FUN = sqrt, 0)  133.906
+## 2 for (i in 1:length(x1)) Racine[i] <- sqrt(x1[i]) 1100.583
 \end{verbatim}
 
 \normalsize
@@ -2458,9 +2440,9 @@ Ce code est équivalent à \texttt{runif(3)}, avec des performances similaires �
 \end{Shaded}
 
 \begin{verbatim}
-##                        expr   median
-## 1 replicate(1000, runif(1)) 673.7325
-## 2               runif(1000)   5.6375
+##                        expr  median
+## 1 replicate(1000, runif(1)) 733.572
+## 2               runif(1000)   6.232
 \end{verbatim}
 
 \normalsize
@@ -2498,9 +2480,9 @@ Ecrire plutôt les boucles.
 
 \begin{verbatim}
 ##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 1432.335
-## 2 apply(diamonds[-(2:4)], 2, sum) 3326.248
-## 3       colSums(diamonds[-(2:4)]) 1126.229
+## 1   BoucleSomme(diamonds[-(2:4)]) 1164.052
+## 2 apply(diamonds[-(2:4)], 2, sum) 2775.966
+## 3       colSums(diamonds[-(2:4)]) 1064.237
 \end{verbatim}
 
 \normalsize
@@ -2714,7 +2696,7 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.006   0.000   0.657
+##   0.001   0.000   0.613
 \end{verbatim}
 
 \begin{Shaded}
@@ -2726,12 +2708,12 @@ Ce document est tricoté avec \texttt{3} cœurs, qui sont tous utilisés sauf un
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.017   0.409
+##   0.001   0.015   0.386
 \end{verbatim}
 
 \normalsize
 
-La mise en place de la parallélisation a un coût d'environ \texttt{0.16} secondes ici.
+La mise en place de la parallélisation a un coût d'environ \texttt{0.14} secondes ici.
 Le temps d'exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n'en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d'un seconde.
 
@@ -2746,7 +2728,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.000   0.000   2.096
+##   0.000   0.000   2.242
 \end{verbatim}
 
 \begin{Shaded}
@@ -2758,7 +2740,7 @@ La parallélisation est intéressante pour des tâches plus longues, comme une p
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.014   1.124
+##   0.002   0.016   1.166
 \end{verbatim}
 
 \normalsize
@@ -2777,7 +2759,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.001   0.012   1.150
+##   0.000   0.011   1.043
 \end{verbatim}
 
 \begin{Shaded}
@@ -2788,7 +2770,7 @@ Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.012   2.265
+##   0.002   0.014   2.191
 \end{verbatim}
 
 \normalsize
@@ -2961,7 +2943,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.002   0.000   0.746
+##   0.003   0.000   0.715
 \end{verbatim}
 
 \begin{Shaded}
@@ -2975,7 +2957,7 @@ Remplacer l'opérateur \texttt{\%do\%} par \texttt{\%dopar\%} parallélise les b
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.004   0.017   0.418
+##   0.003   0.011   0.406
 \end{verbatim}
 
 \normalsize
@@ -3020,7 +3002,7 @@ Le package \textbf{future.apply} permet de paralléliser sans effort toutes les 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.022   0.000   0.358
+##   0.067   0.003   0.512
 \end{verbatim}
 
 \normalsize
@@ -3040,7 +3022,7 @@ Les boucles foreach peuvent être parallélisées avec le package \textbf{doFutu
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.035   0.001   0.592
+##   0.115   0.004   0.533
 \end{verbatim}
 
 \normalsize
@@ -3139,7 +3121,7 @@ La distance peut être calculée par deux \texttt{sapply()} imbriqués.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.280   0.005   2.290
+##   2.235   0.014   2.286
 \end{verbatim}
 
 \begin{Shaded}
@@ -3183,7 +3165,7 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.246   0.004   2.252
+##   2.193   0.007   2.202
 \end{verbatim}
 
 \begin{Shaded}
@@ -3235,7 +3217,7 @@ Une amélioration plus significative consiste à ne calculer les racines carrée
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   2.299   0.005   2.304
+##   2.160   0.006   2.168
 \end{verbatim}
 
 \begin{Shaded}
@@ -3282,7 +3264,7 @@ Les calculs sont effectués deux fois (distance entre les points \(i\) et \(j\),
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.295   0.003   1.299
+##   1.259   0.002   1.261
 \end{verbatim}
 
 \begin{Shaded}
@@ -3333,7 +3315,7 @@ Sous MacOS ou Linux, le calcul est accéléré.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.391   0.181   0.934
+##   1.617   0.222   1.239
 \end{verbatim}
 
 \begin{Shaded}
@@ -3378,7 +3360,7 @@ Seule la boucle principale est parallélisée: l'imbrication de \texttt{future\_
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.045   0.006   0.958
+##   0.120   0.009   1.162
 \end{verbatim}
 
 \begin{Shaded}
@@ -3423,7 +3405,7 @@ Une boucle for est plus rapide et consomme moins de mémoire parce qu'elle ne st
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.791   0.002   0.794
+##   0.885   0.006   0.891
 \end{verbatim}
 
 \begin{Shaded}
@@ -3467,7 +3449,7 @@ En revanche, les distances sont calculées deux fois.
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.933   0.158   0.889
+##   1.898   0.146   0.744
 \end{verbatim}
 
 \begin{Shaded}
@@ -3508,7 +3490,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.760   0.004   0.765
+##   0.750   0.005   0.755
 \end{verbatim}
 
 \normalsize
@@ -3672,8 +3654,8 @@ L'usage dans R est identique à celui des fonctions C++ interfacées par \textbf
 ## Unit: microseconds
 ##                                                      expr
 ##  d <- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min       lq     mean  median       uq      max neval
-##  219.965 233.5975 268.9731 236.037 249.3415 2609.117   100
+##      min      lq     mean   median      uq      max neval
+##  297.578 307.623 349.2815 309.4885 310.944 3516.816   100
 \end{verbatim}
 
 \begin{Shaded}
@@ -3712,13 +3694,13 @@ En multipliant le nombre de points par 50, le temps de calcul en série doit êt
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   4.347   0.005   4.361
+##   4.407   0.006   4.416
 \end{verbatim}
 
 \normalsize
 
 En parallèle, le temps augmente peu: la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{1984} secondes.
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit \texttt{2227} secondes.
 
 \scriptsize
 
@@ -3732,7 +3714,7 @@ Ce temps est à comparer à celui de la boucle for de référence, multiplié pa
 
 \begin{verbatim}
 ##    user  system elapsed 
-##   1.268   0.002   0.425
+##   1.268   0.003   0.427
 \end{verbatim}
 
 \normalsize
@@ -3874,15 +3856,15 @@ Le flux est exécuté par \texttt{tar\_make()}.
 \end{Shaded}
 
 \begin{verbatim}
-## ▶ dispatched target NbPoints
-## ● completed target NbPoints [0.634 seconds, 53 bytes]
-## ▶ dispatched target X
-## ● completed target X [0.001 seconds, 11.059 kilobytes]
-## ▶ dispatched target d
-## ● completed target d [0.006 seconds, 55 bytes]
-## ▶ dispatched target map
-## ● completed target map [0.013 seconds, 187.39 kilobytes]
-## ▶ ended pipeline [0.753 seconds]
+## + NbPoints dispatched
+## ✔ NbPoints completed [704ms, 53 B]
+## + X dispatched
+## ✔ X completed [1ms, 11.06 kB]
+## + d dispatched
+## ✔ d completed [4ms, 55 B]
+## + map dispatched
+## ✔ map completed [11ms, 187.83 kB]
+## ✔ ended pipeline [854ms, 4 completed, 0 skipped]
 \end{verbatim}
 
 \normalsize
@@ -3904,8 +3886,7 @@ Le flux est maintenant à jour et \texttt{tar\_make()} ne refait aucun calcul.
 \end{Shaded}
 
 \begin{verbatim}
-## ✔ skipping targets (1 so far)...
-## ✔ skipped pipeline [0.034 seconds]
+## ✔ skipped pipeline [38ms, 4 skipped]
 \end{verbatim}
 
 \normalsize
@@ -4747,7 +4728,7 @@ Exécuter:
 
 \subsection{Ajout des utilisateurs}\label{ajout-des-utilisateurs}
 
-Le propriétaire du projet est ajouté à partir de sa clé publique stockée sur GitHub, qui est la troisième dans notre exemple.
+Le propriétaire du projet est ajouté à partir de sa clé publique stockée sur GitHub, qui est la deuxième dans notre exemple.
 
 \scriptsize
 
@@ -4756,7 +4737,7 @@ Le propriétaire du projet est ajouté à partir de sa clé publique stockée su
 \CommentTok{\# Identifiant GitHub du propriétaire du projet}
 \NormalTok{github\_user }\OtherTok{\textless{}{-}} \StringTok{"EricMarcon"}
 \CommentTok{\# Lecture et stockage de la clé, i est le numéro de la clé}
-\FunctionTok{add\_github\_user}\NormalTok{(github\_user, }\AttributeTok{vault =}\NormalTok{ vault, }\AttributeTok{i =} \DecValTok{3}\NormalTok{)}
+\FunctionTok{add\_github\_user}\NormalTok{(github\_user, }\AttributeTok{vault =}\NormalTok{ vault, }\AttributeTok{i =} \DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6879,15 +6860,15 @@ Pour lancer le calcul des cibles, un bout de code standard (\texttt{\{r\}}) doit
 \end{Shaded}
 
 \begin{verbatim}
-## ▶ dispatched target NbPoints
-## ● completed target NbPoints [0.583 seconds, 53 bytes]
-## ▶ dispatched target X
-## ● completed target X [0.001 seconds, 11.059 kilobytes]
-## ▶ dispatched target d
-## ● completed target d [0.006 seconds, 55 bytes]
-## ▶ dispatched target map
-## ● completed target map [0.011 seconds, 187.39 kilobytes]
-## ▶ ended pipeline [0.694 seconds]
+## + NbPoints dispatched
+## ✔ NbPoints completed [656ms, 53 B]
+## + X dispatched
+## ✔ X completed [1ms, 11.06 kB]
+## + d dispatched
+## ✔ d completed [4ms, 55 B]
+## + map dispatched
+## ✔ map completed [12ms, 187.83 kB]
+## ✔ ended pipeline [833ms, 4 completed, 0 skipped]
 \end{verbatim}
 
 \normalsize
@@ -7641,7 +7622,7 @@ Il s'agit d'une méthode générique, c'est-à-dire un modèle de fonction, sans
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x11a373ba0>
+## <bytecode: 0x13ce9aa98>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -7662,9 +7643,9 @@ Les fonctions peuvent être listées:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "plot,ANY-method"      "plot,color-method"   
-## [3] "plot.AccumCurve"      "plot.acf"            
-## [5] "plot.ACF"             "plot.adaptivedensity"
+## [1] "plot.AccumCurve"      "plot.acf"            
+## [3] "plot.ACF"             "plot.adaptivedensity"
+## [5] "plot.addvar"          "plot.anylist"
 \end{verbatim}
 
 \begin{Shaded}
@@ -7675,7 +7656,7 @@ Les fonctions peuvent être listées:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 156
+## [1] 157
 \end{verbatim}
 
 \normalsize
@@ -7933,9 +7914,9 @@ Le choix de la fonction dépend de la classe de l'objet passé en argument.
 \begin{verbatim}
 ## Unit: nanoseconds
 ##                expr min  lq    mean median  uq    max neval
-##  triple.integer(2L)  82 123  136.12    123 123    451   100
-##   triple.numeric(2) 123 123 8547.68    123 164 840459   100
-##          triple(2L) 492 492 6959.75    533 533 642101   100
+##  triple.integer(2L)  82 123  143.50    123 164    451   100
+##   triple.numeric(2) 123 123 8440.26    123 164 830045   100
+##          triple(2L) 492 492 6988.45    533 533 645668   100
 \end{verbatim}
 
 \normalsize
@@ -8292,7 +8273,7 @@ Finalement, le code complet est le suivant:
 \begin{verbatim}
 ## function (x, y, ...) 
 ## UseMethod("plot")
-## <bytecode: 0x11a373ba0>
+## <bytecode: 0x13ce9aa98>
 ## <environment: namespace:base>
 \end{verbatim}
 
@@ -8329,7 +8310,7 @@ Finalement, le code complet est le suivant:
 ## {
 ##     UseMethod("autoplot")
 ## }
-## <bytecode: 0x11c34fa70>
+## <bytecode: 0x13cfd8570>
 ## <environment: namespace:ggplot2>
 \end{verbatim}
 

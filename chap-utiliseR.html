@@ -7,7 +7,7 @@
 <title>2 Utiliser R | Travailler avec R</title>
 <meta name="author" content="Eric Marcon">
 <meta name="description" content="La documentation consacrée à l’apprentissage de R est florissante. Les ouvrages suivants sont une sélection arbitraire mais utile pour progresser : L’Introduction à R et au tidyverse (Barnier...">
-<meta name="generator" content="bookdown 0.42 with bs4_book()">
+<meta name="generator" content="bookdown 0.43 with bs4_book()">
 <meta property="og:title" content="2 Utiliser R | Travailler avec R">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://ericmarcon.github.io/travailleR/chap-utiliseR.html">
@@ -124,16 +124,16 @@ Le plus courant est S3, mais ce n’est pas le seul<a class="footnote-ref" tabin
 </h3>
 <p>Le cœur de R est constitué des fonctions primitives et structures de données de base comme la fonction <code>sum</code> et les données de type <code>matrix</code> :</p>
 <p></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pryr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/otype.html">otype</a></span><span class="op">(</span><span class="va">sum</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "base"</code></pre>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">sum</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "builtin"</code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pryr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/otype.html">otype</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "base"</code></pre>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "double"</code></pre>
 <p></p>
@@ -155,20 +155,20 @@ Leur usage est donc à privilégier.</p>
 <p>S3 est le langage le plus utilisé, souvent le seul connu par les utilisateurs de R.</p>
 <p>C’est un langage orienté objet dans lequel les classes, c’est-à-dire le type des objets, sont déclaratives.</p>
 <p></p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MonPrenom</span> <span class="op">&lt;-</span> <span class="st">"Eric"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">MonPrenom</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"Prenom"</span></span></code></pre></div>
 <p></p>
 <p>La variable <code>MonPrenom</code> est ici de classe “Prenom” par une simple déclaration.</p>
 <p>Contrairement au fonctionnement d’un langage orienté objet classique<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://www.troispointzero.fr/le-blog/introduction-a-la-programmation-orientee-objet-poo/" class="uri"&gt;https://www.troispointzero.fr/le-blog/introduction-a-la-programmation-orientee-objet-poo/&lt;/a&gt;&lt;/p&gt;'><sup>19</sup></a>, les méthodes S3 sont liées aux fonctions, pas aux objets.</p>
 <p></p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Affichage par défaut</span></span>
 <span><span class="va">MonPrenom</span></span></code></pre></div>
 <pre><code>## [1] "Eric"
 ## attr(,"class")
 ## [1] "Prenom"</code></pre>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">print.Prenom</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Le prénom est"</span>, <span class="va">x</span><span class="op">)</span> </span>
 <span><span class="co"># Affichage modifié</span></span>
 <span><span class="va">MonPrenom</span></span></code></pre></div>
@@ -179,22 +179,22 @@ Dans un langage orienté objet classique, la méthode serait définie dans la cl
 Dans R, les méthodes sont définies à partir de méthodes génériques.</p>
 <p><code>print</code> est une méthode générique (“un générique”) déclaré dans <strong>base</strong>.</p>
 <p></p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pryr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/otype.html">otype</a></span><span class="op">(</span><span class="va">print</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "base"</code></pre>
 <p></p>
 <p>Son code se résume à une déclaration <code>UseMethod("print")</code> :</p>
 <p></p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">print</span></span></code></pre></div>
 <pre><code>## function (x, ...) 
 ## UseMethod("print")
-## &lt;bytecode: 0x109809120&gt;
+## &lt;bytecode: 0x10de96128&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>Il existe beaucoup de méthodes S3 pour <code>print</code> :</p>
 <p></p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html">methods</a></span><span class="op">(</span><span class="st">"print"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "print.acf"               "print.activeConcordance"
 ## [3] "print.AES"               "print.all_vars"         
@@ -202,10 +202,10 @@ Dans R, les méthodes sont définies à partir de méthodes génériques.</p>
 <p></p>
 <p>Chacune s’applique à une classe. <code>print.default</code> est utilisée en dernier ressort et s’appuie sur le type de l’objet, pas sur sa classe S3.</p>
 <p></p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">MonPrenom</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "character"</code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pryr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/otype.html">otype</a></span><span class="op">(</span><span class="va">MonPrenom</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "S3"</code></pre>
 <p></p>
@@ -213,19 +213,19 @@ Dans R, les méthodes sont définies à partir de méthodes génériques.</p>
 Dans un langage orienté objet classique, l’héritage permet de définir des classes plus précises (“PrenomFrancais”) qui héritent de classes plus générales (“Prenom”) et bénéficient de cette façon de leurs méthodes sans avoir à les redéfinir.
 Dans R, l’héritage consiste simplement à déclarer un vecteur de classes de plus en plus larges pour un objet :</p>
 <p></p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Définition des classes par un vecteur</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">MonPrenom</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"PrenomFrancais"</span>, <span class="st">"Prenom"</span><span class="op">)</span></span>
 <span><span class="co"># Ecriture alternative, avec inherits()</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">inherits</a></span><span class="op">(</span><span class="va">MonPrenom</span>, what <span class="op">=</span> <span class="st">"PrenomFrancais"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">inherits</a></span><span class="op">(</span><span class="va">MonPrenom</span>, what <span class="op">=</span> <span class="st">"Prenom"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p></p>
 <p>Le générique cherche une méthode pour chaque classe, dans l’ordre de leur déclaration.</p>
 <p></p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">print.PrenomFrancais</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Prénom français:"</span>, <span class="va">x</span><span class="op">)</span> </span>
 <span><span class="va">MonPrenom</span></span></code></pre></div>
 <pre><code>## Prénom français: Eric</code></pre>
@@ -234,7 +234,7 @@ Dans R, l’héritage consiste simplement à déclarer un vecteur de classes de 
 Presque tous les packages sont écrits en S3.
 Les génériques sont partout mais passent inaperçus, par exemple dans des packages :</p>
 <p></p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ericmarcon.github.io/entropart/">"entropart"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html">.S3methods</a></span><span class="op">(</span>class<span class="op">=</span><span class="st">"SpeciesDistribution"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] autoplot plot    
@@ -258,7 +258,7 @@ Utiliser l’aide <code><a href="https://rdrr.io/r/base/InternalMethods.html">he
 </ul>
 <p>En reprenant l’exemple précédent, la syntaxe S4 est la suivante :</p>
 <p></p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Définition de la classe Personne, avec ses slots</span></span>
 <span><span class="kw">setClass</span><span class="op">(</span></span>
 <span>  <span class="st">"Personne"</span>,  </span>
@@ -273,7 +273,7 @@ Utiliser l’aide <code><a href="https://rdrr.io/r/base/InternalMethods.html">he
 <p>Les méthodes appartiennent toujours aux fonctions.
 Elles sont déclarées par la fonction <code><a href="https://rdrr.io/r/methods/setMethod.html">setMethod()</a></code> :</p>
 <p></p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">setMethod</span><span class="op">(</span><span class="st">"print"</span>,</span>
 <span>  signature<span class="op">=</span><span class="st">"Personne"</span>,</span>
 <span>  <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
@@ -294,7 +294,7 @@ Quelques packages sur CRAN : <strong>Matrix</strong>, <strong>sp</strong>, <str
 <p>RC a été introduit dans R 2.12 (2010) avec le package <strong>methods</strong>.</p>
 <p>Les méthodes appartiennent aux classes, comme en C++ : elles sont déclarées dans la classe et appelées à partir des objets.</p>
 <p></p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"methods"</span><span class="op">)</span></span>
 <span><span class="co"># Déclaration de la classe</span></span>
 <span><span class="va">PersonneRC</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/methods/refClass.html">setRefClass</a></span><span class="op">(</span><span class="st">"PersonneRC"</span>, </span>
@@ -305,7 +305,7 @@ Quelques packages sur CRAN : <strong>Matrix</strong>, <strong>sp</strong>, <str
 <span><span class="co"># Langage</span></span>
 <span><span class="fu">pryr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/otype.html">otype</a></span><span class="op">(</span><span class="va">MoiRC</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "RC"</code></pre>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Appel de la méthode print</span></span>
 <span><span class="va">MoiRC</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Eric Marcon</code></pre>
@@ -320,7 +320,7 @@ Quelques packages sur CRAN : <strong>Matrix</strong>, <strong>sp</strong>, <str
 <p>Les attributs et les méthodes peuvent être publics ou privés.
 Une méthode <code><a href="https://rdrr.io/r/methods/new.html">initialize()</a></code> est utilisée comme constructeur.</p>
 <p></p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://r6.r-lib.org">"R6"</a></span><span class="op">)</span></span>
 <span><span class="va">PersonneR6</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span></span>
 <span>  <span class="st">"PersonneR6"</span>, </span>
@@ -342,7 +342,7 @@ Une méthode <code><a href="https://rdrr.io/r/methods/new.html">initialize()</a>
 Les performances de S6 sont bien supérieures à celles de RC mais sont inférieures à celles de S3<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://r6.r-lib.org/articles/Performance.html" class="uri"&gt;https://r6.r-lib.org/articles/Performance.html&lt;/a&gt;&lt;/p&gt;'><sup>21</sup></a>.</p>
 <p>La non-inclusion de R6 à R est montrée par <strong>pryr</strong> :</p>
 <p></p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pryr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/otype.html">otype</a></span><span class="op">(</span><span class="va">MoiR6</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "S3"</code></pre>
 <p></p>
@@ -354,7 +354,7 @@ Les performances de S6 sont bien supérieures à celles de RC mais sont inférie
 <p>Le tidyverse est un ensemble de packages cohérents qui ont fait évoluer la façon de programmer R.
 L’ensemble des packages indispensables peut être chargé par le package <strong>tidyverse</strong> qui n’a pas d’autre utilité :</p>
 <p></p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Il ne s’agit pas d’un nouveau langage à proprement parler mais plutôt d’une extension de S3, avec de profondes modifications techniques, notamment l’évaluation non conventionnelle des expressions<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;a href="https://dplyr.tidyverse.org/articles/programming.html" class="uri"&gt;https://dplyr.tidyverse.org/articles/programming.html&lt;/a&gt;&lt;/p&gt;'><sup>22</sup></a>, qu’il n’est pas essentiel de maîtriser en détail.</p>
@@ -362,7 +362,7 @@ L’ensemble des packages indispensables peut être chargé par le package <stro
 Son apport le plus visible pour l’utilisateur sont l’enchaînement des commandes dans un flux (pipeline de code).</p>
 <p>En programmation standard, l’enchaînement des fonctions s’écrit par emboîtements successifs, ce qui en rend la lecture difficile, surtout quand des arguments sont nécessaires :</p>
 <p></p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Logarithme de base 2 de la moyenne de 100 tirages aléatoires </span></span>
 <span><span class="co"># dans une loi uniforme</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span>, base <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
@@ -370,7 +370,7 @@ Son apport le plus visible pour l’utilisateur sont l’enchaînement des comma
 <p></p>
 <p>Dans le tidyverse, les fonctions s’enchaînent, ce qui correspond souvent mieux à la réflexion du programmeur sur le traitement des données :</p>
 <p></p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 100 tirages aléatoires dans une loi uniforme</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co"># Moyenne</span></span>
@@ -414,7 +414,7 @@ Les données peuvent être transformées par une fonction d’échelle, comme <c
 La figure <a href="chap-utiliseR.html#fig:diamonds">2.1</a> montre le résultat du code suivant :</p>
 
 <p></p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Données sur les diamants fournies par ggplot2</span></span>
 <span><span class="va">diamonds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="co"># Ne conserver que les diamants de plus d'un demi-carat</span></span>
@@ -454,7 +454,7 @@ Pour les régler, R dispose d’un système rigoureux de précédence des noms 
 Chaque package chargé crée un environnement fils pour former une pile des environnements, dont chaque nouvel élément est appelé “fils” du précédent, qui est son “parent”.</p>
 <p>La console se trouve dans l’environnement global, fils du dernier package chargé.</p>
 <p></p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/search.html">search</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##  [1] ".GlobalEnv"        "package:R6"       
 ##  [3] "package:entropart" "package:lubridate"
@@ -470,17 +470,17 @@ Chaque package chargé crée un environnement fils pour former une pile des envi
 <p></p>
 <p>Le code d’une fonction appelée de la console s’exécute dans un environnement fils de l’environnement global :</p>
 <p></p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Environnement actuel</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/environment.html">environment</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># La fonction f affiche son environnement</span></span>
 <span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html">environment</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co"># Affichage de l'environnement de la fonction</span></span>
 <span><span class="fu">f</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## &lt;environment: 0x118062c90&gt;</code></pre>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<pre><code>## &lt;environment: 0x11f61f9e0&gt;</code></pre>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Environnement parent de celui de la fonction</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/environment.html">parent.env</a></span><span class="op">(</span><span class="fu">f</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## &lt;environment: R_GlobalEnv&gt;</code></pre>
@@ -494,7 +494,7 @@ Chaque package chargé crée un environnement fils pour former une pile des envi
 S’il n’est pas trouvé, il est cherché dans l’environnement parent, puis dans le parent du parent, jusqu’à l’épuisement des environnements qui génère une erreur indiquant que l’objet n’a pas été trouvé.</p>
 <p>Exemple :</p>
 <p></p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Variable q définie dans l'environnement global</span></span>
 <span><span class="va">q</span> <span class="op">&lt;-</span> <span class="st">"GlobalEnv"</span></span>
 <span><span class="co"># Fonction définissant q dans son environnement</span></span>
@@ -505,7 +505,7 @@ S’il n’est pas trouvé, il est cherché dans l’environnement parent, puis 
 <span><span class="co"># La variable locale est retournée</span></span>
 <span><span class="fu">qLocalFonction</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "Fonction"</code></pre>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fonction (mal écrite) utilisant une variable qu'elle ne définit pas</span></span>
 <span><span class="va">qGlobalEnv</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>   <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
@@ -513,14 +513,14 @@ S’il n’est pas trouvé, il est cherché dans l’environnement parent, puis 
 <span><span class="co"># La variable de l'environnement global est retournée</span></span>
 <span><span class="fu">qGlobalEnv</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] "GlobalEnv"</code></pre>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Suppression de cette variable</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span></span>
 <span><span class="co"># La fonction base::q est retournée</span></span>
 <span><span class="fu">qGlobalEnv</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## function (save = "default", status = 0, runLast = TRUE) 
 ## .Internal(quit(save, status, runLast))
-## &lt;bytecode: 0x119c2bf80&gt;
+## &lt;bytecode: 0x11fc1baf8&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p></p>
 <p>La variable <code>q</code> est définie dans l’environnement global.
@@ -547,13 +547,13 @@ Ils sont habituellement appelés par la fonction <code><a href="https://rdrr.io/
 <p>Il est possible de détacher un package avec la fonction <code><a href="https://rdrr.io/r/base/ns-load.html">unloadNamespace()</a></code> pour le retirer de la pile des environnements.
 Exemple :</p>
 <p></p>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># entropart chargé et attaché</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ericmarcon.github.io/entropart/">"entropart"</a></span><span class="op">)</span></span>
 <span><span class="co"># Est-il attaché ?</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">isNamespaceLoaded</a></span><span class="op">(</span><span class="st">"entropart"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Pile des environnements</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/search.html">search</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##  [1] ".GlobalEnv"        "package:R6"       
@@ -567,18 +567,18 @@ Exemple :</p>
 ## [17] "package:utils"     "package:datasets" 
 ## [19] "package:methods"   "Autoloads"        
 ## [21] "package:base"</code></pre>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Diversity(), une fonction exportée par entropart est trouvée</span></span>
 <span><span class="fu"><a href="https://ericmarcon.github.io/entropart/reference/Diversity.html">Diversity</a></span><span class="op">(</span><span class="fl">1</span>, CheckArguments <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## None 
 ##    1</code></pre>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Détacher et décharger entropart</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">unloadNamespace</a></span><span class="op">(</span><span class="st">"entropart"</span><span class="op">)</span></span>
 <span><span class="co"># Est-il attaché ?</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">isNamespaceLoaded</a></span><span class="op">(</span><span class="st">"entropart"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Pile des environnements, sans entropart</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/search.html">search</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##  [1] ".GlobalEnv"        "package:R6"       
@@ -591,11 +591,11 @@ Exemple :</p>
 ## [15] "package:grDevices" "package:utils"    
 ## [17] "package:datasets"  "package:methods"  
 ## [19] "Autoloads"         "package:base"</code></pre>
-<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Diversity() est introuvable</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="https://ericmarcon.github.io/entropart/reference/Diversity.html">Diversity</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## &lt;simpleError in Diversity(1): could not find function "Diversity"&gt;</code></pre>
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># mais peut être appelée avec son nom complet</span></span>
 <span><span class="fu">entropart</span><span class="fu">::</span><span class="fu"><a href="https://ericmarcon.github.io/entropart/reference/Diversity.html">Diversity</a></span><span class="op">(</span><span class="fl">1</span>, CheckArguments <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## None 
@@ -609,7 +609,7 @@ Le package <strong>stats</strong> est habituellement chargé avant <strong>dplyr
 <code><a href="https://rdrr.io/r/stats/filter.html">stats::filter()</a></code> doit donc être appelée explicitement.</p>
 <p>Cependant, le package <strong>dplyr</strong> ou <strong>tidyverse</strong> (qui attache tous les packages du tidyverse) peut être chargé systématiquement en créant un fichier <code>.RProfile</code> à la racine du projet contenant la commande :</p>
 <p></p>
-<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Dans ce cas, <strong>dplyr</strong> est chargé <em>avant</em> <strong>stats</strong> et c’est sa fonction qui est inaccessible.</p>
@@ -627,11 +627,11 @@ Pour des temps d’exécution très courts, il est nécessaire de répéter la m
 </h3>
 <p>La fonction retourne le temps d’exécution du code.</p>
 <p></p>
-<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Ecart absolu moyen de 1000 valeurs dans une loi uniforme, répété 100 fois</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/mad.html">mad</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.007   0.001   0.008</code></pre>
+##   0.006   0.000   0.007</code></pre>
 <p></p>
 </div>
 <div id="microbenchmark" class="section level3" number="2.3.2">
@@ -641,7 +641,7 @@ Pour des temps d’exécution très courts, il est nécessaire de répéter la m
 <p>Le package <strong>microbenchmark</strong> est le plus avancé.</p>
 <p>L’objectif est de comparer la vitesse du calcul du carré d’un vecteur (ou d’un nombre) en le multipliant par lui-même (<span class="math inline">\(x \times x\)</span>) ou en l’élevant à la puissance 2 (<span class="math inline">\(x^2\)</span>).</p>
 <p></p>
-<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">*</span><span class="va">x</span></span>
 <span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span></span>
 <span><span class="va">f3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">^</span><span class="fl">2.1</span></span>
@@ -653,10 +653,10 @@ Pour des temps d’exécution très courts, il est nécessaire de répéter la m
 <span><span class="op">(</span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu">f1</span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, <span class="fu">f2</span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, <span class="fu">f3</span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, <span class="fu">f4</span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Unit: microseconds
 ##   expr     min       lq      mean   median       uq     max
-##  f1(X)   5.658   6.0065  15.21469   6.5190  17.5685 349.238
-##  f2(X)   5.084   7.7285  15.38771   7.9745  16.0310 345.589
-##  f3(X)  95.530  98.8100 108.28510 101.0445 110.1055 451.615
-##  f4(X) 125.132 128.9040 139.85387 131.5075 141.1425 575.681
+##  f1(X)   1.640   2.0500   8.23936   5.9860   6.2525 364.941
+##  f2(X)   3.813   4.0180   9.73586   7.5645   7.8720 357.889
+##  f3(X)  90.692  92.8445  98.64395  94.9355  96.3090 461.455
+##  f4(X) 120.171 123.0000 129.70104 124.9065 126.8950 598.723
 ##  neval
 ##    100
 ##    100
@@ -670,40 +670,40 @@ Le nombre de répétition est par défaut de 100, à moduler (argument <code>tim
 L’analyse statistique est faite par les méthodes <code>print</code> et <code>summary</code>.
 Pour choisir les colonnes à afficher, utiliser la syntaxe suivante :</p>
 <p></p>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##    expr   median
-## 1 f1(X)   6.5190
-## 2 f2(X)   7.9745
-## 3 f3(X) 101.0445
-## 4 f4(X) 131.5075</code></pre>
+## 1 f1(X)   5.9860
+## 2 f2(X)   7.5645
+## 3 f3(X)  94.9355
+## 4 f4(X) 124.9065</code></pre>
 <p></p>
 <p>Pour faire des calculs sur ces résultats, il faut les stocker dans une variable.
 Pour empêcher l’affichage dans la console, la solution la plus simple est d’utiliser la fonction <code>capture.output</code> en affectant son résultat à une variable.</p>
 <p></p>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dummy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/capture.output.html">capture.output</a></span><span class="op">(</span><span class="va">mbs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 <p>Le test précédent est affiché à nouveau.</p>
 <p></p>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##    expr   median
-## 1 f1(X)   6.5190
-## 2 f2(X)   7.9745
-## 3 f3(X) 101.0445
-## 4 f4(X) 131.5075</code></pre>
+## 1 f1(X)   5.9860
+## 2 f2(X)   7.5645
+## 3 f3(X)  94.9355
+## 4 f4(X) 124.9065</code></pre>
 <p></p>
 <p>Le temps de calcul est à peu près identique entre <span class="math inline">\(x \times x\)</span> et <span class="math inline">\(x^2\)</span>.
 Le calcul de puissance est nettement plus long, surtout si la puissance n’est pas entière, parce qu’il nécessite un calcul de logarithme.
 Le calcul de la puissance 2 est donc optimisé par R pour éviter l’usage du log.</p>
 <p>Deux représentations graphiques sont disponibles : les violons représentent la densité de probabilité du temps <span style="white-space:nowrap">d’exécution ;</span> les boîtes à moustache sont classiques.</p>
 <p></p>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org">"ggplot2"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="travailleR_files/figure-html/boxplot-1.png" width="80%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="travailleR_files/figure-html/boxplot-2.png" width="80%" style="display: block; margin: auto;"></div>
 <p></p>
@@ -716,7 +716,7 @@ Le calcul de la puissance 2 est donc optimisé par R pour éviter l’usage du l
 <p>Il permet de suivre le temps d’exécution de chaque ligne de code et la mémoire utilisée.
 L’objectif est de détecter les portions de code lentes, à améliorer.</p>
 <p></p>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://profvis.r-lib.org">profvis</a></span><span class="op">)</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://profvis.r-lib.org/reference/profvis.html">profvis</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>  <span class="co"># Calculs de cosinus </span></span>
@@ -743,14 +743,14 @@ On peut observer que le temps de tirage des nombres aléatoires est similaire à
 <p>La plupart des fonctions de R sont vectorielles : les boucles sont traitées de façon interne, extrêmement rapide.
 Il faut donc raisonner en termes de vecteurs plutôt que de scalaires.</p>
 <p></p>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Tirage de deux vecteurs de trois nombres aléatoires entre 0 et 1</span></span>
 <span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co"># Racine carrée des trois nombres de x1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.9427738 0.8665204 0.4586981</code></pre>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Sommes respective des trois nombres de x1 et x2</span></span>
 <span><span class="va">x1</span> <span class="op">+</span> <span class="va">x2</span></span></code></pre></div>
 <pre><code>## [1] 1.6262539 1.6881583 0.9063973</code></pre>
@@ -758,7 +758,7 @@ Il faut donc raisonner en termes de vecteurs plutôt que de scalaires.</p>
 <p>Il faut aussi écrire des fonctions vectorielles sur leur premier argument.
 La fonction <code>lnq</code> du package <strong>entropart</strong> retourne le logarithme déformé d’ordre <span class="math inline">\(q\)</span> d’un nombre <span class="math inline">\(x\)</span>.</p>
 <p></p>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Code de la fonction</span></span>
 <span><span class="fu">entropart</span><span class="fu">::</span><span class="va"><a href="https://ericmarcon.github.io/entropart/reference/lnq.html">lnq</a></span></span></code></pre></div>
 <pre><code>## function (x, q) 
@@ -772,7 +772,7 @@ La fonction <code>lnq</code> du package <strong>entropart</strong> retourne le l
 ##         return(Log)
 ##     }
 ## }
-## &lt;bytecode: 0x11c7562b0&gt;
+## &lt;bytecode: 0x128614208&gt;
 ## &lt;environment: namespace:entropart&gt;</code></pre>
 <p></p>
 <p>Pour qu’une fonction soit vectorielle, chaque ligne de son code doit permettre que le premier argument soit traité comme un vecteur.
@@ -796,13 +796,13 @@ Elle est déclinée sous plusieurs versions :</p>
 <code><a href="https://rdrr.io/r/base/lapply.html">vapply()</a></code> est presque identique mais demande que le type de données du résultat soit fourni.</li>
 </ul>
 <p></p>
-<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Tirage de 1000 valeurs dans une loi uniforme</span></span>
 <span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="co"># La racine carrée peut être calculée pour le vecteur ou chaque valeur </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">x1</span>, FUN <span class="op">=</span> <span class="va">sqrt</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span>, </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">x1</span>, FUN <span class="op">=</span> <span class="va">sqrt</span><span class="op">)</span>, </span>
@@ -811,10 +811,10 @@ Elle est déclinée sous plusieurs versions :</p>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##                                    expr   median
-## 1                              sqrt(x1)   1353.0
-## 2                lapply(x1, FUN = sqrt) 126505.5
-## 3                sapply(x1, FUN = sqrt) 150101.0
-## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 123471.5</code></pre>
+## 1                              sqrt(x1)   1.3530
+## 2                lapply(x1, FUN = sqrt) 125.8290
+## 3                sapply(x1, FUN = sqrt) 149.0965
+## 4 vapply(x1, FUN = sqrt, FUN.VALUE = 0) 123.3075</code></pre>
 <p></p>
 <p><code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> est beaucoup plus lent qu’une fonction vectorielle.
 <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> nécessite plus de temps pour <code><a href="https://rdrr.io/r/base/lapply.html">simplify2array()</a></code>, qui doit détecter comment rassembler les résultats.
@@ -831,12 +831,12 @@ Le comportement du compilateur “juste à temps” est défini par la fonction 
 Le niveau par défaut est 3 : les fonctions sont toutes compilées, et les boucles dans le code aussi.</p>
 <p>Pour évaluer le gain de performance, le code suivant supprime toute compilation automatique, et compare la même boucle compilée ou non.</p>
 <p></p>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"compiler"</span><span class="op">)</span></span>
 <span><span class="co"># Pas de compilation automatique</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/compiler/compile.html">enableJIT</a></span><span class="op">(</span>level <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Boucle pour calculer la racine carrée d'un vecteur</span></span>
 <span><span class="va">Boucle</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Initialisation du vecteur de résultat, indispensable</span></span>
@@ -850,10 +850,10 @@ Le niveau par défaut est 3 : les fonctions sont toutes compilées, et les bouc
 <span><span class="co"># Comparaison</span></span>
 <span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu">Boucle</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span>, <span class="fu">Boucle2</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">mbs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<pre><code>##          expr   median
-## 1  Boucle(x1) 356.7820
-## 2 Boucle2(x1)  41.9635</code></pre>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<pre><code>##          expr  median
+## 1  Boucle(x1) 332.182
+## 2 Boucle2(x1)  38.868</code></pre>
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compilation automatique par défaut depuis la version 3.5</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/compiler/compile.html">enableJIT</a></span><span class="op">(</span>level <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
@@ -861,17 +861,17 @@ Le niveau par défaut est 3 : les fonctions sont toutes compilées, et les bouc
 <p>Le gain est considérable : de 1 à <code>9</code>.</p>
 <p>Les boucles for sont maintenant nettement plus rapides que <code>vapply</code>.</p>
 <p></p>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Test</span></span>
 <span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="va">x1</span>, FUN <span class="op">=</span> <span class="va">sqrt</span>, <span class="fl">0</span><span class="op">)</span>, <span class="fu">Boucle</span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##                        expr  median
-## 1 vapply(x1, FUN = sqrt, 0) 130.011
-## 2                Boucle(x1)  40.549</code></pre>
+## 1 vapply(x1, FUN = sqrt, 0) 122.590
+## 2                Boucle(x1)  38.868</code></pre>
 <p></p>
 <p>Attention, le test de performance peut être trompeur :</p>
 <p></p>
-<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Préparation du vecteur de résultat</span></span>
 <span><span class="va">Racine</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span><span class="st">"numeric"</span>, length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># Test</span></span>
@@ -880,18 +880,15 @@ Le niveau par défaut est 3 : les fonctions sont toutes compilées, et les bouc
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">)</span> <span class="va">Racine</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">x1</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
-<pre><code>##                                               expr
-## 1                        vapply(x1, FUN = sqrt, 0)
-## 2 for (i in 1:length(x1)) Racine[i] &lt;- sqrt(x1[i])
-##      median
-## 1  147.4975
-## 2 1276.1660</code></pre>
+<pre><code>##                                               expr   median
+## 1                        vapply(x1, FUN = sqrt, 0)  133.865
+## 2 for (i in 1:length(x1)) Racine[i] &lt;- sqrt(x1[i]) 1081.396</code></pre>
 <p></p>
 <p>Dans ce code, la boucle for n’est pas compilée donc elle est beaucoup plus lente que dans le cadre normal de son utilisation (dans une fonction ou au niveau supérieur du code).</p>
 <p>Les boucles longues permettent un suivi de leur progression par une barre de texte, ce qui est un autre avantage.
 La fonction suivante exécute des pauses d’un dixième de seconde pendant le temps passé en paramètre (en secondes).</p>
 <p></p>
-<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">BoucleSuivie</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">duree</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Barre de progression</span></span>
 <span>  <span class="va">pgb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/txtProgressBar.html">txtProgressBar</a></span><span class="op">(</span>min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="va">duree</span> <span class="op">*</span> <span class="fl">10</span><span class="op">)</span></span>
@@ -913,18 +910,18 @@ La fonction suivante exécute des pauses d’un dixième de seconde pendant le t
 </h3>
 <p><code><a href="https://rdrr.io/r/base/lapply.html">replicate()</a></code> répète une instruction.</p>
 <p></p>
-<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.9453453 0.5262818 0.7233425</code></pre>
 <p></p>
 <p>Ce code est équivalent à <code>runif(3)</code>, avec des performances similaires à celles de <code>vapply</code> : de 50 à 100 fois plus lent qu’une fonction vectorielle.</p>
 <p></p>
-<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">1E3</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1E3</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
-<pre><code>##                        expr  median
-## 1 replicate(1000, runif(1)) 669.366
-## 2               runif(1000)   5.699</code></pre>
+<pre><code>##                        expr   median
+## 1 replicate(1000, runif(1)) 663.3390
+## 2               runif(1000)   5.8835</code></pre>
 <p></p>
 </div>
 <div id="vectorize" class="section level3" number="2.4.5">
@@ -941,7 +938,7 @@ Ecrire plutôt les boucles.</p>
 <p><code>apply</code> applique une fonction aux lignes ou colonnes d’un objet en deux dimensions.</p>
 <p><code>colSums</code> et ses semblables (<code>rowSums</code>, <code>colMeans</code>, <code>rowMeans</code>) sont optimisées.</p>
 <p></p>
-<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Somme des colonnes numériques du jeu de données diamonds de ggplot2</span></span>
 <span><span class="co"># Boucle identique à l'action de apply(, 2, )</span></span>
 <span><span class="va">BoucleSomme</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">Table</span><span class="op">)</span> <span class="op">{</span></span>
@@ -956,9 +953,9 @@ Ecrire plutôt les boucles.</p>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"expr"</span>, <span class="st">"median"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code>##                              expr   median
-## 1   BoucleSomme(diamonds[-(2:4)]) 1382.992
-## 2 apply(diamonds[-(2:4)], 2, sum) 3046.054
-## 3       colSums(diamonds[-(2:4)]) 1067.148</code></pre>
+## 1   BoucleSomme(diamonds[-(2:4)]) 1137.401
+## 2 apply(diamonds[-(2:4)], 2, sum) 2696.796
+## 3       colSums(diamonds[-(2:4)]) 1047.345</code></pre>
 <p></p>
 <p><code>apply</code> clarifie le code mais est plus lent que la boucle, qui est à peine plus lente que <code>colSums</code>.</p>
 </div>
@@ -976,17 +973,17 @@ La préparation des données et leur vérification doivent être exécutées sou
 </ul>
 <p>L’exemple suivant montre comment créer une fonction C++ pour calculer le double d’un vecteur numérique.</p>
 <p></p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb136-1"><a href="chap-utiliseR.html#cb136-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
-<span id="cb136-2"><a href="chap-utiliseR.html#cb136-2" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp<span class="op">;</span></span>
-<span id="cb136-3"><a href="chap-utiliseR.html#cb136-3" tabindex="-1"></a></span>
-<span id="cb136-4"><a href="chap-utiliseR.html#cb136-4" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
-<span id="cb136-5"><a href="chap-utiliseR.html#cb136-5" tabindex="-1"></a>NumericVector timesTwo<span class="op">(</span>NumericVector x<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb136-6"><a href="chap-utiliseR.html#cb136-6" tabindex="-1"></a>  <span class="cf">return</span> x <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb136-7"><a href="chap-utiliseR.html#cb136-7" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb135-1"><a href="chap-utiliseR.html#cb135-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
+<span id="cb135-2"><a href="chap-utiliseR.html#cb135-2" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp<span class="op">;</span></span>
+<span id="cb135-3"><a href="chap-utiliseR.html#cb135-3" tabindex="-1"></a></span>
+<span id="cb135-4"><a href="chap-utiliseR.html#cb135-4" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
+<span id="cb135-5"><a href="chap-utiliseR.html#cb135-5" tabindex="-1"></a>NumericVector timesTwo<span class="op">(</span>NumericVector x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb135-6"><a href="chap-utiliseR.html#cb135-6" tabindex="-1"></a>  <span class="cf">return</span> x <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb135-7"><a href="chap-utiliseR.html#cb135-7" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p></p>
 <p>Une fonction R du même nom que la fonction C++ est maintenant disponible.</p>
 <p></p>
-<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">timesTwo</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1]  2  4  6  8 10</code></pre>
 <p></p>
@@ -1016,7 +1013,7 @@ Les membres du cluster communiquent par le réseau (le réseau interne de l’or
 Sous Windows, elle n’a aucun effet puisque le système ne permet pas les <em>fork</em> : elle appelle simplement <code>lapply</code>.
 Cependant, un contournement existe pour émuler <code>mclapply</code> sous Windows en appelant <code>parLapply</code>, qui utilise un cluster.</p>
 <p></p>
-<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## mclapply.hack.R</span></span>
 <span><span class="co">##</span></span>
 <span><span class="co">## Nathan VanHoudnos</span></span>
@@ -1120,7 +1117,7 @@ Cependant, un contournement existe pour émuler <code>mclapply</code> sous Windo
 <p>Le code suivant teste la parallélisation d’une fonction qui renvoie son argument inchangé après une pause d’un quart de seconde.
 Ce document est tricoté avec <code>3</code> cœurs, qui sont tous utilisés sauf un pour ne pas saturer le système.</p>
 <p></p>
-<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">time</span> <span class="op">=</span> <span class="fl">.25</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html">Sys.sleep</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
@@ -1132,45 +1129,45 @@ Ce document est tricoté avec <code>3</code> cœurs, qui sont tous utilisés sau
 <span><span class="co"># Série : temps théorique = nbCoeurs/4 secondes</span></span>
 <span><span class="op">(</span><span class="va">tserie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nbCoeurs</span>, <span class="va">f</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.001   0.000   0.662</code></pre>
-<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+##   0.006   0.000   0.740</code></pre>
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Parallèle : temps théorique = 1/4 seconde</span></span>
 <span><span class="op">(</span><span class="va">tparallele</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nbCoeurs</span>, <span class="va">f</span>, mc.cores <span class="op">=</span> <span class="va">nbCoeurs</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.002   0.016   0.326</code></pre>
+##   0.001   0.014   0.379</code></pre>
 <p></p>
-<p>La mise en place de la parallélisation a un coût d’environ <code>0.076</code> secondes ici.
+<p>La mise en place de la parallélisation a un coût d’environ <code>0.13</code> secondes ici.
 Le temps d’exécution est bien plus long en parallèle sous Windows parce que la mise en place du cluster prend bien plus de temps que la parallélisation n’en fait gagner.
 La parallélisation est intéressante pour des tâches plus longues, comme une pause d’un seconde.</p>
 <p></p>
-<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Série</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nbCoeurs</span>, <span class="va">f</span>, time <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.000   0.000   2.235</code></pre>
-<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
+##   0.001   0.000   2.081</code></pre>
+<div class="sourceCode" id="cb145"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Parallèle</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nbCoeurs</span>, <span class="va">f</span>, time <span class="op">=</span> <span class="fl">1</span>, mc.cores <span class="op">=</span> <span class="va">nbCoeurs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.002   0.013   1.031</code></pre>
+##   0.002   0.014   1.103</code></pre>
 <p></p>
 <p>Le temps additionnel nécessaire pour l’exécution parallèle du nouveau code est relativement plus faible : les coûts deviennent inférieurs à l’économie quand le temps de chaque tâche s’allonge.</p>
 <p>Si le nombre de tâches parallèles dépasse le nombre de cœurs utilisés, les performances s’effondrent parce que la tâche supplémentaire doit être exécutée après les premières.</p>
 <p></p>
-<div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">nbCoeurs</span>, <span class="va">f</span>, time <span class="op">=</span> <span class="fl">1</span>, mc.cores <span class="op">=</span> <span class="va">nbCoeurs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.001   0.017   1.154</code></pre>
-<div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
+##   0.002   0.013   1.087</code></pre>
+<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html">mclapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">nbCoeurs</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>, <span class="va">f</span>, time <span class="op">=</span> <span class="fl">1</span>, mc.cores <span class="op">=</span> <span class="va">nbCoeurs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.002   0.013   2.248</code></pre>
+##   0.002   0.013   2.099</code></pre>
 <p></p>
 <p>Le temps reste ensuite stable jusqu’au double du nombre de cœurs.
 La figure <a href="chap-utiliseR.html#fig:r-parallele">2.2</a> montre l’évolution du temps de calcul en fonction du nombre de tâches.</p>
 
 <p></p>
-<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Taches</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">nbCoeurs</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">Temps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span></span>
 <span>  <span class="va">Taches</span>, </span>
@@ -1220,7 +1217,7 @@ Le code de chaque étape se trouve dans la fonction <code>mclapply.hack</code> c
 <p>Le package <strong>foreach</strong> permet un usage avancé de la parallélisation.
 Lire ses vignettes.</p>
 <p></p>
-<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Manuel</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">"foreach"</span>, <span class="st">"foreach"</span><span class="op">)</span></span>
 <span><span class="co"># Boucles imbriquées</span></span>
@@ -1228,7 +1225,7 @@ Lire ses vignettes.</p>
 <p></p>
 <p>Indépendamment de la parallélisation, <strong>foreach</strong> redéfinit les boucles <em>for</em>.</p>
 <p></p>
-<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">f</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -1249,7 +1246,7 @@ Lire ses vignettes.</p>
 <p>La fonction <code>foreach</code> retourne une liste contenant les résultats de chaque boucle.
 Les éléments de la liste peuvent être combinés par une fonction quelconque, comme <code>c</code>.</p>
 <p></p>
-<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">foreach</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, .combine <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">%do%</a></span> <span class="op">{</span></span>
 <span>  <span class="fu">f</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -1258,7 +1255,7 @@ Les éléments de la liste peuvent être combinés par une fonction quelconque, 
 <p>La fonction <code>foreach</code> est capable d’utiliser des itérateurs, c’est-à-dire des fonctions qui ne passent à la boucle que les données dont elle a besoin sans charger les autres en mémoire.
 Ici, l’itérateur <code>icount</code> passe les valeurs 1, 2 et 3 individuellement, sans charger le vecteur 1:3 en mémoire.</p>
 <p></p>
-<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/RevolutionAnalytics/iterators">"iterators"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">foreach</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html">icount</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>, .combine <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">%do%</a></span> <span class="op">{</span></span>
 <span>  <span class="fu">f</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
@@ -1274,7 +1271,7 @@ Ici, l’itérateur <code>icount</code> passe les valeurs 1, 2 et 3 individuelle
 <p>Remplacer l’opérateur <code>%do%</code> par <code>%dopar%</code> parallélise les boucles, à condition qu’un adaptateur, c’est-à-dire un package intermédiaire entre <code>foreach</code> et un package chargé de l’implémentation de la parallélisation, soit chargé.
 <strong>doParallel</strong> est un adaptateur pour utiliser le package <strong>parallel</strong> livré avec R.</p>
 <p></p>
-<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RevolutionAnalytics/doparallel">doParallel</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html">registerDoParallel</a></span><span class="op">(</span>cores <span class="op">=</span> <span class="va">nbCoeurs</span><span class="op">)</span></span>
 <span><span class="co"># Série</span></span>
@@ -1282,14 +1279,14 @@ Ici, l’itérateur <code>icount</code> passe les valeurs 1, 2 et 3 individuelle
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">foreach</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html">icount</a></span><span class="op">(</span><span class="va">nbCoeurs</span><span class="op">)</span>, .combine <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">%do%</a></span> <span class="op">{</span><span class="fu">f</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.003   0.000   0.644</code></pre>
-<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+##   0.004   0.000   0.632</code></pre>
+<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Parallèle</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">foreach</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html">icount</a></span><span class="op">(</span><span class="va">nbCoeurs</span><span class="op">)</span>, .combine <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">%dopar%</a></span> <span class="op">{</span><span class="fu">f</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.003   0.017   0.417</code></pre>
+##   0.003   0.017   0.410</code></pre>
 <p></p>
 <p>Le coût fixe de la parallélisation est faible.</p>
 </div>
@@ -1306,7 +1303,7 @@ Les stratégies <code>multicore</code> et <code>multisession</code> reposent res
 D’autres stratégies sont disponibles pour utiliser des clusters physiques (plusieurs ordinateurs préparés pour exécuter R ensemble) : la documentation de <strong>future</strong> détaille comment le faire.</p>
 <p>Nous utiliserons ici la stratégie <code>multisession</code> qui fonctionne sur l’ordinateur local, quel que soit sont système d’exploitation.</p>
 <p></p>
-<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://future.futureverse.org">"future"</a></span><span class="op">)</span></span>
 <span><span class="co"># Stratégie socket sur tous les coeurs disponibles sauf 1</span></span>
 <span><span class="va">usedCores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://parallelly.futureverse.org/reference/availableCores.html">availableCores</a></span><span class="op">(</span>omit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -1314,25 +1311,25 @@ D’autres stratégies sont disponibles pour utiliser des clusters physiques (pl
 <p></p>
 <p>Le package <strong>future.apply</strong> permet de paralléliser sans effort toutes les boucles <code>*apply()</code> et <code><a href="https://rdrr.io/r/base/lapply.html">replicate()</a></code> en préfixant leur nom par <code>future_</code>.</p>
 <p></p>
-<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://future.apply.futureverse.org">"future.apply"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_lapply.html">future_replicate</a></span><span class="op">(</span><span class="va">usedCores</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fu">f</span><span class="op">(</span><span class="va">usedCores</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.024   0.001   0.495</code></pre>
+##   0.062   0.003   0.465</code></pre>
 <p></p>
 <p>Les boucles foreach peuvent être parallélisées avec le package <strong>doFuture</strong> en remplaçant simplement <code>%dopar%</code> par <code>%dofuture%</code>.</p>
 <p></p>
-<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://doFuture.futureverse.org">"doFuture"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">foreach</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html">icount</a></span><span class="op">(</span><span class="va">nbCoeurs</span><span class="op">)</span>, .combine <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op"><a href="https://doFuture.futureverse.org/reference/grapes-dofuture-grapes.html">%dofuture%</a></span> <span class="op">{</span><span class="fu">f</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.033   0.001   0.436</code></pre>
+##   0.112   0.003   0.479</code></pre>
 <p></p>
 <p>La stratégie est rétablie à <code>sequential</code> à la fin.</p>
 <p></p>
-<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html">plan</a></span><span class="op">(</span><span class="va">sequential</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 </div>
@@ -1351,7 +1348,7 @@ Elle est égale à <span class="math inline">\(\frac{2+\sqrt{2}+5\ln{(1+\sqrt{2}
 </h3>
 <p>Le semis de points est créé avec le package <strong>spatstat</strong>.</p>
 <p></p>
-<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">NbPoints</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="http://spatstat.org/">"spatstat"</a></span><span class="op">)</span></span>
 <span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spatstat.random/man/runifpoint.html">runifpoint</a></span><span class="op">(</span><span class="va">NbPoints</span><span class="op">)</span></span></code></pre></div>
@@ -1364,11 +1361,11 @@ Elle est égale à <span class="math inline">\(\frac{2+\sqrt{2}+5\ln{(1+\sqrt{2}
 <p>La fonction <code><a href="https://rdrr.io/pkg/spatstat.geom/man/pairdist.html">pairdist()</a></code> de <strong>spatstat</strong> retourne la matrice des distances entre les points.
 La distance moyenne est calculée en divisant la somme par le nombre de paires de points distincts.</p>
 <p></p>
-<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/spatstat.geom/man/pairdist.html">pairdist</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="va">NbPoints</span> <span class="op">/</span> <span class="op">(</span><span class="va">NbPoints</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="travailleR_files/figure-html/pairdist-1.png" width="80%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
 <p></p>
@@ -1380,7 +1377,7 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 </h3>
 <p>La distance peut être calculée par deux <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> imbriqués.</p>
 <p></p>
-<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fsapply1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">distances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span></span>
 <span>    <span class="fl">1</span><span class="op">:</span><span class="va">NbPoints</span>, </span>
@@ -1397,15 +1394,15 @@ La distance moyenne est calculée en divisant la somme par le nombre de paires d
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fsapply1</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.359   0.006   2.367</code></pre>
-<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+##   2.348   0.007   2.357</code></pre>
+<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
 <p></p>
 <p>Un peu de temps peut être gagnée en remplaçant <code>sapply</code> par <code>vapply</code> : le format des résultats n’a pas à être déterminé par la fonction.
 Le gain est négligeable sur un long calcul comme celui-ci mais important pour des calculs courts.</p>
 <p></p>
-<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fsapply2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">distances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span></span>
 <span>    <span class="fl">1</span><span class="op">:</span><span class="va">NbPoints</span>, </span>
@@ -1424,8 +1421,8 @@ Le gain est négligeable sur un long calcul comme celui-ci mais important pour d
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fsapply2</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.230   0.005   2.236</code></pre>
-<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
+##   2.243   0.004   2.248</code></pre>
+<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
 <p>
@@ -1436,7 +1433,7 @@ Le format de sortie n’est pas toujours évident à écrire :</p>
 </ul>
 <p>Une amélioration plus significative consiste à ne calculer les racines carrées qu’à la fin de la boucle, pour profiter de la vectorisation de la fonction.</p>
 <p></p>
-<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fsapply3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">distances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span></span>
 <span>    <span class="fl">1</span><span class="op">:</span><span class="va">NbPoints</span>, </span>
@@ -1455,14 +1452,14 @@ Le format de sortie n’est pas toujours évident à écrire :</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fsapply3</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   2.217   0.003   2.222</code></pre>
-<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
+##   2.215   0.006   2.225</code></pre>
+<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
 <p></p>
 <p>Les calculs sont effectués deux fois (distance entre les points <span class="math inline">\(i\)</span> et <span class="math inline">\(j\)</span>, mais aussi entre les points <span class="math inline">\(j\)</span> et <span class="math inline">\(i\)</span>) : un test sur les indices permet de diviser presque le temps par 2 (pas tout à fait parce que les boucles sans calcul, qui retournent <span class="math inline">\(0\)</span>, prennent du temps).</p>
 <p></p>
-<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fsapply4</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">distances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span></span>
 <span>    <span class="fl">1</span><span class="op">:</span><span class="va">NbPoints</span>, </span>
@@ -1485,15 +1482,15 @@ Le format de sortie n’est pas toujours évident à écrire :</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fsapply4</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.289   0.003   1.292</code></pre>
-<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
+##   1.286   0.003   1.289</code></pre>
+<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
 <p></p>
 <p>En parallèle, le temps de calcul n’est pas amélioré sous Windows parce que les tâches individuelles sont trop courtes.
 Sous MacOS ou Linux, le calcul est accéléré.</p>
 <p></p>
-<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fsapply5</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">distances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html">mclapply</a></span><span class="op">(</span></span>
 <span>    <span class="fl">1</span><span class="op">:</span><span class="va">NbPoints</span>, </span>
@@ -1519,8 +1516,8 @@ Sous MacOS ou Linux, le calcul est accéléré.</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fsapply5</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.385   0.207   0.911</code></pre>
-<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
+##   1.377   0.123   0.890</code></pre>
+<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
 <p></p>
@@ -1532,7 +1529,7 @@ Sous MacOS ou Linux, le calcul est accéléré.</p>
 <p>La fonction <code>fsapply4()</code> optimisée plus haut peut être parallélisée directement en préfixant la fonction <code>vapply</code> par <code>future_</code>.
 Seule la boucle principale est parallélisée : l’imbrication de <code><a href="https://future.apply.futureverse.org/reference/future_lapply.html">future_vapply()</a></code> ferait s’écrouler la performance.</p>
 <p></p>
-<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://future.apply.futureverse.org">"future.apply"</a></span><span class="op">)</span></span>
 <span><span class="co"># Stratégie socket sur tous les coeurs disponibles sauf 1</span></span>
 <span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html">plan</a></span><span class="op">(</span><span class="va">multisession</span>, workers <span class="op">=</span> <span class="fu"><a href="https://parallelly.futureverse.org/reference/availableCores.html">availableCores</a></span><span class="op">(</span>omit <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -1550,11 +1547,11 @@ Seule la boucle principale est parallélisée : l’imbrication de <code><a hre
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">future_fsapply4_</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.049   0.006   0.989</code></pre>
-<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
+##   0.118   0.009   1.099</code></pre>
+<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
-<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html">plan</a></span><span class="op">(</span><span class="va">sequential</span><span class="op">)</span></span></code></pre></div>
 <p></p>
 </div>
@@ -1564,7 +1561,7 @@ Seule la boucle principale est parallélisée : l’imbrication de <code><a hre
 </h3>
 <p>Une boucle for est plus rapide et consomme moins de mémoire parce qu’elle ne stocke pas la matrice de distances.</p>
 <p></p>
-<div class="sourceCode" id="cb199"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">distance</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
 <span><span class="va">ffor</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">NbPoints</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1577,8 +1574,8 @@ Seule la boucle principale est parallélisée : l’imbrication de <code><a hre
 <span><span class="co"># Temps de calcul, mémorisé</span></span>
 <span><span class="op">(</span><span class="va">for_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">ffor</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.792   0.002   0.794</code></pre>
-<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
+##   0.795   0.004   0.800</code></pre>
+<div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
 <p></p>
@@ -1591,7 +1588,7 @@ Seule la boucle principale est parallélisée : l’imbrication de <code><a hre
 <p>La parallélisation exécute des boucles <code>for</code> à l’intérieur d’une boucle foreach, ce qui est assez efficace.
 En revanche, les distances sont calculées deux fois.</p>
 <p></p>
-<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html">registerDoParallel</a></span><span class="op">(</span>cores <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">fforeach3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">Y</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">distances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">foreach</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html">icount</a></span><span class="op">(</span><span class="va">Y</span><span class="op">$</span><span class="va">n</span><span class="op">)</span>, .combine <span class="op">=</span> <span class="st">'+'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html">%dopar%</a></span> <span class="op">{</span></span>
@@ -1606,15 +1603,15 @@ En revanche, les distances sont calculées deux fois.</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fforeach3</span><span class="op">(</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.880   0.125   0.753</code></pre>
-<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
+##   1.937   0.125   0.749</code></pre>
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
 <p></p>
 <p>Il est possible d’imbriquer deux boucles foreach mais elles sont extrêmement lentes en comparaison d’une boucle simple.
 Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de distances à calculer.</p>
 <p></p>
-<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">NbPointsReduit</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
 <span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spatstat.random/man/runifpoint.html">runifpoint</a></span><span class="op">(</span><span class="va">NbPointsReduit</span><span class="op">)</span></span>
 <span><span class="va">fforeach1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">Y</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1630,7 +1627,7 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">fforeach1</span><span class="op">(</span><span class="va">Y</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.763   0.004   0.767</code></pre>
+##   0.756   0.004   0.760</code></pre>
 <p></p>
 <p>Les boucles foreach imbriquées sont à réserver à des tâches très longues (plusieurs secondes au moins) pour amortir les coûts fixes de leur mise en place.</p>
 </div>
@@ -1640,32 +1637,32 @@ Le test est lancé ici avec 10 fois moins de points, donc 100 fois moins de dist
 </h3>
 <p>La fonction C++ permettant de calculer les distances est la suivante.</p>
 <p></p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb209-1"><a href="chap-utiliseR.html#cb209-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
-<span id="cb209-2"><a href="chap-utiliseR.html#cb209-2" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp<span class="op">;</span></span>
-<span id="cb209-3"><a href="chap-utiliseR.html#cb209-3" tabindex="-1"></a></span>
-<span id="cb209-4"><a href="chap-utiliseR.html#cb209-4" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
-<span id="cb209-5"><a href="chap-utiliseR.html#cb209-5" tabindex="-1"></a><span class="dt">double</span> MeanDistance<span class="op">(</span>NumericVector x<span class="op">,</span> NumericVector y<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb209-6"><a href="chap-utiliseR.html#cb209-6" tabindex="-1"></a>  <span class="dt">double</span> distance <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb209-7"><a href="chap-utiliseR.html#cb209-7" tabindex="-1"></a>  <span class="dt">double</span> dx<span class="op">,</span> dy<span class="op">;</span></span>
-<span id="cb209-8"><a href="chap-utiliseR.html#cb209-8" tabindex="-1"></a>  <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="op">(</span>x<span class="op">.</span>length<span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">);</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb209-9"><a href="chap-utiliseR.html#cb209-9" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;</span> x<span class="op">.</span>length<span class="op">();</span> j<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb209-10"><a href="chap-utiliseR.html#cb209-10" tabindex="-1"></a>    <span class="co">// Calculate distance</span></span>
-<span id="cb209-11"><a href="chap-utiliseR.html#cb209-11" tabindex="-1"></a>        dx <span class="op">=</span> x<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> x<span class="op">[</span>j<span class="op">];</span></span>
-<span id="cb209-12"><a href="chap-utiliseR.html#cb209-12" tabindex="-1"></a>        dy <span class="op">=</span> y<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> y<span class="op">[</span>j<span class="op">];</span></span>
-<span id="cb209-13"><a href="chap-utiliseR.html#cb209-13" tabindex="-1"></a>        distance <span class="op">+=</span> sqrt<span class="op">(</span>dx <span class="op">*</span> dx <span class="op">+</span> dy <span class="op">*</span> dy<span class="op">);</span></span>
-<span id="cb209-14"><a href="chap-utiliseR.html#cb209-14" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb209-15"><a href="chap-utiliseR.html#cb209-15" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb209-16"><a href="chap-utiliseR.html#cb209-16" tabindex="-1"></a>  <span class="cf">return</span> distance <span class="op">/</span> <span class="op">(</span><span class="dt">double</span><span class="op">)(</span>x<span class="op">.</span>length<span class="op">()</span> <span class="op">/</span> <span class="dv">2</span> <span class="op">*</span> <span class="op">(</span>x<span class="op">.</span>length<span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">));</span></span>
-<span id="cb209-17"><a href="chap-utiliseR.html#cb209-17" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb208-1"><a href="chap-utiliseR.html#cb208-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
+<span id="cb208-2"><a href="chap-utiliseR.html#cb208-2" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp<span class="op">;</span></span>
+<span id="cb208-3"><a href="chap-utiliseR.html#cb208-3" tabindex="-1"></a></span>
+<span id="cb208-4"><a href="chap-utiliseR.html#cb208-4" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
+<span id="cb208-5"><a href="chap-utiliseR.html#cb208-5" tabindex="-1"></a><span class="dt">double</span> MeanDistance<span class="op">(</span>NumericVector x<span class="op">,</span> NumericVector y<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb208-6"><a href="chap-utiliseR.html#cb208-6" tabindex="-1"></a>  <span class="dt">double</span> distance <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb208-7"><a href="chap-utiliseR.html#cb208-7" tabindex="-1"></a>  <span class="dt">double</span> dx<span class="op">,</span> dy<span class="op">;</span></span>
+<span id="cb208-8"><a href="chap-utiliseR.html#cb208-8" tabindex="-1"></a>  <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="op">(</span>x<span class="op">.</span>length<span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">);</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb208-9"><a href="chap-utiliseR.html#cb208-9" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;</span> x<span class="op">.</span>length<span class="op">();</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb208-10"><a href="chap-utiliseR.html#cb208-10" tabindex="-1"></a>    <span class="co">// Calculate distance</span></span>
+<span id="cb208-11"><a href="chap-utiliseR.html#cb208-11" tabindex="-1"></a>        dx <span class="op">=</span> x<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> x<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb208-12"><a href="chap-utiliseR.html#cb208-12" tabindex="-1"></a>        dy <span class="op">=</span> y<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> y<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb208-13"><a href="chap-utiliseR.html#cb208-13" tabindex="-1"></a>        distance <span class="op">+=</span> sqrt<span class="op">(</span>dx <span class="op">*</span> dx <span class="op">+</span> dy <span class="op">*</span> dy<span class="op">);</span></span>
+<span id="cb208-14"><a href="chap-utiliseR.html#cb208-14" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb208-15"><a href="chap-utiliseR.html#cb208-15" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb208-16"><a href="chap-utiliseR.html#cb208-16" tabindex="-1"></a>  <span class="cf">return</span> distance <span class="op">/</span> <span class="op">(</span><span class="dt">double</span><span class="op">)(</span>x<span class="op">.</span>length<span class="op">()</span> <span class="op">/</span> <span class="dv">2</span> <span class="op">*</span> <span class="op">(</span>x<span class="op">.</span>length<span class="op">()</span> <span class="op">-</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb208-17"><a href="chap-utiliseR.html#cb208-17" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p></p>
 <p>Elle est appelée dans R très simplement.
 Le temps d’exécution est très court.</p>
 <p></p>
-<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">MeanDistance</span><span class="op">(</span><span class="va">X</span><span class="op">$</span><span class="va">x</span>, <span class="va">X</span><span class="op">$</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="travailleR_files/figure-html/RCpp-1.png" width="80%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
 <p></p>
@@ -1686,101 +1683,101 @@ Une documentation est disponible<a class="footnote-ref" tabindex="0" data-toggle
 </ul>
 <p>La syntaxe du <code>Worker</code> est un peu laborieuse mais assez simple à adapter : les constructeurs initialisent les variables C à partir des valeurs transmises par R et déclarent la parallélisation.</p>
 <p></p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb213-1"><a href="chap-utiliseR.html#cb213-1" tabindex="-1"></a><span class="co">// [[Rcpp::depends(RcppParallel)]]</span></span>
-<span id="cb213-2"><a href="chap-utiliseR.html#cb213-2" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
-<span id="cb213-3"><a href="chap-utiliseR.html#cb213-3" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;RcppParallel.h&gt;</span></span>
-<span id="cb213-4"><a href="chap-utiliseR.html#cb213-4" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp<span class="op">;</span></span>
-<span id="cb213-5"><a href="chap-utiliseR.html#cb213-5" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> RcppParallel<span class="op">;</span></span>
-<span id="cb213-6"><a href="chap-utiliseR.html#cb213-6" tabindex="-1"></a></span>
-<span id="cb213-7"><a href="chap-utiliseR.html#cb213-7" tabindex="-1"></a><span class="co">// Working function, not exported</span></span>
-<span id="cb213-8"><a href="chap-utiliseR.html#cb213-8" tabindex="-1"></a><span class="kw">struct</span> TotalDistanceWrkr <span class="op">:</span> <span class="kw">public</span> Worker</span>
-<span id="cb213-9"><a href="chap-utiliseR.html#cb213-9" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb213-10"><a href="chap-utiliseR.html#cb213-10" tabindex="-1"></a>  <span class="co">// source vectors</span></span>
-<span id="cb213-11"><a href="chap-utiliseR.html#cb213-11" tabindex="-1"></a>  <span class="at">const</span> RVector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> Rx<span class="op">;</span></span>
-<span id="cb213-12"><a href="chap-utiliseR.html#cb213-12" tabindex="-1"></a>  <span class="at">const</span> RVector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> Ry<span class="op">;</span></span>
-<span id="cb213-13"><a href="chap-utiliseR.html#cb213-13" tabindex="-1"></a>  </span>
-<span id="cb213-14"><a href="chap-utiliseR.html#cb213-14" tabindex="-1"></a>  <span class="co">// accumulated value</span></span>
-<span id="cb213-15"><a href="chap-utiliseR.html#cb213-15" tabindex="-1"></a>  <span class="dt">double</span> distance<span class="op">;</span></span>
-<span id="cb213-16"><a href="chap-utiliseR.html#cb213-16" tabindex="-1"></a>   </span>
-<span id="cb213-17"><a href="chap-utiliseR.html#cb213-17" tabindex="-1"></a>  <span class="co">// constructors</span></span>
-<span id="cb213-18"><a href="chap-utiliseR.html#cb213-18" tabindex="-1"></a>  TotalDistanceWrkr<span class="op">(</span><span class="at">const</span> NumericVector x<span class="op">,</span> <span class="at">const</span> NumericVector y<span class="op">)</span> <span class="op">:</span></span>
-<span id="cb213-19"><a href="chap-utiliseR.html#cb213-19" tabindex="-1"></a>    Rx<span class="op">(</span>x<span class="op">),</span> Ry<span class="op">(</span>y<span class="op">),</span> distance<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">{}</span></span>
-<span id="cb213-20"><a href="chap-utiliseR.html#cb213-20" tabindex="-1"></a>  TotalDistanceWrkr<span class="op">(</span><span class="at">const</span> TotalDistanceWrkr<span class="op">&amp;</span> totalDistanceWrkr<span class="op">,</span> Split<span class="op">)</span> <span class="op">:</span></span>
-<span id="cb213-21"><a href="chap-utiliseR.html#cb213-21" tabindex="-1"></a>    Rx<span class="op">(</span>totalDistanceWrkr<span class="op">.</span>Rx<span class="op">),</span> Ry<span class="op">(</span>totalDistanceWrkr<span class="op">.</span>Ry<span class="op">),</span>  distance<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">{}</span></span>
-<span id="cb213-22"><a href="chap-utiliseR.html#cb213-22" tabindex="-1"></a>  </span>
-<span id="cb213-23"><a href="chap-utiliseR.html#cb213-23" tabindex="-1"></a>  <span class="co">// count neighbors</span></span>
-<span id="cb213-24"><a href="chap-utiliseR.html#cb213-24" tabindex="-1"></a>  <span class="dt">void</span> <span class="kw">operator</span><span class="op">()(</span><span class="bu">std::</span>size_t begin<span class="op">,</span> <span class="bu">std::</span>size_t end<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb213-25"><a href="chap-utiliseR.html#cb213-25" tabindex="-1"></a>    <span class="dt">double</span> dx<span class="op">,</span> dy<span class="op">;</span></span>
-<span id="cb213-26"><a href="chap-utiliseR.html#cb213-26" tabindex="-1"></a>    <span class="dt">unsigned</span> <span class="dt">int</span> Npoints <span class="op">=</span> Rx<span class="op">.</span>length<span class="op">();</span></span>
-<span id="cb213-27"><a href="chap-utiliseR.html#cb213-27" tabindex="-1"></a></span>
-<span id="cb213-28"><a href="chap-utiliseR.html#cb213-28" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">unsigned</span> <span class="dt">int</span> i <span class="op">=</span> begin<span class="op">;</span> i <span class="op">&lt;</span> end<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb213-29"><a href="chap-utiliseR.html#cb213-29" tabindex="-1"></a>      <span class="cf">for</span> <span class="op">(</span><span class="dt">unsigned</span> <span class="dt">int</span> j <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;</span> Npoints<span class="op">;</span> j<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb213-30"><a href="chap-utiliseR.html#cb213-30" tabindex="-1"></a>          <span class="co">// Calculate squared distance</span></span>
-<span id="cb213-31"><a href="chap-utiliseR.html#cb213-31" tabindex="-1"></a>          dx <span class="op">=</span> Rx<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> Rx<span class="op">[</span>j<span class="op">];</span></span>
-<span id="cb213-32"><a href="chap-utiliseR.html#cb213-32" tabindex="-1"></a>          dy <span class="op">=</span> Ry<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> Ry<span class="op">[</span>j<span class="op">];</span></span>
-<span id="cb213-33"><a href="chap-utiliseR.html#cb213-33" tabindex="-1"></a>          distance <span class="op">+=</span> sqrt<span class="op">(</span>dx <span class="op">*</span> dx <span class="op">+</span> dy <span class="op">*</span> dy<span class="op">);</span></span>
-<span id="cb213-34"><a href="chap-utiliseR.html#cb213-34" tabindex="-1"></a>      <span class="op">}</span></span>
-<span id="cb213-35"><a href="chap-utiliseR.html#cb213-35" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb213-36"><a href="chap-utiliseR.html#cb213-36" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb213-37"><a href="chap-utiliseR.html#cb213-37" tabindex="-1"></a></span>
-<span id="cb213-38"><a href="chap-utiliseR.html#cb213-38" tabindex="-1"></a>  <span class="co">// join my value with that of another Sum</span></span>
-<span id="cb213-39"><a href="chap-utiliseR.html#cb213-39" tabindex="-1"></a>  <span class="dt">void</span> join<span class="op">(</span><span class="at">const</span> TotalDistanceWrkr<span class="op">&amp;</span> rhs<span class="op">)</span> <span class="op">{</span> </span>
-<span id="cb213-40"><a href="chap-utiliseR.html#cb213-40" tabindex="-1"></a>    distance <span class="op">+=</span> rhs<span class="op">.</span>distance<span class="op">;</span> </span>
-<span id="cb213-41"><a href="chap-utiliseR.html#cb213-41" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb213-42"><a href="chap-utiliseR.html#cb213-42" tabindex="-1"></a><span class="op">};</span></span>
-<span id="cb213-43"><a href="chap-utiliseR.html#cb213-43" tabindex="-1"></a></span>
-<span id="cb213-44"><a href="chap-utiliseR.html#cb213-44" tabindex="-1"></a></span>
-<span id="cb213-45"><a href="chap-utiliseR.html#cb213-45" tabindex="-1"></a><span class="co">// Exported function</span></span>
-<span id="cb213-46"><a href="chap-utiliseR.html#cb213-46" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
-<span id="cb213-47"><a href="chap-utiliseR.html#cb213-47" tabindex="-1"></a><span class="dt">double</span> TotalDistance<span class="op">(</span>NumericVector x<span class="op">,</span> NumericVector y<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb213-48"><a href="chap-utiliseR.html#cb213-48" tabindex="-1"></a>  </span>
-<span id="cb213-49"><a href="chap-utiliseR.html#cb213-49" tabindex="-1"></a>  <span class="co">// Declare TotalDistanceWrkr instance</span></span>
-<span id="cb213-50"><a href="chap-utiliseR.html#cb213-50" tabindex="-1"></a>  TotalDistanceWrkr totalDistanceWrkr<span class="op">(</span>x<span class="op">,</span> y<span class="op">);</span></span>
-<span id="cb213-51"><a href="chap-utiliseR.html#cb213-51" tabindex="-1"></a>  </span>
-<span id="cb213-52"><a href="chap-utiliseR.html#cb213-52" tabindex="-1"></a>  <span class="co">// call parallel_reduce to start the work</span></span>
-<span id="cb213-53"><a href="chap-utiliseR.html#cb213-53" tabindex="-1"></a>  parallelReduce<span class="op">(</span><span class="dv">0</span><span class="op">,</span> x<span class="op">.</span>length<span class="op">(),</span> totalDistanceWrkr<span class="op">);</span></span>
-<span id="cb213-54"><a href="chap-utiliseR.html#cb213-54" tabindex="-1"></a>  </span>
-<span id="cb213-55"><a href="chap-utiliseR.html#cb213-55" tabindex="-1"></a>  <span class="co">// return the result</span></span>
-<span id="cb213-56"><a href="chap-utiliseR.html#cb213-56" tabindex="-1"></a>  <span class="cf">return</span> totalDistanceWrkr<span class="op">.</span>distance<span class="op">;</span></span>
-<span id="cb213-57"><a href="chap-utiliseR.html#cb213-57" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb212-1"><a href="chap-utiliseR.html#cb212-1" tabindex="-1"></a><span class="co">// [[Rcpp::depends(RcppParallel)]]</span></span>
+<span id="cb212-2"><a href="chap-utiliseR.html#cb212-2" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
+<span id="cb212-3"><a href="chap-utiliseR.html#cb212-3" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;RcppParallel.h&gt;</span></span>
+<span id="cb212-4"><a href="chap-utiliseR.html#cb212-4" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> Rcpp<span class="op">;</span></span>
+<span id="cb212-5"><a href="chap-utiliseR.html#cb212-5" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> RcppParallel<span class="op">;</span></span>
+<span id="cb212-6"><a href="chap-utiliseR.html#cb212-6" tabindex="-1"></a></span>
+<span id="cb212-7"><a href="chap-utiliseR.html#cb212-7" tabindex="-1"></a><span class="co">// Working function, not exported</span></span>
+<span id="cb212-8"><a href="chap-utiliseR.html#cb212-8" tabindex="-1"></a><span class="kw">struct</span> TotalDistanceWrkr <span class="op">:</span> <span class="kw">public</span> Worker</span>
+<span id="cb212-9"><a href="chap-utiliseR.html#cb212-9" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb212-10"><a href="chap-utiliseR.html#cb212-10" tabindex="-1"></a>  <span class="co">// source vectors</span></span>
+<span id="cb212-11"><a href="chap-utiliseR.html#cb212-11" tabindex="-1"></a>  <span class="at">const</span> RVector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> Rx<span class="op">;</span></span>
+<span id="cb212-12"><a href="chap-utiliseR.html#cb212-12" tabindex="-1"></a>  <span class="at">const</span> RVector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> Ry<span class="op">;</span></span>
+<span id="cb212-13"><a href="chap-utiliseR.html#cb212-13" tabindex="-1"></a>  </span>
+<span id="cb212-14"><a href="chap-utiliseR.html#cb212-14" tabindex="-1"></a>  <span class="co">// accumulated value</span></span>
+<span id="cb212-15"><a href="chap-utiliseR.html#cb212-15" tabindex="-1"></a>  <span class="dt">double</span> distance<span class="op">;</span></span>
+<span id="cb212-16"><a href="chap-utiliseR.html#cb212-16" tabindex="-1"></a>   </span>
+<span id="cb212-17"><a href="chap-utiliseR.html#cb212-17" tabindex="-1"></a>  <span class="co">// constructors</span></span>
+<span id="cb212-18"><a href="chap-utiliseR.html#cb212-18" tabindex="-1"></a>  TotalDistanceWrkr<span class="op">(</span><span class="at">const</span> NumericVector x<span class="op">,</span> <span class="at">const</span> NumericVector y<span class="op">)</span> <span class="op">:</span></span>
+<span id="cb212-19"><a href="chap-utiliseR.html#cb212-19" tabindex="-1"></a>    Rx<span class="op">(</span>x<span class="op">),</span> Ry<span class="op">(</span>y<span class="op">),</span> distance<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">{}</span></span>
+<span id="cb212-20"><a href="chap-utiliseR.html#cb212-20" tabindex="-1"></a>  TotalDistanceWrkr<span class="op">(</span><span class="at">const</span> TotalDistanceWrkr<span class="op">&amp;</span> totalDistanceWrkr<span class="op">,</span> Split<span class="op">)</span> <span class="op">:</span></span>
+<span id="cb212-21"><a href="chap-utiliseR.html#cb212-21" tabindex="-1"></a>    Rx<span class="op">(</span>totalDistanceWrkr<span class="op">.</span>Rx<span class="op">),</span> Ry<span class="op">(</span>totalDistanceWrkr<span class="op">.</span>Ry<span class="op">),</span>  distance<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">{}</span></span>
+<span id="cb212-22"><a href="chap-utiliseR.html#cb212-22" tabindex="-1"></a>  </span>
+<span id="cb212-23"><a href="chap-utiliseR.html#cb212-23" tabindex="-1"></a>  <span class="co">// count neighbors</span></span>
+<span id="cb212-24"><a href="chap-utiliseR.html#cb212-24" tabindex="-1"></a>  <span class="dt">void</span> <span class="kw">operator</span><span class="op">()(</span><span class="bu">std::</span>size_t begin<span class="op">,</span> <span class="bu">std::</span>size_t end<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb212-25"><a href="chap-utiliseR.html#cb212-25" tabindex="-1"></a>    <span class="dt">double</span> dx<span class="op">,</span> dy<span class="op">;</span></span>
+<span id="cb212-26"><a href="chap-utiliseR.html#cb212-26" tabindex="-1"></a>    <span class="dt">unsigned</span> <span class="dt">int</span> Npoints <span class="op">=</span> Rx<span class="op">.</span>length<span class="op">();</span></span>
+<span id="cb212-27"><a href="chap-utiliseR.html#cb212-27" tabindex="-1"></a></span>
+<span id="cb212-28"><a href="chap-utiliseR.html#cb212-28" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">unsigned</span> <span class="dt">int</span> i <span class="op">=</span> begin<span class="op">;</span> i <span class="op">&lt;</span> end<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb212-29"><a href="chap-utiliseR.html#cb212-29" tabindex="-1"></a>      <span class="cf">for</span> <span class="op">(</span><span class="dt">unsigned</span> <span class="dt">int</span> j <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;</span> Npoints<span class="op">;</span> j<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb212-30"><a href="chap-utiliseR.html#cb212-30" tabindex="-1"></a>          <span class="co">// Calculate squared distance</span></span>
+<span id="cb212-31"><a href="chap-utiliseR.html#cb212-31" tabindex="-1"></a>          dx <span class="op">=</span> Rx<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> Rx<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb212-32"><a href="chap-utiliseR.html#cb212-32" tabindex="-1"></a>          dy <span class="op">=</span> Ry<span class="op">[</span>i<span class="op">]</span> <span class="op">-</span> Ry<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb212-33"><a href="chap-utiliseR.html#cb212-33" tabindex="-1"></a>          distance <span class="op">+=</span> sqrt<span class="op">(</span>dx <span class="op">*</span> dx <span class="op">+</span> dy <span class="op">*</span> dy<span class="op">);</span></span>
+<span id="cb212-34"><a href="chap-utiliseR.html#cb212-34" tabindex="-1"></a>      <span class="op">}</span></span>
+<span id="cb212-35"><a href="chap-utiliseR.html#cb212-35" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb212-36"><a href="chap-utiliseR.html#cb212-36" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb212-37"><a href="chap-utiliseR.html#cb212-37" tabindex="-1"></a></span>
+<span id="cb212-38"><a href="chap-utiliseR.html#cb212-38" tabindex="-1"></a>  <span class="co">// join my value with that of another Sum</span></span>
+<span id="cb212-39"><a href="chap-utiliseR.html#cb212-39" tabindex="-1"></a>  <span class="dt">void</span> join<span class="op">(</span><span class="at">const</span> TotalDistanceWrkr<span class="op">&amp;</span> rhs<span class="op">)</span> <span class="op">{</span> </span>
+<span id="cb212-40"><a href="chap-utiliseR.html#cb212-40" tabindex="-1"></a>    distance <span class="op">+=</span> rhs<span class="op">.</span>distance<span class="op">;</span> </span>
+<span id="cb212-41"><a href="chap-utiliseR.html#cb212-41" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb212-42"><a href="chap-utiliseR.html#cb212-42" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb212-43"><a href="chap-utiliseR.html#cb212-43" tabindex="-1"></a></span>
+<span id="cb212-44"><a href="chap-utiliseR.html#cb212-44" tabindex="-1"></a></span>
+<span id="cb212-45"><a href="chap-utiliseR.html#cb212-45" tabindex="-1"></a><span class="co">// Exported function</span></span>
+<span id="cb212-46"><a href="chap-utiliseR.html#cb212-46" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
+<span id="cb212-47"><a href="chap-utiliseR.html#cb212-47" tabindex="-1"></a><span class="dt">double</span> TotalDistance<span class="op">(</span>NumericVector x<span class="op">,</span> NumericVector y<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb212-48"><a href="chap-utiliseR.html#cb212-48" tabindex="-1"></a>  </span>
+<span id="cb212-49"><a href="chap-utiliseR.html#cb212-49" tabindex="-1"></a>  <span class="co">// Declare TotalDistanceWrkr instance</span></span>
+<span id="cb212-50"><a href="chap-utiliseR.html#cb212-50" tabindex="-1"></a>  TotalDistanceWrkr totalDistanceWrkr<span class="op">(</span>x<span class="op">,</span> y<span class="op">);</span></span>
+<span id="cb212-51"><a href="chap-utiliseR.html#cb212-51" tabindex="-1"></a>  </span>
+<span id="cb212-52"><a href="chap-utiliseR.html#cb212-52" tabindex="-1"></a>  <span class="co">// call parallel_reduce to start the work</span></span>
+<span id="cb212-53"><a href="chap-utiliseR.html#cb212-53" tabindex="-1"></a>  parallelReduce<span class="op">(</span><span class="dv">0</span><span class="op">,</span> x<span class="op">.</span>length<span class="op">(),</span> totalDistanceWrkr<span class="op">);</span></span>
+<span id="cb212-54"><a href="chap-utiliseR.html#cb212-54" tabindex="-1"></a>  </span>
+<span id="cb212-55"><a href="chap-utiliseR.html#cb212-55" tabindex="-1"></a>  <span class="co">// return the result</span></span>
+<span id="cb212-56"><a href="chap-utiliseR.html#cb212-56" tabindex="-1"></a>  <span class="cf">return</span> totalDistanceWrkr<span class="op">.</span>distance<span class="op">;</span></span>
+<span id="cb212-57"><a href="chap-utiliseR.html#cb212-57" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p></p>
 <p>L’usage dans R est identique à celui des fonctions C++ interfacées par <strong>RCpp</strong>.</p>
 <p></p>
-<div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span></span>
 <span>  <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">TotalDistance</span><span class="op">(</span><span class="va">X</span><span class="op">$</span><span class="va">x</span>, <span class="va">X</span><span class="op">$</span><span class="va">y</span><span class="op">)</span> <span class="op">/</span> <span class="va">NbPoints</span> <span class="op">/</span> <span class="op">(</span><span class="va">NbPoints</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code>## Unit: microseconds
 ##                                                      expr
 ##  d &lt;- TotalDistance(X$x, X$y)/NbPoints/(NbPoints - 1) * 2
-##      min      lq     mean   median       uq      max neval
-##  219.719 233.454 303.7723 252.9495 331.1775 1867.673   100</code></pre>
-<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
+##      min     lq    mean  median      uq      max neval
+##  232.183 236.16 259.726 240.547 245.426 1376.575   100</code></pre>
+<div class="sourceCode" id="cb215"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="travailleR_files/figure-html/RcppParallel-1.png" width="80%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span></span></code></pre></div>
 <pre><code>## [1] 0.5154879</code></pre>
 <p></p>
 <p>Le temps de mise en place des tâches parallèles est bien plus long que le temps de calcul en série.</p>
 <p>En multipliant le nombre de points par 50, le temps de calcul en série doit être multiplié par 2500 environ.</p>
 <p></p>
-<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb218"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">NbPoints</span> <span class="op">&lt;-</span> <span class="fl">50000</span></span>
 <span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spatstat.random/man/runifpoint.html">runifpoint</a></span><span class="op">(</span><span class="va">NbPoints</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">MeanDistance</span><span class="op">(</span><span class="va">X</span><span class="op">$</span><span class="va">x</span>, <span class="va">X</span><span class="op">$</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   4.319   0.004   4.326</code></pre>
+##   4.316   0.004   4.322</code></pre>
 <p></p>
 <p>En parallèle, le temps augmente peu : la parallélisation devient réellement efficace.
-Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit <code>1984</code> secondes.</p>
+Ce temps est à comparer à celui de la boucle for de référence, multiplié par 2500, soit <code>2000</code> secondes.</p>
 <p></p>
-<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb220"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span></span>
 <span>  <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">TotalDistance</span><span class="op">(</span><span class="va">X</span><span class="op">$</span><span class="va">x</span>, <span class="va">X</span><span class="op">$</span><span class="va">y</span><span class="op">)</span> <span class="op">/</span> <span class="va">NbPoints</span> <span class="op">/</span> <span class="op">(</span><span class="va">NbPoints</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.267   0.002   0.428</code></pre>
+##   1.268   0.003   0.427</code></pre>
 <p></p>
 </div>
 <div id="conclusions-sur-loptimisation-de-la-vitesse-du-code" class="section level3" number="2.7.9">
@@ -1849,7 +1846,7 @@ Une carte des points est tracée en plus.
 Chacune de ces trois opérations est une cible dans le vocabulaire de <strong>targets</strong>.</p>
 <p>Le fichier du flux de travail est donc le suivant :</p>
 <p></p>
-<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fichier _targets.R </span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://docs.ropensci.org/targets/">"targets"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_option_set.html">tar_option_set</a></span><span class="op">(</span>packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"spatstat"</span>, <span class="st">"dbmss"</span><span class="op">)</span><span class="op">)</span></span>
@@ -1881,42 +1878,41 @@ Les cibles sont très simples ici et peuvent être écrites en une seule command
 Quand ce n’est pas le cas, chaque cible peut être écrite sous la forme d’une fonction, stockée dans un fichier de code séparé chargé par la fonction <code><a href="https://rdrr.io/r/base/source.html">source()</a></code> au début du fichier de flux.</p>
 <p>La commande <code>tar_visnetwork</code> permet d’afficher l’enchaînement des cibles et leur état éventuellement obsolète.</p>
 <p></p>
-<div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://docs.ropensci.org/targets/">"targets"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_visnetwork.html">tar_visnetwork</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="visNetwork html-widget html-fill-item" id="htmlwidget-4c2873e5859f69562509" style="width:80%;height:504px;"></div>
-<script type="application/json" data-for="htmlwidget-4c2873e5859f69562509">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"description":[null,null,null,null],"status":["outdated","outdated","outdated","outdated"],"seconds":[null,null,null,null],"bytes":[null,null,null,null],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#78B7C5","#78B7C5","#78B7C5","#78B7C5"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Outdated","Stem"],"color":["#78B7C5","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><p></p>
+<script type="application/json" data-for="htmlwidget-4c2873e5859f69562509">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"description":[null,null,null,null],"status":["outdated","outdated","outdated","outdated"],"seconds":[null,null,null,null],"bytes":[null,null,null,null],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#78B7C5","#78B7C5","#78B7C5","#78B7C5"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","X","X","NbPoints"],"to":["d","d","map","X"],"color":["#78B7C5","#78B7C5","#78B7C5","#78B7C5"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"levelSeparation":150,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Outdated","Regular\ntarget"],"color":["#78B7C5","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><p></p>
 <p>L’ordre de déclaration des cibles dans la liste sans importance : elles sont ordonnées automatiquement.</p>
 <p>Le flux est exécuté par <code><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make()</a></code>.</p>
 <p></p>
-<div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## ▶ dispatched target NbPoints
-## ● completed target NbPoints [0.63 seconds, 53 bytes]
-## ▶ dispatched target X
-## ● completed target X [0.001 seconds, 11.059 kilobytes]
-## ▶ dispatched target d
-## ● completed target d [0.006 seconds, 55 bytes]
-## ▶ dispatched target map
-## ● completed target map [0.012 seconds, 187.39 kilobytes]
-## ▶ ended pipeline [0.746 seconds]</code></pre>
+<pre><code>## + NbPoints dispatched
+## ✔ NbPoints completed [678ms, 53 B]
+## + X dispatched
+## ✔ X completed [2ms, 11.06 kB]
+## + d dispatched
+## ✔ d completed [4ms, 55 B]
+## + map dispatched
+## ✔ map completed [12ms, 187.83 kB]
+## ✔ ended pipeline [875ms, 4 completed, 0 skipped]</code></pre>
 <p></p>
 <p>Le flux est maintenant à jour et <code><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make()</a></code> ne refait aucun calcul.</p>
 <p></p>
-<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_visnetwork.html">tar_visnetwork</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="visNetwork html-widget html-fill-item" id="htmlwidget-c5409db81165a82e2db3" style="width:80%;height:504px;"></div>
-<script type="application/json" data-for="htmlwidget-c5409db81165a82e2db3">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"description":[null,null,null,null],"status":["uptodate","uptodate","uptodate","uptodate"],"seconds":[0.006,0.012,0.63,0.001],"bytes":[55,187390,53,11059],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#354823","#354823","#354823","#354823"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","NbPoints","X","X"],"to":["X","d","d","map"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb228"><pre class="downlit sourceCode r">
+<script type="application/json" data-for="htmlwidget-c5409db81165a82e2db3">{"x":{"nodes":{"name":["d","map","NbPoints","X"],"type":["stem","stem","stem","stem"],"description":[null,null,null,null],"status":["uptodate","uptodate","uptodate","uptodate"],"seconds":[0.004,0.012,0.678,0.002],"bytes":[55,187828,53,11058],"branches":[null,null,null,null],"label":["d","map","NbPoints","X"],"color":["#354823","#354823","#354823","#354823"],"id":["d","map","NbPoints","X"],"level":[3,3,1,2],"shape":["dot","dot","dot","dot"]},"edges":{"from":["NbPoints","X","X","NbPoints"],"to":["d","d","map","X"],"color":["#354823","#354823","#354823","#354823"],"arrows":["to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"levelSeparation":150,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Regular\ntarget"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_make.html">tar_make</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## ✔ skipping targets (1 so far)...
-## ✔ skipped pipeline [0.034 seconds]</code></pre>
+<pre><code>## ✔ skipped pipeline [32ms, 4 skipped]</code></pre>
 <p></p>
 <p>Les résultats sont lus par <code><a href="https://docs.ropensci.org/targets/reference/tar_read.html">tar_read()</a></code>.</p>
 <p></p>
-<div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_read.html">tar_read</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## [1] 0.5165293</code></pre>
-<div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_read.html">tar_read</a></span><span class="op">(</span><span class="va">map</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="travailleR_files/figure-html/tar_read-1.png" width="80%" style="display: block; margin: auto;"></div>
 <p></p>
@@ -2020,7 +2016,7 @@ La définition des cibles reste une contrainte, mais force à bien structurer so
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 14/03/2025.</p>
+    <p>"<strong>Travailler avec R</strong>" was written by Eric Marcon. It was last built on 25/06/2025.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
